@@ -1,0 +1,10 @@
+{
+	"/": [],
+	"/about": [],
+	"/admin": [],
+	"/posts/[id]": [
+		"src/routes/posts/[id]/+page.js"
+	],
+	"/projects": [],
+	"/resume": []
+}
