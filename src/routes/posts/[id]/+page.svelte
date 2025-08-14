@@ -1,14 +1,15 @@
 <script>
 	import { page } from '$app/stores';
 	import Navigation from '$components/Navigation.svelte';
-	import { loadPosts, getProjectColor, formatDate } from '$lib/posts.js';
+	import { posts } from '$lib/postsStore.js';
+	import { getProjectColor, formatDate } from '$lib/posts.js';
 
 	// Get the post ID from the props
 	export let data;
 	$: postId = parseInt(data.id);
 	
-	// Load all posts and find the specific one
-	$: allPosts = loadPosts();
+	// Get all posts from the store and find the specific one
+	$: allPosts = $posts;
 	$: post = allPosts ? allPosts.find(p => p.id === postId) : null;
 	
 	// Debug logging

@@ -2,6 +2,9 @@
 	"/": [],
 	"/about": [],
 	"/admin": [],
+	"/api/posts": [
+		"src/routes/api/posts/+server.js"
+	],
 	"/posts/[id]": [
 		"src/routes/posts/[id]/+page.js"
 	],

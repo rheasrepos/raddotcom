@@ -1,14 +1,12 @@
 // Utility functions for managing posts
 
 /**
- * Load all posts from the data directory
- * In a real implementation, this would read from the filesystem
- * For now, we'll return the hardcoded posts and allow manual addition
+ * Load all posts from the data directory and merge with localStorage posts
+ * This automatically includes any posts created through the admin panel
  */
 export function loadPosts() {
-	// This would normally read from src/data/posts/*.json files
-	// For now, return the hardcoded posts
-	return [
+	// Base hardcoded posts
+	const basePosts = [
 		{
 			id: 1,
 			title: "My First Blog Post",
@@ -172,6 +170,34 @@ export function loadPosts() {
 			content: "I've always been fascinated by how songs can be completely transformed when stripped down to their acoustic essence. This cover of Queen's 'Bohemian Rhapsody' reimagines the epic rock opera as an intimate acoustic piece. Using just guitar and vocals, I've tried to capture the emotional core of the song while maintaining its dramatic structure. The challenge was to convey the same intensity and range without the full orchestration, relying instead on dynamic playing and vocal expression."
 		}
 	];
+
+	// Get admin-created posts from localStorage (if in browser) - temporary storage
+	let adminPosts = [];
+	if (typeof window !== 'undefined') {
+		try {
+			const storedPosts = localStorage.getItem('tempPosts');
+			if (storedPosts) {
+				adminPosts = JSON.parse(storedPosts);
+			}
+		} catch (error) {
+			console.warn('Error loading admin posts from localStorage:', error);
+		}
+	}
+
+	// Merge base posts with admin posts, ensuring no duplicate IDs
+	const allPosts = [...basePosts];
+	
+	// Add localStorage posts (temporary)
+	adminPosts.forEach(adminPost => {
+		// Check if this admin post already exists
+		const exists = allPosts.some(post => post.id === adminPost.id);
+		if (!exists) {
+			allPosts.push(adminPost);
+		}
+	});
+
+	// Sort by date (newest first)
+	return allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
 /**
@@ -212,4 +238,20 @@ export function filterProjects(projects, filter = 'all', startDate = null, endDa
 		);
 		return typeMatch && dateMatch;
 	});
+}
+
+/**
+ * Load Git-based posts from the API (client-side only)
+ */
+export async function loadGitPosts() {
+	try {
+		const response = await fetch('/api/posts');
+		if (response.ok) {
+			const data = await response.json();
+			return data.posts || [];
+		}
+	} catch (error) {
+		console.warn('Could not load Git posts:', error);
+	}
+	return [];
 } 

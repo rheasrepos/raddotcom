@@ -21,7 +21,7 @@
 	};
 
 	const projectTypes = [
-		{ value: 'writing', label: 'Writing', color: '#3498db' },
+		{ value: 'writing', label: 'Notes App', color: '#3498db' },
 		{ value: 'programming', label: 'Programming', color: '#2ecc71' },
 		{ value: 'music', label: 'Music', color: '#e74c3c' },
 		{ value: 'comedy', label: 'Comedy', color: '#f39c12' },
@@ -57,18 +57,38 @@
 				...newPost
 			};
 
-			// In a real implementation, this would save to a file or database
-			// For now, we'll show a success message and provide instructions
-			successMessage = `Post "${newPost.title}" created successfully! 
-			
-To add this post to your website:
+			// Try to save to Git-based file system first
+			try {
+				const response = await fetch('/api/posts', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(postData)
+				});
 
-1. Create a new file in src/data/posts/ with the name: ${postId}.json
-2. Add this content to the file:
+				if (response.ok) {
+					const result = await response.json();
+					successMessage = `Post "${newPost.title}" created and committed to Git successfully! 
+					
+The post has been saved as a permanent file and is now part of your repository. It will be visible on your website immediately.`;
+				} else {
+					throw new Error('Failed to save to Git');
+				}
+			} catch (gitError) {
+				// Fallback to localStorage if Git save fails
+				console.warn('Git save failed, falling back to localStorage:', gitError);
+				
+				if (typeof window !== 'undefined') {
+					const existingPosts = JSON.parse(localStorage.getItem('tempPosts') || '[]');
+					existingPosts.push(postData);
+					localStorage.setItem('tempPosts', JSON.stringify(existingPosts));
+				}
 
-${JSON.stringify(postData, null, 2)}
-
-3. Import and add the post to your projects array in +page.svelte and +page.svelte in the projects folder.`;
+				successMessage = `Post "${newPost.title}" created successfully! 
+				
+The post has been saved to temporary storage. For permanent storage, ensure Git is configured properly.`;
+			}
 
 			// Reset form
 			newPost = {
@@ -81,6 +101,11 @@ ${JSON.stringify(postData, null, 2)}
 			};
 
 			errorMessage = '';
+			
+			// Auto-refresh the page after a short delay to show the new post
+			setTimeout(() => {
+				window.location.reload();
+			}, 2000);
 		} catch (error) {
 			errorMessage = 'Error creating post: ' + error.message;
 			successMessage = '';
@@ -131,7 +156,11 @@ ${JSON.stringify(postData, null, 2)}
 			<div class="admin-dashboard">
 				<div class="dashboard-header">
 					<h2>Add New Post</h2>
-					<button class="btn logout-btn" on:click={handleLogout}>Logout</button>
+					<div class="header-actions">
+						<a href="/" class="btn view-posts-btn">View Website</a>
+						<a href="/projects" class="btn view-posts-btn">View All Posts</a>
+						<button class="btn logout-btn" on:click={handleLogout}>Logout</button>
+					</div>
 				</div>
 
 				<form class="post-form" on:submit|preventDefault={handleSubmit}>
@@ -289,6 +318,17 @@ ${JSON.stringify(postData, null, 2)}
 		margin-bottom: 2rem;
 		padding-bottom: 1rem;
 		border-bottom: 2px solid #000000;
+	}
+
+	.header-actions {
+		display: flex;
+		gap: 10px;
+		align-items: center;
+	}
+
+	.view-posts-btn {
+		background: #3498db;
+		text-decoration: none;
 	}
 
 	.dashboard-header h2 {

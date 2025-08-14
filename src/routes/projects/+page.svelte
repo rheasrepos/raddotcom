@@ -2,10 +2,11 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import Navigation from '../../components/Navigation.svelte';
-	import { loadPosts, getProjectColor, formatDate } from '../../lib/posts.js';
+	import { posts } from '$lib/postsStore.js';
+	import { getProjectColor, formatDate } from '../../lib/posts.js';
 
-	// Load projects from the posts utility
-	let projects = loadPosts();
+	// Use the posts store
+	$: projects = $posts;
 
 	let selectedFilter = 'all';
 	let filteredProjects = projects;
@@ -51,7 +52,7 @@
 				on:click={() => selectFilter('writing')}
 				style="--tab-color: #3498db;"
 			>
-				Writing
+				Notes App
 			</button>
 			<button 
 				class="filter-tab {selectedFilter === 'programming' ? 'active' : ''}"
