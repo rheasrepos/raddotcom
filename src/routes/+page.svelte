@@ -207,7 +207,7 @@
 		// Simulate folder opening animation
 		setTimeout(() => {
 			selectedFilter = category;
-			viewMode = 'categories'; // Stay in categories view instead of switching to 'all'
+			viewMode = 'all'; // Switch to all view to show the filtered projects
 			folderOpening = false;
 			openingFolder = null;
 		}, 300);
