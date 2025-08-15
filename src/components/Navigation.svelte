@@ -14,7 +14,9 @@
 	<div class="container">
 		<div class="nav-content">
 			<div class="logo">
-				<span class="logo-text">rhea madhogarhia</span>
+				<a href="/" class="logo-link">
+					<span class="logo-text">rhea madhogarhia</span>
+				</a>
 			</div>
 			
 			<ul class="nav-links">
@@ -56,6 +58,15 @@
 		display: flex;
 		align-items: center;
 		gap: 10px;
+	}
+
+	.logo-link {
+		text-decoration: none;
+		transition: all 0.3s ease;
+	}
+
+	.logo-link:hover {
+		opacity: 0.8;
 	}
 
 	.logo-text {

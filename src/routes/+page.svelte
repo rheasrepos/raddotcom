@@ -48,6 +48,12 @@
 	let openingFolder = null;
 	let zoomLevel = 1;
 	let isDragging = false;
+	let wallpaperColor = '#ff8c42'; // Default orange
+	let showWallpaperToolbar = false;
+	let breadcrumbPath = ['Desktop'];
+	let previousView = null;
+	let showSearch = false;
+	let searchQuery = '';
 	let dragStart = { x: 0, y: 0 };
 	let panOffset = { x: 0, y: 0 };
 	let currentTime = new Date().toLocaleTimeString();
@@ -112,6 +118,22 @@
 
 	function closeProject() {
 		selectedProject = null;
+	}
+
+	function navigateBack() {
+		if (previousView) {
+			if (previousView.mode === 'folders') {
+				viewMode = 'folders';
+				currentMonth = previousView.month;
+				currentYear = previousView.year;
+				breadcrumbPath = ['Desktop'];
+			} else if (previousView.mode === 'categories') {
+				viewMode = 'categories';
+				selectedFilter = previousView.category || 'all';
+				breadcrumbPath = ['Desktop'];
+			}
+			previousView = null;
+		}
 	}
 
 
@@ -192,9 +214,11 @@
 		
 		// Simulate folder opening animation
 		setTimeout(() => {
+			previousView = { mode: 'folders', month: currentMonth, year: currentYear };
 			currentMonth = monthYear.month;
 			currentYear = monthYear.year;
 			viewMode = 'all';
+			breadcrumbPath = ['Desktop', new Date(monthYear.year, monthYear.month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })];
 			folderOpening = false;
 			openingFolder = null;
 		}, 300);
@@ -206,8 +230,10 @@
 		
 		// Simulate folder opening animation
 		setTimeout(() => {
+			previousView = { mode: 'categories', category: selectedFilter };
 			selectedFilter = category;
 			viewMode = 'all'; // Switch to all view to show the filtered projects
+			breadcrumbPath = ['Desktop', categoryConfig[category].label];
 			folderOpening = false;
 			openingFolder = null;
 		}, 300);
@@ -277,6 +303,16 @@
 
 	$: projectsWithDates = (projects || [])
 		.filter(project => {
+			// First apply search filter if there's a search query
+			if (searchQuery.trim()) {
+				const query = searchQuery.toLowerCase();
+				const titleMatch = project.title.toLowerCase().includes(query);
+				const descriptionMatch = project.description.toLowerCase().includes(query);
+				if (!titleMatch && !descriptionMatch) {
+					return false;
+				}
+			}
+
 			if (viewMode === 'folders') {
 				const projectDate = new Date(project.date);
 				const monthMatch = projectDate.getMonth() === currentMonth && projectDate.getFullYear() === currentYear;
@@ -284,14 +320,21 @@
 			} else if (viewMode === 'categories') {
 				return selectedFilter === 'all' || project.type === selectedFilter;
 			} else {
-				// All projects view - show all projects when no specific filter is applied
-				if (selectedFilter === 'all') {
-					const projectDate = new Date(project.date);
-					const monthMatch = projectDate.getMonth() === currentMonth && projectDate.getFullYear() === currentYear;
-					return monthMatch;
+				// All projects view - show projects based on current context
+				if (breadcrumbPath.length > 1) {
+					// We're inside a folder, so filter accordingly
+					if (breadcrumbPath[1].includes('2024') || breadcrumbPath[1].includes('2025')) {
+						// We're in a month folder, show all projects from this month
+						const projectDate = new Date(project.date);
+						const monthMatch = projectDate.getMonth() === currentMonth && projectDate.getFullYear() === currentYear;
+						return monthMatch;
+					} else {
+						// We're in a category folder, show projects from this category
+						return project.type === selectedFilter;
+					}
 				} else {
-					// Show projects filtered by category (when coming from category folder)
-					return project.type === selectedFilter;
+					// We're at the root, show all projects
+					return true;
 				}
 			}
 		})
@@ -305,16 +348,49 @@
 </svelte:head>
 
 <div class="laptop-frame">
-	<div class="laptop-screen">
+	<div class="laptop-screen" style="background: {wallpaperColor};">
 		<!-- Navigation and Controls in the frame bezel -->
 		<div class="frame-topbar">
 			<div class="topbar-left">
-				<span class="user-name">Rhea Madhogarhia</span>
+				<a href="/" class="about-link">Rhea Madhogarhia</a>
 			</div>
 			<div class="topbar-center">
 				<DesktopNavigation />
 			</div>
 			<div class="topbar-right">
+				<!-- Search Button and Input -->
+				<div class="search-container">
+					{#if showSearch}
+						<input 
+							type="text" 
+							class="search-input" 
+							placeholder="Search posts..."
+							bind:value={searchQuery}
+							on:blur={() => {
+								if (!searchQuery.trim()) {
+									showSearch = false;
+								}
+							}}
+							on:keydown={(e) => {
+								if (e.key === 'Escape') {
+									showSearch = false;
+									searchQuery = '';
+								}
+							}}
+						/>
+					{:else}
+						<button 
+							class="search-btn" 
+							on:click={() => showSearch = true}
+							title="Search posts"
+						>
+							<svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<circle cx="11" cy="11" r="8"></circle>
+								<path d="m21 21-4.35-4.35"></path>
+							</svg>
+						</button>
+					{/if}
+				</div>
 				<span class="system-time">{currentTime}</span>
 			</div>
 		</div>
@@ -340,27 +416,77 @@
 		<!-- Desktop View -->
 		<div class="desktop-container">
 			<!-- Toolbar -->
-			<div class="desktop-toolbar">
-				<div class="view-options">
-					<button 
-						class="view-btn {viewMode === 'all' ? 'active' : ''}"
-						on:click={() => viewMode = 'all'}
-					>
-						All Projects
+					<div class="desktop-toolbar">
+			<!-- Breadcrumb Navigation -->
+			<div class="breadcrumb-nav">
+				{#each breadcrumbPath as path, index}
+					<span class="breadcrumb-item">
+						{#if index > 0}
+							<span class="breadcrumb-separator">/</span>
+						{/if}
+						{#if index === breadcrumbPath.length - 1}
+							<span class="breadcrumb-current">{path}</span>
+						{:else}
+							<button class="breadcrumb-link" on:click={() => {
+								if (index === 0) {
+									// Go back to the root view (month folders)
+									viewMode = 'folders';
+									selectedFilter = 'all';
+									breadcrumbPath = ['Desktop'];
+									previousView = null;
+									// Reset to the first available month
+									if (availableMonths && availableMonths.length > 0) {
+										currentMonth = availableMonths[0].month;
+										currentYear = availableMonths[0].year;
+									}
+								}
+							}}>
+								{path}
+							</button>
+						{/if}
+					</span>
+				{/each}
+				{#if previousView}
+					<button class="back-btn" on:click={navigateBack} title="Go Back">
+						← Back
 					</button>
-					<button 
-						class="view-btn {viewMode === 'folders' ? 'active' : ''}"
-						on:click={() => viewMode = 'folders'}
-					>
-						By Month
+				{/if}
+				{#if breadcrumbPath.length > 1 && !previousView}
+					<button class="back-btn" on:click={() => {
+						viewMode = 'folders';
+						selectedFilter = 'all';
+						breadcrumbPath = ['Desktop'];
+						// Reset to the first available month
+						if (availableMonths && availableMonths.length > 0) {
+							currentMonth = availableMonths[0].month;
+							currentYear = availableMonths[0].year;
+						}
+					}} title="Back to Folders">
+						← Back to Folders
 					</button>
-					<button 
-						class="view-btn {viewMode === 'categories' ? 'active' : ''}"
-						on:click={() => viewMode = 'categories'}
-					>
-						By Category
-					</button>
-				</div>
+				{/if}
+			</div>
+			
+			<div class="view-options">
+				<button 
+					class="view-btn {viewMode === 'all' ? 'active' : ''}"
+					on:click={() => viewMode = 'all'}
+				>
+					All Projects
+				</button>
+				<button 
+					class="view-btn {viewMode === 'folders' ? 'active' : ''}"
+					on:click={() => viewMode = 'folders'}
+				>
+					By Month
+				</button>
+				<button 
+					class="view-btn {viewMode === 'categories' ? 'active' : ''}"
+					on:click={() => viewMode = 'categories'}
+				>
+					By Category
+				</button>
+			</div>
 				
 				<div class="filter-controls">
 					{#if viewMode === 'folders'}
@@ -506,6 +632,8 @@
 				</div>
 			{/if}
 
+
+
 			<!-- Project Modal/Window -->
 			{#if selectedProject}
 				<div class="project-window">
@@ -544,10 +672,58 @@
 					<div class="project-content">
 						{selectedProject.content}
 					</div>
+					<div class="project-actions">
+						<a href="/posts/{selectedProject.id}" class="view-post-btn">View Full Post →</a>
+					</div>
 				</div>
 			</div>
 		</div>
 	{/if}
+		</div>
+		
+		<!-- Wallpaper Toolbar -->
+		<div class="wallpaper-toolbar">
+			<div class="toolbar-section">
+				<span class="toolbar-label">Wallpaper:</span>
+				<div class="color-picker">
+					<button 
+						class="color-btn {wallpaperColor === '#ff8c42' ? 'active' : ''}"
+						style="background: #ff8c42;"
+						on:click={() => wallpaperColor = '#ff8c42'}
+						title="Orange"
+					></button>
+					<button 
+						class="color-btn {wallpaperColor === '#4ecdc4' ? 'active' : ''}"
+						style="background: #4ecdc4;"
+						on:click={() => wallpaperColor = '#4ecdc4'}
+						title="Teal"
+					></button>
+					<button 
+						class="color-btn {wallpaperColor === '#45b7d1' ? 'active' : ''}"
+						style="background: #45b7d1;"
+						on:click={() => wallpaperColor = '#45b7d1'}
+						title="Blue"
+					></button>
+					<button 
+						class="color-btn {wallpaperColor === '#96ceb4' ? 'active' : ''}"
+						style="background: #96ceb4;"
+						on:click={() => wallpaperColor = '#96ceb4'}
+						title="Green"
+					></button>
+					<button 
+						class="color-btn {wallpaperColor === '#feca57' ? 'active' : ''}"
+						style="background: #feca57;"
+						on:click={() => wallpaperColor = '#feca57'}
+						title="Yellow"
+					></button>
+					<button 
+						class="color-btn {wallpaperColor === '#9b59b6' ? 'active' : ''}"
+						style="background: #9b59b6;"
+						on:click={() => wallpaperColor = '#9b59b6'}
+						title="Purple"
+					></button>
+				</div>
+			</div>
 		</div>
 	</div>
 	
@@ -646,11 +822,19 @@
 		align-items: center;
 	}
 
-	.user-name {
+	.about-link {
 		color: #ffffff;
 		font-family: Arial, sans-serif;
-		font-size: 0.9rem;
-		font-weight: bold;
+		font-size: 0.85rem;
+		text-decoration: none;
+		padding: 4px 8px;
+		border: 1px solid transparent;
+		transition: all 0.2s ease;
+	}
+
+	.about-link:hover {
+		border-color: #ffffff;
+		background: rgba(255, 255, 255, 0.1);
 	}
 
 	.topbar-center {
@@ -667,6 +851,56 @@
 		color: #ffffff;
 		font-family: Arial, sans-serif;
 		font-size: 0.8rem;
+	}
+
+	/* Search Styles */
+	.search-container {
+		display: flex;
+		align-items: center;
+		margin-right: 15px;
+	}
+
+	.search-btn {
+		background: none;
+		border: none;
+		color: #ffffff;
+		cursor: pointer;
+		padding: 4px;
+		border-radius: 3px;
+		transition: all 0.2s ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.search-btn:hover {
+		background: rgba(255, 255, 255, 0.1);
+	}
+
+	.search-icon {
+		width: 16px;
+		height: 16px;
+	}
+
+	.search-input {
+		background: rgba(255, 255, 255, 0.9);
+		border: 1px solid #ffffff;
+		color: #000000;
+		padding: 4px 8px;
+		font-size: 0.8rem;
+		font-family: Arial, sans-serif;
+		border-radius: 3px;
+		width: 150px;
+		outline: none;
+	}
+
+	.search-input::placeholder {
+		color: #666;
+	}
+
+	.search-input:focus {
+		border-color: #ffffff;
+		background: #ffffff;
 	}
 
 	.homepage {
@@ -760,6 +994,85 @@
 		background: transparent;
 		border: 1px solid #000000;
 		margin-bottom: 30px;
+	}
+
+	/* Breadcrumb Navigation */
+	.breadcrumb-nav {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 0.9rem;
+		font-family: Arial, sans-serif;
+	}
+
+	.breadcrumb-item {
+		display: flex;
+		align-items: center;
+	}
+
+	.breadcrumb-separator {
+		color: #666;
+		margin: 0 4px;
+	}
+
+	.breadcrumb-current {
+		color: #000000;
+		font-weight: bold;
+	}
+
+	.breadcrumb-link {
+		background: none;
+		border: none;
+		color: #0066cc;
+		cursor: pointer;
+		text-decoration: underline;
+		font-size: 0.9rem;
+		padding: 2px 4px;
+		border-radius: 3px;
+		transition: all 0.2s ease;
+	}
+
+	.breadcrumb-link:hover {
+		background: rgba(0, 102, 204, 0.1);
+	}
+
+	.back-btn {
+		background: #f0f0f0;
+		border: 1px solid #ccc;
+		color: #333;
+		cursor: pointer;
+		padding: 4px 8px;
+		border-radius: 3px;
+		font-size: 0.8rem;
+		margin-left: 10px;
+		transition: all 0.2s ease;
+	}
+
+	.back-btn:hover {
+		background: #e0e0e0;
+		border-color: #999;
+	}
+
+
+
+	.view-post-btn {
+		display: inline-block;
+		padding: 8px 16px;
+		background: #000000;
+		color: #ffffff;
+		text-decoration: none;
+		border: 1px solid #000000;
+		transition: all 0.2s ease;
+	}
+
+	.view-post-btn:hover {
+		background: #ffffff;
+		color: #000000;
+	}
+
+	.project-actions {
+		margin-top: 15px;
+		text-align: center;
 	}
 
 	.view-options {
@@ -1441,6 +1754,57 @@
 	/* Smooth transitions for view mode changes */
 	.desktop-icons {
 		transition: all 0.3s ease;
+	}
+
+	/* Wallpaper Toolbar */
+	.wallpaper-toolbar {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 35px;
+		background: rgba(0, 0, 0, 0.8);
+		border-top: 1px solid rgba(255, 255, 255, 0.3);
+		display: flex;
+		align-items: center;
+		padding: 0 15px;
+		z-index: 1000;
+	}
+
+	.toolbar-section {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.toolbar-label {
+		color: white;
+		font-size: 0.75rem;
+		font-family: Arial, sans-serif;
+	}
+
+	.color-picker {
+		display: flex;
+		gap: 5px;
+	}
+
+	.color-btn {
+		width: 20px;
+		height: 20px;
+		border: 2px solid transparent;
+		border-radius: 3px;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	.color-btn:hover {
+		border-color: white;
+		transform: scale(1.1);
+	}
+
+	.color-btn.active {
+		border-color: white;
+		box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 	}
 
 
