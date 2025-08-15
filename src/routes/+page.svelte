@@ -595,7 +595,7 @@
 									return date.getMonth() === monthYear.month && date.getFullYear() === monthYear.year;
 								}).length} items
 							</div>
-						</div>
+						</div> 
 					{/each}
 				{:else if viewMode === 'categories'}
 					<!-- Category folders -->
