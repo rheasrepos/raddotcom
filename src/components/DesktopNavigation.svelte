@@ -1,13 +1,21 @@
 <script>
 	import { page } from '$app/stores';
+	import { createEventDispatcher } from 'svelte';
+	
+	const dispatch = createEventDispatcher();
 	
 	const navItems = [
 		{ path: '/', label: 'Home' },
-		{ path: '/projects', label: 'Projects' },
+		{ path: '/projects', label: 'Rad Stuff' },
 		{ path: '/resume', label: 'Resume' },
 		{ path: '/about', label: 'About' },
 		{ path: '/admin', label: 'Admin' }
 	];
+
+	function handleClick(event, path) {
+		event.preventDefault();
+		dispatch('navigate', { path });
+	}
 </script>
 
 <nav class="desktop-nav">
@@ -17,6 +25,7 @@
 				<a 
 					href={item.path} 
 					class="desktop-nav-link {$page.url.pathname === item.path ? 'active' : ''}"
+					on:click={(e) => handleClick(e, item.path)}
 				>
 					{item.label}
 				</a>

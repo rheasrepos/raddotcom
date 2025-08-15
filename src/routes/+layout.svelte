@@ -14,11 +14,16 @@
 			}
 		}
 	});
+
+	// Update body background when wallpaper color changes
+	$: if (typeof window !== 'undefined' && wallpaperColor) {
+		document.body.style.background = wallpaperColor;
+	}
 </script>
 
 <svelte:head>
 	<title>Your Name - Personal Website</title>
-	<meta name="description" content="A fun and eclectic personal website showcasing projects, writing, music, comedy, and art" />
+	<meta name="description" content="A fun and eclectic personal website showcasing rad stuff, writing, music, comedy, and art" />
 </svelte:head>
 
 <main>
@@ -34,7 +39,7 @@
 		margin: 0;
 		padding: 0;
 		font-family: Arial, sans-serif;
-		background: {wallpaperColor};
+		background: #ff8c42;
 		min-height: 100vh;
 		position: relative;
 		overflow-x: hidden;

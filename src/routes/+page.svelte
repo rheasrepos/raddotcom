@@ -1,5 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import ProjectPane from '../components/ProjectPane.svelte';
 	import Navigation from '../components/Navigation.svelte';
 	import DesktopNavigation from '../components/DesktopNavigation.svelte';
@@ -54,6 +56,9 @@
 	let previousView = null;
 	let showSearch = false;
 	let searchQuery = '';
+	let isNavigating = false;
+	let isClosingSearch = false;
+	let isContracting = false;
 	let dragStart = { x: 0, y: 0 };
 	let panOffset = { x: 0, y: 0 };
 	let currentTime = new Date().toLocaleTimeString();
@@ -64,6 +69,18 @@
 		
 		// Only run in browser
 		if (typeof window !== 'undefined') {
+			// Check if coming from another page (not a direct load)
+			const referrer = document.referrer;
+			const currentDomain = window.location.origin;
+			if (referrer && referrer.startsWith(currentDomain) && referrer !== window.location.href) {
+				// We're coming from another page on the same site
+				isContracting = true;
+				// Reset after animation
+				setTimeout(() => {
+					isContracting = false;
+				}, 300);
+			}
+
 			// Load wallpaper color from localStorage
 			const savedColor = localStorage.getItem('wallpaperColor');
 			if (savedColor) {
@@ -105,7 +122,7 @@
 	});
 
 	$: projectTypes = [
-		{ id: 'all', label: 'All Projects', color: '#ff6b6b' },
+		{ id: 'all', label: 'All Rad Stuff', color: '#ff6b6b' },
 		...Object.values(categoryConfig)
 	];
 
@@ -140,6 +157,28 @@
 			}
 			previousView = null;
 		}
+	}
+
+	function handleNavigation(path) {
+		// Don't navigate if already on the target page
+		if (path === $page.url.pathname) {
+			return;
+		}
+		
+		isNavigating = true;
+		// Add a small delay to allow the animation to start
+		setTimeout(() => {
+			goto(path);
+		}, 300);
+	}
+
+	function closeSearch() {
+		isClosingSearch = true;
+		// Wait for animation to complete before hiding
+		setTimeout(() => {
+			showSearch = false;
+			isClosingSearch = false;
+		}, 300);
 	}
 
 
@@ -353,7 +392,7 @@
 	<title>rhea web</title>
 </svelte:head>
 
-<div class="laptop-frame">
+<div class="laptop-frame" class:navigating={isNavigating} class:contracting={isContracting}>
 	<div class="laptop-screen" style="background: {wallpaperColor};">
 		<!-- Navigation and Controls in the frame bezel -->
 		<div class="frame-topbar">
@@ -361,7 +400,7 @@
 				<a href="/" class="about-link">Rhea Madhogarhia</a>
 			</div>
 			<div class="topbar-center">
-				<DesktopNavigation />
+				<DesktopNavigation on:navigate={({ detail }) => handleNavigation(detail.path)} />
 			</div>
 			<div class="topbar-right">
 				<!-- Search Button and Input -->
@@ -369,17 +408,17 @@
 					{#if showSearch}
 						<input 
 							type="text" 
-							class="search-input" 
+							class="search-input {isClosingSearch ? 'closing' : ''}" 
 							placeholder="Search posts..."
 							bind:value={searchQuery}
 							on:blur={() => {
 								if (!searchQuery.trim()) {
-									showSearch = false;
+									closeSearch();
 								}
 							}}
 							on:keydown={(e) => {
 								if (e.key === 'Escape') {
-									showSearch = false;
+									closeSearch();
 									searchQuery = '';
 								}
 							}}
@@ -404,6 +443,7 @@
 		<div 
 			class="homepage"
 			class:zoomed={zoomLevel > 1}
+			class:navigating={isNavigating}
 			style="transform: scale({zoomLevel}) translate({panOffset.x}px, {panOffset.y}px); transform-origin: center center; transition: transform 0.1s ease;"
 			on:mousedown={handleMouseDown}
 			on:mousemove={handleMouseMove}
@@ -478,7 +518,7 @@
 					class="view-btn {viewMode === 'all' ? 'active' : ''}"
 					on:click={() => viewMode = 'all'}
 				>
-					All Projects
+					All Rad Stuff
 				</button>
 				<button 
 					class="view-btn {viewMode === 'folders' ? 'active' : ''}"
@@ -563,7 +603,7 @@
 			<!-- Desktop Icons -->
 			<div class="desktop-icons">
 				{#if viewMode === 'all'}
-					<!-- All projects as individual icons -->
+					<!-- All rad stuff as individual icons -->
 					{#each projectsWithDates as project}
 						<div 
 							class="desktop-icon project-icon"
@@ -754,6 +794,31 @@
 					></button>
 				</div>
 			</div>
+			
+			<!-- Social Media Icons -->
+			<div class="social-icons">
+				<a href="https://linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer" class="social-icon" title="LinkedIn">
+					<svg viewBox="0 0 24 24" fill="currentColor">
+						<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+					</svg>
+				</a>
+				<a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer" class="social-icon" title="GitHub">
+					<svg viewBox="0 0 24 24" fill="currentColor">
+						<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+					</svg>
+				</a>
+				<a href="mailto:your-email@example.com" class="social-icon" title="Email">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+						<polyline points="22,6 12,13 2,6"/>
+					</svg>
+				</a>
+				<a href="https://youtube.com/@your-channel" target="_blank" rel="noopener noreferrer" class="social-icon" title="YouTube">
+					<svg viewBox="0 0 24 24" fill="currentColor">
+						<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+					</svg>
+				</a>
+			</div>
 		</div>
 	</div>
 	
@@ -775,6 +840,42 @@
 		padding: 20px 10px 10px 10px; /* Removed bottom padding */
 		position: relative;
 		overflow: visible; /* Ensure stand is visible */
+		transition: all 0.3s ease-out;
+	}
+
+	.laptop-frame.navigating {
+		padding: 0 !important;
+		overflow: hidden !important;
+		transition: all 0.3s ease-out !important;
+	}
+
+	.laptop-frame.navigating .laptop-screen {
+		width: 100vw !important;
+		height: 100vh !important;
+		max-width: none !important;
+		border: 4px solid #333333 !important;
+		border-radius: 0 !important;
+		box-shadow: none !important;
+		transition: all 0.3s ease-out !important;
+	}
+
+	.laptop-frame.contracting {
+		animation: frameContract 0.3s ease-out forwards;
+	}
+
+	@keyframes frameContract {
+		0% {
+			transform: scale(1.2);
+			opacity: 0.7;
+		}
+		50% {
+			transform: scale(1.05);
+			opacity: 0.9;
+		}
+		100% {
+			transform: scale(1);
+			opacity: 1;
+		}
 	}
 
 	.laptop-screen {
@@ -883,11 +984,43 @@
 		font-size: 0.8rem;
 	}
 
+	/* Social Media Icons in Toolbar */
+	.social-icons {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin-left: auto;
+	}
+
+	.social-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 20px;
+		height: 20px;
+		color: #ffffff;
+		text-decoration: none;
+		border-radius: 3px;
+		transition: all 0.2s ease;
+		padding: 2px;
+	}
+
+	.social-icon:hover {
+		background: rgba(255, 255, 255, 0.1);
+		transform: scale(1.1);
+	}
+
+	.social-icon svg {
+		width: 16px;
+		height: 16px;
+	}
+
 	/* Search Styles */
 	.search-container {
 		display: flex;
 		align-items: center;
 		margin-right: 15px;
+		transition: all 0.3s ease-out;
 	}
 
 	.search-btn {
@@ -901,6 +1034,18 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		animation: searchBtnFadeIn 0.3s ease-out;
+	}
+
+	@keyframes searchBtnFadeIn {
+		from {
+			opacity: 0;
+			transform: scale(0.8);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1);
+		}
 	}
 
 	.search-btn:hover {
@@ -922,6 +1067,38 @@
 		border-radius: 3px;
 		width: 150px;
 		outline: none;
+		animation: searchExpand 0.3s ease-out;
+		transform-origin: right center;
+	}
+
+	.search-input.closing {
+		animation: searchCollapse 0.3s ease-out forwards;
+	}
+
+	@keyframes searchExpand {
+		from {
+			width: 0;
+			opacity: 0;
+			transform: scaleX(0);
+		}
+		to {
+			width: 150px;
+			opacity: 1;
+			transform: scaleX(1);
+		}
+	}
+
+	@keyframes searchCollapse {
+		from {
+			width: 150px;
+			opacity: 1;
+			transform: scaleX(1);
+		}
+		to {
+			width: 0;
+			opacity: 0;
+			transform: scaleX(0);
+		}
 	}
 
 	.search-input::placeholder {
@@ -949,6 +1126,21 @@
 	
 	.homepage.zoomed:active {
 		cursor: grabbing;
+	}
+
+	.homepage.navigating {
+		animation: contentFade 0.3s ease-out forwards;
+	}
+
+	@keyframes contentFade {
+		0% {
+			opacity: 1;
+			transform: scale(1);
+		}
+		100% {
+			opacity: 0.3;
+			transform: scale(0.95);
+		}
 	}
 
 	/* Zoom Controls */

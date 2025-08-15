@@ -3,7 +3,7 @@
 	
 	const navItems = [
 		{ path: '/', label: 'Home', icon: '' },
-		{ path: '/projects', label: 'Projects', icon: '' },
+		{ path: '/projects', label: 'Rad Stuff', icon: '' },
 		{ path: '/resume', label: 'Resume', icon: '' },
 		{ path: '/about', label: 'About', icon: '' },
 		{ path: '/admin', label: 'Admin', icon: '' }
