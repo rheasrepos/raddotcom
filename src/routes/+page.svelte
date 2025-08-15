@@ -111,12 +111,8 @@
 	}
 
 	function selectProject(project) {
-		// Capture current scroll position and viewport height
-		const scrollY = window.scrollY;
-		const viewportHeight = window.innerHeight;
-		
-		// Position modal at current viewport center, not page center
-		modalScrollPosition = scrollY + (viewportHeight / 2) - 200; // 200px offset for modal height
+		// Capture current scroll position
+		modalScrollPosition = window.scrollY;
 		selectedProject = project;
 	}
 
@@ -238,12 +234,8 @@
 	function toggleProject(projectId) {
 		const project = (projects || []).find(p => p.id === projectId);
 		if (project) {
-			// Capture current scroll position and viewport height
-			const scrollY = window.scrollY;
-			const viewportHeight = window.innerHeight;
-			
-			// Position modal at current viewport center, not page center
-			modalScrollPosition = scrollY + (viewportHeight / 2) - 200; // 200px offset for modal height
+			// Capture current scroll position
+			modalScrollPosition = window.scrollY;
 			selectedProject = project;
 		}
 	}
@@ -679,7 +671,7 @@
 
 			<!-- Project Modal -->
 			{#if selectedProject}
-				<div class="modal-overlay" on:click={closeProject} style="padding-top: {modalScrollPosition}px;">
+				<div class="modal-overlay" on:click={closeProject} style="top: {modalScrollPosition}px;">
 					<div class="modal-content" on:click|stopPropagation>
 						<button class="close-btn" on:click={closeProject}>×</button>
 						<div class="modal-body">
@@ -1421,17 +1413,17 @@
 
 	/* Modal Styles */
 	.modal-overlay {
-		position: fixed;
+		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background: rgba(0, 0, 0, 0.8);
+		background: rgba(0, 0, 0, 0.4);
 		z-index: 1000;
 		backdrop-filter: blur(5px);
 		display: flex;
 		justify-content: center;
-		align-items: flex-start;
+		align-items: center;
 	}
 
 	.modal-content {
