@@ -1,0 +1,9 @@
+{
+  "id": 2,
+  "title": "React vs Svelte Comparison",
+  "description": "Technical analysis of modern frameworks with performance benchmarks and real-world examples",
+  "type": "programming",
+  "date": "2024-01-10",
+  "image": "https://picsum.photos/300/200?random=2",
+  "content": "A comprehensive comparison of React and Svelte frameworks, including performance benchmarks, developer experience analysis, and real-world use cases. This technical deep-dive explores the pros and cons of each framework, helping developers make informed decisions about their next project."
+} 

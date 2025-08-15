@@ -1,7 +1,7 @@
 <script>
 	import PageLayout from '../../components/PageLayout.svelte';
 	import { categoryConfig } from '../../lib/categories.js';
-	import { posts, postsActions } from '../../lib/postsStore.js';
+	import { createPost, posts, exportAllPosts, importPosts } from '../../lib/posts.js';
 	
 	// Admin state
 	let isLoggedIn = false;
@@ -23,6 +23,11 @@
 	let isSubmitting = false;
 	let submitMessage = '';
 	let submitError = '';
+	
+	// Backup/restore state
+	let showBackupSection = false;
+	let backupMessage = '';
+	let backupError = '';
 	
 	// Admin code (you can change this)
 	const ADMIN_CODE = 'rad2024';
@@ -70,30 +75,17 @@
 		submitError = '';
 		submitMessage = '';
 		
-		// Generate a unique ID for the new post
-		const postWithId = {
-			...newPost,
-			id: Date.now() // Use timestamp as unique ID
-		};
-		
 		try {
-			const response = await fetch('/api/posts', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(postWithId)
-			});
+			// Add a default image if none provided
+			const postData = {
+				...newPost,
+				image: newPost.image || `https://picsum.photos/400/300?random=${Date.now()}`
+			};
 			
-			if (response.ok) {
-				submitMessage = 'Post created successfully!';
-				
-				// Refresh posts from Git to get the updated list
-				const refreshed = await postsActions.refreshFromGit();
-				if (!refreshed) {
-					// Fallback: add to store manually
-					postsActions.addPost(postWithId);
-				}
+			const result = await createPost(postData);
+			
+			if (result.success) {
+				submitMessage = result.message || 'Post created and committed to Git successfully!';
 				
 				// Reset form
 				newPost = {
@@ -101,16 +93,56 @@
 					description: '',
 					content: '',
 					type: 'writing',
-					date: new Date().toISOString().split('T')[0]
+					date: new Date().toISOString().split('T')[0],
+					image: ''
 				};
 			} else {
-				const error = await response.text();
-				submitError = `Error creating post: ${error}`;
+				submitError = 'Error creating post. Please try again.';
 			}
 		} catch (error) {
-			submitError = `Network error: ${error.message}`;
+			submitError = `Error: ${error.message}`;
 		} finally {
 			isSubmitting = false;
+		}
+	}
+	
+	async function exportPosts() {
+		try {
+			const allPosts = await exportAllPosts();
+			const dataStr = JSON.stringify(allPosts, null, 2);
+			const dataBlob = new Blob([dataStr], { type: 'application/json' });
+			
+			const link = document.createElement('a');
+			link.href = URL.createObjectURL(dataBlob);
+			link.download = `posts-backup-${new Date().toISOString().split('T')[0]}.json`;
+			link.click();
+			
+			backupMessage = 'Posts exported successfully!';
+			backupError = '';
+		} catch (error) {
+			backupError = `Export failed: ${error.message}`;
+			backupMessage = '';
+		}
+	}
+	
+	async function importPostsFromFile(event) {
+		const file = event.target.files[0];
+		if (!file) return;
+		
+		try {
+			const text = await file.text();
+			const postsToImport = JSON.parse(text);
+			
+			const result = await importPosts(postsToImport);
+			
+			backupMessage = `Successfully imported ${result.imported} posts!`;
+			backupError = '';
+			
+			// Reset file input
+			event.target.value = '';
+		} catch (error) {
+			backupError = `Import failed: ${error.message}`;
+			backupMessage = '';
 		}
 	}
 </script>
@@ -229,6 +261,18 @@
 					</div>
 					
 					<div class="form-group">
+						<label for="postImage" class="form-label">Image URL (optional)</label>
+						<input 
+							type="url" 
+							id="postImage"
+							class="form-input"
+							bind:value={newPost.image}
+							placeholder="https://example.com/image.jpg"
+						/>
+						<small class="form-help">Leave empty for a random image</small>
+					</div>
+					
+					<div class="form-group">
 						<label for="postDate" class="form-label">Date</label>
 						<input 
 							type="date" 
@@ -248,6 +292,63 @@
 						</button>
 					</div>
 				</form>
+			</div>
+		</section>
+
+		<!-- Backup Section -->
+		<section class="backup-section">
+			<div class="backup-card card">
+				<div class="backup-header">
+					<h3 class="section-title">Backup & Restore</h3>
+					<button 
+						class="toggle-btn btn"
+						on:click={() => showBackupSection = !showBackupSection}
+					>
+						{showBackupSection ? 'Hide' : 'Show'} Backup Options
+					</button>
+				</div>
+				
+				{#if showBackupSection}
+					{#if backupMessage}
+						<div class="success-message">
+							{backupMessage}
+						</div>
+					{/if}
+					
+					{#if backupError}
+						<div class="error-message">
+							{backupError}
+						</div>
+					{/if}
+					
+					<div class="backup-actions">
+						<button class="export-btn btn" on:click={exportPosts}>
+							📥 Export All Posts
+						</button>
+						
+						<div class="import-section">
+							<label for="importFile" class="import-label">
+								📤 Import Posts from File
+							</label>
+							<input 
+								type="file" 
+								id="importFile"
+								accept=".json"
+								on:change={importPostsFromFile}
+								class="import-input"
+							/>
+						</div>
+					</div>
+					
+					<div class="backup-info">
+						<p><strong>💡 How it works:</strong></p>
+						<ul>
+							<li><strong>Export:</strong> Downloads all your posts (hardcoded + admin-created) as a JSON file</li>
+							<li><strong>Import:</strong> Restores admin-created posts from a backup file</li>
+							<li><strong>Safety:</strong> Hardcoded posts are never lost and can't be deleted</li>
+						</ul>
+					</div>
+				{/if}
 			</div>
 		</section>
 
@@ -413,6 +514,13 @@
 		resize: vertical;
 		min-height: 100px;
 	}
+	
+	.form-help {
+		display: block;
+		margin-top: 0.25rem;
+		font-size: 0.875rem;
+		color: #666;
+	}
 
 	.form-actions {
 		display: flex;
@@ -456,6 +564,91 @@
 		border-radius: 4px;
 		margin-bottom: 1rem;
 		border: 1px solid #f5c6cb;
+	}
+
+	/* Backup Section */
+	.backup-section {
+		margin-bottom: 2rem;
+	}
+	
+	.backup-card {
+		padding: 1.5rem;
+	}
+	
+	.backup-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1rem;
+	}
+	
+	.toggle-btn {
+		background: #6c5ce7;
+		color: white;
+		border: none;
+		padding: 8px 16px;
+		border-radius: 4px;
+		cursor: pointer;
+		font-size: 0.9rem;
+	}
+	
+	.toggle-btn:hover {
+		background: #5f3dc4;
+	}
+	
+	.backup-actions {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		margin-bottom: 1rem;
+	}
+	
+	.export-btn {
+		background: #00b894;
+		color: white;
+		border: none;
+		padding: 12px 24px;
+		border-radius: 4px;
+		cursor: pointer;
+		font-size: 1rem;
+	}
+	
+	.export-btn:hover {
+		background: #00a085;
+	}
+	
+	.import-section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+	
+	.import-label {
+		font-weight: bold;
+		color: #333;
+		cursor: pointer;
+	}
+	
+	.import-input {
+		padding: 8px;
+		border: 2px solid #ddd;
+		border-radius: 4px;
+	}
+	
+	.backup-info {
+		background: #f8f9fa;
+		padding: 1rem;
+		border-radius: 4px;
+		border-left: 4px solid #4ecdc4;
+	}
+	
+	.backup-info ul {
+		margin: 0.5rem 0 0 0;
+		padding-left: 1.5rem;
+	}
+	
+	.backup-info li {
+		margin-bottom: 0.25rem;
 	}
 
 	/* Recent Posts Section */

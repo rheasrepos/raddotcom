@@ -1,207 +1,196 @@
-// Utility functions for managing posts
+// Utility functions for managing posts - Git-based system
+
+import { writable } from 'svelte/store';
+
+// Define types for better type safety
+/** @typedef {Object} Post
+ * @property {number} id
+ * @property {string} title
+ * @property {string} description
+ * @property {string} type
+ * @property {string} date
+ * @property {string} image
+ * @property {string} content
+ */
+
+// Create a writable store for posts
+export const posts = writable(/** @type {Post[]} */ ([]));
+
+// Hardcoded posts - these are your base posts that never get lost
+const hardcodedPosts = [
+	{
+		id: 1,
+		title: "My First Blog Post",
+		description: "Welcome to my eclectic personal website!",
+		type: "writing",
+		date: "2024-01-15",
+		image: "https://picsum.photos/400/300?random=1",
+		content: "This is my first blog post. I'm excited to share my thoughts, projects, and creative endeavors here."
+	},
+	{
+		id: 2,
+		title: "A Cool Programming Project",
+		description: "Building something awesome with code",
+		type: "programming",
+		date: "2024-01-20",
+		image: "https://picsum.photos/400/300?random=2",
+		content: "I've been working on this really cool programming project. It involves lots of interesting algorithms and creative problem-solving."
+	},
+	{
+		id: 3,
+		title: "New Music Track",
+		description: "Just finished recording a new song",
+		type: "music",
+		date: "2024-02-01",
+		image: "https://picsum.photos/400/300?random=3",
+		content: "I've been in the studio working on some new music. This track has been in my head for months and I'm finally happy with how it turned out."
+	},
+	{
+		id: 4,
+		title: "Comedy Sketch",
+		description: "A funny bit I've been working on",
+		type: "comedy",
+		date: "2024-02-10",
+		image: "https://picsum.photos/400/300?random=4",
+		content: "Here's a comedy sketch I've been developing. It's about the absurdity of everyday life and I think it's pretty funny."
+	},
+	{
+		id: 5,
+		title: "Digital Art Piece",
+		description: "Exploring new artistic techniques",
+		type: "art",
+		date: "2024-02-15",
+		image: "https://picsum.photos/400/300?random=5",
+		content: "I've been experimenting with digital art lately. This piece explores themes of connection and isolation in the modern world."
+	}
+];
 
 /**
- * Load all posts from the data directory and merge with localStorage posts
- * This automatically includes any posts created through the admin panel
+ * Load all posts (hardcoded + Git-based posts)
+ * This ensures you never lose posts
+ * @returns {Promise<Post[]>}
  */
-export function loadPosts() {
-	// Base hardcoded posts
-	const basePosts = [
-		{
-			id: 1,
-			title: "My First Blog Post",
-			description: "A deep dive into web development and creativity, exploring the intersection of code and art. This post covers everything from basic HTML to advanced CSS animations.",
-			type: "writing",
-			date: "2024-01-15",
-			image: "https://picsum.photos/300/200?random=1",
-			content: "This is a comprehensive blog post about web development and the creative process. I explore how coding can be both technical and artistic, sharing insights from my journey as a developer. The post includes practical examples, code snippets, and personal reflections on the evolution of web technologies."
-		},
-		{
-			id: 2,
-			title: "React vs Svelte Comparison",
-			description: "Technical analysis of modern frameworks with performance benchmarks and real-world examples",
-			type: "programming",
-			date: "2024-01-10",
-			image: "https://picsum.photos/300/200?random=2",
-			content: "A comprehensive comparison of React and Svelte frameworks, including performance benchmarks, developer experience analysis, and real-world use cases. This technical deep-dive explores the pros and cons of each framework, helping developers make informed decisions about their next project."
-		},
-		{
-			id: 3,
-			title: "Acoustic Guitar Cover",
-			description: "Cover of 'Wonderwall' by Oasis with original arrangement and fingerpicking style",
-			type: "music",
-			date: "2024-01-05",
-			image: "https://picsum.photos/300/200?random=3",
-			content: "A beautiful acoustic cover of the classic Oasis song 'Wonderwall'. I've arranged it with my own fingerpicking style and added some personal touches to make it unique. The recording was done in my home studio with a vintage Martin guitar."
-		},
-		{
-			id: 4,
-			title: "Stand-up Comedy Set",
-			description: "5-minute set about daily life observations, technology, and the absurdity of modern living",
-			type: "comedy",
-			date: "2024-01-01",
-			image: "https://picsum.photos/300/200?random=4",
-			content: "A hilarious 5-minute stand-up comedy set performed at the local comedy club. The material covers everything from smartphone addiction to the weirdness of social media algorithms. It's a lighthearted take on the quirks of modern life that had the audience laughing throughout."
-		},
-		{
-			id: 5,
-			title: "Digital Art Collection",
-			description: "Abstract geometric patterns and colors inspired by mathematical principles and nature",
-			type: "art",
-			date: "2023-12-28",
-			image: "https://picsum.photos/300/200?random=5",
-			content: "A collection of digital art pieces exploring geometric patterns, mathematical principles, and natural forms. Each piece is created using digital tools and inspired by everything from fractals to architectural designs. The collection showcases the intersection of technology and artistic expression."
-		},
-		{
-			id: 6,
-			title: "JavaScript Tips & Tricks",
-			description: "Advanced JavaScript techniques and best practices for modern web development",
-			type: "programming",
-			date: "2023-12-20",
-			image: "https://picsum.photos/300/200?random=6",
-			content: "Essential JavaScript tips and tricks that every developer should know. This comprehensive guide covers advanced concepts like closures, promises, async/await, and modern ES6+ features. Includes practical examples and real-world applications."
-		},
-		{
-			id: 7,
-			title: "Creative Writing Workshop",
-			description: "Leading a workshop on creative writing techniques and storytelling fundamentals",
-			type: "writing",
-			date: "2023-12-15",
-			image: "https://picsum.photos/300/200?random=7",
-			content: "I led a creative writing workshop for aspiring authors, covering essential storytelling techniques, character development, and narrative structure. The workshop included interactive exercises and feedback sessions, helping participants develop their unique voice and style."
-		},
-		{
-			id: 8,
-			title: "Jazz Piano Improvisation",
-			description: "Original jazz piano piece with complex chord progressions and melodic improvisation",
-			type: "music",
-			date: "2023-12-10",
-			image: "https://picsum.photos/300/200?random=8",
-			content: "An original jazz piano composition featuring complex chord progressions and melodic improvisation. The piece explores various jazz styles and incorporates elements of bebop, modal jazz, and contemporary jazz fusion. Recorded live in a studio session."
-		},
-		{
-			id: 9,
-			title: "Sketch Comedy Video",
-			description: "Short comedy sketch about office life and workplace dynamics",
-			type: "comedy",
-			date: "2023-12-05",
-			image: "https://picsum.photos/300/200?random=9",
-			content: "A short comedy sketch about the absurdities of office life and workplace dynamics. The video features multiple characters and explores themes of corporate culture, team meetings, and the daily grind. Filmed and edited entirely by myself."
-		},
-		{
-			id: 10,
-			title: "Watercolor Landscape Series",
-			description: "Collection of watercolor paintings inspired by local landscapes and natural scenery",
-			type: "art",
-			date: "2023-11-30",
-			image: "https://picsum.photos/300/200?random=10",
-			content: "A series of watercolor paintings inspired by local landscapes and natural scenery. Each piece captures the changing seasons and the beauty of the natural world. The collection explores different techniques and color palettes while maintaining a cohesive artistic vision."
-		},
-		{
-			id: 11,
-			title: "Web Development Tutorial",
-			description: "Step-by-step tutorial on building a responsive website from scratch",
-			type: "programming",
-			date: "2023-11-25",
-			image: "https://picsum.photos/300/200?random=11",
-			content: "A comprehensive web development tutorial that guides beginners through building a responsive website from scratch. Covers HTML structure, CSS styling, JavaScript functionality, and responsive design principles. Includes downloadable code examples and resources."
-		},
-		{
-			id: 12,
-			title: "Poetry Collection",
-			description: "Original poetry exploring themes of technology, nature, and human connection",
-			type: "writing",
-			date: "2023-11-20",
-			image: "https://picsum.photos/300/200?random=12",
-			content: "A collection of original poetry exploring themes of technology, nature, and human connection. The poems range from haikus to free verse, each offering a unique perspective on modern life and the intersection of the digital and natural worlds."
-		},
-		{
-			id: 13,
-			title: "Summer Coding Bootcamp",
-			description: "Teaching web development fundamentals to high school students",
-			type: "programming",
-			date: "2025-08-25",
-			image: "https://picsum.photos/300/200?random=13",
-			content: "This summer, I had the incredible opportunity to teach web development fundamentals to a group of enthusiastic high school students. The bootcamp covered HTML, CSS, JavaScript, and basic web design principles. Watching these young minds grasp complex concepts and build their first websites was truly inspiring. Many students went from knowing nothing about coding to creating fully functional personal portfolios by the end of the program."
-		},
-		{
-			id: 14,
-			title: "Late Night Jazz Session",
-			description: "Impromptu jazz performance at a local coffee shop",
-			type: "music",
-			date: "2025-08-20",
-			image: "https://picsum.photos/300/200?random=14",
-			content: "An unforgettable evening at the local coffee shop where I was invited to join an impromptu jazz session. The atmosphere was electric as we played late into the night, exploring classic jazz standards and original compositions. The intimate setting created a magical connection between the musicians and the audience, with everyone swaying to the rhythm of the music. It's moments like these that remind me why I love playing music."
-		},
-		{
-			id: 15,
-			title: "The Art of Procrastination",
-			description: "A humorous take on productivity and time management",
-			type: "comedy",
-			date: "2025-08-15",
-			image: "https://picsum.photos/300/200?random=15",
-			content: "My latest comedy set explores the universal struggle of procrastination. From the art of 'productive procrastination' (cleaning your entire house instead of working) to the classic 'I'll start tomorrow' mentality, this material resonates with everyone who has ever stared at a blank screen or empty page. The audience was in stitches as I shared my personal experiences with deadline-induced creativity and the mysterious phenomenon of sudden motivation at 2 AM."
-		},
-		{
-			id: 16,
-			title: "Digital Art: AI Collaboration",
-			description: "Exploring the intersection of human creativity and artificial intelligence",
-			type: "art",
-			date: "2025-08-10",
-			image: "https://picsum.photos/300/200?random=16",
-			content: "This project explores the fascinating intersection of human creativity and artificial intelligence. I collaborated with AI tools to create a series of digital artworks that blend traditional artistic techniques with cutting-edge technology. The process involved using AI to generate initial concepts, which I then refined and enhanced with my own artistic vision. The result is a collection that challenges our understanding of creativity and authorship in the digital age."
-		},
-		{
-			id: 17,
-			title: "The Future of Web Development",
-			description: "Predictions and insights about the next decade of web technologies",
-			type: "writing",
-			date: "2025-08-05",
-			image: "https://picsum.photos/300/200?random=17",
-			content: "As we approach the mid-2020s, I've been reflecting on the rapid evolution of web development and what the future might hold. This article explores emerging trends like WebAssembly, the growing importance of performance optimization, and the rise of AI-assisted development tools. I also discuss the shifting landscape of frameworks and the increasing focus on accessibility and sustainability in web development. The pace of change in our field is both exciting and challenging."
-		},
-		{
-			id: 18,
-			title: "Acoustic Cover: 'Bohemian Rhapsody'",
-			description: "A stripped-down acoustic version of the Queen classic",
-			type: "music",
-			date: "2025-08-01",
-			image: "https://picsum.photos/300/200?random=18",
-			content: "I've always been fascinated by how songs can be completely transformed when stripped down to their acoustic essence. This cover of Queen's 'Bohemian Rhapsody' reimagines the epic rock opera as an intimate acoustic piece. Using just guitar and vocals, I've tried to capture the emotional core of the song while maintaining its dramatic structure. The challenge was to convey the same intensity and range without the full orchestration, relying instead on dynamic playing and vocal expression."
-		}
-	];
-
-	// Get admin-created posts from localStorage (if in browser) - temporary storage
-	let adminPosts = [];
-	if (typeof window !== 'undefined') {
-		try {
-			const storedPosts = localStorage.getItem('tempPosts');
-			if (storedPosts) {
-				adminPosts = JSON.parse(storedPosts);
+export async function loadPosts() {
+	try {
+		// Start with hardcoded posts
+		let allPosts = [...hardcodedPosts];
+		
+		// Load Git-based posts from API (if in browser)
+		if (typeof window !== 'undefined') {
+			try {
+				const response = await fetch('/api/posts');
+				if (response.ok) {
+					const gitPosts = await response.json();
+					// Merge Git posts with hardcoded posts
+					allPosts = [...allPosts, ...gitPosts];
+				}
+			} catch (error) {
+				console.warn('Could not load Git posts:', error);
 			}
-		} catch (error) {
-			console.warn('Error loading admin posts from localStorage:', error);
 		}
+		
+		// Sort by date (newest first)
+		const sortedPosts = allPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+		
+		// Update the store
+		posts.set(sortedPosts);
+		
+		return sortedPosts;
+	} catch (error) {
+		console.warn('Error loading posts:', error);
+		// Fallback to hardcoded posts only
+		posts.set(hardcodedPosts);
+		return hardcodedPosts;
 	}
+}
 
-	// Merge base posts with admin posts, ensuring no duplicate IDs
-	const allPosts = [...basePosts];
-	
-	// Add localStorage posts (temporary)
-	adminPosts.forEach(adminPost => {
-		// Check if this admin post already exists
-		const exists = allPosts.some(post => post.id === adminPost.id);
-		if (!exists) {
-			allPosts.push(adminPost);
+/**
+ * Create a new post (saves to Git via API)
+ * @param {Post} postData
+ * @returns {Promise<Object>}
+ */
+export async function createPost(postData) {
+	try {
+		// Generate a unique ID (higher than hardcoded posts)
+		const existingPosts = await loadPosts();
+		const maxId = Math.max(...existingPosts.map((/** @type {Post} */ p) => p.id));
+		const newPost = {
+			...postData,
+			id: maxId + 1
+		};
+		
+		// Send post to API for Git commit
+		const response = await fetch('/api/posts', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(newPost)
+		});
+		
+		const result = await response.json();
+		
+		if (result.success) {
+			// Reload posts to update the store
+			await loadPosts();
+			return { success: true, post: newPost, message: result.message };
+		} else {
+			throw new Error(result.message || 'Failed to create post');
 		}
-	});
+	} catch (error) {
+		console.error('Error creating post:', error);
+		throw error;
+	}
+}
 
-	// Sort by date (newest first)
-	return allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+/**
+ * Delete an admin-created post
+ * @param {number} postId
+ * @returns {Promise<Object>}
+ */
+export async function deletePost(postId) {
+	try {
+		// Don't allow deletion of hardcoded posts
+		const hardcodedIds = hardcodedPosts.map(p => p.id);
+		if (hardcodedIds.includes(postId)) {
+			throw new Error('Cannot delete hardcoded posts');
+		}
+		
+		// Load existing admin posts
+		let adminPosts = [];
+		if (typeof window !== 'undefined') {
+			const savedPosts = localStorage.getItem('adminPosts');
+			if (savedPosts) {
+				try {
+					adminPosts = JSON.parse(savedPosts);
+				} catch (error) {
+					console.warn('Error parsing existing admin posts:', error);
+				}
+			}
+		}
+		
+		// Remove the post
+		adminPosts = adminPosts.filter((/** @type {Post} */ p) => p.id !== postId);
+		
+		// Save to localStorage
+		if (typeof window !== 'undefined') {
+			localStorage.setItem('adminPosts', JSON.stringify(adminPosts));
+		}
+		
+		// Reload posts to update the store
+		await loadPosts();
+		
+		return { success: true };
+	} catch (error) {
+		console.error('Error deleting post:', error);
+		throw error;
+	}
 }
 
 /**
  * Get project color by type
+ * @param {string} type
+ * @returns {string}
  */
 export function getProjectColor(type) {
 	const colors = {
@@ -211,11 +200,13 @@ export function getProjectColor(type) {
 		comedy: '#f39c12',
 		art: '#9b59b6'
 	};
-	return colors[type] || '#95a5a6';
+	return colors[/** @type {keyof typeof colors} */ (type)] || '#95a5a6';
 }
 
 /**
  * Format date for display
+ * @param {string} dateString
+ * @returns {string}
  */
 export function formatDate(dateString) {
 	const date = new Date(dateString);
@@ -228,9 +219,14 @@ export function formatDate(dateString) {
 
 /**
  * Filter projects by type and date range
+ * @param {Post[]} projects
+ * @param {string} filter
+ * @param {string|null} startDate
+ * @param {string|null} endDate
+ * @returns {Post[]}
  */
 export function filterProjects(projects, filter = 'all', startDate = null, endDate = null) {
-	return projects.filter(project => {
+	return projects.filter((/** @type {Post} */ project) => {
 		const typeMatch = filter === 'all' || project.type === filter;
 		const dateMatch = !startDate || !endDate || (
 			new Date(project.date) >= new Date(startDate) && 
@@ -241,17 +237,76 @@ export function filterProjects(projects, filter = 'all', startDate = null, endDa
 }
 
 /**
- * Load Git-based posts from the API (client-side only)
+ * Get a single post by ID
+ * @param {Post[]} posts
+ * @param {string|number} id
+ * @returns {Post|undefined}
  */
-export async function loadGitPosts() {
+export function getPostById(posts, id) {
+	return posts.find(post => post.id === parseInt(String(id)));
+}
+
+/**
+ * Get unique months/years from posts for navigation
+ * @param {Post[]} posts
+ * @returns {string[]}
+ */
+export function getUniqueMonths(posts) {
+	const months = new Set();
+	posts.forEach((/** @type {Post} */ post) => {
+		const date = new Date(post.date);
+		const monthYear = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+		months.add(monthYear);
+	});
+	
+	return Array.from(months).sort().reverse();
+}
+
+/**
+ * Get posts by month/year
+ * @param {Post[]} posts
+ * @param {string} monthYear
+ * @returns {Post[]}
+ */
+export function getPostsByMonth(posts, monthYear) {
+	return posts.filter((/** @type {Post} */ post) => {
+		const date = new Date(post.date);
+		const postMonthYear = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+		return postMonthYear === monthYear;
+	});
+}
+
+/**
+ * Export all posts (hardcoded + admin) for backup
+ * @returns {Promise<Post[]>}
+ */
+export async function exportAllPosts() {
+	const allPosts = await loadPosts();
+	return allPosts;
+}
+
+/**
+ * Import posts (for backup restoration)
+ * @param {Post[]} postsToImport
+ * @returns {Promise<Object>}
+ */
+export async function importPosts(postsToImport) {
 	try {
-		const response = await fetch('/api/posts');
-		if (response.ok) {
-			const data = await response.json();
-			return data.posts || [];
+		// Separate hardcoded and admin posts
+		const hardcodedIds = hardcodedPosts.map(p => p.id);
+		const adminPosts = postsToImport.filter(p => !hardcodedIds.includes(p.id));
+		
+		// Save admin posts to localStorage
+		if (typeof window !== 'undefined') {
+			localStorage.setItem('adminPosts', JSON.stringify(adminPosts));
 		}
+		
+		// Reload posts
+		await loadPosts();
+		
+		return { success: true, imported: adminPosts.length };
 	} catch (error) {
-		console.warn('Could not load Git posts:', error);
+		console.error('Error importing posts:', error);
+		throw error;
 	}
-	return [];
 } 

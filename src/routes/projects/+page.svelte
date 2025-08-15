@@ -1,21 +1,37 @@
 <script>
 	import PageLayout from '../../components/PageLayout.svelte';
 	import { categoryConfig, getCategoryLabel, getCategoryColor } from '../../lib/categories.js';
-	import { posts } from '../../lib/postsStore.js';
+	import { onMount } from 'svelte';
+	import { loadPosts } from '../../lib/posts.js';
 	
 	// State
 	let selectedCategory = 'all';
-	let filteredPosts = $posts;
+	let posts = [];
+	let filteredPosts = [];
 	
 	// Get categories from the config
 	let categories = Object.values(categoryConfig);
 	
+	// Load posts on mount
+	onMount(async () => {
+		try {
+			posts = await loadPosts();
+			filteredPosts = posts;
+		} catch (error) {
+			console.warn('Error loading posts:', error);
+			posts = [];
+			filteredPosts = [];
+		}
+	});
+	
 	// Filter posts based on selected category
 	$: {
-		if (selectedCategory === 'all') {
-			filteredPosts = $posts;
-		} else {
-			filteredPosts = $posts.filter(post => post.type === selectedCategory);
+		if (posts.length > 0) {
+			if (selectedCategory === 'all') {
+				filteredPosts = posts;
+			} else {
+				filteredPosts = posts.filter(post => post.type === selectedCategory);
+			}
 		}
 	}
 	
@@ -51,7 +67,7 @@
 					class="filter-btn {selectedCategory === 'all' ? 'active' : ''}"
 					on:click={() => selectedCategory = 'all'}
 				>
-					All Projects ({$posts.length})
+					All Projects ({posts.length})
 				</button>
 				{#each categories as category}
 					<button 
@@ -59,7 +75,7 @@
 						style="border-color: {category.color};"
 						on:click={() => selectedCategory = category.id}
 					>
-						{category.label} ({$posts.filter(post => post.type === category.id).length})
+						{category.label} ({posts.filter(post => post.type === category.id).length})
 					</button>
 				{/each}
 			</div>
@@ -106,13 +122,13 @@
 			<h3 class="stats-title">Project Statistics</h3>
 			<div class="stats-grid">
 				<div class="stat-item">
-					<span class="stat-number">{$posts.length}</span>
+					<span class="stat-number">{posts.length}</span>
 					<span class="stat-label">Total Projects</span>
 				</div>
 				{#each categories as category}
 					<div class="stat-item">
 						<span class="stat-number" style="color: {category.color};">
-							{$posts.filter(post => post.type === category.id).length}
+							{posts.filter(post => post.type === category.id).length}
 						</span>
 						<span class="stat-label">{category.label}</span>
 					</div>

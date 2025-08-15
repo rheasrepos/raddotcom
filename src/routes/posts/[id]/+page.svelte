@@ -1,38 +1,26 @@
 <script>
+	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import PageLayout from '$components/PageLayout.svelte';
-	import { posts } from '$lib/postsStore.js';
-	import { getProjectColor, formatDate, loadPosts } from '$lib/posts.js';
-	import { onMount } from 'svelte';
+	import { loadPosts, getPostById, formatDate, getProjectColor } from '$lib/posts.js';
 
-	// Get the post ID from the props
-	export let data;
-	$: postId = parseInt(data.id);
+	// Get post ID from URL
+	$: postId = $page.params.id;
 	
-	// Get all posts from the store and find the specific one
-	$: allPosts = $posts;
-	$: post = allPosts ? allPosts.find(p => p.id === postId) : null;
+	// Load posts and find the specific post
+	let allPosts = [];
+	let post = null;
 	
-	// Fallback posts if store is empty
-	let fallbackPosts = [];
-	let fallbackPost = null;
-	
-	onMount(() => {
-		// Always load fallback posts to ensure we have data
-		fallbackPosts = loadPosts();
-		fallbackPost = fallbackPosts.find(p => p.id === postId);
-		console.log('Using fallback posts:', fallbackPosts.length, 'Found post:', fallbackPost);
+	onMount(async () => {
+		// Load all posts from the Git-based API
+		allPosts = await loadPosts();
+		post = getPostById(allPosts, postId);
+		
+		console.log('Post ID:', postId, 'Type:', typeof postId, 'All Posts:', allPosts.length, 'Found Post:', post ? post.title : 'Not found');
+		if (allPosts.length > 0) {
+			console.log('Available post IDs:', allPosts.map(p => ({ id: p.id, title: p.title })));
+		}
 	});
-	
-	// Use fallback if store is empty
-	$: finalPosts = allPosts && allPosts.length > 0 ? allPosts : fallbackPosts;
-	$: finalPost = post || fallbackPost;
-	
-	// Debug logging
-	$: console.log('Post ID:', postId, 'Type:', typeof postId, 'All Posts:', finalPosts, 'Found Post:', finalPost);
-	$: if (finalPosts) {
-		console.log('Available post IDs:', finalPosts.map(p => ({ id: p.id, title: p.title })));
-	}
 
 	// Handle back navigation
 	function goBack() {
@@ -40,40 +28,38 @@
 	}
 </script>
 
-
-
-<PageLayout title="Post Details">
+<PageLayout>
 	<div class="container">
-		{#if finalPosts && finalPost}
+		{#if allPosts.length > 0 && post}
 			<!-- Back Button -->
 			<button class="back-btn" on:click={goBack}>← Back</button>
 			
 			<!-- Single Post in Expandable List Format -->
 			<div class="expandable-list-container">
 				<div class="list-header">
-					<h2 class="list-title">{finalPost.title}</h2>
+					<h2 class="list-title">{post.title}</h2>
 				</div>
 				
 				<div class="expandable-list">
 					<div class="list-item">
 						<div class="list-item-header">
 							<div class="item-info">
-								<span class="item-date">{formatDate(finalPost.date)}</span>
-								<span class="item-title">{finalPost.title}</span>
-								<span class="item-type" style="color: {getProjectColor(finalPost.type)}">{finalPost.type}</span>
+								<span class="item-date">{formatDate(post.date)}</span>
+								<span class="item-title">{post.title}</span>
+								<span class="item-type" style="color: {getProjectColor(post.type)}">{post.type}</span>
 							</div>
 							<div class="expand-icon expanded">▶</div>
 						</div>
 						
 						<div class="list-item-content">
 							<div class="content-image">
-								<img src={finalPost.image} alt={finalPost.title} />
+								<img src={post.image} alt={post.title} />
 							</div>
 							<div class="content-details">
-								<h3 class="content-title">{finalPost.title}</h3>
-								<p class="content-description">{finalPost.description}</p>
+								<h3 class="content-title">{post.title}</h3>
+								<p class="content-description">{post.description}</p>
 								<div class="content-body">
-									{finalPost.content}
+									{post.content}
 								</div>
 							</div>
 						</div>
@@ -88,7 +74,7 @@
 					<a href="/" class="nav-link">← Home</a>
 				</div>
 			</nav>
-		{:else if finalPosts}
+		{:else if allPosts.length > 0}
 			<!-- Post Not Found -->
 			<div class="not-found">
 				<h1>Post Not Found</h1>
@@ -99,7 +85,7 @@
 				</div>
 			</div>
 		{:else}
-			<!-- Loading or Error -->
+			<!-- Loading -->
 			<div class="not-found">
 				<h1>Loading...</h1>
 				<p>Please wait while we load the post.</p>
@@ -122,87 +108,87 @@
 	}
 
 	.back-btn:hover {
-		opacity: 0.8;
+		background: #ffffff;
+		color: #000000;
 	}
 
-	/* Expandable List Styles */
+	.container {
+		max-width: 800px;
+		margin: 0 auto;
+		padding: 2rem;
+	}
+
 	.expandable-list-container {
-		margin: 2rem 0;
+		margin-bottom: 2rem;
 	}
 
 	.list-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 2rem;
-		padding-bottom: 1rem;
-		border-bottom: 2px solid #000000;
+		margin-bottom: 1rem;
 	}
 
 	.list-title {
-		font-size: 2rem;
+		font-family: Arial, sans-serif;
+		font-size: 1.5rem;
 		font-weight: bold;
 		color: #000000;
 		margin: 0;
 	}
 
 	.expandable-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0;
+		border: 1px solid #000000;
 	}
 
 	.list-item {
-		border: 1px solid #000000;
-		background: rgba(255, 255, 255, 0.9);
-		margin-bottom: 0;
+		border-bottom: 1px solid #000000;
+	}
+
+	.list-item:last-child {
+		border-bottom: none;
 	}
 
 	.list-item-header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 1.5rem;
+		padding: 1rem;
 		cursor: pointer;
-		background: rgba(255, 255, 255, 0.9);
-		transition: all 0.3s ease;
+		background: #ffffff;
+		transition: background 0.3s ease;
 	}
 
 	.list-item-header:hover {
-		background: rgba(255, 255, 255, 1);
+		background: #f5f5f5;
 	}
 
 	.item-info {
 		display: flex;
-		align-items: center;
-		gap: 2rem;
-		flex: 1;
+		flex-direction: column;
+		gap: 0.25rem;
 	}
 
 	.item-date {
-		color: #636e72;
-		font-size: 0.9rem;
-		min-width: 120px;
+		font-family: Arial, sans-serif;
+		font-size: 0.875rem;
+		color: #666666;
 	}
 
 	.item-title {
+		font-family: Arial, sans-serif;
+		font-size: 1.125rem;
 		font-weight: bold;
 		color: #000000;
-		font-size: 1.1rem;
-		flex: 1;
 	}
 
 	.item-type {
-		font-size: 0.8rem;
+		font-family: Arial, sans-serif;
+		font-size: 0.875rem;
 		font-weight: bold;
 		text-transform: uppercase;
-		letter-spacing: 0.5px;
-		min-width: 100px;
-		text-align: center;
 	}
 
 	.expand-icon {
-		font-size: 0.8rem;
+		font-family: Arial, sans-serif;
+		font-size: 1rem;
 		color: #000000;
 		transition: transform 0.3s ease;
 	}
@@ -212,131 +198,61 @@
 	}
 
 	.list-item-content {
-		padding: 2rem;
-		border-top: 1px solid #000000;
-		background: rgba(255, 255, 255, 1);
+		padding: 1rem;
+		background: #ffffff;
 	}
 
 	.content-image {
-		margin-bottom: 2rem;
-		text-align: center;
+		margin-bottom: 1rem;
 	}
 
 	.content-image img {
-		max-width: 100%;
+		width: 100%;
 		height: auto;
 		border: 1px solid #000000;
 	}
 
 	.content-details {
-		max-width: 800px;
-		margin: 0 auto;
+		font-family: Arial, sans-serif;
 	}
 
 	.content-title {
-		font-size: 2rem;
+		font-size: 1.25rem;
 		font-weight: bold;
 		color: #000000;
-		margin-bottom: 1rem;
-		line-height: 1.2;
+		margin: 0 0 0.5rem 0;
 	}
 
 	.content-description {
-		font-size: 1.25rem;
-		color: #636e72;
-		line-height: 1.6;
-		margin-bottom: 2rem;
+		font-size: 1rem;
+		color: #666666;
+		margin: 0 0 1rem 0;
+		line-height: 1.5;
 	}
 
 	.content-body {
-		font-size: 1.1rem;
-		line-height: 1.8;
-		color: #2d3436;
-		white-space: pre-line;
-	}
-
-	.post-header {
-		margin-bottom: 3rem;
-		padding-bottom: 2rem;
-		border-bottom: 2px solid #000000;
-	}
-
-	.post-meta {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-		margin-bottom: 1rem;
-	}
-
-	.post-date {
-		color: #636e72;
 		font-size: 1rem;
-	}
-
-	.post-type {
-		padding: 0.5rem 1rem;
-		color: #ffffff;
-		font-size: 0.875rem;
-		font-weight: bold;
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
-	}
-
-	.post-title {
-		font-size: 3rem;
-		font-weight: bold;
 		color: #000000;
-		margin-bottom: 1rem;
-		line-height: 1.2;
-	}
-
-	.post-description {
-		font-size: 1.25rem;
-		color: #636e72;
 		line-height: 1.6;
-		max-width: 800px;
-	}
-
-	.post-content {
-		max-width: 900px;
-		margin: 0 auto;
-	}
-
-	.post-image {
-		margin-bottom: 2rem;
-		text-align: center;
-	}
-
-	.post-image img {
-		max-width: 100%;
-		height: auto;
-		border: 1px solid #000000;
-	}
-
-	.post-body {
-		font-size: 1.1rem;
-		line-height: 1.8;
-		color: #2d3436;
-		white-space: pre-line;
 	}
 
 	.post-navigation {
-		margin-top: 4rem;
-		padding-top: 2rem;
-		border-top: 2px solid #000000;
+		margin-top: 2rem;
+		padding-top: 1rem;
+		border-top: 1px solid #000000;
 	}
 
 	.nav-links {
 		display: flex;
-		gap: 2rem;
-		justify-content: center;
+		gap: 1rem;
 	}
 
 	.nav-link {
+		font-family: Arial, sans-serif;
+		font-size: 1rem;
 		color: #000000;
 		text-decoration: none;
-		font-weight: bold;
-		padding: 0.75rem 1.5rem;
+		padding: 0.5rem 1rem;
 		border: 1px solid #000000;
 		transition: all 0.3s ease;
 	}
@@ -348,60 +264,40 @@
 
 	.not-found {
 		text-align: center;
-		padding: 4rem 2rem;
+		padding: 3rem 1rem;
+		font-family: Arial, sans-serif;
 	}
 
 	.not-found h1 {
-		font-size: 2.5rem;
+		font-size: 2rem;
 		color: #000000;
 		margin-bottom: 1rem;
 	}
 
 	.not-found p {
-		font-size: 1.2rem;
-		color: #636e72;
+		font-size: 1rem;
+		color: #666666;
 		margin-bottom: 2rem;
 	}
 
 	.not-found-links {
 		display: flex;
-		gap: 1rem;
 		justify-content: center;
+		gap: 1rem;
 	}
 
 	.btn {
-		background: #000000;
-		color: #ffffff;
-		border: 1px solid #000000;
-		padding: 0.75rem 1.5rem;
-		text-decoration: none;
 		font-family: Arial, sans-serif;
 		font-size: 1rem;
+		color: #000000;
+		text-decoration: none;
+		padding: 0.75rem 1.5rem;
+		border: 1px solid #000000;
 		transition: all 0.3s ease;
 	}
 
 	.btn:hover {
-		opacity: 0.8;
-	}
-
-	/* Responsive Design */
-	@media (max-width: 768px) {
-		.post-title {
-			font-size: 2rem;
-		}
-
-		.post-description {
-			font-size: 1.1rem;
-		}
-
-		.nav-links {
-			flex-direction: column;
-			align-items: center;
-		}
-
-		.not-found-links {
-			flex-direction: column;
-			align-items: center;
-		}
+		background: #000000;
+		color: #ffffff;
 	}
 </style> 

@@ -8,19 +8,11 @@
 	import PageTransitionOverlay from '../components/PageTransitionOverlay.svelte';
 	import DesktopNavigation from '../components/DesktopNavigation.svelte';
 	import FilterTabs from '../components/FilterTabs.svelte';
-	import { loadPosts, loadGitPosts, getProjectColor, formatDate } from '$lib/posts.js';
+	import { loadPosts, getProjectColor, formatDate } from '$lib/posts.js';
 	import { categoryConfig, getCategoryLabel } from '$lib/categories.js';
 
-	// Load projects from the posts utility
+	// Load projects from the Git-based API
 	let projects = [];
-	
-	// Initialize projects safely
-	try {
-		projects = loadPosts() || [];
-	} catch (error) {
-		console.warn('Error loading posts:', error);
-		projects = [];
-	}
 
 	let filteredProjects = [...(projects || [])];
 	let activeFilter = 'all';
@@ -67,9 +59,9 @@
 	
 
 
-	// Load Git posts and update time on mount
+	// Load posts and update time on mount
 	onMount(async () => {
-		console.log('Component mounted, projects length:', projects.length);
+		console.log('Component mounted, loading posts...');
 		
 		// Only run in browser
 		if (typeof window !== 'undefined') {
@@ -79,27 +71,14 @@
 			if (savedColor) {
 				wallpaperColor = savedColor;
 			}
-			
 
-
-			// Load Git-based posts
+			// Load posts from Git-based API
 			try {
-				const gitPosts = await loadGitPosts();
-				if (gitPosts && gitPosts.length > 0) {
-					// Merge Git posts with existing posts
-					const allPosts = [...(projects || [])];
-					gitPosts.forEach(gitPost => {
-						const exists = allPosts.some(post => post.id === gitPost.id);
-						if (!exists) {
-							allPosts.push(gitPost);
-						}
-					});
-					// Sort by date and update
-					projects = allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
-					console.log('Updated projects length:', projects.length);
-				}
+				projects = await loadPosts();
+				console.log('Loaded projects:', projects.length);
 			} catch (error) {
-				console.warn('Could not load Git posts:', error);
+				console.warn('Error loading posts:', error);
+				projects = [];
 			}
 
 			// Update time every second
@@ -705,29 +684,29 @@
 					</div>
 				</div>
 			{/if}
-		</div>
-	</div>
 
-	<!-- Project Modal -->
-	{#if selectedProject}
-		<div class="modal-overlay" on:click={closeProject}>
-			<div class="modal-content" on:click|stopPropagation>
-				<button class="close-btn" on:click={closeProject}>×</button>
-				<div class="modal-body">
-					<img src={selectedProject.image} alt={selectedProject.title} />
-					<h2>{selectedProject.title}</h2>
-					<p class="project-date">{new Date(selectedProject.date).toLocaleDateString()}</p>
-					<p class="project-description">{selectedProject.description}</p>
-					<div class="project-content">
-						{selectedProject.content}
-					</div>
-					<div class="project-actions">
-						<a href="/posts/{selectedProject.id}" class="view-post-btn">View Full Post →</a>
+			<!-- Project Modal -->
+			{#if selectedProject}
+				<div class="modal-overlay" on:click={closeProject}>
+					<div class="modal-content" on:click|stopPropagation>
+						<button class="close-btn" on:click={closeProject}>×</button>
+						<div class="modal-body">
+							<img src={selectedProject.image} alt={selectedProject.title} />
+							<h2>{selectedProject.title}</h2>
+							<p class="project-date">{new Date(selectedProject.date).toLocaleDateString()}</p>
+							<p class="project-description">{selectedProject.description}</p>
+							<div class="project-content">
+								{selectedProject.content}
+							</div>
+							<div class="project-actions">
+								<a href="/posts/{selectedProject.id}" class="view-post-btn">View Full Post →</a>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
+			{/if}
 		</div>
-	{/if}
+	</div>
 		</div>
 		
 		<!-- Wallpaper Toolbar -->
@@ -1533,11 +1512,7 @@
 
 
 
-	.expandable-list {
-		display: flex;
-		flex-direction: column;
-		gap: 5px;
-	}
+
 
 
 
@@ -1561,7 +1536,7 @@
 
 	/* Modal Styles */
 	.modal-overlay {
-		position: fixed;
+		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
@@ -1576,12 +1551,12 @@
 
 	.modal-content {
 		background: white;
-		max-width: 600px;
-		width: 90%;
-		max-height: 80vh;
+		width: 95%;
+		height: 95%;
+		max-width: 800px;
+		max-height: 90%;
 		overflow-y: auto;
 		position: relative;
-
 		border: 2px solid #000000;
 	}
 
@@ -1646,20 +1621,7 @@
 			font-size: 1.1rem;
 		}
 
-		.list-item-content {
-			grid-template-columns: 1fr;
-			gap: 20px;
-		}
 
-		.item-info {
-			flex-direction: column;
-			align-items: flex-start;
-			gap: 10px;
-		}
-
-		.item-date, .item-type {
-			min-width: auto;
-		}
 
 		.hero {
 			padding: 40px 0;

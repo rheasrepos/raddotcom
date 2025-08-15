@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "title": "My First Blog Post",
+  "description": "A deep dive into web development and creativity, exploring the intersection of code and art. This post covers everything from basic HTML to advanced CSS animations.",
+  "type": "writing",
+  "date": "2024-01-15",
+  "image": "https://picsum.photos/300/200?random=1",
+  "content": "This is a comprehensive blog post about web development and the creative process. I explore how coding can be both technical and artistic, sharing insights from my journey as a developer. The post includes practical examples, code snippets, and personal reflections on the evolution of web technologies."
+} 

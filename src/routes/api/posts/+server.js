@@ -1,95 +1,90 @@
 import { json } from '@sveltejs/kit';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import fs from 'fs/promises';
-import path from 'path';
+import { writeFile, mkdir } from 'fs/promises';
+import { join } from 'path';
 
 const execAsync = promisify(exec);
 
 export async function POST({ request }) {
 	try {
-		const postData = await request.json();
+		const post = await request.json();
 		
-		// Create a unique filename based on the post ID and title
-		const sanitizedTitle = postData.title
-			.toLowerCase()
-			.replace(/[^a-z0-9\s-]/g, '')
-			.replace(/\s+/g, '-')
-			.substring(0, 50);
-		
-		const filename = `${postData.id}-${sanitizedTitle}.json`;
-		const filePath = path.join(process.cwd(), 'src', 'data', 'posts', filename);
-		
-		// Ensure the posts directory exists
-		await fs.mkdir(path.dirname(filePath), { recursive: true });
-		
-		// Write the post data to a JSON file
-		await fs.writeFile(filePath, JSON.stringify(postData, null, 2));
-		
-		// Try to add and commit to Git, but don't fail if Git is not available
-		try {
-			// Add the file to Git
-			await execAsync(`git add "${filePath}"`);
-			
-			// Commit the file with a descriptive message
-			const commitMessage = `Add post: ${postData.title}`;
-			await execAsync(`git commit -m "${commitMessage}"`);
-		} catch (gitError) {
-			console.warn('Git operations failed, but post was saved:', gitError.message);
-			// Continue without Git - the post is still saved to the file system
+		// Ensure post has a proper ID
+		if (!post.id || post.id === null) {
+			post.id = Date.now();
 		}
 		
-		return json({ 
-			success: true, 
-			message: 'Post created and committed to Git successfully',
-			filename: filename
-		});
+		// Generate a unique filename
+		const timestamp = Date.now();
+		const filename = `post-${timestamp}.json`;
+		const postsDir = join(process.cwd(), 'src', 'data', 'posts');
+		const filePath = join(postsDir, filename);
 		
+		// Ensure posts directory exists
+		await mkdir(postsDir, { recursive: true });
+		
+		// Write post to file
+		await writeFile(filePath, JSON.stringify(post, null, 2));
+		
+		// Git operations
+		try {
+			// Add the file to git
+			await execAsync(`git add "${filePath}"`);
+			
+			// Commit the file
+			const commitMessage = `Add post: ${post.title}`;
+			await execAsync(`git commit -m "${commitMessage}"`);
+			
+			console.log(`Post "${post.title}" committed to Git successfully`);
+			
+			return json({ 
+				success: true, 
+				message: 'Post created and committed to Git successfully',
+				postId: post.id
+			});
+		} catch (gitError) {
+			console.error('Git operation failed:', gitError);
+			return json({ 
+				success: false, 
+				message: 'Post created but Git commit failed. Please commit manually.',
+				postId: post.id,
+				filePath: filePath
+			}, { status: 500 });
+		}
 	} catch (error) {
 		console.error('Error creating post:', error);
 		return json({ 
 			success: false, 
-			error: error.message 
+			message: 'Failed to create post' 
 		}, { status: 500 });
 	}
 }
 
 export async function GET() {
 	try {
-		// Read all JSON files from the posts directory
-		const postsDir = path.join(process.cwd(), 'src', 'data', 'posts');
+		// Read all post files from the data directory
+		const { readdir, readFile } = await import('fs/promises');
+		const { join } = await import('path');
 		
-		try {
-			const files = await fs.readdir(postsDir);
-			const jsonFiles = files.filter(file => file.endsWith('.json'));
-			
-			const posts = [];
-			for (const file of jsonFiles) {
-				const filePath = path.join(postsDir, file);
-				const content = await fs.readFile(filePath, 'utf-8');
-				const post = JSON.parse(content);
-				posts.push(post);
+		const postsDir = join(process.cwd(), 'src', 'data', 'posts');
+		const files = await readdir(postsDir);
+		
+		const posts = [];
+		for (const file of files) {
+			if (file.endsWith('.json')) {
+				const filePath = join(postsDir, file);
+				const content = await readFile(filePath, 'utf-8');
+				posts.push(JSON.parse(content));
 			}
-			
-			// Sort by date (newest first)
-			posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-			
-			return json({ posts });
-			
-		} catch (error) {
-			// If directory doesn't exist, return empty array
-			if (error.code === 'ENOENT') {
-				return json({ posts: [] });
-			}
-			console.warn('Error reading posts directory:', error.message);
-			return json({ posts: [] });
 		}
 		
+		// Sort by date (newest first)
+		posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+		
+		return json(posts);
 	} catch (error) {
 		console.error('Error reading posts:', error);
-		return json({ 
-			success: false, 
-			error: error.message 
-		}, { status: 500 });
+		return json([]);
 	}
 } 

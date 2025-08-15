@@ -7,7 +7,7 @@
 	import { transitionActions } from '../lib/pageTransition.js';
 
 	// Props
-	export let title = '';
+
 	export let showSearch = false;
 	export let searchQuery = '';
 	export let onSearchClose = null;

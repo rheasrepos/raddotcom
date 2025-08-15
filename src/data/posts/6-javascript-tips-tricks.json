@@ -1,0 +1,9 @@
+{
+  "id": 6,
+  "title": "JavaScript Tips & Tricks",
+  "description": "Advanced JavaScript techniques and best practices for modern web development",
+  "type": "programming",
+  "date": "2023-12-20",
+  "image": "https://picsum.photos/300/200?random=6",
+  "content": "Essential JavaScript tips and tricks that every developer should know. This comprehensive guide covers advanced concepts like closures, promises, async/await, and modern ES6+ features. Includes practical examples and real-world applications."
+} 
