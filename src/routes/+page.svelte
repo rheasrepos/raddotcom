@@ -662,28 +662,7 @@
 
 
 
-			<!-- Project Modal/Window -->
-			{#if selectedProject}
-				<div class="project-window">
-					<div class="window-header">
-						<div class="window-title">{selectedProject.title}</div>
-						<button class="close-btn" on:click={() => selectedProject = null}>×</button>
-					</div>
-					<div class="window-content">
-						<div class="project-image">
-							<img src={selectedProject.image} alt={selectedProject.title} />
-						</div>
-						<div class="project-details">
-							<h3>{selectedProject.title}</h3>
-							<p class="project-description">{selectedProject.description}</p>
-							<div class="project-body">{selectedProject.content}</div>
-							<div class="project-actions">
-								<a href="/posts/{selectedProject.id}" class="view-post-btn">View Full Post →</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			{/if}
+
 
 			<!-- Project Modal -->
 			{#if selectedProject}
@@ -1399,113 +1378,6 @@
 		color: #636e72;
 	}
 
-	/* Project Window */
-	.project-window {
-		position: fixed;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		width: 90%;
-		max-width: 800px;
-		max-height: 80vh;
-		background: #ffffff;
-		border: 2px solid #000000;
-		z-index: 1000;
-		overflow: hidden;
-	}
-
-	.window-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 15px 20px;
-		background: #000000;
-		color: #ffffff;
-	}
-
-	.window-title {
-		font-weight: bold;
-		font-size: 1rem;
-	}
-
-	.close-btn {
-		background: none;
-		border: none;
-		color: #ffffff;
-		font-size: 1.5rem;
-		cursor: pointer;
-		padding: 0;
-		width: 30px;
-		height: 30px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.close-btn:hover {
-		background: rgba(255, 255, 255, 0.2);
-	}
-
-	.window-content {
-		padding: 20px;
-		max-height: 60vh;
-		overflow-y: auto;
-	}
-
-	.project-image {
-		text-align: center;
-		margin-bottom: 20px;
-	}
-
-	.project-image img {
-		max-width: 100%;
-		height: auto;
-		border: 1px solid #000000;
-	}
-
-	.project-details h3 {
-		font-size: 1.5rem;
-		color: #000000;
-		margin-bottom: 10px;
-	}
-
-	.project-description {
-		font-size: 1rem;
-		color: #636e72;
-		margin-bottom: 15px;
-		line-height: 1.6;
-	}
-
-	.project-body {
-		font-size: 0.9rem;
-		line-height: 1.7;
-		color: #2d3436;
-		margin-bottom: 20px;
-		white-space: pre-line;
-	}
-
-	.project-actions {
-		text-align: center;
-		padding-top: 20px;
-		border-top: 1px solid #000000;
-	}
-
-	.view-post-btn {
-		display: inline-block;
-		background: #000000;
-		color: #ffffff;
-		text-decoration: none;
-		padding: 10px 20px;
-		font-family: Arial, sans-serif;
-		font-size: 0.9rem;
-		border: 1px solid #000000;
-		transition: all 0.3s ease;
-	}
-
-	.view-post-btn:hover {
-		opacity: 0.8;
-	}
-
 
 
 
@@ -1536,7 +1408,7 @@
 
 	/* Modal Styles */
 	.modal-overlay {
-		position: absolute;
+		position: fixed;
 		top: 0;
 		left: 0;
 		width: 100%;
@@ -1551,10 +1423,9 @@
 
 	.modal-content {
 		background: white;
-		width: 95%;
-		height: 95%;
-		max-width: 800px;
-		max-height: 90%;
+		width: 90%;
+		max-width: 600px;
+		max-height: 80vh;
 		overflow-y: auto;
 		position: relative;
 		border: 2px solid #000000;
