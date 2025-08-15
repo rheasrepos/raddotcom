@@ -1,0 +1,8 @@
+{
+  "id": 1734567890,
+  "title": "Test Admin Post",
+  "description": "Testing the admin page integration",
+  "content": "This is a test post created through the admin page to verify that the Git integration is working properly.",
+  "type": "writing",
+  "date": "2024-01-20"
+}
