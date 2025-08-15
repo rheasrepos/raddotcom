@@ -64,6 +64,12 @@
 		
 		// Only run in browser
 		if (typeof window !== 'undefined') {
+			// Load wallpaper color from localStorage
+			const savedColor = localStorage.getItem('wallpaperColor');
+			if (savedColor) {
+				wallpaperColor = savedColor;
+			}
+
 			// Load Git-based posts
 			try {
 				const gitPosts = await loadGitPosts();
@@ -689,37 +695,61 @@
 					<button 
 						class="color-btn {wallpaperColor === '#ff8c42' ? 'active' : ''}"
 						style="background: #ff8c42;"
-						on:click={() => wallpaperColor = '#ff8c42'}
+						on:click={() => {
+							wallpaperColor = '#ff8c42';
+							localStorage.setItem('wallpaperColor', '#ff8c42');
+							document.body.style.background = '#ff8c42';
+						}}
 						title="Orange"
 					></button>
 					<button 
 						class="color-btn {wallpaperColor === '#4ecdc4' ? 'active' : ''}"
 						style="background: #4ecdc4;"
-						on:click={() => wallpaperColor = '#4ecdc4'}
+						on:click={() => {
+							wallpaperColor = '#4ecdc4';
+							localStorage.setItem('wallpaperColor', '#4ecdc4');
+							document.body.style.background = '#4ecdc4';
+						}}
 						title="Teal"
 					></button>
 					<button 
 						class="color-btn {wallpaperColor === '#45b7d1' ? 'active' : ''}"
 						style="background: #45b7d1;"
-						on:click={() => wallpaperColor = '#45b7d1'}
+						on:click={() => {
+							wallpaperColor = '#45b7d1';
+							localStorage.setItem('wallpaperColor', '#45b7d1');
+							document.body.style.background = '#45b7d1';
+						}}
 						title="Blue"
 					></button>
 					<button 
 						class="color-btn {wallpaperColor === '#96ceb4' ? 'active' : ''}"
 						style="background: #96ceb4;"
-						on:click={() => wallpaperColor = '#96ceb4'}
+						on:click={() => {
+							wallpaperColor = '#96ceb4';
+							localStorage.setItem('wallpaperColor', '#96ceb4');
+							document.body.style.background = '#96ceb4';
+						}}
 						title="Green"
 					></button>
 					<button 
 						class="color-btn {wallpaperColor === '#feca57' ? 'active' : ''}"
 						style="background: #feca57;"
-						on:click={() => wallpaperColor = '#feca57'}
+						on:click={() => {
+							wallpaperColor = '#feca57';
+							localStorage.setItem('wallpaperColor', '#feca57');
+							document.body.style.background = '#feca57';
+						}}
 						title="Yellow"
 					></button>
 					<button 
 						class="color-btn {wallpaperColor === '#9b59b6' ? 'active' : ''}"
 						style="background: #9b59b6;"
-						on:click={() => wallpaperColor = '#9b59b6'}
+						on:click={() => {
+							wallpaperColor = '#9b59b6';
+							localStorage.setItem('wallpaperColor', '#9b59b6');
+							document.body.style.background = '#9b59b6';
+						}}
 						title="Purple"
 					></button>
 				</div>

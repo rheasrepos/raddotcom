@@ -1,6 +1,19 @@
 <script>
 	import '../app.css';
 	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
+
+	let wallpaperColor = '#ff8c42'; // Default orange
+
+	onMount(() => {
+		// Load wallpaper color from localStorage
+		if (typeof window !== 'undefined') {
+			const savedColor = localStorage.getItem('wallpaperColor');
+			if (savedColor) {
+				wallpaperColor = savedColor;
+			}
+		}
+	});
 </script>
 
 <svelte:head>
@@ -21,7 +34,7 @@
 		margin: 0;
 		padding: 0;
 		font-family: Arial, sans-serif;
-		background: #ff8c42;
+		background: {wallpaperColor};
 		min-height: 100vh;
 		position: relative;
 		overflow-x: hidden;
