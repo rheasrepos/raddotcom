@@ -3,6 +3,8 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import DesktopNavigation from './DesktopNavigation.svelte';
+	import PageTransitionOverlay from './PageTransitionOverlay.svelte';
+	import { transitionActions } from '../lib/pageTransition.js';
 
 	// Props
 	export let title = '';
@@ -38,21 +40,34 @@
 		};
 	});
 
-	function handleNavigation(path) {
+	async function handleNavigation(path) {
 		// Don't navigate if already on the target page
 		if (path === $page.url.pathname) {
 			return;
 		}
 		
+		// Start transition immediately to show overlay
+		transitionActions.startTransition($page.url.pathname, path);
+		
 		if (path === '/') {
 			// If navigating to homepage, use contraction animation
 			isContracting = true;
-			setTimeout(() => {
-				goto(path);
+			setTimeout(async () => {
+				await goto(path);
+				// Complete transition after navigation
+				setTimeout(() => {
+					transitionActions.completeTransition();
+				}, 100);
 			}, 300);
 		} else {
-			// For other pages, navigate immediately without animation
-			goto(path);
+			// For other pages, wait for frame animation to complete
+			setTimeout(async () => {
+				await goto(path);
+				// Complete transition after navigation
+				setTimeout(() => {
+					transitionActions.completeTransition();
+				}, 100);
+			}, 300); // Wait for frame animation to complete
 		}
 	}
 
@@ -69,9 +84,7 @@
 	}
 </script>
 
-<svelte:head>
-	<title>{title}</title>
-</svelte:head>
+
 
 <div class="laptop-frame" class:navigating={isNavigating} class:contracting={isContracting}>
 	<div class="laptop-screen" style="background: {wallpaperColor};">
@@ -185,6 +198,9 @@
 				</a>
 			</div>
 		</div>
+		
+		<!-- Loading Overlay for Frame Content -->
+		<PageTransitionOverlay />
 	</div>
 </div>
 

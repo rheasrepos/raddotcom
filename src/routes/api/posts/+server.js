@@ -26,12 +26,18 @@ export async function POST({ request }) {
 		// Write the post data to a JSON file
 		await fs.writeFile(filePath, JSON.stringify(postData, null, 2));
 		
-		// Add the file to Git
-		await execAsync(`git add "${filePath}"`);
-		
-		// Commit the file with a descriptive message
-		const commitMessage = `Add post: ${postData.title}`;
-		await execAsync(`git commit -m "${commitMessage}"`);
+		// Try to add and commit to Git, but don't fail if Git is not available
+		try {
+			// Add the file to Git
+			await execAsync(`git add "${filePath}"`);
+			
+			// Commit the file with a descriptive message
+			const commitMessage = `Add post: ${postData.title}`;
+			await execAsync(`git commit -m "${commitMessage}"`);
+		} catch (gitError) {
+			console.warn('Git operations failed, but post was saved:', gitError.message);
+			// Continue without Git - the post is still saved to the file system
+		}
 		
 		return json({ 
 			success: true, 
@@ -75,7 +81,8 @@ export async function GET() {
 			if (error.code === 'ENOENT') {
 				return json({ posts: [] });
 			}
-			throw error;
+			console.warn('Error reading posts directory:', error.message);
+			return json({ posts: [] });
 		}
 		
 	} catch (error) {

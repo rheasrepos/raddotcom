@@ -2,8 +2,10 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { transitionActions } from '../lib/pageTransition.js';
 	import ProjectPane from '../components/ProjectPane.svelte';
 	import Navigation from '../components/Navigation.svelte';
+	import PageTransitionOverlay from '../components/PageTransitionOverlay.svelte';
 	import DesktopNavigation from '../components/DesktopNavigation.svelte';
 	import FilterTabs from '../components/FilterTabs.svelte';
 	import { loadPosts, loadGitPosts, getProjectColor, formatDate } from '$lib/posts.js';
@@ -62,6 +64,8 @@
 	let dragStart = { x: 0, y: 0 };
 	let panOffset = { x: 0, y: 0 };
 	let currentTime = new Date().toLocaleTimeString();
+	
+
 
 	// Load Git posts and update time on mount
 	onMount(async () => {
@@ -69,23 +73,14 @@
 		
 		// Only run in browser
 		if (typeof window !== 'undefined') {
-			// Check if coming from another page (not a direct load)
-			const referrer = document.referrer;
-			const currentDomain = window.location.origin;
-			if (referrer && referrer.startsWith(currentDomain) && referrer !== window.location.href) {
-				// We're coming from another page on the same site
-				isContracting = true;
-				// Reset after animation
-				setTimeout(() => {
-					isContracting = false;
-				}, 300);
-			}
 
 			// Load wallpaper color from localStorage
 			const savedColor = localStorage.getItem('wallpaperColor');
 			if (savedColor) {
 				wallpaperColor = savedColor;
 			}
+			
+
 
 			// Load Git-based posts
 			try {
@@ -159,17 +154,25 @@
 		}
 	}
 
-	function handleNavigation(path) {
+	async function handleNavigation(path) {
 		// Don't navigate if already on the target page
 		if (path === $page.url.pathname) {
 			return;
 		}
 		
+		// Start transition immediately to show overlay during frame animation
+		transitionActions.startTransition($page.url.pathname, path);
+		
 		isNavigating = true;
-		// Add a small delay to allow the animation to start
-		setTimeout(() => {
-			goto(path);
-		}, 300);
+		// Navigate after frame animation completes
+		setTimeout(async () => {
+			await goto(path);
+			isNavigating = false;
+			// Complete transition after navigation
+			setTimeout(() => {
+				transitionActions.completeTransition();
+			}, 100);
+		}, 300); // Wait for frame animation to complete
 	}
 
 	function closeSearch() {
@@ -346,6 +349,8 @@
 
 
 
+
+
 	$: projectsWithDates = (projects || [])
 		.filter(project => {
 			// First apply search filter if there's a search query
@@ -388,9 +393,7 @@
 	$: console.log('Reactive update - currentMonth:', currentMonth, 'currentYear:', currentYear, 'projectsWithDates length:', projectsWithDates.length);
 </script>
 
-<svelte:head>
-	<title>rhea web</title>
-</svelte:head>
+
 
 <div class="laptop-frame" class:navigating={isNavigating} class:contracting={isContracting}>
 	<div class="laptop-screen" style="background: {wallpaperColor};">
@@ -820,6 +823,9 @@
 				</a>
 			</div>
 		</div>
+		
+		<!-- Loading Overlay for Desktop Content -->
+		<PageTransitionOverlay />
 	</div>
 	
 	<!-- Desktop Stand (moved outside laptop screen) -->
@@ -1521,82 +1527,11 @@
 		opacity: 0.8;
 	}
 
-	.list-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 20px;
-		padding-bottom: 20px;
-		border-bottom: 2px solid #000000;
-	}
 
-	.filter-tabs {
-		display: flex;
-		justify-content: center;
-		gap: 1rem;
-		margin-bottom: 20px;
-		flex-wrap: wrap;
-		border: 1px solid #000000;
-		padding: 1rem;
-		background: rgba(255, 255, 255, 0.9);
-	}
 
-	.filter-tab {
-		padding: 0.75rem 1.5rem;
-		border: 1px solid #000000;
-		background: transparent;
-		color: #000000;
-		cursor: pointer;
-		font-family: Arial, sans-serif;
-		font-size: 1rem;
-		transition: all 0.3s ease;
-	}
 
-	.filter-tab:hover {
-		background: rgba(0, 0, 0, 0.1);
-	}
 
-	.filter-tab.active {
-		background: var(--tab-color);
-		color: #ffffff;
-	}
 
-	.list-title {
-		font-size: 2rem;
-		font-weight: bold;
-		color: #000000;
-		margin: 0;
-	}
-
-	.list-nav {
-		display: flex;
-		align-items: center;
-		gap: 20px;
-	}
-
-	.list-nav-btn {
-		background: #000000;
-		color: white;
-		border: none;
-		padding: 8px 12px;
-		cursor: pointer;
-		font-size: 1.2rem;
-		font-weight: bold;
-		transition: opacity 0.3s ease;
-	}
-
-	.list-nav-btn:hover {
-		opacity: 0.8;
-	}
-
-	.list-nav-btn:disabled {
-		opacity: 0.3;
-		cursor: not-allowed;
-	}
-
-	.list-nav-btn:disabled:hover {
-		opacity: 0.3;
-	}
 
 	.expandable-list {
 		display: flex;
@@ -1604,122 +1539,7 @@
 		gap: 5px;
 	}
 
-	.list-item {
-		border: 1px solid #000000;
-		background: rgba(255, 255, 255, 0.8);
-		transition: all 0.3s ease;
-	}
 
-	.list-item:hover {
-		background: rgba(255, 255, 255, 1);
-	}
-
-	.list-item-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 15px 20px;
-		cursor: pointer;
-		transition: all 0.3s ease;
-	}
-
-	.list-item-header:hover {
-		background: rgba(0, 0, 0, 0.05);
-	}
-
-	.item-info {
-		display: flex;
-		align-items: center;
-		gap: 20px;
-		flex: 1;
-	}
-
-	.item-date {
-		font-size: 0.9rem;
-		color: #636e72;
-		min-width: 80px;
-	}
-
-	.item-title {
-		font-size: 1.1rem;
-		font-weight: bold;
-		color: #000000;
-		flex: 1;
-	}
-
-	.item-type {
-		font-size: 0.8rem;
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
-		min-width: 100px;
-		text-align: right;
-	}
-
-	.expand-icon {
-		font-size: 1rem;
-		color: #000000;
-		transition: transform 0.3s ease;
-		margin-left: 15px;
-	}
-
-	.expand-icon.expanded {
-		transform: rotate(90deg);
-	}
-
-	.list-item-content {
-		border-top: 1px solid #000000;
-		padding: 20px;
-		background: rgba(255, 255, 255, 0.9);
-		display: grid;
-		grid-template-columns: 300px 1fr;
-		gap: 30px;
-		align-items: start;
-	}
-
-	.content-image {
-		width: 100%;
-		height: 200px;
-		overflow: hidden;
-	}
-
-	.content-image img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
-	.content-details {
-		display: flex;
-		flex-direction: column;
-		gap: 15px;
-	}
-
-	.content-title {
-		font-size: 1.5rem;
-		font-weight: bold;
-		color: #000000;
-		margin: 0;
-	}
-
-	.content-description {
-		font-size: 1rem;
-		color: #636e72;
-		line-height: 1.6;
-		margin: 0;
-	}
-
-	.content-body {
-		font-size: 1rem;
-		color: #2d3436;
-		line-height: 1.8;
-	}
-
-	.content-actions {
-		margin-top: 20px;
-		padding-top: 20px;
-		border-top: 1px solid #000000;
-	}
 
 	.view-post-btn {
 		display: inline-block;
@@ -1737,16 +1557,7 @@
 		opacity: 0.8;
 	}
 
-	.no-projects {
-		text-align: center;
-		padding: 60px 20px;
-		color: #636e72;
-	}
 
-	.no-projects h3 {
-		font-size: 1.5rem;
-		margin-bottom: 10px;
-	}
 
 	/* Modal Styles */
 	.modal-overlay {
@@ -2028,6 +1839,8 @@
 		border-color: white;
 		box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 	}
+
+
 
 
 </style> 

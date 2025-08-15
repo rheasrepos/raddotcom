@@ -1,5 +1,6 @@
 <script>
 	import '../app.css';
+	import PageTransitionOverlay from '$components/PageTransitionOverlay.svelte';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
@@ -22,7 +23,7 @@
 </script>
 
 <svelte:head>
-	<title>Your Name - Personal Website</title>
+	<title>rhea web</title>
 	<meta name="description" content="A fun and eclectic personal website showcasing rad stuff, writing, music, comedy, and art" />
 </svelte:head>
 

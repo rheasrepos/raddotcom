@@ -1,10 +1,10 @@
 // Centralized category configuration
 export const categoryConfig = {
-	writing: { id: 'writing', label: 'Notes App', color: '#4ecdc4' },
-	programming: { id: 'programming', label: 'Programming', color: '#45b7d1' },
-	music: { id: 'music', label: 'Music', color: '#96ceb4' },
-	comedy: { id: 'comedy', label: 'Comedy', color: '#feca57' },
-	art: { id: 'art', label: 'Art', color: '#9b59b6' }
+	writing: { id: 'writing', label: 'Notes App', color: 'var(--color-writing)' },
+	programming: { id: 'programming', label: 'Programming', color: 'var(--color-programming)' },
+	music: { id: 'music', label: 'Music', color: 'var(--color-music)' },
+	comedy: { id: 'comedy', label: 'Comedy', color: 'var(--color-comedy)' },
+	art: { id: 'art', label: 'Art', color: 'var(--color-art)' }
 };
 
 // Helper function to get category display name

@@ -1,11 +1,27 @@
 import { writable } from 'svelte/store';
-import { loadPosts } from './posts.js';
+import { loadPosts, loadGitPosts } from './posts.js';
 
 // Initialize the store with empty array for SSR
-const initialPosts = typeof window !== 'undefined' ? loadPosts() : [];
+const initialPosts = [];
 
 // Create a writable store for posts
 export const posts = writable(initialPosts);
+
+// Initialize posts on client side only
+if (typeof window !== 'undefined') {
+	// Load hardcoded posts immediately for SSR compatibility
+	posts.set(loadPosts());
+	
+	// Then try to load Git posts in the background
+	loadGitPosts().then(gitPosts => {
+		if (gitPosts && gitPosts.length > 0) {
+			posts.set(gitPosts);
+		}
+	}).catch(() => {
+		// Keep hardcoded posts if Git fails
+		console.warn('Could not load Git posts, using hardcoded posts');
+	});
+}
 
 // Actions for managing posts
 export const postsActions = {
@@ -44,5 +60,19 @@ export const postsActions = {
 			foundPost = currentPosts.find(post => post.id === postId);
 		})();
 		return foundPost;
+	},
+
+	// Refresh posts from Git
+	refreshFromGit: async () => {
+		try {
+			const gitPosts = await loadGitPosts();
+			if (gitPosts && gitPosts.length > 0) {
+				posts.set(gitPosts);
+				return true;
+			}
+		} catch (error) {
+			console.warn('Could not refresh posts from Git:', error);
+		}
+		return false;
 	}
 }; 

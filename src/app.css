@@ -1,3 +1,54 @@
+/* CSS Variables - Change colors here! */
+:root {
+  /* Colors */
+  --color-primary: #ff8c42;
+  --color-secondary: #333333;
+  --color-accent: #4ecdc4;
+  --color-text: #000000;
+  --color-text-light: #ffffff;
+  --color-text-muted: #666666;
+  --color-background: #ffffff;
+  --color-background-light: #f9f9f9;
+  --color-success: #2ecc71;
+  --color-error: #e74c3c;
+  --color-warning: #f39c12;
+  
+  /* Category colors */
+  --color-writing: #4ecdc4;
+  --color-programming: #45b7d1;
+  --color-music: #96ceb4;
+  --color-comedy: #feca57;
+  --color-art: #9b59b6;
+  
+  /* Typography */
+  --font-family: Arial, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.9rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.1rem;
+  --font-size-xl: 1.5rem;
+  --font-size-xxl: 2.5rem;
+  
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 2.5rem;
+  --spacing-xxl: 3rem;
+  
+  /* Borders */
+  --border-width: 2px;
+  --border-style: solid;
+  --border-color: #333333;
+  --border-radius: 0;
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
 /* Global styles */
 * {
 	margin: 0;
@@ -10,9 +61,9 @@ html {
 }
 
 body {
-	font-family: Arial, sans-serif;
+	font-family: var(--font-family);
 	line-height: 1.6;
-	color: #2d3436;
+	color: var(--color-text);
 }
 
 /* Utility classes */
@@ -24,29 +75,30 @@ body {
 
 .btn {
 	display: inline-block;
-	padding: 12px 24px;
-	background: #000000;
-	color: white;
+	padding: var(--spacing-sm) var(--spacing-md);
+	background: var(--color-secondary);
+	color: var(--color-text-light);
 	text-decoration: none;
-	border: none;
+	border: var(--border-width) var(--border-style) var(--border-color);
 	cursor: pointer;
 	font-weight: bold;
-	transition: all 0.3s ease;
+	transition: all var(--transition-normal);
 }
 
 .btn:hover {
-	opacity: 0.8;
+	background: var(--color-background);
+	color: var(--color-text);
 }
 
 .card {
-	background: rgba(255, 255, 255, 0.9);
-	padding: 20px;
-	border: 1px solid #000000;
-	transition: all 0.3s ease;
+	background: var(--color-background);
+	padding: var(--spacing-md);
+	border: var(--border-width) var(--border-style) var(--border-color);
+	transition: all var(--transition-normal);
 }
 
 .card:hover {
-	background: rgba(255, 255, 255, 1);
+	background: var(--color-background-light);
 }
 
 /* Animations */

@@ -1,8 +1,9 @@
 <script>
 	import { page } from '$app/stores';
-	import Navigation from '$components/Navigation.svelte';
+	import PageLayout from '$components/PageLayout.svelte';
 	import { posts } from '$lib/postsStore.js';
-	import { getProjectColor, formatDate } from '$lib/posts.js';
+	import { getProjectColor, formatDate, loadPosts } from '$lib/posts.js';
+	import { onMount } from 'svelte';
 
 	// Get the post ID from the props
 	export let data;
@@ -12,8 +13,26 @@
 	$: allPosts = $posts;
 	$: post = allPosts ? allPosts.find(p => p.id === postId) : null;
 	
+	// Fallback posts if store is empty
+	let fallbackPosts = [];
+	let fallbackPost = null;
+	
+	onMount(() => {
+		// Always load fallback posts to ensure we have data
+		fallbackPosts = loadPosts();
+		fallbackPost = fallbackPosts.find(p => p.id === postId);
+		console.log('Using fallback posts:', fallbackPosts.length, 'Found post:', fallbackPost);
+	});
+	
+	// Use fallback if store is empty
+	$: finalPosts = allPosts && allPosts.length > 0 ? allPosts : fallbackPosts;
+	$: finalPost = post || fallbackPost;
+	
 	// Debug logging
-	$: console.log('Post ID:', postId, 'All Posts:', allPosts, 'Found Post:', post);
+	$: console.log('Post ID:', postId, 'Type:', typeof postId, 'All Posts:', finalPosts, 'Found Post:', finalPost);
+	$: if (finalPosts) {
+		console.log('Available post IDs:', finalPosts.map(p => ({ id: p.id, title: p.title })));
+	}
 
 	// Handle back navigation
 	function goBack() {
@@ -21,45 +40,40 @@
 	}
 </script>
 
-<svelte:head>
-	<title>{post ? post.title : 'Post Not Found'} - Personal Portfolio</title>
-	<meta name="description" content={post ? post.description : 'Post not found'} />
-</svelte:head>
 
-<div class="post-page">
-	<Navigation />
-	
+
+<PageLayout title="Post Details">
 	<div class="container">
-		{#if allPosts && post}
+		{#if finalPosts && finalPost}
 			<!-- Back Button -->
 			<button class="back-btn" on:click={goBack}>← Back</button>
 			
 			<!-- Single Post in Expandable List Format -->
 			<div class="expandable-list-container">
 				<div class="list-header">
-					<h2 class="list-title">{post.title}</h2>
+					<h2 class="list-title">{finalPost.title}</h2>
 				</div>
 				
 				<div class="expandable-list">
 					<div class="list-item">
 						<div class="list-item-header">
 							<div class="item-info">
-								<span class="item-date">{formatDate(post.date)}</span>
-								<span class="item-title">{post.title}</span>
-								<span class="item-type" style="color: {getProjectColor(post.type)}">{post.type}</span>
+								<span class="item-date">{formatDate(finalPost.date)}</span>
+								<span class="item-title">{finalPost.title}</span>
+								<span class="item-type" style="color: {getProjectColor(finalPost.type)}">{finalPost.type}</span>
 							</div>
 							<div class="expand-icon expanded">▶</div>
 						</div>
 						
 						<div class="list-item-content">
 							<div class="content-image">
-								<img src={post.image} alt={post.title} />
+								<img src={finalPost.image} alt={finalPost.title} />
 							</div>
 							<div class="content-details">
-								<h3 class="content-title">{post.title}</h3>
-								<p class="content-description">{post.description}</p>
+								<h3 class="content-title">{finalPost.title}</h3>
+								<p class="content-description">{finalPost.description}</p>
 								<div class="content-body">
-									{post.content}
+									{finalPost.content}
 								</div>
 							</div>
 						</div>
@@ -74,7 +88,7 @@
 					<a href="/" class="nav-link">← Home</a>
 				</div>
 			</nav>
-		{:else if allPosts}
+		{:else if finalPosts}
 			<!-- Post Not Found -->
 			<div class="not-found">
 				<h1>Post Not Found</h1>
@@ -92,14 +106,9 @@
 			</div>
 		{/if}
 	</div>
-</div>
+</PageLayout>
 
 <style>
-	.post-page {
-		min-height: 100vh;
-		padding: 2rem 0;
-	}
-
 	.back-btn {
 		background: #000000;
 		color: #ffffff;
