@@ -4,13 +4,13 @@
 	// Sample resume data - easy to customize
 	let resumeData = {
 		name: "Rhea Madhogarhia",
-		title: "Creative Developer & Content Creator",
-		email: "rhea@example.com",
-		phone: "+1 (555) 123-4567",
-		location: "San Francisco, CA",
-		website: "rad.com",
+		title: "Computer Science & Cognitive Science",
+		email: "uni: rheamad@uchicago.edu | personal: rhea0866@gmail.com",
+		phone: "+1 (818) 624-0626",
+		location: "home: los angeles, ca | uni: chicago, il",
+		website: "rheamad.vercel.app",
 		
-		summary: "Passionate developer with 5+ years of experience creating engaging digital experiences. Skilled in full-stack development, UI/UX design, and content creation. Love combining technical skills with creative storytelling.",
+		summary: "addd somet stuff. ",
 		
 		skills: {
 			technical: [
