@@ -166,7 +166,7 @@
 
      <!-- Resume Download -->
      <section class="download-section">
-        <a href="/src/Rhea_Madhogarhia_Resume_2026.pdf" class="download-btn" target="_blank">Download Full Resume</a>
+        <a href="/Rhea_Madhogarhia_Resume_2026.pdf" class="download-btn" target="_blank">Download Full Resume</a>
       </section>
   
     <!-- Skills -->
