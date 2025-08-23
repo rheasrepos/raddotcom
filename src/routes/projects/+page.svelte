@@ -54,7 +54,7 @@
 	<section class="header-section">
 		<div class="header-content">
 			<h1 class="page-title">All Projects</h1>
-			<p class="page-description">Explore my creative work across different categories</p>
+			<p class="page-description">my work, hobbies, crafts, projects, conversations, and notes</p>
 		</div>
 	</section>
 
