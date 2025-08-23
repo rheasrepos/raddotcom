@@ -3,12 +3,12 @@
   
     // About / Bio
     const aboutText = `
-    I’m a fourth year student pursuing a B.S. in Computer Science and a B.A. in Cognitive Science at the University of Chicago, graduating 2026. 
-    I am seeking a full-time position in software engineering, machine learning engineering, or computational cognitive neuro research. 
-    I am an eager learner with a passion for research and interdisciplinary application of my education into industry settings. 
-    My Cognitive Science background allows me to inform responsible development practices, focus on robust design docs, and integrate ethical, human-centered thinking into technical projects. 
-    I keep the big picture in focus and advocate for dialogue and responsible decision-making in collaborative work.
-    `;
+  I’m a fourth year student pursuing a B.S. in Computer Science and a B.A. in Cognitive Science at the University of Chicago, graduating 2026. 
+  I am seeking a full-time position in software engineering, machine learning engineering, or computational cognitive neuro research. 
+  I am an eager learner with a passion for research and interdisciplinary application of my education into industry settings. 
+  My Cognitive Science background allows me to inform responsible development practices, focus on robust design docs, and integrate ethical, human-centered thinking into technical projects. 
+  I keep the big picture in focus and advocate for dialogue and responsible decision-making in collaborative work.
+  `;
   
     const skills = {
       languages: ["Java", "Python", "Bash", "Batch", "JSON", "HTML", "CSS", "JavaScript", "Go", "C", "SQL"],
@@ -116,23 +116,34 @@
         ],
         tech: ["JavaScript", "HTML", "CSS"]
       },
+      // NLP Class Project
       {
-        name: "Analyzing the Linguistic Differences Between Spoken and Written Text Using BERT",
-        type: "Research",
-        period: "CS257 NLP Class Project",
+        name: "Analyzing Linguistic Differences Between Spoken and Written Text Using BERT",
+        type: "Technical Project",
+        period: "CS 257 Final Project",
         description: [
-          "Analyzed structural, lexical, and syntactic differences between spoken and written language.",
-          "Fine-tuned BERT and a baseline linear regression classifier to distinguish spoken from written text.",
-          "Achieved 98% accuracy with BERT and 93% with baseline, highlighting the effectiveness of context-dependent models.",
-          "Used SHAP interpretability analysis and POS tagging to identify key linguistic features.",
-          "Performed misclassification analysis, revealing effects of formality and domain-specific text on predictions."
+          "Classified text as spoken or written using BERT and baseline linear regression, achieving 98% accuracy with BERT.",
+          "Performed interpretability analysis with SHAP and POS tagging to identify key linguistic features.",
+          "Analyzed misclassifications to explore the influence of formality and domain on classification."
         ],
-        tech: ["Python", "BERT", "SHAP", "NLP", "POS tagging"],
+        tech: ["Python", "BERT", "SHAP", "NLP"],
         links: [
           { label: "Kaggle Notebook", url: "https://www.kaggle.com/code/spuli2002/nlpfin/notebook" },
-          { label: "Code Branch", url: "https://github.com/rheasrepos/nlpfinal/tree/final_presentation" },
-          { label: "Class Wiki Post", url: "https://github.com/minalee-research/cs257-students/wiki/Analyzing-the-Linguistic-Differences-Between-Spoken-and-Written-Text-Using-BERT#analyzing-the-linguistic-differences-between-spoken-and-written-text-using-bert" }
+          { label: "GitHub Code", url: "https://github.com/rheasrepos/nlpfinal/tree/final_presentation" },
+          { label: "Class Wiki", url: "https://github.com/minalee-research/cs257-students/wiki/Analyzing-the-Linguistic-Differences-Between-Spoken-and-Written-Text-Using-BERT#analyzing-the-linguistic-differences-between-spoken-and-written-text-using-bert" }
         ]
+      },
+      // This Website as Technical Project
+      {
+        name: "Personal Portfolio Website",
+        type: "Technical Project",
+        period: "2025",
+        description: [
+          "Developed personal portfolio website using Svelte, HTML, CSS, and JS.",
+          "Implemented dynamic project filtering and responsive grid layout."
+        ],
+        tech: ["Svelte", "JavaScript", "HTML", "CSS"],
+        links: [{ label: "Live Site", url: "/" }]
       }
     ];
   
@@ -225,7 +236,7 @@
   
     <!-- Resume Download -->
     <section class="download-section">
-      <a href="/Rhea_Madhogarhia_Resume.pdf" class="download-btn" target="_blank">Download Full Resume</a>
+      <a href="/src/Rhea_Madhogarhia_Resume_2026.pdf" class="download-btn" target="_blank">Download Full Resume</a>
     </section>
   </PageLayout>
   
@@ -257,4 +268,3 @@
     .download-btn:hover { background: #fff; color: #000; }
     .period { font-size: 0.9rem; color: #666; }
   </style>
-  
