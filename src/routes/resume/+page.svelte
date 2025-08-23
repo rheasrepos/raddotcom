@@ -163,12 +163,11 @@
       <p>Computer Science & Cognitive Science @ The University of Chicago</p>
       <p>Email: rheamad@uchicago.edu | Phone: +1 (818) 624-0626</p>
     </section>
-  
-    <!-- About -->
-    <section class="about-section">
-      <h2>About Me</h2>
-      <p>{aboutText}</p>
-    </section>
+
+     <!-- Resume Download -->
+     <section class="download-section">
+        <a href="/src/Rhea_Madhogarhia_Resume_2026.pdf" class="download-btn" target="_blank">Download Full Resume</a>
+      </section>
   
     <!-- Skills -->
     <section class="skills-section">
@@ -234,10 +233,7 @@
       </div>
     </section>
   
-    <!-- Resume Download -->
-    <section class="download-section">
-      <a href="/src/Rhea_Madhogarhia_Resume_2026.pdf" class="download-btn" target="_blank">Download Full Resume</a>
-    </section>
+   
   </PageLayout>
   
   <style>
