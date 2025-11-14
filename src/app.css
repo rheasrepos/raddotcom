@@ -21,7 +21,10 @@
   --color-research: #3498db; /* Added new research color */
   
   /* Typography */
-  --font-family: Arial, sans-serif;
+  /* FIX: This is the line I changed. 
+    It tells everything to use 'Inter' first, then Arial as a backup.
+  */
+  --font-family: 'Inter', Arial, sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.9rem;
   --font-size-base: 1rem;
