@@ -1,9 +1,0 @@
-{
-  "id": 1703123456789,
-  "title": "Example Blog Post",
-  "description": "This is an example blog post to demonstrate the file structure for adding new posts to your website.",
-  "type": "writing",
-  "date": "2024-01-15",
-  "image": "https://picsum.photos/300/200?random=999",
-  "content": "This is an example blog post that demonstrates how to add new content to your website. When you use the admin panel to create a new post, it will generate a JSON file like this one that you can save in the src/data/posts/ directory.\n\nTo add this post to your website:\n\n1. Copy the JSON content from the admin panel\n2. Create a new file in src/data/posts/ with the filename: {timestamp}.json\n3. Paste the JSON content into the file\n4. Import and add the post to your projects array in the main pages\n\nThis system allows you to easily add new content without needing a database, making it perfect for a simple personal website."
-} 

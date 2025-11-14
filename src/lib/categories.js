@@ -1,10 +1,10 @@
 // Centralized category configuration
 export const categoryConfig = {
-	writing: { id: 'writing', label: 'Notes App', color: 'var(--color-writing)' },
-	programming: { id: 'programming', label: 'Programming', color: 'var(--color-programming)' },
+	writing: { id: 'writing', label: 'Notes & Writing', color: 'var(--color-writing)' },
+	programming: { id: 'programming', label: 'Tech & Industry', color: 'var(--color-programming)' },
+	research: { id: 'research', label: 'Research', color: 'var(--color-research)' },
 	music: { id: 'music', label: 'Music', color: 'var(--color-music)' },
-	comedy: { id: 'comedy', label: 'Comedy', color: 'var(--color-comedy)' },
-	art: { id: 'art', label: 'Art', color: 'var(--color-art)' }
+	comedy: { id: 'comedy', label: 'Comedy', color: 'var(--color-comedy)' }
 };
 
 // Helper function to get category display name
@@ -25,4 +25,4 @@ export function getCategoryIds() {
 // Get all category objects for dropdowns/selects
 export function getCategoryOptions() {
 	return Object.values(categoryConfig);
-} 
+}

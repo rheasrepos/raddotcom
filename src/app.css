@@ -18,7 +18,7 @@
   --color-programming: #45b7d1;
   --color-music: #96ceb4;
   --color-comedy: #feca57;
-  --color-art: #9b59b6;
+  --color-research: #3498db; /* Added new research color */
   
   /* Typography */
   --font-family: Arial, sans-serif;
@@ -128,4 +128,4 @@ body {
 
 .float {
 	animation: float 3s ease-in-out infinite;
-} 
+}

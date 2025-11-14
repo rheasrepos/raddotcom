@@ -14,11 +14,6 @@
     <!-- Hero Section -->
     <section class="hero-section">
       <div class="hero-content">
-        <div class="hero-image">
-          <div class="profile-placeholder">
-            <p>Your Photo Here</p>
-          </div>
-        </div>
         <div class="hero-text">
           <h1>Hello, I'm Rhea Madhogarhia</h1>
           <p>{aboutText}</p>
@@ -43,24 +38,7 @@
       gap: 60px;
       max-width: 1000px;
       flex-wrap: wrap;
-      text-align: center;
-    }
-  
-    .hero-image {
-      flex: 0 0 200px;
-    }
-  
-    .profile-placeholder {
-      width: 200px;
-      height: 200px;
-      background: #f0f0f0;
-      border: 2px solid #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #666;
-      font-size: 1rem;
-      border-radius: 50%;
+      text-align: left; /* Changed to left align */
     }
   
     .hero-text {
@@ -81,6 +59,7 @@
       .hero-content {
         flex-direction: column;
         gap: 30px;
+        text-align: center; /* Center on mobile */
       }
   
       .hero-text h1 {
@@ -92,4 +71,3 @@
       }
     }
   </style>
-  
