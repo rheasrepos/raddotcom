@@ -112,9 +112,6 @@
 						</div>
 						
 						<div class="list-item-content">
-							<div class="content-image">
-								<img src={post.image} alt={post.title} />
-							</div>
 							<div class="content-details">
 								<h3 class="content-title">{post.title}</h3>
 								<p class="content-description">{post.description}</p>
