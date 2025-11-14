@@ -223,13 +223,17 @@
 
 	.projects-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+		/* UPDATED: Made cards smaller */
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 		gap: 25px;
 	}
 
 	.project-card {
 		border-left: 4px solid;
 		transition: all 0.3s ease;
+		/* UPDATED: Use flex to make cards uniform height */
+		display: flex;
+		flex-direction: column;
 	}
 
 	.project-card:hover {
@@ -261,7 +265,8 @@
 	}
 
 	.project-title {
-		font-size: 1.4rem;
+		/* UPDATED: Made title smaller */
+		font-size: 1.25rem;
 		font-weight: bold;
 		color: #000000;
 		margin: 0;
@@ -269,10 +274,23 @@
 	}
 
 	.project-excerpt {
-		font-size: 1rem;
+		/* UPDATED: Made font smaller */
+		font-size: 0.9rem;
 		color: #333333;
-		line-height: 1.6;
+		line-height: 1.5;
 		margin-bottom: 20px;
+
+		/* UPDATED: Add truncation */
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3; /* Show 3 lines */
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-height: calc(1.5em * 3); /* line-height * 3 lines */
+		min-height: calc(1.5em * 3); /* Ensure it takes up the space */
+		
+		/* UPDATED: Let this section grow */
+		flex-grow: 1;
 	}
 
 	.project-actions {
