@@ -2,15 +2,17 @@
     import PageLayout from '../../components/PageLayout.svelte';
   
     // IMPORTANT: Make sure you have placed your CV PDF in the `static`
-    // folder of your SvelteKit project and named it `Rhea_Madhogarhia_CV_2026.pdf`
-    const resumePdfUrl = '/Users/rheamadhogarhia/Desktop/GitHub/raddotcom/static/Rhea_Madhogarhia_Resume_2026.pdf';
+    // folder of your SvelteKit project.
+    // FIX: Updated to use the exact filename with spaces.
+    const resumePdfUrl = '/Rhea Madhogarhia CV 2026.pdf';
   </script>
   
   <PageLayout title="Resume - Rhea Madhogarhia">
     <section class="resume-section">
       <div class="resume-header">
         <h1 class="page-title">Resume</h1>
-        <a href={resumePdfUrl} class="download-btn" download="Rhea_Madhogarhia_CV_2026.pdf">
+        <!-- FIX: Updated download attribute to match the exact filename -->
+        <a href={resumePdfUrl} class="download-btn" download="Rhea Madhogarhia CV 2026.pdf">
           Download PDF
         </a>
       </div>
@@ -24,7 +26,7 @@
         />
         <div class="fallback">
           <p>Your browser doesn't support embedded PDFs.</p>
-          <a href={resumePdfUrl} class="download-btn-fallback" download="Rhea_Madhogarhia_CV_2026.pdf">
+          <a href={resumePdfUrl} class="download-btn-fallback" download="Rhea Madhogarhia CV 2026.pdf">
             Click here to download the PDF
           </a>
         </div>
