@@ -17,7 +17,9 @@
 
 	let filteredProjects = [...(projects || [])];
 	let activeFilter = 'all';
+	
 	// Get all unique month/year combinations that have projects
+	// This will be reactively calculated *after* projects are loaded
 	$: availableMonths = (projects || [])
 		.map(project => {
 			const date = new Date(project.date);
@@ -32,14 +34,15 @@
 			return b.month - a.month;
 		});
 
-	// Initialize current month/year
+	// Initialize current month/year with today's date
 	let currentDate = new Date();
 	let currentMonth = currentDate.getMonth();
 	let currentYear = currentDate.getFullYear();
+	
 	let expandedProjects = [];
 	let selectedFilter = 'all';
 	let initialized = false;
-	let viewMode = 'all';
+	let viewMode = 'all'; // Default view mode
 	let selectedProject = null;
 	let modalScrollPosition = 0;
 	let folderOpening = false;
@@ -76,8 +79,19 @@
 
 			// Load posts from Git-based API
 			try {
-				projects = await loadPosts();
+				// This line triggers the reactive calculation of availableMonths
+				projects = await loadPosts(); 
 				console.log('Loaded projects:', projects.length);
+
+				// --- FIX: ---
+				// After posts are loaded, set the currentMonth/Year
+				// to the *newest available month* from the posts.
+				if (availableMonths.length > 0) {
+					currentMonth = availableMonths[0].month;
+					currentYear = availableMonths[0].year;
+				}
+				// --- END FIX ---
+
 			} catch (error) {
 				console.warn('Error loading posts:', error);
 				projects = [];
@@ -97,8 +111,9 @@
 		}
 	});
 
+	// Renamed "Rad Stuff" to "Posts"
 	$: projectTypes = [
-		{ id: 'all', label: 'All Rad Stuff', color: '#ff6b6b' },
+		{ id: 'all', label: 'All Posts', color: '#ff6b6b' },
 		...Object.values(categoryConfig)
 	];
 
@@ -348,14 +363,10 @@
 				}
 			}
 
-			if (viewMode === 'folders') {
-				const projectDate = new Date(project.date);
-				const monthMatch = projectDate.getMonth() === currentMonth && projectDate.getFullYear() === currentYear;
-				return monthMatch;
-			} else if (viewMode === 'categories') {
-				return selectedFilter === 'all' || project.type === selectedFilter;
-			} else {
-				// All projects view - show projects based on current context
+			// This logic was incorrect. It should only filter when inside a folder.
+			// The default view (viewMode === 'all' and breadcrumbPath.length === 1)
+			// should show all posts.
+			if (viewMode === 'all') {
 				if (breadcrumbPath.length > 1) {
 					// We're inside a folder, so filter accordingly
 					if (breadcrumbPath[1].includes('2024') || breadcrumbPath[1].includes('2025')) {
@@ -369,9 +380,28 @@
 					}
 				} else {
 					// We're at the root, show all projects
-					return true;
+					return true; 
 				}
 			}
+
+			// Filter for 'By Month' view (which shows folders)
+			// This logic seems to be incorrectly placed in the 'projectsWithDates' filter.
+			// The 'folders' view iterates over 'availableMonths', not 'projectsWithDates'.
+			// We'll rely on the viewMode = 'all' logic above.
+			if (viewMode === 'folders') {
+				// This block is technically not used by the 'folders' view template,
+				// but we'll correct it for robustness anyway.
+				const projectDate = new Date(project.date);
+				const monthMatch = projectDate.getMonth() === currentMonth && projectDate.getFullYear() === currentYear;
+				return monthMatch;
+			}
+			
+			// Filter for 'By Category' view
+			if (viewMode === 'categories') {
+				return selectedFilter === 'all' || project.type === selectedFilter;
+			}
+			
+			return true;
 		})
 		.sort((a, b) => new Date(a.date) - new Date(b.date));
 	
@@ -506,7 +536,8 @@
 					class="view-btn {viewMode === 'all' ? 'active' : ''}"
 					on:click={() => viewMode = 'all'}
 				>
-					All Rad Stuff
+					<!-- Renamed "Rad Stuff" to "Posts" -->
+					All Posts
 				</button>
 				<button 
 					class="view-btn {viewMode === 'folders' ? 'active' : ''}"
@@ -571,7 +602,7 @@
 			<div class="desktop-icons">
 				{#if viewMode === 'all'}
 					<!-- All rad stuff as individual icons -->
-					{#each projectsWithDates as project}
+					{#each projectsWithDates as project (project.id)}
 						<div 
 							class="desktop-icon project-icon"
 							on:click={() => toggleProject(project.id)}
@@ -724,7 +755,7 @@
 						on:click={() => {
 							wallpaperColor = '#feca57';
 							localStorage.setItem('wallpaperColor', '#feca57');
-							document.body.style.background = '#feca57';
+							document.body.style.background = '#feca5val';
 						}}
 						title="Yellow"
 					></button>
@@ -1061,7 +1092,12 @@
 
 	.homepage {
 		height: 100%;
-		padding: 110px 10px 10px 10px; /* Adjusted top padding for larger bezel */
+		/* FIX: 
+		  - Added box-sizing: border-box;
+		  - Set padding-bottom to 45px (35px bar + 10px space)
+		*/
+		box-sizing: border-box;
+		padding: 110px 10px 45px 10px; 
 		user-select: none;
 		overflow: auto; /* Always allow scrolling */
 		cursor: grab; /* Always show grab cursor */
@@ -1303,8 +1339,9 @@
 
 	.desktop-icons {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-		gap: 30px;
+		/* UPDATED: Made icons smaller and reduced gap */
+		grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+		gap: 25px;
 		padding: 20px;
 		max-width: 1200px;
 		margin: 0 auto;
@@ -1314,8 +1351,9 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 8px;
-		padding: 15px;
+		/* UPDATED: Reduced gap and padding */
+		gap: 5px;
+		padding: 10px;
 		border: 1px solid transparent;
 		cursor: pointer;
 		transition: all 0.3s ease;
@@ -1328,8 +1366,9 @@
 	}
 
 	.icon-image {
-		width: 60px;
-		height: 60px;
+		/* UPDATED: Made image smaller */
+		width: 50px;
+		height: 50px;
 		overflow: hidden;
 		border: 1px solid #000000;
 	}
@@ -1341,16 +1380,25 @@
 	}
 
 	.folder-icon-image {
-		font-size: 60px;
+		/* UPDATED: Made folder icon smaller */
+		font-size: 50px;
 		line-height: 1;
 	}
 
 	.icon-label {
-		font-size: 0.8rem;
+		/* UPDATED: Made font smaller and added truncation */
+		font-size: 0.75rem;
 		color: #000000;
 		font-weight: bold;
 		word-wrap: break-word;
 		max-width: 100px;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2; /* Show 2 lines */
+		overflow: hidden;
+		text-overflow: ellipsis;
+		height: calc(1.3em * 2); /* line-height * 2 lines */
+		line-height: 1.3;
 	}
 
 	.icon-type {
@@ -1363,15 +1411,6 @@
 		font-size: 0.7rem;
 		color: #636e72;
 	}
-
-
-
-
-
-
-
-
-
 
 
 	.view-post-btn {
@@ -1457,10 +1496,17 @@
 	}
 
 	.project-description {
-		font-size: 1.1rem;
+		/* UPDATED: Made font smaller and added truncation */
+		font-size: 1rem;
 		color: #2d3436;
 		margin-bottom: 20px;
-		line-height: 1.6;
+		line-height: 1.5;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3; /* Show 3 lines */
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-height: calc(1.5em * 3); /* line-height * 3 lines */
 	}
 
 	.project-content {
