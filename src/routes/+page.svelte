@@ -642,8 +642,8 @@
 			</div>
 
 			<!-- Desktop Icons -->
-	<div class="desktop-icons">
-		{#if viewMode === 'all'}
+			<div class="desktop-icons">
+				{#if viewMode === 'all'}
 					<!-- All rad stuff as individual icons -->
 					{#each projectsWithDates as project (project.id)}
 						<div 
@@ -654,12 +654,37 @@
 							role="button"
 							aria-label="Open {project.title}"
 						>
-							<div class="icon-image">
-								<img src={project.image} alt={project.title} />
+							<!-- UPDATED: Use custom SVG icons -->
+							<div class="icon-image" style="color: {getProjectColor(project.type)}">
+								{@html categoryIcons[project.type] || categoryIcons.default}
 							</div>
 							<div class="icon-label">{project.title}</div>
 							<div class="icon-type" style="color: {getProjectColor(project.type)}">{getCategoryLabel(project.type)}</div>
 						</div>
+					{/each}
+				<!-- FIX: RESTORED THIS BLOCK -->
+				{:else if viewMode === 'folders'}
+					<!-- Month folders -->
+					{#each availableMonths as monthYear}
+						<div 
+							class="desktop-icon folder-icon"
+							on:click={() => openMonthFolder(monthYear)}
+							on:keydown={(e) => e.key === 'Enter' && openMonthFolder(monthYear)}
+							tabindex="0"
+							role="button"
+							aria-label="Open {new Date(monthYear.year, monthYear.month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} folder"
+						>
+							<div class="folder-icon-image">📁</div>
+							<div class="icon-label">
+								{new Date(monthYear.year, monthYear.month).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+							</div>
+							<div class="folder-count">
+								{(projects || []).filter(p => {
+									const date = new Date(p.date);
+									return date.getMonth() === monthYear.month && date.getFullYear() === monthYear.year;
+								}).length} items
+							</div>
+						</div> 
 					{/each}
 				{:else if viewMode === 'categories'}
 					<!-- Category folders -->
@@ -1389,11 +1414,19 @@
 	}
 
 	.icon-image {
-		/* UPDATED: Made image smaller */
+		/* UPDATED: Made image smaller & removed border/overflow */
 		width: 50px;
 		height: 50px;
-		overflow: hidden;
-		border: 1px solid #000000;
+		display: flex; /* Center SVG */
+		align-items: center;
+		justify-content: center;
+	}
+
+	/* UPDATED: Added this style for SVGs in post icons */
+	.icon-image :global(svg) {
+		width: 100%;
+		height: 100%;
+		stroke-width: 1.5;
 	}
 
 	.icon-image img {
