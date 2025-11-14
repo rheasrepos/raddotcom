@@ -398,6 +398,8 @@
 			
 			// Filter for 'By Category' view
 			if (viewMode === 'categories') {
+				// This block is also not used by the 'categories' view template,
+				// but it's harmless to leave.
 				return selectedFilter === 'all' || project.type === selectedFilter;
 			}
 			
@@ -567,24 +569,7 @@
 								disabled={availableMonths.length <= 1}
 							>→</button>
 						</div>
-					{:else if viewMode === 'categories'}
-						<div class="category-filter">
-							<button 
-								class="cat-btn {selectedFilter === 'all' ? 'active' : ''}"
-								on:click={() => selectedFilter = 'all'}
-							>
-								All
-							</button>
-							<!-- Dynamically generate category buttons -->
-							{#each categories as category}
-								<button 
-									class="cat-btn {selectedFilter === category.id ? 'active' : ''}"
-									on:click={() => selectedFilter = category.id}
-								>
-									{category.label}
-								</button>
-							{/each}
-						</div>
+					<!-- REMOVED: {:else if viewMode === 'categories'} block -->
 					{/if}
 					
 									<!-- Zoom Controls -->
@@ -755,7 +740,7 @@
 						on:click={() => {
 							wallpaperColor = '#feca57';
 							localStorage.setItem('wallpaperColor', '#feca57');
-							document.body.style.background = '#feca5val';
+							document.body.style.background = '#feca57';
 						}}
 						title="Yellow"
 					></button>

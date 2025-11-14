@@ -224,7 +224,7 @@
 	.projects-grid {
 		display: grid;
 		/* UPDATED: Made cards smaller */
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 		gap: 25px;
 	}
 
@@ -283,11 +283,11 @@
 		/* UPDATED: Add truncation */
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 3; /* Show 3 lines */
+		-webkit-line-clamp: 2; /* Show 2 lines */
 		overflow: hidden;
 		text-overflow: ellipsis;
-		max-height: calc(1.5em * 3); /* line-height * 3 lines */
-		min-height: calc(1.5em * 3); /* Ensure it takes up the space */
+		max-height: calc(1.5em * 2); /* line-height * 3 lines */
+		min-height: calc(1.5em * 2); /* Ensure it takes up the space */
 		
 		/* UPDATED: Let this section grow */
 		flex-grow: 1;
