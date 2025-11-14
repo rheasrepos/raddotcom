@@ -1,12 +1,18 @@
-import adapter from '@sveltejs/adapter-static';
-import { vitePreprocess } from '@sveltejs/kit/vite';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import adapter from '@sveltejs/adapter-auto';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-  kit: {
-    adapter: adapter()
-  },
-  preprocess: vitePreprocess()
+	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
+	// for more information about preprocessors
+	preprocess: vitePreprocess(),
+
+	kit: {
+		// adapter-auto is the recommended adapter for most projects.
+		// It will automatically detect the best adapter for your deployment target.
+		// This replaces adapter-static.
+		adapter: adapter()
+	}
 };
 
 export default config;

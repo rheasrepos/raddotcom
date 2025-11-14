@@ -1,3 +1,9 @@
+<script context="module">
+	// This tells SvelteKit that the admin page is dynamic
+	// and should not be pre-rendered as static HTML.
+	export const prerender = false;
+</script>
+
 <script>
 	import PageLayout from '../../components/PageLayout.svelte';
 	import { categoryConfig } from '../../lib/categories.js';

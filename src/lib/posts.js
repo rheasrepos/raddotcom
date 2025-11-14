@@ -17,51 +17,61 @@ import { writable } from 'svelte/store';
 export const posts = writable(/** @type {Post[]} */ ([]));
 
 // Hardcoded posts - these are your base posts that never get lost
+// Updated with projects from Rhea Madhogarhia's CV
 const hardcodedPosts = [
 	{
 		id: 1,
-		title: "My First Blog Post",
-		description: "Welcome to my eclectic personal website!",
-		type: "writing",
-		date: "2024-01-15",
+		title: "ML Engineering Intern @ Reddit",
+		description: "Engineered a novel, signal-driven First Pass Ranker (FPR) in Go and Python to improve search relevance.",
+		type: "programming",
+		date: "2025-08-15",
 		image: "https://picsum.photos/400/300?random=1",
-		content: "This is my first blog post. I'm excited to share my thoughts, projects, and creative endeavors here."
+		content: "As a Machine Learning Engineering Intern at Reddit, I engineered and productionized a novel, signal-driven First Pass Ranker (FPR) in Go and Python. This was designed to improve search relevance using historical user engagement data. I also designed and tuned a ratio-driven boosting algorithm using Bayesian Optimization to prioritize high-value content and penalize clickbait."
 	},
 	{
 		id: 2,
-		title: "A Cool Programming Project",
-		description: "Building something awesome with code",
+		title: "Data Science & ML Intern @ Charactour",
+		description: "Performed exploratory data analysis on 9M+ users and utilized BERT Regression.",
 		type: "programming",
-		date: "2024-01-20",
+		date: "2024-08-01",
 		image: "https://picsum.photos/400/300?random=2",
-		content: "I've been working on this really cool programming project. It involves lots of interesting algorithms and creative problem-solving."
+		content: "During my internship at Charactour, I performed exploratory data analysis on personality traits from over 9 million users using Python (Pandas). I also utilized BERT Regression to discover correlations between media properties and their fanbases."
 	},
 	{
 		id: 3,
-		title: "New Music Track",
-		description: "Just finished recording a new song",
-		type: "music",
-		date: "2024-02-01",
+		title: "Research Assistant @ CAB Lab",
+		description: "Co-authored a preprint on neural reinstatement during narrative comprehension and developed NLP techniques for fMRI data.",
+		type: "research",
+		date: "2025-03-12",
 		image: "https://picsum.photos/400/300?random=3",
-		content: "I've been in the studio working on some new music. This track has been in my head for months and I'm finally happy with how it turned out."
+		content: "At the Cognition, Attention, and Brain (CAB) Lab, I co-authored a preprint on neural reinstatement during narrative comprehension. My contributions included conceptualization, data curation, investigation, and writing/editing. I am also developing a methodological comparison of NLP techniques (LLMs, BERT, Flair) for sentiment analysis on transcribed fMRI speech data."
 	},
 	{
 		id: 4,
-		title: "Comedy Sketch",
-		description: "A funny bit I've been working on",
-		type: "comedy",
-		date: "2024-02-10",
+		title: "Publication: Cortical Reinstatement (Preprint)",
+		description: "Song, H., Ke, J., Madhogarhia, R., Leong, Y. C., & Rosenberg, M. D. (2025).",
+		type: "writing",
+		date: "2025-03-12",
 		image: "https://picsum.photos/400/300?random=4",
-		content: "Here's a comedy sketch I've been developing. It's about the absurdity of everyday life and I think it's pretty funny."
+		content: "Full preprint title: Song, H., Ke, J., Madhogarhia, R., Leong, Y. C., & Rosenberg, M. D. (2025). Cortical reinstatement of causally related events sparks narrative insights by updating neural representation patterns. bioRxiv. doi: 10.1101/2025.03.12.642853"
 	},
 	{
 		id: 5,
-		title: "Digital Art Piece",
-		description: "Exploring new artistic techniques",
-		type: "art",
-		date: "2024-02-15",
+		title: "Improv & Sketch Comedy @ Off-Off Campus",
+		description: "Trainer, Improviser, Writer & Director for the nation's second-oldest collegiate improv group.",
+		type: "comedy",
+		date: "2024-01-10",
 		image: "https://picsum.photos/400/300?random=5",
-		content: "I've been experimenting with digital art lately. This piece explores themes of connection and isolation in the modern world."
+		content: "I am a Trainer, Improviser, Writer & Director for Off-Off Campus, the nation's second-oldest collegiate improvisational & sketch comedy group."
+	},
+	{
+		id: 6,
+		title: "A Cappella Vocalist @ Voices In Your Head",
+		description: "A Cappella Vocalist for an award-winning collegiate a cappella group.",
+		type: "music",
+		date: "2024-01-05",
+		image: "https://picsum.photos/400/300?random=6",
+		content: "I am an A Cappella Vocalist for Voices In Your Head, an award-winning collegiate a cappella group at the University of Chicago."
 	}
 ];
 
@@ -194,11 +204,11 @@ export async function deletePost(postId) {
  */
 export function getProjectColor(type) {
 	const colors = {
-		writing: '#3498db',
-		programming: '#2ecc71',
-		music: '#e74c3c',
-		comedy: '#f39c12',
-		art: '#9b59b6'
+		writing: '#4ecdc4',
+		programming: '#45b7d1',
+		music: '#96ceb4',
+		comedy: '#feca57',
+		research: '#3498db'
 	};
 	return colors[/** @type {keyof typeof colors} */ (type)] || '#95a5a6';
 }
@@ -309,4 +319,4 @@ export async function importPosts(postsToImport) {
 		console.error('Error importing posts:', error);
 		throw error;
 	}
-} 
+}

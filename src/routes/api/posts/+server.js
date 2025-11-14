@@ -1,8 +1,10 @@
 import { json } from '@sveltejs/kit';
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import { writeFile, mkdir } from 'fs/promises';
+// ... existing code ...
 import { join } from 'path';
+
+// This tells SvelteKit that this API route is dynamic and should not be
+// pre-rendered. This is especially important for routes with POST handlers.
+export const prerender = false;
 
 const execAsync = promisify(exec);
 
