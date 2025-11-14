@@ -172,7 +172,7 @@
 		background: rgba(255, 255, 255, 0.9);
 		border: 1px solid #000000;
 		padding: 30px;
-		margin-bottom: 20px;
+		margin-bottom: 30px;
 	}
 
 	/* Filter Section */
@@ -224,7 +224,7 @@
 	.projects-grid {
 		display: grid;
 		/* UPDATED: Made cards smaller */
-		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(325px, 1fr));
 		gap: 25px;
 	}
 
@@ -332,20 +332,20 @@
 
 	/* Stats Section */
 	.stats-section {
-		margin-bottom: 40px;
+		margin-bottom: 20px;
 	}
 
 	.stats-title {
 		font-size: 1.5rem;
 		font-weight: bold;
 		color: #000000;
-		margin-bottom: 25px;
+		margin-bottom: 15px;
 		text-align: center;
 	}
 
 	.stats-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
 		gap: 20px;
 	}
 
@@ -378,7 +378,7 @@
 	}
 
 	/* Responsive Design */
-	@media (max-width: 768px) {
+	@media (max-width: 750px) {
 		.page-title {
 			font-size: 2rem;
 		}
@@ -394,7 +394,7 @@
 
 		.filter-btn {
 			width: 100%;
-			max-width: 250px;
+			max-width: 200px;
 		}
 
 		.projects-grid {
