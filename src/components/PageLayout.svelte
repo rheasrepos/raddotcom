@@ -331,8 +331,15 @@
 	/* Page Content */
 	.page-content {
 		height: 100%;
-		padding: 50px 10px 10px 10px;
-		overflow: auto;
+		/* FIX: 
+		  - Added box-sizing: border-box;
+		  - Set padding-top to 50px (40px bar + 10px space)
+		  - Set padding-bottom to 45px (35px bar + 10px space)
+		*/
+		box-sizing: border-box;
+		padding: 50px 10px 45px 10px; 
+		overflow-y: auto; /* Changed to overflow-y */
+		overflow-x: hidden;
 	}
 
 	.container {
