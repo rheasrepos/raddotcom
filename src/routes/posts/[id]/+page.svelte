@@ -277,7 +277,6 @@
 		padding: 1rem;
 		cursor: pointer;
 		background: #ffffff;
-		transition: background 0.3s ease;
 	}
 
 	.list-item-header:hover {

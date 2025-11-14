@@ -1,6 +1,7 @@
 // Centralized category configuration
 export const categoryConfig = {
 	writing: { id: 'writing', label: 'Notes & Writing', color: 'var(--color-writing)' },
+	thesis: { id: 'thesis', label: 'Thesis Notes', color: '#8e44ad' }, // Added this new category
 	programming: { id: 'programming', label: 'Tech & Industry', color: 'var(--color-programming)' },
 	research: { id: 'research', label: 'Research', color: 'var(--color-research)' },
 	music: { id: 'music', label: 'Music', color: 'var(--color-music)' },
