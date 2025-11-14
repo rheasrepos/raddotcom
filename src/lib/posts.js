@@ -202,7 +202,6 @@ const hardcodedPosts = [
 		description: "Engineered a novel, signal-driven First Pass Ranker (FPR) in Go and Python to improve search relevance.",
 		type: "programming",
 		date: "2025-08-15",
-		image: "https://picsum.photos/400/300?random=1",
 		content: "As a Machine Learning Engineering Intern at Reddit, I engineered and productionized a novel, signal-driven First Pass Ranker (FPR) in Go and Python. This was designed to improve search relevance using historical user engagement data. I also designed and tuned a ratio-driven boosting algorithm using Bayesian Optimization to prioritize high-value content and penalize clickbait."
 	},
 	{
@@ -211,7 +210,6 @@ const hardcodedPosts = [
 		description: "Performed exploratory data analysis on 9M+ users and utilized BERT Regression.",
 		type: "programming",
 		date: "2024-08-01",
-		image: "https://picsum.photos/400/300?random=2",
 		content: "During my internship at Charactour, I performed exploratory data analysis on personality traits from over 9 million users using Python (Pandas). I also utilized BERT Regression to discover correlations between media properties and their fanbases."
 	},
 	{
@@ -220,7 +218,6 @@ const hardcodedPosts = [
 		description: "Co-authored a preprint on neural reinstatement during narrative comprehension and developed NLP techniques for fMRI data.",
 		type: "research",
 		date: "2025-03-12",
-		image: "https://picsum.photos/400/300?random=3",
 		content: "At the Cognition, Attention, and Brain (CAB) Lab, I co-authored a preprint on neural reinstatement during narrative comprehension. My contributions included conceptualization, data curation, investigation, and writing/editing. I am also developing a methodological comparison of NLP techniques (LLMs, BERT, Flair) for sentiment analysis on transcribed fMRI speech data."
 	},
 	{
@@ -229,7 +226,6 @@ const hardcodedPosts = [
 		description: "Song, H., Ke, J., Madhogarhia, R., Leong, Y. C., & Rosenberg, M. D. (2025).",
 		type: "writing",
 		date: "2025-03-12",
-		image: "https://picsum.photos/400/300?random=4",
 		content: "Full preprint title: Song, H., Ke, J., Madhogarhia, R., Leong, Y. C., & Rosenberg, M. D. (2025). Cortical reinstatement of causally related events sparks narrative insights by updating neural representation patterns. bioRxiv. doi: 10.1101/2025.03.12.642853"
 	},
 	{
@@ -238,7 +234,6 @@ const hardcodedPosts = [
 		description: "Trainer, Improviser, Writer & Director for the nation's second-oldest collegiate improv group.",
 		type: "comedy",
 		date: "2024-01-10",
-		image: "https://picsum.photos/400/300?random=5",
 		content: "I am a Trainer, Improviser, Writer & Director for Off-Off Campus, the nation's second-oldest collegiate improvisational & sketch comedy group."
 	},
 	{
@@ -247,7 +242,6 @@ const hardcodedPosts = [
 		description: "A Cappella Vocalist for an award-winning collegiate a cappella group.",
 		type: "music",
 		date: "2024-01-05",
-		image: "https://picsum.photos/400/300?random=6",
 		content: "I am an A Cappella Vocalist for Voices In Your Head, an award-winning collegiate a cappella group at the University of Chicago."
 	}
 ];
