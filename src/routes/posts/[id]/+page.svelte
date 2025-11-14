@@ -10,17 +10,48 @@
 	// Load posts and find the specific post
 	let allPosts = [];
 	let post = null;
+	let nextPost = null;
+	let previousPost = null;
 	
 	onMount(async () => {
 		// Load all posts from the Git-based API
 		allPosts = await loadPosts();
-		post = getPostById(allPosts, postId);
-		
-		console.log('Post ID:', postId, 'Type:', typeof postId, 'All Posts:', allPosts.length, 'Found Post:', post ? post.title : 'Not found');
-		if (allPosts.length > 0) {
-			console.log('Available post IDs:', allPosts.map(p => ({ id: p.id, title: p.title })));
-		}
+		// Note: allPosts is already sorted by date (newest first) by loadPosts()
 	});
+
+	// This reactive block will re-run whenever the postId changes (from navigation)
+	// or when allPosts is first loaded.
+	$: {
+		if (allPosts.length > 0 && postId) {
+			const numericPostId = parseInt(String(postId));
+			post = getPostById(allPosts, numericPostId);
+
+			if (post) {
+				// Find the index of the current post in the sorted list
+				const currentIndex = allPosts.findIndex(p => p.id === numericPostId);
+
+				// Find next post (newest, so index - 1)
+				if (currentIndex > 0) {
+					nextPost = allPosts[currentIndex - 1];
+				} else {
+					nextPost = null; // This is the newest post
+				}
+
+				// Find previous post (oldest, so index + 1)
+				if (currentIndex < allPosts.length - 1) {
+					previousPost = allPosts[currentIndex + 1];
+				} else {
+					previousPost = null; // This is the oldest post
+				}
+
+			} else {
+				// Post not found, clear everything
+				post = null;
+				nextPost = null;
+				previousPost = null;
+			}
+		}
+	}
 
 	// Handle back navigation
 	function goBack() {
@@ -33,6 +64,33 @@
 		{#if allPosts.length > 0 && post}
 			<!-- Back Button -->
 			<button class="back-btn" on:click={goBack}>← Back</button>
+			
+			<!-- NEW: Next/Previous Post Navigation -->
+			<nav class="post-navigation">
+				<div class="nav-links">
+					<!-- Previous Post Link -->
+					{#if previousPost}
+						<a href="/posts/{previousPost.id}" class="nav-link prev">
+							← Previous Post
+							<span class="nav-title">{previousPost.title}</span>
+						</a>
+					{:else}
+						<!-- Placeholder to maintain layout -->
+						<span class="nav-link-placeholder"></span>
+					{/if}
+
+					<!-- Next Post Link -->
+					{#if nextPost}
+						<a href="/posts/{nextPost.id}" class="nav-link next">
+							Next Post →
+							<span class="nav-title">{nextPost.title}</span>
+						</a>
+					{:else}
+						<!-- Placeholder to maintain layout -->
+						<span class="nav-link-placeholder"></span>
+					{/if}
+				</div>
+			</nav>
 			
 			<!-- Single Post in Expandable List Format -->
 			<div class="expandable-list-container">
@@ -67,12 +125,12 @@
 				</div>
 			</div>
 
-			<!-- Navigation -->
-			<nav class="post-navigation">
-				<div class="nav-links">
+			<!-- Footer Navigation (All Posts / Home) -->
+			<nav class="post-navigation-footer">
+				<div class="nav-links-footer">
 					<!-- Updated link to /blog -->
-					<a href="/blog" class="nav-link">← All Posts</a>
-					<a href="/" class="nav-link">← Home</a>
+					<a href="/blog" class="nav-link-footer">← All Posts</a>
+					<a href="/" class="nav-link-footer">← Home</a>
 				</div>
 			</nav>
 		{:else if allPosts.length > 0}
@@ -119,6 +177,71 @@
 		margin: 0 auto;
 		padding: 2rem;
 	}
+	
+	/* --- NEW STYLES for Next/Prev Nav --- */
+	.post-navigation {
+		margin-bottom: 2rem;
+	}
+
+	.nav-links {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		align-items: flex-start; /* Align tops */
+	}
+
+	.nav-link {
+		font-family: Arial, sans-serif;
+		font-size: 1rem;
+		color: #000000;
+		text-decoration: none;
+		padding: 0.5rem 1rem;
+		border: 1px solid #000000;
+		transition: all 0.3s ease;
+		display: flex;
+		flex-direction: column;
+		flex-basis: 48%; /* Each link takes up ~half the space */
+		line-height: 1.4;
+		min-height: 3.5rem; /* Give it a min-height so they align */
+	}
+
+	.nav-link:hover {
+		background: #000000;
+		color: #ffffff;
+	}
+	
+	.nav-link.next {
+		text-align: right;
+		align-items: flex-end; /* Align text to the right */
+	}
+
+	.nav-link.prev {
+		text-align: left;
+		align-items: flex-start; /* Align text to the left */
+	}
+
+	.nav-title {
+		font-size: 0.8rem;
+		color: #666666;
+		margin-top: 4px;
+		/* Truncate long titles */
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 100%; /* Ensure it doesn't overflow */
+	}
+
+	.nav-link:hover .nav-title {
+		color: #ffffff;
+	}
+	
+	/* Placeholder styling */
+	.nav-link-placeholder {
+		flex-basis: 48%;
+		visibility: hidden;
+		min-height: 3.5rem;
+	}
+	/* --- End of New Styles --- */
 
 	.expandable-list-container {
 		margin-bottom: 2rem;
@@ -236,22 +359,22 @@
 		font-size: 1rem;
 		color: #000000;
 		line-height: 1.6;
-		/* Allow line breaks from the original text */
 		white-space: pre-wrap;
 	}
 
-	.post-navigation {
+	/* Renamed old nav to footer nav */
+	.post-navigation-footer {
 		margin-top: 2rem;
 		padding-top: 1rem;
-		border-top: 1px solid #000000;
+		border-top: 1px solid #eee;
 	}
 
-	.nav-links {
+	.nav-links-footer {
 		display: flex;
 		gap: 1rem;
 	}
 
-	.nav-link {
+	.nav-link-footer {
 		font-family: Arial, sans-serif;
 		font-size: 1rem;
 		color: #000000;
@@ -261,10 +384,11 @@
 		transition: all 0.3s ease;
 	}
 
-	.nav-link:hover {
+	.nav-link-footer:hover {
 		background: #000000;
 		color: #ffffff;
 	}
+	/* --- End of Renaming --- */
 
 	.not-found {
 		text-align: center;
