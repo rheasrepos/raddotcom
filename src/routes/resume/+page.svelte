@@ -3,7 +3,7 @@
   
     // IMPORTANT: Make sure you have placed your CV PDF in the `static`
     // folder of your SvelteKit project and named it `Rhea_Madhogarhia_CV_2026.pdf`
-    const resumePdfUrl = '/Rhea_Madhogarhia_CV_2026.pdf';
+    const resumePdfUrl = '/Users/rheamadhogarhia/Desktop/GitHub/raddotcom/static/Rhea_Madhogarhia_Resume_2026.pdf';
   </script>
   
   <PageLayout title="Resume - Rhea Madhogarhia">
