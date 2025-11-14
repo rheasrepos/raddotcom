@@ -11,6 +11,64 @@
 	import { loadPosts, getProjectColor, formatDate } from '$lib/posts.js';
 	import { categoryConfig, getCategoryLabel } from '$lib/categories.js';
 
+	// --- NEW: SVG Icon Definitions ---
+	const categoryIcons = {
+		thesis: `
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M15.2 3H18a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2.8"/>
+				<path d="M8 3h8v3H8z"/>
+				<line x1="8" y1="12" x2="16" y2="12"/>
+				<line x1="8" y1="16" x2="16" y2="16"/>
+			</svg>
+		`,
+		programming: `
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+				<line x1="2" y1="20" x2="22" y2="20"/>
+			</svg>
+		`,
+		comedy: `
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M18 13a6 6 0 0 1-6 5 6 6 0 0 1-6-5h12Z"/>
+				<path d="M6 8.8A8.5 8.5 0 0 1 12 5a8.5 8.5 0 0 1 6 3.8"/>
+			</svg>
+		`,
+		music: `
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M9 18V5l12-2v13"/>
+				<circle cx="6" cy="18" r="3"/>
+				<circle cx="18" cy="16" r="3"/>
+			</svg>
+		`,
+		research: `
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<circle cx="6" cy="15" r="3" />
+				<circle cx="18" cy="15" r="3" />
+				<path d="M10.5 15H13.5"/>
+				<path d="M8.3 13.5A6 6 0 0 1 12 9a6 6 0 0 1 3.7 4.5"/>
+			</svg>
+		`,
+		writing: `
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+			</svg>
+		`,
+		art: `
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M7 21h10"/>
+				<path d="M12 11l-4.04 4.04a2.83 2.83 0 0 0 4.04 4.04l4.04-4.04"/>
+				<path d="M12.01 11.01L15.5 7.5a2.83 2.83 0 0 0-4-4L8 7"/>
+				<path d="M3 21h4"/>
+			</svg>
+		`,
+		default: `
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+			</svg>
+		`
+	};
+	// --- END SVG Icon Definitions ---
+
 	// Load projects from the Git-based API
 	let projects = [];
 	let categories = Object.values(categoryConfig); // Get dynamic categories
@@ -584,8 +642,8 @@
 			</div>
 
 			<!-- Desktop Icons -->
-			<div class="desktop-icons">
-				{#if viewMode === 'all'}
+	<div class="desktop-icons">
+		{#if viewMode === 'all'}
 					<!-- All rad stuff as individual icons -->
 					{#each projectsWithDates as project (project.id)}
 						<div 
@@ -603,29 +661,6 @@
 							<div class="icon-type" style="color: {getProjectColor(project.type)}">{getCategoryLabel(project.type)}</div>
 						</div>
 					{/each}
-				{:else if viewMode === 'folders'}
-					<!-- Month folders -->
-					{#each availableMonths as monthYear}
-						<div 
-							class="desktop-icon folder-icon"
-							on:click={() => openMonthFolder(monthYear)}
-							on:keydown={(e) => e.key === 'Enter' && openMonthFolder(monthYear)}
-							tabindex="0"
-							role="button"
-							aria-label="Open {new Date(monthYear.year, monthYear.month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} folder"
-						>
-							<div class="folder-icon-image">📁</div>
-							<div class="icon-label">
-								{new Date(monthYear.year, monthYear.month).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-							</div>
-							<div class="folder-count">
-								{(projects || []).filter(p => {
-									const date = new Date(p.date);
-									return date.getMonth() === monthYear.month && date.getFullYear() === monthYear.year;
-								}).length} items
-							</div>
-						</div> 
-					{/each}
 				{:else if viewMode === 'categories'}
 					<!-- Category folders -->
 					{#each categories as category}
@@ -638,7 +673,10 @@
 							role="button"
 							aria-label="Open {categoryInfo.label} folder"
 						>
-							<div class="folder-icon-image" style="color: {categoryInfo.color}">📁</div>
+							<!-- UPDATED: Use custom SVG icons -->
+							<div class="folder-icon-image" style="color: {categoryInfo.color}">
+								{@html categoryIcons[category.id] || categoryIcons.default}
+							</div>
 							<div class="icon-label">{categoryInfo.label}</div>
 							<div class="folder-count">
 								{(projects || []).filter(p => p.type === category.id).length} items
@@ -1368,6 +1406,15 @@
 		/* UPDATED: Made folder icon smaller */
 		font-size: 50px;
 		line-height: 1;
+		/* UPDATED: Add styles for SVG */
+		width: 50px;
+		height: 50px;
+	}
+
+	.folder-icon-image :global(svg) {
+		width: 100%;
+		height: 100%;
+		stroke-width: 1.5; /* Thinner lines for a cleaner icon */
 	}
 
 	.icon-label {
