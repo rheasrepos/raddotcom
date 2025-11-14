@@ -65,13 +65,25 @@
 			<!-- Back Button -->
 			<button class="back-btn" on:click={goBack}>← Back</button>
 			
-			<!-- NEW: Next/Previous Post Navigation -->
+			<!-- UPDATED: Next/Previous Post Navigation -->
 			<nav class="post-navigation">
 				<div class="nav-links">
-					<!-- Previous Post Link -->
+					
+					<!-- Next Post Link (Newer) -->
+					{#if nextPost}
+						<a href="/posts/{nextPost.id}" class="nav-link prev">
+							← Newer Post
+							<span class="nav-title">{nextPost.title}</span>
+						</a>
+					{:else}
+						<!-- Placeholder to maintain layout -->
+						<span class="nav-link-placeholder"></span>
+					{/if}
+
+					<!-- Previous Post Link (Older) -->
 					{#if previousPost}
-						<a href="/posts/{previousPost.id}" class="nav-link prev">
-							← Previous Post
+						<a href="/posts/{previousPost.id}" class="nav-link next">
+							Older Post →
 							<span class="nav-title">{previousPost.title}</span>
 						</a>
 					{:else}
@@ -79,16 +91,6 @@
 						<span class="nav-link-placeholder"></span>
 					{/if}
 
-					<!-- Next Post Link -->
-					{#if nextPost}
-						<a href="/posts/{nextPost.id}" class="nav-link next">
-							Next Post →
-							<span class="nav-title">{nextPost.title}</span>
-						</a>
-					{:else}
-						<!-- Placeholder to maintain layout -->
-						<span class="nav-link-placeholder"></span>
-					{/if}
 				</div>
 			</nav>
 			
@@ -178,7 +180,7 @@
 		padding: 2rem;
 	}
 	
-	/* --- NEW STYLES for Next/Prev Nav --- */
+	/* --- STYLES for Next/Prev Nav --- */
 	.post-navigation {
 		margin-bottom: 2rem;
 	}
@@ -241,7 +243,7 @@
 		visibility: hidden;
 		min-height: 3.5rem;
 	}
-	/* --- End of New Styles --- */
+	/* --- End of Nav Styles --- */
 
 	.expandable-list-container {
 		margin-bottom: 2rem;
