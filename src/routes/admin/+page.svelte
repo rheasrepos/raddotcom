@@ -5,18 +5,19 @@
 </script>
 
 <script>
+	import { dev } from '$app/environment'; // <-- FIX: Import dev environment
 	import PageLayout from '../../components/PageLayout.svelte';
 	import { categoryConfig } from '../../lib/categories.js';
 	import { createPost, posts, exportAllPosts, importPosts } from '../../lib/posts.js';
-	
+
 	// Admin state
 	let isLoggedIn = false;
 	let adminCode = '';
 	let showLoginForm = true;
-	
+
 	// Get categories from the config
 	let categories = Object.values(categoryConfig);
-	
+
 	// Post creation state
 	let newPost = {
 		title: '',
@@ -25,28 +26,28 @@
 		type: 'writing',
 		date: new Date().toISOString().split('T')[0]
 	};
-	
+
 	let isSubmitting = false;
 	let submitMessage = '';
 	let submitError = '';
-	
+
 	// Backup/restore state
 	let showBackupSection = false;
 	let backupMessage = '';
 	let backupError = '';
-	
+
 	// Admin code (you can change this)
 	const ADMIN_CODE = 'rad2024';
-	
+
 	function formatDate(dateString) {
 		const date = new Date(dateString);
-		return date.toLocaleDateString('en-US', { 
-			year: 'numeric', 
-			month: 'long', 
-			day: 'numeric' 
+		return date.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric'
 		});
 	}
-	
+
 	function handleLogin() {
 		if (adminCode === ADMIN_CODE) {
 			isLoggedIn = true;
@@ -56,7 +57,7 @@
 			alert('Incorrect admin code!');
 		}
 	}
-	
+
 	function handleLogout() {
 		isLoggedIn = false;
 		showLoginForm = true;
@@ -70,29 +71,29 @@
 		submitMessage = '';
 		submitError = '';
 	}
-	
+
 	async function submitPost() {
 		if (!newPost.title.trim() || !newPost.content.trim()) {
 			submitError = 'Please fill in all required fields.';
 			return;
 		}
-		
+
 		isSubmitting = true;
 		submitError = '';
 		submitMessage = '';
-		
+
 		try {
 			// Add a default image if none provided
 			const postData = {
 				...newPost,
 				image: newPost.image || `https://picsum.photos/400/300?random=${Date.now()}`
 			};
-			
+
 			const result = await createPost(postData);
-			
+
 			if (result.success) {
 				submitMessage = result.message || 'Post created and committed to Git successfully!';
-				
+
 				// Reset form
 				newPost = {
 					title: '',
@@ -111,39 +112,38 @@
 			isSubmitting = false;
 		}
 	}
-	
+
 	async function exportPosts() {
 		try {
 			const allPosts = await exportAllPosts();
 			const dataStr = JSON.stringify(allPosts, null, 2);
 			const dataBlob = new Blob([dataStr], { type: 'application/json' });
-			
+
 			const link = document.createElement('a');
 			link.href = URL.createObjectURL(dataBlob);
 			link.download = `posts-backup-${new Date().toISOString().split('T')[0]}.json`;
 			link.click();
-			
+
 			backupMessage = 'Posts exported successfully!';
 			backupError = '';
 		} catch (error) {
 			backupError = `Export failed: ${error.message}`;
-			backupMessage = '';
 		}
 	}
-	
+
 	async function importPostsFromFile(event) {
 		const file = event.target.files[0];
 		if (!file) return;
-		
+
 		try {
 			const text = await file.text();
 			const postsToImport = JSON.parse(text);
-			
+
 			const result = await importPosts(postsToImport);
-			
+
 			backupMessage = `Successfully imported ${result.imported} posts!`;
 			backupError = '';
-			
+
 			// Reset file input
 			event.target.value = '';
 		} catch (error) {
@@ -154,229 +154,242 @@
 </script>
 
 <PageLayout title="Admin - Rhea Madhogarhia">
-	<!-- Header Section -->
-	<section class="header-section">
-		<div class="header-content">
-			<h1 class="page-title">Admin Panel</h1>
-			<p class="page-description">Manage your content and create new posts</p>
-		</div>
-	</section>
-
-	<!-- Login Section -->
-	{#if showLoginForm}
-		<section class="login-section">
-			<div class="login-card card">
-				<h3 class="section-title">Admin Login</h3>
-				<div class="login-form">
-					<div class="form-group">
-						<label for="adminCode" class="form-label">Admin Code:</label>
-						<input 
-							type="password" 
-							id="adminCode"
-							class="form-input"
-							bind:value={adminCode}
-							placeholder="Enter admin code"
-							on:keydown={(e) => e.key === 'Enter' && handleLogin()}
-						/>
-					</div>
-					<button class="login-btn btn" on:click={handleLogin}>
-						Login
-					</button>
-				</div>
-			</div>
-		</section>
-	{:else}
-		<!-- Admin Dashboard -->
-		<section class="dashboard-section">
-			<div class="dashboard-header card">
-				<div class="dashboard-info">
-					<h3 class="section-title">Welcome, Admin!</h3>
-					<p class="dashboard-stats">
-						Total Posts: {$posts.length} | 
-						Categories: {categories.length}
-					</p>
-				</div>
-				<button class="logout-btn btn" on:click={handleLogout}>
-					Logout
-				</button>
+	<!-- FIX: Wrap the entire admin panel in an {if dev} block -->
+	{#if dev}
+		<!-- Header Section -->
+		<section class="header-section">
+			<div class="header-content">
+				<h1 class="page-title">Admin Panel</h1>
+				<p class="page-description">Manage your content and create new posts</p>
 			</div>
 		</section>
 
-		<!-- Create New Post Section -->
-		<section class="create-post-section">
-			<div class="create-post-card card">
-				<h3 class="section-title">Create New Post</h3>
-				
-				{#if submitMessage}
-					<div class="success-message">
-						{submitMessage}
-					</div>
-				{/if}
-				
-				{#if submitError}
-					<div class="error-message">
-						{submitError}
-					</div>
-				{/if}
-				
-				<form class="post-form" on:submit|preventDefault={submitPost}>
-					<div class="form-row">
+		<!-- Login Section -->
+		{#if showLoginForm}
+			<section class="login-section">
+				<div class="login-card card">
+					<h3 class="section-title">Admin Login</h3>
+					<div class="login-form">
 						<div class="form-group">
-							<label for="postTitle" class="form-label">Title</label>
-							<input 
-								type="text" 
-								id="postTitle"
+							<label for="adminCode" class="form-label">Admin Code:</label>
+							<input
+								type="password"
+								id="adminCode"
 								class="form-input"
-								bind:value={newPost.title}
-								placeholder="Enter post title"
-								required
+								bind:value={adminCode}
+								placeholder="Enter admin code"
+								on:keydown={(e) => e.key === 'Enter' && handleLogin()}
 							/>
 						</div>
-						
-						<div class="form-group">
-							<label for="postCategory" class="form-label">Category</label>
-							<select id="postCategory" class="form-select" bind:value={newPost.type}>
-								{#each categories as category}
-									<option value={category.id}>{category.label}</option>
-								{/each}
-							</select>
-						</div>
-					</div>
-					
-					<div class="form-group">
-						<label for="postExcerpt" class="form-label">Description</label>
-						<textarea 
-							id="postExcerpt"
-							class="form-textarea"
-							bind:value={newPost.description}
-							placeholder="Brief description of the post"
-							rows="3"
-						></textarea>
-					</div>
-					
-					<div class="form-group">
-						<label for="postContent" class="form-label">Content</label>
-						<textarea 
-							id="postContent"
-							class="form-textarea"
-							bind:value={newPost.content}
-							placeholder="Write your post content here..."
-							rows="10"
-							required
-						></textarea>
-					</div>
-					
-					<div class="form-group">
-						<label for="postImage" class="form-label">Image URL (optional)</label>
-						<input 
-							type="url" 
-							id="postImage"
-							class="form-input"
-							bind:value={newPost.image}
-							placeholder="https://example.com/image.jpg"
-						/>
-						<small class="form-help">Leave empty for a random image</small>
-					</div>
-					
-					<div class="form-group">
-						<label for="postDate" class="form-label">Date</label>
-						<input 
-							type="date" 
-							id="postDate"
-							class="form-input"
-							bind:value={newPost.date}
-						/>
-					</div>
-					
-					<div class="form-actions">
-						<button 
-							type="submit" 
-							class="submit-btn btn"
-							disabled={isSubmitting}
-						>
-							{isSubmitting ? 'Creating...' : 'Create Post'}
+						<button class="login-btn btn" on:click={handleLogin}>
+							Login
 						</button>
 					</div>
-				</form>
-			</div>
-		</section>
-
-		<!-- Backup Section -->
-		<section class="backup-section">
-			<div class="backup-card card">
-				<div class="backup-header">
-					<h3 class="section-title">Backup & Restore</h3>
-					<button 
-						class="toggle-btn btn"
-						on:click={() => showBackupSection = !showBackupSection}
-					>
-						{showBackupSection ? 'Hide' : 'Show'} Backup Options
+				</div>
+			</section>
+		{:else}
+			<!-- Admin Dashboard -->
+			<section class="dashboard-section">
+				<div class="dashboard-header card">
+					<div class="dashboard-info">
+						<h3 class="section-title">Welcome, Admin!</h3>
+						<p class="dashboard-stats">
+							Total Posts: {$posts.length} |
+							Categories: {categories.length}
+						</p>
+					</div>
+					<button class="logout-btn btn" on:click={handleLogout}>
+						Logout
 					</button>
 				</div>
-				
-				{#if showBackupSection}
-					{#if backupMessage}
+			</section>
+
+			<!-- Create New Post Section -->
+			<section class="create-post-section">
+				<div class="create-post-card card">
+					<h3 class="section-title">Create New Post</h3>
+
+					{#if submitMessage}
 						<div class="success-message">
-							{backupMessage}
+							{submitMessage}
 						</div>
 					{/if}
-					
-					{#if backupError}
+
+					{#if submitError}
 						<div class="error-message">
-							{backupError}
+							{submitError}
 						</div>
 					{/if}
-					
-					<div class="backup-actions">
-						<button class="export-btn btn" on:click={exportPosts}>
-							📥 Export All Posts
-						</button>
-						
-						<div class="import-section">
-							<label for="importFile" class="import-label">
-								📤 Import Posts from File
-							</label>
-							<input 
-								type="file" 
-								id="importFile"
-								accept=".json"
-								on:change={importPostsFromFile}
-								class="import-input"
+
+					<form class="post-form" on:submit|preventDefault={submitPost}>
+						<div class="form-row">
+							<div class="form-group">
+								<label for="postTitle" class="form-label">Title</label>
+								<input
+									type="text"
+									id="postTitle"
+									class="form-input"
+									bind:value={newPost.title}
+									placeholder="Enter post title"
+									required
+								/>
+							</div>
+
+							<div class="form-group">
+								<label for="postCategory" class="form-label">Category</label>
+								<select id="postCategory" class="form-select" bind:value={newPost.type}>
+									{#each categories as category}
+										<option value={category.id}>{category.label}</option>
+									{/each}
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="postExcerpt" class="form-label">Description</label>
+							<textarea
+								id="postExcerpt"
+								class="form-textarea"
+								bind:value={newPost.description}
+								placeholder="Brief description of the post"
+								rows="3"
+							></textarea>
+						</div>
+
+						<div class="form-group">
+							<label for="postContent" class="form-label">Content</label>
+							<textarea
+								id="postContent"
+								class="form-textarea"
+								bind:value={newPost.content}
+								placeholder="Write your post content here..."
+								rows="10"
+								required
+							></textarea>
+						</div>
+
+						<div class="form-group">
+							<label for="postImage" class="form-label">Image URL (optional)</label>
+							<input
+								type="url"
+								id="postImage"
+								class="form-input"
+								bind:value={newPost.image}
+								placeholder="https://example.com/image.jpg"
+							/>
+							<small class="form-help">Leave empty for a random image</small>
+						</div>
+
+						<div class="form-group">
+							<label for="postDate" class="form-label">Date</label>
+							<input
+								type="date"
+								id="postDate"
+								class="form-input"
+								bind:value={newPost.date}
 							/>
 						</div>
-					</div>
-					
-					<div class="backup-info">
-						<p><strong>💡 How it works:</strong></p>
-						<ul>
-							<li><strong>Export:</strong> Downloads all your posts (hardcoded + admin-created) as a JSON file</li>
-							<li><strong>Import:</strong> Restores admin-created posts from a backup file</li>
-							<li><strong>Safety:</strong> Hardcoded posts are never lost and can't be deleted</li>
-						</ul>
-					</div>
-				{/if}
-			</div>
-		</section>
 
-		<!-- Recent Posts Section -->
-		<section class="recent-posts-section">
-			<div class="recent-posts-card card">
-				<h3 class="section-title">Recent Posts</h3>
-				<div class="posts-list">
-					{#each $posts.slice(0, 5) as post}
-						<div class="post-item">
-							<div class="post-info">
-								<h4 class="post-title">{post.title}</h4>
-								<p class="post-meta">
-									{formatDate(post.date)} • {post.type}
-								</p>
-							</div>
-							<a href="/posts/{post.id}" class="view-post-btn" target="_blank">
-								View Post
-							</a>
+						<div class="form-actions">
+							<button
+								type="submit"
+								class="submit-btn btn"
+								disabled={isSubmitting}
+							>
+								{isSubmitting ? 'Creating...' : 'Create Post'}
+							</button>
 						</div>
-					{/each}
+					</form>
 				</div>
+			</section>
+
+			<!-- Backup Section -->
+			<section class="backup-section">
+				<div class="backup-card card">
+					<div class="backup-header">
+						<h3 class="section-title">Backup & Restore</h3>
+						<button
+							class="toggle-btn btn"
+							on:click={() => showBackupSection = !showBackupSection}
+						>
+							{showBackupSection ? 'Hide' : 'Show'} Backup Options
+						</button>
+					</div>
+
+					{#if showBackupSection}
+						{#if backupMessage}
+							<div class="success-message">
+								{backupMessage}
+							</div>
+						{/if}
+
+						{#if backupError}
+							<div class="error-message">
+								{backupError}
+							</div>
+						{/if}
+
+						<div class="backup-actions">
+							<button class="export-btn btn" on:click={exportPosts}>
+								踏 Export All Posts
+							</button>
+
+							<div class="import-section">
+								<label for="importFile" class="import-label">
+									豆 Import Posts from File
+								</label>
+								<input
+									type="file"
+									id="importFile"
+									accept=".json"
+									on:change={importPostsFromFile}
+									class="import-input"
+								/>
+							</div>
+						</div>
+
+						<div class="backup-info">
+							<p><strong>庁 How it works:</strong></p>
+							<ul>
+								<li><strong>Export:</strong> Downloads all your posts (hardcoded + admin-created) as a JSON file</li>
+								<li><strong>Import:</strong> Restores admin-created posts from a backup file</li>
+								<li><strong>Safety:</strong> Hardcoded posts are never lost and can't be deleted</li>
+							</ul>
+						</div>
+					{/if}
+				</div>
+			</section>
+
+			<!-- Recent Posts Section -->
+			<section class="recent-posts-section">
+				<div class="recent-posts-card card">
+					<h3 class="section-title">Recent Posts</h3>
+					<div class="posts-list">
+						{#each $posts.slice(0, 5) as post}
+							<div class="post-item">
+								<div class="post-info">
+									<h4 class="post-title">{post.title}</h4>
+									<p class="post-meta">
+										{formatDate(post.date)} 窶｢ {post.type}
+									</p>
+								</div>
+								<a href="/posts/{post.id}" class="view-post-btn" target="_blank">
+									View Post
+								</a>
+							</div>
+						{/each}
+					</div>
+				</div>
+			</section>
+		{/if}
+	{:else}
+		<!-- This will show on the live Vercel site -->
+		<section class="header-section">
+			<div class="header-content">
+				<h1 class="page-title">Admin Panel Not Available</h1>
+				<p class="page-description">
+					The admin panel is only available when running the site locally.
+				</p>
 			</div>
 		</section>
 	{/if}
@@ -520,7 +533,7 @@
 		resize: vertical;
 		min-height: 100px;
 	}
-	
+
 	.form-help {
 		display: block;
 		margin-top: 0.25rem;
@@ -576,18 +589,18 @@
 	.backup-section {
 		margin-bottom: 2rem;
 	}
-	
+
 	.backup-card {
 		padding: 1.5rem;
 	}
-	
+
 	.backup-header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 1rem;
 	}
-	
+
 	.toggle-btn {
 		background: #6c5ce7;
 		color: white;
@@ -597,18 +610,18 @@
 		cursor: pointer;
 		font-size: 0.9rem;
 	}
-	
+
 	.toggle-btn:hover {
 		background: #5f3dc4;
 	}
-	
+
 	.backup-actions {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
 		margin-bottom: 1rem;
 	}
-	
+
 	.export-btn {
 		background: #00b894;
 		color: white;
@@ -618,41 +631,41 @@
 		cursor: pointer;
 		font-size: 1rem;
 	}
-	
+
 	.export-btn:hover {
 		background: #00a085;
 	}
-	
+
 	.import-section {
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
 	}
-	
+
 	.import-label {
 		font-weight: bold;
 		color: #333;
 		cursor: pointer;
 	}
-	
+
 	.import-input {
 		padding: 8px;
 		border: 2px solid #ddd;
 		border-radius: 4px;
 	}
-	
+
 	.backup-info {
 		background: #f8f9fa;
 		padding: 1rem;
 		border-radius: 4px;
 		border-left: 4px solid #4ecdc4;
 	}
-	
+
 	.backup-info ul {
 		margin: 0.5rem 0 0 0;
 		padding-left: 1.5rem;
 	}
-	
+
 	.backup-info li {
 		margin-bottom: 0.25rem;
 	}
@@ -729,17 +742,17 @@
 		.form-row {
 			grid-template-columns: 1fr;
 		}
-		
+
 		.dashboard-header {
 			flex-direction: column;
 			gap: 1rem;
 			text-align: center;
 		}
-		
+
 		.post-item {
 			flex-direction: column;
 			gap: 0.5rem;
 			text-align: center;
 		}
 	}
-</style> 
+</style>
