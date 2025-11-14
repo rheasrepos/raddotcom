@@ -70,7 +70,8 @@
 			<!-- Navigation -->
 			<nav class="post-navigation">
 				<div class="nav-links">
-					<a href="/projects" class="nav-link">← All Projects</a>
+					<!-- Updated link to /blog -->
+					<a href="/blog" class="nav-link">← All Posts</a>
 					<a href="/" class="nav-link">← Home</a>
 				</div>
 			</nav>
@@ -80,7 +81,8 @@
 				<h1>Post Not Found</h1>
 				<p>The post you're looking for doesn't exist.</p>
 				<div class="not-found-links">
-					<a href="/projects" class="btn">Browse All Projects</a>
+					<!-- Updated link to /blog -->
+					<a href="/blog" class="btn">Browse All Posts</a>
 					<a href="/" class="btn">Go Home</a>
 				</div>
 			</div>
@@ -234,6 +236,8 @@
 		font-size: 1rem;
 		color: #000000;
 		line-height: 1.6;
+		/* Allow line breaks from the original text */
+		white-space: pre-wrap;
 	}
 
 	.post-navigation {
@@ -300,4 +304,4 @@
 		background: #000000;
 		color: #ffffff;
 	}
-</style> 
+</style>

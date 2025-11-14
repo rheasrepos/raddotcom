@@ -6,7 +6,8 @@
 	
 	const navItems = [
 		{ path: '/', label: 'Home' },
-		{ path: '/projects', label: 'Rad Stuff' },
+		// Changed path to /blog and label to Blog
+		{ path: '/blog', label: 'Blog' },
 		{ path: '/resume', label: 'Resume' },
 		{ path: '/about', label: 'About' },
 		{ path: '/admin', label: 'Admin' }
@@ -81,4 +82,4 @@
 			padding: 4px 8px;
 		}
 	}
-</style> 
+</style>

@@ -16,9 +16,206 @@ import { writable } from 'svelte/store';
 // Create a writable store for posts
 export const posts = writable(/** @type {Post[]} */ ([]));
 
+// Helper for random dates
+function getRandomDate(startDate, endDate) {
+  const date = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime()));
+  return date.toISOString().split('T')[0];
+}
+const startDate = new Date(2025, 8, 1); // Sep 1, 2025
+const endDate = new Date(2025, 10, 14); // Nov 14, 2025
+
+// --- NEW POSTS PARSED FROM THESIS DUMP ---
+// I've taken the blurbs from your document and turned them into individual posts.
+const thesisDumpPosts = [
+	{
+		id: 101,
+		title: 'How do we explain neuroscience...',
+		description: 'How do we explain the findings of a field like neuroscience while thinking that there is something like a human mind?',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=101',
+		content: 'How do we explain the findings of a field like neuroscience while thinking that there is something like a human mind?'
+	},
+	{
+		id: 102,
+		title: 'The Materialist Neuroscientist...',
+		description: 'A materialist neuroscientist may do away with the idea that the mind exists, but plenty don’t. I for one, think that the mind exists and that there is something unique about our human species...',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=102',
+		content: 'Well, neuroscience claims to study the brain. Neuroscientistis do not just care about the human brain right? A materialist neuroscientist may do away with the idea that the mind exists, but plenty don’t. I for one, think that the mind exists and that there is something unique about our human species, that our mind is different and unique from any minds that another species may or may not inhabit. Then why do I also believe in the field of neuroscience? I think it’s a fascinating hypothesis. I think that it tells us something about brains. I think it does a really good job of mapping out neural structures that make even conceiving of our minds possible. I don’t think it’s unique to humans though.'
+	},
+	{
+		id: 103,
+		title: 'Is a computer a brain?',
+		description: 'Many people ask whether the brain is a computer. But I do believe we should flip the question, is a computer a brain.',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=103',
+		content: 'Many people ask whether the brain is a computer. But I do believe we should flip the question, is a computer a brain.'
+	},
+	{
+		id: 104,
+		title: 'We designed it as such...',
+		description: 'Well we designed it as such, it’s showing signs of working as such, it shows thinking, rationality, intention, and we don’t know how it works. Everything we would ascribe to human brain behavior, multimodal models simulate perception, etc',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=104',
+		content: 'Well we designed it as such, it’s showing signs of working as such, it shows thinking, rationality, intention, and we don’t know how it works. Everything we would ascribe to human brain behavior, multimodal models simulate perception, etc'
+	},
+	{
+		id: 105,
+		title: 'Using neuroscience for neural networks...',
+		description: 'But if indeed, the computer is a brain, then we should use neuroscience as a way of understanding neural networks, not the human condition or behavior.',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=105',
+		content: 'But if indeed, the computer is a brain, then we should use neuroscience as a way of understanding neural networks, not the human condition or behavior. Many people would concede that they have a mind, many people would also concede that humans are a unique animal. That man is special. SO let me make an argument to all of these people and convince them of the value of neuroscience'
+	},
+	{
+		id: 106,
+		title: 'Neuroscience as computational representation...',
+		description: 'Neuroscience, as it relates to human brains, is a computational representation of functional states. A map of numbers across the physical structure that we call the human brain.',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=106',
+		content: 'Neuroscience, as it relates to human brains, is a computational representation of functional states. A map of numbers across the physical structure that we call the human brain. Neuroscience does not study the brain in a natural way, it studies physical material and electiricy not by its physical characteristics per say, but through math, through computation, through the changing and swelling of numbers, through activations'
+	},
+	{
+		id: 107,
+		title: 'Mimicked in computer systems...',
+		description: 'All of these properties are mimicked in computer systems. WE study activation patterns, the numbers of a network are updated and changed and trained through the consumption of data (equivalent of experience).',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=107',
+		content: 'All of these properties are mimicked in computer systems. WE study activation patterns, the numbers of a network are updated and changed and trained through the consumption of data (equivalent of experience). And we use neuroscience to generalize, to make predictions about what a certain activation pattern means. Assuming that our brains work like this prediction machine. Well, Computer ai models are trained to generalize. We have crafted them to do the very same thing neuroscientist think humans do.'
+	},
+	{
+		id: 108,
+		title: 'EXACTLY how a model works...',
+		description: 'While this is our best guess of how the human brain works, this is EXACTLY how a model works. It was indeed designed this way. Designed based off of the neuroscientific study of the brain.',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=108',
+		content: 'While this is our best guess of how the human brain works, this is EXACTLY how a model works. It was indeed designed this way. Designed based off of the neuroscientific study of the brain.'
+	},
+	{
+		id: 109,
+		title: 'Existential and philosophical motivation...',
+		description: 'But there is a more existential and philosophical motivation for this essay. Specifically, that if we are to enter a digital age where a computational system exhibits exactly all the behaviors neurosciecnitsis think humans do, then what constitutes our humanity, but the mind?',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=109',
+		content: 'But there is a more existential and philosophical motivation for this essay. Specifically, that if we are to enter a digital age where a computational system exhibits exactly all the behaviors neurosciecnitsis think humans do, then what constitutes our humanity, but the mind? Computers may become embodied through robotics etc, but humans Brians were never constructed by another human’s hands. IF we aim to keep what is special to us about our humanity, then we must care about the mind.'
+	},
+	{
+		id: 110,
+		title: 'The Seduction of Language...',
+		description: 'If we can do this, we can better understand the danger it may create, we may be better equipped to ward off the mimicry of humans and the seductive language that a chatbot may feed us...',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=110',
+		content: '...if you believe that humanity is something to be preserved, maybe self centeredly, than I urge you to take this view seriously and hopefully it will urge you to invest in the sciences, in neuroscience, in order to better understand the systems we create. If we can do this, we can better understand the danger it may create, we may be better equipped to ward off the mimicry of humans and the seductive language that a chatbot may feed us, we may understand that we are not interacting with systems that care about us, or are doing things in our best interest, or think the way we do. That, even if they outwardly copy us in every way, they do not know why we do things the way we do them, they may say they desire for the same reasons we do but be communicating that desire for a reason other than desire.'
+	},
+	{
+		id: 111,
+		title: 'Topics to cover...',
+		description: 'The Mind, the materialist, the dualist, the human. Computational Nature of Neuroscience and FMRI. How did we achieve intelligent systems? Daminnig ourselves. The computer is a brain...',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=111',
+		content: 'SO we will talk about: The Mind, the materialist, the dualist, the human. Computational Nature of Neuroscience and FMRI. How did we achieve intelligent systems? Daminnig ourselves. The computer is a brain. Seduction of Language. How neuroscience can study Artifial Neural Networks. Why understanding neural networks is important for computer systems. Is there an ethical issue with controlling these systems. The ways in which ai and llms are diff than humans (esp considering that we cannot call these systems stochastic parrots)'
+	},
+	{
+		id: 112,
+		title: 'Is language and data all a human has?',
+		description: 'Is language and data all a human has? Do we emote based on data? Do we pull from our data every time we act? Concsicouly? No? So then does a computer have an unconscious?',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=112',
+		content: 'Is language and data all a human has? Do we emote based on data? Do we pull from our data every time we act? Concsicouly? No? So then does a computer have an unconscious?'
+	},
+	{
+		id: 113,
+		title: 'What enabled wonder?',
+		description: 'Keep dear what you love about humanity, many facets of our live will erode, but save your values pass them down, remember what you thought was special, what enabled you to even think that AI was a worthy innovation rather than just a given of the world- wonder, creativity, exicitement, discovery, where did these things come from',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=113',
+		content: 'Keep dear what you love about humanity, many facets of our live will erode, but save your values pass them down, remember what you thought was special, what enabled you to even think that AI was a worthy innovation rather than just a given of the world- wonder, creativity, exicitement, discovery, where did these things come from'
+	},
+	{
+		id: 114,
+		title: 'The meaning of Chat GPT output...',
+		description: 'What are we to make of what we read from Chat GPT. It is human nature to find things meaningful.',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=114',
+		content: 'In what sense is an LLM thinking. What are we to make of what we read from Chat GPT. It is human nature to find things meaningful.'
+	},
+	{
+		id: 115,
+		title: 'It is too hard to say whether a machine cannot think',
+		description: 'It is too hard to say whether a machine cannot think. So let me take that as true. What is still different about the human brain? Its orginin, were were programmed',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=115',
+		content: 'It is too hard to say whether a machine cannot think. So let me take that as true. What is still different about the human brain? Its orginin, were were programmed'
+	},
+	{
+		id: 116,
+		title: 'AI is directed intelligence...',
+		description: '...we call AI Artificial so as to not mean biological but artificial does not mean fake, it means it was designed with a goal or desire or goal in mind. Its intelligence is directed',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=116',
+		content: 'We do things that are irrational, we do things that are bad for survival, all of our brains are SO different. So it is not that we can think that is different to human to computer, it is how we think that differs. And there is something special about how we think and our kind of intelligence, we call AI Artificial so as to not mean biological but artificial does not mean fake, it means it was designed with a goal or desire or goal in mind. Its intelligence is directed'
+	},
+	{
+		id: 117,
+		title: 'Expectations of the system...',
+		description: 'These systems are being designed with the goal of reaching intelligence, but a human was not born or created and asked to be an intelligent being. The expectations the system has for itself are different than for humans',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=117',
+		content: 'These systems are being designed with the goal of reaching intelligence, but a human was not born or created and asked to be an intelligent being. The expectations the system has for itself are different than for humans. We often start off with no expectations of ourselves whereas a program does.'
+	},
+	{
+		id: 118,
+		title: 'The cruelty of digital qualia...',
+		description: 'Do we ant to subject computers to the same conundrum as humans, having a qualia a feeling an intuition that cannot be tractable or defined (SEVERANCE) does that not seem cruel and unethical...',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=118',
+		content: 'Do we ant to subject computers to the same conundrum as humans, having a qualia a feeling an intuition that cannot be tractable or defined (SEVERANCE) does that not seem cruel and unethical, especially if we have no desire to live amongst them as we live amongst each other'
+	},
+	{
+		id: 119,
+		title: 'The biological nature of humans...',
+		description: 'Biological nature of humans is important, it is the basis of our existence as we know it. Without our bodies, we would not know we existed, and would not realize we can think...',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=119',
+		content: 'Biological nature of humans is important, it is the basis of our existence as we know it. Without our bodies, we would not know we existed, and would not realize we can think, until maybe once we die we persist, but I do not know or think of a time in my life that I was not a biological being attached to maybe my immaterial mind I’ve always been able to transfer my thoughts to my head etc'
+	},
+	{
+		id: 120,
+		title: 'Eroding what makes us human...',
+		description: 'Our world is becoming less natural and more articial. Design is becoming more pormininet, we are possibly eroding the very thing that makes us human , our mortality, our imperfection...',
+		type: 'thesis',
+		date: getRandomDate(startDate, endDate),
+		image: 'https://picsum.photos/400/300?random=120',
+		content: 'Is natural selection design?? Well as we attempt to reverse biological processes, this no longer becomes the case. Our world is becoming less natural and more articial. Design is becoming more pormininet, we are possibly eroding the very thing that makes us human , our mortality, our imperfection, our biological interconnectedness to time, our irrationality, our feeling, our unexplainable. As ew begin to explain all things away we fail to recognize what those unexplainable things have done for us….. ever.'
+	},
+];
+// --- END OF NEW POSTS ---
+
+
 // Hardcoded posts - these are your base posts that never get lost
 // Updated with projects from Rhea Madhogarhia's CV
 const hardcodedPosts = [
+	// Your new thesis posts are added first so they show up at the top
+	...thesisDumpPosts,
 	{
 		id: 1,
 		title: "ML Engineering Intern @ Reddit",
@@ -116,14 +313,15 @@ export async function loadPosts() {
 
 /**
  * Create a new post (saves to Git via API)
- * @param {Post} postData
+ * @param {Omit<Post, 'id'>} postData
  * @returns {Promise<Object>}
  */
 export async function createPost(postData) {
 	try {
 		// Generate a unique ID (higher than hardcoded posts)
 		const existingPosts = await loadPosts();
-		const maxId = Math.max(...existingPosts.map((/** @type {Post} */ p) => p.id));
+		// Ensure all IDs are numbers before comparing
+		const maxId = Math.max(...existingPosts.map((/** @type {Post} */ p) => Number(p.id)));
 		const newPost = {
 			...postData,
 			id: maxId + 1
@@ -208,7 +406,8 @@ export function getProjectColor(type) {
 		programming: '#45b7d1',
 		music: '#96ceb4',
 		comedy: '#feca57',
-		research: '#3498db'
+		research: '#3498db',
+		thesis: '#8e44ad' // Added thesis color
 	};
 	return colors[/** @type {keyof typeof colors} */ (type)] || '#95a5a6';
 }

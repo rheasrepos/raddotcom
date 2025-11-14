@@ -49,12 +49,14 @@
 	}
 </script>
 
-<PageLayout title="Projects - Rhea Madhogarhia">
+<!-- Changed title to "Blog" -->
+<PageLayout title="Blog - Rhea Madhogarhia">
 	<!-- Header Section -->
 	<section class="header-section">
 		<div class="header-content">
-			<h1 class="page-title">All Projects</h1>
-			<p class="page-description">my work, hobbies, crafts, projects, conversations, and notes</p>
+			<!-- Updated titles -->
+			<h1 class="page-title">Blog & Thesis Notes</h1>
+			<p class="page-description">A collection of thoughts, thesis notes, and public writing.</p>
 		</div>
 	</section>
 
@@ -67,7 +69,8 @@
 					class="filter-btn {selectedCategory === 'all' ? 'active' : ''}"
 					on:click={() => selectedCategory = 'all'}
 				>
-					All Projects ({posts.length})
+					<!-- Updated label -->
+					All Posts ({posts.length})
 				</button>
 				{#each categories as category}
 					<button 
@@ -82,12 +85,13 @@
 		</div>
 	</section>
 
-	<!-- Projects Grid -->
+	<!-- Posts Grid -->
 	<section class="projects-section">
 		{#if filteredPosts.length === 0}
 			<div class="no-projects card">
-				<h3>No projects found</h3>
-				<p>No projects match the selected category.</p>
+				<!-- Updated text -->
+				<h3>No posts found</h3>
+				<p>No posts match the selected category.</p>
 			</div>
 		{:else}
 			<div class="projects-grid">
@@ -119,11 +123,13 @@
 	<!-- Stats Section -->
 	<section class="stats-section">
 		<div class="stats-card card">
-			<h3 class="stats-title">Project Statistics</h3>
+			<!-- Updated title -->
+			<h3 class="stats-title">Post Statistics</h3>
 			<div class="stats-grid">
 				<div class="stat-item">
 					<span class="stat-number">{posts.length}</span>
-					<span class="stat-label">Total Projects</span>
+					<!-- Updated label -->
+					<span class="stat-label">Total Posts</span>
 				</div>
 				{#each categories as category}
 					<div class="stat-item">
@@ -210,7 +216,7 @@
 		color: #ffffff;
 	}
 
-	/* Projects Section */
+	/* Projects Section (applies to posts) */
 	.projects-section {
 		margin-bottom: 40px;
 	}
@@ -381,4 +387,4 @@
 			grid-template-columns: repeat(2, 1fr);
 		}
 	}
-</style> 
+</style>
