@@ -32,7 +32,7 @@ const thesisNotesAppPosts = [
     title: 'Human Intelligence in AI',
     date: '2025-02-20',
     description: 'Initial thoughts on studying AI through the lens of neuroscience.',
-    categories: ['thesis', 'ai', 'neuroscience'],
+    type: 'thesis',
     content: `
       <p>Maybe thesis is about human intelligence in AI vs actual AI.</p>
       <p>Should we study AI the way we do our brains - is neuroscience the best approach to studying machine learning?</p>
@@ -44,7 +44,7 @@ const thesisNotesAppPosts = [
     title: 'Emotion, Understanding, and Verbal Communication',
     date: '2025-07-22',
     description: 'Exploring the physical and emotional limits of thoughts and the role of speech.',
-    categories: ['thesis', 'philosophy', 'communication'],
+    type: 'thesis',
     content: `
       <p><strong>Thesis:</strong> emotion, understanding, verbal communication.</p>
       <p>Does verbalization of thoughts neutralize emotion?</p>
@@ -60,7 +60,7 @@ const thesisNotesAppPosts = [
     title: 'Neuroscience and Artificial Life Forms',
     date: '2025-09-01',
     description: 'Abductive reasoning in neuroscience regarding non-biological brains.',
-    categories: ['thesis', 'neuroscience', 'ai'],
+    type: 'thesis',
     content: `
       <p>Neuroscience abductively reasons for other brains being created wo biological life.</p>
       <p>Use life forms keyword entry reading to begin thesis argument about why we can scrutinize and analyze the word neuroscience or large language model or artificial intelligence.</p>
@@ -71,7 +71,7 @@ const thesisNotesAppPosts = [
     title: 'Thesis Counters',
     date: '2025-09-06',
     description: 'Academic references and counters.',
-    categories: ['thesis', 'research'],
+    type: 'thesis',
     content: `
       <p>Thesis counters: <a href="https://arxiv.org/abs/2508.06950" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2508.06950</a></p>
     `
@@ -81,7 +81,7 @@ const thesisNotesAppPosts = [
     title: 'Intelligence, Art, and Human Purpose',
     date: '2025-09-07',
     description: 'A deep dive into the nature of intelligence, the value of bodied experience in art, and the potential future of humanity alongside AI.',
-    categories: ['thesis', 'philosophy', 'art', 'future'],
+    type: 'thesis',
     content: `
       <p>Another section of the thesis should be about intelligence.</p>
       <p>Does it study humans?</p>
@@ -130,7 +130,7 @@ const thesisNotesAppPosts = [
     title: 'Sitting Down to Talk',
     date: '2025-09-11',
     description: 'A conceptual visualization for the thesis.',
-    categories: ['thesis', 'visualization'],
+    type: 'thesis',
     content: `
       <p>Call the thesis: <strong>Sitting down to talk</strong></p>
       <p>Involve aha moments</p>
@@ -142,7 +142,7 @@ const thesisNotesAppPosts = [
     title: 'Neuroscience and the Human Mind',
     date: '2025-10-09-1',
     description: 'Investigating the intersection of neuroscience, the human mind, and artificial systems.',
-    categories: ['thesis', 'neuroscience', 'philosophy', 'ai'],
+    type: 'thesis',
     content: `
       <h3>THESIS: How do we explain the findings of a field like neuroscience while thinking that there is something like a human mind?</h3>
       <p>Well, neuroscience claims to study the brain. Neuroscientists do not just care about the human brain right? A materialist neuroscientist may do away with the idea that the mind exists, but plenty don’t. I for one, think that the mind exists and that there is something unique about our human species, that our mind is different and unique from any minds that another species may or may not inhabit. Then why do I also believe in the field of neuroscience? I think it’s a fascinating hypothesis. I think that it tells us something about brains. I think it does a really good job of mapping out neural structures that make even conceiving of our minds possible. I don’t think it’s unique to humans though.</p>
@@ -192,7 +192,7 @@ const thesisNotesAppPosts = [
     title: 'Can a Machine Think?',
     date: '2025-10-09-2',
     description: 'Examining the differences between human and machine thought, origin, and design.',
-    categories: ['thesis', 'philosophy', 'ai'],
+    type: 'thesis',
     content: `
       <h3>THESIS</h3>
       <p>It is too hard to say whether a machine cannot think</p>
@@ -219,7 +219,7 @@ const thesisNotesAppPosts = [
     title: 'Language, Numbers, and Cognitive Capacity',
     date: '2025-10-09-3',
     description: 'Comparing numeral systems and the efficiency of binary vs the human experience.',
-    categories: ['thesis', 'linguistics', 'math'],
+    type: 'thesis',
     content: `
       <p>What if I wrote like:</p>
       <p>We created artificial intelligence maybe. What did we just create and how should It change our research directions</p>
@@ -236,7 +236,7 @@ const thesisNotesAppPosts = [
     title: 'Machine Unlearning',
     date: '2025-10-11',
     description: 'Notes on the right to be forgotten and AI laws.',
-    categories: ['thesis', 'ethics', 'law'],
+    type: 'thesis',
     content: `
       <p>Some people dont care</p>
       <p>Writing thesis on machine unlearning</p>
@@ -253,7 +253,7 @@ const thesisNotesAppPosts = [
     title: 'Lost Thought on Meaning',
     date: '2025-10-17',
     description: 'A fleeting thought about meaning and Dennett.',
-    categories: ['thesis', 'philosophy'],
+    type: 'thesis',
     content: `
       <p>Should have written it down last night while I was showering but</p>
       <p>Something about thesis</p>
@@ -267,7 +267,7 @@ const thesisNotesAppPosts = [
     title: 'Gossip, LLMs, and Interaction Theory',
     date: '2025-10-23-1',
     description: 'LLMs as a theory of human verbal interaction and the role of prediction.',
-    categories: ['thesis', 'linguistics', 'sociology'],
+    type: 'thesis',
     content: `
       <p>Thesis:</p>
       <p>Why gossip is just someone’s theory of interaction. You learn so much from someone when they gossip, if they’re gossiping truly and honestly. You get to observe what you did not when something is gossip ….. the only thing that makes it gossip is that some people don’t know what it is</p>
@@ -291,7 +291,7 @@ const thesisNotesAppPosts = [
     title: 'More Thesis Dump: AI and Human Origins',
     date: '2025-10-23-2',
     description: 'Further thoughts on the difficulty of imagining being AI, and the differences in origin and design between humans and machines.',
-    categories: ['thesis', 'philosophy', 'ai'],
+    type: 'thesis',
     content: `
       <p>More thesis dump</p>
       <p>Thinking about AI is so hard bc you can’t imagine being it</p>
@@ -322,7 +322,7 @@ const thesisNotesAppPosts = [
     title: 'Meaning, Syntax, and Semantics',
     date: '2025-10-23-3',
     description: 'Exploring meaning making beyond syntax and semantics, influenced by Wittgenstein and Searle.',
-    categories: ['thesis', 'philosophy', 'linguistics'],
+    type: 'thesis',
     content: `
       <p>How does meaning exist beyond syntax and semantics and does the process and “how” of meaning makings lead to incompatibility or incomparability of meaning in artificially intelligence systems and human minds? In exploring this difference in “how” I’ve been influence by Wittgenstein and Searle. I’m also interested in how important the temporality of human life and experience is to our use and meaning making through language. In what ways does this differ from the timescales of computation. How does contextual embedding differ etc…</p>
       <p>I know there’s a lot here but Im in the process of narrowing down and the more convos I have the closer I’m getting. I have also been thinking a lot about the bullshit readings in relation to these ideas and I would love to chat about those as well.</p>
@@ -336,7 +336,7 @@ const thesisNotesAppPosts = [
     title: 'Severance and Being Human',
     date: '2025-10-24-1',
     description: 'Thoughts on "Severance", presence, and the digital age.',
-    categories: ['thesis', 'philosophy', 'culture'],
+    type: 'thesis',
     content: `
       <p>Severance</p>
       <p>Being human means is knowing the relationship between your experience and your reality</p>
@@ -358,7 +358,7 @@ const thesisNotesAppPosts = [
     title: 'I Have to Err',
     date: '2025-10-24-2',
     description: 'A brief note on change and error.',
-    categories: ['thesis', 'personal'],
+    type: 'thesis',
     content: `
       <p>Still I have to err</p>
       <p>I can choose not to change</p>
@@ -369,7 +369,7 @@ const thesisNotesAppPosts = [
     title: 'Thesis Meetings and Philosophical Notes',
     date: '2025-10-28-1',
     description: 'Extensive notes from meetings with Rossi and Jack, covering systematics, dualism, and hylomorphism.',
-    categories: ['thesis', 'philosophy', 'research'],
+    type: 'thesis',
     content: `
       <p>Rossi Thesis Meeting</p>
       <p>Ancient mesopotomaiona based</p>
@@ -426,7 +426,7 @@ const thesisNotesAppPosts = [
     title: 'Language and the Common Order',
     date: '2025-10-28-2',
     description: 'Notes on Gottlob Frege and anti-reductionism.',
-    categories: ['thesis', 'philosophy', 'math'],
+    type: 'thesis',
     content: `
       <p>Language and its relation to the common order</p>
       <p>Gotleb freger - rabid anti reductionist<br>Philosopher of mathematics<br>Thinking is not a causal process and thoughts are not material things<br>Platonic form<br>The foundations of arithmetic introduction<br>The basic laws of arithmetic introduction<br>Polemical texts</p>
@@ -437,7 +437,7 @@ const thesisNotesAppPosts = [
     title: 'Meaning-Making Thesis Proposal',
     date: '2025-10-29',
     description: 'Drafting the thesis motivation: Causal vs Rational relations and the limits of natural sciences.',
-    categories: ['thesis', 'proposal', 'philosophy'],
+    type: 'thesis',
     content: `
       <p>Meaning-Making Thesis</p>
       <p>Dont want to address whether machines can think,</p>
@@ -460,7 +460,7 @@ const thesisNotesAppPosts = [
     title: 'Rapid Adoption and AGI',
     date: '2025-11-04',
     description: 'Thoughts on the rapid adoption of AI and the possibility of AGI.',
-    categories: ['thesis', 'ai', 'future'],
+    type: 'thesis',
     content: `
       <p>Edit for thesis talk about rapid adoption</p>
       <p>And also maybe talk about artificial general intelligence or the possibility of it rather than applicational ai that seems to be more math foundational</p>
@@ -471,7 +471,7 @@ const thesisNotesAppPosts = [
     title: 'Wolfram, Computation, and Irreducibility',
     date: '2025-11-05',
     description: 'Notes from Stephen Wolfram\'s explainer on ChatGPT and computational irreducibility.',
-    categories: ['thesis', 'ai', 'computation'],
+    type: 'thesis',
     content: `
       <p>Wolfram explainer thesis supplement<br>Human language is fundamentally imprecise, not least because it isn’t “tethered” to a specific computational implementation, and its meaning is basically defined just by a “social contract” between its users. But computational language, by its nature, has a certain fundamental precision—because in the end what it specifies can always be “unambiguously executed on a computer”</p>
       <p><a href="https://writings.stephenwolfram.com/2023/02/what-is-chatgpt-doing-and-why-does-it-work/" target="_blank" rel="noopener noreferrer">https://writings.stephenwolfram.com/2023/02/what-is-chatgpt-doing-and-why-does-it-work/</a></p>
@@ -485,7 +485,7 @@ const thesisNotesAppPosts = [
     title: 'Pragmatism and the LLM Mind',
     date: '2025-11-10',
     description: 'A brief note on pragmatism vs rationalism in the context of LLMs.',
-    categories: ['thesis', 'philosophy'],
+    type: 'thesis',
     content: `
       <p>Thesis, maybe I also need to say that the pragmatist is not for llm mind</p>
       <p>That the rationalist gets truth wrong but a pragmatist doesnt</p>
@@ -496,7 +496,7 @@ const thesisNotesAppPosts = [
     title: 'Artificial Tools for Natural Beings',
     date: '2025-11-14',
     description: 'On the nature of artifice and its effect on reality.',
-    categories: ['thesis', 'philosophy', 'tools'],
+    type: 'thesis',
     content: `
       <p>Here are artificial tools created for natural beings</p>
       <p>It’s in our nature to make use of artifice, it’s our creation<br>It will shape our world and reality bc that is naturally what happens when you introduce something new into a system</p>
@@ -508,7 +508,7 @@ const thesisNotesAppPosts = [
     title: 'The Mind-Language Problem',
     date: '2025-11-21-1',
     description: 'Intentions, science, and the Language of Thought Hypothesis.',
-    categories: ['thesis', 'linguistics', 'philosophy'],
+    type: 'thesis',
     content: `
       <p>I think there’s another argument that underlies the mind language problem</p>
       <p>Intentions seems pseudo scientific but that is if you think the world is science</p>
@@ -520,7 +520,7 @@ const thesisNotesAppPosts = [
     title: 'Advisor Meeting: Causal vs Intentional',
     date: '2025-11-21-2',
     description: 'Action items and notes from the first meeting with Monica Bridges.',
-    categories: ['thesis', 'meeting', 'research'],
+    type: 'thesis',
     content: `
       <p>monica bridges meeting 1 (first thesis advisors meeting, action items??)</p>
       <p>dont have to decide now how many people/philosophers and which papers will be in it<br>but start somewhere</p>
@@ -546,7 +546,7 @@ const thesisNotesAppPosts = [
     title: 'The Social Definition of a Computer',
     date: '2025-12-01',
     description: 'Neuroscience, mechanism, and the social debate about the mind.',
-    categories: ['thesis', 'sociology', 'neuroscience'],
+    type: 'thesis',
     content: `
       <p>What is a computer and what is not, is a social issue</p>
       <p>Neuroscience is not a social science its ascribes mechanisms, so it cannot address something that is a social issue<br>The very fact that we are having a debate about the mind, means that there is something social rather than biological al</p>
