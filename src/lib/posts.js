@@ -22,7 +22,7 @@ function getRandomDate(startDate, endDate) {
   return date.toISOString().split('T')[0];
 }
 const startDate = new Date(2025, 8, 1); // Sep 1, 2025
-const endDate = new Date(2025, 10, 14); // Nov 14, 2025
+const endDate = new Date(2026, 6, 6); 
 
 // --- NEW POSTS PARSED FROM THESIS DUMP ---
 // I've taken the blurbs from your document and turned them into individual posts.
