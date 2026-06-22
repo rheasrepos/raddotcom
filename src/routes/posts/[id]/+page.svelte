@@ -23,12 +23,11 @@
 	// or when allPosts is first loaded.
 	$: {
 		if (allPosts.length > 0 && postId) {
-			const numericPostId = parseInt(String(postId));
-			post = getPostById(allPosts, numericPostId);
+			post = getPostById(allPosts, postId);
 
 			if (post) {
 				// Find the index of the current post in the sorted list
-				const currentIndex = allPosts.findIndex(p => p.id === numericPostId);
+				const currentIndex = allPosts.findIndex(p => String(p.id) === String(postId));
 
 				// Find next post (newest, so index - 1)
 				if (currentIndex > 0) {

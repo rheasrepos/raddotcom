@@ -140,7 +140,7 @@ const thesisNotesAppPosts = [
   {
     id: 'thesis-neuroscience-human-mind',
     title: 'Neuroscience and the Human Mind',
-    date: '2025-10-09-1',
+    date: '2025-10-09',
     description: 'Investigating the intersection of neuroscience, the human mind, and artificial systems.',
     type: 'thesis',
     content: `
@@ -190,7 +190,7 @@ const thesisNotesAppPosts = [
   {
     id: 'thesis-machine-thinking',
     title: 'Can a Machine Think?',
-    date: '2025-10-09-2',
+    date: '2025-10-09',
     description: 'Examining the differences between human and machine thought, origin, and design.',
     type: 'thesis',
     content: `
@@ -217,7 +217,7 @@ const thesisNotesAppPosts = [
   {
     id: 'thesis-binary-vs-decimal',
     title: 'Language, Numbers, and Cognitive Capacity',
-    date: '2025-10-09-3',
+    date: '2025-10-09',
     description: 'Comparing numeral systems and the efficiency of binary vs the human experience.',
     type: 'thesis',
     content: `
@@ -265,7 +265,7 @@ const thesisNotesAppPosts = [
   {
     id: 'thesis-gossip-interaction',
     title: 'Gossip, LLMs, and Interaction Theory',
-    date: '2025-10-23-1',
+    date: '2025-10-23',
     description: 'LLMs as a theory of human verbal interaction and the role of prediction.',
     type: 'thesis',
     content: `
@@ -289,7 +289,7 @@ const thesisNotesAppPosts = [
   {
     id: 'thesis-dump-oct-23',
     title: 'More Thesis Dump: AI and Human Origins',
-    date: '2025-10-23-2',
+    date: '2025-10-23',
     description: 'Further thoughts on the difficulty of imagining being AI, and the differences in origin and design between humans and machines.',
     type: 'thesis',
     content: `
@@ -320,7 +320,7 @@ const thesisNotesAppPosts = [
   {
     id: 'thesis-meaning-wittgenstein-searle',
     title: 'Meaning, Syntax, and Semantics',
-    date: '2025-10-23-3',
+    date: '2025-10-23',
     description: 'Exploring meaning making beyond syntax and semantics, influenced by Wittgenstein and Searle.',
     type: 'thesis',
     content: `
@@ -334,7 +334,7 @@ const thesisNotesAppPosts = [
   {
     id: 'thesis-severance',
     title: 'Severance and Being Human',
-    date: '2025-10-24-1',
+    date: '2025-10-24',
     description: 'Thoughts on "Severance", presence, and the digital age.',
     type: 'thesis',
     content: `
@@ -356,7 +356,7 @@ const thesisNotesAppPosts = [
   {
     id: 'thesis-err-change',
     title: 'I Have to Err',
-    date: '2025-10-24-2',
+    date: '2025-10-24',
     description: 'A brief note on change and error.',
     type: 'thesis',
     content: `
@@ -367,7 +367,7 @@ const thesisNotesAppPosts = [
   {
     id: 'thesis-meetings-notes',
     title: 'Thesis Meetings and Philosophical Notes',
-    date: '2025-10-28-1',
+    date: '2025-10-28',
     description: 'Extensive notes from meetings with Rossi and Jack, covering systematics, dualism, and hylomorphism.',
     type: 'thesis',
     content: `
@@ -424,7 +424,7 @@ const thesisNotesAppPosts = [
   {
     id: 'thesis-frege-anti-reductionist',
     title: 'Language and the Common Order',
-    date: '2025-10-28-2',
+    date: '2025-10-28',
     description: 'Notes on Gottlob Frege and anti-reductionism.',
     type: 'thesis',
     content: `
@@ -506,7 +506,7 @@ const thesisNotesAppPosts = [
   {
     id: 'thesis-mind-language-problem',
     title: 'The Mind-Language Problem',
-    date: '2025-11-21-1',
+    date: '2025-11-21',
     description: 'Intentions, science, and the Language of Thought Hypothesis.',
     type: 'thesis',
     content: `
@@ -518,7 +518,7 @@ const thesisNotesAppPosts = [
   {
     id: 'thesis-advisor-meeting-1',
     title: 'Advisor Meeting: Causal vs Intentional',
-    date: '2025-11-21-2',
+    date: '2025-11-21',
     description: 'Action items and notes from the first meeting with Monica Bridges.',
     type: 'thesis',
     content: `
@@ -792,7 +792,7 @@ export function filterProjects(projects, filter = 'all', startDate = null, endDa
  * @returns {Post|undefined}
  */
 export function getPostById(posts, id) {
-	return posts.find(post => post.id === parseInt(String(id)));
+	return posts.find(post => String(post.id) === String(id));
 }
 
 /**

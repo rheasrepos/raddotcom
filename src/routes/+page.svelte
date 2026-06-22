@@ -427,7 +427,7 @@
 			if (viewMode === 'all') {
 				if (breadcrumbPath.length > 1) {
 					// We're inside a folder, so filter accordingly
-					if (breadcrumbPath[1].includes('2024') || breadcrumbPath[1].includes('2025')) {
+					if (/\d{4}/.test(breadcrumbPath[1])) {
 						// We're in a month folder, show all projects from this month
 						const projectDate = new Date(project.date);
 						const monthMatch = projectDate.getMonth() === currentMonth && projectDate.getFullYear() === currentYear;
@@ -636,7 +636,6 @@
 					<span class="zoom-level">{Math.round(zoomLevel * 100)}%</span>
 					<button class="zoom-btn" on:click={zoomIn} title="Zoom In">+</button>
 					<button class="zoom-btn" on:click={resetZoom} title="Reset Zoom">⌂</button>
-					<button class="zoom-btn" on:click={() => console.log('Test button clicked, zoomLevel:', zoomLevel)} title="Test">T</button>
 				</div>
 				</div>
 			</div>
@@ -728,30 +727,33 @@
 
 
 
-			<!-- Project Modal -->
-			{#if selectedProject}
-				<div class="modal-overlay" on:click={closeProject} style="top: {modalScrollPosition}px;">
-					<div class="modal-content" on:click|stopPropagation>
-						<button class="close-btn" on:click={closeProject}>×</button>
-						<div class="modal-body">
-							<img src={selectedProject.image} alt={selectedProject.title} />
-							<h2>{selectedProject.title}</h2>
-							<p class="project-date">{new Date(selectedProject.date).toLocaleDateString()}</p>
-							<p class="project-description">{selectedProject.description}</p>
-							<div class="project-content">
-								{selectedProject.content}
-							</div>
-							<div class="project-actions">
-								<a href="/posts/{selectedProject.id}" class="view-post-btn">View Full Post →</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			{/if}
 		</div>
 	</div>
 		</div>
-		
+
+		<!-- Project Modal (outside scrollable homepage so it always covers the full screen) -->
+		{#if selectedProject}
+			<div class="modal-overlay" on:click={closeProject}>
+				<div class="modal-content" on:click|stopPropagation>
+					<button class="close-btn" on:click={closeProject}>×</button>
+					<div class="modal-body">
+						{#if selectedProject.image}
+							<img src={selectedProject.image} alt={selectedProject.title} />
+						{/if}
+						<h2>{selectedProject.title}</h2>
+						<p class="project-date">{new Date(selectedProject.date).toLocaleDateString()}</p>
+						<p class="project-description">{selectedProject.description}</p>
+						<div class="project-content">
+							{selectedProject.content}
+						</div>
+						<div class="project-actions">
+							<a href="/posts/{selectedProject.id}" class="view-post-btn">View Full Post →</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		{/if}
+
 		<!-- Wallpaper Toolbar -->
 		<div class="wallpaper-toolbar">
 			<div class="toolbar-section">
@@ -1499,12 +1501,12 @@
 	/* Modal Styles */
 	.modal-overlay {
 		position: absolute;
-		top: 0;
+		top: 50px; /* Below the topbar */
 		left: 0;
-		width: 100%;
-		height: 100%;
+		right: 0;
+		bottom: 35px; /* Above the wallpaper toolbar */
 		background: rgba(0, 0, 0, 0.4);
-		z-index: 1000;
+		z-index: 500;
 		backdrop-filter: blur(5px);
 		display: flex;
 		justify-content: center;
