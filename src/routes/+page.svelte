@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import { fade } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { transitionActions } from '../lib/pageTransition.js';
@@ -641,7 +642,8 @@
 			</div>
 
 			<!-- Desktop Icons -->
-			<div class="desktop-icons">
+			{#key viewMode + breadcrumbPath.join('/') + searchQuery}
+			<div class="desktop-icons" transition:fade={{ duration: 150 }}>
 				{#if viewMode === 'all'}
 					<!-- All rad stuff as individual icons -->
 					{#each projectsWithDates as project (project.id)}
@@ -709,6 +711,7 @@
 					{/each}
 				{/if}
 			</div>
+			{/key}
 
 			<!-- Folder Opening Animation -->
 			{#if folderOpening}
@@ -865,11 +868,11 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		min-height: 100vh;
+		height: 100vh;
 		background: #ff8c42;
-		padding: 20px 10px 10px 10px; /* Removed bottom padding */
+		padding: 10px 10px 0 10px;
 		position: relative;
-		overflow: visible; /* Ensure stand is visible */
+		overflow: hidden;
 		transition: all 0.3s ease-out;
 	}
 
@@ -911,7 +914,7 @@
 	.laptop-screen {
 		width: 100%;
 		max-width: 1400px;
-		height: 85vh;
+		height: 88vh;
 		background: #ff8c42;
 		border: 3px solid #333333;
 		border-radius: 6px;
@@ -923,10 +926,10 @@
 			inset 0 0 10px rgba(0, 0, 0, 0.2);
 	}
 
-	/* Desktop Stand */
+	/* Desktop Stand — anchored to frame bottom, extends upward */
 	.desktop-stand {
 		position: absolute;
-		bottom: -74px; /* Position it below the laptop screen, moved 13px up total */
+		bottom: 0;
 		left: 50%;
 		transform: translateX(-50%);
 		z-index: 10;
@@ -934,23 +937,22 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding-bottom: 20px; /* Add padding to the bottom of the stand */
 	}
 
 	.stand-vertical {
 		width: 35px;
-		height: 85px;
+		height: 6vh;
 		background: #1a1a1a;
 		border: 2px solid #000000;
 	}
 
 	.stand-base {
-		width: 200px;
-		height: 30px;
+		width: 180px;
+		height: 22px;
 		background: #1a1a1a;
 		border: 2px solid #000000;
 		clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
-		margin-top: -3px; /* Slight overlap with vertical part */
+		margin-top: -2px;
 	}
 
 	.laptop-screen::before {

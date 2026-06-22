@@ -29,7 +29,7 @@ const endDate = new Date(2026, 6, 6);
 const thesisNotesAppPosts = [
 	{
     id: 'thesis-human-intelligence-vs-ai',
-    title: 'Human Intelligence in AI',
+    title: 'maybe thesis is about human intelligence in AI vs actual AI',
     date: '2025-02-20',
     description: 'Initial thoughts on studying AI through the lens of neuroscience.',
     type: 'thesis',
@@ -78,7 +78,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-intelligence-art-purpose',
-    title: 'Intelligence, Art, and Human Purpose',
+    title: 'we just gave birth to a new species LOL',
     date: '2025-09-07',
     description: 'A deep dive into the nature of intelligence, the value of bodied experience in art, and the potential future of humanity alongside AI.',
     type: 'thesis',
@@ -139,7 +139,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-neuroscience-human-mind',
-    title: 'Neuroscience and the Human Mind',
+    title: 'many people ask whether the brain is a computer. i think we should flip the question',
     date: '2025-10-09',
     description: 'Investigating the intersection of neuroscience, the human mind, and artificial systems.',
     type: 'thesis',
@@ -189,7 +189,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-machine-thinking',
-    title: 'Can a Machine Think?',
+    title: 'it is too hard to say whether a machine cannot think',
     date: '2025-10-09',
     description: 'Examining the differences between human and machine thought, origin, and design.',
     type: 'thesis',
@@ -216,7 +216,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-binary-vs-decimal',
-    title: 'Language, Numbers, and Cognitive Capacity',
+    title: 'if language is constitutive, then why dont we compare binary to decimal',
     date: '2025-10-09',
     description: 'Comparing numeral systems and the efficiency of binary vs the human experience.',
     type: 'thesis',
@@ -233,7 +233,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-machine-unlearning',
-    title: 'Machine Unlearning',
+    title: 'request the right to be forgotten',
     date: '2025-10-11',
     description: 'Notes on the right to be forgotten and AI laws.',
     type: 'thesis',
@@ -250,7 +250,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-meaning-dennett',
-    title: 'Lost Thought on Meaning',
+    title: 'BRUHHHHH WTHAT HTE FUCK WAS IT',
     date: '2025-10-17',
     description: 'A fleeting thought about meaning and Dennett.',
     type: 'thesis',
@@ -264,7 +264,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-gossip-interaction',
-    title: 'Gossip, LLMs, and Interaction Theory',
+    title: 'why gossip is just someone\'s theory of interaction',
     date: '2025-10-23',
     description: 'LLMs as a theory of human verbal interaction and the role of prediction.',
     type: 'thesis',
@@ -288,7 +288,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-dump-oct-23',
-    title: 'More Thesis Dump: AI and Human Origins',
+    title: 'thinking about AI is so hard bc you can\'t imagine being it',
     date: '2025-10-23',
     description: 'Further thoughts on the difficulty of imagining being AI, and the differences in origin and design between humans and machines.',
     type: 'thesis',
@@ -333,7 +333,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-severance',
-    title: 'Severance and Being Human',
+    title: 'to think is to discover without instruction',
     date: '2025-10-24',
     description: 'Thoughts on "Severance", presence, and the digital age.',
     type: 'thesis',
@@ -366,7 +366,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-meetings-notes',
-    title: 'Thesis Meetings and Philosophical Notes',
+    title: 'rossi meeting / jack meeting oct 28th',
     date: '2025-10-28',
     description: 'Extensive notes from meetings with Rossi and Jack, covering systematics, dualism, and hylomorphism.',
     type: 'thesis',
@@ -423,7 +423,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-frege-anti-reductionist',
-    title: 'Language and the Common Order',
+    title: 'thinking is not a causal process and thoughts are not material things',
     date: '2025-10-28',
     description: 'Notes on Gottlob Frege and anti-reductionism.',
     type: 'thesis',
@@ -434,7 +434,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-meaning-making-proposal',
-    title: 'Meaning-Making Thesis Proposal',
+    title: 'dont want to address whether machines can think',
     date: '2025-10-29',
     description: 'Drafting the thesis motivation: Causal vs Rational relations and the limits of natural sciences.',
     type: 'thesis',
@@ -468,7 +468,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-wolfram-explainer',
-    title: 'Wolfram, Computation, and Irreducibility',
+    title: 'so maybe irreducible computation are things the brain can\'t do',
     date: '2025-11-05',
     description: 'Notes from Stephen Wolfram\'s explainer on ChatGPT and computational irreducibility.',
     type: 'thesis',
@@ -482,7 +482,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-pragmatist-rationalist',
-    title: 'Pragmatism and the LLM Mind',
+    title: 'the rationalist gets truth wrong but a pragmatist doesnt',
     date: '2025-11-10',
     description: 'A brief note on pragmatism vs rationalism in the context of LLMs.',
     type: 'thesis',
@@ -493,7 +493,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-artificial-tools',
-    title: 'Artificial Tools for Natural Beings',
+    title: 'here are artificial tools created for natural beings',
     date: '2025-11-14',
     description: 'On the nature of artifice and its effect on reality.',
     type: 'thesis',
@@ -505,7 +505,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-mind-language-problem',
-    title: 'The Mind-Language Problem',
+    title: 'intentions seems pseudo scientific but that is if you think the world is science',
     date: '2025-11-21',
     description: 'Intentions, science, and the Language of Thought Hypothesis.',
     type: 'thesis',
@@ -517,7 +517,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-advisor-meeting-1',
-    title: 'Advisor Meeting: Causal vs Intentional',
+    title: 'monica bridges meeting 1',
     date: '2025-11-21',
     description: 'Action items and notes from the first meeting with Monica Bridges.',
     type: 'thesis',
@@ -543,7 +543,7 @@ const thesisNotesAppPosts = [
   },
   {
     id: 'thesis-social-issue',
-    title: 'The Social Definition of a Computer',
+    title: 'what is a computer and what is not, is a social issue',
     date: '2025-12-01',
     description: 'Neuroscience, mechanism, and the social debate about the mind.',
     type: 'thesis',
@@ -588,11 +588,19 @@ const hardcodedPosts = [
 	},
 	{
 		id: 4,
-		title: "Publication: Cortical Reinstatement (Preprint)",
-		description: "Song, H., Ke, J., Madhogarhia, R., Leong, Y. C., & Rosenberg, M. D. (2025).",
-		type: "writing",
+		title: "Song, H., Ke, J., Madhogarhia, R., et al. (2025) — Cortical Reinstatement Preprint",
+		description: "Cortical reinstatement of causally related events sparks narrative insights by updating neural representation patterns.",
+		type: "research",
 		date: "2025-03-12",
-		content: "Full preprint title: Song, H., Ke, J., Madhogarhia, R., Leong, Y. C., & Rosenberg, M. D. (2025). Cortical reinstatement of causally related events sparks narrative insights by updating neural representation patterns. bioRxiv. doi: 10.1101/2025.03.12.642853"
+		content: `<p><strong>Song, H., Ke, J., Madhogarhia, R., Leong, Y. C., & Rosenberg, M. D. (2025).</strong> Cortical reinstatement of causally related events sparks narrative insights by updating neural representation patterns. <em>bioRxiv.</em></p><p>doi: <a href="https://doi.org/10.1101/2025.03.12.642853" target="_blank" rel="noopener noreferrer">10.1101/2025.03.12.642853</a></p>`
+	},
+	{
+		id: 'pub-ke-social-aha-isrsa',
+		title: "Ke, J. et al. — Social Aha Moments & IS-RSA",
+		description: "Neural mechanisms underlying social insight moments during naturalistic narrative comprehension, using inter-subject RSA.",
+		type: "research",
+		date: "2025-03-12",
+		content: `<p><strong>Ke, J., Madhogarhia, R., & Rosenberg, M. D.</strong> Social aha moments during naturalistic narrative comprehension: an inter-subject representational similarity analysis (IS-RSA) approach.</p><p>Research conducted at the <a href="https://cablab.uchicago.edu" target="_blank" rel="noopener noreferrer">CAB Lab, University of Chicago</a>.</p>`
 	},
 	{
 		id: 5,

@@ -5,7 +5,7 @@
 	const dispatch = createEventDispatcher();
 	
 	const navItems = [
-		{ path: '/', label: 'Home' },
+		{ path: '/', label: 'Desktop' },
 		// Changed path to /blog and label to Blog
 		{ path: '/blog', label: 'Blog' },
 		{ path: '/resume', label: 'Resume' },
