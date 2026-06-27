@@ -101,7 +101,7 @@
 	let expandedProjects = [];
 	let selectedFilter = 'all';
 	let initialized = false;
-	let viewMode = 'all'; // Default view mode
+	let viewMode = 'desktop'; // Default view mode: combined folders + loose files
 	let selectedProject = null;
 	let modalScrollPosition = 0;
 	let folderOpening = false;
@@ -416,8 +416,11 @@
 			if (searchQuery.trim()) {
 				const query = searchQuery.toLowerCase();
 				const titleMatch = project.title.toLowerCase().includes(query);
-				const descriptionMatch = project.description.toLowerCase().includes(query);
-				if (!titleMatch && !descriptionMatch) {
+				const descriptionMatch = project.description?.toLowerCase().includes(query) ?? false;
+				// Strip HTML tags and search raw content text
+				const contentText = project.content ? String(project.content).replace(/<[^>]*>/g, ' ') : '';
+				const contentMatch = contentText.toLowerCase().includes(query);
+				if (!titleMatch && !descriptionMatch && !contentMatch) {
 					return false;
 				}
 			}
@@ -593,20 +596,25 @@
 			</div>
 			
 			<div class="view-options">
-				<button 
+				<button
+					class="view-btn {viewMode === 'desktop' ? 'active' : ''}"
+					on:click={() => { viewMode = 'desktop'; breadcrumbPath = ['Desktop']; }}
+				>
+					Desktop
+				</button>
+				<button
 					class="view-btn {viewMode === 'all' ? 'active' : ''}"
 					on:click={() => viewMode = 'all'}
 				>
-					<!-- Renamed "Rad Stuff" to "Posts" -->
 					All Posts
 				</button>
-				<button 
+				<button
 					class="view-btn {viewMode === 'folders' ? 'active' : ''}"
 					on:click={() => viewMode = 'folders'}
 				>
 					By Month
 				</button>
-				<button 
+				<button
 					class="view-btn {viewMode === 'categories' ? 'active' : ''}"
 					on:click={() => viewMode = 'categories'}
 				>
@@ -644,69 +652,125 @@
 			<!-- Desktop Icons -->
 			{#key viewMode + breadcrumbPath.join('/') + searchQuery}
 			<div class="desktop-icons" transition:fade={{ duration: 150 }}>
-				{#if viewMode === 'all'}
-					<!-- All rad stuff as individual icons -->
-					{#each projectsWithDates as project (project.id)}
-						<div 
-							class="desktop-icon project-icon"
+				{#if viewMode === 'desktop'}
+					<!-- Desktop: category folders + any loose files -->
+					{#each categories as category}
+						{@const categoryInfo = categoryConfig[category.id]}
+						{@const count = (projects || []).filter(p => p.type === category.id).length}
+						{#if count > 0}
+							<div
+								class="desktop-icon"
+								on:click={() => openCategoryFolder(category.id)}
+								on:keydown={(e) => e.key === 'Enter' && openCategoryFolder(category.id)}
+								tabindex="0"
+								role="button"
+								aria-label="Open {categoryInfo.label} folder"
+							>
+								<div class="mac-icon">
+									{#if categoryInfo.iconImage}
+										<img src={categoryInfo.iconImage} alt={categoryInfo.label} class="mac-icon-img" />
+									{:else}
+										<svg viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
+											<path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999999" stroke-width="1.2"/>
+											<rect x="0" y="11" width="56" height="35" rx="3" fill="#e8e8e8" stroke="#999999" stroke-width="1.2"/>
+										</svg>
+									{/if}
+								</div>
+								<div class="mac-icon-label">{categoryInfo.label}</div>
+							</div>
+						{/if}
+					{/each}
+					<!-- Loose files float directly on the desktop (set loose: true in frontmatter) -->
+					{#each (projects || []).filter(p => p.loose === true) as project (project.id)}
+						<div
+							class="desktop-icon"
 							on:click={() => toggleProject(project.id)}
 							on:keydown={(e) => e.key === 'Enter' && toggleProject(project.id)}
 							tabindex="0"
 							role="button"
 							aria-label="Open {project.title}"
 						>
-							<!-- UPDATED: Use custom SVG icons -->
-							<div class="icon-image" style="color: {getProjectColor(project.type)}">
-								{@html categoryIcons[project.type] || categoryIcons.default}
+							<div class="mac-icon">
+								{#if project.iconImage}
+									<img src={project.iconImage} alt={project.title} class="mac-icon-img" />
+								{:else}
+									<svg viewBox="0 0 44 56" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
+										<path d="M4 0 L30 0 L44 14 L44 54 Q44 56 42 56 L4 56 Q2 56 0 54 L0 2 Q0 0 4 0 Z" fill="#f8f8f8" stroke="#aaaaaa" stroke-width="1.5"/>
+										<path d="M30 0 L30 14 L44 14" stroke="#aaaaaa" stroke-width="1.5" fill="none"/>
+									</svg>
+								{/if}
 							</div>
-							<div class="icon-label">{project.title}</div>
-							<div class="icon-type" style="color: {getProjectColor(project.type)}">{getCategoryLabel(project.type)}</div>
+							<div class="mac-icon-label">{project.title}</div>
 						</div>
 					{/each}
-				<!-- FIX: RESTORED THIS BLOCK -->
+				{:else if viewMode === 'all'}
+					<!-- Posts as Mac-style document icons -->
+					{#each projectsWithDates as project (project.id)}
+						<div
+							class="desktop-icon"
+							on:click={() => toggleProject(project.id)}
+							on:keydown={(e) => e.key === 'Enter' && toggleProject(project.id)}
+							tabindex="0"
+							role="button"
+							aria-label="Open {project.title}"
+						>
+							<div class="mac-icon">
+								{#if project.iconImage}
+									<img src={project.iconImage} alt={project.title} class="mac-icon-img" />
+								{:else}
+									<svg viewBox="0 0 44 56" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
+										<path d="M4 0 L30 0 L44 14 L44 54 Q44 56 42 56 L4 56 Q2 56 0 54 L0 2 Q0 0 4 0 Z" fill="#f8f8f8" stroke="#aaaaaa" stroke-width="1.5"/>
+										<path d="M30 0 L30 14 L44 14" stroke="#aaaaaa" stroke-width="1.5" fill="none"/>
+									</svg>
+								{/if}
+							</div>
+							<div class="mac-icon-label">{project.title}</div>
+						</div>
+					{/each}
 				{:else if viewMode === 'folders'}
-					<!-- Month folders -->
+					<!-- Month folders as Mac-style folder icons -->
 					{#each availableMonths as monthYear}
-						<div 
-							class="desktop-icon folder-icon"
+						{@const label = new Date(monthYear.year, monthYear.month).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+						<div
+							class="desktop-icon"
 							on:click={() => openMonthFolder(monthYear)}
 							on:keydown={(e) => e.key === 'Enter' && openMonthFolder(monthYear)}
 							tabindex="0"
 							role="button"
-							aria-label="Open {new Date(monthYear.year, monthYear.month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} folder"
+							aria-label="Open {label} folder"
 						>
-							<div class="folder-icon-image">📁</div>
-							<div class="icon-label">
-								{new Date(monthYear.year, monthYear.month).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+							<div class="mac-icon">
+								<svg viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
+									<path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999999" stroke-width="1.2"/>
+									<rect x="0" y="11" width="56" height="35" rx="3" fill="#e8e8e8" stroke="#999999" stroke-width="1.2"/>
+								</svg>
 							</div>
-							<div class="folder-count">
-								{(projects || []).filter(p => {
-									const date = new Date(p.date);
-									return date.getMonth() === monthYear.month && date.getFullYear() === monthYear.year;
-								}).length} items
-							</div>
-						</div> 
+							<div class="mac-icon-label">{label}</div>
+						</div>
 					{/each}
 				{:else if viewMode === 'categories'}
-					<!-- Category folders -->
+					<!-- Category folders as Mac-style folder icons -->
 					{#each categories as category}
 						{@const categoryInfo = categoryConfig[category.id]}
-						<div 
-							class="desktop-icon folder-icon"
+						<div
+							class="desktop-icon"
 							on:click={() => openCategoryFolder(category.id)}
 							on:keydown={(e) => e.key === 'Enter' && openCategoryFolder(category.id)}
 							tabindex="0"
 							role="button"
 							aria-label="Open {categoryInfo.label} folder"
 						>
-							<!-- UPDATED: Use custom SVG icons -->
-							<div class="folder-icon-image" style="color: {categoryInfo.color}">
-								{@html categoryIcons[category.id] || categoryIcons.default}
+							<div class="mac-icon">
+								{#if categoryInfo.iconImage}
+									<img src={categoryInfo.iconImage} alt={categoryInfo.label} class="mac-icon-img" />
+								{:else}
+									<svg viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
+										<path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999999" stroke-width="1.2"/>
+										<rect x="0" y="11" width="56" height="35" rx="3" fill="#e8e8e8" stroke="#999999" stroke-width="1.2"/>
+									</svg>
+								{/if}
 							</div>
-							<div class="icon-label">{categoryInfo.label}</div>
-							<div class="folder-count">
-								{(projects || []).filter(p => p.type === category.id).length} items
-							</div>
+							<div class="mac-icon-label">{categoryInfo.label}</div>
 						</div>
 					{/each}
 				{/if}
@@ -1417,63 +1481,51 @@
 		background: rgba(255, 255, 255, 0.9);
 	}
 
-	.icon-image {
-		/* UPDATED: Made image smaller & removed border/overflow */
-		width: 50px;
-		height: 50px;
-		display: flex; /* Center SVG */
+	/* Mac-style icon container */
+	.mac-icon {
+		width: 56px;
+		height: 56px;
+		display: flex;
 		align-items: center;
 		justify-content: center;
+		flex-shrink: 0;
 	}
 
-	/* UPDATED: Added this style for SVGs in post icons */
-	.icon-image :global(svg) {
+	.mac-icon-svg {
 		width: 100%;
 		height: 100%;
-		stroke-width: 1.5;
+		filter: drop-shadow(0 1px 2px rgba(0,0,0,0.18));
+		transition: filter 0.15s ease;
 	}
 
-	.icon-image img {
+	.desktop-icon:hover .mac-icon-svg {
+		filter: drop-shadow(0 2px 6px rgba(0,0,0,0.28));
+	}
+
+	.mac-icon-img {
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
+		object-fit: contain;
+		filter: drop-shadow(0 1px 2px rgba(0,0,0,0.18));
 	}
 
-	.folder-icon-image {
-		/* UPDATED: Made folder icon smaller */
-		font-size: 50px;
-		line-height: 1;
-		/* UPDATED: Add styles for SVG */
-		width: 50px;
-		height: 50px;
-	}
-
-	.folder-icon-image :global(svg) {
-		width: 100%;
-		height: 100%;
-		stroke-width: 1.5; /* Thinner lines for a cleaner icon */
-	}
-
-	.icon-label {
-		/* UPDATED: Made font smaller and added truncation */
-		font-size: 0.75rem;
+	.mac-icon-label {
+		font-size: 0.72rem;
 		color: #000000;
-		font-weight: bold;
+		font-family: Arial, sans-serif;
 		word-wrap: break-word;
-		max-width: 100px;
+		max-width: 80px;
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2; /* Show 2 lines */
+		-webkit-line-clamp: 2;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		height: calc(1.3em * 2); /* line-height * 2 lines */
 		line-height: 1.3;
-	}
-
-	.icon-type {
-		font-size: 0.7rem;
-		color: #636e72;
-		text-transform: uppercase;
+		text-align: center;
+		background: rgba(255,255,255,0.7);
+		border-radius: 2px;
+		padding: 1px 3px;
+		margin-top: 2px;
 	}
 
 	.folder-count {

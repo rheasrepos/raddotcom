@@ -5,9 +5,9 @@
 /// <reference types="@sveltejs/kit" />
 
 /**
- * Environment variables [loaded by Vite](https://vitejs.dev/guide/env-and-mode.html#env-files) from `.env` files and `process.env`. Like [`$env/dynamic/private`](https://kit.svelte.dev/docs/modules#$env-dynamic-private), this module cannot be imported into client-side code. This module only includes variables that _do not_ begin with [`config.kit.env.publicPrefix`](https://kit.svelte.dev/docs/configuration#env) _and do_ start with [`config.kit.env.privatePrefix`](https://kit.svelte.dev/docs/configuration#env) (if configured).
+ * Environment variables [loaded by Vite](https://vitejs.dev/guide/env-and-mode.html#env-files) from `.env` files and `process.env`. Like [`$env/dynamic/private`](https://svelte.dev/docs/kit/$env-dynamic-private), this module cannot be imported into client-side code. This module only includes variables that _do not_ begin with [`config.kit.env.publicPrefix`](https://svelte.dev/docs/kit/configuration#env) _and do_ start with [`config.kit.env.privatePrefix`](https://svelte.dev/docs/kit/configuration#env) (if configured).
  * 
- * _Unlike_ [`$env/dynamic/private`](https://kit.svelte.dev/docs/modules#$env-dynamic-private), the values exported from this module are statically injected into your bundle at build time, enabling optimisations like dead code elimination.
+ * _Unlike_ [`$env/dynamic/private`](https://svelte.dev/docs/kit/$env-dynamic-private), the values exported from this module are statically injected into your bundle at build time, enabling optimisations like dead code elimination.
  * 
  * ```ts
  * import { API_KEY } from '$env/static/private';
@@ -21,86 +21,77 @@
  * 
  * You can override `.env` values from the command line like so:
  * 
- * ```bash
+ * ```sh
  * MY_FEATURE_FLAG="enabled" npm run dev
  * ```
  */
 declare module '$env/static/private' {
-	export const NVM_INC: string;
-	export const TERM_PROGRAM: string;
-	export const NODE: string;
-	export const INIT_CWD: string;
-	export const NVM_CD_FLAGS: string;
-	export const TERM: string;
-	export const SHELL: string;
-	export const HOMEBREW_REPOSITORY: string;
-	export const TMPDIR: string;
-	export const npm_config_global_prefix: string;
-	export const VSCODE_PYTHON_AUTOACTIVATE_GUARD: string;
-	export const TERM_PROGRAM_VERSION: string;
-	export const ZDOTDIR: string;
-	export const ORIGINAL_XDG_CURRENT_DESKTOP: string;
-	export const MallocNanoZone: string;
-	export const npm_package_optional: string;
-	export const COLOR: string;
-	export const npm_config_noproxy: string;
-	export const npm_config_local_prefix: string;
-	export const NVM_DIR: string;
+	export const RSYNC_PROXY: string;
+	export const HTTPS_PROXY: string;
+	export const no_proxy: string;
+	export const GIT_SSH_COMMAND: string;
 	export const USER: string;
-	export const VSCODE_LOGIN_INITIALIZED: string;
-	export const COMMAND_MODE: string;
-	export const npm_config_globalconfig: string;
-	export const npm_package_peer: string;
-	export const SSH_AUTH_SOCK: string;
-	export const VSCODE_PROFILE_INITIALIZED: string;
-	export const __CF_USER_TEXT_ENCODING: string;
-	export const npm_execpath: string;
-	export const npm_package_integrity: string;
-	export const PATH: string;
-	export const npm_package_json: string;
-	export const _: string;
-	export const npm_config_userconfig: string;
-	export const npm_config_init_module: string;
-	export const USER_ZDOTDIR: string;
-	export const __CFBundleIdentifier: string;
-	export const npm_command: string;
-	export const PWD: string;
-	export const npm_lifecycle_event: string;
-	export const EDITOR: string;
-	export const npm_package_name: string;
-	export const LANG: string;
-	export const npm_config_npm_version: string;
-	export const VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
-	export const XPC_FLAGS: string;
-	export const npm_package_engines_node: string;
-	export const npm_package_dev: string;
-	export const npm_config_node_gyp: string;
-	export const npm_package_version: string;
-	export const XPC_SERVICE_NAME: string;
-	export const VSCODE_INJECTION: string;
-	export const npm_package_resolved: string;
-	export const SHLVL: string;
-	export const HOME: string;
-	export const VSCODE_GIT_ASKPASS_MAIN: string;
-	export const HOMEBREW_PREFIX: string;
-	export const npm_package_dev_optional: string;
-	export const npm_config_cache: string;
-	export const LOGNAME: string;
-	export const npm_lifecycle_script: string;
-	export const VSCODE_GIT_IPC_HANDLE: string;
-	export const NVM_BIN: string;
+	export const SANDBOX_RUNTIME: string;
 	export const npm_config_user_agent: string;
-	export const VSCODE_GIT_ASKPASS_NODE: string;
-	export const GIT_ASKPASS: string;
-	export const INFOPATH: string;
-	export const HOMEBREW_CELLAR: string;
+	export const CLAUDE_CODE_HOST_SOCKS_PROXY_PORT: string;
+	export const all_proxy: string;
+	export const DOCKER_HTTPS_PROXY: string;
 	export const npm_node_execpath: string;
+	export const SHLVL: string;
+	export const npm_config_noproxy: string;
+	export const HOME: string;
+	export const OLDPWD: string;
+	export const NO_PROXY: string;
+	export const npm_package_json: string;
+	export const npm_config_userconfig: string;
+	export const npm_config_local_prefix: string;
+	export const SYSTEMD_EXEC_PID: string;
+	export const COLOR: string;
+	export const TMPDIR: string;
+	export const https_proxy: string;
+	export const CLAUDE_CODE_HOST_HTTP_PROXY_PORT: string;
+	export const LOGNAME: string;
+	export const ALL_PROXY: string;
+	export const http_proxy: string;
+	export const JOURNAL_STREAM: string;
+	export const _: string;
 	export const npm_config_prefix: string;
-	export const COLORTERM: string;
+	export const npm_config_npm_version: string;
+	export const npm_config_cache: string;
+	export const grpc_proxy: string;
+	export const npm_config_node_gyp: string;
+	export const PATH: string;
+	export const INVOCATION_ID: string;
+	export const CLAUDE_CODE_TMPDIR: string;
+	export const NODE: string;
+	export const npm_package_name: string;
+	export const ftp_proxy: string;
+	export const LANG: string;
+	export const npm_lifecycle_script: string;
+	export const SHELL: string;
+	export const npm_package_version: string;
+	export const npm_lifecycle_event: string;
+	export const CLOUDSDK_PROXY_TYPE: string;
+	export const CLOUDSDK_PROXY_ADDRESS: string;
+	export const CLOUDSDK_PROXY_PORT: string;
+	export const npm_config_globalconfig: string;
+	export const npm_config_init_module: string;
+	export const PWD: string;
+	export const CLAUDE_TMPDIR: string;
+	export const npm_execpath: string;
+	export const FTP_PROXY: string;
+	export const npm_config_global_prefix: string;
+	export const HTTP_PROXY: string;
+	export const npm_command: string;
+	export const DOCKER_HTTP_PROXY: string;
+	export const GRPC_PROXY: string;
+	export const INIT_CWD: string;
+	export const EDITOR: string;
+	export const NODE_ENV: string;
 }
 
 /**
- * Similar to [`$env/static/private`](https://kit.svelte.dev/docs/modules#$env-static-private), except that it only includes environment variables that begin with [`config.kit.env.publicPrefix`](https://kit.svelte.dev/docs/configuration#env) (which defaults to `PUBLIC_`), and can therefore safely be exposed to client-side code.
+ * Similar to [`$env/static/private`](https://svelte.dev/docs/kit/$env-static-private), except that it only includes environment variables that begin with [`config.kit.env.publicPrefix`](https://svelte.dev/docs/kit/configuration#env) (which defaults to `PUBLIC_`), and can therefore safely be exposed to client-side code.
  * 
  * Values are replaced statically at build time.
  * 
@@ -113,7 +104,7 @@ declare module '$env/static/public' {
 }
 
 /**
- * This module provides access to runtime environment variables, as defined by the platform you're running on. For example if you're using [`adapter-node`](https://github.com/sveltejs/kit/tree/master/packages/adapter-node) (or running [`vite preview`](https://kit.svelte.dev/docs/cli)), this is equivalent to `process.env`. This module only includes variables that _do not_ begin with [`config.kit.env.publicPrefix`](https://kit.svelte.dev/docs/configuration#env) _and do_ start with [`config.kit.env.privatePrefix`](https://kit.svelte.dev/docs/configuration#env) (if configured).
+ * This module provides access to runtime environment variables, as defined by the platform you're running on. For example if you're using [`adapter-node`](https://github.com/sveltejs/kit/tree/main/packages/adapter-node) (or running [`vite preview`](https://svelte.dev/docs/kit/cli)), this is equivalent to `process.env`. This module only includes variables that _do not_ begin with [`config.kit.env.publicPrefix`](https://svelte.dev/docs/kit/configuration#env) _and do_ start with [`config.kit.env.privatePrefix`](https://svelte.dev/docs/kit/configuration#env) (if configured).
  * 
  * This module cannot be imported into client-side code.
  * 
@@ -122,88 +113,79 @@ declare module '$env/static/public' {
  * console.log(env.DEPLOYMENT_SPECIFIC_VARIABLE);
  * ```
  * 
- * > In `dev`, `$env/dynamic` always includes environment variables from `.env`. In `prod`, this behavior will depend on your adapter.
+ * > [!NOTE] In `dev`, `$env/dynamic` always includes environment variables from `.env`. In `prod`, this behavior will depend on your adapter.
  */
 declare module '$env/dynamic/private' {
 	export const env: {
-		NVM_INC: string;
-		TERM_PROGRAM: string;
-		NODE: string;
-		INIT_CWD: string;
-		NVM_CD_FLAGS: string;
-		TERM: string;
-		SHELL: string;
-		HOMEBREW_REPOSITORY: string;
-		TMPDIR: string;
-		npm_config_global_prefix: string;
-		VSCODE_PYTHON_AUTOACTIVATE_GUARD: string;
-		TERM_PROGRAM_VERSION: string;
-		ZDOTDIR: string;
-		ORIGINAL_XDG_CURRENT_DESKTOP: string;
-		MallocNanoZone: string;
-		npm_package_optional: string;
-		COLOR: string;
-		npm_config_noproxy: string;
-		npm_config_local_prefix: string;
-		NVM_DIR: string;
+		RSYNC_PROXY: string;
+		HTTPS_PROXY: string;
+		no_proxy: string;
+		GIT_SSH_COMMAND: string;
 		USER: string;
-		VSCODE_LOGIN_INITIALIZED: string;
-		COMMAND_MODE: string;
-		npm_config_globalconfig: string;
-		npm_package_peer: string;
-		SSH_AUTH_SOCK: string;
-		VSCODE_PROFILE_INITIALIZED: string;
-		__CF_USER_TEXT_ENCODING: string;
-		npm_execpath: string;
-		npm_package_integrity: string;
-		PATH: string;
-		npm_package_json: string;
-		_: string;
-		npm_config_userconfig: string;
-		npm_config_init_module: string;
-		USER_ZDOTDIR: string;
-		__CFBundleIdentifier: string;
-		npm_command: string;
-		PWD: string;
-		npm_lifecycle_event: string;
-		EDITOR: string;
-		npm_package_name: string;
-		LANG: string;
-		npm_config_npm_version: string;
-		VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
-		XPC_FLAGS: string;
-		npm_package_engines_node: string;
-		npm_package_dev: string;
-		npm_config_node_gyp: string;
-		npm_package_version: string;
-		XPC_SERVICE_NAME: string;
-		VSCODE_INJECTION: string;
-		npm_package_resolved: string;
-		SHLVL: string;
-		HOME: string;
-		VSCODE_GIT_ASKPASS_MAIN: string;
-		HOMEBREW_PREFIX: string;
-		npm_package_dev_optional: string;
-		npm_config_cache: string;
-		LOGNAME: string;
-		npm_lifecycle_script: string;
-		VSCODE_GIT_IPC_HANDLE: string;
-		NVM_BIN: string;
+		SANDBOX_RUNTIME: string;
 		npm_config_user_agent: string;
-		VSCODE_GIT_ASKPASS_NODE: string;
-		GIT_ASKPASS: string;
-		INFOPATH: string;
-		HOMEBREW_CELLAR: string;
+		CLAUDE_CODE_HOST_SOCKS_PROXY_PORT: string;
+		all_proxy: string;
+		DOCKER_HTTPS_PROXY: string;
 		npm_node_execpath: string;
+		SHLVL: string;
+		npm_config_noproxy: string;
+		HOME: string;
+		OLDPWD: string;
+		NO_PROXY: string;
+		npm_package_json: string;
+		npm_config_userconfig: string;
+		npm_config_local_prefix: string;
+		SYSTEMD_EXEC_PID: string;
+		COLOR: string;
+		TMPDIR: string;
+		https_proxy: string;
+		CLAUDE_CODE_HOST_HTTP_PROXY_PORT: string;
+		LOGNAME: string;
+		ALL_PROXY: string;
+		http_proxy: string;
+		JOURNAL_STREAM: string;
+		_: string;
 		npm_config_prefix: string;
-		COLORTERM: string;
+		npm_config_npm_version: string;
+		npm_config_cache: string;
+		grpc_proxy: string;
+		npm_config_node_gyp: string;
+		PATH: string;
+		INVOCATION_ID: string;
+		CLAUDE_CODE_TMPDIR: string;
+		NODE: string;
+		npm_package_name: string;
+		ftp_proxy: string;
+		LANG: string;
+		npm_lifecycle_script: string;
+		SHELL: string;
+		npm_package_version: string;
+		npm_lifecycle_event: string;
+		CLOUDSDK_PROXY_TYPE: string;
+		CLOUDSDK_PROXY_ADDRESS: string;
+		CLOUDSDK_PROXY_PORT: string;
+		npm_config_globalconfig: string;
+		npm_config_init_module: string;
+		PWD: string;
+		CLAUDE_TMPDIR: string;
+		npm_execpath: string;
+		FTP_PROXY: string;
+		npm_config_global_prefix: string;
+		HTTP_PROXY: string;
+		npm_command: string;
+		DOCKER_HTTP_PROXY: string;
+		GRPC_PROXY: string;
+		INIT_CWD: string;
+		EDITOR: string;
+		NODE_ENV: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;
 	}
 }
 
 /**
- * Similar to [`$env/dynamic/private`](https://kit.svelte.dev/docs/modules#$env-dynamic-private), but only includes variables that begin with [`config.kit.env.publicPrefix`](https://kit.svelte.dev/docs/configuration#env) (which defaults to `PUBLIC_`), and can therefore safely be exposed to client-side code.
+ * Similar to [`$env/dynamic/private`](https://svelte.dev/docs/kit/$env-dynamic-private), but only includes variables that begin with [`config.kit.env.publicPrefix`](https://svelte.dev/docs/kit/configuration#env) (which defaults to `PUBLIC_`), and can therefore safely be exposed to client-side code.
  * 
  * Note that public dynamic environment variables must all be sent from the server to the client, causing larger network requests — when possible, use `$env/static/public` instead.
  * 

@@ -1,9 +1,10 @@
 import { json } from '@sveltejs/kit';
 import { exec } from 'child_process';
-import { promisify } from 'node:util'; // <-- FIX: Changed to 'node:util'
+import { promisify } from 'node:util';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
-import { dev } from '$app/environment'; // <-- FIX: Import dev environment
+import { dev } from '$app/environment';
+import matter from 'gray-matter';
 
 // This tells SvelteKit that this API route is dynamic and should not be
 // pre-rendered. This is especially important for routes with POST handlers.
@@ -77,21 +78,44 @@ export async function POST({ request }) {
 
 export async function GET() {
 	try {
-		// Read all post files from the data directory
 		const { readdir, readFile } = await import('fs/promises');
-		const { join } = await import('path');
-
-		const postsDir = join(process.cwd(), 'src', 'data', 'posts');
-		const files = await readdir(postsDir);
 
 		const posts = [];
-		for (const file of files) {
-			if (file.endsWith('.json')) {
-				const filePath = join(postsDir, file);
-				const content = await readFile(filePath, 'utf-8');
-				posts.push(JSON.parse(content));
+
+		// 1. Read JSON posts from src/data/posts/
+		const postsDir = join(process.cwd(), 'src', 'data', 'posts');
+		try {
+			const files = await readdir(postsDir);
+			for (const file of files) {
+				if (file.endsWith('.json')) {
+					const content = await readFile(join(postsDir, file), 'utf-8');
+					posts.push(JSON.parse(content));
+				}
 			}
-		}
+		} catch { /* postsDir may not exist yet — ignore */ }
+
+		// 2. Read published Obsidian markdown notes from src/vault/
+		const vaultDir = join(process.cwd(), 'src', 'vault');
+		try {
+			const vaultFiles = await readdir(vaultDir);
+			for (const file of vaultFiles) {
+				if (!file.endsWith('.md') || file === 'README.md') continue;
+				const raw = await readFile(join(vaultDir, file), 'utf-8');
+				const { data: frontmatter, content: body } = matter(raw);
+				// Only publish notes with published: true
+				if (!frontmatter.published) continue;
+				posts.push({
+					id: `vault-${file.replace('.md', '')}`,
+					title: frontmatter.title || file.replace('.md', ''),
+					description: frontmatter.description || '',
+					type: frontmatter.type || 'writing',
+					date: frontmatter.date ? String(frontmatter.date) : new Date().toISOString().slice(0, 10),
+					content: body.trim(),
+					// Support custom icon image per note
+					iconImage: frontmatter.iconImage || null
+				});
+			}
+		} catch { /* vault may not exist yet — ignore */ }
 
 		// Sort by date (newest first)
 		posts.sort((a, b) => new Date(b.date) - new Date(a.date));
