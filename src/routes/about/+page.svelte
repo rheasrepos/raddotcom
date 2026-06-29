@@ -2,11 +2,10 @@
     import PageLayout from '../../components/PageLayout.svelte';
 
     const aboutText = `
-    I'm a fourth year student pursuing a B.S. in Computer Science and a B.A. in Cognitive Science at the University of Chicago, graduating 2026.
-    I am seeking a full-time position in software engineering, machine learning engineering, or computational cognitive neuro research.
-    I am an eager learner with a passion for research and interdisciplinary application of my education into industry settings.
-    My Cognitive Science background allows me to inform responsible development practices, focus on robust design docs, and integrate ethical, human-centered thinking into technical projects.
-    I keep the big picture in focus and advocate for dialogue and responsible decision-making in collaborative work.
+    Hi, I'm Rhea — a fourth-year at the University of Chicago finishing a B.S. in Computer Science and a B.A. in Cognitive Science (2026). Most of my thinking circles one question: what's the difference between a mind and a model — is a computer a brain, or a brain a computer?
+    That question shows up everywhere here. I write essays about AI, attention, and meaning; I do improv and sketch with Off-Off Campus; I sing alto in Voices in Your Head; and I co-host Finders Keepers on WHPK. I've also built machine-learning systems (most recently as an ML engineering intern at Reddit) and study cognition in the CAB Lab.
+    This site is a desktop because I've always organized my world in folders — color-coded, inspect-element, a little obsessive. Click around: most folders are things I wrote, made, or sang.
+    I'm currently looking for full-time work in software / ML engineering or computational cognitive research.
     `;
 
     const links = [

@@ -132,3 +132,10 @@ body {
 .float {
 	animation: float 3s ease-in-out infinite;
 }
+/* ---- Retro pixel cursor (site-wide) ---- */
+html, body, * {
+  cursor: url('/cursor.png') 0 0, auto;
+}
+a, button, [role="button"], .link-card, summary, label, input[type="button"], input[type="submit"] {
+  cursor: url('/cursor.png') 0 0, pointer;
+}
