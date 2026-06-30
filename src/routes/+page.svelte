@@ -128,10 +128,12 @@
 	let quickLookItem = null;
 	let spotlightOpen = false;
 
-	// "Surf my web" — go from looking AT the monitor to being IN the desktop.
+	// "Surf my web" — the monitor SCREEN expands to fill the whole window (go inside).
+	let surfing = false;
 	function surf() {
-		zoomLevel = zoomLevel > 1 ? 1 : 1.6;
-		if (zoomLevel === 1) panOffset = { x: 0, y: 0 };
+		surfing = !surfing;
+		zoomLevel = 1;
+		panOffset = { x: 0, y: 0 };
 	}
 	function handleQuickLookOpen(e) {
 		quickLookItem = null;
@@ -513,7 +515,7 @@
 
 <svelte:window on:keydown={onWindowKeydown} />
 
-<div class="laptop-frame" class:navigating={isNavigating} class:contracting={isContracting}>
+<div class="laptop-frame" class:navigating={isNavigating} class:contracting={isContracting} class:surfing={surfing}>
 	<div class="laptop-screen" style="background: {wallpaperColor};">
 		<!-- Navigation and Controls in the frame bezel -->
 		<div class="frame-topbar">
@@ -558,7 +560,7 @@
 					{/if}
 				</div>
 				<button class="surf-btn" on:click={surf} title="Zoom into the desktop">
-						{zoomLevel > 1 ? 'Back out' : 'Surf my web'}
+						{surfing ? 'Back out' : 'Surf my web'}
 					</button>
 					<span class="system-time">{currentTime}</span>
 			</div>
@@ -1013,6 +1015,22 @@
 		transition: all 0.3s ease-out !important;
 	}
 
+	/* Surf my web: the monitor screen fills the whole window (go inside the computer) */
+	.laptop-frame.surfing {
+		padding: 0;
+	}
+	.laptop-frame.surfing .laptop-screen {
+		width: 100vw;
+		height: 100vh;
+		max-width: none;
+		border: 4px solid #333333;
+		border-radius: 0;
+		box-shadow: none;
+	}
+	.laptop-frame.surfing .desktop-stand {
+		display: none;
+	}
+
 	.laptop-frame.contracting {
 		animation: frameContract 0.3s ease-out forwards;
 	}
@@ -1041,10 +1059,11 @@
 		border-radius: 6px;
 		overflow: hidden; /* Prevent content from overflowing the screen */
 		position: relative;
-		box-shadow: 
+		box-shadow:
 			0 0 0 1px #222222,
 			0 10px 25px rgba(0, 0, 0, 0.5),
 			inset 0 0 10px rgba(0, 0, 0, 0.2);
+		transition: width 0.35s ease-out, height 0.35s ease-out, border-radius 0.35s ease-out, max-width 0.35s ease-out;
 	}
 
 	/* Desktop Stand — anchored to frame bottom, extends upward */
