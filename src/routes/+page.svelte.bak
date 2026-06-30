@@ -11,8 +11,6 @@
 	import FilterTabs from '../components/FilterTabs.svelte';
 	import { loadPosts, getProjectColor, formatDate } from '$lib/posts.js';
 	import { categoryConfig, getCategoryLabel } from '$lib/categories.js';
-	import QuickLook from '../components/QuickLook.svelte';
-	import Spotlight from '../components/Spotlight.svelte';
 
 	// --- NEW: SVG Icon Definitions ---
 	const categoryIcons = {
@@ -122,41 +120,6 @@
 	let dragStart = { x: 0, y: 0 };
 	let panOffset = { x: 0, y: 0 };
 	let currentTime = new Date().toLocaleTimeString();
-
-	// --- Surf zoom, Quick Look (spacebar), Spotlight search ---
-	let hoveredProject = null;
-	let quickLookItem = null;
-	let spotlightOpen = false;
-
-	// "Surf my web" — go from looking AT the monitor to being IN the desktop.
-	function surf() {
-		zoomLevel = zoomLevel > 1 ? 1 : 1.6;
-		if (zoomLevel === 1) panOffset = { x: 0, y: 0 };
-	}
-	function handleQuickLookOpen(e) {
-		quickLookItem = null;
-		if (e && e.detail && e.detail.id) toggleProject(e.detail.id);
-	}
-	function onSpotlightSelect(e) {
-		spotlightOpen = false;
-		selectProject(e.detail);
-	}
-	function onWindowKeydown(e) {
-		if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-			e.preventDefault();
-			spotlightOpen = true;
-			return;
-		}
-		const tag = (e.target && e.target.tagName ? e.target.tagName : '').toLowerCase();
-		if (tag === 'input' || tag === 'textarea' || spotlightOpen || selectedProject) return;
-		if (e.key === ' ' || e.code === 'Space') {
-			e.preventDefault();
-			if (quickLookItem) quickLookItem = null;
-			else if (hoveredProject) quickLookItem = { kind: 'file', ...hoveredProject };
-		} else if (e.key === 'Escape') {
-			if (quickLookItem) quickLookItem = null;
-		}
-	}
 	
 
 
@@ -511,8 +474,6 @@
 
 
 
-<svelte:window on:keydown={onWindowKeydown} />
-
 <div class="laptop-frame" class:navigating={isNavigating} class:contracting={isContracting}>
 	<div class="laptop-screen" style="background: {wallpaperColor};">
 		<!-- Navigation and Controls in the frame bezel -->
@@ -547,8 +508,8 @@
 					{:else}
 						<button 
 							class="search-btn" 
-							on:click={() => spotlightOpen = true}
-							title="Spotlight search (⌘K)"
+							on:click={() => showSearch = true}
+							title="Search posts"
 						>
 							<svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 								<circle cx="11" cy="11" r="8"></circle>
@@ -557,10 +518,7 @@
 						</button>
 					{/if}
 				</div>
-				<button class="surf-btn" on:click={surf} title="Zoom into the desktop">
-						{zoomLevel > 1 ? 'Back out' : 'Surf my web'}
-					</button>
-					<span class="system-time">{currentTime}</span>
+				<span class="system-time">{currentTime}</span>
 			</div>
 		</div>
 
@@ -728,8 +686,6 @@
 							class="desktop-icon"
 							on:click={() => toggleProject(project.id)}
 							on:keydown={(e) => e.key === 'Enter' && toggleProject(project.id)}
-							on:mouseenter={() => (hoveredProject = project)}
-							on:focus={() => (hoveredProject = project)}
 							tabindex="0"
 							role="button"
 							aria-label="Open {project.title}"
@@ -754,8 +710,6 @@
 							class="desktop-icon"
 							on:click={() => toggleProject(project.id)}
 							on:keydown={(e) => e.key === 'Enter' && toggleProject(project.id)}
-							on:mouseenter={() => (hoveredProject = project)}
-							on:focus={() => (hoveredProject = project)}
 							tabindex="0"
 							role="button"
 							aria-label="Open {project.title}"
@@ -827,12 +781,7 @@
 			{#if folderOpening}
 				<div class="folder-opening-overlay">
 					<div class="folder-opening-content">
-						<div class="folder-icon-opening">
-						<svg viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:84px;height:auto;">
-							<path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999999" stroke-width="1.2" />
-							<rect x="0" y="11" width="56" height="35" rx="3" fill="#e8e8e8" stroke="#999999" stroke-width="1.2" />
-						</svg>
-					</div>
+						<div class="folder-icon-opening">📁</div>
 						<div class="folder-opening-text">Opening {openingFolder}...</div>
 						<div class="folder-opening-progress">
 							<div class="progress-bar"></div>
@@ -870,12 +819,6 @@
 					</div>
 				</div>
 			</div>
-		{/if}
-
-		<!-- Quick Look (spacebar preview) + Spotlight search -->
-		<QuickLook item={quickLookItem} on:close={() => (quickLookItem = null)} on:open={handleQuickLookOpen} />
-		{#if spotlightOpen}
-			<Spotlight posts={projects} on:select={onSpotlightSelect} on:close={() => (spotlightOpen = false)} />
 		{/if}
 
 		<!-- Wallpaper Toolbar -->
@@ -1129,22 +1072,7 @@
 	.topbar-right {
 		display: flex;
 		align-items: center;
-		gap: 10px;
 	}
-
-	.surf-btn {
-		background: rgba(255, 255, 255, 0.92);
-		color: #111;
-		border: 1px solid rgba(0, 0, 0, 0.25);
-		border-radius: 6px;
-		padding: 4px 10px;
-		font-family: Arial, sans-serif;
-		font-size: 0.8rem;
-		font-weight: 700;
-		cursor: pointer;
-		white-space: nowrap;
-	}
-	.surf-btn:hover { background: #ffffff; }
 
 	.system-time {
 		color: #ffffff;
