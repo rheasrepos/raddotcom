@@ -1096,16 +1096,19 @@
 		align-items: center;
 	}
 
+	/* Sized in vh so the whole stand always fits in the gap BELOW the screen
+	   (~8vh) and never pokes up into the screen / bottom toolbar. */
 	.stand-vertical {
 		width: 35px;
-		height: 10vh;
+		height: 5vh;
 		background: #1a1a1a;
 		border: 2px solid #000000;
 	}
 
 	.stand-base {
 		width: 180px;
-		height: 22px;
+		height: 1.6vh;
+		min-height: 12px;
 		background: #1a1a1a;
 		border: 2px solid #000000;
 		clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
@@ -1130,11 +1133,24 @@
 		left: 0;
 		right: 0;
 		height: 50px;
+		background: #333333; /* Opaque so desktop icons hide behind it, not over it */
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		padding: 0 20px;
 		z-index: 100;
+		animation: barDropIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+	}
+
+	/* Shared bar entrance — matches the other pages so every tab animates
+	   its top and bottom navs the same way. */
+	@keyframes barDropIn {
+		from { transform: translateY(-100%); }
+		to { transform: translateY(0); }
+	}
+	@keyframes barRiseIn {
+		from { transform: translateY(100%); }
+		to { transform: translateY(0); }
 	}
 
 	.topbar-left {
@@ -1889,12 +1905,13 @@
 		left: 0;
 		right: 0;
 		height: 35px;
-		background: rgba(0, 0, 0, 0.8);
+		background: #222222;
 		border-top: 1px solid rgba(255, 255, 255, 0.3);
 		display: flex;
 		align-items: center;
 		padding: 0 15px;
 		z-index: 1000;
+		animation: barRiseIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 	}
 
 	.toolbar-section {

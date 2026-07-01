@@ -281,6 +281,18 @@
 		align-items: center;
 		padding: 0 20px;
 		z-index: 100;
+		animation: barDropIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+	}
+
+	/* Shared bar entrance — top and bottom navs slide in from the edges,
+	   the same motion used everywhere so every tab animates identically. */
+	@keyframes barDropIn {
+		from { transform: translateY(-100%); }
+		to { transform: translateY(0); }
+	}
+	@keyframes barRiseIn {
+		from { transform: translateY(100%); }
+		to { transform: translateY(0); }
 	}
 
 	.topbar-left, .topbar-right {
@@ -362,12 +374,13 @@
 		left: 0;
 		right: 0;
 		height: 35px;
-		background: rgba(0, 0, 0, 0.8);
+		background: #222222;
 		border-top: 1px solid rgba(255, 255, 255, 0.3);
 		display: flex;
 		align-items: center;
 		padding: 0 15px;
 		z-index: 1000;
+		animation: barRiseIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 	}
 
 	.toolbar-section {
