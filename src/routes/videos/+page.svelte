@@ -1,5 +1,6 @@
 <script>
 	import PageLayout from '../../components/PageLayout.svelte';
+	import AIText from '../../components/AIText.svelte';
 
 	export let data;
 
@@ -43,7 +44,7 @@
 	<section class="videos-page">
 		<header class="videos-head">
 			<h1 class="videos-title">Music &amp; Video</h1>
-			<p class="videos-sub">Everything I make, pulled from both channels. Click any thumbnail to play.</p>
+			<p class="videos-sub"><AIText>Everything I make, pulled from both channels. Click any thumbnail to play.</AIText></p>
 		</header>
 
 		<!-- Featured -->

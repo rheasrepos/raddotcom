@@ -1,5 +1,6 @@
 <script>
     import PageLayout from '../../components/PageLayout.svelte';
+    import AIText from '../../components/AIText.svelte';
 
     const aboutText = `
     Hi, I'm Rhea — a fourth-year at the University of Chicago finishing a B.S. in Computer Science and a B.A. in Cognitive Science (2026). Most of my thinking circles one question: what's the difference between a mind and a model — is a computer a brain, or a brain a computer?
@@ -54,7 +55,7 @@
         <div class="hero-content">
             <div class="hero-text">
                 <h1>Hello, I'm Rhea Madhogarhia</h1>
-                <p>{aboutText}</p>
+                <p><AIText note="This bio was drafted with AI assistance, based on Rhea's own writing and notes.">{aboutText}</AIText></p>
             </div>
         </div>
     </section>

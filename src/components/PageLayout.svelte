@@ -240,10 +240,9 @@
 			0 0 0 1px #222222,
 			0 10px 25px rgba(0, 0, 0, 0.5),
 			inset 0 0 10px rgba(0, 0, 0, 0.2) !important;
-		transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-			height 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-			max-width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-			border-radius 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important;
+		transition: width 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+			height 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+			max-width 0.34s cubic-bezier(0.22, 1, 0.36, 1) !important;
 	}
 
 	.laptop-screen {
@@ -257,15 +256,15 @@
 		transition: all 0.3s ease-out;
 	}
 
-	/* Frame Topbar */
+	/* Frame Topbar — height/padding match the desktop's bar exactly so the
+	   nav bar doesn't snap size when transitioning between them. */
 	.frame-topbar {
 		position: absolute;
 		top: 0;
 		left: 0;
 		right: 0;
-		height: 40px;
+		height: 50px;
 		background: #333333;
-		border-bottom: 1px solid #222222;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -334,7 +333,7 @@
 		  - Set padding-bottom to 45px (35px bar + 10px space)
 		*/
 		box-sizing: border-box;
-		padding: 50px 10px 45px 10px; 
+		padding: 60px 10px 45px 10px;
 		overflow-y: auto; /* Changed to overflow-y */
 		overflow-x: hidden;
 	}

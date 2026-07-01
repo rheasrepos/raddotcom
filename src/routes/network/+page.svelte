@@ -3,6 +3,8 @@
 	import { goto } from '$app/navigation';
 	import { loadPosts } from '$lib/posts.js';
 	import { categoryConfig, getCategoryColor, getCategoryLabel } from '$lib/categories.js';
+	import PageLayout from '../../components/PageLayout.svelte';
+	import AIText from '../../components/AIText.svelte';
 
 	const W = 1000;
 	const H = 680;
@@ -122,13 +124,11 @@
 	onDestroy(() => { running = false; if (raf) cancelAnimationFrame(raf); });
 </script>
 
-<svelte:head><title>Network — Rhea Madhogarhia</title></svelte:head>
-
+<PageLayout title="Obsidian - Rhea Madhogarhia">
 <div class="net-page">
 	<header class="net-head">
-		<a href="/" class="net-back">← Desktop</a>
-		<h1>The Network</h1>
-		<p>Every post as a node — clustered by category, linked where they share a tag. Like my brain, hopefully. Click a node to open it.</p>
+		<h1>Obsidian</h1>
+		<p><AIText>Every post as a node — clustered by category, linked where they share a tag. Like my brain, hopefully. Click a node to open it.</AIText></p>
 	</header>
 
 	<div class="net-stage">
@@ -170,16 +170,15 @@
 		{/if}
 	</div>
 </div>
+</PageLayout>
 
 <style>
 	.net-page {
-		min-height: 100vh;
-		padding: 24px clamp(12px, 4vw, 48px) 60px;
+		padding: 4px 0 20px;
 		font-family: var(--font-family, Arial, sans-serif);
 		color: #111;
 	}
 	.net-head { max-width: 720px; margin: 0 auto 12px; text-align: center; }
-	.net-back { display: inline-block; margin-bottom: 8px; color: #111; text-decoration: none; font-weight: 700; }
 	.net-head h1 { font-size: 2rem; margin: 4px 0; }
 	.net-head p { color: #333; font-size: 1rem; margin: 0; }
 	.net-stage {

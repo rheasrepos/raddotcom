@@ -1025,7 +1025,7 @@
 		border: 4px solid #333333 !important;
 		border-radius: 0 !important;
 		box-shadow: none !important;
-		transition: all 0.38s cubic-bezier(0.22, 1, 0.36, 1) !important;
+		transition: all 0.34s cubic-bezier(0.22, 1, 0.36, 1) !important;
 	}
 
 	/* Surf my web: the monitor screen fills the whole window (go inside the computer) */
