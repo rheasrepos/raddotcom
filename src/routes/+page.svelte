@@ -174,6 +174,12 @@
 				wallpaperColor = savedColor;
 			}
 
+			// If we arrived here from a page's search icon, open Spotlight.
+			if (window.location.search.includes('spotlight=1')) {
+				spotlightOpen = true;
+				window.history.replaceState({}, '', '/');
+			}
+
 			// Load posts from Git-based API
 			try {
 				// This line triggers the reactive calculation of availableMonths
@@ -1378,7 +1384,7 @@
 
 	/* Surf button, now living inside the monitor where the brand used to be */
 	.surf-btn.hero-surf {
-		font-family: 'Space Grotesk', sans-serif;
+		font-family: 'Akzidenz-Grotesk', 'Akzidenz-Grotesk BQ', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 		font-size: 1.05rem;
 		letter-spacing: 0.04em;
 		text-transform: uppercase;
@@ -1416,17 +1422,17 @@
 	}
 
 	.title {
-		font-family: 'Space Grotesk', sans-serif;
+		font-family: 'Akzidenz-Grotesk', 'Akzidenz-Grotesk BQ', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 		font-size: clamp(1.4rem, 3.4vh, 2.4rem);
-		font-weight: 700;
-		letter-spacing: 0.06em;
+		font-weight: bold;
+		letter-spacing: 0.04em;
 		color: #1a1a1a;
 		line-height: 1;
 		margin: 0;
 	}
 
 	.subtitle {
-		font-family: 'Space Grotesk', sans-serif;
+		font-family: 'Akzidenz-Grotesk', 'Akzidenz-Grotesk BQ', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 		font-size: clamp(0.68rem, 1.4vh, 0.9rem);
 		font-weight: 500;
 		color: #2a2a2a;

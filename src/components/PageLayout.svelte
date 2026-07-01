@@ -48,7 +48,7 @@
 		// Start transition immediately to show overlay
 		transitionActions.startTransition($page.url.pathname, path);
 		
-		if (path === '/') {
+		if (path.split('?')[0] === '/') {
 			// Returning to the desktop: let the monitor contract into place,
 			// then swap in the desktop so it lands seamlessly.
 			isContracting = true;
@@ -68,6 +68,11 @@
 		if (onSearchClose) {
 			onSearchClose();
 		}
+	}
+
+	// Search lives on the desktop (Spotlight). From a page, go there and open it.
+	function goToSearch() {
+		handleNavigation('/?spotlight=1');
 	}
 
 	function changeWallpaper(color) {
@@ -90,12 +95,12 @@
 				<DesktopNavigation on:navigate={({ detail }) => handleNavigation(detail.path)} />
 			</div>
 			<div class="topbar-right">
-				<!-- Search Button and Input (only show if showSearch is true) -->
-				{#if showSearch}
-					<div class="search-container">
-						<input 
-							type="text" 
-							class="search-input" 
+				<!-- Search stays present on every page so the bar never shifts. -->
+				<div class="search-container">
+					{#if showSearch}
+						<input
+							type="text"
+							class="search-input"
 							placeholder="Search posts..."
 							bind:value={searchQuery}
 							on:blur={() => {
@@ -110,8 +115,15 @@
 								}
 							}}
 						/>
-					</div>
-				{/if}
+					{:else}
+						<button class="search-btn" on:click={goToSearch} title="Search on the desktop">
+							<svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<circle cx="11" cy="11" r="8"></circle>
+								<path d="m21 21-4.35-4.35"></path>
+							</svg>
+						</button>
+					{/if}
+				</div>
 				<span class="system-time">{currentTime}</span>
 			</div>
 		</div>
@@ -300,7 +312,28 @@
 
 	/* Search Container */
 	.search-container {
+		display: flex;
+		align-items: center;
 		margin-right: 15px;
+	}
+
+	.search-btn {
+		background: none;
+		border: none;
+		color: #ffffff;
+		cursor: pointer;
+		padding: 4px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: background 0.2s ease;
+	}
+	.search-btn:hover {
+		background: rgba(255, 255, 255, 0.1);
+	}
+	.search-icon {
+		width: 16px;
+		height: 16px;
 	}
 
 	.search-input {
