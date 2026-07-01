@@ -1646,7 +1646,7 @@
 		/* Font, width and visible line-count all grow with zoom, so more of
 		   each title becomes readable the further you zoom in. */
 		font-size: calc(0.72rem * var(--zoom, 1));
-		color: #000000;
+		color: #ffffff;
 		font-family: Arial, sans-serif;
 		word-wrap: break-word;
 		max-width: calc(80px * var(--zoom, 1));
@@ -1657,7 +1657,8 @@
 		text-overflow: ellipsis;
 		line-height: 1.3;
 		text-align: center;
-		background: rgba(255,255,255,0.7);
+		background: transparent;
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
 		padding: 1px 3px;
 		margin-top: 2px;
 		transition: font-size 0.15s ease, max-width 0.15s ease;
