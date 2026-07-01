@@ -3,7 +3,6 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import DesktopNavigation from './DesktopNavigation.svelte';
-	import PageTransitionOverlay from './PageTransitionOverlay.svelte';
 	import { transitionActions } from '../lib/pageTransition.js';
 
 	// Props
@@ -50,24 +49,18 @@
 		transitionActions.startTransition($page.url.pathname, path);
 		
 		if (path === '/') {
-			// If navigating to homepage, use contraction animation
+			// Returning to the desktop: let the monitor contract into place,
+			// then swap in the desktop so it lands seamlessly.
 			isContracting = true;
 			setTimeout(async () => {
 				await goto(path);
-				// Complete transition after navigation
-				setTimeout(() => {
-					transitionActions.completeTransition();
-				}, 100);
-			}, 300);
+				setTimeout(() => transitionActions.completeTransition(), 50);
+			}, 380);
 		} else {
-			// For other pages, wait for frame animation to complete
-			setTimeout(async () => {
-				await goto(path);
-				// Complete transition after navigation
-				setTimeout(() => {
-					transitionActions.completeTransition();
-				}, 100);
-			}, 300); // Wait for frame animation to complete
+			// Page -> page: both are full-screen, so nothing resizes. Just swap
+			// the content between the fixed navs immediately.
+			await goto(path);
+			transitionActions.completeTransition();
 		}
 	}
 
@@ -198,9 +191,6 @@
 				</a>
 			</div>
 		</div>
-		
-		<!-- Loading Overlay for Frame Content -->
-		<PageTransitionOverlay />
 	</div>
 </div>
 
@@ -243,7 +233,7 @@
 	.laptop-frame.contracting .laptop-screen {
 		max-width: 1080px !important;
 		width: 90% !important;
-		height: 84vh !important;
+		height: 82vh !important;
 		border: 3px solid #333333 !important;
 		border-radius: 6px !important;
 		box-shadow:
@@ -281,18 +271,6 @@
 		align-items: center;
 		padding: 0 20px;
 		z-index: 100;
-		animation: barDropIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
-	}
-
-	/* Shared bar entrance — top and bottom navs slide in from the edges,
-	   the same motion used everywhere so every tab animates identically. */
-	@keyframes barDropIn {
-		from { transform: translateY(-100%); }
-		to { transform: translateY(0); }
-	}
-	@keyframes barRiseIn {
-		from { transform: translateY(100%); }
-		to { transform: translateY(0); }
 	}
 
 	.topbar-left, .topbar-right {
@@ -380,7 +358,6 @@
 		align-items: center;
 		padding: 0 15px;
 		z-index: 1000;
-		animation: barRiseIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 	}
 
 	.toolbar-section {

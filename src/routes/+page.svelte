@@ -6,7 +6,6 @@
 	import { transitionActions } from '../lib/pageTransition.js';
 	import ProjectPane from '../components/ProjectPane.svelte';
 	import Navigation from '../components/Navigation.svelte';
-	import PageTransitionOverlay from '../components/PageTransitionOverlay.svelte';
 	import DesktopNavigation from '../components/DesktopNavigation.svelte';
 	import FilterTabs from '../components/FilterTabs.svelte';
 	import { loadPosts, getProjectColor, formatDate } from '$lib/posts.js';
@@ -169,11 +168,6 @@
 		// Only run in browser
 		if (typeof window !== 'undefined') {
 
-			// Gentle settle-in so arriving on the homepage (e.g. from another
-			// page's contraction animation) eases in rather than popping.
-			isContracting = true;
-			setTimeout(() => { isContracting = false; }, 450);
-
 			// Load wallpaper color from localStorage
 			const savedColor = localStorage.getItem('wallpaperColor');
 			if (savedColor) {
@@ -265,15 +259,15 @@
 		transitionActions.startTransition($page.url.pathname, path);
 		
 		isNavigating = true;
-		// Navigate after frame animation completes
+		// Let the monitor finish expanding to full-screen, then swap in the
+		// page so it lands seamlessly (destination pages mount full-screen too).
 		setTimeout(async () => {
 			await goto(path);
 			isNavigating = false;
-			// Complete transition after navigation
 			setTimeout(() => {
 				transitionActions.completeTransition();
-			}, 100);
-		}, 300); // Wait for frame animation to complete
+			}, 50);
+		}, 380);
 	}
 
 	function closeSearch() {
@@ -995,9 +989,6 @@
 				</a>
 			</div>
 		</div>
-		
-		<!-- Loading Overlay for Desktop Content -->
-		<PageTransitionOverlay />
 	</div>
 	
 	<!-- Desktop Stand (moved outside laptop screen) -->
@@ -1034,7 +1025,7 @@
 		border: 4px solid #333333 !important;
 		border-radius: 0 !important;
 		box-shadow: none !important;
-		transition: all 0.3s ease-out !important;
+		transition: all 0.38s cubic-bezier(0.22, 1, 0.36, 1) !important;
 	}
 
 	/* Surf my web: the monitor screen fills the whole window (go inside the computer) */
@@ -1071,7 +1062,7 @@
 	.laptop-screen {
 		width: 90%;
 		max-width: 1080px;
-		height: 84vh;
+		height: 82vh;
 		background: #ff8c42;
 		border: 3px solid #333333;
 		overflow: hidden; /* Prevent content from overflowing the screen */
@@ -1097,18 +1088,18 @@
 	}
 
 	/* Sized in vh so the whole stand always fits in the gap BELOW the screen
-	   (~8vh) and never pokes up into the screen / bottom toolbar. */
+	   (~9vh) and never pokes up into the screen / bottom toolbar. */
 	.stand-vertical {
-		width: 35px;
-		height: 5vh;
+		width: 42px;
+		height: 6.6vh;
 		background: #1a1a1a;
 		border: 2px solid #000000;
 	}
 
 	.stand-base {
-		width: 180px;
-		height: 1.6vh;
-		min-height: 12px;
+		width: 210px;
+		height: 1.9vh;
+		min-height: 14px;
 		background: #1a1a1a;
 		border: 2px solid #000000;
 		clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
@@ -1139,18 +1130,6 @@
 		justify-content: space-between;
 		padding: 0 20px;
 		z-index: 100;
-		animation: barDropIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
-	}
-
-	/* Shared bar entrance — matches the other pages so every tab animates
-	   its top and bottom navs the same way. */
-	@keyframes barDropIn {
-		from { transform: translateY(-100%); }
-		to { transform: translateY(0); }
-	}
-	@keyframes barRiseIn {
-		from { transform: translateY(100%); }
-		to { transform: translateY(0); }
 	}
 
 	.topbar-left {
@@ -1349,20 +1328,6 @@
 		cursor: grabbing;
 	}
 
-	.homepage.navigating {
-		animation: contentFade 0.3s ease-out forwards;
-	}
-
-	@keyframes contentFade {
-		0% {
-			opacity: 1;
-			transform: scale(1);
-		}
-		100% {
-			opacity: 0.3;
-			transform: scale(0.95);
-		}
-	}
 
 	/* Zoom Controls */
 	.zoom-controls {
@@ -1911,7 +1876,6 @@
 		align-items: center;
 		padding: 0 15px;
 		z-index: 1000;
-		animation: barRiseIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 	}
 
 	.toolbar-section {
