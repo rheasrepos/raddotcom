@@ -514,6 +514,11 @@
 <svelte:window on:keydown={onWindowKeydown} />
 
 <div class="laptop-frame" class:navigating={isNavigating} class:contracting={isContracting} class:surfing={surfing}>
+	<!-- Brand sits on the orange desktop, outside the monitor -->
+	<div class="desktop-brand">
+		<span class="title">RAD.COM</span>
+		<span class="subtitle">Rhea Madhogarhia's public journal</span>
+	</div>
 	<div class="laptop-screen" style="background: {wallpaperColor};">
 		<!-- Navigation and Controls in the frame bezel -->
 		<div class="frame-topbar">
@@ -557,9 +562,6 @@
 						</button>
 					{/if}
 				</div>
-				<button class="surf-btn" on:click={surf} title="Zoom into the desktop">
-						{surfing ? 'Back out' : 'Surf my web'}
-					</button>
 					<span class="system-time">{currentTime}</span>
 			</div>
 		</div>
@@ -575,8 +577,9 @@
 			<div class="container">
 		<header class="hero">
 			<div class="hero-content">
-				<h1 class="title">RAD.COM</h1>
-				<p class="subtitle">Rhea Madhogarhia's public journal</p>
+				<button class="surf-btn hero-surf" on:click={surf} title="Zoom into the desktop">
+					{surfing ? 'Back out' : 'Surf my web'}
+				</button>
 			</div>
 		</header>
 
@@ -1363,8 +1366,8 @@
 
 	.hero {
 		text-align: center;
-		margin-bottom: 40px;
-		padding: 40px 0;
+		margin-bottom: 24px;
+		padding: 14px 0 18px;
 		border-bottom: 2px solid #000000;
 	}
 
@@ -1373,19 +1376,62 @@
 		margin: 0 auto;
 	}
 
+	/* Surf button, now living inside the monitor where the brand used to be */
+	.surf-btn.hero-surf {
+		font-family: 'Space Grotesk', sans-serif;
+		font-size: 1.05rem;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		padding: 10px 26px;
+		border: 2px solid #000000;
+		background: rgba(255, 255, 255, 0.92);
+		box-shadow: 4px 4px 0 #000000;
+		transition: transform 0.12s ease, box-shadow 0.12s ease;
+	}
+	.surf-btn.hero-surf:hover {
+		transform: translate(-2px, -2px);
+		box-shadow: 6px 6px 0 #000000;
+	}
+	.surf-btn.hero-surf:active {
+		transform: translate(2px, 2px);
+		box-shadow: 1px 1px 0 #000000;
+	}
+
+	/* RAD.COM brand on the orange desktop, above the monitor */
+	.desktop-brand {
+		position: absolute;
+		top: 1.4vh;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 5;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		pointer-events: none;
+	}
+	.laptop-frame.surfing .desktop-brand,
+	.laptop-frame.navigating .desktop-brand {
+		display: none;
+	}
+
 	.title {
-		font-size: 3.5rem;
-		font-weight: bold;
-		color: #000000;
-		margin-bottom: 20px;
+		font-family: 'Space Grotesk', sans-serif;
+		font-size: clamp(1.4rem, 3.4vh, 2.4rem);
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		color: #1a1a1a;
+		line-height: 1;
+		margin: 0;
 	}
 
 	.subtitle {
-		font-size: 1.3rem;
-		color: #636e72;
-		max-width: 600px;
-		margin: 0 auto;
-		line-height: 1.6;
+		font-family: 'Space Grotesk', sans-serif;
+		font-size: clamp(0.68rem, 1.4vh, 0.9rem);
+		font-weight: 500;
+		color: #2a2a2a;
+		margin: 4px 0 0;
+		line-height: 1.3;
 	}
 
 	/* Desktop Styles */
