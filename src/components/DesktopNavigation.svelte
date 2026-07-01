@@ -58,7 +58,7 @@
 		font-weight: 500;
 		padding: 6px 12px;
 		transition: all 0.3s ease;
-		border-radius: 3px;
+		border-radius: 0;
 	}
 
 	.desktop-nav-link:hover {

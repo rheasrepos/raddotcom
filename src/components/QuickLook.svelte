@@ -102,7 +102,6 @@
 	.ql-window {
 		background: #fbfbfd;
 		border: 1px solid #000;
-		border-radius: 10px;
 		box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
 		width: min(560px, 92vw);
 		max-height: 84vh;
@@ -138,14 +137,14 @@
 		margin-top: 18px;
 		background: #000; color: #fff; border: none;
 		padding: 10px 16px; font-weight: 700; font-size: 0.9rem;
-		border-radius: 6px;
+		
 	}
 	.ql-folder-body { padding: 10px; overflow: auto; }
 	.ql-list { list-style: none; margin: 0; padding: 0; }
 	.ql-row {
 		width: 100%; display: flex; align-items: center; gap: 12px;
 		padding: 10px 12px; background: transparent; border: none;
-		text-align: left; border-radius: 6px;
+		text-align: left; 
 	}
 	.ql-row:hover { background: #e8f0fe; }
 	.ql-row-doc { font-size: 1.4rem; }
@@ -157,6 +156,5 @@
 	.ql-hint { padding: 8px 14px; border-top: 1px solid #e3e3e8; font-size: 0.72rem; color: #999; text-align: right; }
 	kbd {
 		background: #eee; border: 1px solid #ccc; border-bottom-width: 2px;
-		border-radius: 4px; padding: 0 5px; font-size: 0.72rem;
 	}
 </style>

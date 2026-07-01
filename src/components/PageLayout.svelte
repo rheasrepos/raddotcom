@@ -261,7 +261,6 @@
 		height: 100vh;
 		background: #ff8c42;
 		border: 4px solid #333333;
-		border-radius: 0;
 		overflow: hidden;
 		position: relative;
 		box-shadow: none;
@@ -318,7 +317,6 @@
 	.search-input {
 		background: rgba(255, 255, 255, 0.1);
 		border: 1px solid rgba(255, 255, 255, 0.3);
-		border-radius: 3px;
 		color: white;
 		font-family: Arial, sans-serif;
 		font-size: 0.8rem;
@@ -393,7 +391,6 @@
 		width: 20px;
 		height: 20px;
 		border: 2px solid transparent;
-		border-radius: 3px;
 		cursor: pointer;
 		transition: all 0.2s ease;
 	}
@@ -424,7 +421,6 @@
 		height: 20px;
 		color: #ffffff;
 		text-decoration: none;
-		border-radius: 3px;
 		transition: all 0.2s ease;
 		padding: 2px;
 	}
