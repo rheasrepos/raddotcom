@@ -1023,7 +1023,7 @@
 		width: 100vw;
 		height: 100vh;
 		max-width: none;
-		border: 4px solid #333333;
+		border: none;
 		border-radius: 0;
 		box-shadow: none;
 	}
@@ -1051,9 +1051,9 @@
 	}
 
 	.laptop-screen {
-		width: 100%;
-		max-width: 1400px;
-		height: 88vh;
+		width: 90%;
+		max-width: 1080px;
+		height: 84vh;
 		background: #ff8c42;
 		border: 3px solid #333333;
 		border-radius: 6px;
@@ -1081,7 +1081,7 @@
 
 	.stand-vertical {
 		width: 35px;
-		height: 6vh;
+		height: 10vh;
 		background: #1a1a1a;
 		border: 2px solid #000000;
 	}
