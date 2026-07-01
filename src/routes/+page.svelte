@@ -438,9 +438,8 @@
 	}
 
 	function handleWheel(event) {
-		// Handle zoom on Ctrl/Cmd + wheel or trackpad pinch gestures
-		if (event.ctrlKey || event.metaKey || Math.abs(event.deltaY) > 50) {
-			console.log('Wheel zoom detected:', event.deltaY, 'ctrlKey:', event.ctrlKey, 'metaKey:', event.metaKey);
+		// Zoom only on Ctrl/Cmd + wheel or trackpad pinch — never plain scroll.
+		if (event.ctrlKey || event.metaKey) {
 			event.preventDefault();
 			const delta = event.deltaY > 0 ? -0.1 : 0.1;
 			const newZoomLevel = Math.max(1.0, Math.min(3, zoomLevel + delta)); // Prevent zooming out below 100%
@@ -571,14 +570,11 @@
 			</div>
 		</div>
 
-		<div 
+		<div
 			class="homepage"
 			class:zoomed={zoomLevel > 1}
 			class:navigating={isNavigating}
-			style="transform: scale({zoomLevel}) translate({panOffset.x}px, {panOffset.y}px); transform-origin: center center; transition: transform 0.1s ease;"
-			on:mousedown={handleMouseDown}
-			on:mousemove={handleMouseMove}
-			on:mouseup={handleMouseUp}
+			style="--zoom: {zoomLevel}; --label-lines: {zoomLevel >= 1.8 ? 6 : zoomLevel >= 1.4 ? 4 : zoomLevel >= 1.15 ? 3 : 2};"
 			on:wheel={handleWheel}
 		>
 			
@@ -1561,12 +1557,14 @@
 
 	.desktop-icons {
 		display: grid;
-		/* UPDATED: Made icons smaller and reduced gap */
-		grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-		gap: 25px;
+		/* Icon cell + gap grow with --zoom so zooming enlarges the icons
+		   (and reveals more of each title) instead of scaling the desktop. */
+		grid-template-columns: repeat(auto-fill, minmax(calc(100px * var(--zoom, 1)), 1fr));
+		gap: calc(25px * var(--zoom, 1));
 		padding: 20px;
 		max-width: 1200px;
 		margin: 0 auto;
+		transition: gap 0.15s ease;
 	}
 
 	.desktop-icon {
@@ -1589,12 +1587,13 @@
 
 	/* Mac-style icon container */
 	.mac-icon {
-		width: 56px;
-		height: 56px;
+		width: calc(56px * var(--zoom, 1));
+		height: calc(56px * var(--zoom, 1));
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		flex-shrink: 0;
+		transition: width 0.15s ease, height 0.15s ease;
 	}
 
 	.mac-icon-svg {
@@ -1616,14 +1615,16 @@
 	}
 
 	.mac-icon-label {
-		font-size: 0.72rem;
+		/* Font, width and visible line-count all grow with zoom, so more of
+		   each title becomes readable the further you zoom in. */
+		font-size: calc(0.72rem * var(--zoom, 1));
 		color: #000000;
 		font-family: Arial, sans-serif;
 		word-wrap: break-word;
-		max-width: 80px;
+		max-width: calc(80px * var(--zoom, 1));
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
+		-webkit-line-clamp: var(--label-lines, 2);
 		overflow: hidden;
 		text-overflow: ellipsis;
 		line-height: 1.3;
@@ -1631,6 +1632,7 @@
 		background: rgba(255,255,255,0.7);
 		padding: 1px 3px;
 		margin-top: 2px;
+		transition: font-size 0.15s ease, max-width 0.15s ease;
 	}
 
 	.folder-count {
