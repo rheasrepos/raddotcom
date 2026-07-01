@@ -169,7 +169,7 @@
 
 	/* Card Styles */
 	.card {
-		background: rgba(255, 255, 255, 0.9);
+		background: transparent;
 		border: 1px solid #000000;
 		padding: 30px;
 		margin-bottom: 30px;
@@ -352,7 +352,7 @@
 	.stat-item {
 		text-align: center;
 		padding: 20px;
-		background: #f8f9fa;
+		background: transparent;
 		border: 1px solid #000000;
 		transition: all 0.3s ease;
 	}

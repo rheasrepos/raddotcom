@@ -8,6 +8,7 @@
 		{ path: '/', label: 'Desktop' },
 		// Changed path to /blog and label to Blog
 		{ path: '/blog', label: 'Blog' },
+		{ path: '/network', label: 'Network' },
 		{ path: '/resume', label: 'Resume' },
 		{ path: '/about', label: 'About' },
 		{ path: '/admin', label: 'Admin' }
