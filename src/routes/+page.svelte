@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-	import { fade } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { transitionActions } from '../lib/pageTransition.js';
@@ -581,6 +580,27 @@
 		>
 			
 			<div class="container">
+			<!-- Old-school filter toolbar, above the surf button -->
+			<div class="filter-toolbar">
+				<span class="tb-label">View:</span>
+				<select class="tb-select" bind:value={viewMode} on:change={() => { if (viewMode === 'desktop') breadcrumbPath = ['Desktop']; }}>
+					<option value="desktop">Desktop</option>
+					<option value="all">All Posts</option>
+					<option value="folders">By Month</option>
+					<option value="categories">By Category</option>
+				</select>
+				{#if viewMode === 'folders'}
+					<span class="tb-sep"></span>
+					<button class="tb-btn" on:click={() => changeMonth(-1)} disabled={availableMonths.length <= 1}>←</button>
+					<button class="tb-btn" on:click={() => changeMonth(1)} disabled={availableMonths.length <= 1}>→</button>
+				{/if}
+				<span class="tb-sep"></span>
+				<button class="tb-btn" on:click={zoomOut} title="Zoom Out">−</button>
+				<span class="tb-zoom">{Math.round(zoomLevel * 100)}%</span>
+				<button class="tb-btn" on:click={zoomIn} title="Zoom In">+</button>
+				<button class="tb-btn" on:click={resetZoom} title="Reset Zoom">⌂</button>
+			</div>
+
 		<header class="hero">
 			<div class="hero-content">
 				<button class="surf-btn hero-surf" on:click={surf} title="Zoom into the desktop">
@@ -591,8 +611,6 @@
 
 		<!-- Desktop View -->
 		<div class="desktop-container">
-			<!-- Toolbar -->
-					<div class="desktop-toolbar">
 			<!-- Breadcrumb only appears once you've drilled into a folder -->
 			{#if breadcrumbPath.length > 1 || previousView}
 			<div class="breadcrumb-nav">
@@ -645,63 +663,8 @@
 			</div>
 			{/if}
 
-			<div class="view-options">
-				<button
-					class="view-btn {viewMode === 'desktop' ? 'active' : ''}"
-					on:click={() => { viewMode = 'desktop'; breadcrumbPath = ['Desktop']; }}
-				>
-					Desktop
-				</button>
-				<button
-					class="view-btn {viewMode === 'all' ? 'active' : ''}"
-					on:click={() => viewMode = 'all'}
-				>
-					All Posts
-				</button>
-				<button
-					class="view-btn {viewMode === 'folders' ? 'active' : ''}"
-					on:click={() => viewMode = 'folders'}
-				>
-					By Month
-				</button>
-				<button
-					class="view-btn {viewMode === 'categories' ? 'active' : ''}"
-					on:click={() => viewMode = 'categories'}
-				>
-					By Category
-				</button>
-			</div>
-				
-				<div class="filter-controls">
-					{#if viewMode === 'folders'}
-						<div class="month-nav">
-							<button 
-								class="nav-btn" 
-								on:click={() => changeMonth(-1)}
-								disabled={availableMonths.length <= 1}
-							>←</button>
-							<button 
-								class="nav-btn" 
-								on:click={() => changeMonth(1)}
-								disabled={availableMonths.length <= 1}
-							>→</button>
-						</div>
-					<!-- REMOVED: {:else if viewMode === 'categories'} block -->
-					{/if}
-					
-									<!-- Zoom Controls -->
-				<div class="zoom-controls">
-					<button class="zoom-btn" on:click={zoomOut} title="Zoom Out">−</button>
-					<span class="zoom-level">{Math.round(zoomLevel * 100)}%</span>
-					<button class="zoom-btn" on:click={zoomIn} title="Zoom In">+</button>
-					<button class="zoom-btn" on:click={resetZoom} title="Reset Zoom">⌂</button>
-				</div>
-				</div>
-			</div>
-
 			<!-- Desktop Icons -->
-			{#key viewMode + breadcrumbPath.join('/') + searchQuery}
-			<div class="desktop-icons" transition:fade={{ duration: 150 }}>
+			<div class="desktop-icons">
 				{#if viewMode === 'desktop'}
 					<!-- Music: opens the video gallery (embeds both YouTube channels) -->
 					<div
@@ -850,7 +813,6 @@
 					{/each}
 				{/if}
 			</div>
-			{/key}
 
 			<!-- Folder Opening Animation -->
 			{#if folderOpening}
@@ -1341,42 +1303,69 @@
 
 
 	/* Zoom Controls */
-	.zoom-controls {
+	/* Old-school retro filter toolbar (sits above the surf button) */
+	.filter-toolbar {
 		display: flex;
 		align-items: center;
-		gap: 4px;
-	}
-
-	.zoom-btn {
-		padding: 2px 8px;
-		border: 1px solid #000000;
-		background: transparent;
-		color: #111111;
-		cursor: pointer;
+		flex-wrap: wrap;
+		gap: 8px;
+		width: fit-content;
+		max-width: 100%;
+		margin: 0 auto 16px;
+		padding: 5px 8px;
+		background: #c0c0c0;
+		border: 2px solid;
+		border-color: #ffffff #808080 #808080 #ffffff;
+		color: #000000;
 		font-size: 0.82rem;
-		line-height: 1.3;
-		transition: all 0.15s ease;
 	}
-
-	.zoom-btn:hover {
-		background: #000000;
-		color: #ffffff;
+	.tb-label {
+		font-weight: 700;
 	}
-
-	.zoom-level {
-		font-size: 0.78rem;
-		color: #111111;
-		min-width: 40px;
+	.tb-select {
+		background: #ffffff;
+		color: #000;
+		border: 2px solid;
+		border-color: #808080 #ffffff #ffffff #808080;
+		padding: 2px 6px;
+		font-size: 0.82rem;
+		cursor: pointer;
+	}
+	.tb-btn {
+		background: #c0c0c0;
+		color: #000;
+		border: 2px solid;
+		border-color: #ffffff #808080 #808080 #ffffff;
+		padding: 1px 9px;
+		font-size: 0.82rem;
+		line-height: 1.4;
+		cursor: pointer;
+	}
+	.tb-btn:active {
+		border-color: #808080 #ffffff #ffffff #808080;
+	}
+	.tb-btn:disabled {
+		color: #808080;
+		cursor: default;
+	}
+	.tb-zoom {
+		min-width: 42px;
 		text-align: center;
+	}
+	.tb-sep {
+		width: 0;
+		align-self: stretch;
+		margin: 0 2px;
+		border-left: 1px solid #808080;
+		border-right: 1px solid #ffffff;
 	}
 
 
 
 	.hero {
 		text-align: center;
-		margin-bottom: 24px;
-		padding: 14px 0 18px;
-		border-bottom: 2px solid #000000;
+		margin-bottom: 20px;
+		padding: 6px 0 14px;
 	}
 
 	.hero-content {
@@ -1443,19 +1432,6 @@
 		position: relative;
 	}
 
-	/* Slim old-school filter nav at the top of the desktop content */
-	.desktop-toolbar {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 12px;
-		padding: 6px 2px;
-		background: transparent;
-		border: none;
-		border-bottom: 2px solid #000000;
-		margin-bottom: 22px;
-	}
 
 	/* Breadcrumb Navigation */
 	.breadcrumb-nav {
@@ -1534,67 +1510,6 @@
 		text-align: center;
 	}
 
-	.view-options {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 2px;
-	}
-
-	.view-btn {
-		padding: 6px 14px;
-		border: none;
-		border-bottom: 2px solid transparent;
-		background: transparent;
-		color: #111111;
-		cursor: pointer;
-		font-size: 0.95rem;
-		white-space: nowrap;
-		transition: color 0.15s ease, border-color 0.15s ease;
-	}
-
-	.view-btn:hover {
-		color: #000000;
-		border-bottom-color: rgba(0, 0, 0, 0.4);
-	}
-
-	.view-btn.active {
-		color: #000000;
-		font-weight: 700;
-		border-bottom-color: #000000;
-	}
-
-	.filter-controls {
-		display: flex;
-		align-items: center;
-		gap: 12px;
-	}
-
-	.month-nav, .category-filter {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 6px;
-		align-items: center;
-	}
-
-	.nav-btn, .cat-btn {
-		padding: 3px 9px;
-		border: 1px solid #000000;
-		background: transparent;
-		color: #111111;
-		cursor: pointer;
-		font-size: 0.82rem;
-		transition: all 0.15s ease;
-	}
-
-	.nav-btn:hover, .cat-btn:hover {
-		background: #000000;
-		color: #ffffff;
-	}
-
-	.cat-btn.active {
-		color: #000000;
-	}
-
 	.desktop-icons {
 		display: grid;
 		/* Icon cell + gap grow with --zoom so zooming enlarges the icons
@@ -1620,10 +1535,6 @@
 		text-align: center;
 	}
 
-	.desktop-icon:hover {
-		border-color: #000000;
-		background: rgba(255, 255, 255, 0.9);
-	}
 
 	/* Mac-style icon container */
 	.mac-icon {
@@ -1639,19 +1550,12 @@
 	.mac-icon-svg {
 		width: 100%;
 		height: 100%;
-		filter: drop-shadow(0 1px 2px rgba(0,0,0,0.18));
-		transition: filter 0.15s ease;
-	}
-
-	.desktop-icon:hover .mac-icon-svg {
-		filter: drop-shadow(0 2px 6px rgba(0,0,0,0.28));
 	}
 
 	.mac-icon-img {
 		width: 100%;
 		height: 100%;
 		object-fit: contain;
-		filter: drop-shadow(0 1px 2px rgba(0,0,0,0.18));
 	}
 
 	.mac-icon-label {
