@@ -96,7 +96,7 @@
 		{:else}
 			<div class="projects-grid">
 				{#each filteredPosts as post}
-					<div class="project-card card" style="border-left-color: {getCategoryColor(post.type)};">
+					<div class="project-card card" style="border-left-color: {getCategoryColor(post.type)}; background: color-mix(in srgb, {getCategoryColor(post.type)} 32%, white);">
 						<div class="project-header">
 							<div class="project-meta">
 								<span class="project-category" style="color: {getCategoryColor(post.type)};">

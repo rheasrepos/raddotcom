@@ -72,95 +72,46 @@
 <PageLayout>
 	<div class="container">
 		{#if allPosts.length > 0 && post}
-			<!-- Back Button -->
-			<button class="back-btn" on:click={goBack}>← Back</button>
-			
-			<!-- UPDATED: Next/Previous Post Navigation -->
-			<nav class="post-navigation">
-				<div class="nav-links">
-					
-					<!-- Next Post Link (Newer) -->
-					{#if nextPost}
-						<a href="/posts/{nextPost.id}" class="nav-link prev">
-							← Newer Post
-							<span class="nav-title">{nextPost.title}</span>
-						</a>
-					{:else}
-						<!-- Placeholder to maintain layout -->
-						<span class="nav-link-placeholder"></span>
-					{/if}
-
-					<!-- Previous Post Link (Older) -->
-					{#if previousPost}
-						<a href="/posts/{previousPost.id}" class="nav-link next">
-							Older Post →
-							<span class="nav-title">{previousPost.title}</span>
-						</a>
-					{:else}
-						<!-- Placeholder to maintain layout -->
-						<span class="nav-link-placeholder"></span>
-					{/if}
-
-				</div>
+			<!-- Browser-style bar: back sits at the top, like surfing Rhea's Web -->
+			<nav class="reader-bar">
+				<button class="reader-nav-btn" on:click={goBack} title="Back">←</button>
+				<div class="reader-address">rheasweb / {post.type}</div>
+				<a class="reader-nav-btn text" href="/blog" title="All posts">All Posts</a>
 			</nav>
-			
-			<!-- Single Post in Expandable List Format -->
-			<div class="expandable-list-container">
-				<div class="list-header">
-					<h2 class="list-title">{post.title}</h2>
+
+			<article class="reader">
+				<h1 class="reader-title">{post.title}</h1>
+				<div class="reader-meta">
+					{formatDate(post.date)} · <span style="color: {getProjectColor(post.type)}">{post.type}</span>
 				</div>
-				
-				<div class="expandable-list">
-					<div class="list-item">
-						<div class="list-item-header">
-							<div class="item-info">
-								<span class="item-date">{formatDate(post.date)}</span>
-								<span class="item-title">{post.title}</span>
-								<span class="item-type" style="color: {getProjectColor(post.type)}">{post.type}</span>
-							</div>
-							<div class="expand-icon expanded">▶</div>
-						</div>
-						
-						<div class="list-item-content">
-							<div class="content-details">
-								<h3 class="content-title">{post.title}</h3>
-								<p class="content-description">{post.description}</p>
 
-								<!-- Rendered / raw Markdown toggle -->
-								<div class="view-toggle" role="group" aria-label="View mode">
-									<button
-										class="view-toggle-btn {showRaw ? '' : 'active'}"
-										on:click={() => (showRaw = false)}
-									>
-										Rendered
-									</button>
-									<button
-										class="view-toggle-btn {showRaw ? 'active' : ''}"
-										on:click={() => (showRaw = true)}
-									>
-										Markdown
-									</button>
-								</div>
+				<!-- Rendered / raw Markdown toggle -->
+				<div class="view-toggle" role="group" aria-label="View mode">
+					<button class="view-toggle-btn {showRaw ? '' : 'active'}" on:click={() => (showRaw = false)}>
+						Rendered
+					</button>
+					<button class="view-toggle-btn {showRaw ? 'active' : ''}" on:click={() => (showRaw = true)}>
+						Markdown
+					</button>
+				</div>
 
-								{#if showRaw}
-									<pre class="content-raw">{post.content}</pre>
-								{:else}
-									<div class="content-body prose">{@html renderedContent}</div>
-								{/if}
-							</div>
-						</div>
+				{#if showRaw}
+					<pre class="content-raw">{post.content}</pre>
+				{:else}
+					<div class="content-body prose">{@html renderedContent}</div>
+				{/if}
+
+				{#if nextPost || previousPost}
+					<div class="reader-steps">
+						{#if nextPost}
+							<a href="/posts/{nextPost.id}">← Newer</a>
+						{:else}<span></span>{/if}
+						{#if previousPost}
+							<a href="/posts/{previousPost.id}">Older →</a>
+						{:else}<span></span>{/if}
 					</div>
-				</div>
-			</div>
-
-			<!-- Footer Navigation (All Posts / Home) -->
-			<nav class="post-navigation-footer">
-				<div class="nav-links-footer">
-					<!-- Updated link to /blog -->
-					<a href="/blog" class="nav-link-footer">← All Posts</a>
-					<a href="/" class="nav-link-footer">← Home</a>
-				</div>
-			</nav>
+				{/if}
+			</article>
 		{:else if allPosts.length > 0}
 			<!-- Post Not Found -->
 			<div class="not-found">
@@ -183,21 +134,82 @@
 </PageLayout>
 
 <style>
-	.back-btn {
-		background: #000000;
-		color: #ffffff;
-		border: 1px solid #000000;
-		padding: 0.75rem 1.5rem;
-		cursor: pointer;
+	/* Browser-style bar at the top of a post */
+	.reader-bar {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		border: 2px solid #000;
+		background: #fff;
+		padding: 6px 8px;
+		margin-bottom: 24px;
+	}
+	.reader-nav-btn {
+		background: #fff;
+		border: 1px solid #000;
+		color: #000;
 		font-family: Arial, sans-serif;
 		font-size: 1rem;
-		margin-bottom: 2rem;
-		transition: all 0.3s ease;
+		font-weight: 700;
+		line-height: 1;
+		padding: 6px 10px;
+		cursor: pointer;
+		text-decoration: none;
+		white-space: nowrap;
+	}
+	.reader-nav-btn:hover {
+		background: #000;
+		color: #fff;
+	}
+	.reader-address {
+		flex: 1;
+		background: #f2f2f2;
+		border: 1px solid #999;
+		padding: 6px 12px;
+		font-family: 'Courier New', monospace;
+		font-size: 0.85rem;
+		color: #333;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
-	.back-btn:hover {
-		background: #ffffff;
-		color: #000000;
+	.reader {
+		max-width: 760px;
+		margin: 0 auto;
+	}
+	.reader-title {
+		font-size: 2rem;
+		font-weight: bold;
+		color: #000;
+		line-height: 1.2;
+		margin: 0 0 0.5rem;
+	}
+	.reader-meta {
+		font-size: 0.85rem;
+		color: #555;
+		margin-bottom: 1.25rem;
+	}
+	.reader-meta span {
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.4px;
+	}
+	.reader-steps {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 2.5rem;
+		padding-top: 1rem;
+		border-top: 1px solid rgba(0, 0, 0, 0.25);
+	}
+	.reader-steps a {
+		color: #000;
+		text-decoration: none;
+		font-weight: 700;
+		font-size: 0.9rem;
+	}
+	.reader-steps a:hover {
+		text-decoration: underline;
 	}
 
 	.container {
@@ -206,182 +218,6 @@
 		padding: 2rem;
 	}
 	
-	/* --- STYLES for Next/Prev Nav --- */
-	.post-navigation {
-		margin-bottom: 2rem;
-	}
-
-	.nav-links {
-		display: flex;
-		justify-content: space-between;
-		gap: 1rem;
-		align-items: flex-start; /* Align tops */
-	}
-
-	.nav-link {
-		font-family: Arial, sans-serif;
-		font-size: 1rem;
-		color: #000000;
-		text-decoration: none;
-		padding: 0.5rem 1rem;
-		border: 1px solid #000000;
-		transition: all 0.3s ease;
-		display: flex;
-		flex-direction: column;
-		flex-basis: 48%; /* Each link takes up ~half the space */
-		line-height: 1.4;
-		min-height: 3.5rem; /* Give it a min-height so they align */
-	}
-
-	.nav-link:hover {
-		background: #000000;
-		color: #ffffff;
-	}
-	
-	.nav-link.next {
-		text-align: right;
-		align-items: flex-end; /* Align text to the right */
-	}
-
-	.nav-link.prev {
-		text-align: left;
-		align-items: flex-start; /* Align text to the left */
-	}
-
-	.nav-title {
-		font-size: 0.8rem;
-		color: #666666;
-		margin-top: 4px;
-		/* Truncate long titles */
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		max-width: 100%; /* Ensure it doesn't overflow */
-	}
-
-	.nav-link:hover .nav-title {
-		color: #ffffff;
-	}
-	
-	/* Placeholder styling */
-	.nav-link-placeholder {
-		flex-basis: 48%;
-		visibility: hidden;
-		min-height: 3.5rem;
-	}
-	/* --- End of Nav Styles --- */
-
-	.expandable-list-container {
-		margin-bottom: 2rem;
-	}
-
-	.list-header {
-		margin-bottom: 1rem;
-	}
-
-	.list-title {
-		font-family: Arial, sans-serif;
-		font-size: 1.5rem;
-		font-weight: bold;
-		color: #000000;
-		margin: 0;
-	}
-
-	.expandable-list {
-		border: 1px solid #000000;
-	}
-
-	.list-item {
-		border-bottom: 1px solid #000000;
-	}
-
-	.list-item:last-child {
-		border-bottom: none;
-	}
-
-	.list-item-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 1rem;
-		cursor: pointer;
-		background: #ffffff;
-	}
-
-	.list-item-header:hover {
-		background: #f5f5f5;
-	}
-
-	.item-info {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
-
-	.item-date {
-		font-family: Arial, sans-serif;
-		font-size: 0.875rem;
-		color: #666666;
-	}
-
-	.item-title {
-		font-family: Arial, sans-serif;
-		font-size: 1.125rem;
-		font-weight: bold;
-		color: #000000;
-	}
-
-	.item-type {
-		font-family: Arial, sans-serif;
-		font-size: 0.875rem;
-		font-weight: bold;
-		text-transform: uppercase;
-	}
-
-	.expand-icon {
-		font-family: Arial, sans-serif;
-		font-size: 1rem;
-		color: #000000;
-		transition: transform 0.3s ease;
-	}
-
-	.expand-icon.expanded {
-		transform: rotate(90deg);
-	}
-
-	.list-item-content {
-		padding: 1rem;
-		background: #ffffff;
-	}
-
-	.content-image {
-		margin-bottom: 1rem;
-	}
-
-	.content-image img {
-		width: 100%;
-		height: auto;
-		border: 1px solid #000000;
-	}
-
-	.content-details {
-		font-family: Arial, sans-serif;
-	}
-
-	.content-title {
-		font-size: 1.25rem;
-		font-weight: bold;
-		color: #000000;
-		margin: 0 0 0.5rem 0;
-	}
-
-	.content-description {
-		font-size: 1rem;
-		color: #666666;
-		margin: 0 0 1rem 0;
-		line-height: 1.5;
-	}
-
 	.content-body {
 		font-size: 1rem;
 		color: #000000;
@@ -489,33 +325,6 @@
 	}
 
 	/* Renamed old nav to footer nav */
-	.post-navigation-footer {
-		margin-top: 2rem;
-		padding-top: 1rem;
-		border-top: 1px solid #eee;
-	}
-
-	.nav-links-footer {
-		display: flex;
-		gap: 1rem;
-	}
-
-	.nav-link-footer {
-		font-family: Arial, sans-serif;
-		font-size: 1rem;
-		color: #000000;
-		text-decoration: none;
-		padding: 0.5rem 1rem;
-		border: 1px solid #000000;
-		transition: all 0.3s ease;
-	}
-
-	.nav-link-footer:hover {
-		background: #000000;
-		color: #ffffff;
-	}
-	/* --- End of Renaming --- */
-
 	.not-found {
 		text-align: center;
 		padding: 3rem 1rem;
