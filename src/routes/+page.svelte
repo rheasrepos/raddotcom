@@ -593,7 +593,8 @@
 		<div class="desktop-container">
 			<!-- Toolbar -->
 					<div class="desktop-toolbar">
-			<!-- Breadcrumb Navigation -->
+			<!-- Breadcrumb only appears once you've drilled into a folder -->
+			{#if breadcrumbPath.length > 1 || previousView}
 			<div class="breadcrumb-nav">
 				{#each breadcrumbPath as path, index}
 					<span class="breadcrumb-item">
@@ -642,7 +643,8 @@
 					</button>
 				{/if}
 			</div>
-			
+			{/if}
+
 			<div class="view-options">
 				<button
 					class="view-btn {viewMode === 'desktop' ? 'active' : ''}"
@@ -1342,28 +1344,28 @@
 	.zoom-controls {
 		display: flex;
 		align-items: center;
-		gap: 8px;
-		margin-left: 20px;
+		gap: 4px;
 	}
 
 	.zoom-btn {
-		padding: 4px 8px;
+		padding: 2px 8px;
 		border: 1px solid #000000;
 		background: transparent;
-		color: #ffffff;
+		color: #111111;
 		cursor: pointer;
-		font-family: Arial, sans-serif;
-		font-size: 0.8rem;
-		transition: all 0.3s ease;
+		font-size: 0.82rem;
+		line-height: 1.3;
+		transition: all 0.15s ease;
 	}
 
 	.zoom-btn:hover {
-		color: #000000;
+		background: #000000;
+		color: #ffffff;
 	}
 
 	.zoom-level {
-		font-size: 0.8rem;
-		color: #ffffff;
+		font-size: 0.78rem;
+		color: #111111;
 		min-width: 40px;
 		text-align: center;
 	}
@@ -1441,14 +1443,18 @@
 		position: relative;
 	}
 
+	/* Slim old-school filter nav at the top of the desktop content */
 	.desktop-toolbar {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 20px;
+		flex-wrap: wrap;
+		gap: 12px;
+		padding: 6px 2px;
 		background: transparent;
-		border: 1px solid #000000;
-		margin-bottom: 30px;
+		border: none;
+		border-bottom: 2px solid #000000;
+		margin-bottom: 22px;
 	}
 
 	/* Breadcrumb Navigation */
@@ -1530,53 +1536,59 @@
 
 	.view-options {
 		display: flex;
-		gap: 10px;
+		flex-wrap: wrap;
+		gap: 2px;
 	}
 
 	.view-btn {
-		padding: 8px 16px;
-		border: 1px solid #000000;
+		padding: 6px 14px;
+		border: none;
+		border-bottom: 2px solid transparent;
 		background: transparent;
-		color: #ffffff;
+		color: #111111;
 		cursor: pointer;
-		font-family: Arial, sans-serif;
-		font-size: 0.9rem;
-		transition: all 0.3s ease;
+		font-size: 0.95rem;
+		white-space: nowrap;
+		transition: color 0.15s ease, border-color 0.15s ease;
 	}
 
 	.view-btn:hover {
 		color: #000000;
+		border-bottom-color: rgba(0, 0, 0, 0.4);
 	}
 
 	.view-btn.active {
 		color: #000000;
+		font-weight: 700;
+		border-bottom-color: #000000;
 	}
 
 	.filter-controls {
 		display: flex;
-		gap: 20px;
+		align-items: center;
+		gap: 12px;
 	}
 
 	.month-nav, .category-filter {
 		display: flex;
-		flex-wrap: wrap; /* Allow buttons to wrap */
-		gap: 10px;
+		flex-wrap: wrap;
+		gap: 6px;
 		align-items: center;
 	}
 
 	.nav-btn, .cat-btn {
-		padding: 6px 12px;
+		padding: 3px 9px;
 		border: 1px solid #000000;
 		background: transparent;
-		color: #ffffff;
+		color: #111111;
 		cursor: pointer;
-		font-family: Arial, sans-serif;
-		font-size: 0.8rem;
-		transition: all 0.3s ease;
+		font-size: 0.82rem;
+		transition: all 0.15s ease;
 	}
 
 	.nav-btn:hover, .cat-btn:hover {
-		color: #000000;
+		background: #000000;
+		color: #ffffff;
 	}
 
 	.cat-btn.active {
