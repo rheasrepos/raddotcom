@@ -3,9 +3,20 @@
 	import { page } from '$app/stores';
 	import PageLayout from '$components/PageLayout.svelte';
 	import { loadPosts, getPostById, formatDate, getProjectColor } from '$lib/posts.js';
+	import { renderMarkdown, isHtmlContent } from '$lib/markdown.js';
 
 	// Get post ID from URL
 	$: postId = $page.params.id;
+
+	// View mode for the post body: rendered vs. raw Markdown source.
+	let showRaw = false;
+
+	// If the content is already HTML (older hardcoded posts) pass it through;
+	// otherwise treat it as Markdown and render it.
+	$: contentIsHtml = post ? isHtmlContent(post.content) : false;
+	$: renderedContent = post
+		? (contentIsHtml ? post.content : renderMarkdown(post.content))
+		: '';
 	
 	// Load posts and find the specific post
 	let allPosts = [];
@@ -114,9 +125,28 @@
 							<div class="content-details">
 								<h3 class="content-title">{post.title}</h3>
 								<p class="content-description">{post.description}</p>
-								<div class="content-body">
-									{post.content}
+
+								<!-- Rendered / raw Markdown toggle -->
+								<div class="view-toggle" role="group" aria-label="View mode">
+									<button
+										class="view-toggle-btn {showRaw ? '' : 'active'}"
+										on:click={() => (showRaw = false)}
+									>
+										Rendered
+									</button>
+									<button
+										class="view-toggle-btn {showRaw ? 'active' : ''}"
+										on:click={() => (showRaw = true)}
+									>
+										Markdown
+									</button>
 								</div>
+
+								{#if showRaw}
+									<pre class="content-raw">{post.content}</pre>
+								{:else}
+									<div class="content-body prose">{@html renderedContent}</div>
+								{/if}
 							</div>
 						</div>
 					</div>
@@ -357,6 +387,109 @@
 		color: #000000;
 		line-height: 1.6;
 		white-space: pre-wrap;
+	}
+
+	/* Rendered Markdown: normal flow (not pre-wrapped) with tidy spacing. */
+	.content-body.prose {
+		white-space: normal;
+	}
+	.content-body.prose :global(h1),
+	.content-body.prose :global(h2),
+	.content-body.prose :global(h3),
+	.content-body.prose :global(h4) {
+		line-height: 1.25;
+		margin: 1.4em 0 0.5em;
+	}
+	.content-body.prose :global(p) {
+		margin: 0 0 1em;
+	}
+	.content-body.prose :global(ul),
+	.content-body.prose :global(ol) {
+		margin: 0 0 1em;
+		padding-left: 1.4em;
+	}
+	.content-body.prose :global(li) {
+		margin: 0.25em 0;
+	}
+	.content-body.prose :global(a) {
+		color: #0645ad;
+		text-decoration: underline;
+	}
+	.content-body.prose :global(blockquote) {
+		margin: 0 0 1em;
+		padding: 0.2em 0 0.2em 1em;
+		border-left: 3px solid #000;
+		color: #333;
+		font-style: italic;
+	}
+	.content-body.prose :global(code) {
+		background: rgba(0, 0, 0, 0.08);
+		padding: 0.1em 0.35em;
+		border-radius: 3px;
+		font-size: 0.9em;
+	}
+	.content-body.prose :global(pre.md-code) {
+		background: #1e1e1e;
+		color: #f4f4f4;
+		padding: 14px 16px;
+		border-radius: 6px;
+		overflow-x: auto;
+		margin: 0 0 1em;
+	}
+	.content-body.prose :global(pre.md-code code) {
+		background: none;
+		padding: 0;
+		color: inherit;
+	}
+	.content-body.prose :global(hr) {
+		border: none;
+		border-top: 1px solid #ccc;
+		margin: 1.6em 0;
+	}
+	.content-body.prose :global(img) {
+		max-width: 100%;
+		height: auto;
+	}
+
+	/* Rendered / Markdown toggle */
+	.view-toggle {
+		display: inline-flex;
+		border: 1px solid #000;
+		border-radius: 6px;
+		overflow: hidden;
+		margin: 0 0 1.1rem;
+	}
+	.view-toggle-btn {
+		background: transparent;
+		border: none;
+		padding: 5px 14px;
+		font-size: 0.82rem;
+		font-family: Arial, sans-serif;
+		color: #000;
+		cursor: pointer;
+		transition: background 0.2s ease, color 0.2s ease;
+	}
+	.view-toggle-btn + .view-toggle-btn {
+		border-left: 1px solid #000;
+	}
+	.view-toggle-btn.active {
+		background: #000;
+		color: #fff;
+	}
+
+	/* Raw Markdown view */
+	.content-raw {
+		font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
+		font-size: 0.85rem;
+		line-height: 1.55;
+		color: #111;
+		background: rgba(0, 0, 0, 0.05);
+		border: 1px solid rgba(0, 0, 0, 0.25);
+		border-radius: 6px;
+		padding: 16px 18px;
+		white-space: pre-wrap;
+		word-break: break-word;
+		margin: 0;
 	}
 
 	/* Renamed old nav to footer nav */

@@ -165,9 +165,14 @@
 	// Load posts and update time on mount
 	onMount(async () => {
 		console.log('Component mounted, loading posts...');
-		
+
 		// Only run in browser
 		if (typeof window !== 'undefined') {
+
+			// Gentle settle-in so arriving on the homepage (e.g. from another
+			// page's contraction animation) eases in rather than popping.
+			isContracting = true;
+			setTimeout(() => { isContracting = false; }, 450);
 
 			// Load wallpaper color from localStorage
 			const savedColor = localStorage.getItem('wallpaperColor');
@@ -1032,17 +1037,13 @@
 	}
 
 	.laptop-frame.contracting {
-		animation: frameContract 0.3s ease-out forwards;
+		animation: frameContract 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 	}
 
 	@keyframes frameContract {
 		0% {
-			transform: scale(1.2);
-			opacity: 0.7;
-		}
-		50% {
-			transform: scale(1.05);
-			opacity: 0.9;
+			transform: scale(1.04);
+			opacity: 0.85;
 		}
 		100% {
 			transform: scale(1);

@@ -234,17 +234,26 @@
 		transition: all 0.3s ease-out !important;
 	}
 
+	/* End-state matches the homepage's resting monitor exactly so there is
+	   no size "pop" when the homepage mounts after navigation. */
+	.laptop-frame.contracting {
+		padding: 10px 10px 0 10px !important;
+	}
+
 	.laptop-frame.contracting .laptop-screen {
-		max-width: 1400px !important;
-		width: 100% !important;
-		height: 85vh !important;
+		max-width: 1080px !important;
+		width: 90% !important;
+		height: 84vh !important;
 		border: 3px solid #333333 !important;
 		border-radius: 6px !important;
-		box-shadow: 
+		box-shadow:
 			0 0 0 1px #222222,
 			0 10px 25px rgba(0, 0, 0, 0.5),
 			inset 0 0 10px rgba(0, 0, 0, 0.2) !important;
-		transition: all 0.3s ease-out !important;
+		transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+			height 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+			max-width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+			border-radius 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important;
 	}
 
 	.laptop-screen {
