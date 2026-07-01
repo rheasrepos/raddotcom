@@ -102,7 +102,6 @@
 	.ql-window {
 		background: #fbfbfd;
 		border: 1px solid #000;
-		box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
 		width: min(560px, 92vw);
 		max-height: 84vh;
 		display: flex;

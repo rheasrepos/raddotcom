@@ -98,7 +98,6 @@
 		width: min(640px, 92vw);
 		background: rgba(250, 250, 252, 0.98);
 		border: 1px solid #000;
-		box-shadow: 0 24px 70px rgba(0,0,0,0.45);
 		overflow: hidden;
 		height: fit-content;
 		font-family: var(--font-family, Arial, sans-serif);

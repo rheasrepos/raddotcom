@@ -196,11 +196,10 @@
 		padding: 0;
 		cursor: pointer;
 		font-family: inherit;
-		transition: transform 0.12s ease, box-shadow 0.12s ease;
+		transition: transform 0.12s ease;
 	}
 	.tile:hover {
 		transform: translateY(-3px);
-		box-shadow: 4px 4px 0 #000;
 	}
 
 	.thumb-wrap {
