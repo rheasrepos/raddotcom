@@ -158,9 +158,9 @@
 						title="Blue"
 					></button>
 					<button 
-						class="color-btn {wallpaperColor === '#96ceb4' ? 'active' : ''}"
-						style="background: #96ceb4;"
-						on:click={() => changeWallpaper('#96ceb4')}
+						class="color-btn {wallpaperColor === '#4caf3f' ? 'active' : ''}"
+						style="background: #4caf3f;"
+						on:click={() => changeWallpaper('#4caf3f')}
 						title="Green"
 					></button>
 					<button 

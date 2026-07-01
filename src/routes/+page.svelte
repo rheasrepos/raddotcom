@@ -941,12 +941,12 @@
 						title="Blue"
 					></button>
 					<button 
-						class="color-btn {wallpaperColor === '#96ceb4' ? 'active' : ''}"
-						style="background: #96ceb4;"
+						class="color-btn {wallpaperColor === '#4caf3f' ? 'active' : ''}"
+						style="background: #4caf3f;"
 						on:click={() => {
-							wallpaperColor = '#96ceb4';
-							localStorage.setItem('wallpaperColor', '#96ceb4');
-							document.body.style.background = '#96ceb4';
+							wallpaperColor = '#4caf3f';
+							localStorage.setItem('wallpaperColor', '#4caf3f');
+							document.body.style.background = '#4caf3f';
 						}}
 						title="Green"
 					></button>
