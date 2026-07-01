@@ -425,14 +425,12 @@
 	.content-body.prose :global(code) {
 		background: rgba(0, 0, 0, 0.08);
 		padding: 0.1em 0.35em;
-		border-radius: 3px;
 		font-size: 0.9em;
 	}
 	.content-body.prose :global(pre.md-code) {
 		background: #1e1e1e;
 		color: #f4f4f4;
 		padding: 14px 16px;
-		border-radius: 6px;
 		overflow-x: auto;
 		margin: 0 0 1em;
 	}
@@ -455,7 +453,6 @@
 	.view-toggle {
 		display: inline-flex;
 		border: 1px solid #000;
-		border-radius: 6px;
 		overflow: hidden;
 		margin: 0 0 1.1rem;
 	}
@@ -485,7 +482,6 @@
 		color: #111;
 		background: rgba(0, 0, 0, 0.05);
 		border: 1px solid rgba(0, 0, 0, 0.25);
-		border-radius: 6px;
 		padding: 16px 18px;
 		white-space: pre-wrap;
 		word-break: break-word;

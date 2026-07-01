@@ -1057,7 +1057,6 @@
 		height: 84vh;
 		background: #ff8c42;
 		border: 3px solid #333333;
-		border-radius: 6px;
 		overflow: hidden; /* Prevent content from overflowing the screen */
 		position: relative;
 		box-shadow:
@@ -1156,7 +1155,6 @@
 		background: rgba(255, 255, 255, 0.92);
 		color: #111;
 		border: 1px solid rgba(0, 0, 0, 0.25);
-		border-radius: 6px;
 		padding: 4px 10px;
 		font-family: Arial, sans-serif;
 		font-size: 0.8rem;
@@ -1188,7 +1186,6 @@
 		height: 20px;
 		color: #ffffff;
 		text-decoration: none;
-		border-radius: 3px;
 		transition: all 0.2s ease;
 		padding: 2px;
 	}
@@ -1217,7 +1214,6 @@
 		color: #ffffff;
 		cursor: pointer;
 		padding: 4px;
-		border-radius: 3px;
 		transition: all 0.2s ease;
 		display: flex;
 		align-items: center;
@@ -1252,7 +1248,6 @@
 		padding: 4px 8px;
 		font-size: 0.8rem;
 		font-family: Arial, sans-serif;
-		border-radius: 3px;
 		width: 150px;
 		outline: none;
 		animation: searchExpand 0.3s ease-out;
@@ -1443,7 +1438,6 @@
 		text-decoration: underline;
 		font-size: 0.9rem;
 		padding: 2px 4px;
-		border-radius: 3px;
 		transition: all 0.2s ease;
 	}
 
@@ -1457,7 +1451,6 @@
 		color: #333;
 		cursor: pointer;
 		padding: 4px 8px;
-		border-radius: 3px;
 		font-size: 0.8rem;
 		margin-left: 10px;
 		transition: all 0.2s ease;
@@ -1615,7 +1608,6 @@
 		line-height: 1.3;
 		text-align: center;
 		background: rgba(255,255,255,0.7);
-		border-radius: 2px;
 		padding: 1px 3px;
 		margin-top: 2px;
 	}
@@ -1903,7 +1895,6 @@
 		width: 20px;
 		height: 20px;
 		border: 2px solid transparent;
-		border-radius: 3px;
 		cursor: pointer;
 		transition: all 0.2s ease;
 	}

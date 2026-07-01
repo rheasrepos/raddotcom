@@ -121,7 +121,7 @@
 	}
 	.ql-traffic { display: flex; gap: 6px; }
 	.dot {
-		width: 12px; height: 12px; border-radius: 50%;
+		width: 12px; height: 12px; 
 		border: 1px solid rgba(0,0,0,0.35); padding: 0; cursor: pointer;
 	}
 	.dot.red { background: #ff5f57; }
