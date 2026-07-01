@@ -702,6 +702,27 @@
 			{#key viewMode + breadcrumbPath.join('/') + searchQuery}
 			<div class="desktop-icons" transition:fade={{ duration: 150 }}>
 				{#if viewMode === 'desktop'}
+					<!-- Music: opens the video gallery (embeds both YouTube channels) -->
+					<div
+						class="desktop-icon"
+						on:click={() => handleNavigation('/videos')}
+						on:keydown={(e) => e.key === 'Enter' && handleNavigation('/videos')}
+						tabindex="0"
+						role="button"
+						aria-label="Open Music folder"
+					>
+						<div class="mac-icon">
+							<svg viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
+								<path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999999" stroke-width="1.2"/>
+								<rect x="0" y="11" width="56" height="35" rx="3" fill="#e8e8e8" stroke="#999999" stroke-width="1.2"/>
+								<path d="M34 20 L34 33" stroke="#333333" stroke-width="2" stroke-linecap="round"/>
+								<path d="M34 20 L44 17 L44 30" stroke="#333333" stroke-width="2" stroke-linecap="round" fill="none"/>
+								<circle cx="31" cy="33" r="3.2" fill="#333333"/>
+								<circle cx="41" cy="30" r="3.2" fill="#333333"/>
+							</svg>
+						</div>
+						<div class="mac-icon-label">Music</div>
+					</div>
 					<!-- Desktop: category folders + any loose files -->
 					{#each categories as category}
 						{@const categoryInfo = categoryConfig[category.id]}
