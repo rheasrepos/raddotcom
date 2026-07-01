@@ -1,12 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 /* Retro: nothing gets rounded corners anywhere on the site. */
 *, *::before, *::after {
   border-radius: 0 !important;
 }
 
-/* One typeface across the whole site (Akzidenz-Grotesk, falling back to
-   Helvetica Neue). Overrides the scattered Arial declarations in components. */
+/* One typeface across the whole site: Inter (a clean grotesque close to
+   Akzidenz). Prefers a real Akzidenz install if present, then the loaded
+   Inter, then system fallbacks. Overrides scattered Arial declarations. */
 *, *::before, *::after {
-  font-family: 'Akzidenz-Grotesk', 'Akzidenz-Grotesk BQ', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+  font-family: 'Akzidenz-Grotesk', 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
 }
 
 /* Keep a monospace face only for actual code / raw source. */
@@ -40,7 +43,7 @@ code, kbd, samp, pre, .content-raw, .md-code, .md-code code {
   /* FIX: This is the line I changed. 
     It tells everything to use 'Inter' first, then Arial as a backup.
   */
-  --font-family: 'Akzidenz-Grotesk', 'Akzidenz-Grotesk BQ', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-family: 'Akzidenz-Grotesk', 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.9rem;
   --font-size-base: 1rem;
