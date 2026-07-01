@@ -584,7 +584,7 @@
 		<header class="hero">
 			<div class="hero-content">
 				<button class="surf-btn hero-surf" on:click={surf} title="Zoom into the desktop">
-					{surfing ? 'Back out' : 'Surf my web'}
+					{surfing ? 'Back out' : "Surf Rhea's Web"}
 				</button>
 			</div>
 		</header>
@@ -1390,17 +1390,12 @@
 		text-transform: uppercase;
 		padding: 10px 26px;
 		border: 2px solid #000000;
-		background: rgba(255, 255, 255, 0.92);
-		box-shadow: 4px 4px 0 #000000;
-		transition: transform 0.12s ease, box-shadow 0.12s ease;
+		background: #ffffff;
+		transition: background 0.12s ease, color 0.12s ease;
 	}
 	.surf-btn.hero-surf:hover {
-		transform: translate(-2px, -2px);
-		box-shadow: 6px 6px 0 #000000;
-	}
-	.surf-btn.hero-surf:active {
-		transform: translate(2px, 2px);
-		box-shadow: 1px 1px 0 #000000;
+		background: #000000;
+		color: #ffffff;
 	}
 
 	/* RAD.COM brand on the orange desktop, above the monitor */
