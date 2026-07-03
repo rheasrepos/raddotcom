@@ -1,407 +1,251 @@
 <script>
 	import PageLayout from '../../components/PageLayout.svelte';
-	import { categoryConfig, getCategoryLabel, getCategoryColor } from '../../lib/categories.js';
+	import { categoryConfig, getCategoryColor } from '../../lib/categories.js';
 	import { onMount } from 'svelte';
 	import { loadPosts } from '../../lib/posts.js';
-	
-	// State
-	let selectedCategory = 'all';
+
 	let posts = [];
-	let filteredPosts = [];
-	
-	// Get categories from the config
-	let categories = Object.values(categoryConfig);
-	
-	// Load posts on mount
+	let grouping = 'date'; // 'date' | 'category' | 'month'
+
 	onMount(async () => {
 		try {
 			posts = await loadPosts();
-			filteredPosts = posts;
-		} catch (error) {
-			console.warn('Error loading posts:', error);
+		} catch (e) {
 			posts = [];
-			filteredPosts = [];
 		}
 	});
-	
-	// Filter posts based on selected category
-	$: {
-		if (posts.length > 0) {
-			if (selectedCategory === 'all') {
-				filteredPosts = posts;
-			} else {
-				filteredPosts = posts.filter(post => post.type === selectedCategory);
-			}
+
+	function fmt(d) {
+		return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+	}
+	function monthLabel(d) {
+		return new Date(d).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+	}
+	function catLabel(type) {
+		return categoryConfig[type] ? categoryConfig[type].label : type;
+	}
+
+	// Newest first
+	$: sorted = [...posts].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+	// The SAME list, regrouped depending on the chosen view.
+	$: groups = (() => {
+		if (grouping === 'date') return [];
+		const map = new Map();
+		for (const p of sorted) {
+			const key = grouping === 'category' ? catLabel(p.type) : monthLabel(p.date);
+			if (!map.has(key)) map.set(key, []);
+			map.get(key).push(p);
 		}
-	}
-	
-	function getCategoryName(categoryId) {
-		return categoryConfig[categoryId] ? categoryConfig[categoryId].label : 'Unknown';
-	}
-	
-	function formatDate(dateString) {
-		const date = new Date(dateString);
-		return date.toLocaleDateString('en-US', { 
-			year: 'numeric', 
-			month: 'long', 
-			day: 'numeric' 
-		});
-	}
+		return [...map.entries()];
+	})();
 </script>
 
-<!-- Changed title to "Blog" -->
-<PageLayout title="Blog - Rhea Madhogarhia">
-	<!-- Header Section -->
-	<section class="header-section">
-		<div class="header-content">
-			<!-- Updated titles -->
-			<h1 class="page-title">Blog & Thesis Notes</h1>
-			<p class="page-description">A collection of thoughts, thesis notes, and public writing.</p>
-		</div>
-	</section>
+<PageLayout title="Rhea's Web - Rhea Madhogarhia">
+	<section class="archive">
+		<header class="arch-head">
+			<h1 class="arch-title">Rhea's Web</h1>
+			<p class="arch-sub">Notes, essays, and thesis fragments — {posts.length} entries.</p>
+		</header>
 
-	<!-- Filter Section -->
-	<section class="filter-section">
-		<div class="filter-card card">
-			<h3 class="filter-title">Filter by Category</h3>
-			<div class="filter-buttons">
-				<button 
-					class="filter-btn {selectedCategory === 'all' ? 'active' : ''}"
-					on:click={() => selectedCategory = 'all'}
-				>
-					<!-- Updated label -->
-					All Posts ({posts.length})
-				</button>
-				{#each categories as category}
-					<button 
-						class="filter-btn {selectedCategory === category.id ? 'active' : ''}"
-						style="border-color: {category.color};"
-						on:click={() => selectedCategory = category.id}
-					>
-						{category.label} ({posts.filter(post => post.type === category.id).length})
-					</button>
+		<nav class="view-switch" aria-label="Group posts by">
+			<span class="view-switch-label">View:</span>
+			<button class:active={grouping === 'date'} on:click={() => (grouping = 'date')}>Chronological</button>
+			<button class:active={grouping === 'category'} on:click={() => (grouping = 'category')}>By Category</button>
+			<button class:active={grouping === 'month'} on:click={() => (grouping = 'month')}>By Month</button>
+		</nav>
+
+		{#if posts.length === 0}
+			<p class="empty">Loading…</p>
+		{:else if grouping === 'date'}
+			<!-- Flat Substack-style archive -->
+			<ul class="entries">
+				{#each sorted as p}
+					<li class="entry">
+						<a class="entry-link" href="/posts/{p.id}">
+							<span class="entry-date">{fmt(p.date)}</span>
+							<span class="entry-title">{p.title}</span>
+						</a>
+						{#if p.description}<p class="entry-desc">{p.description}</p>{/if}
+					</li>
 				{/each}
-			</div>
-		</div>
-	</section>
-
-	<!-- Posts Grid -->
-	<section class="projects-section">
-		{#if filteredPosts.length === 0}
-			<div class="no-projects card">
-				<!-- Updated text -->
-				<h3>No posts found</h3>
-				<p>No posts match the selected category.</p>
-			</div>
+			</ul>
 		{:else}
-			<div class="projects-grid">
-				{#each filteredPosts as post}
-					<div class="project-card card" style="border-left-color: {getCategoryColor(post.type)}; background: color-mix(in srgb, {getCategoryColor(post.type)} 32%, white);">
-						<div class="project-header">
-							<div class="project-meta">
-								<span class="project-category" style="color: {getCategoryColor(post.type)};">
-									{getCategoryName(post.type)}
-								</span>
-								<span class="project-date">{formatDate(post.date)}</span>
-							</div>
-							<h3 class="project-title">{post.title}</h3>
-						</div>
-						
-						<p class="project-excerpt">{post.description}</p>
-						
-						<div class="project-actions">
-							<a href="/posts/{post.id}" class="view-btn">
-								View Full Post
-							</a>
-						</div>
-					</div>
+			<!-- Grouped: each group is a "folder" with its posts connected beneath -->
+			<div class="folders">
+				{#each groups as [name, items]}
+					<section class="folder">
+						<h2 class="folder-head">
+							<span
+								class="folder-dot"
+								style="background: {grouping === 'category' ? getCategoryColor(items[0].type) : '#000'}"
+							></span>
+							{name}
+							<span class="folder-count">{items.length}</span>
+						</h2>
+						<ul class="entries nested">
+							{#each items as p}
+								<li class="entry">
+									<a class="entry-link" href="/posts/{p.id}">
+										<span class="entry-date">{fmt(p.date)}</span>
+										<span class="entry-title">{p.title}</span>
+									</a>
+								</li>
+							{/each}
+						</ul>
+					</section>
 				{/each}
 			</div>
 		{/if}
 	</section>
-
-	<!-- Stats Section -->
-	<section class="stats-section">
-		<div class="stats-card card">
-			<!-- Updated title -->
-			<h3 class="stats-title">Post Statistics</h3>
-			<div class="stats-grid">
-				<div class="stat-item">
-					<span class="stat-number">{posts.length}</span>
-					<!-- Updated label -->
-					<span class="stat-label">Total Posts</span>
-				</div>
-				{#each categories as category}
-					<div class="stat-item">
-						<span class="stat-number" style="color: {category.color};">
-							{posts.filter(post => post.type === category.id).length}
-						</span>
-						<span class="stat-label">{category.label}</span>
-					</div>
-				{/each}
-			</div>
-		</div>
-	</section>
 </PageLayout>
 
 <style>
-	/* Header Section */
-	.header-section {
-		margin-bottom: 40px;
+	.archive {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: 4px 0 40px;
 	}
 
-	.header-content {
-		text-align: center;
+	.arch-head {
+		margin-bottom: 22px;
 	}
-
-	.page-title {
-		font-size: 2.5rem;
-		font-weight: bold;
-		color: #000000;
-		margin-bottom: 15px;
+	.arch-title {
+		font-size: 2.2rem;
+		font-weight: 800;
+		color: #000;
+		margin: 0 0 6px;
 	}
-
-	.page-description {
-		font-size: 1.2rem;
-		color: #666666;
+	.arch-sub {
+		font-size: 1rem;
+		color: #333;
 		margin: 0;
 	}
 
-	/* Card Styles */
-	.card {
-		background: transparent;
-		border: 1px solid #000000;
-		padding: 30px;
-		margin-bottom: 30px;
-	}
-
-	/* Filter Section */
-	.filter-section {
-		margin-bottom: 40px;
-	}
-
-	.filter-title {
-		font-size: 1.5rem;
-		font-weight: bold;
-		color: #000000;
-		margin-bottom: 20px;
-		text-align: center;
-	}
-
-	.filter-buttons {
+	/* View switcher — same list, different groupings */
+	.view-switch {
 		display: flex;
+		align-items: center;
 		flex-wrap: wrap;
-		gap: 10px;
-		justify-content: center;
+		gap: 6px;
+		padding-bottom: 10px;
+		margin-bottom: 8px;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.35);
 	}
-
-	.filter-btn {
+	.view-switch-label {
+		font-size: 0.85rem;
+		font-weight: 700;
+		margin-right: 4px;
+	}
+	.view-switch button {
 		background: transparent;
-		border: 2px solid #000000;
-		padding: 10px 20px;
-		font-size: 1rem;
-		color: #000000;
+		border: none;
+		color: #333;
+		font-size: 0.9rem;
+		padding: 3px 8px;
 		cursor: pointer;
-		transition: all 0.3s ease;
-		font-family: Arial, sans-serif;
+		border-bottom: 2px solid transparent;
+	}
+	.view-switch button:hover {
+		color: #000;
+	}
+	.view-switch button.active {
+		color: #000;
+		font-weight: 700;
+		border-bottom-color: #000;
 	}
 
-	.filter-btn:hover {
-		background: #000000;
-		color: #ffffff;
+	/* Entries */
+	.entries {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.entry {
+		padding: 12px 0;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+	}
+	.entry-link {
+		display: flex;
+		align-items: baseline;
+		gap: 14px;
+		text-decoration: none;
+		color: #000;
+	}
+	.entry-date {
+		flex: 0 0 auto;
+		width: 96px;
+		font-size: 0.8rem;
+		color: #777;
+		font-variant-numeric: tabular-nums;
+	}
+	.entry-title {
+		font-size: 1.05rem;
+		font-weight: 600;
+		line-height: 1.35;
+	}
+	.entry-link:hover .entry-title {
+		text-decoration: underline;
+	}
+	.entry-desc {
+		margin: 5px 0 0 110px;
+		font-size: 0.9rem;
+		color: #555;
+		line-height: 1.5;
 	}
 
-	.filter-btn.active {
-		background: #000000;
-		color: #ffffff;
-	}
-
-	/* Projects Section (applies to posts) */
-	.projects-section {
-		margin-bottom: 40px;
-	}
-
-	.projects-grid {
-		display: grid;
-		/* UPDATED: Made cards smaller */
-		grid-template-columns: repeat(auto-fit, minmax(325px, 1fr));
-		gap: 25px;
-	}
-
-	.project-card {
-		border-left: 4px solid;
-		transition: all 0.3s ease;
-		/* UPDATED: Use flex to make cards uniform height */
+	/* Grouped folders — posts connect to their folder with a left rule */
+	.folders {
 		display: flex;
 		flex-direction: column;
+		gap: 26px;
 	}
-
-	.project-card:hover {
-		transform: translateY(-5px);
-	}
-
-	.project-header {
-		margin-bottom: 15px;
-	}
-
-	.project-meta {
+	.folder-head {
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 10px;
+		gap: 8px;
+		font-size: 1.15rem;
+		font-weight: 800;
+		color: #000;
+		margin: 0 0 6px;
+	}
+	.folder-dot {
+		width: 12px;
+		height: 12px;
+		border: 1px solid #000;
+		flex: 0 0 auto;
+	}
+	.folder-count {
+		font-size: 0.78rem;
+		font-weight: 600;
+		color: #777;
+		border: 1px solid rgba(0, 0, 0, 0.3);
+		padding: 0 6px;
+	}
+	.entries.nested {
+		margin-left: 5px;
+		padding-left: 16px;
+		border-left: 2px solid rgba(0, 0, 0, 0.35);
+	}
+	.entries.nested .entry {
+		padding: 8px 0;
+		border-bottom: 1px dotted rgba(0, 0, 0, 0.18);
+	}
+	.entries.nested .entry:last-child {
+		border-bottom: none;
 	}
 
-	.project-category {
-		font-size: 0.9rem;
-		font-weight: bold;
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
+	.empty {
+		color: #555;
 	}
 
-	.project-date {
-		font-size: 0.8rem;
-		color: #666666;
-	}
-
-	.project-title {
-		/* UPDATED: Made title smaller */
-		font-size: 1.25rem;
-		font-weight: bold;
-		color: #000000;
-		margin: 0;
-		line-height: 1.3;
-	}
-
-	.project-excerpt {
-		/* UPDATED: Made font smaller */
-		font-size: 0.9rem;
-		color: #333333;
-		line-height: 1.5;
-		margin-bottom: 20px;
-
-		/* UPDATED: Add truncation */
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2; /* Show 2 lines */
-		overflow: hidden;
-		text-overflow: ellipsis;
-		max-height: calc(1.5em * 2); /* line-height * 3 lines */
-		min-height: calc(1.5em * 2); /* Ensure it takes up the space */
-		
-		/* UPDATED: Let this section grow */
-		flex-grow: 1;
-	}
-
-	.project-actions {
-		text-align: right;
-	}
-
-	.view-btn {
-		display: inline-block;
-		background: #000000;
-		color: #ffffff;
-		padding: 8px 16px;
-		text-decoration: none;
-		font-size: 0.9rem;
-		border: 1px solid #000000;
-		transition: all 0.3s ease;
-	}
-
-	.view-btn:hover {
-		background: #ffffff;
-		color: #000000;
-	}
-
-	/* No Projects State */
-	.no-projects {
-		text-align: center;
-		padding: 60px 30px;
-	}
-
-	.no-projects h3 {
-		font-size: 1.5rem;
-		color: #000000;
-		margin-bottom: 10px;
-	}
-
-	.no-projects p {
-		color: #666666;
-		margin: 0;
-	}
-
-	/* Stats Section */
-	.stats-section {
-		margin-bottom: 20px;
-	}
-
-	.stats-title {
-		font-size: 1.5rem;
-		font-weight: bold;
-		color: #000000;
-		margin-bottom: 15px;
-		text-align: center;
-	}
-
-	.stats-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-		gap: 20px;
-	}
-
-	.stat-item {
-		text-align: center;
-		padding: 20px;
-		background: transparent;
-		border: 1px solid #000000;
-		transition: all 0.3s ease;
-	}
-
-	.stat-item:hover {
-		background: #e9ecef;
-		transform: scale(1.05);
-	}
-
-	.stat-number {
-		display: block;
-		font-size: 2rem;
-		font-weight: bold;
-		color: #000000;
-		margin-bottom: 5px;
-	}
-
-	.stat-label {
-		font-size: 0.9rem;
-		color: #666666;
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
-	}
-
-	/* Responsive Design */
-	@media (max-width: 750px) {
-		.page-title {
-			font-size: 2rem;
-		}
-
-		.page-description {
-			font-size: 1rem;
-		}
-
-		.filter-buttons {
+	@media (max-width: 600px) {
+		.entry-link {
 			flex-direction: column;
-			align-items: center;
+			gap: 2px;
 		}
-
-		.filter-btn {
-			width: 100%;
-			max-width: 200px;
-		}
-
-		.projects-grid {
-			grid-template-columns: 1fr;
-		}
-
-		.stats-grid {
-			grid-template-columns: repeat(2, 1fr);
+		.entry-desc {
+			margin-left: 0;
 		}
 	}
 </style>

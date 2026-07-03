@@ -185,21 +185,21 @@
 		position: relative;
 		max-width: 1100px;
 		margin: 10px auto 0;
-		background: rgba(0, 0, 0, 0.04);
+		background: #191919;
 		border: 1px solid #000;
-		border-radius: 10px;
 		overflow: hidden;
 	}
 	.net-svg { width: 100%; height: auto; display: block; }
-	.edge { stroke: rgba(0, 0, 0, 0.22); stroke-width: 1; }
-	.edge.hot { stroke: #111; stroke-width: 1.8; }
-	.edge.dim { stroke: rgba(0, 0, 0, 0.06); }
+	.edge { stroke: rgba(255, 255, 255, 0.22); stroke-width: 1; }
+	.edge.hot { stroke: #ffffff; stroke-width: 1.8; }
+	.edge.dim { stroke: rgba(255, 255, 255, 0.07); }
 	.node { cursor: pointer; }
-	.node.post:hover circle { stroke: #111; stroke-width: 2; }
-	.node.cat circle { stroke: #111; stroke-width: 2; }
+	.node.post:hover circle { stroke: #ffffff; stroke-width: 2; }
+	.node.cat circle { stroke: #ffffff; stroke-width: 2; }
 	.node.dim { opacity: 0.25; }
-	.node-label { text-anchor: middle; font-size: 11px; fill: #111; paint-order: stroke; stroke: #fff; stroke-width: 3px; }
-	.node-label.cat { font-weight: 700; font-size: 12.5px; }
+	/* Labels: single flat colour, no white halo behind the text */
+	.node-label { text-anchor: middle; font-size: 11px; fill: #ffffff; }
+	.node-label.cat { font-weight: 700; font-size: 12.5px; fill: #ffffff; }
 	.net-tooltip {
 		position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%);
 		background: #000; color: #fff; padding: 6px 12px; border-radius: 6px;
