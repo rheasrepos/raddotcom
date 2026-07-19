@@ -1,11 +1,14 @@
 // Centralized category configuration
 export const categoryConfig = {
 	writing: { id: 'writing', label: 'Notes & Writing', color: 'var(--color-writing)' },
+	essays: { id: 'essays', label: 'Essays & Papers', color: '#4a69bd' }, // academic essays & term papers
 	thesis: { id: 'thesis', label: 'Thesis Notes', color: '#8e44ad' }, // Added this new category
-	programming: { id: 'programming', label: 'Tech & Industry', color: 'var(--color-programming)' },
 	research: { id: 'research', label: 'Research', color: 'var(--color-research)' },
+	programming: { id: 'programming', label: 'Tech & Industry', color: 'var(--color-programming)' },
+	creative: { id: 'creative', label: 'Creative', color: '#e17055' }, // poems, songs, scripts, radio
+	comedy: { id: 'comedy', label: 'Comedy', color: 'var(--color-comedy)' },
 	music: { id: 'music', label: 'Music', color: 'var(--color-music)' },
-	comedy: { id: 'comedy', label: 'Comedy', color: 'var(--color-comedy)' }
+	recs: { id: 'recs', label: 'Recommendations', color: '#00b894' } // books, music, places, food
 };
 
 // Helper function to get category display name

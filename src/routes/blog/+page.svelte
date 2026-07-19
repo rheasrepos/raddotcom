@@ -64,7 +64,7 @@
 					<li class="entry">
 						<a class="entry-link" href="/posts/{p.id}">
 							<span class="entry-date">{fmt(p.date)}</span>
-							<span class="entry-title">{p.title}</span>
+							<span class="entry-title" class:ai-title={p.aiTitle} title={p.aiTitle ? 'Title drafted with AI assistance' : undefined}>{p.title}</span>
 						</a>
 						{#if p.description}<p class="entry-desc">{p.description}</p>{/if}
 					</li>
@@ -88,7 +88,7 @@
 								<li class="entry">
 									<a class="entry-link" href="/posts/{p.id}">
 										<span class="entry-date">{fmt(p.date)}</span>
-										<span class="entry-title">{p.title}</span>
+										<span class="entry-title" class:ai-title={p.aiTitle} title={p.aiTitle ? 'Title drafted with AI assistance' : undefined}>{p.title}</span>
 									</a>
 								</li>
 							{/each}
@@ -183,6 +183,13 @@
 		font-size: 1.05rem;
 		font-weight: 600;
 		line-height: 1.35;
+	}
+	/* AI-drafted titles: dashed underline, same convention as AIText */
+	.entry-title.ai-title {
+		text-decoration: underline dashed;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
+		cursor: help;
 	}
 	.entry-link:hover .entry-title {
 		text-decoration: underline;

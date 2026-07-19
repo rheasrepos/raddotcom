@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { transitionActions } from '../lib/pageTransition.js';
@@ -128,10 +128,37 @@
 
 	// "Surf my web" — the monitor SCREEN expands to fill the whole window (go inside).
 	let surfing = false;
+
+	// FLIP animation: layout jumps to its final state in ONE reflow, then we
+	// animate a compositor-only transform from the old position to the new one.
+	// Animating width/height instead re-lays-out the entire desktop every frame,
+	// which is what made the expand/contract feel choppy.
+	async function animateScreenFlip() {
+		const screen = document.querySelector('.laptop-screen');
+		if (!screen) return;
+		const first = screen.getBoundingClientRect();
+		await tick();
+		const last = screen.getBoundingClientRect();
+		if (!last.width || !last.height) return;
+		const sx = first.width / last.width;
+		const sy = first.height / last.height;
+		const dx = first.left + first.width / 2 - (last.left + last.width / 2);
+		const dy = first.top + first.height / 2 - (last.top + last.height / 2);
+		if (Math.abs(sx - 1) < 0.001 && Math.abs(sy - 1) < 0.001 && !dx && !dy) return;
+		screen.animate(
+			[
+				{ transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` },
+				{ transform: 'none' }
+			],
+			{ duration: 380, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
+		);
+	}
+
 	function surf() {
 		surfing = !surfing;
 		zoomLevel = 1;
 		panOffset = { x: 0, y: 0 };
+		animateScreenFlip();
 	}
 	function handleQuickLookOpen(e) {
 		quickLookItem = null;
@@ -262,8 +289,9 @@
 		
 		// Start transition immediately to show overlay during frame animation
 		transitionActions.startTransition($page.url.pathname, path);
-		
+
 		isNavigating = true;
+		animateScreenFlip();
 		// Let the monitor finish expanding to full-screen, then swap in the
 		// page so it lands seamlessly (destination pages mount full-screen too).
 		setTimeout(async () => {
@@ -451,6 +479,18 @@
 
 
 
+
+	// When searching from the Desktop view, flip to All Posts so matches are
+	// actually visible (the desktop only shows category folders). Restore the
+	// desktop when the query is cleared.
+	let searchCameFromDesktop = false;
+	$: if (searchQuery.trim() && viewMode === 'desktop') {
+		searchCameFromDesktop = true;
+		viewMode = 'all';
+	} else if (!searchQuery.trim() && searchCameFromDesktop) {
+		searchCameFromDesktop = false;
+		viewMode = 'desktop';
+	}
 
 	$: projectsWithDates = (projects || [])
 		.filter(project => {
@@ -673,7 +713,7 @@
 						on:keydown={(e) => e.key === 'Enter' && handleNavigation('/videos')}
 						tabindex="0"
 						role="button"
-						aria-label="Open Music folder"
+						aria-label="Open Videos folder"
 					>
 						<div class="mac-icon">
 							<svg viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
@@ -685,7 +725,7 @@
 								<circle cx="41" cy="30" r="3.2" fill="#333333"/>
 							</svg>
 						</div>
-						<div class="mac-icon-label">Music</div>
+						<div class="mac-icon-label">Videos</div>
 					</div>
 					<!-- Desktop: category folders + any loose files -->
 					{#each categories as category}
@@ -849,11 +889,11 @@
 						{#if selectedProject.image}
 							<img src={selectedProject.image} alt={selectedProject.title} />
 						{/if}
-						<h2>{selectedProject.title}</h2>
+						<h2 class:ai-title={selectedProject.aiTitle} title={selectedProject.aiTitle ? 'Title drafted with AI assistance' : undefined}>{selectedProject.title}</h2>
 						<p class="project-date">{new Date(selectedProject.date).toLocaleDateString()}</p>
 						<p class="project-description">{selectedProject.description}</p>
 						<div class="project-content">
-							{selectedProject.content}
+							{@html selectedProject.content}
 						</div>
 						<div class="project-actions">
 							<a href="/posts/{selectedProject.id}" class="view-post-btn">View Full Post →</a>
@@ -972,6 +1012,14 @@
 </div>
 
 <style>
+	/* AI-generated titles get a dashed underline (same convention as AIText) */
+	.ai-title {
+		text-decoration: underline dashed;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
+		cursor: help;
+	}
+
 	/* Space/Dark Grey Laptop Frame */
 	.laptop-frame {
 		display: flex;
@@ -982,13 +1030,11 @@
 		padding: 10px 10px 0 10px;
 		position: relative;
 		overflow: hidden;
-		transition: all 0.3s ease-out;
 	}
 
 	.laptop-frame.navigating {
 		padding: 0 !important;
 		overflow: hidden !important;
-		transition: all 0.3s ease-out !important;
 	}
 
 	.laptop-frame.navigating .laptop-screen {
@@ -998,7 +1044,7 @@
 		border: 4px solid #333333 !important;
 		border-radius: 0 !important;
 		box-shadow: none !important;
-		transition: all 0.34s cubic-bezier(0.22, 1, 0.36, 1) !important;
+		/* Sizing snaps instantly; animateScreenFlip() supplies the motion. */
 	}
 
 	/* Surf my web: the monitor screen fills the whole window (go inside the computer) */
@@ -1044,7 +1090,9 @@
 			0 0 0 1px #222222,
 			0 10px 25px rgba(0, 0, 0, 0.5),
 			inset 0 0 10px rgba(0, 0, 0, 0.2);
-		transition: width 0.35s ease-out, height 0.35s ease-out, border-radius 0.35s ease-out, max-width 0.35s ease-out;
+		/* No width/height transition here — expand/contract is animated with a
+		   transform (FLIP) in animateScreenFlip() so layout only happens once. */
+		will-change: transform;
 	}
 
 	/* Desktop Stand — anchored to frame bottom, extends upward */

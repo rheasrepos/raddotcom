@@ -80,7 +80,7 @@
 			</nav>
 
 			<article class="reader">
-				<h1 class="reader-title">{post.title}</h1>
+				<h1 class="reader-title" class:ai-title={post.aiTitle} title={post.aiTitle ? 'Title drafted with AI assistance' : undefined}>{post.title}</h1>
 				<div class="reader-meta">
 					{formatDate(post.date)} · <span style="color: {getProjectColor(post.type)}">{post.type}</span>
 				</div>
@@ -184,6 +184,13 @@
 		color: #000;
 		line-height: 1.2;
 		margin: 0 0 0.5rem;
+	}
+	/* AI-drafted titles: dashed underline, same convention as AIText */
+	.reader-title.ai-title {
+		text-decoration: underline dashed;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
+		cursor: help;
 	}
 	.reader-meta {
 		font-size: 0.85rem;

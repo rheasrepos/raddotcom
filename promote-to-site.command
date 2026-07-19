@@ -6,12 +6,17 @@ import os,re,shutil
 src="vault-drafts"; dst="src/vault"
 os.makedirs(dst,exist_ok=True)
 promoted=[]
-for f in sorted(os.listdir(src)):
-    if not f.endswith(".md") or f.startswith("_"): continue
-    t=open(os.path.join(src,f),encoding="utf-8",errors="ignore").read()
-    m=re.search(r"^published:\s*(true|false)\s*$",t,re.M)
-    if m and m.group(1)=="true":
-        shutil.copy2(os.path.join(src,f),os.path.join(dst,f)); promoted.append(f)
+# Walk subfolders too (essays/, research/, creative/, ...) — the vault is
+# organized into topic folders; the site reads a flat src/vault.
+for root,dirs,files in os.walk(src):
+    # skip hidden dirs (.obsidian, .smart-env) and _meta housekeeping
+    dirs[:]=[d for d in dirs if not d.startswith((".","_"))]
+    for f in sorted(files):
+        if not f.endswith(".md") or f.startswith("_"): continue
+        t=open(os.path.join(root,f),encoding="utf-8",errors="ignore").read()
+        m=re.search(r"^published:\s*(true|false)\s*$",t,re.M)
+        if m and m.group(1)=="true":
+            shutil.copy2(os.path.join(root,f),os.path.join(dst,f)); promoted.append(f)
 print(f"Promoted {len(promoted)} note(s) to src/vault/:")
 for f in promoted: print("  +",f)
 if promoted:

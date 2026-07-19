@@ -755,7 +755,10 @@ export function getProjectColor(type) {
 		music: '#96ceb4',
 		comedy: '#feca57',
 		research: '#3498db',
-		thesis: '#8e44ad' // Added thesis color
+		thesis: '#8e44ad', // Added thesis color
+		essays: '#4a69bd',
+		creative: '#e17055',
+		recs: '#00b894'
 	};
 	return colors[/** @type {keyof typeof colors} */ (type)] || '#95a5a6';
 }

@@ -112,7 +112,11 @@ export async function GET() {
 					date: frontmatter.date ? String(frontmatter.date) : new Date().toISOString().slice(0, 10),
 					content: body.trim(),
 					// Support custom icon image per note
-					iconImage: frontmatter.iconImage || null
+					iconImage: frontmatter.iconImage || null,
+					// loose: true floats the note directly on the desktop
+					loose: frontmatter.loose === true,
+					// ai_title: true marks the title as AI-drafted (dashed underline)
+					aiTitle: frontmatter.ai_title === true || frontmatter.aiTitle === true
 				});
 			}
 		} catch { /* vault may not exist yet — ignore */ }
