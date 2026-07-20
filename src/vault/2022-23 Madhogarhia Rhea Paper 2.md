@@ -1,0 +1,43 @@
+---
+title: Madhogarhia, Rhea Paper 2
+date: 2023
+date_approx: true
+type: essays
+academic: true
+course: HUMA Media Aesthetics
+published: true
+source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/Media Aesthetics /Madhogarhia, Rhea Paper 2.docx
+tags:
+  - essay
+  - academic
+  - academic/media-studies
+  - academic/media-studies/film-analysis
+genre: Film/Media
+---
+Rhea Madhogarhia
+
+Haitham Ibrahim
+
+Media Aesthetics II | Section 9 
+
+Due Feb 24th, 2023
+
+Freedom of Choice in Black Mirror: An Oxymoron
+
+Netflix’s Bandersnatch describes itself as an interactive film that lets viewers make decisions for Stefan, a character in the film who is in the process of creating a “choose-your-own-adventure” video game titled “Bandersnatch”. While the viewer is frequently prompted to choose between two paths for the story of the film to go down, creating over a trillion different permutations of the storyline, Netflix themselves admits there are five main ending sequences, most of which consist of the death of either Stefan or his father, or Stefan’s arrest. Examining Bandersnatch discussion boards, every single ending to the film involves Stefan’s suffering to some extent. The film seems to operate in a binary system between freedom and control; while the user is given freedom of choice, to some extent, it seems as though the message or story of the film remains the same, controlled. David Wellbery’s systems theory discusses how redundancy or repetition within a binary system reduces the improbability of communicating within that system. While, upon first watch, the push and pull between freedom and control can complicate a viewer's understanding of the film, the abundance of references to self-referential storylines in Bandersnatch dominates the control node of the film’s binary system and clearly communicates the story the film aims to tell. 
+
+The freedom/control binary system in Bandersnatch can, at first, make the message of the film undefined or malleable to the viewer, but the structure of the film reduces the ambiguity and limits the viewer’s freedom; while the interactive aspect of the film is organized by binary choices and gives the viewer a sense of freedom, the choices themselves are limited and controlled by Netflix. One user on an online public forum for the film created a roadmap that tells viewers how to reach certain endings. What this map shows us is that almost every ending to the film involves death or incarceration. Either Stefan dies, is forced to kill his father, is incarcerated, or goes mad because of either the failure of his game or the realization that he is being controlled by the viewer. The reality of this film is that the viewer is never creating their own story as they choose specific nodes of the options given. In Wellbery’s essay on systems, he says that media can “reduce the improbability of communication by allowing for its adjudication in terms of a binary code” (308, Wellbery). While we have the freedom to view the story in a somewhat choice driven manner, the freedom side of the binary, the story being presented is fixed, the control side of the binary. A script was written and the directors and writers will always know exactly what happens. Because of this control aspect of the film’s binary, visible to the viewer by the finite number of endings, the message that one story is being presented is clearly communicated. Bandersnatch is the writers’ story, not the viewers. Keeping in mind that the writers of Bandersnatch are telling a singular story, and that the choices we make are merely guides to the predestined endings which tell this story, there are imitations and redundancies in the film that hint at this quality of the movie and uncover the message, or plot, of the film. 
+
+The most striking redundancy in the film hinting towards our lack of control over what we are viewing is Stefan’s relationship to the video game he is creating. In the movie, “Bandersnatch” is also the name of an interactive storybook owned by Stefan’s late mother that Stefan attempts to adapt into a video game. The idea of a book being “choose your own adventure” is oxymoronic. The book is already written and the choices the reader is making to “choose their adventure” are really just them choosing to read a certain part of the book - there is nothing original about any reader's path through the book. Stefan knows this. He has presumably read the book, and the fact that he decides to adapt it into a video game means he knows all the possible adventures to program into his game. Stefan has the freedom to program whichever paths he wants from the book into his game, but the book itself controls the narrative and the gameplay he’s programming similarly to how the narrative of Bandersnatch, the film, exists already, waiting for us, regardless of the choices we make. While this self reference tells us that the film’s story already exists regardless of choice, it is the references to works outside of the film that help us uncover what the story’s contents are. 
+
+Bandersnatch is full of references to the Black Mirror anthology series and other literary works that tell us the story being told well before an ending in the film is reached; yes, the viewer chooses the storyline to end up at the five main endings, but the story is always Stefan suffering under the control of some external force. This theme is hinted at through many references throughout the film, one example being a video-game in the movie named Nohyzdyve. Nohzdyve, a video game in the film, is a reference to the Black Mirror episode “Nosedive”. “Nosedive” depicts a society where technological ratings of people’s character determine their socioeconomic status, essentially segregating society. The main character’s obsession over her rating drives her to insanity, ironically lowering her rating and leading to her arrest. Ultimately, she begins to live her life at the whim of the people around her, which causes her mental suffering and incarceration similar to Stefan’s fate in multiple Bandersnatch endings. The two pronged glyphs in Stefan’s video game planning as a reference to the Black Mirror episode “White Bear” and the explicit setting of the film in 1984, a reference to George Orwell’s 1984, both also refer to stories where an individual suffers by being controlled by an audience. Wellbery is once again helpful in understanding why these references clearly communicate the message of the movie to us: “Redundancy and constraint achieved through binary codes are modes of ensuring the continuity of systemic operations despite the contingency of selections” (Wellbery, 305). Each of these references can be considered a redundancy because of the common plot and binary code system, control/freedom, they share with the film. While viewers may think the ending is contingent on their selections, it is the abundance of these redundancies that amplify the importance of the freedom/control binary that ultimately decides the plot of “Nosedive” and Bandersnatch.
+
+Ultimately, while the freedom of choice in the film seems to be somewhat of a facade, Bandersnatch’s structure, interactive storytelling, represents the binary system of freedom and control that is displayed in the message of the film. This plot is clearly communicated and echoed by references to stories with the same binary system. One thing I found interesting about the analysis between Bandersnatch, the movie, and Bandersnatch, the video game, is how it is their written components that limit the freedom of their viewers or users. It makes me wonder, if the aim of visual media, such as movies, is to take the viewer on a journey, then does effective storytelling conceal the ending until the viewer reaches it? In this case, I don’t think Bandersnatch aims to conceal its ending. Instead its aim is to portray a message about its binary system, which is why the redundancies and interactive storytelling is effective. 
+
+Works Cited
+
+&quot;Bandersnatch.&quot; Directed by David Slade, Netflix, 2018.
+
+&quot;Nosedive.&quot; Black Mirror, created by Charlie Brooker, directed by Joe Wright, written by Charlie Brooker, Rashida Jones, and Michael Schur, Netflix, 2016.
+
+Wellbery, David. &quot;Systems.&quot; Critical Terms for Media Studies, edited by W.J.T. Mitchell and Mark B.N. Hansen, The University of Chicago Press, 2010

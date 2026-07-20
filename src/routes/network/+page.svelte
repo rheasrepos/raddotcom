@@ -15,6 +15,37 @@
 	let raf = null;
 	let running = false;
 
+	// --- node dragging (like Obsidian's graph view) ---
+	let svgEl;
+	let dragging = null;
+	let dragMoved = false;
+
+	function toGraphCoords(e) {
+		const rect = svgEl.getBoundingClientRect();
+		return {
+			x: ((e.clientX - rect.left) / rect.width) * W,
+			y: ((e.clientY - rect.top) / rect.height) * H
+		};
+	}
+	function startDrag(n, e) {
+		e.preventDefault();
+		dragging = n;
+		dragMoved = false;
+	}
+	function onPointerMove(e) {
+		if (!dragging) return;
+		const p = toGraphCoords(e);
+		dragging.x = Math.max(dragging.r, Math.min(W - dragging.r, p.x));
+		dragging.y = Math.max(dragging.r, Math.min(H - dragging.r, p.y));
+		dragging.vx = 0;
+		dragging.vy = 0;
+		dragMoved = true;
+		nodes = nodes; // trigger reactivity so edges follow while held
+	}
+	function endDrag() {
+		dragging = null;
+	}
+
 	function tagsOf(p) {
 		if (Array.isArray(p.tags)) return p.tags;
 		if (typeof p.tags === 'string') return p.tags.split(',').map((t) => t.trim()).filter(Boolean);
@@ -87,6 +118,9 @@
 			s.vx += fx; s.vy += fy; t.vx -= fx; t.vy -= fy;
 		});
 		nodes.forEach((n) => {
+			// A held node is pinned to the cursor — the sim doesn't move it,
+			// but it still repels/pulls its neighbours.
+			if (n === dragging) { n.vx = 0; n.vy = 0; return; }
 			n.vx += (cx - n.x) * CENTER;
 			n.vy += (cy - n.y) * CENTER;
 			n.vx *= DAMP; n.vy *= DAMP;
@@ -124,6 +158,8 @@
 	onDestroy(() => { running = false; if (raf) cancelAnimationFrame(raf); });
 </script>
 
+<svelte:window on:pointermove={onPointerMove} on:pointerup={endDrag} on:pointercancel={endDrag} />
+
 <PageLayout title="Obsidian - Rhea Madhogarhia">
 <div class="net-page">
 	<header class="net-head">
@@ -132,7 +168,7 @@
 	</header>
 
 	<div class="net-stage">
-		<svg viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMid meet" class="net-svg">
+		<svg viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMid meet" class="net-svg" bind:this={svgEl}>
 			{#each links as l}
 				{@const byId = Object.fromEntries(nodes.map((n) => [n.id, n]))}
 				{@const s = byId[l.source]}
@@ -153,7 +189,8 @@
 					transform="translate({n.x},{n.y})"
 					on:mouseenter={() => (hovered = n)}
 					on:mouseleave={() => (hovered = null)}
-					on:click={() => openNode(n)}
+					on:pointerdown={(e) => startDrag(n, e)}
+					on:click={() => { if (!dragMoved) openNode(n); }}
 					role="button"
 					tabindex="0"
 				>
@@ -189,8 +226,10 @@
 		border: 1px solid #000;
 		overflow: hidden;
 	}
-	.net-svg { width: 100%; height: auto; display: block; }
+	.net-svg { width: 100%; height: auto; display: block; touch-action: none; }
 	.edge { stroke: rgba(255, 255, 255, 0.22); stroke-width: 1; }
+	.node { cursor: grab; }
+	.node:active { cursor: grabbing; }
 	.edge.hot { stroke: #ffffff; stroke-width: 1.8; }
 	.edge.dim { stroke: rgba(255, 255, 255, 0.07); }
 	.node { cursor: pointer; }
