@@ -76,50 +76,51 @@ export async function POST({ request }) {
 	}
 }
 
+// Content is loaded at BUILD time with import.meta.glob, not with fs at
+// request time. On Vercel the serverless function only ships traced JS —
+// loose files like src/vault/*.md don't exist on its filesystem, which is
+// why runtime readdir() silently returned [] in production.
+const vaultRaw = import.meta.glob('/src/vault/*.md', {
+	eager: true,
+	query: '?raw',
+	import: 'default'
+});
+const jsonPosts = import.meta.glob('/src/data/posts/*.json', {
+	eager: true,
+	import: 'default'
+});
+
 export async function GET() {
 	try {
-		const { readdir, readFile } = await import('fs/promises');
-
 		const posts = [];
 
-		// 1. Read JSON posts from src/data/posts/
-		const postsDir = join(process.cwd(), 'src', 'data', 'posts');
-		try {
-			const files = await readdir(postsDir);
-			for (const file of files) {
-				if (file.endsWith('.json')) {
-					const content = await readFile(join(postsDir, file), 'utf-8');
-					posts.push(JSON.parse(content));
-				}
-			}
-		} catch { /* postsDir may not exist yet — ignore */ }
+		// 1. JSON posts from src/data/posts/ (admin-panel output)
+		for (const post of Object.values(jsonPosts)) {
+			posts.push(post);
+		}
 
-		// 2. Read published Obsidian markdown notes from src/vault/
-		const vaultDir = join(process.cwd(), 'src', 'vault');
-		try {
-			const vaultFiles = await readdir(vaultDir);
-			for (const file of vaultFiles) {
-				if (!file.endsWith('.md') || file === 'README.md') continue;
-				const raw = await readFile(join(vaultDir, file), 'utf-8');
-				const { data: frontmatter, content: body } = matter(raw);
-				// Only publish notes with published: true
-				if (!frontmatter.published) continue;
-				posts.push({
-					id: `vault-${file.replace('.md', '')}`,
-					title: frontmatter.title || file.replace('.md', ''),
-					description: frontmatter.description || '',
-					type: frontmatter.type || 'writing',
-					date: frontmatter.date ? String(frontmatter.date) : new Date().toISOString().slice(0, 10),
-					content: body.trim(),
-					// Support custom icon image per note
-					iconImage: frontmatter.iconImage || null,
-					// loose: true floats the note directly on the desktop
-					loose: frontmatter.loose === true,
-					// ai_title: true marks the title as AI-drafted (dashed underline)
-					aiTitle: frontmatter.ai_title === true || frontmatter.aiTitle === true
-				});
-			}
-		} catch { /* vault may not exist yet — ignore */ }
+		// 2. Published Obsidian markdown notes from src/vault/
+		for (const [path, raw] of Object.entries(vaultRaw)) {
+			const file = path.split('/').pop();
+			if (file === 'README.md') continue;
+			const { data: frontmatter, content: body } = matter(raw);
+			// Only publish notes with published: true
+			if (!frontmatter.published) continue;
+			posts.push({
+				id: `vault-${file.replace('.md', '')}`,
+				title: frontmatter.title || file.replace('.md', ''),
+				description: frontmatter.description || '',
+				type: frontmatter.type || 'writing',
+				date: frontmatter.date ? String(frontmatter.date) : new Date().toISOString().slice(0, 10),
+				content: body.trim(),
+				// Support custom icon image per note
+				iconImage: frontmatter.iconImage || null,
+				// loose: true floats the note directly on the desktop
+				loose: frontmatter.loose === true,
+				// ai_title: true marks the title as AI-drafted (dashed underline)
+				aiTitle: frontmatter.ai_title === true || frontmatter.aiTitle === true
+			});
+		}
 
 		// Sort by date (newest first)
 		posts.sort((a, b) => new Date(b.date) - new Date(a.date));
