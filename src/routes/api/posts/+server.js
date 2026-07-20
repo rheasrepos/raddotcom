@@ -118,7 +118,10 @@ export async function GET() {
 				// loose: true floats the note directly on the desktop
 				loose: frontmatter.loose === true,
 				// ai_title: true marks the title as AI-drafted (dashed underline)
-				aiTitle: frontmatter.ai_title === true || frontmatter.aiTitle === true
+				aiTitle: frontmatter.ai_title === true || frontmatter.aiTitle === true,
+				// pdf: "/docs/my-paper.pdf" embeds a PDF reader on the post page
+				// (put the file in static/docs/; the note body becomes the intro)
+				pdf: frontmatter.pdf || null
 			});
 		}
 

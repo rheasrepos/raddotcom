@@ -101,6 +101,17 @@
 					<div class="content-body prose">{@html renderedContent}</div>
 				{/if}
 
+				<!-- Embedded PDF reader for notes that point at a document -->
+				{#if post.pdf}
+					<div class="pdf-reader">
+						<div class="pdf-bar">
+							<span class="pdf-name">{post.pdf.split('/').pop()}</span>
+							<a class="pdf-download" href={post.pdf} download>Download PDF</a>
+						</div>
+						<iframe src={post.pdf} title="{post.title} (PDF)" class="pdf-frame"></iframe>
+					</div>
+				{/if}
+
 				{#if nextPost || previousPost}
 					<div class="reader-steps">
 						{#if nextPost}
@@ -185,6 +196,35 @@
 		line-height: 1.2;
 		margin: 0 0 0.5rem;
 	}
+	/* Embedded PDF reader */
+	.pdf-reader {
+		margin-top: 20px;
+		border: 2px solid #000;
+		background: #fff;
+	}
+	.pdf-bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		padding: 8px 12px;
+		background: #111;
+		color: #fff;
+		font-size: 0.85rem;
+	}
+	.pdf-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	.pdf-download {
+		color: #fff;
+		text-decoration: underline;
+		white-space: nowrap;
+	}
+	.pdf-frame {
+		display: block;
+		width: 100%;
+		height: 80vh;
+		border: none;
+	}
+
 	/* AI-drafted titles: dashed underline, same convention as AIText */
 	.reader-title.ai-title {
 		text-decoration: underline dashed;
