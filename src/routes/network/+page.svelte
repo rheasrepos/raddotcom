@@ -228,11 +228,10 @@
 	}
 	.net-svg { width: 100%; height: auto; display: block; touch-action: none; }
 	.edge { stroke: rgba(255, 255, 255, 0.22); stroke-width: 1; }
-	.node { cursor: grab; }
-	.node:active { cursor: grabbing; }
 	.edge.hot { stroke: #ffffff; stroke-width: 1.8; }
 	.edge.dim { stroke: rgba(255, 255, 255, 0.07); }
-	.node { cursor: pointer; }
+	.node { cursor: grab; }
+	.node:active { cursor: grabbing; }
 	.node.post:hover circle { stroke: #ffffff; stroke-width: 2; }
 	.node.cat circle { stroke: #ffffff; stroke-width: 2; }
 	.node.dim { opacity: 0.25; }
