@@ -174,6 +174,11 @@
 			spotlightOpen = true;
 			return;
 		}
+		// Esc exits full screen (unless a modal/search layer is open and wants it)
+		if (e.key === 'Escape' && surfing && !spotlightOpen && !quickLookItem && !selectedProject && !showSearch) {
+			surf();
+			return;
+		}
 		const tag = (e.target && e.target.tagName ? e.target.tagName : '').toLowerCase();
 		if (tag === 'input' || tag === 'textarea' || spotlightOpen || selectedProject) return;
 		if (e.key === ' ' || e.code === 'Space') {
@@ -301,6 +306,29 @@
 				transitionActions.completeTransition();
 			}, 50);
 		}, 380);
+	}
+
+	// Breadcrumb helpers — one Back button that does the natural thing
+	function goToDesktop() {
+		viewMode = 'desktop';
+		selectedFilter = 'all';
+		breadcrumbPath = ['Desktop'];
+		previousView = null;
+	}
+	function goBackNav() {
+		if (previousView) { navigateBack(); return; }
+		if (breadcrumbPath.length > 1 && /\d{4}/.test(breadcrumbPath[1])) {
+			// Came from the By Month folder grid — return there
+			viewMode = 'folders';
+			selectedFilter = 'all';
+			breadcrumbPath = ['Desktop'];
+			if (availableMonths && availableMonths.length > 0) {
+				currentMonth = availableMonths[0].month;
+				currentYear = availableMonths[0].year;
+			}
+			return;
+		}
+		goToDesktop();
 	}
 
 	function closeSearch() {
@@ -639,72 +667,38 @@
 				<span class="tb-zoom">{Math.round(zoomLevel * 100)}%</span>
 				<button class="tb-btn" on:click={zoomIn} title="Zoom In">+</button>
 				<button class="tb-btn" on:click={resetZoom} title="Reset Zoom">⌂</button>
-			</div>
-
-		<header class="hero">
-			<div class="hero-content">
-				<button class="surf-btn hero-surf" on:click={surf} title="Zoom into the desktop">
-					{surfing ? 'Back out' : "Surf Rhea's Web"}
+				<span class="tb-sep"></span>
+				<button class="tb-btn" on:click={surf} title={surfing ? 'Exit full screen (Esc)' : 'Full screen'}>
+					{surfing ? '⤡' : '⤢'}
 				</button>
 			</div>
-		</header>
 
-		<!-- Desktop View -->
-		<div class="desktop-container">
+		<!-- Desktop View (click an empty spot on the desktop to go full screen) -->
+		<div
+			class="desktop-container"
+			on:click={(e) => { if (!surfing && e.target === e.currentTarget) surf(); }}
+			title={surfing ? '' : 'Click an empty spot to go full screen'}
+		>
 			<!-- Breadcrumb only appears once you've drilled into a folder -->
 			{#if breadcrumbPath.length > 1 || previousView}
+			<!-- Finder-style path bar: back arrow + clickable crumbs -->
 			<div class="breadcrumb-nav">
+				<button class="crumb-back" on:click={goBackNav} title="Back">←</button>
 				{#each breadcrumbPath as path, index}
-					<span class="breadcrumb-item">
-						{#if index > 0}
-							<span class="breadcrumb-separator">/</span>
-						{/if}
-						{#if index === breadcrumbPath.length - 1}
-							<span class="breadcrumb-current">{path}</span>
-						{:else}
-							<button class="breadcrumb-link" on:click={() => {
-								if (index === 0) {
-									// Go back to the root view (month folders)
-									viewMode = 'folders';
-									selectedFilter = 'all';
-									breadcrumbPath = ['Desktop'];
-									previousView = null;
-									// Reset to the first available month
-									if (availableMonths && availableMonths.length > 0) {
-										currentMonth = availableMonths[0].month;
-										currentYear = availableMonths[0].year;
-									}
-								}
-							}}>
-								{path}
-							</button>
-						{/if}
-					</span>
+					{#if index > 0}
+						<span class="breadcrumb-separator">›</span>
+					{/if}
+					{#if index === breadcrumbPath.length - 1 && breadcrumbPath.length > 1}
+						<span class="breadcrumb-current">{path}</span>
+					{:else}
+						<button class="breadcrumb-link" on:click={goToDesktop}>{path}</button>
+					{/if}
 				{/each}
-				{#if previousView}
-					<button class="back-btn" on:click={navigateBack} title="Go Back">
-						← Back
-					</button>
-				{/if}
-				{#if breadcrumbPath.length > 1 && !previousView}
-					<button class="back-btn" on:click={() => {
-						viewMode = 'folders';
-						selectedFilter = 'all';
-						breadcrumbPath = ['Desktop'];
-						// Reset to the first available month
-						if (availableMonths && availableMonths.length > 0) {
-							currentMonth = availableMonths[0].month;
-							currentYear = availableMonths[0].year;
-						}
-					}} title="Back to Folders">
-						← Back to Folders
-					</button>
-				{/if}
 			</div>
 			{/if}
 
-			<!-- Desktop Icons -->
-			<div class="desktop-icons">
+			<!-- Desktop Icons (empty-space clicks bubble up as "go full screen") -->
+			<div class="desktop-icons" on:click={(e) => { if (!surfing && e.target === e.currentTarget) surf(); }}>
 				{#if viewMode === 'desktop'}
 					<!-- Music: opens the video gallery (embeds both YouTube channels) -->
 					<div
@@ -1093,6 +1087,15 @@
 		/* No width/height transition here — expand/contract is animated with a
 		   transform (FLIP) in animateScreenFlip() so layout only happens once. */
 		will-change: transform;
+		transition: border-color 0.18s ease;
+	}
+
+	/* Hovering the monitor lightens its bezel — "selected", click to go inside */
+	.laptop-frame:not(.surfing):not(.navigating) .laptop-screen:hover {
+		border-color: #6e6e6e;
+	}
+	.laptop-frame:not(.surfing) .desktop-container {
+		cursor: zoom-in; /* icons/buttons override with their own cursors */
 	}
 
 	/* Desktop Stand — anchored to frame bottom, extends upward */
@@ -1481,43 +1484,59 @@
 	}
 
 
-	/* Breadcrumb Navigation */
+	/* Breadcrumb Navigation — quiet Finder-style path bar */
 	.breadcrumb-nav {
-		display: flex;
+		display: inline-flex;
 		align-items: center;
-		gap: 8px;
-		font-size: 0.9rem;
+		gap: 4px;
+		font-size: 0.85rem;
 		font-family: Arial, sans-serif;
+		background: rgba(255, 255, 255, 0.7);
+		border: 1px solid rgba(0, 0, 0, 0.25);
+		border-radius: 8px;
+		padding: 4px 10px 4px 4px;
+		margin-bottom: 14px;
 	}
 
-	.breadcrumb-item {
-		display: flex;
-		align-items: center;
+	.crumb-back {
+		border: none;
+		background: rgba(0, 0, 0, 0.07);
+		border-radius: 6px;
+		width: 26px;
+		height: 26px;
+		cursor: pointer;
+		font-size: 0.95rem;
+		line-height: 1;
+		color: #222;
+		margin-right: 4px;
+	}
+	.crumb-back:hover {
+		background: rgba(0, 0, 0, 0.16);
 	}
 
 	.breadcrumb-separator {
-		color: #666;
-		margin: 0 4px;
+		color: #555;
+		margin: 0 2px;
 	}
 
 	.breadcrumb-current {
-		color: #000000;
-		font-weight: bold;
+		color: #000;
+		font-weight: 600;
+		padding: 3px 2px;
 	}
 
 	.breadcrumb-link {
 		background: none;
 		border: none;
-		color: #0066cc;
+		color: #222;
 		cursor: pointer;
-		text-decoration: underline;
-		font-size: 0.9rem;
-		padding: 2px 4px;
-		transition: all 0.2s ease;
+		font-size: 0.85rem;
+		padding: 3px 6px;
+		border-radius: 6px;
 	}
 
 	.breadcrumb-link:hover {
-		background: rgba(0, 102, 204, 0.1);
+		background: rgba(0, 0, 0, 0.08);
 	}
 
 	.back-btn {

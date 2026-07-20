@@ -42,6 +42,7 @@
 
 <PageLayout title="Videos - Rhea Madhogarhia">
 	<section class="videos-page">
+		<a class="back-desktop" href="/">← Back to Desktop</a>
 		<header class="videos-head">
 			<h1 class="videos-title">Music &amp; Video</h1>
 			<p class="videos-sub"><AIText>Everything I make, pulled from both channels. Click any thumbnail to play.</AIText></p>
@@ -127,6 +128,23 @@
 		max-width: 1100px;
 		margin: 0 auto;
 		padding: 10px 4px 40px;
+	}
+
+	.back-desktop {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		font-size: 0.9rem;
+		color: #111;
+		text-decoration: none;
+		background: rgba(255, 255, 255, 0.7);
+		border: 1px solid rgba(0, 0, 0, 0.25);
+		border-radius: 8px;
+		padding: 6px 12px;
+		margin-bottom: 10px;
+	}
+	.back-desktop:hover {
+		background: #fff;
 	}
 
 	.videos-head {
