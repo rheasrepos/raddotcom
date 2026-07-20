@@ -83,6 +83,7 @@
 				<h1 class="reader-title" class:ai-title={post.aiTitle} title={post.aiTitle ? 'Title drafted with AI assistance' : undefined}>{post.title}</h1>
 				<div class="reader-meta">
 					{formatDate(post.date)} · <span style="color: {getProjectColor(post.type)}">{post.type}</span>
+					{#if post.form}<span class="reader-form">{post.form}</span>{/if}
 				</div>
 
 				<!-- Rendered / raw Markdown toggle -->
@@ -231,6 +232,18 @@
 		text-decoration-thickness: 1px;
 		text-underline-offset: 3px;
 		cursor: help;
+	}
+	.reader-form {
+		font-size: 0.7rem;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: #444;
+		background: rgba(0, 0, 0, 0.07);
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		border-radius: 4px;
+		padding: 1px 6px;
+		margin-left: 6px;
+		white-space: nowrap;
 	}
 	.reader-meta {
 		font-size: 0.85rem;

@@ -76,6 +76,25 @@ export async function POST({ request }) {
 	}
 }
 
+// What KIND of writing is this? Derived from form tags / genre so the site
+// can distinguish a term paper from a discussion post from a blog post.
+function deriveForm(frontmatter) {
+	const tags = (Array.isArray(frontmatter.tags) ? frontmatter.tags : []).map(String);
+	const genre = String(frontmatter.genre || '').toLowerCase();
+	const has = (t) => tags.some((x) => x === t || x.startsWith(t + '/'));
+	if (has('discussion-post') || has('reading-response') || genre === 'discussion-post') return 'discussion post';
+	if (has('journal-critique')) return 'journal critique';
+	if (has('exam')) return 'exam essay';
+	if (has('writing/blog') || genre === 'blog') return 'blog post';
+	if (has('writing/opinion') || genre === 'opinion') return 'opinion';
+	if (has('script')) return 'script';
+	if (has('creative/poetry')) return 'poems';
+	if (has('creative/music/lyrics')) return 'lyrics';
+	if (has('research') || has('thesis')) return 'research';
+	if (has('essay')) return 'paper';
+	return null;
+}
+
 // Content is loaded at BUILD time with import.meta.glob, not with fs at
 // request time. On Vercel the serverless function only ships traced JS —
 // loose files like src/vault/*.md don't exist on its filesystem, which is
@@ -121,7 +140,11 @@ export async function GET() {
 				aiTitle: frontmatter.ai_title === true || frontmatter.aiTitle === true,
 				// pdf: "/docs/my-paper.pdf" embeds a PDF reader on the post page
 				// (put the file in static/docs/; the note body becomes the intro)
-				pdf: frontmatter.pdf || null
+				pdf: frontmatter.pdf || null,
+				// tags power the /network graph cross-links between posts
+				tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
+				// form badge: paper | discussion post | blog post | …
+				form: deriveForm(frontmatter)
 			});
 		}
 

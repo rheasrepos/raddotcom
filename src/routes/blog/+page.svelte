@@ -65,6 +65,7 @@
 						<a class="entry-link" href="/posts/{p.id}">
 							<span class="entry-date">{fmt(p.date)}</span>
 							<span class="entry-title" class:ai-title={p.aiTitle} title={p.aiTitle ? 'Title drafted with AI assistance' : undefined}>{p.title}</span>
+							{#if p.form}<span class="entry-form">{p.form}</span>{/if}
 						</a>
 						{#if p.description}<p class="entry-desc">{p.description}</p>{/if}
 					</li>
@@ -89,6 +90,7 @@
 									<a class="entry-link" href="/posts/{p.id}">
 										<span class="entry-date">{fmt(p.date)}</span>
 										<span class="entry-title" class:ai-title={p.aiTitle} title={p.aiTitle ? 'Title drafted with AI assistance' : undefined}>{p.title}</span>
+										{#if p.form}<span class="entry-form">{p.form}</span>{/if}
 									</a>
 								</li>
 							{/each}
@@ -183,6 +185,19 @@
 		font-size: 1.05rem;
 		font-weight: 600;
 		line-height: 1.35;
+	}
+	/* Form badge: paper / discussion post / blog post / … */
+	.entry-form {
+		font-size: 0.7rem;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: #444;
+		background: rgba(0, 0, 0, 0.07);
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		border-radius: 4px;
+		padding: 1px 6px;
+		margin-left: 8px;
+		white-space: nowrap;
 	}
 	/* AI-drafted titles: dashed underline, same convention as AIText */
 	.entry-title.ai-title {

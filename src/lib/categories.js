@@ -6,8 +6,8 @@ export const categoryConfig = {
 	research: { id: 'research', label: 'Research', color: 'var(--color-research)' },
 	programming: { id: 'programming', label: 'Tech & Industry', color: 'var(--color-programming)' },
 	creative: { id: 'creative', label: 'Creative', color: '#e17055' }, // poems, songs, scripts, radio
-	comedy: { id: 'comedy', label: 'Comedy', color: 'var(--color-comedy)' },
-	music: { id: 'music', label: 'Music', color: 'var(--color-music)' },
+	comedy: { id: 'comedy', label: 'Comedy', color: 'var(--color-comedy)', parent: 'creative' },
+	music: { id: 'music', label: 'Music', color: 'var(--color-music)', parent: 'creative' },
 	recs: { id: 'recs', label: 'Recommendations', color: '#00b894' } // books, music, places, food
 };
 

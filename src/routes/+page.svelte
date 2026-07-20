@@ -648,6 +648,22 @@
 		>
 			
 			<div class="container">
+			{#if breadcrumbPath.length > 1 || previousView}
+			<!-- Finder-style path bar: back arrow + clickable crumbs (sits above the View toolbar) -->
+			<div class="breadcrumb-nav">
+				<button class="crumb-back" on:click={goBackNav} title="Back">←</button>
+				{#each breadcrumbPath as path, index}
+					{#if index > 0}
+						<span class="breadcrumb-separator">›</span>
+					{/if}
+					{#if index === breadcrumbPath.length - 1 && breadcrumbPath.length > 1}
+						<span class="breadcrumb-current">{path}</span>
+					{:else}
+						<button class="breadcrumb-link" on:click={goToDesktop}>{path}</button>
+					{/if}
+				{/each}
+			</div>
+			{/if}
 			<!-- Old-school filter toolbar, above the surf button -->
 			<div class="filter-toolbar">
 				<span class="tb-label">View:</span>
@@ -677,25 +693,7 @@
 		<div
 			class="desktop-container"
 			on:click={(e) => { if (!surfing && e.target === e.currentTarget) surf(); }}
-			title={surfing ? '' : 'Click an empty spot to go full screen'}
 		>
-			<!-- Breadcrumb only appears once you've drilled into a folder -->
-			{#if breadcrumbPath.length > 1 || previousView}
-			<!-- Finder-style path bar: back arrow + clickable crumbs -->
-			<div class="breadcrumb-nav">
-				<button class="crumb-back" on:click={goBackNav} title="Back">←</button>
-				{#each breadcrumbPath as path, index}
-					{#if index > 0}
-						<span class="breadcrumb-separator">›</span>
-					{/if}
-					{#if index === breadcrumbPath.length - 1 && breadcrumbPath.length > 1}
-						<span class="breadcrumb-current">{path}</span>
-					{:else}
-						<button class="breadcrumb-link" on:click={goToDesktop}>{path}</button>
-					{/if}
-				{/each}
-			</div>
-			{/if}
 
 			<!-- Desktop Icons (empty-space clicks bubble up as "go full screen") -->
 			<div class="desktop-icons" on:click={(e) => { if (!surfing && e.target === e.currentTarget) surf(); }}>

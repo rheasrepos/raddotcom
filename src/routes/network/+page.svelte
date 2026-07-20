@@ -57,9 +57,19 @@
 		const nodeMap = {};
 		const hubs = {};
 
-		// Category hub nodes
-		Object.values(categoryConfig).forEach((c) => {
-			if (!posts.some((p) => p.type === c.id)) return;
+		// Category hub nodes. A hub exists if it has posts, or if it's the
+		// parent of a category that has posts (so e.g. Creative appears to
+		// tie Comedy and Music together even before it has posts of its own).
+		const cats = Object.values(categoryConfig);
+		const wanted = new Set();
+		cats.forEach((c) => {
+			if (posts.some((p) => p.type === c.id)) {
+				wanted.add(c.id);
+				if (c.parent) wanted.add(c.parent);
+			}
+		});
+		cats.forEach((c) => {
+			if (!wanted.has(c.id)) return;
 			const n = {
 				id: 'cat:' + c.id, kind: 'cat', label: c.label, color: getCategoryColor(c.id),
 				r: 16, x: cx + (Math.random() - 0.5) * 200, y: cy + (Math.random() - 0.5) * 200, vx: 0, vy: 0
@@ -68,6 +78,13 @@
 		});
 
 		const L = [];
+
+		// Hub-to-hub family links (comedy → creative, music → creative, …)
+		cats.forEach((c) => {
+			if (c.parent && hubs[c.id] && hubs[c.parent]) {
+				L.push({ source: 'cat:' + c.id, target: 'cat:' + c.parent, w: 1 });
+			}
+		});
 		posts.forEach((p) => {
 			const n = {
 				id: 'post:' + p.id, kind: 'post', label: p.title, type: p.type,
@@ -78,11 +95,26 @@
 			if (hubs[p.type]) L.push({ source: n.id, target: 'cat:' + p.type, w: 1 });
 		});
 
-		// Cross-links: posts sharing a tag
+		// Cross-links: posts sharing a tag. Very common tags (e.g. "essay" on
+		// dozens of posts) are treated like stop-words — linking every pair
+		// would produce a hairball, so only tags shared by ≤ MAX_TAG posts
+		// create edges. Nested tags also match on their parent path, so
+		// academic/philosophy/x still links to academic/philosophy/y.
 		const list = Object.values(nodeMap).filter((n) => n.kind === 'post');
+		const expand = (tags) => {
+			const out = new Set();
+			(tags || []).forEach((t) => {
+				const parts = String(t).split('/');
+				for (let k = 1; k <= parts.length; k++) out.add(parts.slice(0, k).join('/'));
+			});
+			return [...out];
+		};
+		const freq = {};
+		list.forEach((n) => { n.xtags = expand(n.tags); n.xtags.forEach((t) => (freq[t] = (freq[t] || 0) + 1)); });
+		const MAX_TAG = 10;
 		for (let i = 0; i < list.length; i++) {
 			for (let j = i + 1; j < list.length; j++) {
-				const shared = list[i].tags.filter((t) => list[j].tags.includes(t));
+				const shared = list[i].xtags.filter((t) => freq[t] <= MAX_TAG && list[j].xtags.includes(t));
 				if (shared.length) L.push({ source: list[i].id, target: list[j].id, w: 0.5, tag: shared[0] });
 			}
 		}
