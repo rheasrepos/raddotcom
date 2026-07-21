@@ -1,18 +1,12 @@
 ---
 title: "Q2 HUMA ESSAY #1 Rhea Madhogarhia"
-date: 2023
-date_approx: true
+date: 2023-01-28
 type: essays
 academic: true
 course: HUMA Media Aesthetics
 published: true
 source: "/Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/Media Aesthetics /Q2 HUMA ESSAY #1 Rhea Madhogarhia.docx"
-tags:
-  - essay
-  - academic
-  - academic/media-studies
-  - academic/media-studies/film-analysis
-  - language
+tags: [essay, academic/media-studies/film-analysis, language]
 genre: Film/Media
 ---
 Rhea Madhogarhia

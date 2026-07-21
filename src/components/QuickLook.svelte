@@ -35,7 +35,7 @@
 		on:click|self={close}
 		transition:fade={{ duration: 120 }}
 	>
-		<div class="ql-window {item.kind}" transition:scale={{ duration: 140, start: 0.96 }}>
+		<div class="ql-window {item.kind}" out:scale={{ duration: 140, start: 0.96 }}>
 			<header class="ql-titlebar">
 				<div class="ql-traffic">
 					<button class="dot red" title="Close" on:click={close} aria-label="Close"></button>
@@ -108,6 +108,14 @@
 		flex-direction: column;
 		overflow: hidden;
 		font-family: var(--font-family, Arial, sans-serif);
+		/* Old-Windows open: the window bursts open from the middle */
+		transform-origin: center center;
+		animation: qlWinOpen 0.32s cubic-bezier(0.2, 0.9, 0.25, 1);
+	}
+	@keyframes qlWinOpen {
+		0% { transform: scale(0.04, 0.015); }
+		45% { transform: scale(1.02, 0.06); }
+		100% { transform: scale(1, 1); }
 	}
 	.ql-window.folder { width: min(640px, 94vw); }
 	.ql-titlebar {

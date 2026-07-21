@@ -108,11 +108,11 @@
 		flex: 1; border: none; background: transparent; outline: none;
 		font-size: 1.25rem; color: #111;
 	}
-	.spot-esc { background: #eee; border: 1px solid #ccc; border-radius: 4px; padding: 1px 6px; font-size: 0.7rem; color: #777; }
+	.spot-esc { background: #eee; border: 1px solid #ccc; border-radius: 0; padding: 1px 6px; font-size: 0.7rem; color: #777; }
 	.spot-results { list-style: none; margin: 0; padding: 6px; max-height: 52vh; overflow: auto; border-top: 1px solid #e3e3e8; }
 	.spot-row {
 		width: 100%; display: flex; align-items: center; gap: 12px;
-		padding: 9px 12px; background: transparent; border: none; text-align: left; border-radius: 7px;
+		padding: 9px 12px; background: transparent; border: none; text-align: left; border-radius: 0;
 	}
 	.spot-row.active { background: #367af6; }
 	.spot-row.active :global(*) { color: #fff !important; }

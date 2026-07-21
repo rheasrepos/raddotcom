@@ -6,11 +6,7 @@ academic: true
 course: Cognitive Psychology
 published: true
 source: raddotcom Vault/2023-12-07 Cognitive Psychology Final.pdf
-tags:
-  - academic
-  - academic/psychology
-  - academic/psychology/cognitive-psychology
-  - essay
+tags: [academic/psychology/cognitive-psychology, essay]
 genre: exam
 ---
 

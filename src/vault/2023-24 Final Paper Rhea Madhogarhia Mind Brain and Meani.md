@@ -1,19 +1,12 @@
 ---
 title: Final Paper Rhea Madhogarhia, Mind Brain and Meani
-date: 2024
-date_approx: true
+date: 2024-03-08
 type: essays
 academic: true
 course: COGS Mind, Brain & Meaning
 published: true
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q2/Final Paper Rhea Madhogarhia, Mind Brain and Meani.docx
-tags:
-  - academic
-  - academic/cognitive-science
-  - ai
-  - academic/philosophy
-  - academic/philosophy/philosophy-of-mind
-  - consciousness
+tags: [academic/cognitive-science, ai, academic/philosophy/philosophy-of-mind, consciousness]
 genre: Essay
 ---
 Rhea Madhogarhia

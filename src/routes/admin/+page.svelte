@@ -438,7 +438,7 @@
 		color: white;
 		border: none;
 		padding: 12px 24px;
-		border-radius: 4px;
+		border-radius: 0;
 		cursor: pointer;
 		font-size: 1rem;
 		transition: background 0.3s ease;
@@ -470,7 +470,7 @@
 		color: white;
 		border: none;
 		padding: 8px 16px;
-		border-radius: 4px;
+		border-radius: 0;
 		cursor: pointer;
 		font-size: 0.9rem;
 	}
@@ -516,7 +516,7 @@
 	.form-textarea {
 		padding: 10px 12px;
 		border: 2px solid #ddd;
-		border-radius: 4px;
+		border-radius: 0;
 		font-size: 1rem;
 		font-family: Arial, sans-serif;
 		transition: border-color 0.3s ease;
@@ -551,7 +551,7 @@
 		color: white;
 		border: none;
 		padding: 12px 24px;
-		border-radius: 4px;
+		border-radius: 0;
 		cursor: pointer;
 		font-size: 1rem;
 		transition: background 0.3s ease;
@@ -571,7 +571,7 @@
 		background: #d4edda;
 		color: #155724;
 		padding: 12px;
-		border-radius: 4px;
+		border-radius: 0;
 		margin-bottom: 1rem;
 		border: 1px solid #c3e6cb;
 	}
@@ -580,7 +580,7 @@
 		background: #f8d7da;
 		color: #721c24;
 		padding: 12px;
-		border-radius: 4px;
+		border-radius: 0;
 		margin-bottom: 1rem;
 		border: 1px solid #f5c6cb;
 	}
@@ -606,7 +606,7 @@
 		color: white;
 		border: none;
 		padding: 8px 16px;
-		border-radius: 4px;
+		border-radius: 0;
 		cursor: pointer;
 		font-size: 0.9rem;
 	}
@@ -627,7 +627,7 @@
 		color: white;
 		border: none;
 		padding: 12px 24px;
-		border-radius: 4px;
+		border-radius: 0;
 		cursor: pointer;
 		font-size: 1rem;
 	}
@@ -651,13 +651,13 @@
 	.import-input {
 		padding: 8px;
 		border: 2px solid #ddd;
-		border-radius: 4px;
+		border-radius: 0;
 	}
 
 	.backup-info {
 		background: #f8f9fa;
 		padding: 1rem;
-		border-radius: 4px;
+		border-radius: 0;
 		border-left: 4px solid #4ecdc4;
 	}
 
@@ -691,7 +691,7 @@
 		align-items: center;
 		padding: 1rem;
 		border: 1px solid #ddd;
-		border-radius: 4px;
+		border-radius: 0;
 		background: #f9f9f9;
 	}
 
@@ -712,7 +712,7 @@
 		color: white;
 		text-decoration: none;
 		padding: 6px 12px;
-		border-radius: 4px;
+		border-radius: 0;
 		font-size: 0.9rem;
 		transition: background 0.3s ease;
 	}

@@ -6,12 +6,7 @@ academic: true
 course: CHDV Psych Anthropology
 published: true
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q3/Psychological Anthropology Y2Q3/Psych Anthro 3 page paper.docx
-tags:
-  - academic
-  - academic/psychology
-  - academic/psychology/anthropology
-  - culture
-  - emotion
+tags: [academic/psychology/anthropology, culture, emotion]
 genre: Essay
 ---
 Rhea Madhogarhia

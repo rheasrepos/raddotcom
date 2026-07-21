@@ -7,11 +7,7 @@ academic: true
 course: HUMA Media Aesthetics
 published: true
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/Media Aesthetics /Madhogarhia, Rhea Paper 2.docx
-tags:
-  - essay
-  - academic
-  - academic/media-studies
-  - academic/media-studies/film-analysis
+tags: [essay, academic/media-studies/film-analysis]
 genre: Film/Media
 ---
 Rhea Madhogarhia

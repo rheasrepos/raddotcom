@@ -272,7 +272,7 @@
 	.node-label.cat { font-weight: 700; font-size: 12.5px; fill: #ffffff; }
 	.net-tooltip {
 		position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%);
-		background: #000; color: #fff; padding: 6px 12px; border-radius: 6px;
+		background: #000; color: #fff; padding: 6px 12px; border-radius: 0;
 		font-size: 0.85rem; max-width: 90%; pointer-events: none;
 	}
 </style>

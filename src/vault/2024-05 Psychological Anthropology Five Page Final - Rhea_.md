@@ -6,11 +6,7 @@ academic: true
 course: CHDV Psych Anthropology
 published: true
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q3/Psychological Anthropology Y2Q3/Psychological Anthropology Five Page Final - Rhea_.docx
-tags:
-  - academic
-  - academic/psychology
-  - academic/psychology/anthropology
-  - culture
+tags: [academic/psychology/anthropology, culture]
 genre: Essay
 ---
 Rhea Madhogarhia

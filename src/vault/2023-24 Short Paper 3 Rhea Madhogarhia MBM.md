@@ -6,12 +6,7 @@ academic: true
 course: COGS Mind, Brain & Meaning
 published: true
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q2/Short Paper 3 Rhea Madhogarhia MBM.docx
-tags:
-  - essay
-  - academic
-  - academic/cognitive-science
-  - consciousness
-  - perception
+tags: [essay, academic/cognitive-science, consciousness, perception]
 genre: Philosophy
 ---
 Rhea Madhogarhia

@@ -2,18 +2,37 @@
 	import PageLayout from '../../components/PageLayout.svelte';
 	import { categoryConfig, getCategoryColor } from '../../lib/categories.js';
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 	import { loadPosts } from '../../lib/posts.js';
 
 	let posts = [];
 	let grouping = 'date'; // 'date' | 'category' | 'month'
 
+	// Categories the reader has hidden. Carried in the URL (?hide=a,b) so the
+	// filter follows you into a post and its Newer/Older paging.
+	let hidden = new Set();
+
 	onMount(async () => {
+		const h = new URL(window.location.href).searchParams.get('hide');
+		if (h) hidden = new Set(h.split(',').filter(Boolean));
 		try {
 			posts = await loadPosts();
 		} catch (e) {
 			posts = [];
 		}
 	});
+
+	function toggleHidden(id) {
+		hidden.has(id) ? hidden.delete(id) : hidden.add(id);
+		hidden = hidden; // reactivity
+		const url = new URL(window.location.href);
+		if (hidden.size) url.searchParams.set('hide', [...hidden].join(','));
+		else url.searchParams.delete('hide');
+		history.replaceState({}, '', url);
+	}
+
+	$: hideParam = hidden.size ? `?hide=${[...hidden].join(',')}` : '';
+	$: presentCats = Object.values(categoryConfig).filter((c) => posts.some((p) => p.type === c.id));
 
 	function fmt(d) {
 		return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
@@ -25,8 +44,10 @@
 		return categoryConfig[type] ? categoryConfig[type].label : type;
 	}
 
-	// Newest first
-	$: sorted = [...posts].sort((a, b) => new Date(b.date) - new Date(a.date));
+	// Newest first, minus hidden categories
+	$: sorted = [...posts]
+		.filter((p) => !hidden.has(p.type))
+		.sort((a, b) => new Date(b.date) - new Date(a.date));
 
 	// The SAME list, regrouped depending on the chosen view.
 	$: groups = (() => {
@@ -55,6 +76,22 @@
 			<button class:active={grouping === 'month'} on:click={() => (grouping = 'month')}>By Month</button>
 		</nav>
 
+		<!-- Category filter: click to hide/show a category while you browse -->
+		<nav class="cat-filter" aria-label="Filter categories">
+			<span class="view-switch-label">Show:</span>
+			{#each presentCats as c}
+				<button
+					class="cat-chip"
+					class:off={hidden.has(c.id)}
+					style="--chip: {getCategoryColor(c.id)}"
+					on:click={() => toggleHidden(c.id)}
+					title={hidden.has(c.id) ? `Show ${c.label}` : `Hide ${c.label}`}
+				>
+					<span class="chip-dot"></span>{c.label}
+				</button>
+			{/each}
+		</nav>
+
 		{#if posts.length === 0}
 			<p class="empty">Loading…</p>
 		{:else if grouping === 'date'}
@@ -62,7 +99,7 @@
 			<ul class="entries">
 				{#each sorted as p}
 					<li class="entry">
-						<a class="entry-link" href="/posts/{p.id}">
+						<a class="entry-link" href="/posts/{p.id}{hideParam}">
 							<span class="entry-date">{fmt(p.date)}</span>
 							<span class="entry-title" class:ai-title={p.aiTitle} title={p.aiTitle ? 'Title drafted with AI assistance' : undefined}>{p.title}</span>
 							{#if p.form}<span class="entry-form">{p.form}</span>{/if}
@@ -87,7 +124,7 @@
 						<ul class="entries nested">
 							{#each items as p}
 								<li class="entry">
-									<a class="entry-link" href="/posts/{p.id}">
+									<a class="entry-link" href="/posts/{p.id}{hideParam}">
 										<span class="entry-date">{fmt(p.date)}</span>
 										<span class="entry-title" class:ai-title={p.aiTitle} title={p.aiTitle ? 'Title drafted with AI assistance' : undefined}>{p.title}</span>
 										{#if p.form}<span class="entry-form">{p.form}</span>{/if}
@@ -186,6 +223,37 @@
 		font-weight: 600;
 		line-height: 1.35;
 	}
+	/* Category filter chips */
+	.cat-filter {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 8px;
+		margin: 10px 0 18px;
+	}
+	.cat-chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		border: 1px solid #000;
+		background: #fff;
+		font-size: 0.8rem;
+		padding: 3px 9px;
+		cursor: pointer;
+	}
+	.chip-dot {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: var(--chip, #999);
+		border: 1px solid #000;
+	}
+	.cat-chip.off {
+		opacity: 0.45;
+		text-decoration: line-through;
+		background: #eee;
+	}
+
 	/* Form badge: paper / discussion post / blog post / … */
 	.entry-form {
 		font-size: 0.7rem;
@@ -194,7 +262,7 @@
 		color: #444;
 		background: rgba(0, 0, 0, 0.07);
 		border: 1px solid rgba(0, 0, 0, 0.2);
-		border-radius: 4px;
+		border-radius: 0;
 		padding: 1px 6px;
 		margin-left: 8px;
 		white-space: nowrap;

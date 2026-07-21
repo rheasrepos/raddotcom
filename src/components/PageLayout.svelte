@@ -16,6 +16,8 @@
 	let currentTime = new Date().toLocaleTimeString();
 	let isNavigating = false;
 	let isContracting = false;
+	// Monitor view: shrink this page into the desktop monitor frame
+	let framed = false;
 
 	onMount(() => {
 		// Load wallpaper color from localStorage
@@ -84,7 +86,7 @@
 
 
 
-<div class="laptop-frame" class:navigating={isNavigating} class:contracting={isContracting}>
+<div class="laptop-frame" class:navigating={isNavigating} class:contracting={isContracting} class:framed>
 	<div class="laptop-screen" style="background: {wallpaperColor};">
 		<!-- Navigation and Controls in the frame bezel -->
 		<div class="frame-topbar">
@@ -124,6 +126,10 @@
 						</button>
 					{/if}
 				</div>
+				<!-- Toggle the monitor view: shrink any page into the desktop monitor -->
+				<button class="monitor-btn" on:click={() => (framed = !framed)} title={framed ? 'Full screen' : 'Monitor view'}>
+					{framed ? '⤢' : '⤡'}
+				</button>
 				<span class="system-time">{currentTime}</span>
 			</div>
 		</div>
@@ -231,7 +237,7 @@
 		height: 100vh !important;
 		max-width: none !important;
 		border: 4px solid #333333 !important;
-		border-radius: 0 !important;
+		border-radius: 0;
 		box-shadow: none !important;
 		transition: all 0.3s ease-out !important;
 	}
@@ -247,7 +253,7 @@
 		width: 90% !important;
 		height: 82vh !important;
 		border: 3px solid #333333 !important;
-		border-radius: 6px !important;
+		border-radius: 0;
 		box-shadow:
 			0 0 0 1px #222222,
 			0 10px 25px rgba(0, 0, 0, 0.5),
@@ -266,6 +272,49 @@
 		position: relative;
 		box-shadow: none;
 		transition: all 0.3s ease-out;
+	}
+
+	/* Monitor view — any page inside the resting desktop monitor, matching
+	   the homepage's frame (orange surround, bezel, stand). */
+	.laptop-frame.framed {
+		padding: 10px 10px 0 10px;
+	}
+	.laptop-frame.framed .laptop-screen {
+		max-width: 1080px;
+		width: 90%;
+		height: 82vh;
+		border: 3px solid #333333;
+		box-shadow:
+			0 0 0 1px #222222,
+			0 10px 25px rgba(0, 0, 0, 0.5),
+			inset 0 0 10px rgba(0, 0, 0, 0.2);
+	}
+	.laptop-frame.framed::after {
+		/* monitor stand */
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 42px;
+		height: 6.6vh;
+		background: #1a1a1a;
+		border: 2px solid #000000;
+		pointer-events: none;
+	}
+
+	.monitor-btn {
+		background: transparent;
+		border: 1px solid #777;
+		color: #fff;
+		font-size: 0.85rem;
+		line-height: 1;
+		padding: 3px 7px;
+		cursor: pointer;
+		margin-right: 8px;
+	}
+	.monitor-btn:hover {
+		background: #555;
 	}
 
 	/* Frame Topbar — height/padding match the desktop's bar exactly so the

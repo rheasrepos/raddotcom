@@ -8,8 +8,19 @@
 	// Get post ID from URL
 	$: postId = $page.params.id;
 
-	// View mode for the post body: rendered vs. raw Markdown source.
-	let showRaw = false;
+	// Hidden categories carried over from the blog filter (?hide=a,b) —
+	// Newer/Older paging skips posts in these categories.
+	$: hidden = new Set(($page.url.searchParams.get('hide') || '').split(',').filter(Boolean));
+	$: hideParam = hidden.size ? `?hide=${[...hidden].join(',')}` : '';
+
+	// View mode for the post body: original document vs rendered vs raw Markdown.
+	let view = 'rendered'; // 'doc' | 'rendered' | 'raw'
+	let viewedPostId = null;
+	// Default to the original document whenever the post has one.
+	$: if (post && post.id !== viewedPostId) {
+		viewedPostId = post.id;
+		view = post.pdf ? 'doc' : 'rendered';
+	}
 
 	// If the content is already HTML (older hardcoded posts) pass it through;
 	// otherwise treat it as Markdown and render it.
@@ -37,19 +48,23 @@
 			post = getPostById(allPosts, postId);
 
 			if (post) {
-				// Find the index of the current post in the sorted list
-				const currentIndex = allPosts.findIndex(p => String(p.id) === String(postId));
+				// Page within the visible set: posts whose category isn't hidden
+				// (the current post always counts so paging works from anywhere).
+				const navPosts = allPosts.filter(
+					(p) => !hidden.has(p.type) || String(p.id) === String(postId)
+				);
+				const currentIndex = navPosts.findIndex(p => String(p.id) === String(postId));
 
 				// Find next post (newest, so index - 1)
 				if (currentIndex > 0) {
-					nextPost = allPosts[currentIndex - 1];
+					nextPost = navPosts[currentIndex - 1];
 				} else {
 					nextPost = null; // This is the newest post
 				}
 
 				// Find previous post (oldest, so index + 1)
-				if (currentIndex < allPosts.length - 1) {
-					previousPost = allPosts[currentIndex + 1];
+				if (currentIndex < navPosts.length - 1) {
+					previousPost = navPosts[currentIndex + 1];
 				} else {
 					previousPost = null; // This is the oldest post
 				}
@@ -86,24 +101,23 @@
 					{#if post.form}<span class="reader-form">{post.form}</span>{/if}
 				</div>
 
-				<!-- Rendered / raw Markdown toggle -->
+				<!-- Document / Rendered / Markdown toggle -->
 				<div class="view-toggle" role="group" aria-label="View mode">
-					<button class="view-toggle-btn {showRaw ? '' : 'active'}" on:click={() => (showRaw = false)}>
+					{#if post.pdf}
+						<button class="view-toggle-btn {view === 'doc' ? 'active' : ''}" on:click={() => (view = 'doc')}>
+							Document
+						</button>
+					{/if}
+					<button class="view-toggle-btn {view === 'rendered' ? 'active' : ''}" on:click={() => (view = 'rendered')}>
 						Rendered
 					</button>
-					<button class="view-toggle-btn {showRaw ? 'active' : ''}" on:click={() => (showRaw = true)}>
+					<button class="view-toggle-btn {view === 'raw' ? 'active' : ''}" on:click={() => (view = 'raw')}>
 						Markdown
 					</button>
 				</div>
 
-				{#if showRaw}
-					<pre class="content-raw">{post.content}</pre>
-				{:else}
-					<div class="content-body prose">{@html renderedContent}</div>
-				{/if}
-
-				<!-- Embedded PDF reader for notes that point at a document -->
-				{#if post.pdf}
+				{#if view === 'doc' && post.pdf}
+					<!-- The original, as submitted — real formatting preserved -->
 					<div class="pdf-reader">
 						<div class="pdf-bar">
 							<span class="pdf-name">{post.pdf.split('/').pop()}</span>
@@ -111,15 +125,19 @@
 						</div>
 						<iframe src={post.pdf} title="{post.title} (PDF)" class="pdf-frame"></iframe>
 					</div>
+				{:else if view === 'raw'}
+					<pre class="content-raw">{post.content}</pre>
+				{:else}
+					<div class="content-body prose">{@html renderedContent}</div>
 				{/if}
 
 				{#if nextPost || previousPost}
 					<div class="reader-steps">
 						{#if nextPost}
-							<a href="/posts/{nextPost.id}">← Newer</a>
+							<a href="/posts/{nextPost.id}{hideParam}">← Newer</a>
 						{:else}<span></span>{/if}
 						{#if previousPost}
-							<a href="/posts/{previousPost.id}">Older →</a>
+							<a href="/posts/{previousPost.id}{hideParam}">Older →</a>
 						{:else}<span></span>{/if}
 					</div>
 				{/if}
@@ -240,7 +258,7 @@
 		color: #444;
 		background: rgba(0, 0, 0, 0.07);
 		border: 1px solid rgba(0, 0, 0, 0.2);
-		border-radius: 4px;
+		border-radius: 0;
 		padding: 1px 6px;
 		margin-left: 6px;
 		white-space: nowrap;

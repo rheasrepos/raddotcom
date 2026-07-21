@@ -1004,6 +1004,17 @@
 </div>
 
 <style>
+	/* Old-Windows open: documents burst open from the middle (slit → unfold) */
+	@keyframes winOpen {
+		0% { transform: scale(0.04, 0.015); }
+		45% { transform: scale(1.02, 0.06); }
+		100% { transform: scale(1, 1); }
+	}
+	:global(.modal-content) {
+		transform-origin: center center;
+		animation: winOpen 0.32s cubic-bezier(0.2, 0.9, 0.25, 1);
+	}
+
 	/* AI-generated titles get a dashed underline (same convention as AIText) */
 	.ai-title {
 		text-decoration: underline dashed;
@@ -1034,7 +1045,7 @@
 		height: 100vh !important;
 		max-width: none !important;
 		border: 4px solid #333333 !important;
-		border-radius: 0 !important;
+		border-radius: 0;
 		box-shadow: none !important;
 		/* Sizing snaps instantly; animateScreenFlip() supplies the motion. */
 	}
@@ -1136,7 +1147,7 @@
 		right: 0;
 		height: 50px; /* Increased height for navigation */
 		background: #333333; /* Solid color instead of gradient */
-		border-radius: 3px 3px 0 0;
+		border-radius: 0;
 	}
 
 	/* Frame Top Bar (inside the bezel) */
@@ -1491,7 +1502,7 @@
 		font-family: Arial, sans-serif;
 		background: rgba(255, 255, 255, 0.7);
 		border: 1px solid rgba(0, 0, 0, 0.25);
-		border-radius: 8px;
+		border-radius: 0;
 		padding: 4px 10px 4px 4px;
 		margin-bottom: 14px;
 	}
@@ -1499,7 +1510,7 @@
 	.crumb-back {
 		border: none;
 		background: rgba(0, 0, 0, 0.07);
-		border-radius: 6px;
+		border-radius: 0;
 		width: 26px;
 		height: 26px;
 		cursor: pointer;
@@ -1530,7 +1541,7 @@
 		cursor: pointer;
 		font-size: 0.85rem;
 		padding: 3px 6px;
-		border-radius: 6px;
+		border-radius: 0;
 	}
 
 	.breadcrumb-link:hover {

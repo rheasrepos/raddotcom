@@ -6,10 +6,7 @@ academic: true
 course: SOSC Self/Culture/Society
 published: true
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/SOSC_ Self/WINTER QUARTER FINAL SOSC ESSAY RHEA MADHOGARHIA.docx
-tags:
-  - essay
-  - academic
-  - academic/philosophy
+tags: [essay, academic/philosophy]
 genre: Essay
 ---
 Rhea Madhogarhia

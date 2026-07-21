@@ -87,6 +87,7 @@ function deriveForm(frontmatter) {
 	if (has('exam')) return 'exam essay';
 	if (has('writing/blog') || genre === 'blog') return 'blog post';
 	if (has('writing/opinion') || genre === 'opinion') return 'opinion';
+	if (has('creative/comedy/sketch')) return 'sketch';
 	if (has('script')) return 'script';
 	if (has('creative/poetry')) return 'poems';
 	if (has('creative/music/lyrics')) return 'lyrics';

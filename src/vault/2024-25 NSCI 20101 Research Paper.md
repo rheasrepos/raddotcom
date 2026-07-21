@@ -6,9 +6,7 @@ academic: true
 course: NSCI Neuroscience
 published: true
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Third Year/Y3Q1/foundations of neuro/NSCI 20101 Research Paper.docx
-tags:
-  - academic
-  - academic/neuroscience
+tags: [academic/neuroscience]
 genre: Research
 ---
 What is neurovascular coupling and uncoupling and how does it relate to the limitations of current neuroimaging methods, specifically EEG and fMRI. Given these limitations, what aspects of neuroimaging today should we aim to improve upon when developing new imaging techniques? 

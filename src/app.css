@@ -2,7 +2,7 @@
 
 /* Retro: nothing gets rounded corners anywhere on the site. */
 *, *::before, *::after {
-  border-radius: 0 !important;
+  border-radius: 0;
 }
 
 /* One typeface across the whole site: Inter (a clean grotesque close to

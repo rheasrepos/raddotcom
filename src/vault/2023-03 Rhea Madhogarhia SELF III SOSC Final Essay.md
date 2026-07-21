@@ -6,12 +6,7 @@ academic: true
 course: SOSC Self/Culture/Society
 published: true
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/SOSC_ Self/Rhea Madhogarhia SELF III SOSC Final Essay.docx
-tags:
-  - essay
-  - academic
-  - academic/philosophy
-  - academic/philosophy/philosophy-of-science
-  - climate-change
+tags: [essay, academic/philosophy/philosophy-of-science, climate-change]
 genre: Essay
 ---
 Rhea Madhogarhia

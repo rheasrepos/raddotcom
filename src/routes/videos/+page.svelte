@@ -139,7 +139,7 @@
 		text-decoration: none;
 		background: rgba(255, 255, 255, 0.7);
 		border: 1px solid rgba(0, 0, 0, 0.25);
-		border-radius: 8px;
+		border-radius: 0;
 		padding: 6px 12px;
 		margin-bottom: 10px;
 	}

@@ -1,20 +1,12 @@
 ---
 title: EUROVISION BLOGPOST FINAL
-date: 2024
-date_approx: true
+date: 2024-05-20
 type: essays
 academic: true
 course: MUSI Eurovision
 published: true
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q3/Eurovision Y2Q3/EUROVISION BLOGPOST FINAL.docx
-tags:
-  - academic
-  - creative
-  - creative/music
-  - creative/music/eurovision
-  - writing
-  - writing/blog
-  - performance
+tags: [academic, creative/music/eurovision, writing/blog, performance]
 genre: Blog
 ---
 The Moment Itself: Chicagovision 2024 - “The Moment”

@@ -9,8 +9,9 @@ promoted=[]
 # Walk subfolders too (essays/, research/, creative/, ...) — the vault is
 # organized into topic folders; the site reads a flat src/vault.
 for root,dirs,files in os.walk(src):
-    # skip hidden dirs (.obsidian, .smart-env) and _meta housekeeping
-    dirs[:]=[d for d in dirs if not d.startswith((".","_"))]
+    # skip hidden dirs (.obsidian, .smart-env), _meta housekeeping, and scraps
+    # (scraps are notes/dumps that should never publish, even if flagged)
+    dirs[:]=[d for d in dirs if not d.startswith((".","_")) and d != "scraps"]
     for f in sorted(files):
         if not f.endswith(".md") or f.startswith("_"): continue
         t=open(os.path.join(root,f),encoding="utf-8",errors="ignore").read()

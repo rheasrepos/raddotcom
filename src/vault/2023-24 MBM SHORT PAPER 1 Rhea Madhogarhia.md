@@ -6,12 +6,7 @@ academic: true
 course: COGS Mind, Brain & Meaning
 published: true
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q2/MBM SHORT PAPER 1 Rhea Madhogarhia.docx
-tags:
-  - essay
-  - academic
-  - academic/cognitive-science
-  - academic/philosophy
-  - academic/philosophy/philosophy-of-mind
+tags: [essay, academic/cognitive-science, academic/philosophy/philosophy-of-mind]
 genre: Philosophy
 ---
 Rhea Madhogarhia
