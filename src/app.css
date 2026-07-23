@@ -43,7 +43,7 @@ code, kbd, samp, pre, .content-raw, .md-code, .md-code code {
   /* FIX: This is the line I changed. 
     It tells everything to use 'Inter' first, then Arial as a backup.
   */
-  --font-family: 'Akzidenz-Grotesk', 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-family: 'Consolas', 'Courier New', Courier, monospace;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.9rem;
   --font-size-base: 1rem;
