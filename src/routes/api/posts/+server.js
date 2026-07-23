@@ -151,7 +151,9 @@ export async function GET() {
 				// form badge: paper | discussion post | blog post | …
 				form: deriveForm(frontmatter),
 				// vault subfolder (e.g. "media-aesthetics") for on-site folders
-				subfolder
+				subfolder,
+				// link: external project URL — shows an "Open project ↗" action
+				link: frontmatter.link || null
 			});
 		}
 

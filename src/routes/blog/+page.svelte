@@ -39,6 +39,13 @@
 	function slugify(s) {
 		return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-');
 	}
+
+	// Collapsible groups in By Category / By Month views
+	let collapsed = new Set();
+	function toggleGroup(name) {
+		collapsed.has(name) ? collapsed.delete(name) : collapsed.add(name);
+		collapsed = collapsed;
+	}
 	// Sidebar navigation: switch to the right grouping, then scroll to it
 	async function jumpTo(mode, name) {
 		grouping = mode;
@@ -142,13 +149,17 @@
 				{#each groups as [name, items]}
 					<section class="folder" id="grp-{slugify(name)}">
 						<h2 class="folder-head">
+							<button class="folder-toggle" on:click={() => toggleGroup(name)} title={collapsed.has(name) ? 'Expand' : 'Collapse'}>
+								{collapsed.has(name) ? '▸' : '▾'}
+							</button>
 							<span
 								class="folder-dot"
 								style="background: {grouping === 'category' ? getCategoryColor(items[0].type) : '#000'}"
 							></span>
-							{name}
+							<button class="folder-name" on:click={() => toggleGroup(name)}>{name}</button>
 							<span class="folder-count">{items.length}</span>
 						</h2>
+						{#if !collapsed.has(name)}
 						<ul class="entries nested">
 							{#each items as p}
 								<li class="entry">
@@ -160,6 +171,7 @@
 								</li>
 							{/each}
 						</ul>
+						{/if}
 					</section>
 				{/each}
 			</div>
@@ -302,6 +314,21 @@
 		font-weight: 600;
 		line-height: 1.35;
 	}
+	/* Collapsible group headers */
+	.folder-toggle {
+		background: none;
+		border: none;
+		font-size: 0.9rem;
+		padding: 0 2px;
+		line-height: 1;
+	}
+	.folder-name {
+		background: none;
+		border: none;
+		font: inherit;
+		padding: 0;
+	}
+
 	/* Category filter chips */
 	.cat-filter {
 		display: flex;

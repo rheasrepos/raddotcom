@@ -12,6 +12,12 @@
   font-family: 'Akzidenz-Grotesk', 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
 }
 
+/* Anything clickable shows the hand cursor — no dead-feeling UI. */
+button, a, [role="button"], [tabindex="0"], select, label[for], summary,
+input[type='checkbox'], .desktop-icon, .mac-icon-label {
+  cursor: pointer;
+}
+
 /* Keep a monospace face only for actual code / raw source. */
 code, kbd, samp, pre, .content-raw, .md-code, .md-code code {
   font-family: 'Courier New', Courier, monospace !important;

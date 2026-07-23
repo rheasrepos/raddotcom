@@ -942,6 +942,9 @@
 							</div>
 						{/if}
 						<div class="project-actions">
+							{#if selectedProject.link}
+								<a href={selectedProject.link} target="_blank" rel="noopener noreferrer" class="view-post-btn">Open project ↗</a>
+							{/if}
 							<a href="/posts/{selectedProject.id}" class="view-post-btn">View Full Post →</a>
 						</div>
 					</div>
@@ -1051,10 +1054,14 @@
 	</div>
 	
 	<!-- Desktop Stand (moved outside laptop screen) -->
-	<div class="desktop-stand">
-		<div class="stand-vertical"></div>
-		<div class="stand-base"></div>
-	</div>
+	<!-- Stand only exists in monitor mode — removed from the DOM entirely in
+	     any fullscreen state so it can never flash or linger. -->
+	{#if !surfing && !isNavigating && !isContracting}
+		<div class="desktop-stand">
+			<div class="stand-vertical"></div>
+			<div class="stand-base"></div>
+		</div>
+	{/if}
 </div>
 
 <style>
