@@ -1,7 +1,7 @@
 ---
 title: "UCD: Reading Response — Project Sidewalk (Li et al)"
 date: 2026-01-25
-type: essays
+type: coursework
 academic: true
 course: User-Centered Design
 published: true

@@ -1,7 +1,7 @@
 ---
 title: "UCD: Reading Response — Sound Awareness for DHH (Jain et al)"
 date: 2026-01-20
-type: essays
+type: coursework
 academic: true
 course: User-Centered Design
 published: true

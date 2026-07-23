@@ -1,7 +1,7 @@
 ---
 title: "UCD: Reading Response — Rideshare Transparency (Nagaraj et al)"
 date: 2026-01-15
-type: essays
+type: coursework
 academic: true
 course: User-Centered Design
 published: true

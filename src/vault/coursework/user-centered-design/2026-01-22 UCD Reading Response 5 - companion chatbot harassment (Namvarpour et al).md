@@ -1,7 +1,7 @@
 ---
 title: "UCD: Reading Response — Companion Chatbot Harassment (Namvarpour et al)"
 date: 2026-01-22
-type: essays
+type: coursework
 academic: true
 course: User-Centered Design
 published: true

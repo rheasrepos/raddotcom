@@ -1,7 +1,7 @@
 ---
 title: "S&P: Journal Critique 2 — Spatial Hearing in Blindness"
 date: 2025-04-06
-type: essays
+type: coursework
 academic: true
 course: Sensation & Perception
 published: true

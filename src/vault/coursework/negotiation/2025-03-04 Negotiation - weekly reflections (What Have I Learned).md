@@ -1,7 +1,7 @@
 ---
 title: "NEGOTIATION: Weekly Reflections — What Have I Learned?"
 date: 2025-03-04
-type: essays
+type: coursework
 academic: true
 course: Psychology of Negotiation
 published: true

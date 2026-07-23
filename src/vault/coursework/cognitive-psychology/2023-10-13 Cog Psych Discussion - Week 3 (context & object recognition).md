@@ -1,7 +1,7 @@
 ---
 title: "COG PSYCH: Discussion Week 3 — Context & Object Recognition"
 date: 2023-10-13
-type: essays
+type: coursework
 academic: true
 course: Cognitive Psychology
 published: true

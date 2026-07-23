@@ -2,6 +2,7 @@
 export const categoryConfig = {
 	writing: { id: 'writing', label: 'Notes & Writing', color: 'var(--color-writing)' },
 	essays: { id: 'essays', label: 'Essays & Papers', color: '#4a69bd' }, // academic essays & term papers
+	coursework: { id: 'coursework', label: 'Coursework', color: '#78909c' }, // discussion posts, reading responses, critiques
 	thesis: { id: 'thesis', label: 'Thesis Notes', color: '#8e44ad' }, // Added this new category
 	research: { id: 'research', label: 'Research', color: 'var(--color-research)' },
 	programming: { id: 'programming', label: 'Tech & Industry', color: 'var(--color-programming)' },
