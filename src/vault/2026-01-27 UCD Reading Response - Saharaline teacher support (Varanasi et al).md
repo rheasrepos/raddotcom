@@ -6,12 +6,7 @@ academic: true
 course: User-Centered Design
 published: true
 source: raddotcom Vault/2026-01-27 UCD Reading Response Notes - Dealing with Constraints - Varanasi et al-1.pdf
-tags:
-  - academic
-  - academic/hci
-  - academic/hci/user-centered-design
-  - reading-response
-  - education
+tags: [academic/hci/user-centered-design, reading-response, education]
 genre: user-centered-design
 ---
 

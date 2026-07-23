@@ -1,7 +1,7 @@
 <script>
 	import PageLayout from '../../components/PageLayout.svelte';
 	import { categoryConfig, getCategoryColor } from '../../lib/categories.js';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { page } from '$app/stores';
 	import { loadPosts } from '../../lib/posts.js';
 
@@ -33,6 +33,18 @@
 
 	$: hideParam = hidden.size ? `?hide=${[...hidden].join(',')}` : '';
 	$: presentCats = Object.values(categoryConfig).filter((c) => posts.some((p) => p.type === c.id));
+	$: catCounts = Object.fromEntries(presentCats.map((c) => [c.id, posts.filter((p) => p.type === c.id).length]));
+	$: monthList = [...new Set(sorted.map((p) => monthLabel(p.date)))];
+
+	function slugify(s) {
+		return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-');
+	}
+	// Sidebar navigation: switch to the right grouping, then scroll to it
+	async function jumpTo(mode, name) {
+		grouping = mode;
+		await tick();
+		document.getElementById('grp-' + slugify(name))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	}
 
 	function fmt(d) {
 		return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
@@ -63,6 +75,38 @@
 </script>
 
 <PageLayout title="Rhea's Web - Rhea Madhogarhia">
+	<div class="arch-layout">
+	<!-- Left sidebar: filter + jump navigation -->
+	<aside class="arch-side">
+		<div class="side-section">
+			<h3 class="side-head">Categories</h3>
+			{#each presentCats as c}
+				<div class="side-row">
+					<input
+						type="checkbox"
+						id="side-{c.id}"
+						checked={!hidden.has(c.id)}
+						on:change={() => toggleHidden(c.id)}
+						title={hidden.has(c.id) ? `Show ${c.label}` : `Hide ${c.label}`}
+					/>
+					<span class="chip-dot" style="--chip: {getCategoryColor(c.id)}"></span>
+					<button class="side-link" class:off={hidden.has(c.id)} on:click={() => jumpTo('category', catLabel(c.id))}>
+						{c.label}
+					</button>
+					<span class="side-count">{catCounts[c.id]}</span>
+				</div>
+			{/each}
+		</div>
+		<div class="side-section">
+			<h3 class="side-head">Months</h3>
+			{#each monthList as m}
+				<div class="side-row">
+					<button class="side-link" on:click={() => jumpTo('month', m)}>{m}</button>
+				</div>
+			{/each}
+		</div>
+	</aside>
+
 	<section class="archive">
 		<header class="arch-head">
 			<h1 class="arch-title">Rhea's Web</h1>
@@ -74,22 +118,6 @@
 			<button class:active={grouping === 'date'} on:click={() => (grouping = 'date')}>Chronological</button>
 			<button class:active={grouping === 'category'} on:click={() => (grouping = 'category')}>By Category</button>
 			<button class:active={grouping === 'month'} on:click={() => (grouping = 'month')}>By Month</button>
-		</nav>
-
-		<!-- Category filter: click to hide/show a category while you browse -->
-		<nav class="cat-filter" aria-label="Filter categories">
-			<span class="view-switch-label">Show:</span>
-			{#each presentCats as c}
-				<button
-					class="cat-chip"
-					class:off={hidden.has(c.id)}
-					style="--chip: {getCategoryColor(c.id)}"
-					on:click={() => toggleHidden(c.id)}
-					title={hidden.has(c.id) ? `Show ${c.label}` : `Hide ${c.label}`}
-				>
-					<span class="chip-dot"></span>{c.label}
-				</button>
-			{/each}
 		</nav>
 
 		{#if posts.length === 0}
@@ -112,7 +140,7 @@
 			<!-- Grouped: each group is a "folder" with its posts connected beneath -->
 			<div class="folders">
 				{#each groups as [name, items]}
-					<section class="folder">
+					<section class="folder" id="grp-{slugify(name)}">
 						<h2 class="folder-head">
 							<span
 								class="folder-dot"
@@ -137,10 +165,61 @@
 			</div>
 		{/if}
 	</section>
+	</div>
 </PageLayout>
 
 <style>
+	.arch-layout {
+		display: flex;
+		gap: 28px;
+		max-width: 960px;
+		margin: 0 auto;
+		align-items: flex-start;
+	}
+	.arch-side {
+		flex: 0 0 200px;
+		position: sticky;
+		top: 14px;
+		padding: 12px;
+		background: rgba(255, 255, 255, 0.7);
+		border: 1px solid #000;
+		font-size: 0.85rem;
+	}
+	.side-section + .side-section { margin-top: 16px; }
+	.side-head {
+		font-size: 0.75rem;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		margin: 0 0 6px;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+		padding-bottom: 3px;
+	}
+	.side-row {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		padding: 2px 0;
+	}
+	.side-link {
+		background: none;
+		border: none;
+		padding: 1px 2px;
+		font-size: 0.85rem;
+		color: #111;
+		cursor: pointer;
+		text-align: left;
+		flex: 1;
+	}
+	.side-link:hover { text-decoration: underline; }
+	.side-link.off { opacity: 0.4; text-decoration: line-through; }
+	.side-count { color: #666; font-size: 0.75rem; }
+	@media (max-width: 860px) {
+		.arch-side { display: none; }
+	}
+
 	.archive {
+		flex: 1;
+		min-width: 0;
 		max-width: 720px;
 		margin: 0 auto;
 		padding: 4px 0 40px;

@@ -1,17 +1,13 @@
 ---
 title: IM HERE FOR YOU SCRIPT
-date: 2026
+date: 2026-03
 date_approx: true
 type: creative
 academic: false
 published: true
+pdf: /docs/2025-26-im-here-for-you-script.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Fourth Year/y4q2/IM HERE FOR YOU SCRIPT.docx
-tags:
-  - creative
-  - creative/theatre
-  - creative/theatre/playwriting
-  - creative/comedy
-  - performance
+tags: [creative/theatre/playwriting, creative/comedy, performance]
 genre: Creative
 ---
 Script

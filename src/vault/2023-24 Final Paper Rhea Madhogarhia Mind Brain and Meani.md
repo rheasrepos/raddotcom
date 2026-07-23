@@ -5,6 +5,7 @@ type: essays
 academic: true
 course: COGS Mind, Brain & Meaning
 published: true
+pdf: /docs/2023-24-final-paper-rhea-madhogarhia-mind-brain-and-meani.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q2/Final Paper Rhea Madhogarhia, Mind Brain and Meani.docx
 tags: [academic/cognitive-science, ai, academic/philosophy/philosophy-of-mind, consciousness]
 genre: Essay

@@ -6,12 +6,7 @@ academic: true
 course: Sensation & Perception
 published: true
 source: raddotcom Vault/2025-02-03 Sensation and Perception Journal Critique
-tags:
-  - academic
-  - academic/psychology
-  - academic/psychology/sensation-and-perception
-  - journal-critique
-  - perception
+tags: [academic/psychology/sensation-and-perception, journal-critique, perception]
 genre: sensation-and-perception
 ---
 

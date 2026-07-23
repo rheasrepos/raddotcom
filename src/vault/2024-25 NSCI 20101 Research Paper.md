@@ -5,6 +5,7 @@ type: research
 academic: true
 course: NSCI Neuroscience
 published: true
+pdf: /docs/2024-25-nsci-20101-research-paper.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Third Year/Y3Q1/foundations of neuro/NSCI 20101 Research Paper.docx
 tags: [academic/neuroscience]
 genre: Research

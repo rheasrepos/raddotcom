@@ -6,13 +6,9 @@ type: creative
 academic: true
 course: HIND Hindi
 published: true
+pdf: /docs/2022-23-hindi-102-skit-team-saabziyan.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/HINDI/Hindi 102 SKIT Team Saabziyan.docx
-tags:
-  - academic
-  - academic/language
-  - academic/language/hindi
-  - creative
-  - script
+tags: [academic/language/hindi, creative, script]
 genre: Creative (class)
 ---
 Brainstorm: 

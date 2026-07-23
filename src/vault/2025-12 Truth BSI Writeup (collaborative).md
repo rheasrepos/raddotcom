@@ -1,12 +1,10 @@
 ---
 title: Truth BSI Writeup (collaborative)
-date: 2025-12
-date_approx: true
+date: 2025-12-08
 type: essays
 published: true
 recovered_from: Desktop/University of Chicago/Year 4/Recovered Writing/All Writing/Rhea Madhogarhia Truth BSI Writeup.md
-tags:
-  - recovered-2026-07
+tags: [academic/philosophy, essay, truth, bullshit-detection]
 ---
 
 Collaborative Writeup

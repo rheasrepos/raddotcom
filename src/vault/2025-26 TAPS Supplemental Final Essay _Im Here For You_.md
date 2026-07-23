@@ -1,19 +1,13 @@
 ---
 title: TAPS Supplemental Final Essay _Im Here For You_
-date: 2026
-date_approx: true
+date: 2026-03-12
 type: creative
 academic: false
 course: TAPS Theatre
 published: true
+pdf: /docs/2025-26-taps-supplemental-final-essay-im-here-for-you.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Fourth Year/y4q2/TAPS Supplemental Final Essay _Im Here For You_.docx
-tags:
-  - academic
-  - creative
-  - creative/theatre
-  - creative/theatre/playwriting
-  - reflection
-  - performance
+tags: [academic, creative/theatre/playwriting, reflection, performance]
 genre: Personal
 ---
 TAPS Supplemental Final Essay

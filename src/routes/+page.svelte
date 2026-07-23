@@ -884,9 +884,14 @@
 						<h2 class:ai-title={selectedProject.aiTitle} title={selectedProject.aiTitle ? 'Title drafted with AI assistance' : undefined}>{selectedProject.title}</h2>
 						<p class="project-date">{new Date(selectedProject.date).toLocaleDateString()}</p>
 						<p class="project-description">{selectedProject.description}</p>
-						<div class="project-content">
-							{@html selectedProject.content}
-						</div>
+						{#if selectedProject.pdf}
+							<!-- Original document beats mangled text every time -->
+							<iframe src={selectedProject.pdf} title="{selectedProject.title} (PDF)" class="modal-pdf"></iframe>
+						{:else}
+							<div class="project-content">
+								{@html selectedProject.content}
+							</div>
+						{/if}
 						<div class="project-actions">
 							<a href="/posts/{selectedProject.id}" class="view-post-btn">View Full Post →</a>
 						</div>
@@ -1004,6 +1009,14 @@
 </div>
 
 <style>
+	.modal-pdf {
+		display: block;
+		width: 100%;
+		height: 60vh;
+		border: 2px solid #000;
+		background: #fff;
+	}
+
 	/* Old-Windows open: documents burst open from the middle (slit → unfold) */
 	@keyframes winOpen {
 		0% { transform: scale(0.04, 0.015); }
@@ -1062,7 +1075,8 @@
 		border-radius: 0;
 		box-shadow: none;
 	}
-	.laptop-frame.surfing .desktop-stand {
+	.laptop-frame.surfing .desktop-stand,
+	.laptop-frame.navigating .desktop-stand {
 		display: none;
 	}
 

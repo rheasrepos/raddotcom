@@ -6,12 +6,7 @@ academic: true
 course: Cognitive Psychology
 published: true
 source: raddotcom Vault/2023-10-13 Rhea Discussion Paper Week 3 Cog Psych.pdf
-tags:
-  - academic
-  - academic/psychology
-  - academic/psychology/cognitive-psychology
-  - discussion-post
-  - perception
+tags: [academic/psychology/cognitive-psychology, discussion-post, perception]
 genre: discussion-post
 ---
 

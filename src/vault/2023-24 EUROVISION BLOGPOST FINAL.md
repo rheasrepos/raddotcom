@@ -5,6 +5,7 @@ type: essays
 academic: true
 course: MUSI Eurovision
 published: true
+pdf: /docs/2023-24-eurovision-blogpost-final.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q3/Eurovision Y2Q3/EUROVISION BLOGPOST FINAL.docx
 tags: [academic, creative/music/eurovision, writing/blog, performance]
 genre: Blog

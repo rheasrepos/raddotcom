@@ -5,6 +5,7 @@ type: essays
 academic: true
 course: HUMA Media Aesthetics
 published: true
+pdf: /docs/2022-23-rhea-huma-essay-1-media-aesthetics.pdf
 source: "/Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/Media Aesthetics /Q1/Rhea HUMA Essay #1 Media Aesthetics.docx"
 tags: [essay, academic/media-studies/film-analysis]
 genre: Film/Media

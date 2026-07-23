@@ -6,12 +6,7 @@ academic: true
 course: User-Centered Design
 published: true
 source: raddotcom Vault/2026-01-20 Reading Response
-tags:
-  - academic
-  - academic/hci
-  - academic/hci/user-centered-design
-  - reading-response
-  - accessibility
+tags: [academic/hci/user-centered-design, reading-response, accessibility]
 genre: user-centered-design
 ---
 

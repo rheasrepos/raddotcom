@@ -6,12 +6,7 @@ academic: true
 course: User-Centered Design
 published: true
 source: raddotcom Vault/2026-01-08 Untitled document (1)-1.pdf
-tags:
-  - academic
-  - academic/hci
-  - academic/hci/user-centered-design
-  - reading-response
-  - privacy
+tags: [academic/hci/user-centered-design, reading-response, privacy]
 genre: user-centered-design
 ---
 

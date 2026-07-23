@@ -4,8 +4,7 @@ date: 2025-12-15
 type: essays
 published: true
 recovered_from: Desktop/University of Chicago/Year 4/Recovered Writing/All Writing/2025-12-15 PHIL OF AI MIND AND MATTER FINAL PAPER.md
-tags:
-  - recovered-2026-07
+tags: [academic/philosophy/philosophy-of-ai, ai/machine-learning/interpretability, essay, consciousness]
 ---
 
 Tab 1

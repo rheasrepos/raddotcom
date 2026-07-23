@@ -5,6 +5,7 @@ type: essays
 academic: true
 course: COGS Mind, Brain & Meaning
 published: true
+pdf: /docs/2023-24-mbm-short-paper-1-rhea-madhogarhia.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q2/MBM SHORT PAPER 1 Rhea Madhogarhia.docx
 tags: [essay, academic/cognitive-science, academic/philosophy/philosophy-of-mind]
 genre: Philosophy

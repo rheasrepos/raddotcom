@@ -1,16 +1,12 @@
 ---
 title: AI PUBLIC POLICY PROPOSAL RHEA MADHOGARHIA
-date: 2024
-date_approx: true
+date: 2024-05-04
 type: essays
 academic: false
 published: true
+pdf: /docs/2023-24-ai-public-policy-proposal-rhea-madhogarhia.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q3/AI PUBLIC POLICY PROPOSAL RHEA MADHOGARHIA.docx
-tags:
-  - ai
-  - ai/ai-policy
-  - writing
-  - writing/opinion
+tags: [ai/ai-policy, writing/opinion]
 genre: Essay
 ---
 Rhea Madhogarhia

@@ -72,7 +72,12 @@
 					{#if item.description}
 						<p class="ql-desc">{item.description}</p>
 					{/if}
-					<p class="ql-excerpt">{excerpt(item.content)}</p>
+					{#if item.pdf}
+						<!-- Preview the original document, not the re-rendered text -->
+						<iframe src={item.pdf} title="{item.title || item.label} (PDF)" class="ql-pdf"></iframe>
+					{:else}
+						<p class="ql-excerpt">{excerpt(item.content)}</p>
+					{/if}
 					<button class="ql-open" on:click={() => open()}>Open full post →</button>
 				</div>
 			{:else}
@@ -137,6 +142,14 @@
 	.ql-title { font-weight: 700; font-size: 0.95rem; }
 	.ql-spacer { flex: 1; }
 	.ql-file-body { padding: 22px 24px; overflow: auto; }
+	.ql-pdf {
+		display: block;
+		width: 100%;
+		height: 52vh;
+		border: 2px solid #000;
+		background: #fff;
+		margin-bottom: 12px;
+	}
 	.ql-meta { font-size: 0.8rem; color: #666; margin-bottom: 10px; }
 	.ql-desc { font-size: 1rem; font-style: italic; margin: 0 0 12px; color: #333; }
 	.ql-excerpt { font-size: 1rem; line-height: 1.6; color: #111; white-space: pre-wrap; }

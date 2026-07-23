@@ -5,6 +5,7 @@ type: essays
 academic: true
 course: CHDV Psych Anthropology
 published: true
+pdf: /docs/2023-24-psych-anthro-3-page-paper.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q3/Psychological Anthropology Y2Q3/Psych Anthro 3 page paper.docx
 tags: [academic/psychology/anthropology, culture, emotion]
 genre: Essay

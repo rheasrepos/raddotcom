@@ -5,13 +5,9 @@ type: essays
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/2026-01-25-ucd-reading-response-project-sidewalk-li-et-al.pdf
 source: raddotcom Vault/2026-01-25 Reading Response Project Sidewalk UCD Submission.pdf
-tags:
-  - academic
-  - academic/hci
-  - academic/hci/user-centered-design
-  - reading-response
-  - accessibility
+tags: [academic/hci/user-centered-design, reading-response, accessibility]
 genre: user-centered-design
 ---
 

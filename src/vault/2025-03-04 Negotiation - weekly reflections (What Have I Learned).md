@@ -6,11 +6,7 @@ academic: true
 course: Psychology of Negotiation
 published: true
 source: raddotcom Vault/2025-03-04 My weekly reflections_ What Have I Learned_.pdf
-tags:
-  - academic
-  - academic/psychology
-  - academic/psychology/negotiation
-  - reflection
+tags: [academic/psychology/negotiation, reflection]
 genre: negotiation
 ---
 

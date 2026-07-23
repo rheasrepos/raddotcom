@@ -1,17 +1,13 @@
 ---
 title: hips civ final
-date: 2026
-date_approx: true
+date: 2026-05-29
 type: essays
 academic: true
 course: HIPS Civ
 published: true
+pdf: /docs/2025-26-hips-civ-final.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Fourth Year/hips civ final.docx
-tags:
-  - academic
-  - academic/history-of-science
-  - academic/history-of-science/history-of-medicine
-  - creative
+tags: [academic/history-of-science/history-of-medicine, creative]
 genre: Creative
 ---
 case b

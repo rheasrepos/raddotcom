@@ -5,12 +5,9 @@ date_approx: true
 type: comedy
 academic: false
 published: true
+pdf: /docs/2022-23-free-throw-a-sketch-by-rhea-madhogarhia.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/Free Throw, a Sketch by Rhea Madhogarhia.docx
-tags:
-  - creative
-  - creative/comedy
-  - creative/comedy/sketch
-  - creative/screenwriting
+tags: [creative/comedy/sketch, creative/screenwriting]
 genre: Comedy
 ---
 Free Throw

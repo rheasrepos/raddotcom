@@ -5,12 +5,9 @@ type: essays
 academic: true
 course: BIOS Biotechnology
 published: true
+pdf: /docs/2024-12-final-biotech-paper.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Third Year/Y3Q1/biotechnology/FINAL BIOTECH PAPER!.docx
-tags:
-  - academic
-  - academic/natural-science
-  - academic/biology
-  - academic/biology/biotech
+tags: [academic/natural-science, academic/biology/biotech]
 genre: Essay
 ---
 Rhea Madhogarhia

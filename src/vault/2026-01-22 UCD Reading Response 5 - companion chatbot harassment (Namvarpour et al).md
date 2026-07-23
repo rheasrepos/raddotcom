@@ -6,13 +6,7 @@ academic: true
 course: User-Centered Design
 published: true
 source: raddotcom Vault/2026-01-22 Namvarpour Reading Response UCD (1).pdf
-tags:
-  - academic
-  - academic/hci
-  - academic/hci/user-centered-design
-  - reading-response
-  - ai
-  - ai/ai-ethics
+tags: [academic/hci/user-centered-design, reading-response, ai/ai-ethics]
 genre: user-centered-design
 ---
 
