@@ -31,6 +31,22 @@ for root,dirs,files in os.walk(src):
             shutil.copy2(os.path.join(root,f),os.path.join(outdir,f)); promoted.append(os.path.join(rel,f))
 print(f"Promoted {len(promoted)} note(s) to src/vault/:")
 for f in promoted: print("  +",f)
+
+# Generate blog cover thumbnails (first PDF page) for any new documents.
+# Needs poppler: brew install poppler
+import subprocess
+docs="static/docs"; cov=os.path.join(docs,"covers")
+if os.path.isdir(docs) and shutil.which("pdftoppm"):
+    os.makedirs(cov,exist_ok=True); made=0
+    for f in os.listdir(docs):
+        if not f.endswith(".pdf"): continue
+        out=os.path.join(cov,f[:-4])
+        if os.path.exists(out+".png"): continue
+        r=subprocess.run(["pdftoppm","-png","-f","1","-singlefile","-scale-to","400",os.path.join(docs,f),out],capture_output=True)
+        if r.returncode==0: made+=1
+    if made: print(f"Generated {made} new cover thumbnail(s) in static/docs/covers/")
+elif os.path.isdir(docs):
+    print("(skipping cover thumbnails — install poppler with: brew install poppler)")
 if promoted:
     print("\nNext: commit & push (git add src/vault && git commit -m 'publish' && git push),")
     print("or run `npm run dev` to preview locally.")

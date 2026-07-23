@@ -9,6 +9,7 @@
 	import FilterTabs from '../components/FilterTabs.svelte';
 	import { loadPosts, getProjectColor, formatDate } from '$lib/posts.js';
 	import { categoryConfig, getCategoryLabel } from '$lib/categories.js';
+	import { SITE_NAME, SITE_TAGLINE } from '$lib/site.js';
 	import QuickLook from '../components/QuickLook.svelte';
 	import Spotlight from '../components/Spotlight.svelte';
 
@@ -125,6 +126,24 @@
 	let hoveredProject = null;
 	let quickLookItem = null;
 	let spotlightOpen = false;
+
+	// --- Landing beat: typewriter intro shown once per session ---
+	let showIntro = false;
+	let typed = '';
+	onMount(() => {
+		if (typeof sessionStorage !== 'undefined' && !sessionStorage.getItem('introSeen')) {
+			showIntro = true;
+			let i = 0;
+			const t = setInterval(() => {
+				typed = SITE_NAME.slice(0, ++i);
+				if (i >= SITE_NAME.length) clearInterval(t);
+			}, 150);
+		}
+	});
+	function enterSite() {
+		showIntro = false;
+		try { sessionStorage.setItem('introSeen', '1'); } catch {}
+	}
 
 	// "Surf my web" — the monitor SCREEN expands to fill the whole window (go inside).
 	let surfing = false;
@@ -614,6 +633,18 @@
 
 <svelte:window on:keydown={onWindowKeydown} />
 
+{#if showIntro}
+	<!-- Landing beat: click anywhere to enter the desktop -->
+	<div class="intro-overlay" on:click={enterSite} on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && enterSite()} role="button" tabindex="0">
+		<div class="intro-inner">
+			<h1 class="intro-title">{typed}<span class="intro-caret">&nbsp;</span></h1>
+			<div class="intro-sub">{SITE_TAGLINE}</div>
+			<div class="intro-hint">[ click anywhere to enter ]</div>
+		</div>
+		<div class="intro-ticker"><span>double-click a folder to open it · press space to preview any file · ⌘K to search everything · drag the obsidian graph · wallpaper picker bottom-left · welcome to my desktop ·</span></div>
+	</div>
+{/if}
+
 <div class="laptop-frame" class:navigating={isNavigating} class:contracting={isContracting} class:surfing={surfing}>
 	<!-- Brand sits on the orange desktop, outside the monitor -->
 	<div class="desktop-brand">
@@ -1083,6 +1114,49 @@
 		transform-origin: center center;
 		animation: winOpen 0.32s cubic-bezier(0.2, 0.9, 0.25, 1);
 	}
+
+	/* Landing beat */
+	.intro-overlay {
+		position: fixed;
+		inset: 0;
+		background: #ff8c42;
+		z-index: 5000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		cursor: pointer;
+		overflow: hidden;
+	}
+	.intro-title {
+		font-size: clamp(44px, 10vw, 120px);
+		letter-spacing: -2px;
+		margin: 0;
+		color: #000;
+	}
+	.intro-caret {
+		display: inline-block;
+		width: 0.55em;
+		background: #000;
+		animation: introBlink 1s steps(1) infinite;
+	}
+	@keyframes introBlink { 50% { opacity: 0; } }
+	.intro-sub { font-size: clamp(14px, 2vw, 20px); margin-top: 14px; color: #000; }
+	.intro-hint { margin-top: 56px; font-size: 14px; animation: introBlink 1.6s steps(1) infinite; color: #000; }
+	.intro-ticker {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: #000;
+		color: #ff8c42;
+		font-size: 12px;
+		padding: 6px 0;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	.intro-ticker span { display: inline-block; padding-left: 100%; animation: introTick 18s linear infinite; }
+	@keyframes introTick { to { transform: translateX(-100%); } }
 
 	/* AI-generated titles get a dashed underline (same convention as AIText) */
 	.ai-title {
