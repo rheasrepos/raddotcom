@@ -5,11 +5,10 @@
   border-radius: 0;
 }
 
-/* One typeface across the whole site: Inter (a clean grotesque close to
-   Akzidenz). Prefers a real Akzidenz install if present, then the loaded
-   Inter, then system fallbacks. Overrides scattered Arial declarations. */
+/* One typeface across the whole site: Consolas — the raw-text/terminal look.
+   Overrides all scattered Arial/Inter declarations. */
 *, *::before, *::after {
-  font-family: 'Akzidenz-Grotesk', 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+  font-family: 'Consolas', 'Courier New', Courier, monospace !important;
 }
 
 /* Anything clickable shows the hand cursor — no dead-feeling UI. */
