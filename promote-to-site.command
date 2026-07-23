@@ -5,9 +5,17 @@ python3 - << 'PY'
 import os,re,shutil
 src="vault-drafts"; dst="src/vault"
 os.makedirs(dst,exist_ok=True)
+# Rebuild src/vault from scratch each run so renames/unpublishes don't leave
+# stale copies behind. README.md is preserved.
+for root,dirs,files in os.walk(dst, topdown=False):
+    for f in files:
+        if f.endswith(".md") and f != "README.md": os.remove(os.path.join(root,f))
+    for d in dirs:
+        p=os.path.join(root,d)
+        if not os.listdir(p): os.rmdir(p)
 promoted=[]
-# Walk subfolders too (essays/, research/, creative/, ...) — the vault is
-# organized into topic folders; the site reads a flat src/vault.
+# Walk subfolders (essays/media-aesthetics/, ...) and PRESERVE the folder
+# structure — the site shows subfolders inside each category folder.
 for root,dirs,files in os.walk(src):
     # skip hidden dirs (.obsidian, .smart-env), _meta housekeeping, and scraps
     # (scraps are notes/dumps that should never publish, even if flagged)
@@ -17,7 +25,10 @@ for root,dirs,files in os.walk(src):
         t=open(os.path.join(root,f),encoding="utf-8",errors="ignore").read()
         m=re.search(r"^published:\s*(true|false)\s*$",t,re.M)
         if m and m.group(1)=="true":
-            shutil.copy2(os.path.join(root,f),os.path.join(dst,f)); promoted.append(f)
+            rel=os.path.relpath(root,src)
+            outdir=os.path.join(dst,rel) if rel != "." else dst
+            os.makedirs(outdir,exist_ok=True)
+            shutil.copy2(os.path.join(root,f),os.path.join(outdir,f)); promoted.append(os.path.join(rel,f))
 print(f"Promoted {len(promoted)} note(s) to src/vault/:")
 for f in promoted: print("  +",f)
 if promoted:

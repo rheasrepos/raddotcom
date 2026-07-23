@@ -8,7 +8,8 @@ export const categoryConfig = {
 	creative: { id: 'creative', label: 'Creative', color: '#e17055' }, // poems, songs, scripts, radio
 	comedy: { id: 'comedy', label: 'Comedy', color: 'var(--color-comedy)', parent: 'creative' },
 	music: { id: 'music', label: 'Music', color: 'var(--color-music)', parent: 'creative' },
-	recs: { id: 'recs', label: 'Recommendations', color: '#00b894' } // books, music, places, food
+	recs: { id: 'recs', label: 'Recommendations', color: '#00b894' }, // books, music, places, food
+	friends: { id: 'friends', label: 'Field Notes on Rhea', color: '#fd79a8' } // friend-authored notes & quotes
 };
 
 // Helper function to get category display name

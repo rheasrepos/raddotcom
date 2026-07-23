@@ -308,14 +308,36 @@
 		}, 380);
 	}
 
+	// Subfolder navigation inside a category folder (essays/media-aesthetics …)
+	let selectedSubfolder = null;
+	function prettyFolder(s) {
+		return String(s).replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+	}
+	function openSubfolder(s) {
+		selectedSubfolder = s;
+		breadcrumbPath = [...breadcrumbPath.slice(0, 2), prettyFolder(s)];
+	}
+	// Subfolders present in the currently-open category folder
+	$: catSubfolders =
+		breadcrumbPath.length > 1 && !/\d{4}/.test(breadcrumbPath[1])
+			? [...new Set((projects || []).filter((p) => p.type === selectedFilter && p.subfolder).map((p) => p.subfolder))].sort()
+			: [];
+
 	// Breadcrumb helpers — one Back button that does the natural thing
 	function goToDesktop() {
 		viewMode = 'desktop';
 		selectedFilter = 'all';
 		breadcrumbPath = ['Desktop'];
 		previousView = null;
+		selectedSubfolder = null;
 	}
 	function goBackNav() {
+		if (selectedSubfolder) {
+			// step out of the subfolder, back to the category folder
+			selectedSubfolder = null;
+			breadcrumbPath = breadcrumbPath.slice(0, 2);
+			return;
+		}
 		if (previousView) { navigateBack(); return; }
 		if (breadcrumbPath.length > 1 && /\d{4}/.test(breadcrumbPath[1])) {
 			// Came from the By Month folder grid — return there
@@ -438,6 +460,7 @@
 		setTimeout(() => {
 			previousView = { mode: 'categories', category: selectedFilter };
 			selectedFilter = category;
+			selectedSubfolder = null;
 			viewMode = 'all'; // Switch to all view to show the filtered projects
 			breadcrumbPath = ['Desktop', categoryConfig[category].label];
 			folderOpening = false;
@@ -547,8 +570,13 @@
 						const monthMatch = projectDate.getMonth() === currentMonth && projectDate.getFullYear() === currentYear;
 						return monthMatch;
 					} else {
-						// We're in a category folder, show projects from this category
-						return project.type === selectedFilter;
+						// We're in a category folder. If a subfolder is open, show
+						// its posts; otherwise show only posts that sit at the
+						// category root (subfoldered posts appear as folders).
+						if (project.type !== selectedFilter) return false;
+						return selectedSubfolder
+							? project.subfolder === selectedSubfolder
+							: !project.subfolder;
 					}
 				} else {
 					// We're at the root, show all projects
@@ -659,7 +687,7 @@
 					{#if index === breadcrumbPath.length - 1 && breadcrumbPath.length > 1}
 						<span class="breadcrumb-current">{path}</span>
 					{:else}
-						<button class="breadcrumb-link" on:click={goToDesktop}>{path}</button>
+						<button class="breadcrumb-link" on:click={() => { if (index === 0) goToDesktop(); else { selectedSubfolder = null; breadcrumbPath = breadcrumbPath.slice(0, 2); } }}>{path}</button>
 					{/if}
 				{/each}
 			</div>
@@ -772,6 +800,27 @@
 						</div>
 					{/each}
 				{:else if viewMode === 'all'}
+					<!-- Subfolders inside the open category folder -->
+					{#if !selectedSubfolder}
+						{#each catSubfolders as sub (sub)}
+							<div
+								class="desktop-icon"
+								on:click={() => openSubfolder(sub)}
+								on:keydown={(e) => e.key === 'Enter' && openSubfolder(sub)}
+								tabindex="0"
+								role="button"
+								aria-label="Open {prettyFolder(sub)} folder"
+							>
+								<div class="mac-icon">
+									<svg viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
+										<path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999999" stroke-width="1.2"/>
+										<rect x="0" y="11" width="56" height="35" fill="#e8e8e8" stroke="#999999" stroke-width="1.2"/>
+									</svg>
+								</div>
+								<div class="mac-icon-label">{prettyFolder(sub)}</div>
+							</div>
+						{/each}
+					{/if}
 					<!-- Posts as Mac-style document icons -->
 					{#each projectsWithDates as project (project.id)}
 						<div

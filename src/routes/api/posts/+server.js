@@ -100,7 +100,7 @@ function deriveForm(frontmatter) {
 // request time. On Vercel the serverless function only ships traced JS —
 // loose files like src/vault/*.md don't exist on its filesystem, which is
 // why runtime readdir() silently returned [] in production.
-const vaultRaw = import.meta.glob('/src/vault/*.md', {
+const vaultRaw = import.meta.glob('/src/vault/**/*.md', {
 	eager: true,
 	query: '?raw',
 	import: 'default'
@@ -123,6 +123,10 @@ export async function GET() {
 		for (const [path, raw] of Object.entries(vaultRaw)) {
 			const file = path.split('/').pop();
 			if (file === 'README.md') continue;
+			// /src/vault/<top>/<sub>/file.md → subfolder "sub" (shown as a
+			// folder inside the category folder on the desktop)
+			const rel = path.replace('/src/vault/', '').split('/');
+			const subfolder = rel.length >= 3 ? rel[rel.length - 2] : null;
 			const { data: frontmatter, content: body } = matter(raw);
 			// Only publish notes with published: true
 			if (!frontmatter.published) continue;
@@ -145,7 +149,9 @@ export async function GET() {
 				// tags power the /network graph cross-links between posts
 				tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
 				// form badge: paper | discussion post | blog post | …
-				form: deriveForm(frontmatter)
+				form: deriveForm(frontmatter),
+				// vault subfolder (e.g. "media-aesthetics") for on-site folders
+				subfolder
 			});
 		}
 
