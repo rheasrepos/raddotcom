@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "3ed59b0574da0256",
+        "id": "e8c75d54e58bfa0b",
         "type": "tabs",
         "children": [
           {
-            "id": "795af731810c32c1",
+            "id": "f082d424945f8f80",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -70,8 +70,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -177,6 +176,6 @@
       "bases:Create new base": false
     }
   },
-  "active": "795af731810c32c1",
+  "active": "f082d424945f8f80",
   "lastOpenFiles": []
 }
