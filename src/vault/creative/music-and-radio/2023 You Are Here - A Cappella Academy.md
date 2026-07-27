@@ -1,5 +1,5 @@
 ---
-title: ""You are Here" - from A Cappella Academy"
+title: "'You are Here' - from A Cappella Academy"
 date: 2023
 date_approx: true
 type: music
