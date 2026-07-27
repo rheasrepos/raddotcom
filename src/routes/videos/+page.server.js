@@ -17,6 +17,14 @@ const CHANNELS = [
 	}
 ];
 
+// Groups Rhea sings/performs with. These live as links, not as posts — the
+// work is the video, not a résumé line. Add a `id:` to pull in their uploads.
+const GROUPS = [
+	{ name: 'Voices In Your Head', url: 'https://www.youtube.com/@VoicesInYourHead', note: 'a cappella, UChicago' },
+	{ name: 'A Cappella Academy', url: 'https://www.youtube.com/@acappellaacademy', note: 'summer program' },
+	{ name: 'Off-Off Campus', url: 'https://www.youtube.com/@offoffcampus', note: "improv & sketch — UChicago" }
+];
+
 function decode(s) {
 	return s
 		.replace(/&amp;/g, '&')
@@ -60,5 +68,5 @@ export async function load({ fetch }) {
 			}
 		})
 	);
-	return { channels };
+	return { channels, groups: GROUPS };
 }

@@ -594,7 +594,11 @@
 						// We're in a category folder. If a subfolder is open, show
 						// its posts; otherwise show only posts that sit at the
 						// category root (subfoldered posts appear as folders).
-						if (project.type !== selectedFilter) return false;
+						// A parent category (Creative) also holds its children's posts.
+						const childIds = Object.values(categoryConfig)
+							.filter((c) => c.parent === selectedFilter)
+							.map((c) => c.id);
+						if (project.type !== selectedFilter && !childIds.includes(project.type)) return false;
 						return selectedSubfolder
 							? project.subfolder === selectedSubfolder
 							: !project.subfolder;
@@ -780,11 +784,13 @@
 						</div>
 						<div class="mac-icon-label">Videos</div>
 					</div>
-					<!-- Desktop: category folders + any loose files -->
+					<!-- Desktop: top-level category folders only. Child categories
+					     (Comedy, Music) live inside their parent (Creative). -->
 					{#each categories as category}
 						{@const categoryInfo = categoryConfig[category.id]}
-						{@const count = (projects || []).filter(p => p.type === category.id).length}
-						{#if count > 0}
+						{@const kids = categories.filter(c => c.parent === category.id).map(c => c.id)}
+						{@const count = (projects || []).filter(p => p.type === category.id || kids.includes(p.type)).length}
+						{#if count > 0 && !categoryInfo.parent}
 							<div
 								class="desktop-icon"
 								on:click={() => openCategoryFolder(category.id)}
@@ -833,6 +839,30 @@
 						</div>
 					{/each}
 				{:else if viewMode === 'all'}
+					<!-- Child categories appear as folders inside their parent -->
+					{#if !selectedSubfolder}
+						{#each categories.filter(c => c.parent === selectedFilter) as child (child.id)}
+							{@const n = (projects || []).filter(p => p.type === child.id).length}
+							{#if n > 0}
+								<div
+									class="desktop-icon"
+									on:click={() => openCategoryFolder(child.id)}
+									on:keydown={(e) => e.key === 'Enter' && openCategoryFolder(child.id)}
+									tabindex="0"
+									role="button"
+									aria-label="Open {child.label} folder"
+								>
+									<div class="mac-icon">
+										<svg viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
+											<path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999999" stroke-width="1.2"/>
+											<rect x="0" y="11" width="56" height="35" fill="#e8e8e8" stroke="#999999" stroke-width="1.2"/>
+										</svg>
+									</div>
+									<div class="mac-icon-label">{child.label}</div>
+								</div>
+							{/if}
+						{/each}
+					{/if}
 					<!-- Subfolders inside the open category folder -->
 					{#if !selectedSubfolder}
 						{#each catSubfolders as sub (sub)}

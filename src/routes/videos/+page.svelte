@@ -14,6 +14,7 @@
 	].map((v) => ({ ...v, thumb: `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg` }));
 
 	const channels = data?.channels ?? [];
+	const groups = data?.groups ?? [];
 
 	// Click-to-play lightbox.
 	let active = null;
@@ -43,6 +44,14 @@
 <PageLayout title="Videos - Rhea Madhogarhia">
 	<section class="videos-page">
 		<a class="back-desktop" href="/">← Back to Desktop</a>
+		{#if groups.length}
+			<nav class="groups" aria-label="Groups I perform with">
+				<span class="groups-label">Groups I sing / perform with:</span>
+				{#each groups as g}
+					<a class="group-link" href={g.url} target="_blank" rel="noopener noreferrer">{g.name} <span class="group-note">({g.note})</span></a>
+				{/each}
+			</nav>
+		{/if}
 		<header class="videos-head">
 			<h1 class="videos-title">Music &amp; Video</h1>
 			<p class="videos-sub"><AIText>Everything I make, pulled from both channels. Click any thumbnail to play.</AIText></p>
@@ -146,6 +155,27 @@
 	.back-desktop:hover {
 		background: #fff;
 	}
+
+	/* Group memberships live as links, not as posts */
+	.groups {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 10px;
+		margin: 14px 0 6px;
+		font-size: 0.85rem;
+	}
+	.groups-label { font-weight: 700; }
+	.group-link {
+		border: 1px solid #000;
+		background: #fff;
+		padding: 3px 9px;
+		text-decoration: none;
+		color: #000;
+	}
+	.group-link:hover { background: #000; color: #fff; }
+	.group-note { color: #666; }
+	.group-link:hover .group-note { color: #ddd; }
 
 	.videos-head {
 		text-align: center;

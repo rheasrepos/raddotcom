@@ -1,14 +1,16 @@
 // One place to rename the site — everything reads from here.
 
-// The title rotates: a different one each visit. Edit/reorder freely;
-// delete all but one to lock a single name.
+// Official name. (The rotating-title experiment is kept below but switched off;
+// set ROTATE = true and it cycles through SITE_NAMES again.)
+export const SITE_NAME = 'RHEA.COM';
+export const ROTATE = false;
+
 export const SITE_NAMES = [
-	'RAD.COM',
 	'RHEA.COM',
+	'RAD.COM',
 	'MY.COM',
 	'DIGITAL HAUL',
 	'DATA HAUL',
-	'DATA HAUL.COM',
 	'CONSUMER HAUL',
 	'2D HAUL',
 	'SCRAPBOOKING',
@@ -40,8 +42,9 @@ export const SITE_NAMES = [
 export const SITE_TAGLINE = 'a public personal archive — essays, research, sketches, songs';
 export const SITE_AUTHOR = 'Rhea Madhogarhia';
 
-/** Pick a name for this visit (stable within a session). */
+/** The site's name. Rotates only if ROTATE is turned on. */
 export function siteName() {
+	if (!ROTATE) return SITE_NAME;
 	if (typeof sessionStorage !== 'undefined') {
 		const saved = sessionStorage.getItem('siteName');
 		if (saved && SITE_NAMES.includes(saved)) return saved;
@@ -49,5 +52,5 @@ export function siteName() {
 		try { sessionStorage.setItem('siteName', pick); } catch {}
 		return pick;
 	}
-	return SITE_NAMES[0];
+	return SITE_NAME;
 }
