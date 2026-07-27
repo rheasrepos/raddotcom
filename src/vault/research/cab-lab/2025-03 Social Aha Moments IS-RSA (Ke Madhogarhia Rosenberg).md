@@ -7,7 +7,7 @@ date: 2025-03-12
 type: research
 published: true
 tags: [academic/neuroscience, fmri]
-form: [lab-research]
+form: [publication]
 affiliation: uchicago
 ---
 

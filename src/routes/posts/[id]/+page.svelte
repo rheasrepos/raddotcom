@@ -119,6 +119,26 @@
 					</button>
 				</div>
 
+				{#if post.video}
+					{@const vid = (String(post.video).match(/(?:v=|youtu\.be\/|embed\/)([\w-]{6,})/) || [])[1]}
+					{#if vid}
+						<div class="video-embed">
+							<iframe
+								src="https://www.youtube.com/embed/{vid}"
+								title={post.title}
+								allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+								allowfullscreen
+							></iframe>
+						</div>
+					{/if}
+				{/if}
+
+				{#if post.doi}
+					<p class="pub-links">
+						<a href={post.doi} target="_blank" rel="noopener noreferrer">Read the paper on bioRxiv ↗</a>
+					</p>
+				{/if}
+
 				{#if view === 'doc' && post.pdf}
 					<!-- The original, as submitted — real formatting preserved -->
 					<div class="pdf-reader">
@@ -218,6 +238,30 @@
 		line-height: 1.2;
 		margin: 0 0 0.5rem;
 	}
+	/* Embedded video */
+	.video-embed {
+		position: relative;
+		width: 100%;
+		padding-top: 56.25%;
+		border: 2px solid #000;
+		background: #000;
+		margin: 16px 0;
+	}
+	.video-embed iframe {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		border: none;
+	}
+	.pub-links {
+		border: 2px solid #000;
+		background: #fffbea;
+		padding: 10px 12px;
+		font-size: 0.9rem;
+		margin: 14px 0;
+	}
+
 	/* Embedded PDF reader */
 	.pdf-reader {
 		margin-top: 20px;

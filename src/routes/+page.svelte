@@ -763,27 +763,8 @@
 			<!-- Desktop Icons (empty-space clicks bubble up as "go full screen") -->
 			<div class="desktop-icons" on:click={(e) => { if (!surfing && e.target === e.currentTarget) surf(); }}>
 				{#if viewMode === 'desktop'}
-					<!-- Music: opens the video gallery (embeds both YouTube channels) -->
-					<div
-						class="desktop-icon"
-						on:click={() => handleNavigation('/videos')}
-						on:keydown={(e) => e.key === 'Enter' && handleNavigation('/videos')}
-						tabindex="0"
-						role="button"
-						aria-label="Open Videos folder"
-					>
-						<div class="mac-icon">
-							<svg viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
-								<path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999999" stroke-width="1.2"/>
-								<rect x="0" y="11" width="56" height="35" rx="3" fill="#e8e8e8" stroke="#999999" stroke-width="1.2"/>
-								<path d="M34 20 L34 33" stroke="#333333" stroke-width="2" stroke-linecap="round"/>
-								<path d="M34 20 L44 17 L44 30" stroke="#333333" stroke-width="2" stroke-linecap="round" fill="none"/>
-								<circle cx="31" cy="33" r="3.2" fill="#333333"/>
-								<circle cx="41" cy="30" r="3.2" fill="#333333"/>
-							</svg>
-						</div>
-						<div class="mac-icon-label">Videos</div>
-					</div>
+					<!-- Videos are posts (form: video), not a folder — they live in
+					     Creative / Comedy / Music alongside everything else. -->
 					<!-- Desktop: top-level category folders only. Child categories
 					     (Comedy, Music) live inside their parent (Creative). -->
 					{#each categories as category}

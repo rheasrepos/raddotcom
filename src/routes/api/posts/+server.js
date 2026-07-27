@@ -171,7 +171,11 @@ export async function GET() {
 				// vault subfolder (e.g. "media-aesthetics") for on-site folders
 				subfolder,
 				// link: external project URL — shows an "Open project ↗" action
-				link: frontmatter.link || null
+				link: frontmatter.link || null,
+				// video: a YouTube URL — the post embeds the player
+				video: frontmatter.video || null,
+				// doi / paperUrl: publications link out to the real record
+				doi: frontmatter.doi || null
 			});
 		}
 

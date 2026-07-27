@@ -6,8 +6,9 @@ description: "Cortical reinstatement of causally related events sparks narrative
 date: 2025-03-12
 type: research
 published: true
+doi: https://doi.org/10.1101/2025.03.12.642853
 tags: [academic/neuroscience, fmri]
-form: [lab-research]
+form: [publication]
 affiliation: uchicago
 ---
 
