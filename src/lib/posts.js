@@ -160,7 +160,8 @@ export function getProjectColor(type) {
 		coursework: '#78909c',
 		creative: '#e17055',
 		recs: '#00b894',
-		friends: '#fd79a8'
+		friends: '#fd79a8',
+		artifacts: '#b26b3f'
 	};
 	return colors[/** @type {keyof typeof colors} */ (type)] || '#95a5a6';
 }

@@ -1,5 +1,6 @@
 ---
 title: "HUMA: Media Aesthetics — Q1 Final Essay"
+ai_title: true
 date: 2022-12-09
 type: essays
 academic: true
@@ -7,7 +8,9 @@ course: HUMA Media Aesthetics
 published: true
 pdf: /docs/2022-23-final-q1-huma-essay-rhea-madhogarhia.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/Media Aesthetics /Q1/FINAL Q1 HUMA ESSAY RHEA MADHOGARHIA.docx
-tags: [essay, academic/media-studies/film-analysis]
+tags: [academic/media-studies/film-analysis]
+form: [essay]
+affiliation: uchicago
 genre: Film/Media
 ---
 Rhea Madhogarhia
@@ -35,3 +38,8 @@ Works Cited
 Baudrillard, Jean. Simulations. Translated by Philip Beitchman, Semiotext(e), 1983. 
 
 “Pretend Daddy.” The Rehearsal, created by Nathan Fielder, season 1, episode 6, HBO, 2022.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · media-studies]]
+- [[Topic - academic · media-studies · film-analysis]]

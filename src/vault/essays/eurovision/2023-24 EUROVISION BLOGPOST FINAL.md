@@ -1,5 +1,6 @@
 ---
 title: "EUROVISION: The Moment Itself: Chicagovision 2024 - “The Moment”"
+ai_title: true
 date: 2024-05-20
 type: essays
 academic: true
@@ -7,7 +8,9 @@ course: MUSI Eurovision
 published: true
 pdf: /docs/2023-24-eurovision-blogpost-final.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q3/Eurovision Y2Q3/EUROVISION BLOGPOST FINAL.docx
-tags: [academic, creative/music/eurovision, writing/blog, performance]
+tags: [academic, creative/music/eurovision, performance]
+form: [blog]
+affiliation: uchicago
 genre: Blog
 ---
 The Moment Itself: Chicagovision 2024 - “The Moment”
@@ -53,3 +56,9 @@ Neither you forgot, nor have I moved on
 Don’t fool yourself come on oh
 
 – GULSHENS, “Sarışınım”, Turkey’s entry in Chicagovision 2024
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - creative]]
+- [[Topic - performance]]
+- [[Topic - creative · music]]

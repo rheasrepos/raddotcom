@@ -1,12 +1,16 @@
 ---
 title: "UCD: Reading Response — Sound Awareness for DHH (Jain et al)"
+ai_title: true
 date: 2026-01-20
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/2026-01-20-ucd-reading-response-4-sound-awareness-for-dhh-jain-et-al.pdf
 source: raddotcom Vault/2026-01-20 Reading Response
-tags: [academic/hci/user-centered-design, reading-response, accessibility]
+tags: [academic/hci/user-centered-design, accessibility]
+form: [reading-response]
+affiliation: uchicago
 genre: user-centered-design
 ---
 
@@ -39,3 +43,9 @@ and style. To apply these findings to inclusive technology design, I would focus
 cost-effectiveness aspects mentioned by participants. For example, since loudness perception can be
 subjective or hard to visualize, I would design a sort of calibration step where a trusted hearing person
 helps the DHH user define what constitutes "loud" versus "soft" in their specific environment.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · hci]]
+- [[Topic - academic · hci · user-centered-design]]
+- [[Topic - accessibility]]

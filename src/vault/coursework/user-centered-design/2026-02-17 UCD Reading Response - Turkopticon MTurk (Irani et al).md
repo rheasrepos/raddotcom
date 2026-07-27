@@ -1,12 +1,16 @@
 ---
 title: "UCD: Reading Response — Turkopticon (Irani et al)"
+ai_title: true
 date: 2026-02-17
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/2026-02-17-ucd-reading-response-turkopticon-mturk-irani-et-al.pdf
 source: raddotcom Vault/2026-02-17 irani reading response.pdf
-tags: [academic/hci/user-centered-design, reading-response]
+tags: [academic/hci/user-centered-design]
+form: [reading-response]
+affiliation: uchicago
 genre: user-centered-design
 ---
 
@@ -45,3 +49,8 @@ apply these ideas to inclusive technology design, I would focus on building acco
 mechanisms directly into gig platforms from the start, rather than leaving that work to external tools.
 Building in spaces where workers can collectively track and share data on their conditions would be a
 design priority from the beginning, not an afterthought.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · hci]]
+- [[Topic - academic · hci · user-centered-design]]

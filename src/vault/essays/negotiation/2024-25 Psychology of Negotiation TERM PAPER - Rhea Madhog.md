@@ -1,5 +1,6 @@
 ---
 title: "NEGOTIATION: Term Paper"
+ai_title: true
 date: 2025-03-12
 type: essays
 academic: true
@@ -8,6 +9,7 @@ published: true
 pdf: /docs/2024-25-psychology-of-negotiation-term-paper-rhea-madhog.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Third Year/Y3Q2/psych of negotiation/Psychology of Negotiation TERM PAPER - Rhea Madhog.docx
 tags: [academic/psychology/negotiation, emotion]
+affiliation: uchicago
 genre: Essay
 ---
 Rhea Madhogarhia
@@ -73,3 +75,9 @@ Abstract: The behavioral decision-making and negotiations literature usually adv
 Swift, Samuel A, and Don Moore. “Bluffing, Agonism, and the Role of Overconfidence in Negotiation.” Oxford University Press EBooks, 28 Dec. 2012, pp. 266–278, https://doi.org/10.1093/oxfordhb/9780199730858.013.0019. Accessed 25 Nov. 2024
 
 Abstract: This article investigates the impact of overconfidence on bargaining behavior, especially bluffing, and determines the conditions under which overconfident negotiators are advantaged or disadvantaged. Example of conflict resolution in the animal world is presented as an illuminating parallel to the decisions human negotiators make in pursuing the scarce resources they desire. Despite the problems produced by overconfidence in negotiation, it is possible that there are benefits of sufficient magnitude to offset the costs. A positive relationship between aspirations and outcomes is clearly noted. The formidable challenge to negotiators is to balance the advantages of confident behaviors with the liabilities of overconfident beliefs. The evidence of the benefits of overconfidence indicates that the behaviors associated with overconfidence, such as brazen requests and persistence, positively affect outcomes assuming that an agreement is reached.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · psychology]]
+- [[Topic - academic · psychology · negotiation]]
+- [[Topic - emotion]]

@@ -1,5 +1,6 @@
 ---
 title: "HUMA: Media Aesthetics — Q2 Essay 1"
+ai_title: true
 date: 2023-01-28
 type: essays
 academic: true
@@ -7,7 +8,9 @@ course: HUMA Media Aesthetics
 published: true
 pdf: /docs/2022-23-q2-huma-essay-1-rhea-madhogarhia.pdf
 source: "/Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/Media Aesthetics /Q2 HUMA ESSAY #1 Rhea Madhogarhia.docx"
-tags: [essay, academic/media-studies/film-analysis, language]
+tags: [academic/media-studies/film-analysis, language]
+form: [essay]
+affiliation: uchicago
 genre: Film/Media
 ---
 Rhea Madhogarhia
@@ -37,3 +40,9 @@ Chandler, Daniel. Semiotics: The Basics. Routledge, Taylor &amp; Francis Group, 
 T., Mitchell W J, et al. “Systems.” Critical Terms for Media Studies, The University of Chicago
 
 Press, Chicago, 2010, pp. 297–310.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · media-studies]]
+- [[Topic - academic · media-studies · film-analysis]]
+- [[Topic - language]]

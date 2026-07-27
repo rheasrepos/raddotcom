@@ -79,6 +79,23 @@ export async function POST({ request }) {
 // What KIND of writing is this? Derived from form tags / genre so the site
 // can distinguish a term paper from a discussion post from a blog post.
 function deriveForm(frontmatter) {
+	// `form:` is now an explicit frontmatter field (forms are genre, not subject —
+	// they live outside `tags:` so they never appear as topics in the graph).
+	if (Array.isArray(frontmatter.form) && frontmatter.form.length) {
+		const LABEL = {
+			'discussion-post': 'discussion post', 'reading-response': 'reading response',
+			'journal-critique': 'journal critique', 'personal-essay': 'personal essay',
+			'think-piece': 'think piece', 'college-essays': 'college essay',
+			'meeting-notes': 'meeting notes', 'project-planning': 'project planning',
+			'personal-statement': 'personal statement', 'teaching-philosophy': 'teaching philosophy',
+			'lab-research': 'lab research', 'research-paper': 'research paper',
+			essay: 'paper', blog: 'blog post'
+		};
+		const f = String(frontmatter.form[0]);
+		return LABEL[f] || f;
+	}
+	if (typeof frontmatter.form === 'string' && frontmatter.form) return frontmatter.form;
+
 	const tags = (Array.isArray(frontmatter.tags) ? frontmatter.tags : []).map(String);
 	const genre = String(frontmatter.genre || '').toLowerCase();
 	const has = (t) => tags.some((x) => x === t || x.startsWith(t + '/'));
@@ -141,8 +158,9 @@ export async function GET() {
 				iconImage: frontmatter.iconImage || null,
 				// loose: true floats the note directly on the desktop
 				loose: frontmatter.loose === true,
-				// ai_title: true marks the title as AI-drafted (dashed underline)
+				// ai_title / ai_description mark AI-drafted text (dashed underline)
 				aiTitle: frontmatter.ai_title === true || frontmatter.aiTitle === true,
+				aiDescription: frontmatter.ai_description === true || frontmatter.aiDescription === true,
 				// pdf: "/docs/my-paper.pdf" embeds a PDF reader on the post page
 				// (put the file in static/docs/; the note body becomes the intro)
 				pdf: frontmatter.pdf || null,

@@ -1,5 +1,6 @@
 ---
 title: "PSYCH ANTHRO: Cultural Schemas Influence on Emotional Expression and Socialization"
+ai_title: true
 date: 2024-04-22
 type: essays
 academic: true
@@ -8,6 +9,7 @@ published: true
 pdf: /docs/2023-24-psych-anthro-3-page-paper.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q3/Psychological Anthropology Y2Q3/Psych Anthro 3 page paper.docx
 tags: [academic/psychology/anthropology, culture, emotion]
+affiliation: uchicago
 genre: Essay
 ---
 Rhea Madhogarhia
@@ -35,3 +37,10 @@ D’Andrade, Roy G. “Cognitive Anthropology.” New Directions in Psychologica
 Lutz, Catherine. “Parental goals, ethnopsychology, and the development of emotional meaning.” Ethos, vol. 11, no. 4, Dec. 1983, pp. 246–262, https://doi.org/10.1525/eth.1983.11.4.02a00040.
 
 Wikan, Unni. “Managing the heart to brighten face and soul: Emotions in Balinese morality and health care.” American Ethnologist, vol. 16, no. 2, May 1989, pp. 294–312, https://doi.org/10.1525/ae.1989.16.2.02a00070.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · psychology]]
+- [[Topic - academic · psychology · anthropology]]
+- [[Topic - culture]]
+- [[Topic - emotion]]

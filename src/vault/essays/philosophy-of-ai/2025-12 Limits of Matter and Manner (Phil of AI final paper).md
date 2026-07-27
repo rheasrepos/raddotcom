@@ -1,10 +1,14 @@
 ---
 title: "PHIL OF AI: Limits of Matter and Manner"
+ai_title: true
 date: 2025-12-15
 type: essays
 published: true
+pdf: /docs/2025-12-limits-of-matter-and-manner-phil-of-ai-final-paper.pdf
 recovered_from: Desktop/University of Chicago/Year 4/Recovered Writing/All Writing/2025-12-15 PHIL OF AI MIND AND MATTER FINAL PAPER.md
-tags: [academic/philosophy/philosophy-of-ai, ai/machine-learning/interpretability, essay, consciousness]
+tags: [academic/philosophy/philosophy-of-ai, ai/machine-learning/interpretability, consciousness]
+form: [essay]
+affiliation: uchicago
 ---
 
 Tab 1
@@ -45,3 +49,12 @@ Thank you for an awesome quarter!
 Extra:
  I put my essay into Gemini, asking it to tell me what it thinks my argument/conclusion is (a quick 2 am sanity check), and here is how it summarized (but also confirming here that I did not use Gen AI to write any of the above!). You can tell that it took “conclusion” literally since it seems to directly summarize my last 4-5 sentences.
 “The human mind is backed into an illusory corner: the very complexity that makes the AI seem intelligent is the same complexity that prevents us from verifying its intelligence. Our anthropomorphism of AI is ultimately a testament to the success of LLM design in perfectly mimicking the output of reason, and a testament to our own cognitive capacities, which demand a shortcut when faced with overwhelming complexity.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - ai]]
+- [[Topic - ai · machine-learning]]
+- [[Topic - academic · philosophy]]
+- [[Topic - academic · philosophy · philosophy-of-ai]]
+- [[Topic - ai · machine-learning · interpretability]]
+- [[Topic - consciousness]]

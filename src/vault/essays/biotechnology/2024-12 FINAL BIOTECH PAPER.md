@@ -1,5 +1,6 @@
 ---
 title: "BIOTECH: Final Paper"
+ai_title: true
 date: 2024-12-12
 type: essays
 academic: true
@@ -8,6 +9,8 @@ published: true
 pdf: /docs/2024-12-final-biotech-paper.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Third Year/Y3Q1/biotechnology/FINAL BIOTECH PAPER!.docx
 tags: [academic/natural-science, academic/biology/biotech]
+
+affiliation: uchicago
 genre: Essay
 ---
 Rhea Madhogarhia
@@ -79,3 +82,8 @@ World Health Organization. (2019, December 4). Biological weapons. Who.int; Worl
 World Health Organization. (2020, February 12). COVID-19 Public Health Emergency of International Concern (PHEIC) Global research and innovation forum. Www.who.int. https://www.who.int/publications/m/item/covid-19-public-health-emergency-of-international-concern-(pheic)-global-research-and-innovation-forum
 
 World Health Organization. (2024). COVID-19 deaths | WHO COVID-19 dashboard. World Health Organization Data. https://data.who.int/dashboards/covid19/deaths?n=o
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · biology]]
+- [[Topic - academic · biology · biotech]]

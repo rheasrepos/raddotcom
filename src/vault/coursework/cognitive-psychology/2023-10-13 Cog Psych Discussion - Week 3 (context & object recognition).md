@@ -1,12 +1,15 @@
 ---
 title: "COG PSYCH: Discussion Week 3 — Context & Object Recognition"
+ai_title: true
 date: 2023-10-13
 type: coursework
 academic: true
 course: Cognitive Psychology
 published: true
 source: raddotcom Vault/2023-10-13 Rhea Discussion Paper Week 3 Cog Psych.pdf
-tags: [academic/psychology/cognitive-psychology, discussion-post, perception]
+tags: [academic/psychology/cognitive-psychology, perception]
+form: [discussion-post]
+affiliation: uchicago
 genre: discussion-post
 ---
 
@@ -44,3 +47,9 @@ we take for granted and the expectation and experiences we bring to our daily li
 important part of understanding top down processing, is important for our own mental
 stability/reinforcement of learned mental categories/organization and ability to survive and
 navigate the world.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · psychology]]
+- [[Topic - academic · psychology · cognitive-psychology]]
+- [[Topic - perception]]

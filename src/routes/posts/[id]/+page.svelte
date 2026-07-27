@@ -96,6 +96,9 @@
 
 			<article class="reader">
 				<h1 class="reader-title" class:ai-title={post.aiTitle} title={post.aiTitle ? 'Title drafted with AI assistance' : undefined}>{post.title}</h1>
+				{#if post.description}
+					<p class="reader-desc" class:ai-desc={post.aiDescription} title={post.aiDescription ? 'Description drafted with AI assistance' : undefined}>{post.description}</p>
+				{/if}
 				<div class="reader-meta">
 					{formatDate(post.date)} · <span style="color: {getProjectColor(post.type)}">{post.type}</span>
 					{#if post.form}<span class="reader-form">{post.form}</span>{/if}
@@ -263,6 +266,7 @@
 		margin-left: 6px;
 		white-space: nowrap;
 	}
+	.reader-desc { font-size: 0.95rem; color: #333; margin: 0 0 6px; }
 	.reader-meta {
 		font-size: 0.85rem;
 		color: #555;

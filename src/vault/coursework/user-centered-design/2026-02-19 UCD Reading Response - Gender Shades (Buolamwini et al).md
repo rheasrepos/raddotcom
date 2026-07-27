@@ -1,12 +1,16 @@
 ---
 title: "UCD: Reading Response — Gender Shades (Buolamwini et al)"
+ai_title: true
 date: 2026-02-19
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/2026-02-19-ucd-reading-response-gender-shades-buolamwini-et-al.pdf
 source: raddotcom Vault/2026-02-19 Reading Response UCD Buolamwini, Gender Shades.pdf
-tags: [academic/hci/user-centered-design, reading-response]
+tags: [academic/hci/user-centered-design]
+form: [reading-response]
+affiliation: uchicago
 genre: user-centered-design
 ---
 
@@ -51,3 +55,8 @@ which they are used: medicine, criminalization, scientific research, etc. Furthe
 about aggregating performance metrics too much when the model actually performs variably on diverse
 parts of a data set. That being said, it’s also important to keep track of what your dataset is representative
 of to ensure that the use cases of a specific model are appropriately communicated.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · hci]]
+- [[Topic - academic · hci · user-centered-design]]

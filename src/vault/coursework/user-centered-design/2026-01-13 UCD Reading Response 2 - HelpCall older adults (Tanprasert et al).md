@@ -1,12 +1,15 @@
 ---
 title: "UCD: Reading Response — HelpCall for Older Adults (Tanprasert et al)"
+ai_title: true
 date: 2026-01-13
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
 source: raddotcom Vault/2026-01-13 reading response
-tags: [academic/hci/user-centered-design, reading-response, accessibility]
+tags: [academic/hci/user-centered-design, accessibility]
+form: [reading-response]
+affiliation: uchicago
 genre: user-centered-design
 ---
 
@@ -37,3 +40,9 @@ current VMC tools; if requesting help requires navigating digital forms foreign 
 failing the users who need it the most. Overall, I think inclusive design sometimes needs to "go analog" or
 simplify the initial request phase to actually be accessible to this demographic. I wonder what the analog
 of offering a service like this would look like: flyers? Newspaper listings? Phonebooks?
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · hci]]
+- [[Topic - academic · hci · user-centered-design]]
+- [[Topic - accessibility]]

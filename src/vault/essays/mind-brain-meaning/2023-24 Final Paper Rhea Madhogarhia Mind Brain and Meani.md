@@ -1,5 +1,6 @@
 ---
 title: "MBM: Final Paper"
+ai_title: true
 date: 2024-03-08
 type: essays
 academic: true
@@ -8,6 +9,8 @@ published: true
 pdf: /docs/2023-24-final-paper-rhea-madhogarhia-mind-brain-and-meani.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q2/Final Paper Rhea Madhogarhia, Mind Brain and Meani.docx
 tags: [academic/cognitive-science, ai, academic/philosophy/philosophy-of-mind, consciousness]
+
+affiliation: uchicago
 genre: Essay
 ---
 Rhea Madhogarhia
@@ -45,3 +48,11 @@ Mandelkern, Matthew, and Tal Linzen. Do Language Models Refer?, 4 Mar. 2024.
 Nagel, Thomas. “What is it like to be a bat?” The Philosophical Review, vol. 83, no. 4, Oct. 1974, p. 435, https://doi.org/10.2307/2183914.
 
 Richards, Blake A., and Timothy P. Lillicrap. “The brain-computer metaphor debate is useless: A matter of semantics.” Frontiers in Computer Science, vol. 4, 8 Feb. 2022, https://doi.org/10.3389/fcomp.2022.810358.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - ai]]
+- [[Topic - academic · philosophy]]
+- [[Topic - academic · cognitive-science]]
+- [[Topic - academic · philosophy · philosophy-of-mind]]
+- [[Topic - consciousness]]

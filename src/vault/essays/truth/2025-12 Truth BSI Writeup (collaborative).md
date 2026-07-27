@@ -1,10 +1,13 @@
 ---
 title: "TRUTH: Bullshit Detection Instrument — Collaborative Writeup"
+ai_title: true
 date: 2025-12-08
 type: essays
 published: true
 recovered_from: Desktop/University of Chicago/Year 4/Recovered Writing/All Writing/Rhea Madhogarhia Truth BSI Writeup.md
-tags: [academic/philosophy, essay, truth, bullshit-detection]
+tags: [academic/philosophy, truth, bullshit-detection]
+form: [essay]
+affiliation: uchicago
 ---
 
 Collaborative Writeup
@@ -35,3 +38,7 @@ While the implementation of this project was led by Nolan, I contributed several
 Furthermore, I created a Python script that scraped the X frontend for tweets from several users (including Donald Trump, Rihanna, Hillary Clinton, Barack Obama, JD Vance, and two humorous tweeters I’ve been following from high school) that Nolan could use as training and testing data. I, along with the rest of my teammates, then labeled this data so that the model could be provided with a human-ground truth evaluation alongside its predictions. 
 
 Finally, I helped create the presentation; I drafted our “how might we detect bullshit?” slide and provided my less technical teammates with descriptions of what each part of Nolan’s code did. Although we didn’t have a dedicated slide for this, I noticed that other groups were making quite negative cases for LLM usage in the context of this project, so I made sure to address their concerns verbally during our presentation. Overall, I think I made significant contributions to this project outside of the actual implementation and programming of Prepost AI.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · philosophy]]

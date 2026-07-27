@@ -1,12 +1,15 @@
 ---
 title: "COG PSYCH: Take-Home Final Essay Exam"
+ai_title: true
 date: 2023-12-07
 type: essays
 academic: true
 course: Cognitive Psychology
 published: true
 source: raddotcom Vault/2023-12-07 Cognitive Psychology Final.pdf
-tags: [academic/psychology/cognitive-psychology, essay]
+tags: [academic/psychology/cognitive-psychology]
+form: [essay]
+affiliation: uchicago
 genre: exam
 ---
 
@@ -265,3 +268,8 @@ evidence that there is a connection between mind wandering and creativity facili
 default mode network (pg. 384-385, textbook). It’s hard to forget what you know, because
 sometimes it’s all you can hang on to, but that release of attentional control can let your mind
 reframe its view and go where you didn’t know you needed it!
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · psychology]]
+- [[Topic - academic · psychology · cognitive-psychology]]

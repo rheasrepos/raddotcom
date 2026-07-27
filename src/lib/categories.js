@@ -10,7 +10,8 @@ export const categoryConfig = {
 	comedy: { id: 'comedy', label: 'Comedy', color: 'var(--color-comedy)', parent: 'creative' },
 	music: { id: 'music', label: 'Music', color: 'var(--color-music)', parent: 'creative' },
 	recs: { id: 'recs', label: 'Recommendations', color: '#00b894' }, // books, music, places, food
-	friends: { id: 'friends', label: 'Field Notes on Rhea', color: '#fd79a8' } // friend-authored notes & quotes
+	friends: { id: 'friends', label: 'Field Notes on Rhea', color: '#fd79a8' }, // friend-authored notes & quotes
+	artifacts: { id: 'artifacts', label: 'Analog Archive', color: '#b26b3f' } // scanned physical objects & art
 };
 
 // Helper function to get category display name

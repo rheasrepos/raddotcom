@@ -1,12 +1,15 @@
 ---
 title: "S&P: Journal Critique 2 — Spatial Hearing in Blindness"
+ai_title: true
 date: 2025-04-06
 type: coursework
 academic: true
 course: Sensation & Perception
 published: true
 source: raddotcom Vault/2025-04-06 JAC
-tags: [academic/psychology/sensation-and-perception, journal-critique]
+tags: [academic/psychology/sensation-and-perception]
+form: [journal-critique]
+affiliation: uchicago
 genre: sensation-and-perception
 ---
 
@@ -89,3 +92,8 @@ neuroplasticity or deliberate auditory training since the study didn't account f
 participants' prior experiences with solely auditory stimuli. Future research should
 incorporate naturalistic sounds and survey participants' auditory training history to better
 understand how spatial hearing can be enhanced.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · psychology]]
+- [[Topic - academic · psychology · sensation-and-perception]]

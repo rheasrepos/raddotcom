@@ -9,7 +9,7 @@
 	import FilterTabs from '../components/FilterTabs.svelte';
 	import { loadPosts, getProjectColor, formatDate } from '$lib/posts.js';
 	import { categoryConfig, getCategoryLabel } from '$lib/categories.js';
-	import { SITE_NAME, SITE_TAGLINE } from '$lib/site.js';
+	import { siteName, SITE_TAGLINE } from '$lib/site.js';
 	import QuickLook from '../components/QuickLook.svelte';
 	import Spotlight from '../components/Spotlight.svelte';
 
@@ -130,13 +130,15 @@
 	// --- Landing beat: typewriter intro shown once per session ---
 	let showIntro = false;
 	let typed = '';
+	let thisVisitName = '';
 	onMount(() => {
+		thisVisitName = siteName(); // rotates per visit
 		if (typeof sessionStorage !== 'undefined' && !sessionStorage.getItem('introSeen')) {
 			showIntro = true;
 			let i = 0;
 			const t = setInterval(() => {
-				typed = SITE_NAME.slice(0, ++i);
-				if (i >= SITE_NAME.length) clearInterval(t);
+				typed = thisVisitName.slice(0, ++i);
+				if (i >= thisVisitName.length) clearInterval(t);
 			}, 150);
 		}
 	});
@@ -648,7 +650,7 @@
 <div class="laptop-frame" class:navigating={isNavigating} class:contracting={isContracting} class:surfing={surfing}>
 	<!-- Brand sits on the orange desktop, outside the monitor -->
 	<div class="desktop-brand">
-		<span class="title">RAD.COM</span>
+		<span class="title">{thisVisitName || 'RAD.COM'}</span>
 		<span class="subtitle">Rhea Madhogarhia's public journal</span>
 	</div>
 	<div class="laptop-screen" style="background: {wallpaperColor};">
@@ -963,7 +965,7 @@
 						{/if}
 						<h2 class:ai-title={selectedProject.aiTitle} title={selectedProject.aiTitle ? 'Title drafted with AI assistance' : undefined}>{selectedProject.title}</h2>
 						<p class="project-date">{new Date(selectedProject.date).toLocaleDateString()}</p>
-						<p class="project-description">{selectedProject.description}</p>
+						<p class="project-description" class:ai-desc={selectedProject.aiDescription} title={selectedProject.aiDescription ? 'Description drafted with AI assistance' : undefined}>{selectedProject.description}</p>
 						{#if selectedProject.pdf}
 							<!-- Original document beats mangled text every time -->
 							<iframe src={selectedProject.pdf} title="{selectedProject.title} (PDF)" class="modal-pdf"></iframe>

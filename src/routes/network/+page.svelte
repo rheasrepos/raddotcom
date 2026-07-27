@@ -95,29 +95,58 @@
 			if (hubs[p.type]) L.push({ source: n.id, target: 'cat:' + p.type, w: 1 });
 		});
 
-		// Cross-links: posts sharing a tag. Very common tags (e.g. "essay" on
-		// dozens of posts) are treated like stop-words — linking every pair
-		// would produce a hairball, so only tags shared by ≤ MAX_TAG posts
-		// create edges. Nested tags also match on their parent path, so
-		// academic/philosophy/x still links to academic/philosophy/y.
-		const list = Object.values(nodeMap).filter((n) => n.kind === 'post');
-		const expand = (tags) => {
-			const out = new Set();
-			(tags || []).forEach((t) => {
-				const parts = String(t).split('/');
-				for (let k = 1; k <= parts.length; k++) out.add(parts.slice(0, k).join('/'));
+		// --- TOPIC NODES ---------------------------------------------------
+		// Every tag becomes a node in its own right, and its SIZE is how many
+		// notes carry it. So the graph shows which ideas you return to — a
+		// post is always the same small dot; topics are what grow.
+		const tagCount = {};
+		posts.forEach((p) => {
+			const seen = new Set();
+			tagsOf(p).forEach((t) => {
+				String(t).split('/').reduce((acc, part) => {
+					const path = acc ? acc + '/' + part : part;
+					seen.add(path);
+					return path;
+				}, '');
 			});
-			return [...out];
-		};
-		const freq = {};
-		list.forEach((n) => { n.xtags = expand(n.tags); n.xtags.forEach((t) => (freq[t] = (freq[t] || 0) + 1)); });
-		const MAX_TAG = 10;
-		for (let i = 0; i < list.length; i++) {
-			for (let j = i + 1; j < list.length; j++) {
-				const shared = list[i].xtags.filter((t) => freq[t] <= MAX_TAG && list[j].xtags.includes(t));
-				if (shared.length) L.push({ source: list[i].id, target: list[j].id, w: 0.5, tag: shared[0] });
+			seen.forEach((t) => (tagCount[t] = (tagCount[t] || 0) + 1));
+		});
+		// Skip bookkeeping tags and any tag on only one note (nothing to connect).
+		const SKIP = /^(affiliation|meta|artifact|analog-archive|scraps|daily|seed|links|list)\b/;
+		Object.entries(tagCount).forEach(([t, count]) => {
+			if (count < 2 || SKIP.test(t)) return;
+			const n = {
+				id: 'tag:' + t, kind: 'tag', label: '#' + t, count,
+				color: '#cfcfcf',
+				r: 5 + Math.sqrt(count) * 3.4, // area ∝ how many notes share the idea
+				x: cx + (Math.random() - 0.5) * 300, y: cy + (Math.random() - 0.5) * 300, vx: 0, vy: 0
+			};
+			nodeMap[n.id] = n;
+		});
+		// Attach each post to its topics.
+		posts.forEach((p) => {
+			const seen = new Set();
+			tagsOf(p).forEach((t) => {
+				String(t).split('/').reduce((acc, part) => {
+					const path = acc ? acc + '/' + part : part;
+					seen.add(path);
+					return path;
+				}, '');
+			});
+			seen.forEach((t) => {
+				if (nodeMap['tag:' + t]) L.push({ source: 'post:' + p.id, target: 'tag:' + t, w: 0.8 });
+			});
+		});
+		// Nest topics: academic/philosophy → academic
+		Object.keys(tagCount).forEach((t) => {
+			const parent = t.split('/').slice(0, -1).join('/');
+			if (parent && nodeMap['tag:' + t] && nodeMap['tag:' + parent]) {
+				L.push({ source: 'tag:' + t, target: 'tag:' + parent, w: 1 });
 			}
-		}
+		});
+
+		// Posts connect THROUGH topics now, not directly to each other — the
+		// topic node is the shared thing, so it carries the weight and grows.
 		nodes = Object.values(nodeMap);
 		links = L;
 	}
@@ -196,7 +225,7 @@
 <div class="net-page">
 	<header class="net-head">
 		<h1>Obsidian</h1>
-		<p><AIText>Every post as a node — clustered by category, linked where they share a tag. Like my brain, hopefully. Click a node to open it.</AIText></p>
+		<p><AIText>Posts are small, fixed dots. <strong>Topics grow</strong> — a topic node's size is how many pieces of writing carry it, so the ideas I keep returning to are the biggest things here. Drag anything; click a post to open it.</AIText></p>
 	</header>
 
 	<div class="net-stage">
@@ -226,9 +255,11 @@
 					role="button"
 					tabindex="0"
 				>
-					<circle r={n.kind === 'cat' ? n.r : (hovered && hovered.id === n.id ? n.r + 3 : n.r)} fill={n.color} />
-					{#if n.kind === 'cat' || (hovered && (hovered.id === n.id || (hi && hi.has(n.id))))}
-						<text y={n.kind === 'cat' ? n.r + 16 : n.r + 12} class="node-label {n.kind}">{n.label.length > 34 ? n.label.slice(0, 34) + '…' : n.label}</text>
+					<circle r={n.kind === 'post' && hovered && hovered.id === n.id ? n.r + 3 : n.r} fill={n.color} />
+					{#if n.kind === 'cat' || (n.kind === 'tag' && n.count >= 4) || (hovered && (hovered.id === n.id || (hi && hi.has(n.id))))}
+						<text y={n.r + (n.kind === 'cat' ? 16 : 12)} class="node-label {n.kind}">
+							{n.label.length > 34 ? n.label.slice(0, 34) + '…' : n.label}{#if n.kind === 'tag'} ({n.count}){/if}
+						</text>
 					{/if}
 				</g>
 			{/each}
@@ -270,6 +301,8 @@
 	/* Labels: single flat colour, no white halo behind the text */
 	.node-label { text-anchor: middle; font-size: 11px; fill: #ffffff; }
 	.node-label.cat { font-weight: 700; font-size: 12.5px; fill: #ffffff; }
+	.node-label.tag { fill: #cfcfcf; font-size: 11px; }
+	.node.tag circle { stroke: #777; stroke-width: 1; }
 	.net-tooltip {
 		position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%);
 		background: #000; color: #fff; padding: 6px 12px; border-radius: 0;

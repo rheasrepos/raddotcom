@@ -1,5 +1,6 @@
 ---
 title: "MBM: Short Paper 1"
+ai_title: true
 date: 2024-01-18
 type: essays
 academic: true
@@ -7,7 +8,9 @@ course: COGS Mind, Brain & Meaning
 published: true
 pdf: /docs/2023-24-mbm-short-paper-1-rhea-madhogarhia.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q2/MBM SHORT PAPER 1 Rhea Madhogarhia.docx
-tags: [essay, academic/cognitive-science, academic/philosophy/philosophy-of-mind]
+tags: [academic/cognitive-science, academic/philosophy/philosophy-of-mind]
+form: [essay]
+affiliation: uchicago
 genre: Philosophy
 ---
 Rhea Madhogarhia
@@ -35,3 +38,9 @@ David, Marr. Vision: A Computational Investigation into the Human Representation
 Descartes, René. Descartes: Meditations on First Philosophy: With Selections from the Objections and Replies (Cambridge Texts in the History of Philosophy). Cambridge University Press, 2017.
 
 Miller, Gregory A., and Jennifer Keller. “Psychology and Neuroscience: Making Peace.” Current Directions in Psychological Science, no. 6, SAGE Publications, Dec. 2000, pp. 212–15. Crossref, doi:10.1111/1467-8721.00097.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · philosophy]]
+- [[Topic - academic · cognitive-science]]
+- [[Topic - academic · philosophy · philosophy-of-mind]]

@@ -1,12 +1,15 @@
 ---
 title: "UCD: Reading Response — Saharaline Teacher Support (Varanasi et al)"
+ai_title: true
 date: 2026-01-27
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
 source: raddotcom Vault/2026-01-27 UCD Reading Response Notes - Dealing with Constraints - Varanasi et al-1.pdf
-tags: [academic/hci/user-centered-design, reading-response, education]
+tags: [academic/hci/user-centered-design, education]
+form: [reading-response]
+affiliation: uchicago
 genre: user-centered-design
 ---
 
@@ -48,3 +51,9 @@ burden of being a supporter while increasing the depth and breadth of knowledge 
 supporters can help reduce burdens on individuals within support networks. More Reaction: Overall, I
 thought this paper had an ambitious project and achieved its goals with careful consideration and design
 for the communities they were building for!
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · hci]]
+- [[Topic - academic · hci · user-centered-design]]
+- [[Topic - education]]

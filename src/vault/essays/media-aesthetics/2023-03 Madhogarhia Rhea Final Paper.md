@@ -1,5 +1,6 @@
 ---
 title: "HUMA: Media Aesthetics — Final Paper"
+ai_title: true
 date: 2023-03-10
 type: essays
 academic: true
@@ -7,7 +8,9 @@ course: HUMA Media Aesthetics
 published: true
 pdf: /docs/2023-03-madhogarhia-rhea-final-paper.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/Media Aesthetics /Madhogarhia, Rhea Final Paper.docx
-tags: [essay, academic/media-studies/film-analysis]
+tags: [academic/media-studies/film-analysis]
+form: [essay]
+affiliation: uchicago
 genre: Essay
 ---
 Rhea Madhogarhia
@@ -37,3 +40,8 @@ Works Cited
 Ashby, Hal, director. Being There., Warner Bros., 1979.
 
 Wellbery, David, T., Mitchell W J, et al. “Systems.” Critical Terms for Media Studies, The University of Chicago Press, Chicago, 2010, pp. 297–310.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · media-studies]]
+- [[Topic - academic · media-studies · film-analysis]]

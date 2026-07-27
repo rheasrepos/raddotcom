@@ -1,12 +1,16 @@
 ---
 title: "UCD: Reading Response — Rideshare Transparency (Nagaraj et al)"
+ai_title: true
 date: 2026-01-15
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/2026-01-15-ucd-reading-response-3-rideshare-transparency-nagaraj-et-al.pdf
 source: raddotcom Vault/2026-01-15 reading response
-tags: [academic/hci/user-centered-design, reading-response]
+tags: [academic/hci/user-centered-design]
+form: [reading-response]
+affiliation: uchicago
 genre: user-centered-design
 ---
 
@@ -47,3 +51,8 @@ increasingly interested in as a computer science student and industry engineerin
 "explainability" or putting the terribly difficult burden of making these systems more translucent, to
 "accountability" via data disclosure. Just knowing how an LLM works and where it is being used can be
 enough to deter people from using AI in scenarios they wouldn't normally be comfortable using it in.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · hci]]
+- [[Topic - academic · hci · user-centered-design]]

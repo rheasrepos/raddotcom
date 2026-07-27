@@ -1,5 +1,6 @@
 ---
 title: "SOSC: Self, Culture & Society III — Final Essay"
+ai_title: true
 date: 2023-03-24
 type: essays
 academic: true
@@ -7,7 +8,9 @@ course: SOSC Self/Culture/Society
 published: true
 pdf: /docs/2023-03-rhea-madhogarhia-self-iii-sosc-final-essay.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/SOSC_ Self/Rhea Madhogarhia SELF III SOSC Final Essay.docx
-tags: [essay, academic/philosophy/philosophy-of-science, climate-change]
+tags: [academic/philosophy/philosophy-of-science, climate-change]
+form: [essay]
+affiliation: uchicago
 genre: Essay
 ---
 Rhea Madhogarhia
@@ -39,3 +42,8 @@ Chakrabarty, Dipesh. &quot;Postcolonial Studies and the Challenge of Climate Cha
 Gibbons, Ann. “Are We in the Middle of a Sixth Mass Extinction?” Science, www.science.org/content/article/are-we-middle-sixth-mass-extinction. Accessed 24 May 2023. 
 
 ​​Kuhn, T. S. The Structure of Scientific Revolutions. University of Chicago Press, 1973.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · philosophy]]
+- [[Topic - climate-change]]

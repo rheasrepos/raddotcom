@@ -1,5 +1,6 @@
 ---
 title: "MBM: Short Paper 3"
+ai_title: true
 date: 2024-02-27
 type: essays
 academic: true
@@ -7,7 +8,9 @@ course: COGS Mind, Brain & Meaning
 published: true
 pdf: /docs/2023-24-short-paper-3-rhea-madhogarhia-mbm.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q2/Short Paper 3 Rhea Madhogarhia MBM.docx
-tags: [essay, academic/cognitive-science, consciousness, perception]
+tags: [academic/cognitive-science, consciousness, perception]
+form: [essay]
+affiliation: uchicago
 genre: Philosophy
 ---
 Rhea Madhogarhia
@@ -35,3 +38,9 @@ Barwich, Ann-Sophie. “A critique of olfactory objects.” Frontiers in Psychol
 Nagel, Thomas. “What is it like to be a bat?” The Philosophical Review, vol. 83, no. 4, Oct. 1974, p. 435, https://doi.org/10.2307/2183914.
 
 Paller, Ken, and Satoru Suzuki. “Consciousness.” Noba, nobaproject.com/modules/consciousness. Accessed 25 Feb. 2024.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · cognitive-science]]
+- [[Topic - perception]]
+- [[Topic - consciousness]]

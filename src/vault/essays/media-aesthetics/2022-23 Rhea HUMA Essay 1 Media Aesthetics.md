@@ -1,5 +1,6 @@
 ---
 title: "HUMA: Media Aesthetics — Essay 1"
+ai_title: true
 date: 2022-10-21
 type: essays
 academic: true
@@ -7,7 +8,9 @@ course: HUMA Media Aesthetics
 published: true
 pdf: /docs/2022-23-rhea-huma-essay-1-media-aesthetics.pdf
 source: "/Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/Media Aesthetics /Q1/Rhea HUMA Essay #1 Media Aesthetics.docx"
-tags: [essay, academic/media-studies/film-analysis]
+tags: [academic/media-studies/film-analysis]
+form: [essay]
+affiliation: uchicago
 genre: Film/Media
 ---
 Rhea Madhogarhia
@@ -33,3 +36,8 @@ Works Cited
 Close-Up. Directed by Abbas Kiarostami, Institute for the Intellectual Development of Children and Young Adults, 1999.
 
 Plato. Republic. Translated by Reeve C D C., Hackett Publishing Company, Inc., 2004.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · media-studies]]
+- [[Topic - academic · media-studies · film-analysis]]

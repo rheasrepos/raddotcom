@@ -1,12 +1,16 @@
 ---
 title: "UCD: Reading Response — BlackPeopleTwitter Governance (Smith et al)"
+ai_title: true
 date: 2026-02-18
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/2026-02-18-ucd-reading-response-blackpeopletwitter-governance-smith-et.pdf
 source: raddotcom Vault/2026-02-18 Reading Response Smith et al.pdf
-tags: [academic/hci/user-centered-design, reading-response]
+tags: [academic/hci/user-centered-design]
+form: [reading-response]
+affiliation: uchicago
 genre: user-centered-design
 ---
 
@@ -62,3 +66,8 @@ the complexities of verification carefully to ensure that we don’t too rigidly
 behavior or box the diversities within a certain racial group into specific behaviors or tendencies.
 Essentially, we should aim for safety through verification without enforcing a monolithic
 definition of identity.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · hci]]
+- [[Topic - academic · hci · user-centered-design]]

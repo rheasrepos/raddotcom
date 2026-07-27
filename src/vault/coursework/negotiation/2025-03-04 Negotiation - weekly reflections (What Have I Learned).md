@@ -1,12 +1,15 @@
 ---
 title: "NEGOTIATION: Weekly Reflections — What Have I Learned?"
+ai_title: true
 date: 2025-03-04
 type: coursework
 academic: true
 course: Psychology of Negotiation
 published: true
 source: raddotcom Vault/2025-03-04 My weekly reflections_ What Have I Learned_.pdf
-tags: [academic/psychology/negotiation, reflection]
+tags: [academic/psychology/negotiation]
+form: [reflection]
+affiliation: uchicago
 genre: negotiation
 ---
 
@@ -36,3 +39,8 @@ reasonable. While this could be lumped under honesty, my role as Venus in the Co
 me to realize that I felt best about a negotiation when I knew how,, when, and to what extent I could use
 my leverage. TLDR; Reconcile interests, not positions. Cooperation inspires!
 Remember your BATNA. Be someone you’d want to negotiate with!
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · psychology]]
+- [[Topic - academic · psychology · negotiation]]

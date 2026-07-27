@@ -127,6 +127,24 @@
 			<button class:active={grouping === 'month'} on:click={() => (grouping = 'month')}>By Month</button>
 		</nav>
 
+		<!-- Latest post, given room to breathe -->
+		{#if sorted.length}
+			{@const lead = sorted[0]}
+			<a class="hero" href="/posts/{lead.id}{hideParam}">
+				{#if lead.pdf}
+					<img class="hero-cover" src="/docs/covers/{lead.pdf.split('/').pop().replace('.pdf', '')}.png" alt="" loading="lazy" />
+				{/if}
+				<div class="hero-body">
+					<div class="hero-kicker">
+						LATEST · {catLabel(lead.type)}{#if lead.form}<span class="entry-form">{lead.form}</span>{/if}
+					</div>
+					<h2 class="hero-title" class:ai-title={lead.aiTitle} title={lead.aiTitle ? 'Title drafted with AI assistance' : undefined}>{lead.title}</h2>
+					{#if lead.description}<p class="hero-desc" class:ai-desc={lead.aiDescription} title={lead.aiDescription ? 'Description drafted with AI assistance' : undefined}>{lead.description}</p>{/if}
+					<div class="hero-meta">{fmt(lead.date)}{#if lead.content} · {Math.max(1, Math.round(String(lead.content).replace(/<[^>]*>/g, ' ').split(/\s+/).length / 220))} min read{/if}</div>
+				</div>
+			</a>
+		{/if}
+
 		{#if posts.length === 0}
 			<p class="empty">Loading…</p>
 		{:else if grouping === 'date'}
@@ -139,7 +157,7 @@
 							<span class="entry-title" class:ai-title={p.aiTitle} title={p.aiTitle ? 'Title drafted with AI assistance' : undefined}>{p.title}</span>
 							{#if p.form}<span class="entry-form">{p.form}</span>{/if}
 						</a>
-						{#if p.description}<p class="entry-desc">{p.description}</p>{/if}
+						{#if p.description}<p class="entry-desc" class:ai-desc={p.aiDescription} title={p.aiDescription ? 'Description drafted with AI assistance' : undefined}>{p.description}</p>{/if}
 					</li>
 				{/each}
 			</ul>
@@ -181,20 +199,28 @@
 </PageLayout>
 
 <style>
+	/* The blog reads as a window ON the desktop wallpaper — no white page.
+	   The wallpaper color comes from PageLayout's .laptop-screen behind us. */
 	.arch-layout {
 		display: flex;
 		gap: 28px;
-		max-width: 960px;
+		max-width: 1000px;
 		margin: 0 auto;
 		align-items: flex-start;
 	}
+	/* Windows-93-ish panel: hard border + offset drop shadow, no rounding */
+	.arch-side,
+	.archive {
+		background: #f4f4f4;
+		border: 2px solid #000;
+		box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.45);
+	}
+	.archive { padding: 22px 26px 40px; }
 	.arch-side {
 		flex: 0 0 200px;
 		position: sticky;
 		top: 14px;
 		padding: 12px;
-		background: rgba(255, 255, 255, 0.7);
-		border: 1px solid #000;
 		font-size: 0.85rem;
 	}
 	.side-section + .side-section { margin-top: 16px; }
@@ -234,7 +260,6 @@
 		min-width: 0;
 		max-width: 720px;
 		margin: 0 auto;
-		padding: 4px 0 40px;
 	}
 
 	.arch-head {
@@ -314,6 +339,37 @@
 		font-weight: 600;
 		line-height: 1.35;
 	}
+	/* Hero: latest post */
+	.hero {
+		display: flex;
+		gap: 18px;
+		border: 2px solid #000;
+		background: #fffbea;
+		box-shadow: 5px 5px 0 #000;
+		padding: 16px;
+		margin: 20px 0 26px;
+		text-decoration: none;
+		color: #000;
+	}
+	.hero:hover { background: #fff6d0; }
+	.hero-cover {
+		width: 132px;
+		flex: none;
+		border: 2px solid #000;
+		background: #fff;
+		object-fit: cover;
+		object-position: top center;
+		align-self: flex-start;
+	}
+	.hero-kicker { font-size: 0.7rem; letter-spacing: 0.09em; }
+	.hero-title { font-size: 1.35rem; margin: 6px 0 8px; line-height: 1.25; }
+	.hero-desc { font-size: 0.9rem; line-height: 1.5; color: #333; margin: 0 0 8px; }
+	.hero-meta { font-size: 0.75rem; color: #666; }
+	@media (max-width: 620px) {
+		.hero { flex-direction: column; }
+		.hero-cover { width: 100%; max-height: 220px; }
+	}
+
 	/* Collapsible group headers */
 	.folder-toggle {
 		background: none;

@@ -1,5 +1,6 @@
 ---
 title: "PSYCH ANTHRO: Cultural Specificity of the Abnormal: The Impact of Culture on Mental Health and Feeling"
+ai_title: true
 date: 2024-05-21
 type: essays
 academic: true
@@ -8,6 +9,7 @@ published: true
 pdf: /docs/2024-05-psychological-anthropology-five-page-final-rhea.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q3/Psychological Anthropology Y2Q3/Psychological Anthropology Five Page Final - Rhea_.docx
 tags: [academic/psychology/anthropology, culture]
+affiliation: uchicago
 genre: Essay
 ---
 Rhea Madhogarhia
@@ -47,3 +49,9 @@ Ruth Benedict (1934) Anthropology and the Abnormal, The Journal of General Psych
 Subandi, M. A., et al. &quot;Sociocultural and Clinical Aspects of Recovery from First Episode Psychosis in Java, Indonesia: A Follow‐Up Case Study.&quot; Ethos 50.4 (2022): 410-433.
 
 Wikan, Unni. &quot;Managing the heart to brighten face and soul: Emotions in Balinese morality and health care.&quot; American Ethnologist 16.2 (1989): 294-312.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · psychology]]
+- [[Topic - academic · psychology · anthropology]]
+- [[Topic - culture]]

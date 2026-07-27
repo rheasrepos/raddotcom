@@ -1,12 +1,16 @@
 ---
 title: "UCD: Reading Response — Companion Chatbot Harassment (Namvarpour et al)"
+ai_title: true
 date: 2026-01-22
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/2026-01-22-ucd-reading-response-5-companion-chatbot-harassment-namvarp.pdf
 source: raddotcom Vault/2026-01-22 Namvarpour Reading Response UCD (1).pdf
-tags: [academic/hci/user-centered-design, reading-response, ai/ai-ethics]
+tags: [academic/hci/user-centered-design, ai/ai-ethics]
+form: [reading-response]
+affiliation: uchicago
 genre: user-centered-design
 ---
 
@@ -42,3 +46,9 @@ shifting the burden of safety to the company rather than the user. We cannot rel
 bot out of harassment; instead, we need safeguards like "Interactive Memory Management" or "Memory
 Sandboxes" that give users control over what the AI remembers. Overall, I think we need to treat these
 applications as research subjects requiring ethical safeguards rather than just consumer products.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - ai]]
+- [[Topic - academic · hci]]
+- [[Topic - academic · hci · user-centered-design]]

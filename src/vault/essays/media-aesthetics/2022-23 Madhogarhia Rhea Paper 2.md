@@ -1,5 +1,6 @@
 ---
 title: "HUMA: Media Aesthetics — Paper 2"
+ai_title: true
 date: 2023
 date_approx: true
 type: essays
@@ -8,7 +9,9 @@ course: HUMA Media Aesthetics
 published: true
 pdf: /docs/2022-23-madhogarhia-rhea-paper-2.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/Media Aesthetics /Madhogarhia, Rhea Paper 2.docx
-tags: [essay, academic/media-studies/film-analysis]
+tags: [academic/media-studies/film-analysis]
+form: [essay]
+affiliation: uchicago
 genre: Film/Media
 ---
 Rhea Madhogarhia
@@ -38,3 +41,8 @@ Works Cited
 &quot;Nosedive.&quot; Black Mirror, created by Charlie Brooker, directed by Joe Wright, written by Charlie Brooker, Rashida Jones, and Michael Schur, Netflix, 2016.
 
 Wellbery, David. &quot;Systems.&quot; Critical Terms for Media Studies, edited by W.J.T. Mitchell and Mark B.N. Hansen, The University of Chicago Press, 2010
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · media-studies]]
+- [[Topic - academic · media-studies · film-analysis]]

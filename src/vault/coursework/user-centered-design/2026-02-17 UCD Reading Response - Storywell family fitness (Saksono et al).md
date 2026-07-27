@@ -1,12 +1,16 @@
 ---
 title: "UCD: Reading Response — Storywell Family Fitness (Saksono et al)"
+ai_title: true
 date: 2026-02-17
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/2026-02-17-ucd-reading-response-storywell-family-fitness-saksono-et-al.pdf
 source: raddotcom Vault/2026-02-17 Reading Response - Finding a champion - Saksono et al.pdf
-tags: [academic/hci/user-centered-design, reading-response]
+tags: [academic/hci/user-centered-design]
+form: [reading-response]
+affiliation: uchicago
 genre: user-centered-design
 ---
 
@@ -53,3 +57,8 @@ system can create motivational loops between users, where one person's engagemen
 inclusive technology, this means considering the relational context of use, not just the individual
 experience. A design that accounts for who users are, and what those people value, may be more effective
 at sustaining engagement than one optimized for a single user's preferences alone.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · hci]]
+- [[Topic - academic · hci · user-centered-design]]

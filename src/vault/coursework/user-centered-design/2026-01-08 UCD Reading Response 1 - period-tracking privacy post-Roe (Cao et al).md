@@ -1,12 +1,16 @@
 ---
 title: "UCD: Reading Response — Period-Tracking Privacy Post-Roe (Cao et al)"
+ai_title: true
 date: 2026-01-08
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/2026-01-08-ucd-reading-response-1-period-tracking-privacy-post-roe-cao.pdf
 source: raddotcom Vault/2026-01-08 Untitled document (1)-1.pdf
-tags: [academic/hci/user-centered-design, reading-response, privacy]
+tags: [academic/hci/user-centered-design, privacy]
+form: [reading-response]
+affiliation: uchicago
 genre: user-centered-design
 ---
 
@@ -41,3 +45,9 @@ perception of the app’s usefulness can dictate our data collection choices. Wh
 features in an app can seem exciting, this study makes me think that additional features, like location or
 mental health tracking, can actually be counterproductive to the app’s goal by decreasing user trust in the
 app.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · hci]]
+- [[Topic - academic · hci · user-centered-design]]
+- [[Topic - privacy]]

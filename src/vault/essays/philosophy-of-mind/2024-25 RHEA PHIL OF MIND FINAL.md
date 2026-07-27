@@ -1,5 +1,6 @@
 ---
 title: "PHIL: Philosophy of Mind — Final Paper"
+ai_title: true
 date: 2024-12
 date_approx: true
 type: essays
@@ -8,7 +9,9 @@ course: PHIL Philosophy of Mind
 published: true
 pdf: /docs/2024-25-rhea-phil-of-mind-final.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Third Year/RHEA PHIL OF MIND FINAL.docx
-tags: [essay, academic/philosophy/philosophy-of-mind]
+tags: [academic/philosophy/philosophy-of-mind]
+form: [essay]
+affiliation: uchicago
 genre: Essay
 ---
 Rhea Madhogarhia
@@ -48,3 +51,8 @@ In the case of imagination, I introduced this notion of local uniqueness, so it 
 Up until now, I have worked under the assumption that, in the free will case, once a choice is made, it is unchangeable – there is only one puzzle for your choices, and it can only have parts added to it, not taken. Given my personal discomfort with the determinism discussed thus far, I’d like to see what becomes of the free will problem when we allow choices, not to be taken back, but to be revisited; what if not every choice impacted every other choice, but mutant puzzles were created on a case-by-case basis by combining select mutant puzzles. In other words, because every mutant puzzle has only parts of every choice made before it, every new choice is not determined by the full weight of every choice the artist has ever made. This interpretation is actually more faithful to the original thought experiment and implies that the local autonomy that we discussed earlier may mean we have the freedom to consider to what extent certain past choices should play a part in our next decision, which is essentially the process of making a new mutant puzzle. In this case, the histories of your puzzles remain connected, but the collage artist has the power to greatly influence the weight, power, or quantity of puzzle pieces from the archive of mutant puzzles that represent your past choices.
 
 Having only recently explored the implications of my collaging tendencies on my understanding of free will, I hope my third interpretation is the right one. It’s the one I can most conceive I have been partaking in my whole life, and it gives me hope that my efforts to change myself do not face off too harshly with my growing arsenal of choices and experiences. It’s still unclear to me what exactly constitutes a choice and what parts of life are not choices. I begin to ponder less philosophical and more logistical questions about how and when I am exercising my local autonomy. While it may very quickly turn into worry, I'm inclined to sit in the comfort and love I feel from collaging. The common suggestion to “work with what you have” seems less scary when you stop to think about just how big the collage you’ve been making is.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · philosophy]]
+- [[Topic - academic · philosophy · philosophy-of-mind]]

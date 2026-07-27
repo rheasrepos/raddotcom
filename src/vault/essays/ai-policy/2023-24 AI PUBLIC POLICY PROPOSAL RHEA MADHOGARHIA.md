@@ -1,12 +1,15 @@
 ---
 title: "AI POLICY: AI Public Policy Proposal Competition"
+ai_title: true
 date: 2024-05-04
 type: essays
 academic: false
 published: true
 pdf: /docs/2023-24-ai-public-policy-proposal-rhea-madhogarhia.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q3/AI PUBLIC POLICY PROPOSAL RHEA MADHOGARHIA.docx
-tags: [ai/ai-policy, writing/opinion]
+tags: [ai/ai-policy]
+form: [opinion]
+affiliation: uchicago
 genre: Essay
 ---
 Rhea Madhogarhia
@@ -50,3 +53,7 @@ Volbert, Renate, et al. “Confessions and Denials When Guilty and Innocent: For
 Weiner, Daniel, and Lawrence Norden. “Regulating AI Deepfakes and Synthetic Media in the Political Arena.” Brennan Center for Justice, 12 Dec. 2023, www.brennancenter.org/our-work/research-reports/regulating-ai-deepfakes-and-synthetic-media-political-arena?ref=upward.news. 
 
 Zucker, Ondřej Kundra (Tr. Alex. “How to Deepfake an Election.” The Dial, The Dial, 23 Nov. 2023, www.thedial.world/issue-10/slovakia-election-deepfake-russia-artificial-intelligence.
+
+## Topics
+- [[Topic - ai]]
+- [[Topic - ai · ai-policy]]

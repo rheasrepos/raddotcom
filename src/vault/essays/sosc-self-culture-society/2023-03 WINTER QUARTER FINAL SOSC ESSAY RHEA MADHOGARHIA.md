@@ -1,5 +1,6 @@
 ---
 title: "SOSC: Self, Culture & Society — Winter Final Essay"
+ai_title: true
 date: 2023-03-08
 type: essays
 academic: true
@@ -7,7 +8,9 @@ course: SOSC Self/Culture/Society
 published: true
 pdf: /docs/2023-03-winter-quarter-final-sosc-essay-rhea-madhogarhia.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/SOSC_ Self/WINTER QUARTER FINAL SOSC ESSAY RHEA MADHOGARHIA.docx
-tags: [essay, academic/philosophy]
+tags: [academic/philosophy]
+form: [essay]
+affiliation: uchicago
 genre: Essay
 ---
 Rhea Madhogarhia
@@ -35,3 +38,7 @@ Simone de Beauvoir concludes The Second Sex with a chapter titled “The Indepen
 Works Cited
 
 De Beauvoir, Simone. The Second Sex. Translated by Constance Borde and Sheila Malovany-Chevallier, Vintage Books, 2011.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · philosophy]]

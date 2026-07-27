@@ -1,12 +1,16 @@
 ---
 title: "UCD: Reading Response — FamiData Smart-Home Datafication (Wang et al)"
+ai_title: true
 date: 2026-02-18
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/2026-02-18-ucd-reading-response-famidata-smart-home-datafication-wang-.pdf
 source: raddotcom Vault/2026-02-18 Reading Response UCD Wang famidata.pdf
-tags: [academic/hci/user-centered-design, reading-response, privacy]
+tags: [academic/hci/user-centered-design, privacy]
+form: [reading-response]
+affiliation: uchicago
 genre: user-centered-design
 ---
 
@@ -52,3 +56,9 @@ a device does not overshadow the consequences of its use. Also, applying the "no
 right answer" approach used in the study's interviews can help gather honest and exploratory user
 feedback. Finally, there is a clear need to embed data literacy into the design itself to help families
 navigate these complex systems
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · hci]]
+- [[Topic - academic · hci · user-centered-design]]
+- [[Topic - privacy]]

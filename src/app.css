@@ -1,14 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* Cascadia Code — Microsoft's Consolas successor: sharper, more angular,
+   open source. Falls back to macOS SF Mono, then Consolas, then Courier. */
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/cascadia-code@5/index.css');
 
 /* Retro: nothing gets rounded corners anywhere on the site. */
 *, *::before, *::after {
   border-radius: 0;
 }
 
-/* One typeface across the whole site: Consolas — the raw-text/terminal look.
-   Overrides all scattered Arial/Inter declarations. */
+/* One typeface across the whole site: Cascadia Code (webfont, so it looks the
+   same for every visitor), then SF Mono on macOS, then Consolas on Windows. */
 *, *::before, *::after {
-  font-family: 'Consolas', 'Courier New', Courier, monospace !important;
+  font-family: 'Cascadia Code', 'SF Mono', ui-monospace, 'Consolas', 'Courier New', Courier, monospace !important;
+}
+
+/* AI-drafted text is always marked with a dashed underline, site-wide.
+   Same convention as the AIText component. */
+.ai-title, .ai-desc, .ai-generated {
+  text-decoration: underline dashed !important;
+  text-decoration-thickness: 1px !important;
+  text-underline-offset: 3px !important;
+  cursor: help;
 }
 
 /* Anything clickable shows the hand cursor — no dead-feeling UI. */

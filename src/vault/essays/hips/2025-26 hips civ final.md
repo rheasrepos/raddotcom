@@ -1,5 +1,6 @@
 ---
 title: "HIPS: Civ — Final Essay"
+ai_title: true
 date: 2026-05-29
 type: essays
 academic: true
@@ -8,6 +9,7 @@ published: true
 pdf: /docs/2025-26-hips-civ-final.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Fourth Year/hips civ final.docx
 tags: [academic/history-of-science/history-of-medicine, creative]
+affiliation: uchicago
 genre: Creative
 ---
 case b
@@ -327,3 +329,8 @@ which parts you found challenging, which parts you found straightforward, etc. I
 won’t take your addendum into account when grading, except insofar as it helps
 
 me better understand how you approached the assignment.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - creative]]
+- [[Topic - academic · history-of-science]]

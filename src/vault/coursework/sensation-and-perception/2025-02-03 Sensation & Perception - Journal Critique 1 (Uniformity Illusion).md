@@ -1,12 +1,15 @@
 ---
 title: "S&P: Journal Critique 1 — Uniformity Illusion"
+ai_title: true
 date: 2025-02-03
 type: coursework
 academic: true
 course: Sensation & Perception
 published: true
 source: raddotcom Vault/2025-02-03 Sensation and Perception Journal Critique
-tags: [academic/psychology/sensation-and-perception, journal-critique, perception]
+tags: [academic/psychology/sensation-and-perception, perception]
+form: [journal-critique]
+affiliation: uchicago
 genre: sensation-and-perception
 ---
 
@@ -91,3 +94,9 @@ future research should explore alternative experimental designs, such as reversi
 stimulus fading order or testing different priming conditions. Despite these limitations,
 the study highlights the complexity of visual perception and begs for further investigation
 into the mechanisms which power our conscious visual experience.
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · psychology]]
+- [[Topic - perception]]
+- [[Topic - academic · psychology · sensation-and-perception]]

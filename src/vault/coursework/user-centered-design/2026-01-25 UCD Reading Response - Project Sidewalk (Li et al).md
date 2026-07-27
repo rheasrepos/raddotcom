@@ -1,5 +1,6 @@
 ---
 title: "UCD: Reading Response — Project Sidewalk (Li et al)"
+ai_title: true
 date: 2026-01-25
 type: coursework
 academic: true
@@ -7,7 +8,9 @@ course: User-Centered Design
 published: true
 pdf: /docs/2026-01-25-ucd-reading-response-project-sidewalk-li-et-al.pdf
 source: raddotcom Vault/2026-01-25 Reading Response Project Sidewalk UCD Submission.pdf
-tags: [academic/hci/user-centered-design, reading-response, accessibility]
+tags: [academic/hci/user-centered-design, accessibility]
+form: [reading-response]
+affiliation: uchicago
 genre: user-centered-design
 ---
 
@@ -45,3 +48,9 @@ reminds us that when designing inclusive technology, prioritizing user agency ca
 recruiting naturally interested parties results in having invested volunteers contributing higher quality data
 (even if reaudits are performed). Furthermore, this was a good example of how to turn user-centered
 design projects into actionable advocacy planning (city council presentation).
+
+## Topics
+- [[Topic - academic]]
+- [[Topic - academic · hci]]
+- [[Topic - academic · hci · user-centered-design]]
+- [[Topic - accessibility]]

@@ -3,7 +3,16 @@
 cd "$(dirname "$0")"
 python3 - << 'PY'
 import os,re,shutil
-src="vault-drafts"; dst="src/vault"
+# Draft vault folder — auto-detects the name so renaming it in Obsidian
+# (e.g. "raddotcom Vault (vault-drafts)") doesn't silently break publishing.
+CANDIDATES=["vault-drafts","raddotcom Vault (vault-drafts)"]
+src=next((c for c in CANDIDATES if os.path.isdir(c)),None)
+if src is None:
+    src=next((d for d in sorted(os.listdir(".")) if os.path.isdir(d) and "vault-drafts" in d),None)
+if src is None:
+    raise SystemExit("Could not find the draft vault folder (looked for one containing 'vault-drafts').")
+print(f"Draft vault: {src}/")
+dst="src/vault"
 os.makedirs(dst,exist_ok=True)
 # Rebuild src/vault from scratch each run so renames/unpublishes don't leave
 # stale copies behind. README.md is preserved.
