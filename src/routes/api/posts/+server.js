@@ -174,6 +174,9 @@ export async function GET() {
 				link: frontmatter.link || null,
 				// video: a YouTube URL — the post embeds the player
 				video: frontmatter.video || null,
+				// youtube_playlist: a channel's uploads playlist — embeds as a
+				// gallery/player cycling through every video
+				youtubePlaylist: frontmatter.youtube_playlist || frontmatter.youtubePlaylist || null,
 				// doi / paperUrl: publications link out to the real record
 				doi: frontmatter.doi || null,
 				// featured: pin this post to the top of the blog

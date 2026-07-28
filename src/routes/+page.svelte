@@ -99,6 +99,17 @@
 		const m = String(url || '').match(/(?:v=|youtu\.be\/|embed\/)([\w-]{6,})/);
 		return m ? m[1] : null;
 	}
+	// A plain-text excerpt of a post's body for the tile "page" preview.
+	function excerpt(md, max = 320) {
+		const t = String(md || '')
+			.replace(/\n#+\s*(Topics|Related)\s*\n(?:\s*[-*]\s*\[\[.*?\]\].*\n?)+/gi, '')
+			.replace(/\[\[.*?\]\]/g, '')
+			.replace(/<[^>]*>/g, ' ')
+			.replace(/[#>*_`]/g, '')
+			.replace(/\s+/g, ' ')
+			.trim();
+		return t.length > max ? t.slice(0, max) + '…' : t || '(no text yet)';
+	}
 	// Preview a post's body, minus the Obsidian graph plumbing, as plain text.
 	function renderMarkdownSafe(md) {
 		const t = String(md || '')
@@ -1126,13 +1137,12 @@
 								{/each}
 								{#each c.posts as p (p.id)}
 									<button class="win-cell" on:click={() => openFileWindow(p)}>
-										<div class="cell-thumb">
-											{#if p.thumb || p.iconImage}
-												<img src={p.thumb || p.iconImage} alt="" loading="lazy" />
-											{:else}
-												<span class="cell-blank">{p.form || 'document'}</span>
-											{/if}
-										</div>
+										{#if p.thumb || p.iconImage}
+											<div class="cell-thumb"><img src={p.thumb || p.iconImage} alt="" loading="lazy" /></div>
+										{:else}
+											<!-- No image/PDF cover: preview the document's actual text like a page -->
+											<div class="cell-page">{excerpt(p.content, 320)}</div>
+										{/if}
 										<span class="cell-cap">{p.title}</span>
 									</button>
 								{/each}
@@ -1140,7 +1150,7 @@
 						{/if}
 					{:else if win.kind === 'file'}
 						{@const p = win.post}
-						<div class="win-file">
+						<div class="win-file" class:media={p.image || (p.images && p.images.length) || p.pdf || p.video || p.youtubePlaylist}>
 							<div class="win-file-meta">{formatDate(p.date)} · {getCategoryLabel(p.type)}</div>
 							{#if p.images && p.images.length > 1}
 								<div class="win-gallery">
@@ -1150,6 +1160,8 @@
 								</div>
 							{:else if p.image}
 								<div class="win-imgwrap"><img class="win-image" src={p.image} alt={p.title} loading="lazy" /></div>
+							{:else if p.youtubePlaylist}
+								<div class="win-embed"><iframe src="https://www.youtube.com/embed/videoseries?list={p.youtubePlaylist}" title={p.title} allowfullscreen></iframe></div>
 							{:else if p.video && ytId(p.video)}
 								<div class="win-embed"><iframe src="https://www.youtube.com/embed/{ytId(p.video)}" title={p.title} allowfullscreen></iframe></div>
 							{:else if p.pdf}
@@ -1188,24 +1200,8 @@
 		{/if}
 
 		<!-- Wallpaper Toolbar -->
-		<!-- Spotify player — a little draggable window; toggle from the dock -->
-		{#if showPlayer}
-			<FinderWindow title="♪ browsing playlist" bind:x={playerX} bind:y={playerY} w={340} h={420} z={winZ + 1}
-				on:focus={() => {}} on:close={() => (showPlayer = false)} on:minimize={() => (showPlayer = false)}>
-				<iframe
-					title="Rhea's playlist"
-					src="https://open.spotify.com/embed/playlist/3W0mwmJo0Xx3PxabebBTtE?utm_source=generator&theme=0"
-					width="100%" height="352" frameborder="0"
-					allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-					loading="lazy"
-					style="border:none;"
-				></iframe>
-			</FinderWindow>
-		{/if}
-
 		<div class="wallpaper-toolbar">
 			<div class="toolbar-section">
-				<button class="player-btn" on:click={() => (showPlayer = !showPlayer)} title="Music player">♪</button>
 				<span class="toolbar-label">Wallpaper:</span>
 				<div class="color-picker">
 					<button 
@@ -1323,8 +1319,11 @@
 	.win-fill {
 		display: grid;
 		gap: 16px;
-		height: 100%;
-		grid-auto-rows: 1fr;
+		min-height: 100%;
+		/* Rows fill the window when there are few items (1fr expands to the
+		   min-height), but never shrink below a readable size — with many
+		   items the grid grows past the window and it scrolls. */
+		grid-auto-rows: minmax(170px, 1fr);
 	}
 	.win-cell {
 		background: #fff;
@@ -1348,7 +1347,18 @@
 		overflow: hidden;
 	}
 	.cell-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
-	.cell-blank { color: #777; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+	/* Text-only documents get a real page preview: their opening words on
+	   white, like the top of the actual page. */
+	.cell-page {
+		flex: 1;
+		min-height: 0;
+		overflow: hidden;
+		background: #fff;
+		color: #222;
+		padding: 14px 16px;
+		font-size: 0.72rem;
+		line-height: 1.45;
+	}
 	/* Folder cells: the classic icon, centered and scaled to the cell */
 	.win-cell.folder { background: #fafafa; align-items: center; justify-content: center; gap: 12px; padding: 12px; }
 	.cell-folder { width: 55%; max-width: 160px; height: auto; }
@@ -1371,6 +1381,15 @@
 	   to fit (contain) so the WHOLE artifact is always visible, at any window
 	   size — resize the window and the image just scales with it. */
 	.win-file { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+	/* Media (image/pdf/video) fills the window edge-to-edge: pull out the
+	   window body padding and shrink the chrome so the content dominates. */
+	.win-file.media {
+		margin: -14px;
+		height: calc(100% + 28px);
+	}
+	.win-file.media .win-file-meta { padding: 8px 12px 6px; margin: 0; }
+	.win-file.media .win-open { margin: 0; border: none; border-top: 1px solid #000; }
+	.win-file.media .win-image { border: none; }
 	/* Multi-page/side artifact: a scrollable stack of all its images */
 	.win-gallery { flex: 1; min-height: 0; overflow: auto; display: flex; flex-direction: column; gap: 10px; }
 	.win-gimg { max-width: 100%; border: 1px solid #000; display: block; }

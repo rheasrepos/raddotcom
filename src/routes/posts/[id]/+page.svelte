@@ -257,7 +257,9 @@
 	.post-image {
 		display: block;
 		max-width: 100%;
-		max-height: 85vh;
+		/* Fit within the viewport minus the page header, so a single artifact
+		   is fully visible without scrolling. */
+		max-height: calc(100vh - 300px);
 		width: auto;
 		height: auto;
 		object-fit: contain;
