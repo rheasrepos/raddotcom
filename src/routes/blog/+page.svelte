@@ -106,12 +106,13 @@
 			{/each}
 		</div>
 		<div class="side-section">
-			<h3 class="side-head">Months</h3>
-			{#each monthList as m}
-				<div class="side-row">
-					<button class="side-link" on:click={() => jumpTo('month', m)}>{m}</button>
-				</div>
-			{/each}
+			<h3 class="side-head">Jump to month</h3>
+			<select class="side-select" on:change={(e) => { if (e.target.value) jumpTo('month', e.target.value); }}>
+				<option value="">Select…</option>
+				{#each monthList as m}
+					<option value={m}>{m}</option>
+				{/each}
+			</select>
 		</div>
 	</aside>
 
@@ -136,12 +137,9 @@
 					<img class="hero-cover" src="/docs/covers/{lead.pdf.split('/').pop().replace('.pdf', '')}.png" alt="" loading="lazy" />
 				{/if}
 				<div class="hero-body">
-					<div class="hero-kicker">
-						{lead.featured ? 'PINNED' : 'LATEST'} · {catLabel(lead.type)}{#if lead.form}<span class="entry-form">{lead.form}</span>{/if}
-					</div>
+					<div class="hero-kicker">{lead.featured ? 'Pinned' : 'Latest'}</div>
 					<h2 class="hero-title" class:ai-title={lead.aiTitle} title={lead.aiTitle ? 'Title drafted with AI assistance' : undefined}>{lead.title}</h2>
-					{#if lead.description}<p class="hero-desc" class:ai-desc={lead.aiDescription} title={lead.aiDescription ? 'Description drafted with AI assistance' : undefined}>{lead.description}</p>{/if}
-					<div class="hero-meta">{fmt(lead.date)}{#if lead.content} · {Math.max(1, Math.round(String(lead.content).replace(/<[^>]*>/g, ' ').split(/\s+/).length / 220))} min read{/if}</div>
+					<div class="hero-meta">{catLabel(lead.type)} · {fmt(lead.date)}</div>
 				</div>
 			</a>
 		{/if}
@@ -215,15 +213,20 @@
 		border: 1px solid #000;
 	}
 	.archive { padding: 26px 30px 44px; }
-	/* Sidebar: quiet. No borders on rows, no counts shouting. */
+	/* Sidebar: quiet, compact. Categories are toggles; months are a dropdown. */
 	.arch-side {
 		flex: 0 0 176px;
 		position: sticky;
 		top: 14px;
 		padding: 16px 14px;
 		font-size: 0.8rem;
-		max-height: 78vh;
-		overflow-y: auto;
+	}
+	.side-select {
+		width: 100%;
+		border: 1px solid #000;
+		background: #fff;
+		padding: 5px 6px;
+		font-size: 0.8rem;
 	}
 	.side-section + .side-section { margin-top: 16px; }
 	.side-head {
@@ -361,10 +364,9 @@
 		object-position: top center;
 		align-self: flex-start;
 	}
-	.hero-kicker { font-size: 0.7rem; letter-spacing: 0.09em; }
-	.hero-title { font-size: 1.35rem; margin: 6px 0 8px; line-height: 1.25; }
-	.hero-desc { font-size: 0.9rem; line-height: 1.5; color: #333; margin: 0 0 8px; }
-	.hero-meta { font-size: 0.75rem; color: #666; }
+	.hero-kicker { font-size: 0.72rem; color: #888; }
+	.hero-title { font-size: 1.4rem; margin: 4px 0 6px; line-height: 1.25; }
+	.hero-meta { font-size: 0.78rem; color: #777; }
 	@media (max-width: 620px) {
 		.hero { flex-direction: column; }
 		.hero-cover { width: 100%; max-height: 220px; }

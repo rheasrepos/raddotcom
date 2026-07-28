@@ -97,7 +97,6 @@
 		position: fixed;
 		inset: 0;
 		background: rgba(20, 20, 30, 0.45);
-		backdrop-filter: blur(2px);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -113,16 +112,24 @@
 		flex-direction: column;
 		overflow: hidden;
 		font-family: var(--font-family, Arial, sans-serif);
-		/* Old-Windows open: the window bursts open from the middle */
 		transform-origin: center center;
+		animation: qlFade 0.14s ease-out;
+	}
+	/* Folders get the old-Windows "burst open from the middle" slit; file
+	   previews just fade in quietly (per Rhea: the slit is for folders). */
+	.ql-window.folder {
+		width: min(640px, 94vw);
 		animation: qlWinOpen 0.32s cubic-bezier(0.2, 0.9, 0.25, 1);
+	}
+	@keyframes qlFade {
+		from { opacity: 0; transform: scale(0.98); }
+		to { opacity: 1; transform: scale(1); }
 	}
 	@keyframes qlWinOpen {
 		0% { transform: scale(0.04, 0.015); }
 		45% { transform: scale(1.02, 0.06); }
 		100% { transform: scale(1, 1); }
 	}
-	.ql-window.folder { width: min(640px, 94vw); }
 	.ql-titlebar {
 		display: flex;
 		align-items: center;

@@ -22,11 +22,17 @@
 		view = post.pdf ? 'doc' : 'rendered';
 	}
 
+	// The `## Topics` / `## Related` blocks are Obsidian graph plumbing —
+	// they're `[[wikilinks]]` the web renderer can't resolve, so they'd show
+	// as literal "[[Topic - creative]]". Strip them from the reader view.
+	function stripGraphBlocks(md) {
+		return String(md).replace(/\n#+\s*(Topics|Related)\s*\n(?:\s*[-*]\s*\[\[.*?\]\].*\n?)+/gi, '\n').trimEnd();
+	}
 	// If the content is already HTML (older hardcoded posts) pass it through;
 	// otherwise treat it as Markdown and render it.
 	$: contentIsHtml = post ? isHtmlContent(post.content) : false;
 	$: renderedContent = post
-		? (contentIsHtml ? post.content : renderMarkdown(post.content))
+		? (contentIsHtml ? post.content : renderMarkdown(stripGraphBlocks(post.content)))
 		: '';
 	
 	// Load posts and find the specific post

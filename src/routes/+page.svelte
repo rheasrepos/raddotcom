@@ -12,6 +12,66 @@
 	import { siteName, SITE_TAGLINE } from '$lib/site.js';
 	import QuickLook from '../components/QuickLook.svelte';
 	import Spotlight from '../components/Spotlight.svelte';
+	import FinderWindow from '../components/FinderWindow.svelte';
+
+	// --- Finder-style windows: open folders & files as draggable windows.
+	//     Multiple can be open at once; the last-touched one is on top. This
+	//     replaces the on-screen "back" button — you close a window instead. ---
+	let windows = [];
+	let winSeq = 1;
+	let winZ = 20;
+	function focusWindow(id) {
+		const w = windows.find((x) => x.id === id);
+		if (w) { w.z = ++winZ; windows = windows; }
+	}
+	function closeWindow(id) {
+		windows = windows.filter((x) => x.id !== id);
+	}
+	function cascade() {
+		const n = windows.length;
+		return { x: 60 + n * 34, y: 70 + n * 30 };
+	}
+	// Open a category (or child category) folder as a window.
+	function openFolderWindow(categoryId) {
+		const info = categoryConfig[categoryId];
+		if (!info) return;
+		const { x, y } = cascade();
+		windows = [...windows, {
+			id: winSeq++, kind: 'folder', category: categoryId, subfolder: null,
+			title: info.label, x, y, w: 620, z: ++winZ
+		}];
+	}
+	// Open a subfolder (e.g. media-aesthetics) as its own window.
+	function openSubfolderWindow(categoryId, sub) {
+		const { x, y } = cascade();
+		windows = [...windows, {
+			id: winSeq++, kind: 'folder', category: categoryId, subfolder: sub,
+			title: prettyFolder(sub), x, y, w: 620, z: ++winZ
+		}];
+	}
+	// Open a single post as a preview window.
+	function openFileWindow(project) {
+		const { x, y } = cascade();
+		windows = [...windows, {
+			id: winSeq++, kind: 'file', post: project,
+			title: project.title, x, y, w: 640, z: ++winZ
+		}];
+	}
+	// Contents of a folder window: subfolders present + posts at that level.
+	function folderContents(win) {
+		const kids = Object.values(categoryConfig).filter((c) => c.parent === win.category).map((c) => c.id);
+		const inCat = (projects || []).filter((p) => p.type === win.category || kids.includes(p.type));
+		if (win.subfolder) {
+			return { subs: [], posts: inCat.filter((p) => p.subfolder === win.subfolder) };
+		}
+		const subs = [...new Set(inCat.filter((p) => p.subfolder).map((p) => p.subfolder))].sort();
+		const childCats = Object.values(categoryConfig).filter((c) => c.parent === win.category);
+		return { subs, childCats, posts: inCat.filter((p) => !p.subfolder && p.type === win.category) };
+	}
+	function ytId(url) {
+		const m = String(url || '').match(/(?:v=|youtu\.be\/|embed\/)([\w-]{6,})/);
+		return m ? m[1] : null;
+	}
 
 	// --- NEW: SVG Icon Definitions ---
 	const categoryIcons = {
@@ -774,8 +834,9 @@
 						{#if count > 0 && !categoryInfo.parent}
 							<div
 								class="desktop-icon"
-								on:click={() => openCategoryFolder(category.id)}
-								on:keydown={(e) => e.key === 'Enter' && openCategoryFolder(category.id)}
+								on:dblclick={() => openFolderWindow(category.id)}
+								on:click={() => openFolderWindow(category.id)}
+								on:keydown={(e) => e.key === 'Enter' && openFolderWindow(category.id)}
 								tabindex="0"
 								role="button"
 								aria-label="Open {categoryInfo.label} folder"
@@ -996,6 +1057,66 @@
 			</div>
 		{/if}
 
+		<!-- Draggable Finder windows: folders and file previews, many at once -->
+		{#each windows as win (win.id)}
+			<FinderWindow
+				title={win.title}
+				x={win.x}
+				y={win.y}
+				w={win.w}
+				z={win.z}
+				on:focus={() => focusWindow(win.id)}
+				on:close={() => closeWindow(win.id)}
+			>
+				{#if win.kind === 'folder'}
+					{@const c = folderContents(win)}
+					<div class="win-grid">
+						{#each (c.childCats || []) as child}
+							{@const n = (projects || []).filter(p => p.type === child.id).length}
+							{#if n > 0}
+								<button class="win-item" on:dblclick={() => openFolderWindow(child.id)} on:click={() => openFolderWindow(child.id)}>
+									<svg viewBox="0 0 56 46" class="win-folder"><path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999" stroke-width="1.2"/><rect x="0" y="11" width="56" height="35" fill="#e8e8e8" stroke="#999" stroke-width="1.2"/></svg>
+									<span>{child.label}</span>
+								</button>
+							{/if}
+						{/each}
+						{#each c.subs as sub}
+							<button class="win-item" on:dblclick={() => openSubfolderWindow(win.category, sub)} on:click={() => openSubfolderWindow(win.category, sub)}>
+								<svg viewBox="0 0 56 46" class="win-folder"><path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999" stroke-width="1.2"/><rect x="0" y="11" width="56" height="35" fill="#e8e8e8" stroke="#999" stroke-width="1.2"/></svg>
+								<span>{prettyFolder(sub)}</span>
+							</button>
+						{/each}
+						{#each c.posts as p (p.id)}
+							<button class="win-item" on:dblclick={() => openFileWindow(p)} on:click={() => openFileWindow(p)}>
+								{#if p.thumb || p.iconImage}
+									<img src={p.thumb || p.iconImage} alt="" class="win-thumb" loading="lazy" />
+								{:else}
+									<svg viewBox="0 0 44 56" class="win-doc"><path d="M4 0 L30 0 L44 14 L44 54 Q44 56 42 56 L4 56 Q2 56 0 54 L0 2 Q0 0 4 0 Z" fill="#f8f8f8" stroke="#aaa" stroke-width="1.5"/><path d="M30 0 L30 14 L44 14" stroke="#aaa" stroke-width="1.5" fill="none"/></svg>
+								{/if}
+								<span>{p.title}</span>
+							</button>
+						{/each}
+						{#if !c.posts.length && !c.subs.length && !(c.childCats || []).some(ch => (projects||[]).some(p=>p.type===ch.id))}
+							<p class="win-empty">Empty.</p>
+						{/if}
+					</div>
+				{:else if win.kind === 'file'}
+					{@const p = win.post}
+					<div class="win-file">
+						<div class="win-file-meta">{formatDate(p.date)} · {getCategoryLabel(p.type)}</div>
+						{#if p.video && ytId(p.video)}
+							<div class="win-embed"><iframe src="https://www.youtube.com/embed/{ytId(p.video)}" title={p.title} allowfullscreen></iframe></div>
+						{:else if p.pdf}
+							<iframe class="win-pdf" src={p.pdf} title={p.title}></iframe>
+						{:else if p.description}
+							<p>{p.description}</p>
+						{/if}
+						<a class="win-open" href="/posts/{p.id}">Open full post →</a>
+					</div>
+				{/if}
+			</FinderWindow>
+		{/each}
+
 		<!-- Quick Look (spacebar preview) + Spotlight search -->
 		<QuickLook item={quickLookItem} on:close={() => (quickLookItem = null)} on:open={handleQuickLookOpen} />
 		{#if spotlightOpen}
@@ -1117,15 +1238,53 @@
 		background: #fff;
 	}
 
-	/* Old-Windows open: documents burst open from the middle (slit → unfold) */
-	@keyframes winOpen {
-		0% { transform: scale(0.04, 0.015); }
-		45% { transform: scale(1.02, 0.06); }
-		100% { transform: scale(1, 1); }
+	/* Finder window contents */
+	.win-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, 92px);
+		gap: 14px;
+		justify-content: start;
 	}
+	.win-item {
+		background: none;
+		border: none;
+		padding: 4px;
+		cursor: pointer;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 6px;
+		text-align: center;
+		font: inherit;
+	}
+	.win-item:hover span { text-decoration: underline; }
+	.win-folder { width: 52px; height: 42px; }
+	.win-doc { width: 40px; height: 50px; }
+	.win-thumb { width: 60px; height: 50px; object-fit: cover; object-position: top center; border: 1px solid #888; }
+	.win-item span { font-size: 0.72rem; line-height: 1.2; word-break: break-word; }
+	.win-empty { color: #999; font-size: 0.85rem; }
+	.win-file-meta { font-size: 0.75rem; color: #777; margin-bottom: 10px; }
+	.win-embed { position: relative; padding-top: 56.25%; }
+	.win-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 1px solid #000; }
+	.win-pdf { width: 100%; height: 60vh; border: 1px solid #000; }
+	.win-open {
+		display: inline-block;
+		margin-top: 12px;
+		border: 1px solid #000;
+		padding: 5px 12px;
+		text-decoration: none;
+		color: #000;
+	}
+	.win-open:hover { background: #000; color: #fff; }
+
+	/* File previews fade in quietly. (The old-Windows slit animation is kept
+	   for folders only, in QuickLook.) */
 	:global(.modal-content) {
-		transform-origin: center center;
-		animation: winOpen 0.32s cubic-bezier(0.2, 0.9, 0.25, 1);
+		animation: modalFade 0.14s ease-out;
+	}
+	@keyframes modalFade {
+		from { opacity: 0; transform: scale(0.98); }
+		to { opacity: 1; transform: scale(1); }
 	}
 
 	/* Landing beat */
@@ -1851,7 +2010,6 @@
 		bottom: 35px; /* Above the wallpaper toolbar */
 		background: rgba(0, 0, 0, 0.4);
 		z-index: 500;
-		backdrop-filter: blur(5px);
 		display: flex;
 		justify-content: center;
 		align-items: center;
