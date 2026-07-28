@@ -21,6 +21,11 @@
 	let windows = [];
 	let winSeq = 1;
 	let winZ = 20;
+
+	// Spotify player window (toggle from the bottom dock)
+	let showPlayer = false;
+	let playerX = 60;
+	let playerY = 120;
 	function focusWindow(id) {
 		const w = windows.find((x) => x.id === id);
 		if (w) { w.z = ++winZ; w.minimized = false; windows = windows; }
@@ -1099,34 +1104,42 @@
 				>
 					{#if win.kind === 'folder'}
 						{@const c = folderContents(win)}
-						<div class="win-grid">
-							{#each c.childCats as child}
-								<button class="win-item" on:dblclick={() => navInto(win, child.id, null, child.label)} on:click={() => navInto(win, child.id, null, child.label)}>
-									<svg viewBox="0 0 56 46" class="win-folder"><path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999" stroke-width="1.2"/><rect x="0" y="11" width="56" height="35" fill="#e8e8e8" stroke="#999" stroke-width="1.2"/></svg>
-									<span>{child.label}</span>
-								</button>
-							{/each}
-							{#each c.subs as sub}
-								{@const cur = win.stack[win.stack.length - 1]}
-								<button class="win-item" on:dblclick={() => navInto(win, cur.category, sub, prettyFolder(sub))} on:click={() => navInto(win, cur.category, sub, prettyFolder(sub))}>
-									<svg viewBox="0 0 56 46" class="win-folder"><path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999" stroke-width="1.2"/><rect x="0" y="11" width="56" height="35" fill="#e8e8e8" stroke="#999" stroke-width="1.2"/></svg>
-									<span>{prettyFolder(sub)}</span>
-								</button>
-							{/each}
-							{#each c.posts as p (p.id)}
-								<button class="win-item" on:dblclick={() => openFileWindow(p)} on:click={() => openFileWindow(p)}>
-									{#if p.thumb || p.iconImage}
-										<img src={p.thumb || p.iconImage} alt="" class="win-thumb" loading="lazy" />
-									{:else}
-										<svg viewBox="0 0 44 56" class="win-doc"><path d="M4 0 L30 0 L44 14 L44 54 Q44 56 42 56 L4 56 Q2 56 0 54 L0 2 Q0 0 4 0 Z" fill="#f8f8f8" stroke="#aaa" stroke-width="1.5"/><path d="M30 0 L30 14 L44 14" stroke="#aaa" stroke-width="1.5" fill="none"/></svg>
-									{/if}
-									<span>{p.title}</span>
-								</button>
-							{/each}
-							{#if !c.posts.length && !c.subs.length && !c.childCats.length}
-								<p class="win-empty">Empty.</p>
-							{/if}
-						</div>
+						{@const cur = win.stack[win.stack.length - 1]}
+						<!-- Folders are small, quiet rows up top — just a way in. -->
+						{#if c.childCats.length || c.subs.length}
+							<div class="win-folders">
+								{#each c.childCats as child}
+									<button class="win-frow" on:click={() => navInto(win, child.id, null, child.label)}>
+										<span class="win-fico">▸</span>{child.label}
+									</button>
+								{/each}
+								{#each c.subs as sub}
+									<button class="win-frow" on:click={() => navInto(win, cur.category, sub, prettyFolder(sub))}>
+										<span class="win-fico">▸</span>{prettyFolder(sub)}
+									</button>
+								{/each}
+							</div>
+						{/if}
+						<!-- The content — papers, art, videos — is the big, clickable thing. -->
+						{#if c.posts.length}
+							<div class="win-tiles">
+								{#each c.posts as p (p.id)}
+									<button class="win-tile" on:click={() => openFileWindow(p)}>
+										<div class="win-tile-thumb">
+											{#if p.thumb || p.iconImage}
+												<img src={p.thumb || p.iconImage} alt="" loading="lazy" />
+											{:else}
+												<span class="win-tile-blank">{p.form || 'document'}</span>
+											{/if}
+										</div>
+										<div class="win-tile-cap">{p.title}</div>
+									</button>
+								{/each}
+							</div>
+						{/if}
+						{#if !c.posts.length && !c.subs.length && !c.childCats.length}
+							<p class="win-empty">Empty.</p>
+						{/if}
 					{:else if win.kind === 'file'}
 						{@const p = win.post}
 						<div class="win-file">
@@ -1177,8 +1190,24 @@
 		{/if}
 
 		<!-- Wallpaper Toolbar -->
+		<!-- Spotify player — a little draggable window; toggle from the dock -->
+		{#if showPlayer}
+			<FinderWindow title="♪ browsing playlist" bind:x={playerX} bind:y={playerY} w={340} h={420} z={winZ + 1}
+				on:focus={() => {}} on:close={() => (showPlayer = false)} on:minimize={() => (showPlayer = false)}>
+				<iframe
+					title="Rhea's playlist"
+					src="https://open.spotify.com/embed/playlist/3W0mwmJo0Xx3PxabebBTtE?utm_source=generator&theme=0"
+					width="100%" height="352" frameborder="0"
+					allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+					loading="lazy"
+					style="border:none;"
+				></iframe>
+			</FinderWindow>
+		{/if}
+
 		<div class="wallpaper-toolbar">
 			<div class="toolbar-section">
+				<button class="player-btn" on:click={() => (showPlayer = !showPlayer)} title="Music player">♪</button>
 				<span class="toolbar-label">Wallpaper:</span>
 				<div class="color-picker">
 					<button 
@@ -1291,30 +1320,63 @@
 		background: #fff;
 	}
 
-	/* Finder window contents — larger, Finder-sized icons */
-	.win-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, 130px);
-		gap: 20px;
-		justify-content: start;
+	/* Folders: small, quiet rows at the top of the window — just a way in.
+	   You don't preview a folder; you open it. */
+	.win-folders {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px 16px;
+		padding-bottom: 12px;
+		margin-bottom: 14px;
+		border-bottom: 1px solid #ccc;
 	}
-	.win-item {
+	.win-frow {
 		background: none;
 		border: none;
-		padding: 6px;
+		font: inherit;
+		font-size: 0.85rem;
 		cursor: pointer;
+		padding: 2px 0;
+		display: inline-flex;
+		align-items: center;
+		gap: 5px;
+	}
+	.win-frow:hover { text-decoration: underline; }
+	.win-fico { color: #888; }
+
+	/* Content — papers, art, videos — is the big, clickable thing (Are.na feel). */
+	.win-tiles {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+		gap: 18px;
+	}
+	.win-tile {
+		background: #fff;
+		border: 2px solid #000;
+		padding: 0;
+		cursor: pointer;
+		text-align: left;
+		font: inherit;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		gap: 8px;
-		text-align: center;
-		font: inherit;
 	}
-	.win-item:hover span { text-decoration: underline; }
-	.win-folder { width: 84px; height: 68px; }
-	.win-doc { width: 66px; height: 84px; }
-	.win-thumb { width: 110px; height: 88px; object-fit: cover; object-position: top center; border: 1px solid #888; }
-	.win-item span { font-size: 0.8rem; line-height: 1.25; word-break: break-word; }
+	.win-tile:hover { box-shadow: 4px 4px 0 #000; }
+	.win-tile-thumb {
+		aspect-ratio: 4 / 3;
+		background: #1c1c1c;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+	}
+	.win-tile-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+	.win-tile-blank { color: #777; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+	.win-tile-cap {
+		padding: 9px 11px;
+		font-size: 0.85rem;
+		line-height: 1.3;
+		border-top: 2px solid #000;
+	}
 	.win-empty { color: #999; font-size: 0.85rem; }
 	.win-file-meta { font-size: 0.75rem; color: #777; margin-bottom: 10px; }
 	.win-embed { position: relative; padding-top: 56.25%; }
@@ -2334,6 +2396,19 @@
 	}
 
 	/* Wallpaper Toolbar */
+	.player-btn {
+		background: #1db954;
+		border: 1px solid #000;
+		color: #000;
+		font-size: 1rem;
+		line-height: 1;
+		width: 26px;
+		height: 22px;
+		cursor: pointer;
+		margin-right: 12px;
+	}
+	.player-btn:hover { background: #1ed760; }
+
 	.wallpaper-toolbar {
 		position: absolute;
 		bottom: 0;

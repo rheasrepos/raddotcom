@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Folder view options — rhea.com</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
+  * { box-sizing: border-box; font-family: 'Space Grotesk', sans-serif; border-radius: 0; margin: 0; padding: 0; }
+  body { background: #9b59b6; color: #000; padding: 0; }
+  .tabs { display: flex; background: #000; position: sticky; top: 0; z-index: 20; }
+  .tabs button { flex: 1; background: #000; color: #999; border: none; border-bottom: 3px solid #000; padding: 14px; font-size: 14px; cursor: pointer; }
+  .tabs button.on { color: #fff; border-bottom-color: #fff; }
+  .scene { display: none; padding: 30px; min-height: 90vh; }
+  .scene.on { display: block; }
+  .note { max-width: 780px; margin: 0 auto 22px; background: #fff; border: 2px solid #000; padding: 14px 18px; font-size: 14px; line-height: 1.5; }
+  .note b { display: block; margin-bottom: 4px; }
+
+  /* ---------- A. COLUMN VIEW (Miller / OG Finder) ---------- */
+  .cols { display: flex; max-width: 1000px; margin: 0 auto; background: #fff; border: 2px solid #000; height: 520px; }
+  .col { flex: 0 0 210px; border-right: 1px solid #bbb; overflow-y: auto; }
+  .col:last-child { flex: 1; border-right: none; }
+  .col h4 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: #888; padding: 8px 12px; position: sticky; top: 0; background: #fff; }
+  .row { padding: 8px 12px; font-size: 13px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .row:hover { background: #eee; }
+  .row.sel { background: #000; color: #fff; }
+  .row .chev { color: #999; }
+  .row.sel .chev { color: #fff; }
+  .preview { padding: 20px; }
+  .preview h3 { font-size: 18px; margin-bottom: 6px; }
+  .preview .meta { font-size: 12px; color: #777; margin-bottom: 14px; }
+  .preview .doc { width: 100%; height: 320px; background: repeating-linear-gradient(#f0f0f0 0 16px, #fff 16px 32px); border: 1px solid #000; display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 12px; }
+
+  /* ---------- B. BIG-TILE GRID (Are.na style) ---------- */
+  .grid-wrap { max-width: 1100px; margin: 0 auto; }
+  .grid-bar { display: flex; align-items: center; gap: 12px; background: #fff; border: 2px solid #000; padding: 8px 14px; margin-bottom: 16px; font-size: 13px; }
+  .grid-bar .back { border: 1px solid #000; padding: 3px 9px; cursor: pointer; background: #fff; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 18px; }
+  .tile { background: #fff; border: 2px solid #000; cursor: pointer; }
+  .tile:hover { box-shadow: 4px 4px 0 #000; }
+  .tile .thumb { aspect-ratio: 1; background: #1c1c1c; display: flex; align-items: center; justify-content: center; color: #666; font-size: 12px; overflow: hidden; }
+  .tile .thumb.doc { background: repeating-linear-gradient(#f2f2f2 0 14px, #fff 14px 28px); color: #bbb; }
+  .tile .thumb.folder { background: #e8e8e8; }
+  .tile .cap { padding: 9px 11px; font-size: 13px; border-top: 2px solid #000; }
+  .tile .cap small { display: block; color: #888; font-size: 11px; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<div class="tabs">
+  <button class="on" data-s="cols">A · Column view (OG Finder)</button>
+  <button data-s="grid">B · Big-tile grid (Are.na feel)</button>
+</div>
+
+<!-- A -->
+<section id="cols" class="scene on">
+  <div class="note"><b>Column view — the OG Finder / Miller-column model</b>
+    Click a folder and its contents open in a new column to the right. Click a document and a big preview fills the last column. You always see the full path as columns, so there's no back button and you never lose where you are. Reads like a filing cabinet.</div>
+  <div class="cols" id="colview"></div>
+</section>
+
+<!-- B -->
+<section id="grid" class="scene">
+  <div class="note"><b>Big-tile grid — the Are.na feel</b>
+    Every item is a large preview tile you can read at a glance: documents show their first page, art shows the art, videos show the still. Click a folder tile and the grid becomes that folder's contents. Most visual and immediately readable; a small back bar handles navigation.</div>
+  <div class="grid-wrap">
+    <div class="grid-bar"><button class="back" onclick="gridBack()">←</button> <span id="gridpath">Desktop</span></div>
+    <div class="grid" id="gridview"></div>
+  </div>
+</section>
+
+<script>
+  // sample data
+  const DATA = {
+    Desktop: { folders: ['Writing','Research','Making','Collecting'], docs: [] },
+    Writing: { folders: ['Essays & Papers','Coursework','Thesis'], docs: [] },
+    'Essays & Papers': { folders: ['Media Aesthetics','SOSC','Phil of AI'], docs: [] },
+    'Media Aesthetics': { folders: [], docs: [
+      {t:'HUMA: Text Paper 1', m:'paper · 2023', kind:'doc'},
+      {t:'HUMA: Image Paper 3', m:'paper · 2023', kind:'doc'} ] },
+    Making: { folders: ['Creative','Tech & Industry'], docs: [] },
+    Creative: { folders: ['Comedy','Music','Poetry'], docs: [] },
+    Music: { folders: [], docs: [
+      {t:'ICCA Semifinals — Voices in Your Head', m:'video · 2025', kind:'vid'},
+      {t:'@rheamad on YouTube', m:'channel', kind:'vid'} ] },
+    Collecting: { folders: ['Analog Archive','Recommendations'], docs: [] },
+    'Analog Archive': { folders: [], docs: [
+      {t:'Artifact 05', m:'scan', kind:'art'},
+      {t:'Artifact 21', m:'scan · 2 sides', kind:'art'},
+      {t:'Artifact myart22', m:'scan · 12 pages', kind:'art'} ] },
+  };
+  const kids = (n) => DATA[n] || { folders: [], docs: [] };
+
+  // ---- A: columns ----
+  let path = ['Desktop'];
+  function renderCols() {
+    const wrap = document.getElementById('colview'); wrap.innerHTML = '';
+    path.forEach((name, i) => {
+      const d = kids(name);
+      const col = document.createElement('div'); col.className = 'col';
+      col.innerHTML = `<h4>${name}</h4>`;
+      d.folders.forEach(f => {
+        const sel = path[i+1] === f ? ' sel' : '';
+        const r = document.createElement('div'); r.className = 'row' + sel;
+        r.innerHTML = `${f} <span class="chev">▸</span>`;
+        r.onclick = () => { path = path.slice(0, i+1); path.push(f); renderCols(); };
+        col.appendChild(r);
+      });
+      d.docs.forEach(doc => {
+        const sel = path[i+1] === doc.t ? ' sel' : '';
+        const r = document.createElement('div'); r.className = 'row' + sel;
+        r.textContent = doc.t;
+        r.onclick = () => { path = path.slice(0, i+1); path.push(doc.t); renderCols(); };
+        col.appendChild(r);
+      });
+      wrap.appendChild(col);
+    });
+    // preview column if last item is a doc
+    const last = path[path.length-1];
+    const parent = kids(path[path.length-2]);
+    const doc = parent.docs && parent.docs.find(x => x.t === last);
+    if (doc) {
+      const col = document.createElement('div'); col.className = 'col';
+      col.innerHTML = `<div class="preview"><h3>${doc.t}</h3><div class="meta">${doc.m}</div><div class="doc">preview of the ${doc.kind}</div></div>`;
+      wrap.appendChild(col);
+    } else if (!kids(last).folders.length && !kids(last).docs.length) {
+      // nothing
+    }
+  }
+  renderCols();
+
+  // ---- B: grid ----
+  let gpath = ['Desktop'];
+  function renderGrid() {
+    document.getElementById('gridpath').textContent = gpath.join('  ›  ');
+    const g = document.getElementById('gridview'); g.innerHTML = '';
+    const d = kids(gpath[gpath.length-1]);
+    d.folders.forEach(f => {
+      const t = document.createElement('div'); t.className = 'tile';
+      t.innerHTML = `<div class="thumb folder">📁</div><div class="cap">${f}<small>folder</small></div>`;
+      t.onclick = () => { gpath.push(f); renderGrid(); };
+      g.appendChild(t);
+    });
+    d.docs.forEach(doc => {
+      const cls = doc.kind === 'art' ? '' : (doc.kind==='vid' ? '' : 'doc');
+      const t = document.createElement('div'); t.className = 'tile';
+      const inner = doc.kind==='art' ? 'the artwork' : doc.kind==='vid' ? '▶ video still' : 'first page';
+      t.innerHTML = `<div class="thumb ${cls}">${inner}</div><div class="cap">${doc.t}<small>${doc.m}</small></div>`;
+      g.appendChild(t);
+    });
+    if (!d.folders.length && !d.docs.length) g.innerHTML = '<p style="color:#fff">Empty.</p>';
+  }
+  function gridBack() { if (gpath.length>1){ gpath.pop(); renderGrid(); } }
+  renderGrid();
+
+  document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => {
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.scene').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); document.getElementById(b.dataset.s).classList.add('on');
+  });
+</script>
+</body>
+</html>
