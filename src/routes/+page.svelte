@@ -807,8 +807,8 @@
 							aria-label="Open {project.title}"
 						>
 							<div class="mac-icon">
-								{#if project.iconImage}
-									<img src={project.iconImage} alt={project.title} class="mac-icon-img" />
+								{#if project.thumb || project.iconImage}
+									<img src={project.thumb || project.iconImage} alt={project.title} class="mac-icon-img" loading="lazy" />
 								{:else}
 									<svg viewBox="0 0 44 56" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
 										<path d="M4 0 L30 0 L44 14 L44 54 Q44 56 42 56 L4 56 Q2 56 0 54 L0 2 Q0 0 4 0 Z" fill="#f8f8f8" stroke="#aaaaaa" stroke-width="1.5"/>
@@ -878,8 +878,8 @@
 							aria-label="Open {project.title}"
 						>
 							<div class="mac-icon">
-								{#if project.iconImage}
-									<img src={project.iconImage} alt={project.title} class="mac-icon-img" />
+								{#if project.thumb || project.iconImage}
+									<img src={project.thumb || project.iconImage} alt={project.title} class="mac-icon-img" loading="lazy" />
 								{:else}
 									<svg viewBox="0 0 44 56" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
 										<path d="M4 0 L30 0 L44 14 L44 54 Q44 56 42 56 L4 56 Q2 56 0 54 L0 2 Q0 0 4 0 Z" fill="#f8f8f8" stroke="#aaaaaa" stroke-width="1.5"/>
@@ -1785,10 +1785,15 @@
 		height: 100%;
 	}
 
+	/* Icons show the real thing: a video's still, the artwork, or the first
+	   page of the document — cropped to the icon like a Finder preview. */
 	.mac-icon-img {
 		width: 100%;
 		height: 100%;
-		object-fit: contain;
+		object-fit: cover;
+		object-position: top center;
+		border: 1px solid #888;
+		background: #fff;
 	}
 
 	.mac-icon-label {

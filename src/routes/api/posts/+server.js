@@ -175,7 +175,23 @@ export async function GET() {
 				// video: a YouTube URL — the post embeds the player
 				video: frontmatter.video || null,
 				// doi / paperUrl: publications link out to the real record
-				doi: frontmatter.doi || null
+				doi: frontmatter.doi || null,
+				// featured: pin this post to the top of the blog
+				featured: frontmatter.featured === true,
+				// thumb: what the desktop icon should actually SHOW —
+				// the video's still, the artwork itself, or the PDF's first page.
+				thumb: (() => {
+					if (frontmatter.iconImage) return frontmatter.iconImage;
+					if (frontmatter.video) {
+						const v = String(frontmatter.video).match(/(?:v=|youtu\.be\/|embed\/)([\w-]{6,})/);
+						if (v) return `https://i.ytimg.com/vi/${v[1]}/hqdefault.jpg`;
+					}
+					if (frontmatter.image) return frontmatter.image;
+					if (frontmatter.pdf) {
+						return '/docs/covers/' + String(frontmatter.pdf).split('/').pop().replace(/\.pdf$/, '') + '.png';
+					}
+					return null;
+				})()
 			});
 		}
 

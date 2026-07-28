@@ -1,16 +1,17 @@
-/* Cascadia Code — Microsoft's Consolas successor: sharper, more angular,
-   open source. Falls back to macOS SF Mono, then Consolas, then Courier. */
-@import url('https://cdn.jsdelivr.net/npm/@fontsource/cascadia-code@5/index.css');
+/* Space Grotesk — a blocky, squared-off grotesk (closest free relative of
+   Quadrat Grotesk: flat terminals, tight apertures, engineered feel). */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 /* Retro: nothing gets rounded corners anywhere on the site. */
 *, *::before, *::after {
   border-radius: 0;
 }
 
-/* One typeface across the whole site: Cascadia Code (webfont, so it looks the
-   same for every visitor), then SF Mono on macOS, then Consolas on Windows. */
+/* One typeface across the whole site: Space Grotesk — blocky, squared-off,
+   flat terminals. If you license Quadrat Grotesk later, install it and it
+   takes precedence automatically with no code change. */
 *, *::before, *::after {
-  font-family: 'Cascadia Code', 'SF Mono', ui-monospace, 'Consolas', 'Courier New', Courier, monospace !important;
+  font-family: 'Quadrat Grotesk', 'Space Grotesk', 'Archivo', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
 }
 
 /* AI-drafted text is always marked with a dashed underline, site-wide.

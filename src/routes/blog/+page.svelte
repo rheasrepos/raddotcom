@@ -4,6 +4,7 @@
 	import { onMount, tick } from 'svelte';
 	import { page } from '$app/stores';
 	import { loadPosts } from '../../lib/posts.js';
+	import { SITE_NAME } from '$lib/site.js';
 
 	let posts = [];
 	let grouping = 'date'; // 'date' | 'category' | 'month'
@@ -81,7 +82,7 @@
 	})();
 </script>
 
-<PageLayout title="Rhea's Web - Rhea Madhogarhia">
+<PageLayout title="{SITE_NAME} — Rhea Madhogarhia">
 	<div class="arch-layout">
 	<!-- Left sidebar: filter + jump navigation -->
 	<aside class="arch-side">
@@ -116,8 +117,8 @@
 
 	<section class="archive">
 		<header class="arch-head">
-			<h1 class="arch-title">Rhea's Web</h1>
-			<p class="arch-sub">Notes, essays, and thesis fragments — {posts.length} entries.</p>
+			<h1 class="arch-title">{SITE_NAME}</h1>
+			<p class="arch-sub">A public personal archive — {posts.length} entries.</p>
 		</header>
 
 		<nav class="view-switch" aria-label="Group posts by">
@@ -127,16 +128,16 @@
 			<button class:active={grouping === 'month'} on:click={() => (grouping = 'month')}>By Month</button>
 		</nav>
 
-		<!-- Latest post, given room to breathe -->
+		<!-- Pinned post (featured: true), else the most recent -->
 		{#if sorted.length}
-			{@const lead = sorted[0]}
+			{@const lead = sorted.find((p) => p.featured) || sorted[0]}
 			<a class="hero" href="/posts/{lead.id}{hideParam}">
 				{#if lead.pdf}
 					<img class="hero-cover" src="/docs/covers/{lead.pdf.split('/').pop().replace('.pdf', '')}.png" alt="" loading="lazy" />
 				{/if}
 				<div class="hero-body">
 					<div class="hero-kicker">
-						LATEST · {catLabel(lead.type)}{#if lead.form}<span class="entry-form">{lead.form}</span>{/if}
+						{lead.featured ? 'PINNED' : 'LATEST'} · {catLabel(lead.type)}{#if lead.form}<span class="entry-form">{lead.form}</span>{/if}
 					</div>
 					<h2 class="hero-title" class:ai-title={lead.aiTitle} title={lead.aiTitle ? 'Title drafted with AI assistance' : undefined}>{lead.title}</h2>
 					{#if lead.description}<p class="hero-desc" class:ai-desc={lead.aiDescription} title={lead.aiDescription ? 'Description drafted with AI assistance' : undefined}>{lead.description}</p>{/if}
@@ -199,29 +200,30 @@
 </PageLayout>
 
 <style>
-	/* The blog reads as a window ON the desktop wallpaper — no white page.
-	   The wallpaper color comes from PageLayout's .laptop-screen behind us. */
+	/* Flat: one plain reading surface on the wallpaper. No drop shadows,
+	   no highlight boxes. */
 	.arch-layout {
 		display: flex;
-		gap: 28px;
+		gap: 34px;
 		max-width: 1000px;
 		margin: 0 auto;
 		align-items: flex-start;
 	}
-	/* Windows-93-ish panel: hard border + offset drop shadow, no rounding */
 	.arch-side,
 	.archive {
-		background: #f4f4f4;
-		border: 2px solid #000;
-		box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.45);
+		background: #fff;
+		border: 1px solid #000;
 	}
-	.archive { padding: 22px 26px 40px; }
+	.archive { padding: 26px 30px 44px; }
+	/* Sidebar: quiet. No borders on rows, no counts shouting. */
 	.arch-side {
-		flex: 0 0 200px;
+		flex: 0 0 176px;
 		position: sticky;
 		top: 14px;
-		padding: 12px;
-		font-size: 0.85rem;
+		padding: 16px 14px;
+		font-size: 0.8rem;
+		max-height: 78vh;
+		overflow-y: auto;
 	}
 	.side-section + .side-section { margin-top: 16px; }
 	.side-head {
@@ -339,23 +341,21 @@
 		font-weight: 600;
 		line-height: 1.35;
 	}
-	/* Hero: latest post */
+	/* Hero: pinned/latest post — flat, no fill, no shadow */
 	.hero {
 		display: flex;
-		gap: 18px;
-		border: 2px solid #000;
-		background: #fffbea;
-		box-shadow: 5px 5px 0 #000;
-		padding: 16px;
-		margin: 20px 0 26px;
+		gap: 20px;
+		border-bottom: 1px solid #000;
+		padding: 0 0 22px;
+		margin: 18px 0 8px;
 		text-decoration: none;
 		color: #000;
 	}
-	.hero:hover { background: #fff6d0; }
+	.hero:hover .hero-title { text-decoration: underline; }
 	.hero-cover {
-		width: 132px;
+		width: 118px;
 		flex: none;
-		border: 2px solid #000;
+		border: 1px solid #999;
 		background: #fff;
 		object-fit: cover;
 		object-position: top center;

@@ -2,7 +2,7 @@
 
 // Official name. (The rotating-title experiment is kept below but switched off;
 // set ROTATE = true and it cycles through SITE_NAMES again.)
-export const SITE_NAME = 'RHEA.COM';
+export const SITE_NAME = 'WWW.RHEA.COM';
 export const ROTATE = false;
 
 export const SITE_NAMES = [
