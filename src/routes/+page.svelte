@@ -1090,7 +1090,7 @@
 			{#if !win.minimized}
 				<FinderWindow
 					title={win.kind === 'folder' ? win.stack[win.stack.length - 1].title : win.post.title}
-					x={win.x} y={win.y} w={win.w} h={win.h} z={win.z}
+					bind:x={win.x} bind:y={win.y} bind:w={win.w} bind:h={win.h} z={win.z}
 					canBack={win.kind === 'folder' && win.stack.length > 1}
 					on:focus={() => focusWindow(win.id)}
 					on:close={() => closeWindow(win.id)}
@@ -1145,6 +1145,9 @@
 								<iframe class="win-pdf" src={p.pdf} title={p.title}></iframe>
 							{:else}
 								<div class="win-prose">{@html renderMarkdownSafe(p.content)}</div>
+							{/if}
+							{#if p.link}
+								<a class="win-open" href={p.link} target="_blank" rel="noopener noreferrer">Open ↗</a>
 							{/if}
 							<a class="win-open" href="/posts/{p.id}">Open full post →</a>
 						</div>
@@ -1288,30 +1291,30 @@
 		background: #fff;
 	}
 
-	/* Finder window contents */
+	/* Finder window contents — larger, Finder-sized icons */
 	.win-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, 92px);
-		gap: 14px;
+		grid-template-columns: repeat(auto-fill, 130px);
+		gap: 20px;
 		justify-content: start;
 	}
 	.win-item {
 		background: none;
 		border: none;
-		padding: 4px;
+		padding: 6px;
 		cursor: pointer;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 6px;
+		gap: 8px;
 		text-align: center;
 		font: inherit;
 	}
 	.win-item:hover span { text-decoration: underline; }
-	.win-folder { width: 52px; height: 42px; }
-	.win-doc { width: 40px; height: 50px; }
-	.win-thumb { width: 60px; height: 50px; object-fit: cover; object-position: top center; border: 1px solid #888; }
-	.win-item span { font-size: 0.72rem; line-height: 1.2; word-break: break-word; }
+	.win-folder { width: 84px; height: 68px; }
+	.win-doc { width: 66px; height: 84px; }
+	.win-thumb { width: 110px; height: 88px; object-fit: cover; object-position: top center; border: 1px solid #888; }
+	.win-item span { font-size: 0.8rem; line-height: 1.25; word-break: break-word; }
 	.win-empty { color: #999; font-size: 0.85rem; }
 	.win-file-meta { font-size: 0.75rem; color: #777; margin-bottom: 10px; }
 	.win-embed { position: relative; padding-top: 56.25%; }
