@@ -1,10 +1,10 @@
 ---
-title: "Artifact — img63-1"
+title: "Artifact — myart24"
 ai_title: true
 date: 2026-07-23
 type: artifacts
 published: true
-image: /artifacts/img63-1.jpg
+image: /artifacts/myart24.jpg
 tags: []
 affiliation: independent
 kind: [artifact, analog-archive]

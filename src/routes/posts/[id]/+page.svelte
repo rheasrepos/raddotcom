@@ -125,7 +125,11 @@
 					</button>
 				</div>
 
-				{#if post.image}
+				{#if post.images && post.images.length}
+					{#each post.images as img, i}
+						<img class="post-image" src={img} alt="{post.title}{post.images.length > 1 ? ` — ${i + 1} of ${post.images.length}` : ''}" loading="lazy" />
+					{/each}
+				{:else if post.image}
 					<img class="post-image" src={post.image} alt={post.title} loading="lazy" />
 				{/if}
 

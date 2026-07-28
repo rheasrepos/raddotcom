@@ -1,10 +1,10 @@
 ---
-title: "Artifact — img21-1"
+title: "Artifact — tools2"
 ai_title: true
 date: 2026-07-23
 type: artifacts
 published: true
-image: /artifacts/img21-1.jpg
+image: /artifacts/tools2.png
 tags: []
 affiliation: independent
 kind: [artifact, analog-archive]

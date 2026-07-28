@@ -1,6 +1,5 @@
 ---
-title: "Artifact — img61"
-ai_title: true
+title: "Artifact 61"
 date: 2026-07-23
 type: artifacts
 published: true

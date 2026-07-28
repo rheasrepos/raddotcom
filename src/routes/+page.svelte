@@ -69,6 +69,13 @@
 			.filter((c) => c.parent === catId)
 			.some((c) => hasPostsDeep(c.id));
 	}
+	// Reactive: the top-level desktop folders (the 4 groups that have content).
+	// Referencing `projects` here makes Svelte recompute when posts load —
+	// without it the desktop renders once while projects is empty and never
+	// updates (which made all folders vanish).
+	$: topFolders = projects
+		? categories.filter((c) => !categoryConfig[c.id].parent && hasPostsDeep(c.id))
+		: [];
 	// Contents of the folder window's CURRENT level (top of its stack).
 	// A level shows: its direct child-category folders (that contain posts),
 	// its own subfolders, and its own posts — never grandchildren directly.
@@ -852,9 +859,8 @@
 					     Creative / Comedy / Music alongside everything else. -->
 					<!-- Desktop: top-level category folders only. Child categories
 					     (Comedy, Music) live inside their parent (Creative). -->
-					{#each categories as category}
+					{#each topFolders as category}
 						{@const categoryInfo = categoryConfig[category.id]}
-						{#if !categoryInfo.parent && hasPostsDeep(category.id)}
 							<div
 								class="desktop-icon"
 								on:dblclick={() => openFolderWindow(category.id)}
@@ -876,7 +882,6 @@
 								</div>
 								<div class="mac-icon-label">{categoryInfo.label}</div>
 							</div>
-						{/if}
 					{/each}
 					<!-- Loose files float directly on the desktop (set loose: true in frontmatter) -->
 					{#each (projects || []).filter(p => p.loose === true) as project (project.id)}
@@ -1126,7 +1131,13 @@
 						{@const p = win.post}
 						<div class="win-file">
 							<div class="win-file-meta">{formatDate(p.date)} · {getCategoryLabel(p.type)}</div>
-							{#if p.image}
+							{#if p.images && p.images.length > 1}
+								<div class="win-gallery">
+									{#each p.images as img, i}
+										<img class="win-gimg" src={img} alt="{p.title} — {i + 1} of {p.images.length}" loading="lazy" />
+									{/each}
+								</div>
+							{:else if p.image}
 								<img class="win-image" src={p.image} alt={p.title} loading="lazy" />
 							{:else if p.video && ytId(p.video)}
 								<div class="win-embed"><iframe src="https://www.youtube.com/embed/{ytId(p.video)}" title={p.title} allowfullscreen></iframe></div>
@@ -1310,6 +1321,9 @@
 	   to fit (contain) so the WHOLE artifact is always visible, at any window
 	   size — resize the window and the image just scales with it. */
 	.win-file { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+	/* Multi-page/side artifact: a scrollable stack of all its images */
+	.win-gallery { flex: 1; min-height: 0; overflow: auto; display: flex; flex-direction: column; gap: 10px; }
+	.win-gimg { max-width: 100%; border: 1px solid #000; display: block; }
 	.win-image {
 		flex: 1;
 		min-height: 0;
