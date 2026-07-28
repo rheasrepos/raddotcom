@@ -178,6 +178,8 @@ export async function GET() {
 				doi: frontmatter.doi || null,
 				// featured: pin this post to the top of the blog
 				featured: frontmatter.featured === true,
+				// image: a scanned artifact / artwork shown full-size on the page
+				image: frontmatter.image || null,
 				// thumb: what the desktop icon should actually SHOW —
 				// the video's still, the artwork itself, or the PDF's first page.
 				thumb: (() => {

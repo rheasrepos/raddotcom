@@ -1120,7 +1120,9 @@
 						{@const p = win.post}
 						<div class="win-file">
 							<div class="win-file-meta">{formatDate(p.date)} · {getCategoryLabel(p.type)}</div>
-							{#if p.video && ytId(p.video)}
+							{#if p.image}
+								<img class="win-image" src={p.image} alt={p.title} loading="lazy" />
+							{:else if p.video && ytId(p.video)}
 								<div class="win-embed"><iframe src="https://www.youtube.com/embed/{ytId(p.video)}" title={p.title} allowfullscreen></iframe></div>
 							{:else if p.pdf}
 								<iframe class="win-pdf" src={p.pdf} title={p.title}></iframe>
@@ -1298,6 +1300,7 @@
 	.win-embed { position: relative; padding-top: 56.25%; }
 	.win-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 1px solid #000; }
 	.win-pdf { width: 100%; height: 60vh; border: 1px solid #000; }
+	.win-image { max-width: 100%; border: 1px solid #000; display: block; }
 	.win-open {
 		display: inline-block;
 		margin-top: 12px;

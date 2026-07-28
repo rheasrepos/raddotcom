@@ -125,6 +125,10 @@
 					</button>
 				</div>
 
+				{#if post.image}
+					<img class="post-image" src={post.image} alt={post.title} loading="lazy" />
+				{/if}
+
 				{#if post.video}
 					{@const vid = (String(post.video).match(/(?:v=|youtu\.be\/|embed\/)([\w-]{6,})/) || [])[1]}
 					{#if vid}
@@ -244,6 +248,14 @@
 		line-height: 1.2;
 		margin: 0 0 0.5rem;
 	}
+	/* Scanned artifact / artwork */
+	.post-image {
+		display: block;
+		max-width: 100%;
+		border: 1px solid #000;
+		margin: 16px 0;
+	}
+
 	/* Embedded video */
 	.video-embed {
 		position: relative;

@@ -17,7 +17,9 @@
 		const h = new URL(window.location.href).searchParams.get('hide');
 		if (h) hidden = new Set(h.split(',').filter(Boolean));
 		try {
-			posts = await loadPosts();
+			// Artifacts (128 scans) live in the desktop's Analog Archive folder,
+			// not the writing blog — otherwise they'd bury everything here.
+			posts = (await loadPosts()).filter((p) => p.type !== 'artifacts');
 		} catch (e) {
 			posts = [];
 		}
