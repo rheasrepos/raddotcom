@@ -273,11 +273,8 @@
 		border: none;
 	}
 	.pub-links {
-		border: 2px solid #000;
-		background: #fffbea;
-		padding: 10px 12px;
-		font-size: 0.9rem;
-		margin: 14px 0;
+		font-size: 0.95rem;
+		margin: 16px 0;
 	}
 
 	/* Embedded PDF reader */
@@ -320,12 +317,8 @@
 		font-size: 0.7rem;
 		text-transform: uppercase;
 		letter-spacing: 0.04em;
-		color: #444;
-		background: rgba(0, 0, 0, 0.07);
-		border: 1px solid rgba(0, 0, 0, 0.2);
-		border-radius: 0;
-		padding: 1px 6px;
-		margin-left: 6px;
+		color: #777;
+		margin-left: 8px;
 		white-space: nowrap;
 	}
 	.reader-desc { font-size: 0.95rem; color: #333; margin: 0 0 6px; }

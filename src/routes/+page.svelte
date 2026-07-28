@@ -62,18 +62,26 @@
 			x, y, w: 680, h: 560, z: ++winZ, minimized: false
 		}];
 	}
+	// Does a category (or any category nested under it) contain posts?
+	function hasPostsDeep(catId) {
+		if ((projects || []).some((p) => p.type === catId)) return true;
+		return Object.values(categoryConfig)
+			.filter((c) => c.parent === catId)
+			.some((c) => hasPostsDeep(c.id));
+	}
 	// Contents of the folder window's CURRENT level (top of its stack).
+	// A level shows: its direct child-category folders (that contain posts),
+	// its own subfolders, and its own posts — never grandchildren directly.
 	function folderContents(win) {
 		const cur = win.stack[win.stack.length - 1];
-		const kids = Object.values(categoryConfig).filter((c) => c.parent === cur.category).map((c) => c.id);
-		const inCat = (projects || []).filter((p) => p.type === cur.category || kids.includes(p.type));
+		const childCats = Object.values(categoryConfig)
+			.filter((c) => c.parent === cur.category && hasPostsDeep(c.id));
+		const own = (projects || []).filter((p) => p.type === cur.category);
 		if (cur.subfolder) {
-			return { childCats: [], subs: [], posts: inCat.filter((p) => p.subfolder === cur.subfolder) };
+			return { childCats: [], subs: [], posts: own.filter((p) => p.subfolder === cur.subfolder) };
 		}
-		const subs = [...new Set(inCat.filter((p) => p.subfolder).map((p) => p.subfolder))].sort();
-		const childCats = Object.values(categoryConfig).filter((c) => c.parent === cur.category)
-			.filter((c) => (projects || []).some((p) => p.type === c.id));
-		return { childCats, subs, posts: inCat.filter((p) => !p.subfolder && p.type === cur.category) };
+		const subs = [...new Set(own.filter((p) => p.subfolder).map((p) => p.subfolder))].sort();
+		return { childCats, subs, posts: own.filter((p) => !p.subfolder) };
 	}
 	function ytId(url) {
 		const m = String(url || '').match(/(?:v=|youtu\.be\/|embed\/)([\w-]{6,})/);
@@ -846,9 +854,7 @@
 					     (Comedy, Music) live inside their parent (Creative). -->
 					{#each categories as category}
 						{@const categoryInfo = categoryConfig[category.id]}
-						{@const kids = categories.filter(c => c.parent === category.id).map(c => c.id)}
-						{@const count = (projects || []).filter(p => p.type === category.id || kids.includes(p.type)).length}
-						{#if count > 0 && !categoryInfo.parent}
+						{#if !categoryInfo.parent && hasPostsDeep(category.id)}
 							<div
 								class="desktop-icon"
 								on:dblclick={() => openFolderWindow(category.id)}
@@ -1300,7 +1306,20 @@
 	.win-embed { position: relative; padding-top: 56.25%; }
 	.win-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 1px solid #000; }
 	.win-pdf { width: 100%; height: 60vh; border: 1px solid #000; }
-	.win-image { max-width: 100%; border: 1px solid #000; display: block; }
+	/* The file window is a flex column filling its window; the image scales
+	   to fit (contain) so the WHOLE artifact is always visible, at any window
+	   size — resize the window and the image just scales with it. */
+	.win-file { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+	.win-image {
+		flex: 1;
+		min-height: 0;
+		max-width: 100%;
+		object-fit: contain;
+		object-position: center;
+		border: 1px solid #000;
+		display: block;
+		margin: 0 auto;
+	}
 	.win-open {
 		display: inline-block;
 		margin-top: 12px;

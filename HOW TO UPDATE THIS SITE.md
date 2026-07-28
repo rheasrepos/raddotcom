@@ -81,7 +81,7 @@ If a title/description has a dashed underline on the site, it's because the file
    ```
 3. Save. Double-click `promote-to-site.command`. Commit + push.
 
-**`type:` must be one of these** (from `src/lib/categories.js`): `writing`, `essays`, `coursework`, `thesis`, `research`, `programming`, `creative`, `comedy`, `music`, `recs`, `friends`, `artifacts`.
+**`type:` must be one of the category ids** in `src/lib/categories.js`: `writing`, `essays`, `coursework`, `thesis`, `research`, `creative`, `comedy`, `music`, `programming`, `recs`, `friends`, `artifacts`. (You never set a `grp-` group as a `type:` — those are just the desktop folders the categories live in.)
 
 ### Optional extras you can add to any post's frontmatter
 | Line | What it does |
@@ -108,16 +108,33 @@ Promote + push.
 
 ---
 
-## 6. Categories — add, rename, recolor
+## 6. Categories & the desktop folders — add, rename, recolor, regroup
 
-Open `src/lib/categories.js`. Each line looks like:
+Everything about folders lives in **one file: `src/lib/categories.js`**. It has two kinds of entries.
+
+**GROUPS** are the big desktop folders (there are 4: Writing, Research, Making, Collecting). They look like this:
 ```
-essays: { id: 'essays', label: 'Essays & Papers', color: '#4a69bd' },
+'grp-writing': { id: 'grp-writing', label: 'Writing', color: '#4a69bd', group: true },
 ```
-- **Rename** the folder shown on the desktop → change `label`.
-- **Recolor** its dot/graph node → change `color` (any hex code).
-- **Add a category** → copy a line, give it a new `id` and `label`. Then use that `id` as the `type:` in your posts.
-- **Nest one inside another** → add `parent: 'creative'` (that's how Comedy & Music sit inside Creative).
+
+**CATEGORIES** are the real `type:` you put on a post. Each one names a group as its `parent`, so it shows up *inside* that group's folder:
+```
+essays: { id: 'essays', label: 'Essays & Papers', color: '#4a69bd', parent: 'grp-writing' },
+```
+
+Now you can change any of this yourself:
+
+- **Rename a desktop folder** → change the group's `label` (e.g. `'Writing'` → `'Words'`).
+- **Rename a category** → change its `label`.
+- **Recolor** anything → change its `color` (any hex like `#ff8c42`).
+- **Move a category into a different group** → change its `parent` to another group id. Example: to put Research inside Writing, change `research`'s `parent` from `'grp-research'` to `'grp-writing'`.
+- **Add a new group (desktop folder)** → copy a `grp-` line, give it a new id/label, `group: true`. Then point some categories' `parent` at it.
+- **Add a new category** → copy a category line, new `id` + `label` + a `parent`. Then use that `id` as the `type:` in your posts.
+- **Delete a group** → remove its line and re-`parent` its categories somewhere else.
+
+A category can nest inside another category too (that's how **Comedy** and **Music** sit inside **Creative**, which sits inside **Making**): give it `parent: 'creative'`.
+
+**A folder only appears on the desktop if it contains published posts** — so empty groups/categories stay hidden until you publish something in them. No code needed; just publish a post with that `type:`.
 
 ---
 

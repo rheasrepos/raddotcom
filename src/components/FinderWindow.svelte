@@ -97,6 +97,9 @@
 		flex-direction: column;
 		min-width: 260px;
 		min-height: 160px;
+		/* Never grow past the screen — the window always stays fully visible. */
+		max-width: calc(100vw - 20px);
+		max-height: calc(100vh - 96px);
 	}
 	.fw.max {
 		left: 8px !important;

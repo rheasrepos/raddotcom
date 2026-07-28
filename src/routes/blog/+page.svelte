@@ -9,17 +9,17 @@
 	let posts = [];
 	let grouping = 'date'; // 'date' | 'category' | 'month'
 
-	// Categories the reader has hidden. Carried in the URL (?hide=a,b) so the
-	// filter follows you into a post and its Newer/Older paging.
-	let hidden = new Set();
+	// Categories the reader has hidden. Physical media (the 128 scans) starts
+	// UNchecked so it doesn't bury the writing — but it's in the list, so one
+	// click brings it back. Carried in the URL (?hide=a,b) so the filter
+	// follows you into a post and its Newer/Older paging.
+	let hidden = new Set(['artifacts']);
 
 	onMount(async () => {
 		const h = new URL(window.location.href).searchParams.get('hide');
 		if (h) hidden = new Set(h.split(',').filter(Boolean));
 		try {
-			// Artifacts (128 scans) live in the desktop's Analog Archive folder,
-			// not the writing blog — otherwise they'd bury everything here.
-			posts = (await loadPosts()).filter((p) => p.type !== 'artifacts');
+			posts = await loadPosts();
 		} catch (e) {
 			posts = [];
 		}
@@ -420,16 +420,12 @@
 		background: #eee;
 	}
 
-	/* Form badge: paper / discussion post / blog post / … */
+	/* Form label: paper / discussion post / … — quiet text, no box */
 	.entry-form {
 		font-size: 0.7rem;
 		text-transform: uppercase;
 		letter-spacing: 0.04em;
-		color: #444;
-		background: rgba(0, 0, 0, 0.07);
-		border: 1px solid rgba(0, 0, 0, 0.2);
-		border-radius: 0;
-		padding: 1px 6px;
+		color: #999;
 		margin-left: 8px;
 		white-space: nowrap;
 	}
