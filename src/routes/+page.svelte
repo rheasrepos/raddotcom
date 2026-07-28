@@ -14,63 +14,80 @@
 	import Spotlight from '../components/Spotlight.svelte';
 	import FinderWindow from '../components/FinderWindow.svelte';
 
-	// --- Finder-style windows: open folders & files as draggable windows.
-	//     Multiple can be open at once; the last-touched one is on top. This
-	//     replaces the on-screen "back" button — you close a window instead. ---
+	// --- Finder-style windows: draggable, resizable, many at once, minimize to
+	//     a bottom tab. A FOLDER window navigates in place (breadcrumb stack +
+	//     back button); opening a subfolder changes the same window, not a new
+	//     one. A FILE window shows a real preview. ---
 	let windows = [];
 	let winSeq = 1;
 	let winZ = 20;
 	function focusWindow(id) {
 		const w = windows.find((x) => x.id === id);
-		if (w) { w.z = ++winZ; windows = windows; }
+		if (w) { w.z = ++winZ; w.minimized = false; windows = windows; }
 	}
-	function closeWindow(id) {
-		windows = windows.filter((x) => x.id !== id);
+	function closeWindow(id) { windows = windows.filter((x) => x.id !== id); }
+	function minimizeWindow(id) {
+		const w = windows.find((x) => x.id === id);
+		if (w) { w.minimized = true; windows = windows; }
 	}
 	function cascade() {
 		const n = windows.length;
 		return { x: 60 + n * 34, y: 70 + n * 30 };
 	}
-	// Open a category (or child category) folder as a window.
+	// Open a top-level category folder (its stack starts at that category).
 	function openFolderWindow(categoryId) {
 		const info = categoryConfig[categoryId];
 		if (!info) return;
 		const { x, y } = cascade();
 		windows = [...windows, {
-			id: winSeq++, kind: 'folder', category: categoryId, subfolder: null,
-			title: info.label, x, y, w: 620, z: ++winZ
+			id: winSeq++, kind: 'folder',
+			stack: [{ category: categoryId, subfolder: null, title: info.label }],
+			x, y, w: 640, h: 440, z: ++winZ, minimized: false
 		}];
 	}
-	// Open a subfolder (e.g. media-aesthetics) as its own window.
-	function openSubfolderWindow(categoryId, sub) {
-		const { x, y } = cascade();
-		windows = [...windows, {
-			id: winSeq++, kind: 'folder', category: categoryId, subfolder: sub,
-			title: prettyFolder(sub), x, y, w: 620, z: ++winZ
-		}];
+	// Navigate INSIDE a folder window (push a subfolder / child category).
+	function navInto(win, category, subfolder, title) {
+		win.stack = [...win.stack, { category, subfolder, title }];
+		win.z = ++winZ;
+		windows = windows;
 	}
-	// Open a single post as a preview window.
+	function navBack(win) {
+		if (win.stack.length > 1) { win.stack = win.stack.slice(0, -1); windows = windows; }
+	}
+	// Open a file as its own preview window.
 	function openFileWindow(project) {
 		const { x, y } = cascade();
 		windows = [...windows, {
 			id: winSeq++, kind: 'file', post: project,
-			title: project.title, x, y, w: 640, z: ++winZ
+			x, y, w: 680, h: 560, z: ++winZ, minimized: false
 		}];
 	}
-	// Contents of a folder window: subfolders present + posts at that level.
+	// Contents of the folder window's CURRENT level (top of its stack).
 	function folderContents(win) {
-		const kids = Object.values(categoryConfig).filter((c) => c.parent === win.category).map((c) => c.id);
-		const inCat = (projects || []).filter((p) => p.type === win.category || kids.includes(p.type));
-		if (win.subfolder) {
-			return { subs: [], posts: inCat.filter((p) => p.subfolder === win.subfolder) };
+		const cur = win.stack[win.stack.length - 1];
+		const kids = Object.values(categoryConfig).filter((c) => c.parent === cur.category).map((c) => c.id);
+		const inCat = (projects || []).filter((p) => p.type === cur.category || kids.includes(p.type));
+		if (cur.subfolder) {
+			return { childCats: [], subs: [], posts: inCat.filter((p) => p.subfolder === cur.subfolder) };
 		}
 		const subs = [...new Set(inCat.filter((p) => p.subfolder).map((p) => p.subfolder))].sort();
-		const childCats = Object.values(categoryConfig).filter((c) => c.parent === win.category);
-		return { subs, childCats, posts: inCat.filter((p) => !p.subfolder && p.type === win.category) };
+		const childCats = Object.values(categoryConfig).filter((c) => c.parent === cur.category)
+			.filter((c) => (projects || []).some((p) => p.type === c.id));
+		return { childCats, subs, posts: inCat.filter((p) => !p.subfolder && p.type === cur.category) };
 	}
 	function ytId(url) {
 		const m = String(url || '').match(/(?:v=|youtu\.be\/|embed\/)([\w-]{6,})/);
 		return m ? m[1] : null;
+	}
+	// Preview a post's body, minus the Obsidian graph plumbing, as plain text.
+	function renderMarkdownSafe(md) {
+		const t = String(md || '')
+			.replace(/\n#+\s*(Topics|Related)\s*\n(?:\s*[-*]\s*\[\[.*?\]\].*\n?)+/gi, '')
+			.replace(/\[\[.*?\]\]/g, '')
+			.replace(/[#>*_`]/g, '')
+			.trim();
+		const esc = t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+		return esc.split(/\n{2,}/).slice(0, 6).map((p) => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
 	}
 
 	// --- NEW: SVG Icon Definitions ---
@@ -1057,65 +1074,79 @@
 			</div>
 		{/if}
 
-		<!-- Draggable Finder windows: folders and file previews, many at once -->
+		<!-- Draggable / resizable Finder windows -->
 		{#each windows as win (win.id)}
-			<FinderWindow
-				title={win.title}
-				x={win.x}
-				y={win.y}
-				w={win.w}
-				z={win.z}
-				on:focus={() => focusWindow(win.id)}
-				on:close={() => closeWindow(win.id)}
-			>
-				{#if win.kind === 'folder'}
-					{@const c = folderContents(win)}
-					<div class="win-grid">
-						{#each (c.childCats || []) as child}
-							{@const n = (projects || []).filter(p => p.type === child.id).length}
-							{#if n > 0}
-								<button class="win-item" on:dblclick={() => openFolderWindow(child.id)} on:click={() => openFolderWindow(child.id)}>
+			{#if !win.minimized}
+				<FinderWindow
+					title={win.kind === 'folder' ? win.stack[win.stack.length - 1].title : win.post.title}
+					x={win.x} y={win.y} w={win.w} h={win.h} z={win.z}
+					canBack={win.kind === 'folder' && win.stack.length > 1}
+					on:focus={() => focusWindow(win.id)}
+					on:close={() => closeWindow(win.id)}
+					on:minimize={() => minimizeWindow(win.id)}
+					on:back={() => navBack(win)}
+				>
+					{#if win.kind === 'folder'}
+						{@const c = folderContents(win)}
+						<div class="win-grid">
+							{#each c.childCats as child}
+								<button class="win-item" on:dblclick={() => navInto(win, child.id, null, child.label)} on:click={() => navInto(win, child.id, null, child.label)}>
 									<svg viewBox="0 0 56 46" class="win-folder"><path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999" stroke-width="1.2"/><rect x="0" y="11" width="56" height="35" fill="#e8e8e8" stroke="#999" stroke-width="1.2"/></svg>
 									<span>{child.label}</span>
 								</button>
+							{/each}
+							{#each c.subs as sub}
+								{@const cur = win.stack[win.stack.length - 1]}
+								<button class="win-item" on:dblclick={() => navInto(win, cur.category, sub, prettyFolder(sub))} on:click={() => navInto(win, cur.category, sub, prettyFolder(sub))}>
+									<svg viewBox="0 0 56 46" class="win-folder"><path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999" stroke-width="1.2"/><rect x="0" y="11" width="56" height="35" fill="#e8e8e8" stroke="#999" stroke-width="1.2"/></svg>
+									<span>{prettyFolder(sub)}</span>
+								</button>
+							{/each}
+							{#each c.posts as p (p.id)}
+								<button class="win-item" on:dblclick={() => openFileWindow(p)} on:click={() => openFileWindow(p)}>
+									{#if p.thumb || p.iconImage}
+										<img src={p.thumb || p.iconImage} alt="" class="win-thumb" loading="lazy" />
+									{:else}
+										<svg viewBox="0 0 44 56" class="win-doc"><path d="M4 0 L30 0 L44 14 L44 54 Q44 56 42 56 L4 56 Q2 56 0 54 L0 2 Q0 0 4 0 Z" fill="#f8f8f8" stroke="#aaa" stroke-width="1.5"/><path d="M30 0 L30 14 L44 14" stroke="#aaa" stroke-width="1.5" fill="none"/></svg>
+									{/if}
+									<span>{p.title}</span>
+								</button>
+							{/each}
+							{#if !c.posts.length && !c.subs.length && !c.childCats.length}
+								<p class="win-empty">Empty.</p>
 							{/if}
-						{/each}
-						{#each c.subs as sub}
-							<button class="win-item" on:dblclick={() => openSubfolderWindow(win.category, sub)} on:click={() => openSubfolderWindow(win.category, sub)}>
-								<svg viewBox="0 0 56 46" class="win-folder"><path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999" stroke-width="1.2"/><rect x="0" y="11" width="56" height="35" fill="#e8e8e8" stroke="#999" stroke-width="1.2"/></svg>
-								<span>{prettyFolder(sub)}</span>
-							</button>
-						{/each}
-						{#each c.posts as p (p.id)}
-							<button class="win-item" on:dblclick={() => openFileWindow(p)} on:click={() => openFileWindow(p)}>
-								{#if p.thumb || p.iconImage}
-									<img src={p.thumb || p.iconImage} alt="" class="win-thumb" loading="lazy" />
-								{:else}
-									<svg viewBox="0 0 44 56" class="win-doc"><path d="M4 0 L30 0 L44 14 L44 54 Q44 56 42 56 L4 56 Q2 56 0 54 L0 2 Q0 0 4 0 Z" fill="#f8f8f8" stroke="#aaa" stroke-width="1.5"/><path d="M30 0 L30 14 L44 14" stroke="#aaa" stroke-width="1.5" fill="none"/></svg>
-								{/if}
-								<span>{p.title}</span>
-							</button>
-						{/each}
-						{#if !c.posts.length && !c.subs.length && !(c.childCats || []).some(ch => (projects||[]).some(p=>p.type===ch.id))}
-							<p class="win-empty">Empty.</p>
-						{/if}
-					</div>
-				{:else if win.kind === 'file'}
-					{@const p = win.post}
-					<div class="win-file">
-						<div class="win-file-meta">{formatDate(p.date)} · {getCategoryLabel(p.type)}</div>
-						{#if p.video && ytId(p.video)}
-							<div class="win-embed"><iframe src="https://www.youtube.com/embed/{ytId(p.video)}" title={p.title} allowfullscreen></iframe></div>
-						{:else if p.pdf}
-							<iframe class="win-pdf" src={p.pdf} title={p.title}></iframe>
-						{:else if p.description}
-							<p>{p.description}</p>
-						{/if}
-						<a class="win-open" href="/posts/{p.id}">Open full post →</a>
-					</div>
-				{/if}
-			</FinderWindow>
+						</div>
+					{:else if win.kind === 'file'}
+						{@const p = win.post}
+						<div class="win-file">
+							<div class="win-file-meta">{formatDate(p.date)} · {getCategoryLabel(p.type)}</div>
+							{#if p.video && ytId(p.video)}
+								<div class="win-embed"><iframe src="https://www.youtube.com/embed/{ytId(p.video)}" title={p.title} allowfullscreen></iframe></div>
+							{:else if p.pdf}
+								<iframe class="win-pdf" src={p.pdf} title={p.title}></iframe>
+							{:else}
+								<div class="win-prose">{@html renderMarkdownSafe(p.content)}</div>
+							{/if}
+							<a class="win-open" href="/posts/{p.id}">Open full post →</a>
+						</div>
+					{/if}
+				</FinderWindow>
+			{/if}
 		{/each}
+
+		<!-- Minimized windows dock as tabs along the bottom (like Gmail drafts) -->
+		{#if windows.some((w) => w.minimized)}
+			<div class="win-dock">
+				{#each windows.filter((w) => w.minimized) as win (win.id)}
+					<div class="dock-tab">
+						<button class="dock-title" on:click={() => focusWindow(win.id)}>
+							{win.kind === 'folder' ? win.stack[win.stack.length - 1].title : win.post.title}
+						</button>
+						<button class="dock-close" on:click={() => closeWindow(win.id)} title="Close" aria-label="Close">×</button>
+					</div>
+				{/each}
+			</div>
+		{/if}
 
 		<!-- Quick Look (spacebar preview) + Spotlight search -->
 		<QuickLook item={quickLookItem} on:close={() => (quickLookItem = null)} on:open={handleQuickLookOpen} />
@@ -1276,6 +1307,46 @@
 		color: #000;
 	}
 	.win-open:hover { background: #000; color: #fff; }
+	.win-prose { font-size: 0.9rem; line-height: 1.5; }
+	.win-prose :global(p) { margin: 0 0 0.7em; }
+
+	/* Minimized windows dock as tabs at the bottom, like Gmail drafts */
+	.win-dock {
+		position: fixed;
+		bottom: 40px;
+		right: 16px;
+		display: flex;
+		gap: 8px;
+		z-index: 400;
+	}
+	.dock-tab {
+		display: flex;
+		align-items: center;
+		background: #d9d9d9;
+		border: 2px solid #000;
+		box-shadow: 2px 2px 0 rgba(0,0,0,0.35);
+		max-width: 220px;
+	}
+	.dock-title {
+		background: none;
+		border: none;
+		padding: 6px 10px;
+		font-size: 0.78rem;
+		font-weight: 700;
+		cursor: pointer;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.dock-close {
+		background: none;
+		border: none;
+		border-left: 1px solid #000;
+		padding: 6px 9px;
+		cursor: pointer;
+		font-size: 0.9rem;
+	}
+	.dock-close:hover { background: #ff5f57; }
 
 	/* File previews fade in quietly. (The old-Windows slit animation is kept
 	   for folders only, in QuickLook.) */
