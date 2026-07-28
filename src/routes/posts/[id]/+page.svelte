@@ -252,12 +252,17 @@
 		line-height: 1.2;
 		margin: 0 0 0.5rem;
 	}
-	/* Scanned artifact / artwork */
+	/* Scanned artifact / artwork — always fits the screen (never taller than
+	   the viewport), whole image visible. */
 	.post-image {
 		display: block;
 		max-width: 100%;
+		max-height: 85vh;
+		width: auto;
+		height: auto;
+		object-fit: contain;
 		border: 1px solid #000;
-		margin: 16px 0;
+		margin: 16px auto;
 	}
 
 	/* Embedded video */

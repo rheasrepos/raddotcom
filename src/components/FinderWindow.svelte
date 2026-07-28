@@ -15,7 +15,7 @@
 	const dispatch = createEventDispatcher();
 
 	let dragging = false;
-	let resizing = false;
+	let resizeCorner = null; // 'nw' | 'ne' | 'sw' | 'se'
 	let maximized = false;
 	let start = { mx: 0, my: 0, x: 0, y: 0, w: 0, h: 0 };
 
@@ -28,10 +28,10 @@
 		dispatch('focus');
 		e.preventDefault();
 	}
-	function startResize(e) {
+	function startResize(e, corner) {
 		if (maximized) return;
-		resizing = true;
-		start = { mx: e.clientX, my: e.clientY, w, h };
+		resizeCorner = corner;
+		start = { mx: e.clientX, my: e.clientY, x, y, w, h };
 		dispatch('focus');
 		e.preventDefault();
 		e.stopPropagation();
@@ -40,12 +40,28 @@
 		if (dragging) {
 			x = Math.max(0, start.x + (e.clientX - start.mx));
 			y = Math.max(0, start.y + (e.clientY - start.my));
-		} else if (resizing) {
-			w = Math.max(260, start.w + (e.clientX - start.mx));
-			h = Math.max(160, start.h + (e.clientY - start.my));
+		} else if (resizeCorner) {
+			const dx = e.clientX - start.mx;
+			const dy = e.clientY - start.my;
+			const east = resizeCorner.includes('e');
+			const south = resizeCorner.includes('s');
+			if (east) {
+				w = Math.max(260, start.w + dx);
+			} else {
+				const nw = Math.max(260, start.w - dx);
+				x = start.x + (start.w - nw);
+				w = nw;
+			}
+			if (south) {
+				h = Math.max(160, start.h + dy);
+			} else {
+				const nh = Math.max(160, start.h - dy);
+				y = start.y + (start.h - nh);
+				h = nh;
+			}
 		}
 	}
-	function endDrag() { dragging = false; resizing = false; }
+	function endDrag() { dragging = false; resizeCorner = null; }
 
 	function toggleMax() { maximized = !maximized; dispatch('focus'); }
 
@@ -83,7 +99,10 @@
 		<slot />
 	</div>
 	{#if !maximized}
-		<div class="fw-resize" on:pointerdown={startResize} title="Resize" aria-hidden="true"></div>
+		<div class="fw-rz nw" on:pointerdown={(e) => startResize(e, 'nw')} aria-hidden="true"></div>
+		<div class="fw-rz ne" on:pointerdown={(e) => startResize(e, 'ne')} aria-hidden="true"></div>
+		<div class="fw-rz sw" on:pointerdown={(e) => startResize(e, 'sw')} aria-hidden="true"></div>
+		<div class="fw-rz se" on:pointerdown={(e) => startResize(e, 'se')} aria-hidden="true"></div>
 	{/if}
 </div>
 
@@ -156,13 +175,13 @@
 		overflow: auto;
 		flex: 1;
 	}
-	.fw-resize {
-		position: absolute;
-		right: 0;
-		bottom: 0;
-		width: 16px;
-		height: 16px;
-		cursor: nwse-resize;
+	/* Resize handles on all four corners */
+	.fw-rz { position: absolute; width: 16px; height: 16px; z-index: 2; }
+	.fw-rz.nw { top: -3px; left: -3px; cursor: nwse-resize; }
+	.fw-rz.ne { top: -3px; right: -3px; cursor: nesw-resize; }
+	.fw-rz.sw { bottom: -3px; left: -3px; cursor: nesw-resize; }
+	.fw-rz.se {
+		bottom: -3px; right: -3px; cursor: nwse-resize;
 		background: linear-gradient(135deg, transparent 50%, #000 50%, #000 60%, transparent 60%, transparent 72%, #000 72%, #000 82%, transparent 82%);
 	}
 </style>
