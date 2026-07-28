@@ -1105,40 +1105,38 @@
 					{#if win.kind === 'folder'}
 						{@const c = folderContents(win)}
 						{@const cur = win.stack[win.stack.length - 1]}
-						<!-- Folders are small, quiet rows up top — just a way in. -->
-						{#if c.childCats.length || c.subs.length}
-							<div class="win-folders">
+						{@const total = c.childCats.length + c.subs.length + c.posts.length}
+						{@const cols = total <= 1 ? 1 : total <= 4 ? 2 : total <= 9 ? 3 : 4}
+						{#if total === 0}
+							<p class="win-empty">Empty.</p>
+						{:else}
+							<!-- One grid; every tile scales to fill the window (fewer items = bigger). -->
+							<div class="win-fill" style="grid-template-columns: repeat({cols}, 1fr);">
 								{#each c.childCats as child}
-									<button class="win-frow" on:click={() => navInto(win, child.id, null, child.label)}>
-										<span class="win-fico">▸</span>{child.label}
+									<button class="win-cell folder" on:click={() => navInto(win, child.id, null, child.label)}>
+										<svg viewBox="0 0 56 46" class="cell-folder"><path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999" stroke-width="1.2"/><rect x="0" y="11" width="56" height="35" fill="#e8e8e8" stroke="#999" stroke-width="1.2"/></svg>
+										<span class="cell-cap">{child.label}</span>
 									</button>
 								{/each}
 								{#each c.subs as sub}
-									<button class="win-frow" on:click={() => navInto(win, cur.category, sub, prettyFolder(sub))}>
-										<span class="win-fico">▸</span>{prettyFolder(sub)}
+									<button class="win-cell folder" on:click={() => navInto(win, cur.category, sub, prettyFolder(sub))}>
+										<svg viewBox="0 0 56 46" class="cell-folder"><path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999" stroke-width="1.2"/><rect x="0" y="11" width="56" height="35" fill="#e8e8e8" stroke="#999" stroke-width="1.2"/></svg>
+										<span class="cell-cap">{prettyFolder(sub)}</span>
 									</button>
 								{/each}
-							</div>
-						{/if}
-						<!-- The content — papers, art, videos — is the big, clickable thing. -->
-						{#if c.posts.length}
-							<div class="win-tiles">
 								{#each c.posts as p (p.id)}
-									<button class="win-tile" on:click={() => openFileWindow(p)}>
-										<div class="win-tile-thumb">
+									<button class="win-cell" on:click={() => openFileWindow(p)}>
+										<div class="cell-thumb">
 											{#if p.thumb || p.iconImage}
 												<img src={p.thumb || p.iconImage} alt="" loading="lazy" />
 											{:else}
-												<span class="win-tile-blank">{p.form || 'document'}</span>
+												<span class="cell-blank">{p.form || 'document'}</span>
 											{/if}
 										</div>
-										<div class="win-tile-cap">{p.title}</div>
+										<span class="cell-cap">{p.title}</span>
 									</button>
 								{/each}
 							</div>
-						{/if}
-						{#if !c.posts.length && !c.subs.length && !c.childCats.length}
-							<p class="win-empty">Empty.</p>
 						{/if}
 					{:else if win.kind === 'file'}
 						{@const p = win.post}
@@ -1151,7 +1149,7 @@
 									{/each}
 								</div>
 							{:else if p.image}
-								<img class="win-image" src={p.image} alt={p.title} loading="lazy" />
+								<div class="win-imgwrap"><img class="win-image" src={p.image} alt={p.title} loading="lazy" /></div>
 							{:else if p.video && ytId(p.video)}
 								<div class="win-embed"><iframe src="https://www.youtube.com/embed/{ytId(p.video)}" title={p.title} allowfullscreen></iframe></div>
 							{:else if p.pdf}
@@ -1320,63 +1318,50 @@
 		background: #fff;
 	}
 
-	/* Folders: small, quiet rows at the top of the window — just a way in.
-	   You don't preview a folder; you open it. */
-	.win-folders {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 6px 16px;
-		padding-bottom: 12px;
-		margin-bottom: 14px;
-		border-bottom: 1px solid #ccc;
-	}
-	.win-frow {
-		background: none;
-		border: none;
-		font: inherit;
-		font-size: 0.85rem;
-		cursor: pointer;
-		padding: 2px 0;
-		display: inline-flex;
-		align-items: center;
-		gap: 5px;
-	}
-	.win-frow:hover { text-decoration: underline; }
-	.win-fico { color: #888; }
-
-	/* Content — papers, art, videos — is the big, clickable thing (Are.na feel). */
-	.win-tiles {
+	/* One fill-the-window grid: rows share the height equally, so fewer items
+	   are bigger and a single folder/file fills the whole window. */
+	.win-fill {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-		gap: 18px;
+		gap: 16px;
+		height: 100%;
+		grid-auto-rows: 1fr;
 	}
-	.win-tile {
+	.win-cell {
 		background: #fff;
 		border: 2px solid #000;
 		padding: 0;
 		cursor: pointer;
-		text-align: left;
 		font: inherit;
 		display: flex;
 		flex-direction: column;
+		min-height: 0;
+		overflow: hidden;
 	}
-	.win-tile:hover { box-shadow: 4px 4px 0 #000; }
-	.win-tile-thumb {
-		aspect-ratio: 4 / 3;
+	.win-cell:hover { box-shadow: 4px 4px 0 #000; }
+	.cell-thumb {
+		flex: 1;
+		min-height: 0;
 		background: #1c1c1c;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
 	}
-	.win-tile-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
-	.win-tile-blank { color: #777; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
-	.win-tile-cap {
-		padding: 9px 11px;
-		font-size: 0.85rem;
-		line-height: 1.3;
+	.cell-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+	.cell-blank { color: #777; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+	/* Folder cells: the classic icon, centered and scaled to the cell */
+	.win-cell.folder { background: #fafafa; align-items: center; justify-content: center; gap: 12px; padding: 12px; }
+	.cell-folder { width: 55%; max-width: 160px; height: auto; }
+	.cell-cap {
+		flex: none;
+		padding: 8px 10px;
+		font-size: 0.82rem;
+		line-height: 1.25;
 		border-top: 2px solid #000;
+		text-align: center;
+		word-break: break-word;
 	}
+	.win-cell.folder .cell-cap { border-top: none; padding-top: 0; }
 	.win-empty { color: #999; font-size: 0.85rem; }
 	.win-file-meta { font-size: 0.75rem; color: #777; margin-bottom: 10px; }
 	.win-embed { position: relative; padding-top: 56.25%; }
@@ -1389,15 +1374,24 @@
 	/* Multi-page/side artifact: a scrollable stack of all its images */
 	.win-gallery { flex: 1; min-height: 0; overflow: auto; display: flex; flex-direction: column; gap: 10px; }
 	.win-gimg { max-width: 100%; border: 1px solid #000; display: block; }
-	.win-image {
+	/* Image wrapper fills remaining height; image fits inside (contain) so the
+	   whole scan shows and scales as the window resizes. */
+	.win-imgwrap {
 		flex: 1;
 		min-height: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+	}
+	.win-image {
 		max-width: 100%;
+		max-height: 100%;
+		width: auto;
+		height: auto;
 		object-fit: contain;
-		object-position: center;
 		border: 1px solid #000;
 		display: block;
-		margin: 0 auto;
 	}
 	.win-open {
 		display: inline-block;
