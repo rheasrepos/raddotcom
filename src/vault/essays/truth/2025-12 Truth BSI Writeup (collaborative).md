@@ -5,25 +5,35 @@ date: 2025-12-08
 type: essays
 published: true
 recovered_from: Desktop/University of Chicago/Year 4/Recovered Writing/All Writing/Rhea Madhogarhia Truth BSI Writeup.md
-tags: [academic/philosophy, truth, bullshit-detection]
-form: [essay]
+tags:
+  - academic/philosophy
+  - truth
+  - bullshit-detection
+  - ai
+  - ai/machine-learning
+  - tech
+form:
+  - essay
 affiliation: uchicago
 ---
+*** CHECK IF THINGS CAN COOCCUR ON SITE.. (this should also be in tech/projects)
 
-Collaborative Writeup
-
-Submit a short report describing the group’s instrument and providing an assessment of its viability (which can be jointly authored), along with a description and self-assessment of their particular contributions to the project.
+Submit a short report describing the group’s "bullshit" instrument and providing an assessment of its viability (which can be jointly authored), along with a description and self-assessment of their particular contributions to the project.
 
 What is “bullshit”?
 Bullshit is speech that mimics truth-based assertion while being indifferent to whether what is said is true or false. A bullshitter does not care whether what they say aligns with the facts or reality. Their goal is to produce a desired effect, such as chaos, attention, or persuasion. Numerous authors (Fallis 2009, 2012; Dynel 2011; Briciu 2021, mentioned in the Fisher paper) expand on Frankfurt’s definition of bullshit by acknowledging that bullshit often comes from speaking beyond one’s knowledge or one’s evidence. This tendency is prevalent across social media and online, where sharing fast and viral opinions value strong speech over fact-based speech. 
 
 Approach
 Our definition of bullshit is key to Prepost AI. Our instrument does not automatically assume that false statements are bullshit, instead, it evaluates the consistency of a draft post (tweet) against two contexts: the facts of the topic and what the speaker has asserted is true in the past. So, we classify bullshit only when a draft post shows measurable indifference to external (facts) or internal (beliefs) evidence. Failure to engage responsibility with the norms of assertion, speaking beyond evidence, and being inconsistent with previous assertions is used to evaluate “indifference” to the truth, thus being labeled as bullshit. The system is meant to reward nuanced, consistent statements, nipping the prolific tendency to post invigorating, but unsubstantial clickbait. 
+
 Implementation: Prepost AI
 ArchitectureThere are three architectures explored. A single LLM call (Single-call), a ReACT-style agent (ReACT), and a pre-defined workflow (Workflow). All were implemented using LangGraph and tested on the same LLM model. The LLM call simply passes the draft and asks if it is bullshit, not-bullshit, or contextually ambiguous. The Workflow has predefined steps of context gathering, scoring, and evaluation. The ReACT has tool access to search in the user’s previous posts, across Wikipedia and BBC, and tool access to the NLI model, with freedom to invoke them as many times as it wants before issuing a final verdict. 
+
 Checks Past Posts: Reviews the user's previous tweets, prioritizing consistency and avoiding self-contradictions, and produces similarity scores (using a user memory system with FAISS index). Vectorizes previous posts and stores them in a vector database, does a similarity lookup for top-k closest posts to the draft, and injects them into the prompt that will be passed to the LLM. 
+
 Fact Retrieval: Identifies key topics in the draft and pulls information from trusted external sources (like Wikipedia and BBC News). There are two different architectures with access to search tools. In Workflow, the node is given the draft, outputs potential queries, and passes them back so that they can be looked up and injected into the prompt. The second, a ReACT agent, passes the draft and all the context and is continually asked if more context is needed, being allowed to perform search as many times with as many queries as it likes until it decides it has sufficient context and passes judgment.
 Contradiction Detection (NLI)Uses Natural Language Inference (NLI) to compare the draft with verified facts and the user's history, flagging any contradictions or unsupported claims. The model returns probabilities of the hypothesis (draft post) relative to the ‘fact’ (which can be either the news article or the user’s old post) being a contradiction, entailment, or neutral. This is enforced in the Workflow architecture as a node following the context gathering, where each is checked against the draft and given scores. All scores are passed to the LLM in the evaluation step. The ReACT agent has access to the tool, but it did not often invoke its use. 
+
 Risk Evaluation / ClassificationA Large Language Model (LLM) evaluates all information, classifies the post as &quot;bullshit,&quot; &quot;not bullshit,&quot; or &quot;contextually ambiguous&quot;, provides a risk score, provides reasoning and sources cited, and a safe rewrite. 
 Safer Rewrite:If needed, the system generates a revised version of the post to maximize clarity and accuracy and minimize misinformation. The demo we presented in class showed that the rewrite tended to produce a more neutral version of the original post, avoiding strong and overly assertive language. 
 Assessment of Viability

@@ -1,0 +1,22 @@
+---
+title: "HS ENGLISH: There There — Tony Loneman's Death & Native American Identity"
+ai_title: true
+date: 2019
+date_approx: true
+type: essays
+published: true
+recovered_from: Desktop/University of Chicago/Year 4/Recovered Writing/College Essays/2019 There There - Tony Loneman essay.md
+tags:
+  - there-there
+form:
+  - essay
+era: before-college
+affiliation: before-college
+---
+
+# There There — Tony Loneman's Death & Native American Identity
+*Rhea Madhogarhia (HS English, ~2019, recovered from Google Drive).*
+
+**Prompt:** How does Tommy Orange challenge the conventional ideas and current realities of Native American identity, particularly in these final moments of the novel?
+
+In Tommy Orange's *There There*, Tony Loneman's death reflects the success he had in establishing and fulfilling his purpose in the world and within the Native American community despite history's suppression and elimination of Native American culture. At the end of the novel, the powwow, a celebration of Native culture, is essentially ripped out of the experiences of the Natives in attendance by a shootout, a reflection of a historical pattern of erasure of Native culture in America; Tony Loneman's heroic attempt to stop the shootout displays his awareness of the importance of his culture and his found sense of self and purpose he once struggled to find. After getting shot, the author recounts the story of the fights, consisting of a battle, a betrayal, and a sacrifice, Tony made his Transformers play: "Tony has Optimus Prime say, 'We're made of metal, made hard, able to take it. We were made to transform. So if you get a chance to die, to save someone else, you take it…. That's what Autobots were put here for'" (289-290). Tony's view of the role and likeness of Autobots parallels his view on the purpose of his own life, particularly as a Native American. As Tony metaphorizes his identity with the toughness of an Autobot's exterior, he reveals that he feels his past experiences, especially while living with the "Drome", created him into the person who stopped the shooting at the powwow. When alluding to the Autobot's predestined purpose to change themselves to fight or protect, he indirectly suggests that he was destined to protect and salvage Native culture. Much like how putting on Native regalia transformed Tony into a version of himself that was not identified by the "Drome" in the beginning of the book, Tony's switch from robber to martyr at the powwow allowed him to envision himself as a protectorate of his culture in his last moments. As Tony continues and talks about death being a choice you can take, he suggests that his willingness to die for the others at the powwow fulfilled the destiny he believes was set for him. When Tony comes to terms with his fate, he begins to face the reality of his injuries and describes hearing "birds" after feeling dragged down by an anchor woven through the holes made by the bullets which just tore through him: "From where he's anchored, to the bottom of the bottom, the middle of the middle of him….There is a bird for every hole in him. Singing. Keeping him up. Keeping him from going" (290). The freedom Tony comes to find as he dies reflects the freedom he found when learning to distance himself from a past he couldn't control. In the beginning of the book, Tony felt as though he had been burdened by the history of his mother's alcoholism, a Native issue we commonly see in the Urban Indian stories throughout the book, that landed on his face; only when he saw himself as an Indian and a dancer was he able to stop identifying himself as just the "Drome" and instead control the narrative of a historically tumultuous Native past by embracing his culture in the present, through wearing regalia and dancing. In his dying moments, Tony feels the anchor that is his past weighing him down and trapping him in the common Native American struggle that history knows all too well. Just as singing allowed Thomas Frank to find himself, the singing here can be seen as yet another connection to Tony's Native culture. His ability to find this freedom by hearing birds singing through his wounds reflects his ability to free himself from the weight of history's anchor by controlling his own Native narrative through the sacrifice he made at the powwow. Tony dies satisfied by living up to and fulfilling the Urban Indian identity and purpose he first struggled to embrace.
