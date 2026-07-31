@@ -12,7 +12,6 @@ form: [essay]
 affiliation: uchicago
 ---
 
-Tab 1
 Rhea Madhogarhia
 Final Paper | Phil of AI, Callard &amp; Bridges
 Due: Dec 15th (extension)

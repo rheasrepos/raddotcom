@@ -8,8 +8,10 @@
 	let wallpaperColor = '#ff8c42'; // Default orange
 
 	// Spotify player lives HERE, in the layout, so it survives page navigation
-	// and the music keeps playing everywhere. State is remembered across visits.
-	let showPlayer = false;
+	// and the music keeps playing everywhere. The iframe stays MOUNTED whenever
+	// the player isn't fully closed — minimizing just hides the window, so the
+	// music keeps going. State is remembered across visits.
+	let playerMode = 'closed'; // 'closed' | 'open' | 'min'
 	let playerX = 40;
 	let playerY = 90;
 
@@ -17,18 +19,16 @@
 		if (typeof window !== 'undefined') {
 			const savedColor = localStorage.getItem('wallpaperColor');
 			if (savedColor) wallpaperColor = savedColor;
-			showPlayer = localStorage.getItem('playerOpen') === '1';
+			const m = localStorage.getItem('playerMode');
+			if (m === 'open' || m === 'min') playerMode = m;
 		}
 	});
 
-	function togglePlayer() {
-		showPlayer = !showPlayer;
-		try { localStorage.setItem('playerOpen', showPlayer ? '1' : '0'); } catch {}
+	function setPlayer(mode) {
+		playerMode = mode;
+		try { localStorage.setItem('playerMode', mode); } catch {}
 	}
-	function closePlayer() {
-		showPlayer = false;
-		try { localStorage.setItem('playerOpen', '0'); } catch {}
-	}
+	function togglePlayer() { setPlayer(playerMode === 'closed' ? 'open' : 'closed'); }
 
 	// Update body background when wallpaper color changes
 	$: if (typeof window !== 'undefined' && wallpaperColor) {
@@ -46,11 +46,16 @@
 </main>
 
 <!-- Global music toggle — always reachable, on every page -->
-<button class="global-player-btn" on:click={togglePlayer} title={showPlayer ? 'Hide player' : 'Music'} aria-label="Music player">♪</button>
+{#if playerMode === 'closed'}
+	<button class="global-player-btn" on:click={togglePlayer} title="Music" aria-label="Music player">♪</button>
+{:else if playerMode === 'min'}
+	<button class="global-player-btn playing" on:click={() => setPlayer('open')} title="Show player" aria-label="Show player">♪ ▸</button>
+{/if}
 
-{#if showPlayer}
-	<FinderWindow title="♪ browsing playlist" bind:x={playerX} bind:y={playerY} w={340} h={420} z={9000}
-		on:focus={() => {}} on:close={closePlayer} on:minimize={closePlayer}>
+<!-- Mounted whenever not fully closed, so minimizing/navigating never stops the music -->
+{#if playerMode !== 'closed'}
+	<FinderWindow title="♪ browsing playlist" hidden={playerMode === 'min'} bind:x={playerX} bind:y={playerY} w={340} h={420} z={9000}
+		on:focus={() => {}} on:close={() => setPlayer('closed')} on:minimize={() => setPlayer('min')}>
 		<iframe
 			title="Rhea's playlist"
 			src="https://open.spotify.com/embed/playlist/3W0mwmJo0Xx3PxabebBTtE?utm_source=generator&theme=0"
@@ -124,4 +129,11 @@
 		cursor: pointer;
 	}
 	.global-player-btn:hover { background: #1ed760; }
+	.global-player-btn.playing {
+		width: auto;
+		padding: 0 8px;
+		font-size: 0.85rem;
+		animation: playerPulse 1.4s ease-in-out infinite;
+	}
+	@keyframes playerPulse { 50% { background: #1ed760; } }
 </style>

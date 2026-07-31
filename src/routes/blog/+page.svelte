@@ -66,9 +66,18 @@
 		return categoryConfig[type] ? categoryConfig[type].label : type;
 	}
 
-	// Newest first, minus hidden categories
+	// Sidebar full-text search
+	let query = '';
+	function matches(p, q) {
+		if (!q) return true;
+		q = q.toLowerCase();
+		const body = String(p.content || '').replace(/<[^>]*>/g, ' ');
+		return (p.title + ' ' + (p.description || '') + ' ' + body).toLowerCase().includes(q);
+	}
+
+	// Newest first, minus hidden categories, minus anything not matching search
 	$: sorted = [...posts]
-		.filter((p) => !hidden.has(p.type))
+		.filter((p) => !hidden.has(p.type) && matches(p, query))
 		.sort((a, b) => new Date(b.date) - new Date(a.date));
 
 	// The SAME list, regrouped depending on the chosen view.
@@ -88,6 +97,10 @@
 	<div class="arch-layout">
 	<!-- Left sidebar: filter + jump navigation -->
 	<aside class="arch-side">
+		<div class="side-section">
+			<input class="side-search" type="search" placeholder="Search everything…" bind:value={query} />
+			{#if query}<div class="side-count-line">{sorted.length} match{sorted.length === 1 ? '' : 'es'}</div>{/if}
+		</div>
 		<div class="side-section">
 			<h3 class="side-head">Categories</h3>
 			{#each presentCats as c}
@@ -230,6 +243,14 @@
 		padding: 5px 6px;
 		font-size: 0.8rem;
 	}
+	.side-search {
+		width: 100%;
+		border: 1px solid #000;
+		background: #fff;
+		padding: 6px 8px;
+		font-size: 0.82rem;
+	}
+	.side-count-line { font-size: 0.72rem; color: #777; margin-top: 5px; }
 	.side-section + .side-section { margin-top: 16px; }
 	.side-head {
 		font-size: 0.75rem;

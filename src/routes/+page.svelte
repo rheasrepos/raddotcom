@@ -22,10 +22,31 @@
 	let winSeq = 1;
 	let winZ = 20;
 
-	// Spotify player window (toggle from the bottom dock)
-	let showPlayer = false;
-	let playerX = 60;
-	let playerY = 120;
+	// --- Draggable desktop folder icons (like real Mac desktop objects) ---
+	let iconPos = {};          // folderId -> {x, y}
+	let iconDragging = null;
+	let iconMoved = false;
+	let iconStart = { mx: 0, my: 0, x: 0, y: 0 };
+	function defaultIconPos(i) { return { x: 40 + i * 150, y: 30 }; }
+	function iconXY(id, i) { return iconPos[id] || defaultIconPos(i); }
+	function iconDown(e, id, i) {
+		iconDragging = id;
+		iconMoved = false;
+		const cur = iconXY(id, i);
+		iconStart = { mx: e.clientX, my: e.clientY, x: cur.x, y: cur.y };
+	}
+	function iconMove(e) {
+		if (!iconDragging) return;
+		const dx = e.clientX - iconStart.mx, dy = e.clientY - iconStart.my;
+		if (Math.abs(dx) > 3 || Math.abs(dy) > 3) iconMoved = true;
+		iconPos = { ...iconPos, [iconDragging]: { x: Math.max(0, iconStart.x + dx), y: Math.max(0, iconStart.y + dy) } };
+	}
+	function iconUp() {
+		if (iconDragging) {
+			try { localStorage.setItem('iconPos', JSON.stringify(iconPos)); } catch {}
+			iconDragging = null;
+		}
+	}
 	function focusWindow(id) {
 		const w = windows.find((x) => x.id === id);
 		if (w) { w.z = ++winZ; w.minimized = false; windows = windows; }
@@ -333,6 +354,8 @@
 			if (savedColor) {
 				wallpaperColor = savedColor;
 			}
+			// Restore any dragged desktop icon positions
+			try { iconPos = JSON.parse(localStorage.getItem('iconPos') || '{}'); } catch {}
 
 			// If we arrived here from a page's search icon, open Spotlight.
 			if (window.location.search.includes('spotlight=1')) {
@@ -745,7 +768,7 @@
 
 
 
-<svelte:window on:keydown={onWindowKeydown} />
+<svelte:window on:keydown={onWindowKeydown} on:pointermove={iconMove} on:pointerup={iconUp} />
 
 {#if showIntro}
 	<!-- Landing beat: click anywhere to enter the desktop -->
@@ -875,12 +898,14 @@
 					     Creative / Comedy / Music alongside everything else. -->
 					<!-- Desktop: top-level category folders only. Child categories
 					     (Comedy, Music) live inside their parent (Creative). -->
-					{#each topFolders as category}
+					{#each topFolders as category, i}
 						{@const categoryInfo = categoryConfig[category.id]}
+						{@const pos = iconXY(category.id, i)}
 							<div
-								class="desktop-icon"
-								on:dblclick={() => openFolderWindow(category.id)}
-								on:click={() => openFolderWindow(category.id)}
+								class="desktop-icon draggable"
+								style="left:{pos.x}px; top:{pos.y}px;"
+								on:pointerdown={(e) => iconDown(e, category.id, i)}
+								on:click={() => { if (!iconMoved) openFolderWindow(category.id); }}
 								on:keydown={(e) => e.key === 'Enter' && openFolderWindow(category.id)}
 								tabindex="0"
 								role="button"
@@ -2097,7 +2122,19 @@
 		max-width: 1200px;
 		margin: 0 auto;
 		transition: gap 0.15s ease;
+		position: relative;
+		min-height: 60vh;
 	}
+
+	/* Draggable desktop folders sit as free objects, not in the grid flow */
+	.desktop-icon.draggable {
+		position: absolute;
+		width: 110px;
+		cursor: grab;
+		touch-action: none;
+		user-select: none;
+	}
+	.desktop-icon.draggable:active { cursor: grabbing; }
 
 	.desktop-icon {
 		display: flex;

@@ -5,3 +5,8 @@ vault-drafts/
 Analog Archive/
 Img/
 /raddotcom Vault/hindi hw
+
+# npm packages — never commit; rebuilt by npm install
+node_modules/
+.DS_Store
+.svelte-kit/

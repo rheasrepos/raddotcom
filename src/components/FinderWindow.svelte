@@ -11,6 +11,7 @@
 	export let h = 420;
 	export let z = 10;
 	export let canBack = false; // show a back arrow in the toolbar
+	export let hidden = false;  // keep mounted (e.g. music playing) but not shown
 
 	const dispatch = createEventDispatcher();
 
@@ -78,6 +79,7 @@
 <div
 	class="fw"
 	class:max={maximized}
+	class:fw-hidden={hidden}
 	style={maximized ? `z-index:${z};` : `left:${x}px; top:${y}px; width:${w}px; height:${h}px; z-index:${z};`}
 	on:pointerdown={() => dispatch('focus')}
 	role="dialog"
@@ -119,6 +121,12 @@
 		/* Never grow past the screen — the window always stays fully visible. */
 		max-width: calc(100vw - 20px);
 		max-height: calc(100vh - 96px);
+	}
+	/* Hidden = moved off-screen, NOT unmounted, so an embedded player keeps
+	   playing while minimized. */
+	.fw-hidden {
+		left: -99999px !important;
+		top: -99999px !important;
 	}
 	.fw.max {
 		left: 8px !important;

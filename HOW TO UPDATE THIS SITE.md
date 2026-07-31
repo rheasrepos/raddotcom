@@ -59,8 +59,17 @@ To change the body, just type in it. To change the title, edit the `title:` line
 ### Removing the AI-generated dashed underline
 If a title/description has a dashed underline on the site, it's because the file has `ai_title: true` or `ai_description: true`. **When you rewrite that text yourself, delete that line.** The underline disappears. That's the whole system — one line per file.
 
-### Making a post live / hidden
+### Making a post live / hidden (PRUNING)
 `published: true` = on the site. `published: false` = hidden. Change the word, promote, push.
+
+**To prune (unpublish) a post you don't want live:** open its `.md` file, change `published: true` to `published: false`, save, double-click `promote-to-site.command`, commit + push. It disappears from the site but stays in your vault. Nothing is deleted.
+
+**To prune in bulk / find what to prune:**
+- In Obsidian, use Search (`⌘⇧F`) for `published: true` to see everything that's live.
+- To hide a whole folder at once, you can set `published: false` on each note, or just move the folder into `scraps/` — the promote script never publishes anything in `scraps/`.
+- To find the weakest/shortest posts to consider cutting, sort your file explorer by size, or ask me for a word-count list.
+
+**To delete a post entirely:** delete its `.md` file from the vault, then delete the matching file from `src/vault/` (or just re-run promote, which rebuilds `src/vault` from scratch and drops anything no longer in the vault). Commit + push.
 
 ---
 
