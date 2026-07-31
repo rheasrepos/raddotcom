@@ -140,6 +140,9 @@ export async function GET() {
 		for (const [path, raw] of Object.entries(vaultRaw)) {
 			const file = path.split('/').pop();
 			if (file === 'README.md') continue;
+			// Skip iCloud/Obsidian sync-conflict copies ("Foo 2.md") — they'd
+			// otherwise show up as duplicate posts.
+			if (/ \d+\.md$/.test(file)) continue;
 			// /src/vault/<top>/<sub>/file.md → subfolder "sub" (shown as a
 			// folder inside the category folder on the desktop)
 			const rel = path.replace('/src/vault/', '').split('/');
