@@ -83,6 +83,7 @@ declare module '$env/static/private' {
 	export const npm_config_global_prefix: string;
 	export const HTTP_PROXY: string;
 	export const npm_command: string;
+	export const TZ: string;
 	export const DOCKER_HTTP_PROXY: string;
 	export const GRPC_PROXY: string;
 	export const INIT_CWD: string;
@@ -174,6 +175,7 @@ declare module '$env/dynamic/private' {
 		npm_config_global_prefix: string;
 		HTTP_PROXY: string;
 		npm_command: string;
+		TZ: string;
 		DOCKER_HTTP_PROXY: string;
 		GRPC_PROXY: string;
 		INIT_CWD: string;
