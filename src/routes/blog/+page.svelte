@@ -5,6 +5,7 @@
 	import { page } from '$app/stores';
 	import { loadPosts } from '../../lib/posts.js';
 	import { SITE_NAME } from '$lib/site.js';
+	import { redactionClass } from '$lib/redaction.js';
 
 	let posts = [];
 	let grouping = 'date'; // 'date' | 'category' | 'month'
@@ -153,7 +154,7 @@
 				{/if}
 				<div class="hero-body">
 					<div class="hero-kicker">{lead.featured ? 'Pinned' : 'Latest'}</div>
-					<h2 class="hero-title" class:ai-title={lead.aiTitle} title={lead.aiTitle ? 'Title drafted with AI assistance' : undefined}>{lead.title}</h2>
+					<h2 class="hero-title {redactionClass(lead.date)}" class:ai-title={lead.aiTitle} title={lead.aiTitle ? 'Title drafted with AI assistance' : undefined}>{lead.title}</h2>
 					<div class="hero-meta">{catLabel(lead.type)} · {fmt(lead.date)}</div>
 				</div>
 			</a>
@@ -168,7 +169,7 @@
 					<li class="entry">
 						<a class="entry-link" href="/posts/{p.id}{hideParam}">
 							<span class="entry-date">{fmt(p.date)}</span>
-							<span class="entry-title" class:ai-title={p.aiTitle} title={p.aiTitle ? 'Title drafted with AI assistance' : undefined}>{p.title}</span>
+							<span class="entry-title {redactionClass(p.date)}" class:ai-title={p.aiTitle} title={p.aiTitle ? 'Title drafted with AI assistance' : undefined}>{p.title}</span>
 							{#if p.form}<span class="entry-form">{p.form}</span>{/if}
 						</a>
 						{#if p.description}<p class="entry-desc" class:ai-desc={p.aiDescription} title={p.aiDescription ? 'Description drafted with AI assistance' : undefined}>{p.description}</p>{/if}
@@ -197,7 +198,7 @@
 								<li class="entry">
 									<a class="entry-link" href="/posts/{p.id}{hideParam}">
 										<span class="entry-date">{fmt(p.date)}</span>
-										<span class="entry-title" class:ai-title={p.aiTitle} title={p.aiTitle ? 'Title drafted with AI assistance' : undefined}>{p.title}</span>
+										<span class="entry-title {redactionClass(p.date)}" class:ai-title={p.aiTitle} title={p.aiTitle ? 'Title drafted with AI assistance' : undefined}>{p.title}</span>
 										{#if p.form}<span class="entry-form">{p.form}</span>{/if}
 									</a>
 								</li>

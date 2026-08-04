@@ -4,6 +4,7 @@
 	import PageLayout from '$components/PageLayout.svelte';
 	import { loadPosts, getPostById, formatDate, getProjectColor } from '$lib/posts.js';
 	import { renderMarkdown, isHtmlContent } from '$lib/markdown.js';
+	import { redactionClass, APPLY_TO_BODY } from '$lib/redaction.js';
 
 	// Get post ID from URL
 	$: postId = $page.params.id;
@@ -101,7 +102,7 @@
 			</nav>
 
 			<article class="reader">
-				<h1 class="reader-title" class:ai-title={post.aiTitle} title={post.aiTitle ? 'Title drafted with AI assistance' : undefined}>{post.title}</h1>
+				<h1 class="reader-title {redactionClass(post.date)}" class:ai-title={post.aiTitle} title={post.aiTitle ? 'Title drafted with AI assistance' : undefined}>{post.title}</h1>
 				{#if post.description}
 					<p class="reader-desc" class:ai-desc={post.aiDescription} title={post.aiDescription ? 'Description drafted with AI assistance' : undefined}>{post.description}</p>
 				{/if}
@@ -165,7 +166,7 @@
 				{:else if view === 'raw'}
 					<pre class="content-raw">{post.content}</pre>
 				{:else}
-					<div class="content-body prose">{@html renderedContent}</div>
+					<div class="content-body prose {APPLY_TO_BODY ? redactionClass(post.date) : ''}">{@html renderedContent}</div>
 				{/if}
 
 				{#if nextPost || previousPost}

@@ -200,6 +200,25 @@ Do **not** use `[[double brackets]]` in anything published — those are Obsidia
 
 ---
 
+## 10b. The Redaction age-decay (older posts look more degraded)
+
+Post titles (and bodies) render in the **Redaction** typeface, in progressively degraded grades the older the post is. Everything about it lives in **one file: `src/lib/redaction.js`**.
+
+**One-time setup (needs you):** download the free font from **redaction.us** (Download button → zip). From the zip, copy the `.woff2` files into `static/fonts/redaction/` with these names: `Redaction-Regular.woff2`, `Redaction_10-Regular.woff2`, `Redaction_20-Regular.woff2`, `Redaction_35-Regular.woff2`, `Redaction_50-Regular.woff2`, `Redaction_70-Regular.woff2`, `Redaction_100-Regular.woff2`. Until then the site quietly uses SF Mono — nothing breaks.
+
+**Tuning the timeframes** — edit the table in `src/lib/redaction.js`:
+```
+{ months: 6,   grade: 'R'   },   // ≥ 6 months old → clean Redaction
+{ months: 12,  grade: '10'  },   // ≥ 1 year → slightly degraded
+...
+{ months: 120, grade: '100' }    // ≥ 10 years → maximum decay
+```
+Change the `months` numbers to speed up / slow down the decay. Delete rows to use fewer grades. Posts newer than the first row keep the normal site font.
+
+**Titles only?** Set `APPLY_TO_BODY = false` in the same file — bodies stay readable SF Mono and only titles decay.
+
+---
+
 ## 11. The publish checklist (memorize this)
 
 1. Edit the `.md` file in `raddotcom Vault (vault-drafts)/` (or a `src/...` file for page layout).

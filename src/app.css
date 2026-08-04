@@ -12,6 +12,31 @@
   font-family: 'SF Mono', ui-monospace, 'Menlo', 'Consolas', 'Roboto Mono', 'Courier New', monospace !important;
 }
 
+/* ── REDACTION AGE-DECAY ─────────────────────────────────────────────
+   The Redaction typeface (redaction.us) in 7 degradation grades.
+   Posts get a .redact-* class from src/lib/redaction.js based on age —
+   the older the post, the more degraded the grade. If the font files
+   aren't in static/fonts/redaction/ yet, browsers silently fall back
+   to SF Mono, so this is safe to ship before the fonts arrive. */
+@font-face { font-family: 'Redaction';     src: url('/fonts/redaction/Redaction-Regular.woff2') format('woff2');     font-display: swap; }
+@font-face { font-family: 'Redaction 10';  src: url('/fonts/redaction/Redaction_10-Regular.woff2') format('woff2');  font-display: swap; }
+@font-face { font-family: 'Redaction 20';  src: url('/fonts/redaction/Redaction_20-Regular.woff2') format('woff2');  font-display: swap; }
+@font-face { font-family: 'Redaction 35';  src: url('/fonts/redaction/Redaction_35-Regular.woff2') format('woff2');  font-display: swap; }
+@font-face { font-family: 'Redaction 50';  src: url('/fonts/redaction/Redaction_50-Regular.woff2') format('woff2');  font-display: swap; }
+@font-face { font-family: 'Redaction 70';  src: url('/fonts/redaction/Redaction_70-Regular.woff2') format('woff2');  font-display: swap; }
+@font-face { font-family: 'Redaction 100'; src: url('/fonts/redaction/Redaction_100-Regular.woff2') format('woff2'); font-display: swap; }
+
+/* Class specificity beats the universal SF Mono rule above. */
+.redact-R   { font-family: 'Redaction',     'SF Mono', ui-monospace, monospace !important; }
+.redact-10  { font-family: 'Redaction 10',  'SF Mono', ui-monospace, monospace !important; }
+.redact-20  { font-family: 'Redaction 20',  'SF Mono', ui-monospace, monospace !important; }
+.redact-35  { font-family: 'Redaction 35',  'SF Mono', ui-monospace, monospace !important; }
+.redact-50  { font-family: 'Redaction 50',  'SF Mono', ui-monospace, monospace !important; }
+.redact-70  { font-family: 'Redaction 70',  'SF Mono', ui-monospace, monospace !important; }
+.redact-100 { font-family: 'Redaction 100', 'SF Mono', ui-monospace, monospace !important; }
+/* Decay applies to every element inside a decayed body too. */
+.redact-R *, .redact-10 *, .redact-20 *, .redact-35 *, .redact-50 *, .redact-70 *, .redact-100 * { font-family: inherit !important; }
+
 /* AI-drafted text is always marked with a dashed underline, site-wide.
    Same convention as the AIText component. */
 .ai-title, .ai-desc, .ai-generated {
