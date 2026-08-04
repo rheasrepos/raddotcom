@@ -365,6 +365,12 @@
 		margin: 0 auto;
 		padding: 2rem;
 	}
+
+	@media (max-width: 620px) {
+		.container { padding: 1rem 0.8rem; }
+		.reader-title { font-size: 1.45rem; }
+		.pdf-frame { height: 70vh; }
+	}
 	
 	.content-body {
 		font-size: 1rem;

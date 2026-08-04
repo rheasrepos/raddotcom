@@ -280,7 +280,10 @@
 	.side-link.off { opacity: 0.4; text-decoration: line-through; }
 	.side-count { color: #666; font-size: 0.75rem; }
 	@media (max-width: 860px) {
-		.arch-side { display: none; }
+		/* On phones the sidebar stacks ABOVE the list instead of disappearing,
+		   so search + category filters stay usable on mobile. */
+		.arch-layout { flex-direction: column; gap: 14px; }
+		.arch-side { flex: none; width: auto; position: static; }
 	}
 
 	.archive {

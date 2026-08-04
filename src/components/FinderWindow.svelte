@@ -141,6 +141,8 @@
 		align-items: center;
 		gap: 10px;
 		padding: 5px 9px;
+		/* allow two-finger pinch-zoom on mobile; one-finger drag still works */
+		touch-action: pinch-zoom;
 		background: #d9d9d9;
 		border-bottom: 2px solid #000;
 		cursor: grab;
@@ -184,7 +186,7 @@
 		flex: 1;
 	}
 	/* Resize handles on all four corners */
-	.fw-rz { position: absolute; width: 16px; height: 16px; z-index: 2; }
+	.fw-rz { position: absolute; width: 16px; height: 16px; z-index: 2; touch-action: pinch-zoom; }
 	.fw-rz.nw { top: -3px; left: -3px; cursor: nwse-resize; }
 	.fw-rz.ne { top: -3px; right: -3px; cursor: nesw-resize; }
 	.fw-rz.sw { bottom: -3px; left: -3px; cursor: nesw-resize; }

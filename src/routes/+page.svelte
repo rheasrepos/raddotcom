@@ -261,6 +261,14 @@
 	let typed = '';
 	let thisVisitName = '';
 	onMount(() => {
+		// MOBILE: render the desktop at desktop width, zoomed out to fit the
+		// phone screen — you pinch-zoom to look around instead of everything
+		// cramming/overlapping at phone width. Restored on leaving the page so
+		// blog/posts stay normally responsive.
+		const vp = document.querySelector('meta[name="viewport"]');
+		const prevVp = vp ? vp.getAttribute('content') : null;
+		if (vp && window.innerWidth < 768) vp.setAttribute('content', 'width=1024');
+
 		thisVisitName = siteName(); // rotates per visit
 		if (typeof sessionStorage !== 'undefined' && !sessionStorage.getItem('introSeen')) {
 			showIntro = true;
@@ -270,6 +278,8 @@
 				if (i >= thisVisitName.length) clearInterval(t);
 			}, 150);
 		}
+		// restore the normal responsive viewport when leaving the desktop
+		return () => { if (vp && prevVp) vp.setAttribute('content', prevVp); };
 	});
 	function enterSite() {
 		showIntro = false;
@@ -2131,7 +2141,9 @@
 		position: absolute;
 		width: 110px;
 		cursor: grab;
-		touch-action: none;
+		/* pinch-zoom (not none) so two-finger zoom still works on mobile;
+		   one-finger drag keeps working via pointer events */
+		touch-action: pinch-zoom;
 		user-select: none;
 	}
 	.desktop-icon.draggable:active { cursor: grabbing; }

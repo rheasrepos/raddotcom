@@ -106,6 +106,18 @@ If a title/description has a dashed underline on the site, it's because the file
 
 ---
 
+## 4b. Updating an existing PDF
+
+The PDFs the site displays live in `static/docs/`. To replace one with a newer version:
+
+1. Copy the new PDF into `static/docs/` **with the exact same filename** (overwrite the old one).
+2. Delete its old thumbnail: `static/docs/covers/<same name>.png` — the promote script regenerates it from page 1 of the new PDF.
+3. Double-click `promote-to-site.command`, then commit + push.
+
+If the new PDF has a **different filename**, also update the `pdf: /docs/newname.pdf` line in the post's `.md` file (and delete the old PDF + cover so they don't linger).
+
+---
+
 ## 5. Adding a caption to an artifact / image
 
 Artifacts live in `artifacts/`. Each has an `image:` line already pointing at the scan. To caption one:
