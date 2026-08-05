@@ -39,7 +39,7 @@ export const SITE_NAMES = [
 	'STASH'
 ];
 
-export const SITE_TAGLINE = 'a public personal archive — essays, research, sketches, songs';
+export const SITE_TAGLINE = 'a public personal archive — my digital media';
 export const SITE_AUTHOR = 'Rhea Madhogarhia';
 
 /** The site's name. Rotates only if ROTATE is turned on. */
