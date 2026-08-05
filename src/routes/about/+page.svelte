@@ -50,8 +50,7 @@
     <section class="hero-section">
         <div class="hero-content">
             <div class="hero-text">
-                <h1>Hello, I'm Rhea Madhogarhia</h1>
-                <p><AIText note="This bio was drafted with AI assistance, based on Rhea's own writing and notes.">{aboutText}</AIText></p>
+                <h1>Hiii, I'm Rhea Madhogarhia (currently a Master's student at NYU Courant studying Computer Science)</h1>
             </div>
         </div>
     </section>
