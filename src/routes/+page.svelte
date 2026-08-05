@@ -796,7 +796,7 @@
 	<!-- Brand sits on the orange desktop, outside the monitor -->
 	<div class="desktop-brand">
 		<span class="title">{thisVisitName || 'RAD.COM'}</span>
-		<span class="subtitle">Rhea Madhogarhia's public journal</span>
+		<span class="subtitle">A Personal Public Archive by Rhea Madhogarhia</span>
 	</div>
 	<div class="laptop-screen" style="background: {wallpaperColor};">
 		<!-- Navigation and Controls in the frame bezel -->

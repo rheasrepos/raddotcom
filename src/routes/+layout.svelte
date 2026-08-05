@@ -37,8 +37,7 @@
 </script>
 
 <svelte:head>
-	<title>rhea web</title>
-	<meta name="description" content="A fun and eclectic personal website showcasing rad stuff, writing, music, comedy, and art" />
+	<title>www.rhea.com</title>
 </svelte:head>
 
 <main>
