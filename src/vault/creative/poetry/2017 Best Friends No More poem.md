@@ -1,18 +1,19 @@
 ---
-title: "Best Friends No More (poem)"
+title: Best Friends No More (poem)
 ai_title: true
 date: 2017
 type: creative
-academic: false
+academic: true
 published: true
 source: /Users/rheamadhogarhia/Desktop/Recovered Writing/2017 Best Friends No More (poem).md
-tags: [creative/poetry]
+tags:
+  - creative/poetry
 era: before-college
 affiliation: before-college
 genre: Music/Lyrics
 ---
 # Best Friends No More
-*Rhea Madhogarhia — Period 9, December 2017 (recovered from Google Drive). Poem, point of view of her dog.*
+NOTE FROM RHEA: this was from either 7th or 8th grade during our poetry unit....
 
 Play, talk, chase, eat
 Together in one home

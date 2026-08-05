@@ -14,6 +14,8 @@ form: [essay]
 affiliation: uchicago
 genre: Essay
 ---
+NOTE FROM RHEA: this was my first philosophy class at the university of chicago. this particular class kept returning to the problem of free will. I wrote this as an attempt to explain why I didn't feel like I could ever create anything "new".
+
 Rhea Madhogarhia
 
 Philosophy of Mind

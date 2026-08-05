@@ -13,7 +13,7 @@ form: [reading-response]
 affiliation: uchicago
 genre: user-centered-design
 ---
-
+2026-02-19
 Rhea Madhogarhia
 Reading Response:
 Gender Shades: Intersectional Accuracy Disparities in Commercial Gender Classification – Buolamwini

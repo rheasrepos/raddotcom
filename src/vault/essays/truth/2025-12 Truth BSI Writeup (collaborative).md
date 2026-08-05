@@ -14,6 +14,7 @@ tags:
   - tech
 form:
   - essay
+  - project
 affiliation: uchicago
 ---
 *** CHECK IF THINGS CAN COOCCUR ON SITE.. (this should also be in tech/projects)

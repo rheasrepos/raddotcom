@@ -11,6 +11,6 @@ tags: [creative/comedy, performance]
 affiliation: uchicago
 ---
 
-Second City show — I helped write, direct, and starred in it.
+In the Fall of 2025, Lucy Carter, Camille Cypher and I wrote, directed, teched, casted, edited, and starred in a show at the Second City's de Maat Theatre. We sold out the theatre. I co-wrote sketches like "In the Arms of An Angel" and created all of the visuals and tech effects for the show. 
 
 [Watch on YouTube](https://www.youtube.com/watch?v=MRZ6VoHthIA)

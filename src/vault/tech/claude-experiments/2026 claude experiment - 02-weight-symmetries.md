@@ -8,7 +8,7 @@ affiliation: independent
 type: programming
 published: true
 ---
-
+[machine fiddling]
 # 02 — weight symmetries
 
 **Note entry (Nov 19 2025):** take the inputs to a model — or the weights — and multiply by its transpose, its transpose's transpose... "every possible, or at least four-way, direction of the data."

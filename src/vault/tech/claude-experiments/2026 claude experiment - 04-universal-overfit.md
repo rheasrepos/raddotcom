@@ -8,7 +8,7 @@ affiliation: independent
 type: programming
 published: true
 ---
-
+[machine fiddling]
 # 04 — universal overfit
 
 **Note entry (phil of AI class):** can you fit a model to *any* problem and *any* curve just by training the weights A LOT, without changing the architecture at all?

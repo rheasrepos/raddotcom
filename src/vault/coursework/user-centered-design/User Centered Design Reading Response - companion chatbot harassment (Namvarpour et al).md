@@ -13,7 +13,7 @@ form: [reading-response]
 affiliation: uchicago
 genre: user-centered-design
 ---
-
+2026-01-22
 Rhea Madhogarhia
 Reading Response #5: AI-induced Sexual Harassment: Investigating Contextual Characteristics and User
 Reactions of Sexual Harassment by a Companion Chatbot - Namvarpour et al.

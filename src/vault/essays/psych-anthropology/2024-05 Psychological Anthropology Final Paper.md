@@ -16,7 +16,7 @@ Rhea Madhogarhia
 
 Prof. Sevda Numanbayraktaroglu
 
-Psychological Anthropology | Spring 2024
+[[Psychological Anthropology]] | Spring 2024
 
 Due May 21, 2024
 

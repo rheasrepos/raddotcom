@@ -1,17 +1,21 @@
 ---
-title: "I'm Here For You (script)"
+title: I'm Here For You (script)
 ai_title: true
 date: 2026-03
 date_approx: true
 type: creative
-academic: false
+academic: true
 published: true
 pdf: /docs/2025-26-im-here-for-you-script.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Fourth Year/y4q2/IM HERE FOR YOU SCRIPT.docx
-tags: [creative/theatre/playwriting, creative/comedy, performance]
+tags:
+  - creative/theatre/playwriting
+  - creative/comedy
+  - performance
 affiliation: uchicago
 genre: Creative
 ---
+NOTE FROM RHEA: I wrote this script for a group project in Scott Elmegreene's Text and Performance class at the University of Chicago. This short 15 minute play was put up on our final day of class, spring 2026. Link to performance INCOMING.
 Script
 
 I’m Here For You

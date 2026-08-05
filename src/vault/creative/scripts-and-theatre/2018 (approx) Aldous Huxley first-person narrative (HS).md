@@ -10,6 +10,7 @@ tags: [creative]
 era: before-college
 affiliation: before-college
 ---
+Note from Rhea: THIS WAS FROM MIDDLE SCHOOL HAHA.
 
 Aldous Huxley Narrative
 My name is Aldous Huxley. I was born in Godalming, England on July 26, 1894. My mother was Julia Arnold, a schoolmistress, and my father was Leonard Huxley, a schoolmaster and editor. Also, my grandfather was a well-known zoologist. Therefore, I was expected to be just as intelligent as the rest of my family. When I was a boy, I wanted to become a scientist. However, when I was a teenager, I almost went blind, and had poor eyesight for the rest of my life. My condition (Keratitis Punctata) ruined any dream I had of becoming a scientist. Not only was I nearly blind, but my entire youth was very tragic. My mother died of cancer and my brother Noel committed suicide. 

@@ -12,6 +12,8 @@ tags: [creative/comedy, creative/screenwriting/character-design]
 affiliation: uchicago
 genre: Creative
 ---
+NOTE FROM RHEA: In my Sophomore year, I was one of the writers for our South Asian association's (SASA) annual show which featured a movie that would connect on stage performances (dance, vocal music, classical music, fashion show, etc). The theme was Indian Matchmaking. 
+
 Speed Dating
 
 Written by Antrita Manduva &amp; Rhea Madhogarhia

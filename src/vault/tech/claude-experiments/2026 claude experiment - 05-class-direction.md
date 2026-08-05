@@ -8,7 +8,7 @@ affiliation: independent
 type: programming
 published: true
 ---
-
+[machine fiddling]
 # 05 — class direction
 
 **Note entry (Dec 2025, watching 3Blue1Brown):** to what degree is *class* encoded in language? Find the plebeian↔aristocrat direction in embedding space — like man↔woman in king − man + woman ≈ queen — and project a bunch of words onto it.

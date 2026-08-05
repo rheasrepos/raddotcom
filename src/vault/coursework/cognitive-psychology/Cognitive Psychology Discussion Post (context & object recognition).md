@@ -1,5 +1,5 @@
 ---
-title: "COG PSYCH: Discussion Week 3 — Context & Object Recognition"
+title: Cognitive Psychology Discussion Post (context & object recognition)
 ai_title: true
 date: 2023-10-13
 type: coursework
@@ -7,12 +7,15 @@ academic: true
 course: Cognitive Psychology
 published: true
 source: raddotcom Vault/2023-10-13 Rhea Discussion Paper Week 3 Cog Psych.pdf
-tags: [academic/psychology/cognitive-psychology, perception]
-form: [discussion-post]
+tags:
+  - academic/psychology/cognitive-psychology
+  - perception
+form:
+  - discussion-post
 affiliation: uchicago
 genre: discussion-post
 ---
-
+2023-10-13
 Rhea Madhogarhia
 
 Shani’s quote about sensory systems’ ability to help organisms cope and adapt with

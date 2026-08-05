@@ -10,4 +10,4 @@ tags: [creative/music, performance]
 affiliation: independent
 ---
 
-My YouTube channel — music, a cappella, and video. Every upload plays here.
+I started this Youtube Channel as a way to make sure I kept music in my life in college (at least before I joined an acappella group). My goal was to post a song/cover a week. I did not accomplish that goal.

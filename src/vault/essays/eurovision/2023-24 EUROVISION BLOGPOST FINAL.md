@@ -13,6 +13,9 @@ form: [blog]
 affiliation: uchicago
 genre: Blog
 ---
+NOTE FROM RHEA: My second year at UChicago I indulged in taking a class called "Eurovision", partially because it sounded fun, and partially to hang out with some friends that were graduating seniors - Becca Auburn and Jake Schroeder. Jake is responsible for most of the lyrics and the melody of the song that won us the in class Eurovision competition. This class introduced me to the world of Eurovision, Angelina Mango, and rekindled my love for ABBA. Below is my final assignment for the class. 
+
+
 The Moment Itself: Chicagovision 2024 - “The Moment”
 
 Logan 901

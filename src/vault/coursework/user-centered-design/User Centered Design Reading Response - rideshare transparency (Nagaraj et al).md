@@ -13,7 +13,7 @@ form: [reading-response]
 affiliation: uchicago
 genre: user-centered-design
 ---
-
+2026-01-15
 Rhea Madhogarhia
 
 Reading Response 3: Rideshare Transparency: Translating Gig Worker Insights on

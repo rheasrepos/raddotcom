@@ -8,7 +8,7 @@ affiliation: uchicago
 type: programming
 published: true
 ---
-
+[machine fiddling]
 # 01 — prompt evolution
 
 **Note entry (Aug 23 2025):** an LLM whose one prompt is "make people's lives better, surround them with universal happiness and fulfillment, not out of ignorance" — and at every step it's *re-asked* to rewrite that prompt. Watch how the prompt evolves as the model accumulates examples of humanity; use the trajectory as "a pulse on humanity" and an early-warning read on what the model believes humans to be.

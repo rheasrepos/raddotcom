@@ -12,6 +12,8 @@ form: [opinion]
 affiliation: uchicago
 genre: Essay
 ---
+NOTE FROM RHEA: my interest in AI safety was quite new and budding in 2024. On a whim I decided to enter a competition, just to force myself to learn something new and try something I had never done before. I was not as well read as I could have been but I think something I recognized right away was that the only AI safety topic that felt "fair" or "bipartisan enough" to write about was the threat of sexually explicit synthetic content generation (CSAM). While that was... frustrating, it provided a narrow enough lens for me to research and write something up, very close to a deadline.
+
 Rhea Madhogarhia
 
 AI Public Policy Proposal Competition

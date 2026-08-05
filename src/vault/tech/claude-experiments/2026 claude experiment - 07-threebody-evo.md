@@ -8,7 +8,7 @@ affiliation: independent
 type: programming
 published: true
 ---
-
+[machine fiddling]
 # 07 — three-body evo
 
 **Note entry (Mar 14 2026):** "the three body problem evolutionary algorithm."

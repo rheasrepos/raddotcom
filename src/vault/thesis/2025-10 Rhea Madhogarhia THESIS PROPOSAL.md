@@ -17,6 +17,8 @@ tags:
 affiliation: uchicago
 genre: Think-piece
 ---
+NOTE FROM RHEA: Last minute, I decided to submit a Cognitive Science Honors Thesis proposal. Unfortunately, I did not complete a thesis due to time constraints and found that I enjoyed researching these topics more as a hobby amidst my coursework, rather than a task. I plan to continue this line of inquiry in my studies at NYU, thinking about the fundamental limits of causal explanations.... whatever that means....
+
 Rhea Madhogarhia
 
 Honors Thesis Proposal 

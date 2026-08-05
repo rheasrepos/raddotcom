@@ -13,7 +13,7 @@ form: [reading-response]
 affiliation: uchicago
 genre: user-centered-design
 ---
-
+2026-01-25
 Rhea Madhogarhia
 “I never realized sidewalks were a big deal”: A Case Study of a
 Community-Driven Sidewalk Audit Using Project Sidewalk - Li et. al.

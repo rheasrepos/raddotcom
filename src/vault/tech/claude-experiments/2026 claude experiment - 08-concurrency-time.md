@@ -8,7 +8,7 @@ affiliation: independent
 type: programming
 published: true
 ---
-
+[machine fiddling]
 # 08 — concurrency & time
 
 **Note entry (Mar 9 2026):** "concurrency is cool because it deals with time — can truly concurrent processes happen to computers?"

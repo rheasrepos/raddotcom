@@ -12,6 +12,9 @@ tags: [creative/screenwriting/story-structure, creative/comedy]
 affiliation: uchicago
 genre: Creative
 ---
+Note from Rhea: In my final quarter at UChicago I took a class called Advanced Musical Theatre Writing with my good friends Camille Cypher and Cilcan Pierce. Togetehr we crafted somewhat of a full length musical about a NASA Nepo Baby who ends up having to save the world by creating an updated Golden Record. In this class we learned about the tentpole moments of any story. This was our story outline. This is quite clearly a draft, but we ended up submitting 21 songs and a draft of a full script.
+
+
 The Golden Record
 
 CHARACTER DESCRIPTIONS 

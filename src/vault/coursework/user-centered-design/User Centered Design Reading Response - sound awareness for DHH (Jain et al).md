@@ -13,7 +13,7 @@ form: [reading-response]
 affiliation: uchicago
 genre: user-centered-design
 ---
-
+2026-01-20
 Rhea Madhogarhia
 Reading Response #4
 Reading Response: Exploring Sound Awareness in the Home for People who are Deaf or Hard of

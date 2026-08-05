@@ -12,9 +12,11 @@ tags: [academic/psychology/anthropology, culture, emotion]
 affiliation: uchicago
 genre: Essay
 ---
+NOTE FROM RHEA: This was one of the most interesting classes I took at UChicago in the Comparative Human Development Department. I took it as an extra-disciplinary Cognitive Science elective. We talked deeply about cultural relativism, the subjectivity of pain, and the irreconcilability of social norms across different cultures. Many of our assignments were reading checks or summaries of texts we were assigned. This was a midterm paper. 
+
 Rhea Madhogarhia
 
-Prof. Sevda Numanbayraktaroglu
+Prof. Sevda Numanbayraktaroglu | [[[Psychological Anthropology]]]
 
 Cultural Schemas Influence on Emotional Expression and Socialization
 

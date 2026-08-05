@@ -9,7 +9,7 @@ kind: [meta/index]
 type: programming
 published: true
 ---
-
+Note from Rhea: this is related to [machine fiddling] 
 # claude experiments
 
 Individual projects spun out of the iCloud note **"machine fiddling"** (Aug 2025 – Mar 2026).

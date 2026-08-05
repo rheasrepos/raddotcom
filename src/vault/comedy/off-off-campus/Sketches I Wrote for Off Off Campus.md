@@ -1,12 +1,14 @@
 ---
-title: "List of my sketches"
+title: Sketches I Wrote for Off Off Campus
 ai_title: true
 date: 2026-06-01
 type: comedy
 published: true
-tags: [creative/comedy/sketch]
+tags:
+  - creative/comedy/sketch
 affiliation: uchicago
-kind: [list]
+kind:
+  - list
 ---
 
 **drive thru:** [**https://docs.google.com/document/d/1JENu0-hu-iDSVhmgXFXblj3BRwLfewaiDquocV0muJw/edit?tab=t.0**](https://docs.google.com/document/d/1JENu0-hu-iDSVhmgXFXblj3BRwLfewaiDquocV0muJw/edit?tab=t.0)

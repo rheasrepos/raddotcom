@@ -8,7 +8,7 @@ affiliation: independent
 type: programming
 published: true
 ---
-
+[machine fiddling]
 # 03 — sample then correct
 
 **Note entry (prob-ML homework):** instead of calculating probabilities first and then sampling (reducing the chance the highest-probability item is chosen), do the opposite — **generate randomly first, then correct by probability.**

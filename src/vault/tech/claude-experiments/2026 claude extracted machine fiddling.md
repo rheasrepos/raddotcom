@@ -9,14 +9,14 @@ affiliation: uchicago
 type: programming
 published: true
 ---
-
-# margin ideas — machine fiddling addendum
+note from rhea: over the course of undergrad, I had a little pinned note in my apple notes app called machine fiddling (crazy name I know) and whenever I learned something in class or had an idea about model architecture or an experiment I wanted to try I updated the note. I have had Claude help me build a few of these experiments and, for this post, asked it to synthesize my progress and summarize the note. A lot of this stuff is gibberish to anyone but me, but it's cool to see how it's synthesized by a language model. Here is Claude's take, edited by me:
+# margin ideas — [machine fiddling] addendum
 
 Ideas recovered from PDF margin annotations and class notes scattered outside the iCloud "machine fiddling" note. Extracted from 535 annotations across PHIL OF AI, MACHINE LEARNING, ML 4 CS, MFML, NLP, databases, bpro, and Year 2 cog-sci/phil-of-mind folders (all under `University of Chicago/` on this Desktop). Paths are relative to that folder; page numbers refer to the PDF. Notes appearing in both the compiled Arkoudas packet and individual reading PDFs are listed once, under the original reading.
 
 ## Directly machine-fiddling (new experiment candidates)
 
-**"so maybe my problem is that i dont think humans are modelable — there is no model human bc in that case if we were to do biology on ourselves each of us is a branch, a new species"**
+**"so maybe my problem is that i dont think humans are modelable — there is no model human, bc in that case, if we were to do biology on ourselves, each of us would be a branch, a new species"**
 — Putnam, *The Nature of Mental States*, p.5 (`Year 4/.../philofai mind and matter 10.14/Putnam--the nature of mental states.pdf`)
 → Experiment candidate: measure *un-modelability* — train a "generic human" predictor on many people's data, measure the per-person residual that never shrinks. Your CABLAB finding (between-participant disagreement ~2x character signal) is literally evidence for this note. Pairs with `05-class-direction` (what models DO capture is the stereotype, not the person).
 
@@ -36,14 +36,14 @@ Ideas recovered from PDF margin annotations and class notes scattered outside th
 — Churchland, *Eliminative Materialism*, p.16 (`materialism/Churchland, Eliminative Materialism.pdf`)
 → The observation: ML replaces folk-psychological categories with learned features, the way Churchland wants neuroscience to replace beliefs/desires. Essay seed more than experiment — but probing whether a model's learned features align with folk categories is exactly what `05-class-direction` does.
 
-**"maybe general AI tries to avoid this — not just solving one problem but any, and that's why it's dangerous: there is no design that it's solving, it's unrestricted?"**
+**"maybe general AI tries to avoid this — not just solving one problem but any, and that's why it's dangerous: there is no design that it's solving... it's unrestricted? ... is it?"**
 — Dretske, p.7 (`materialism/Dretske.pdf`)
 → Pairs with the machine-fiddling note's "body/bounds" idea (`06-query-circuits`): specialization as safety. An experiment on generality-vs-auditability is a genuine open research direction.
 
 ## Mind-as-machine margins (essay/blog material)
 
 - **"maybe computer is not brain, but computer is computer and computer is part of brain"** + **"ascription is possible of the brain to a computer but equivalence is not guaranteed"** + **"it's all observer-relative — what is a computer and what is not is a societal issue!"** — Searle, *Syntax & Physics*, pp.1–3 (`philofai mind and matter 10.20/`). Your MBM final paper already flips this ("to what extent is a computer a brain?" — `Year 4/Recovered Writing/Priority Classes/Final Paper Rhea Madhogarhia Mind Brain and Meani.md`).
-- **"helen keller = ai"** — Turing, p.25. (Compressed but real: learning from impoverished channels — sample-efficiency of grounding. Cf. Piantadosi on LLMs and language deprivation.)
+- **"helen keller as a metaphor for ai??? not really...."** — Turing, p.25. (Compressed but real: learning from impoverished channels — sample-efficiency of grounding. Cf. Piantadosi on LLMs and language deprivation.)
 - **"i guess intention is prediction dependent — you predict it will be received a certain way, so ai has intention"** — Dennett, p.2; developed in your PHIL OF AI final (`Recovered Writing/Priority Classes/2025-12-15 PHIL OF AI MIND AND MATTER FINAL PAPER.md`).
 - **"what if we are mistaken — what if what we call consciousness is knee-jerk reactions and survival techniques, consciousness as part of our biology"** + **"AI? LLMs — is this what the turing test rests on?"** — Chalmers, pp.121, 124 (`Consciousness week2friday/Chalmers.pdf`).
 - **"we are not breakable into our parts… maybe it's like a rube goldberg machine — our singularity comes from the sum of the parts"** — Nagel, *Brain Bisection*, p.2 (`thoughtsLanguageSelfweek3monday/`).

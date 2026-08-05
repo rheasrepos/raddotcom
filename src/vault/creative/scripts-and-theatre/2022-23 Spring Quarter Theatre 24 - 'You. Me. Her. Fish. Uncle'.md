@@ -13,6 +13,8 @@ tags: [creative/theatre/playwriting, creative/comedy, performance]
 affiliation: uchicago
 genre: Creative
 ---
+NOTE FROM RHEA: This short play was a submission for a 24 hour theatre festival. I co-wrote this with Camille Cypher in an overnight sprint. Much of this was written at the Pret a Manger in the Reynolds Clubhouse. Thank you to Gabriel, Avery,  Daniel, and Corinne for helping us make this piece an absurd reality! Oh, and the theme for this specific 24 hour festival was "nail polish". I cant remember exactly but I think the nailpolish color we were assigned was "carols and caviar????" 
+
 You. Me. Her. Fish. Uncle.
 
 By Rhea Madhogarhia and Camille Cypher

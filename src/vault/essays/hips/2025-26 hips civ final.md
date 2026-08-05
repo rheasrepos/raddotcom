@@ -14,9 +14,7 @@ tags:
 affiliation: uchicago
 genre: Creative
 ---
-case b
-
-CASE B
+NOTE FROM RHEA: The assigned final for my HIPS CIV class was to act as a medieval doctor and diagnose patients based on their stated symptoms. We were presented with videos of students dressed up as patients exlaining their symptoms. One key detail in each video was a vial of colored urine. 
 
 As of May 29th, Derfel, named after great giant of Wales. Wool-Worker
 

@@ -1,17 +1,20 @@
 ---
-title: "Seven Poems (7th grade)"
+title: Seven Poems (7th grade)
 ai_title: true
 date: 2017-01
 type: creative
-academic: false
+academic: true
 published: true
 pdf: /docs/2017-01-madhogarhia-rhea-7-poems.pdf
 source: /Users/rheamadhogarhia/Desktop/oldmacdesktop/ALL BEFORE COLLEGE/HARVARD WESTLAKE G DRIVE/HW GOOGLE DRIVE FILES/HARVARD WESTLAKE GOOGLE DRIVE/HW/7th Grade/Academics/7 Madhogarhia, Rhea English to Share/Poetry/Madhogarhia, Rhea 7 Poems.docx
-tags: [creative/poetry, identity]
+tags:
+  - creative/poetry
+  - identity
 era: before-college
 affiliation: before-college
 genre: Juvenilia (creative)
 ---
+NOTE FROM RHEA: THIS IS FROM WHEN I WAS IN 7th GRADE. It's evident I was an artsy wannabe middle schooler.
 Poems
 
 Morning Identities
