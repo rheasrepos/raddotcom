@@ -1,6 +1,5 @@
 ---
 title: Analyzing the Linguistic Differences Between Spoken and Written Text Using BERT
-ai_title: true
 date: 2025-03
 type: research
 academic: true

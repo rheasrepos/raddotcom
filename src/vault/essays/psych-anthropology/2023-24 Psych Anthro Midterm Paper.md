@@ -1,6 +1,5 @@
 ---
 title: "PSYCH ANTHRO: Cultural Schemas Influence on Emotional Expression and Socialization"
-ai_title: true
 date: 2024-04-22
 type: essays
 academic: true

@@ -1,6 +1,5 @@
 ---
 title: "PSYCH ANTHRO: Cultural Specificity of the Abnormal: The Impact of Culture on Mental Health and Feeling"
-ai_title: true
 date: 2024-05-21
 type: essays
 academic: true

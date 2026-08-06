@@ -1,6 +1,5 @@
 ---
 title: "HS ENGLISH: There There — Tony Loneman's Death & Native American Identity"
-ai_title: true
 date: 2019
 date_approx: true
 type: essays

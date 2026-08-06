@@ -1,6 +1,5 @@
 ---
 title: "THESIS: Proposal"
-ai_title: true
 date: 2025-10
 date_approx: true
 type: thesis

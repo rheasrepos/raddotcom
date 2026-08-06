@@ -1,6 +1,5 @@
 ---
 title: "HS ENGLISH: A Mother's Guide Through Life — Salvage the Bones essay"
-ai_title: true
 date: 2020
 date_approx: true
 type: essays

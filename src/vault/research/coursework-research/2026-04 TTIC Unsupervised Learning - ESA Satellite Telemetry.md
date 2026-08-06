@@ -1,6 +1,5 @@
 ---
 title: Uncovering Latent Structure in ESA Satellite Telemetry
-ai_title: true
 date: 2026-04-30
 type: research
 academic: true

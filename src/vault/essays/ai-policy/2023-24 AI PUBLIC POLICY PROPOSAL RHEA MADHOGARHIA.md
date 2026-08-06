@@ -1,6 +1,5 @@
 ---
 title: "AI POLICY: AI Public Policy Proposal Competition"
-ai_title: true
 date: 2024-05-04
 type: essays
 academic: false

@@ -1,6 +1,5 @@
 ---
 title: "NSCI 20101: Research Paper"
-ai_title: true
 date: 2024-12-04
 type: research
 academic: true

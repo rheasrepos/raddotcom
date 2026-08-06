@@ -1,6 +1,5 @@
 ---
 title: "HIPS/MBL: Visualising the Invisible"
-ai_title: true
 date: 2025-11-30
 type: research
 academic: true

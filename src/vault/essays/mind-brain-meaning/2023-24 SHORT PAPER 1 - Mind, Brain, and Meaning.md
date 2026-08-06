@@ -1,6 +1,5 @@
 ---
 title: "MBM: Short Paper 1"
-ai_title: true
 date: 2024-01-18
 type: essays
 academic: true

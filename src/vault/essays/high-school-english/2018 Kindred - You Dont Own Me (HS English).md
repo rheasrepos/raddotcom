@@ -1,6 +1,5 @@
 ---
 title: "HS ENGLISH: You Don't Own Me — Kindred essay"
-ai_title: true
 date: 2018-01-29
 type: essays
 published: true

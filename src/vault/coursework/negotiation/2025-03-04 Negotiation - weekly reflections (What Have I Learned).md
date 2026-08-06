@@ -1,6 +1,5 @@
 ---
 title: "NEGOTIATION: Weekly Reflections — What Have I Learned?"
-ai_title: true
 date: 2025-03-04
 type: coursework
 pdf: /docs/2025-03-04-negotiation-weekly-reflections-what-have-i-learned.pdf

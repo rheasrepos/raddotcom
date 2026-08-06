@@ -1,6 +1,5 @@
 ---
 title: "EUROVISION: The Moment Itself: Chicagovision 2024 - “The Moment”"
-ai_title: true
 date: 2024-05-20
 type: essays
 academic: true
