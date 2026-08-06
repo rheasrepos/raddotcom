@@ -98,6 +98,19 @@
 			x, y, w: 640, h: 440, z: ++winZ, minimized: false
 		}];
 	}
+	// Open a folder window straight to a category (and optionally a subfolder) —
+	// used when arriving from a post's clickable breadcrumb (/?open=…&sub=…).
+	function openFolderFromParam(categoryId, subfolder) {
+		const info = categoryConfig[categoryId];
+		if (!info) return;
+		const { x, y } = cascade();
+		const stack = [{ category: categoryId, subfolder: null, title: info.label }];
+		if (subfolder) stack.push({ category: categoryId, subfolder, title: prettyFolder(subfolder) });
+		windows = [...windows, {
+			id: winSeq++, kind: 'folder', stack,
+			x, y, w: 640, h: 440, z: ++winZ, minimized: false
+		}];
+	}
 	// Navigate INSIDE a folder window (push a subfolder / child category).
 	function navInto(win, category, subfolder, title) {
 		win.stack = [...win.stack, { category, subfolder, title }];
@@ -244,8 +257,10 @@
 	};
 	// --- END SVG Icon Definitions ---
 
-	// Load projects from the Git-based API
-	let projects = [];
+	// Posts arrive from the page `load` function (+page.js), so the desktop
+	// renders WITH content immediately — no blank-until-reload flash.
+	export let data;
+	let projects = (data && data.posts) || [];
 	let categories = Object.values(categoryConfig); // Get dynamic categories
 
 	let filteredProjects = [...(projects || [])];
@@ -416,12 +431,22 @@
 				spotlightOpen = true;
 				window.history.replaceState({}, '', '/');
 			}
+			// Arriving from a post's breadcrumb (?open=<cat>&sub=<subfolder>):
+			// open that folder window on the desktop, then clean the URL.
+			const params = new URL(window.location.href).searchParams;
+			const openId = params.get('open');
+			if (openId) {
+				await tick();
+				openFolderFromParam(openId, params.get('sub') || null);
+				window.history.replaceState({}, '', '/');
+			}
 
-			// Load posts from Git-based API
+			// Posts already came from +page.js `load`. Only fetch as a fallback
+			// if for some reason none arrived, so the desktop is never blank.
 			try {
-				// This line triggers the reactive calculation of availableMonths
-				projects = await loadPosts(); 
-				console.log('Loaded projects:', projects.length);
+				if (!projects || projects.length === 0) {
+					projects = await loadPosts();
+				}
 
 				// --- FIX: ---
 				// After posts are loaded, set the currentMonth/Year

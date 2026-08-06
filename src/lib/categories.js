@@ -10,7 +10,6 @@
 export const categoryConfig = {
 	// ---- GROUPS (the 4 desktop folders) ----
 	'grp-writing':    { id: 'grp-writing',    label: 'Writing',     color: '#4a69bd', group: true },
-	'grp-research':   { id: 'grp-research',   label: 'Research',    color: '#3498db', group: true },
 	'grp-making':     { id: 'grp-making',     label: 'Making',      color: '#e17055', group: true },
 	'grp-collecting': { id: 'grp-collecting', label: 'Collecting',  color: '#00b894', group: true },
 
@@ -21,7 +20,10 @@ export const categoryConfig = {
 	thesis:    { id: 'thesis',    label: 'Thesis Notes',     color: '#8e44ad',              parent: 'grp-writing' },
 
 	// ---- RESEARCH ----
-	research:  { id: 'research',  label: 'Research',         color: 'var(--color-research)', parent: 'grp-research' },
+	// Research is its own top-level folder (no group wrapper) — it goes
+	// straight to its subfolders (cab-lab, coursework-research, …), so there's
+	// no redundant "Research / Research" nesting.
+	research:  { id: 'research',  label: 'Research',         color: 'var(--color-research)' },
 
 	// ---- MAKING ----
 	creative:    { id: 'creative',    label: 'Creative',       color: '#e17055',                  parent: 'grp-making' },

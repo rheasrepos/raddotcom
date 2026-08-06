@@ -13,15 +13,18 @@
 	function prettyFolder(s) {
 		return String(s || '').replace(/-/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
 	}
-	function crumbFor(p) {
-		if (!p) return '';
-		const parts = [];
+	// Breadcrumb as CLICKABLE segments. Each links back to the desktop with a
+	// ?open= param so clicking "Collecting" opens the Collecting folder there.
+	function crumbSegments(p) {
+		if (!p) return [];
+		const segs = [{ label: SITE_NAME, href: '/' }];
 		let c = categoryConfig[p.type];
 		const chain = [];
-		while (c) { chain.unshift(c.label); c = c.parent ? categoryConfig[c.parent] : null; }
-		parts.push(...(chain.length ? chain : [p.type]));
-		if (p.subfolder) parts.push(prettyFolder(p.subfolder));
-		return parts.join(' / ');
+		while (c) { chain.unshift(c); c = c.parent ? categoryConfig[c.parent] : null; }
+		if (chain.length) chain.forEach((cat) => segs.push({ label: cat.label, href: `/?open=${cat.id}` }));
+		else segs.push({ label: p.type, href: `/?open=${p.type}` });
+		if (p.subfolder) segs.push({ label: prettyFolder(p.subfolder), href: `/?open=${p.type}&sub=${encodeURIComponent(p.subfolder)}` });
+		return segs;
 	}
 
 	// Get post ID from URL
@@ -115,7 +118,9 @@
 			<!-- Browser-style bar: back sits at the top, like surfing Rhea's Web -->
 			<nav class="reader-bar">
 				<button class="reader-nav-btn" on:click={goBack} title="Back">←</button>
-				<div class="reader-address">{SITE_NAME} / {crumbFor(post)}</div>
+				<div class="reader-address">
+					{#each crumbSegments(post) as s, i}{#if i}<span class="crumb-sep"> / </span>{/if}<a class="crumb-link" href={s.href}>{s.label}</a>{/each}
+				</div>
 				<a class="reader-nav-btn text" href="/blog" title="All posts">All Posts</a>
 			</nav>
 
@@ -271,6 +276,9 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
+	.crumb-link { color: #333; text-decoration: none; }
+	.crumb-link:hover { color: #000; text-decoration: underline; }
+	.crumb-sep { color: #999; }
 
 	.reader {
 		max-width: 760px;
