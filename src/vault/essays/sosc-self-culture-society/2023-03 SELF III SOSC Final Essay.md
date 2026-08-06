@@ -6,7 +6,7 @@ type: essays
 academic: true
 course: SOSC Self/Culture/Society
 published: true
-pdf: /docs/2023-03-rhea-madhogarhia-self-iii-sosc-final-essay.pdf
+pdf: /docs/2023-03-self-iii-sosc-final-essay.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/SOSC_ Self/Rhea Madhogarhia SELF III SOSC Final Essay.docx
 tags: [academic/philosophy/philosophy-of-science, climate-change]
 form: [essay]

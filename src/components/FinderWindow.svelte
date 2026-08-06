@@ -111,7 +111,8 @@
 <style>
 	.fw {
 		position: fixed;
-		background: #fff;
+		/* soft grey window shell (classic Mac), not stark white */
+		background: #ececec;
 		border: 2px solid #000;
 		box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
 		display: flex;

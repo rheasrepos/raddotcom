@@ -1,12 +1,11 @@
 ---
 title: "UCD: Reading Response — Storywell Family Fitness (Saksono et al)"
-ai_title: true
 date: 2026-02-17
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
-pdf: /docs/2026-02-17-ucd-reading-response-storywell-family-fitness-saksono-et-al.pdf
+pdf: /docs/user-centered-design-reading-response-storywell-family-fitness-saksono-et-al.pdf
 source: raddotcom Vault/2026-02-17 Reading Response - Finding a champion - Saksono et al.pdf
 tags: [academic/hci/user-centered-design]
 form: [reading-response]

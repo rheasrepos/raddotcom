@@ -1,12 +1,11 @@
 ---
 title: "UCD: Reading Response — Period-Tracking Privacy Post-Roe (Cao et al)"
-ai_title: true
 date: 2026-01-08
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
-pdf: /docs/2026-01-08-ucd-reading-response-1-period-tracking-privacy-post-roe-cao.pdf
+pdf: /docs/user-centered-design-reading-response-period-tracking-privacy-post-roe-cao-et-al.pdf
 source: raddotcom Vault/2026-01-08 Untitled document (1)-1.pdf
 tags: [academic/hci/user-centered-design, privacy]
 form: [reading-response]

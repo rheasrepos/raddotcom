@@ -1,7 +1,5 @@
 ---
 title: "SPOY: Spoiler Alert — spoiler-safe episode discussions"
-ai_title: true
-ai_description: true
 description: "A web app for discussing shows without getting spoiled. Live on Vercel."
 date: 2025-06-01
 date_approx: true

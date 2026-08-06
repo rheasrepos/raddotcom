@@ -1,12 +1,11 @@
 ---
 title: "UCD: Reading Response — BlackPeopleTwitter Governance (Smith et al)"
-ai_title: true
 date: 2026-02-18
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
-pdf: /docs/2026-02-18-ucd-reading-response-blackpeopletwitter-governance-smith-et.pdf
+pdf: /docs/user-centered-design-reading-response-blackpeopletwitter-governance-smith-et-al.pdf
 source: raddotcom Vault/2026-02-18 Reading Response Smith et al.pdf
 tags: [academic/hci/user-centered-design]
 form: [reading-response]

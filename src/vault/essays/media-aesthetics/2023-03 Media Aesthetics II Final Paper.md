@@ -6,7 +6,7 @@ type: essays
 academic: true
 course: HUMA Media Aesthetics
 published: true
-pdf: /docs/2023-03-madhogarhia-rhea-final-paper.pdf
+pdf: /docs/2023-03-media-aesthetics-ii-final-paper.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/Media Aesthetics /Madhogarhia, Rhea Final Paper.docx
 tags: [academic/media-studies/film-analysis]
 form: [essay]

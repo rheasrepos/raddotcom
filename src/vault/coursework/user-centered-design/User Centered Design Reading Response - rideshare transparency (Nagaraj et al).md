@@ -1,12 +1,11 @@
 ---
 title: "UCD: Reading Response — Rideshare Transparency (Nagaraj et al)"
-ai_title: true
 date: 2026-01-15
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
-pdf: /docs/2026-01-15-ucd-reading-response-3-rideshare-transparency-nagaraj-et-al.pdf
+pdf: /docs/user-centered-design-reading-response-rideshare-transparency-nagaraj-et-al.pdf
 source: raddotcom Vault/2026-01-15 reading response
 tags: [academic/hci/user-centered-design]
 form: [reading-response]

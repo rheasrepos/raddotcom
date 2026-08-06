@@ -1,6 +1,5 @@
 ---
 title: "Unknown Name (a sketch)"
-ai_title: true
 date: 2023
 date_approx: true
 type: comedy

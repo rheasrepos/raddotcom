@@ -1,12 +1,11 @@
 ---
 title: "UCD: Reading Response — Sound Awareness for DHH (Jain et al)"
-ai_title: true
 date: 2026-01-20
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
-pdf: /docs/2026-01-20-ucd-reading-response-4-sound-awareness-for-dhh-jain-et-al.pdf
+pdf: /docs/user-centered-design-reading-response-sound-awareness-for-dhh-jain-et-al.pdf
 source: raddotcom Vault/2026-01-20 Reading Response
 tags: [academic/hci/user-centered-design, accessibility]
 form: [reading-response]

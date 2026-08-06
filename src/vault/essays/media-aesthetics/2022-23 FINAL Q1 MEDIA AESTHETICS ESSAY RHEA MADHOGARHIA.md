@@ -6,7 +6,7 @@ type: essays
 academic: true
 course: HUMA Media Aesthetics
 published: true
-pdf: /docs/2022-23-final-q1-huma-essay-rhea-madhogarhia.pdf
+pdf: /docs/2022-23-final-q1-media-aesthetics-essay-rhea-madhogarhia.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/Media Aesthetics /Q1/FINAL Q1 HUMA ESSAY RHEA MADHOGARHIA.docx
 tags: [academic/media-studies/film-analysis]
 form: [essay]

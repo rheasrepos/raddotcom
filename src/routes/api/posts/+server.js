@@ -155,7 +155,11 @@ export async function GET() {
 				title: frontmatter.title || file.replace('.md', ''),
 				description: frontmatter.description || '',
 				type: frontmatter.type || 'writing',
-				date: frontmatter.date ? String(frontmatter.date) : new Date().toISOString().slice(0, 10),
+				// Real tagged date if present. Undated notes get a sentinel that
+				// sorts them to the BOTTOM (not today's date, which used to make
+				// them leapfrog the real latest post).
+				date: frontmatter.date ? String(frontmatter.date) : '0001-01-01',
+				undated: !frontmatter.date,
 				content: body.trim(),
 				// Support custom icon image per note
 				iconImage: frontmatter.iconImage || null,

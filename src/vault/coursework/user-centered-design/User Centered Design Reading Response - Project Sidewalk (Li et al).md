@@ -1,12 +1,11 @@
 ---
 title: "UCD: Reading Response — Project Sidewalk (Li et al)"
-ai_title: true
 date: 2026-01-25
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
-pdf: /docs/2026-01-25-ucd-reading-response-project-sidewalk-li-et-al.pdf
+pdf: /docs/user-centered-design-reading-response-project-sidewalk-li-et-al.pdf
 source: raddotcom Vault/2026-01-25 Reading Response Project Sidewalk UCD Submission.pdf
 tags: [academic/hci/user-centered-design, accessibility]
 form: [reading-response]

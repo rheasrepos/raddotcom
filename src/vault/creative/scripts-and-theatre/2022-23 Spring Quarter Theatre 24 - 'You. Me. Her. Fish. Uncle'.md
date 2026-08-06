@@ -7,7 +7,7 @@ type: creative
 academic: true
 course: TAPS Theatre
 published: true
-pdf: /docs/2022-23-spring-quarter-theatre-24-script-camille-rhea.pdf
+pdf: /docs/2022-23-spring-quarter-theatre-24-you-me-her-fish-uncle.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/Spring Theatre 24/Spring Quarter Theatre 24 SCRIPT_ Camille & Rhea.docx
 tags: [creative/theatre/playwriting, creative/comedy, performance]
 affiliation: uchicago

@@ -1,12 +1,11 @@
 ---
 title: "UCD: Reading Response — Gender Shades (Buolamwini et al)"
-ai_title: true
 date: 2026-02-19
 type: coursework
 academic: true
 course: User-Centered Design
 published: true
-pdf: /docs/2026-02-19-ucd-reading-response-gender-shades-buolamwini-et-al.pdf
+pdf: /docs/user-centered-design-reading-response-gender-shades-buolamwini-et-al.pdf
 source: raddotcom Vault/2026-02-19 Reading Response UCD Buolamwini, Gender Shades.pdf
 tags: [academic/hci/user-centered-design]
 form: [reading-response]

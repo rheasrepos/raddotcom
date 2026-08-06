@@ -6,7 +6,7 @@ type: essays
 academic: true
 course: COGS Mind, Brain & Meaning
 published: true
-pdf: /docs/2023-24-short-paper-3-rhea-madhogarhia-mbm.pdf
+pdf: /docs/2023-24-short-paper-3-mind-brain-and-meaning.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q2/Short Paper 3 Rhea Madhogarhia MBM.docx
 tags: [academic/cognitive-science, consciousness, perception]
 form: [essay]

@@ -1,6 +1,5 @@
 ---
 title: "Speed Dating (a sketch)"
-ai_title: true
 date: 2025
 date_approx: true
 type: comedy

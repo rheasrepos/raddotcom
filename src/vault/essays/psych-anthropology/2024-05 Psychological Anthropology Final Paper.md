@@ -6,7 +6,7 @@ type: essays
 academic: true
 course: CHDV Psych Anthropology
 published: true
-pdf: /docs/2024-05-psychological-anthropology-five-page-final-rhea.pdf
+pdf: /docs/2024-05-psychological-anthropology-final-paper.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q3/Psychological Anthropology Y2Q3/Psychological Anthropology Five Page Final - Rhea_.docx
 tags: [academic/psychology/anthropology, culture]
 affiliation: uchicago

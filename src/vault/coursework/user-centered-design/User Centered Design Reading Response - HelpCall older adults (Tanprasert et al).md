@@ -1,6 +1,5 @@
 ---
 title: "UCD: Reading Response — HelpCall for Older Adults (Tanprasert et al)"
-ai_title: true
 date: 2026-01-13
 type: coursework
 academic: true

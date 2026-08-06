@@ -1,6 +1,5 @@
 ---
 title: Sketches I Wrote for Off Off Campus
-ai_title: true
 date: 2026-06-01
 type: comedy
 published: true

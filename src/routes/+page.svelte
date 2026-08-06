@@ -34,6 +34,9 @@
 		iconMoved = false;
 		const cur = iconXY(id, i);
 		iconStart = { mx: e.clientX, my: e.clientY, x: cur.x, y: cur.y };
+		// capture the pointer so the drag keeps tracking even if the cursor
+		// leaves the icon — this is what was missing (drag "did nothing").
+		try { e.currentTarget.setPointerCapture(e.pointerId); } catch {}
 	}
 	function iconMove(e) {
 		if (!iconDragging) return;

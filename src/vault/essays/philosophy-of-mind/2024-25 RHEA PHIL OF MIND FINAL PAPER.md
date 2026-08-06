@@ -7,7 +7,7 @@ type: essays
 academic: true
 course: PHIL Philosophy of Mind
 published: true
-pdf: /docs/2024-25-rhea-phil-of-mind-final.pdf
+pdf: /docs/2024-25-rhea-phil-of-mind-final-paper.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Third Year/RHEA PHIL OF MIND FINAL.docx
 tags: [academic/philosophy/philosophy-of-mind]
 form: [essay]

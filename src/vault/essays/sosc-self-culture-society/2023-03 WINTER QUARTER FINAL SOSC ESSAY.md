@@ -6,7 +6,7 @@ type: essays
 academic: true
 course: SOSC Self/Culture/Society
 published: true
-pdf: /docs/2023-03-winter-quarter-final-sosc-essay-rhea-madhogarhia.pdf
+pdf: /docs/2023-03-winter-quarter-final-sosc-essay.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/SOSC_ Self/WINTER QUARTER FINAL SOSC ESSAY RHEA MADHOGARHIA.docx
 tags: [academic/philosophy]
 form: [essay]

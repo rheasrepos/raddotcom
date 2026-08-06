@@ -1,6 +1,5 @@
 ---
 title: "UCD: Reading Response — Saharaline Teacher Support (Varanasi et al)"
-ai_title: true
 date: 2026-01-27
 type: coursework
 academic: true

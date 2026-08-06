@@ -6,7 +6,7 @@ type: essays
 academic: true
 course: SOSC Self/Culture/Society
 published: true
-pdf: /docs/2022-23-ressay.pdf
+pdf: /docs/2022-23-sosc-1-fall-reflection-smith.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/SOSC_ Self/ressay_.docx
 tags: [academic/philosophy/moral-philosophy]
 form: [essay]

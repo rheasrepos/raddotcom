@@ -1,9 +1,8 @@
 ---
 title: "Finders, Keepers — WHPK radio show"
-ai_title: true
 date: 2025-26
 date_approx: true
-type: creative
+type: music
 academic: false
 published: true
 aka: ["Cup of Tea (working title on the original application, before the show was named)"]

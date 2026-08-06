@@ -1,6 +1,5 @@
 ---
 title: The Stage I Dreamed of but Nonetheless Feared
-ai_title: true
 date: 2021
 type: writing
 academic: false

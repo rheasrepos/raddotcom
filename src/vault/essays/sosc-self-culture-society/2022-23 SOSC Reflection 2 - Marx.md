@@ -7,7 +7,7 @@ type: essays
 academic: true
 course: SOSC Self/Culture/Society
 published: true
-pdf: /docs/2022-23-essay-2-rhea-madhogarhia-sosc-self-cutlure-and.pdf
+pdf: /docs/2022-23-sosc-reflection-2-marx.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/SOSC_ Self/Essay 2_ Rhea Madhogarhia _ SOSC_ Self Cutlure and.docx
 tags: [academic/sociology/social-theory]
 form: [essay]
