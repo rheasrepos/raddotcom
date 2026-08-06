@@ -6,6 +6,7 @@ description: "Neural mechanisms underlying social insight moments during natural
 date: 2025-03-12
 type: research
 published: true
+doi: https://www.biorxiv.org/content/10.64898/2026.05.13.724907v1
 tags: [academic/neuroscience, fmri]
 form: [publication]
 affiliation: uchicago
