@@ -39,19 +39,27 @@
 	// Lay items on a grid that WRAPS to the measured desktop width and hard-
 	// clamps every icon fully inside it — so at high zoom they overlap but no
 	// icon is ever clipped or pushed off-screen (no horizontal scroll).
-	function gridPos(i, z, baseStep, iconW, startY, rowH, w) {
+	// Lay items on a grid that FILLS the desktop width: pick the column count
+	// from an ideal step, then JUSTIFY the row so the last item's right edge
+	// meets the right margin — no dead space on the right, and the gap shrinks
+	// as items grow. Every icon stays fully on-screen (overlap allowed).
+	function gridPos(i, z, baseStep, iconW, startY, rowH, w, justify = true) {
 		const margin = 24;
 		const W = w || deskW || (typeof window !== 'undefined' ? window.innerWidth : 1200);
-		const step = baseStep * spaceFactor(z);
-		const cols = Math.max(1, Math.floor((W - 2 * margin) / step));
+		const iw = iconW * z;
+		const step0 = baseStep * spaceFactor(z);
+		const cols = Math.max(1, Math.round((W - 2 * margin) / step0));
+		// justify=true → spread the row so the last item meets the right margin
+		// (fills the width). justify=false → compact, left-aligned (folders).
+		const step = justify && cols > 1 ? (W - 2 * margin - iw) / (cols - 1) : step0;
 		const col = i % cols, row = Math.floor(i / cols);
 		let x = margin + col * step;
-		x = Math.min(x, W - margin - iconW * z);   // never past the right edge
-		x = Math.max(margin, x);
+		x = Math.min(Math.max(margin, x), W - margin - iw);
 		return { x, y: startY + row * rowH };
 	}
 	function defaultIconPos(i, z = 1, w) {
-		return gridPos(i, z, 150, 110, 30, 150 * spaceFactor(z), w);
+		// folders: compact row(s) at the top-left, like a real desktop
+		return gridPos(i, z, 150, 110, 30, 150 * spaceFactor(z), w, false);
 	}
 	function iconXY(id, i) { return iconPos[id] || defaultIconPos(i); }
 	function iconDown(e, id, pos) {
@@ -156,7 +164,11 @@
 	// Default scatter for loose items: a wrapping grid BELOW the folder row.
 	function defaultFloatPos(i, z = 1, w) {
 		const sf = spaceFactor(z);
-		return gridPos(i, z, 118, 96, 150 + 60 * sf, 138 * sf, w);
+		// start clearly BELOW the folder row (which scales with zoom), and give
+		// each row enough height that a tall scan + a 2-line label never spill
+		// into the row beneath it.
+		const startY = 60 + 130 * sf;
+		return gridPos(i, z, 116, 96, startY, 162 * sf, w);
 	}
 	function xyFloat(id, i) { return iconPos[id] || defaultFloatPos(i); }
 	// Contents of the folder window's CURRENT level (top of its stack).
