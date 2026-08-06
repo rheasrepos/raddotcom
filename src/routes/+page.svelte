@@ -2059,6 +2059,11 @@
 	.desktop-container {
 		min-height: 70vh;
 		position: relative;
+		/* Fixed side borders: the desktop never scrolls horizontally. Icons
+		   that would run past the edge (e.g. when zoomed way in) are clipped,
+		   not reachable by scrolling. Applies to monitor + fullscreen views.
+		   `clip` (not hidden) so vertical scrolling is unaffected. */
+		overflow-x: clip;
 	}
 
 
