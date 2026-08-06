@@ -97,7 +97,7 @@ If a title/description has a dashed underline on the site, it's because the file
 |---|---|
 | `description: "one line"` | shows a subtitle under the title |
 | `featured: true` | pins it to the top of the blog |
-| `pdf: /docs/yourfile.pdf` | shows the original document (put the PDF in `static/docs/`) |
+| *(PDF)* | no line needed — name the file `<slug>.pdf` in `static/docs/` and it auto-attaches (see §4b) |
 | `video: https://youtu.be/XXXX` | embeds a YouTube video |
 | `link: https://...` | adds an "Open project ↗" button |
 | `doi: https://doi.org/...` | adds a "Read the paper" link |
@@ -106,15 +106,17 @@ If a title/description has a dashed underline on the site, it's because the file
 
 ---
 
-## 4b. Updating an existing PDF
+## 4b. PDFs — one file, one post (no more drift)
 
-The PDFs the site displays live in `static/docs/`. To replace one with a newer version:
+A post and its PDF are now bound by the post's **slug** (its filename, lowercased with dashes). You never type a `pdf:` line — the site auto-attaches `static/docs/<slug>.pdf` if it exists.
 
-1. Copy the new PDF into `static/docs/` **with the exact same filename** (overwrite the old one).
-2. Delete its old thumbnail: `static/docs/covers/<same name>.png` — the promote script regenerates it from page 1 of the new PDF.
-3. Double-click `promote-to-site.command`, then commit + push.
+- **The slug** of a post is its `.md` filename → lowercase, spaces/punctuation → dashes. Example: `2023-24 SHORT PAPER 1 - Mind, Brain, and Meaning.md` → slug `2023-24-short-paper-1-mind-brain-and-meaning`, so its PDF is `static/docs/2023-24-short-paper-1-mind-brain-and-meaning.pdf`.
 
-If the new PDF has a **different filename**, also update the `pdf: /docs/newname.pdf` line in the post's `.md` file (and delete the old PDF + cover so they don't linger).
+**To attach or replace a PDF:** name the file `<slug>.pdf`, drop it in `static/docs/` (overwrite to replace), then run `python3 scripts/sync-pdfs.py --apply` (regenerates the cover + manifest), then `promote-to-site.command`, commit + push.
+
+**If you rename a post:** its slug changes, so run `python3 scripts/sync-pdfs.py --apply` — it renames the matching PDF to the new slug so the two stay in lock-step. That's the whole point: the PDF and the post can't drift apart anymore.
+
+`scripts/sync-pdfs.py` (no `--apply`) is a safe dry run that prints exactly what it would rename.
 
 ---
 

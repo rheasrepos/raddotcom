@@ -5,6 +5,20 @@ import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { dev } from '$app/environment';
 import matter from 'gray-matter';
+import pdfManifest from '$lib/pdf-manifest.json';
+
+// PDFs are named after their post's slug and auto-attached (single source of
+// truth — no hand-typed pdf: line to drift). Keep this slugify IN SYNC with
+// scripts/sync-pdfs.py.
+const pdfSet = new Set(pdfManifest);
+function slugify(s) {
+	return s
+		.toLowerCase()
+		.replace(/['’"]/g, '')
+		.replace(/[^a-z0-9]+/g, '-')
+		.replace(/-+/g, '-')
+		.replace(/^-|-$/g, '');
+}
 
 // This tells SvelteKit that this API route is dynamic and should not be
 // pre-rendered. This is especially important for routes with POST handlers.
@@ -168,9 +182,9 @@ export async function GET() {
 				// ai_title / ai_description mark AI-drafted text (dashed underline)
 				aiTitle: frontmatter.ai_title === true || frontmatter.aiTitle === true,
 				aiDescription: frontmatter.ai_description === true || frontmatter.aiDescription === true,
-				// pdf: "/docs/my-paper.pdf" embeds a PDF reader on the post page
-				// (put the file in static/docs/; the note body becomes the intro)
-				pdf: frontmatter.pdf || null,
+				// PDF is auto-attached by slug (static/docs/<slug>.pdf). A manual
+				// pdf: frontmatter line still overrides if you ever need it.
+				pdf: frontmatter.pdf || (pdfSet.has(`${slugify(file.replace('.md', ''))}.pdf`) ? `/docs/${slugify(file.replace('.md', ''))}.pdf` : null),
 				// tags power the /network graph cross-links between posts
 				tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
 				// form badge: paper | discussion post | blog post | …
