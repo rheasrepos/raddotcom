@@ -39,18 +39,26 @@
 		}
 	});
 
-	function toggleHidden(id) {
-		hidden.has(id) ? hidden.delete(id) : hidden.add(id);
-		hidden = hidden; // reactivity
+	function syncHiddenUrl() {
 		const url = new URL(window.location.href);
 		if (hidden.size) url.searchParams.set('hide', [...hidden].join(','));
 		else url.searchParams.delete('hide');
 		history.replaceState({}, '', url);
 	}
+	function toggleHidden(id) {
+		hidden.has(id) ? hidden.delete(id) : hidden.add(id);
+		hidden = hidden; // reactivity
+		syncHiddenUrl();
+	}
+	function selectAllCats() { hidden = new Set(); syncHiddenUrl(); }          // show every category
+	function deselectAllCats() { hidden = new Set(presentCats.map((c) => c.id)); syncHiddenUrl(); } // hide all
 
+	// A post can belong to several categories (also_in:). Membership check:
+	const inCat = (p, id) => p.type === id || (Array.isArray(p.categories) && p.categories.includes(id));
+	const catsOf = (p) => (Array.isArray(p.categories) && p.categories.length ? p.categories : [p.type]);
 	$: hideParam = hidden.size ? `?hide=${[...hidden].join(',')}` : '';
-	$: presentCats = Object.values(categoryConfig).filter((c) => posts.some((p) => p.type === c.id));
-	$: catCounts = Object.fromEntries(presentCats.map((c) => [c.id, posts.filter((p) => p.type === c.id).length]));
+	$: presentCats = Object.values(categoryConfig).filter((c) => posts.some((p) => inCat(p, c.id)));
+	$: catCounts = Object.fromEntries(presentCats.map((c) => [c.id, posts.filter((p) => inCat(p, c.id)).length]));
 	$: monthList = [...new Set(sorted.map((p) => monthLabel(p.date)))];
 
 	function slugify(s) {
@@ -91,7 +99,7 @@
 
 	// Newest first, minus hidden categories, minus anything not matching search
 	$: sorted = [...posts]
-		.filter((p) => !hidden.has(p.type) && matches(p, query))
+		.filter((p) => catsOf(p).some((c) => !hidden.has(c)) && matches(p, query))
 		.sort((a, b) => new Date(b.date) - new Date(a.date));
 
 	// The SAME list, regrouped depending on the chosen view.
@@ -117,6 +125,11 @@
 		</div>
 		<div class="side-section">
 			<h3 class="side-head">Categories</h3>
+			<div class="side-allnone">
+				<button class="side-mini" on:click={selectAllCats}>Select all</button>
+				<span>·</span>
+				<button class="side-mini" on:click={deselectAllCats}>Deselect all</button>
+			</div>
 			{#each presentCats as c}
 				<div class="side-row">
 					<input
@@ -282,6 +295,9 @@
 		font-size: 0.82rem;
 	}
 	.side-count-line { font-size: 0.72rem; color: #777; margin-top: 5px; }
+	.side-allnone { display: flex; gap: 6px; align-items: center; font-size: 0.7rem; color: #999; margin-bottom: 6px; }
+	.side-mini { background: none; border: none; padding: 0; font-size: 0.7rem; color: #555; cursor: pointer; text-decoration: underline; }
+	.side-mini:hover { color: #000; }
 	.side-section + .side-section { margin-top: 16px; }
 	.side-head {
 		font-size: 0.75rem;

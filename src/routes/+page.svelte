@@ -115,9 +115,15 @@
 			x, y, w: 680, h: 560, z: ++winZ, minimized: false
 		}];
 	}
+	// A post belongs to a category if it's its primary `type` OR it's listed
+	// in the post's extra `categories` (from `also_in:`). This is what lets a
+	// file live in multiple folders at once.
+	function inCat(p, catId) {
+		return p.type === catId || (Array.isArray(p.categories) && p.categories.includes(catId));
+	}
 	// Does a category (or any category nested under it) contain posts?
 	function hasPostsDeep(catId) {
-		if ((projects || []).some((p) => p.type === catId)) return true;
+		if ((projects || []).some((p) => inCat(p, catId))) return true;
 		return Object.values(categoryConfig)
 			.filter((c) => c.parent === catId)
 			.some((c) => hasPostsDeep(c.id));
@@ -147,7 +153,7 @@
 		const cur = win.stack[win.stack.length - 1];
 		const childCats = Object.values(categoryConfig)
 			.filter((c) => c.parent === cur.category && hasPostsDeep(c.id));
-		const own = (projects || []).filter((p) => p.type === cur.category);
+		const own = (projects || []).filter((p) => inCat(p, cur.category));
 		if (cur.subfolder) {
 			return { childCats: [], subs: [], posts: own.filter((p) => p.subfolder === cur.subfolder) };
 		}
@@ -456,7 +462,7 @@
 		if (type === 'all') {
 			filteredProjects = [...(projects || [])];
 		} else {
-			filteredProjects = (projects || []).filter(project => project.type === type);
+			filteredProjects = (projects || []).filter(project => inCat(project, type));
 		}
 	}
 
@@ -520,7 +526,7 @@
 	// Subfolders present in the currently-open category folder
 	$: catSubfolders =
 		breadcrumbPath.length > 1 && !/\d{4}/.test(breadcrumbPath[1])
-			? [...new Set((projects || []).filter((p) => p.type === selectedFilter && p.subfolder).map((p) => p.subfolder))].sort()
+			? [...new Set((projects || []).filter((p) => inCat(p, selectedFilter) && p.subfolder).map((p) => p.subfolder))].sort()
 			: [];
 
 	// Breadcrumb helpers — one Back button that does the natural thing
@@ -806,7 +812,7 @@
 			if (viewMode === 'categories') {
 				// This block is also not used by the 'categories' view template,
 				// but it's harmless to leave.
-				return selectedFilter === 'all' || project.type === selectedFilter;
+				return selectedFilter === 'all' || inCat(project, selectedFilter);
 			}
 			
 			return true;
@@ -1008,7 +1014,7 @@
 					<!-- Child categories appear as folders inside their parent -->
 					{#if !selectedSubfolder}
 						{#each categories.filter(c => c.parent === selectedFilter) as child (child.id)}
-							{@const n = (projects || []).filter(p => p.type === child.id).length}
+							{@const n = (projects || []).filter(p => inCat(p, child.id)).length}
 							{#if n > 0}
 								<div
 									class="desktop-icon"

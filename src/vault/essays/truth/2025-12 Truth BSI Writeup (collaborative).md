@@ -3,6 +3,7 @@ title: "TRUTH: Bullshit Detection Instrument — Collaborative Writeup"
 ai_title: true
 date: 2025-12-08
 type: essays
+also_in: [programming]
 published: true
 recovered_from: Desktop/University of Chicago/Year 4/Recovered Writing/All Writing/Rhea Madhogarhia Truth BSI Writeup.md
 tags:

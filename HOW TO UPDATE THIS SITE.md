@@ -103,6 +103,7 @@ If a title/description has a dashed underline on the site, it's because the file
 | `doi: https://doi.org/...` | adds a "Read the paper" link |
 | `image: /artifacts/foo.jpg` | shows an image (put it in `static/artifacts/`) |
 | `loose: true` | floats the note on the desktop instead of inside a folder |
+| `also_in: [programming]` | makes the post appear in EXTRA category folders too (like multiple tags). Primary folder stays `type:`; list any extra category ids here |
 
 ---
 

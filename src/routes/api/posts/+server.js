@@ -173,6 +173,14 @@ export async function GET() {
 				title: frontmatter.title || file.replace('.md', ''),
 				description: frontmatter.description || '',
 				type: frontmatter.type || 'writing',
+				// A post can live in MULTIPLE category folders (like having several
+				// tags). Primary stays `type`; list extra category ids in
+				// `also_in:` (string or list). `categories` is the full set.
+				categories: [
+					frontmatter.type || 'writing',
+					...(Array.isArray(frontmatter.also_in) ? frontmatter.also_in : (frontmatter.also_in ? [frontmatter.also_in] : [])),
+					...(Array.isArray(frontmatter.categories) ? frontmatter.categories : [])
+				].filter((v, i, a) => v && a.indexOf(v) === i),
 				// Real tagged date if present. Undated notes get a sentinel that
 				// sorts them to the BOTTOM (not today's date, which used to make
 				// them leapfrog the real latest post).
