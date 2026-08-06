@@ -1,6 +1,7 @@
 <script>
 	import { pageTransition, transitionActions } from '../lib/pageTransition.js';
 	import { onMount } from 'svelte';
+	import { afterNavigate } from '$app/navigation';
 
 	let isVisible = false;
 
@@ -14,6 +15,14 @@
 
 	onMount(() => {
 		// Complete any lingering transitions on mount
+		transitionActions.completeTransition();
+	});
+
+	// CRITICAL: the layout (and this overlay) does NOT remount on client-side
+	// navigation, so if a transition's completion timer was interrupted the
+	// overlay used to stay up until a hard reload. Clear it after EVERY
+	// navigation so you never get stuck on a blank "loading" screen.
+	afterNavigate(() => {
 		transitionActions.completeTransition();
 	});
 </script>
