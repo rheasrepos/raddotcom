@@ -9,6 +9,18 @@
 
 	let posts = [];
 	let grouping = 'date'; // 'date' | 'category' | 'month'
+	let layout = 'list';   // 'list' | 'grid' — grid shows content tiles
+
+	// a short text preview for grid tiles that have no cover image
+	function excerpt(p) {
+		const t = String(p.content || '').replace(/<[^>]*>/g, ' ').replace(/[#>*_`\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
+		return t.slice(0, 220);
+	}
+	// the cover image for a post tile, if any (PDF cover or artifact scan)
+	function coverOf(p) {
+		if (p.pdf) return `/docs/covers/${p.pdf.split('/').pop().replace('.pdf', '')}.png`;
+		return p.image || p.thumb || null;
+	}
 
 	// Categories the reader has hidden. Physical media (the 128 scans) starts
 	// UNchecked so it doesn't bury the writing — but it's in the list, so one
@@ -139,10 +151,14 @@
 		</header>
 
 		<nav class="view-switch" aria-label="Group posts by">
-			<span class="view-switch-label">View:</span>
+			<span class="view-switch-label">Group:</span>
 			<button class:active={grouping === 'date'} on:click={() => (grouping = 'date')}>Chronological</button>
 			<button class:active={grouping === 'category'} on:click={() => (grouping = 'category')}>By Category</button>
 			<button class:active={grouping === 'month'} on:click={() => (grouping = 'month')}>By Month</button>
+			<span class="view-switch-sep"></span>
+			<span class="view-switch-label">View:</span>
+			<button class:active={layout === 'list'} on:click={() => (layout = 'list')}>List</button>
+			<button class:active={layout === 'grid'} on:click={() => (layout = 'grid')}>Grid</button>
 		</nav>
 
 		<!-- Pinned post (featured: true), else the most recent -->
@@ -162,6 +178,23 @@
 
 		{#if posts.length === 0}
 			<p class="empty">Loading…</p>
+		{:else if layout === 'grid'}
+			<!-- Grid of content tiles, each sized to its content (cover image or text excerpt) -->
+			<div class="tile-grid">
+				{#each sorted as p}
+					<a class="tile" href="/posts/{p.id}{hideParam}">
+						{#if coverOf(p)}
+							<div class="tile-thumb"><img src={coverOf(p)} alt={p.title} loading="lazy" /></div>
+						{:else}
+							<div class="tile-text {redactionClass(p.date)}">{excerpt(p)}</div>
+						{/if}
+						<div class="tile-meta">
+							<span class="tile-title" class:ai-title={p.aiTitle}>{p.title}</span>
+							<span class="tile-sub">{catLabel(p.type)} · {fmt(p.date)}</span>
+						</div>
+					</a>
+				{/each}
+			</div>
 		{:else if grouping === 'date'}
 			<!-- Flat Substack-style archive -->
 			<ul class="entries">
@@ -341,6 +374,60 @@
 		font-weight: 700;
 		border-bottom-color: #000;
 	}
+
+	.view-switch-sep {
+		width: 1px;
+		align-self: stretch;
+		background: rgba(0, 0, 0, 0.25);
+		margin: 0 4px;
+	}
+
+	/* Grid of content tiles */
+	.tile-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+		gap: 16px;
+		align-items: start;
+	}
+	.tile {
+		display: flex;
+		flex-direction: column;
+		text-decoration: none;
+		color: inherit;
+		border: 1px solid #000;
+		background: #fff;
+	}
+	.tile:hover { box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4); }
+	.tile-thumb {
+		background: #f2f2f2;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-bottom: 1px solid #000;
+	}
+	.tile-thumb img {
+		width: 100%;
+		height: auto;
+		display: block;
+		object-fit: contain;
+	}
+	.tile-text {
+		padding: 10px;
+		font-size: 0.72rem;
+		line-height: 1.35;
+		color: #444;
+		border-bottom: 1px solid #000;
+		max-height: 150px;
+		overflow: hidden;
+	}
+	.tile-meta {
+		padding: 8px 10px;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+	.tile-title { font-size: 0.82rem; font-weight: 700; }
+	.tile-sub { font-size: 0.68rem; color: #777; }
 
 	/* Entries */
 	.entries {
