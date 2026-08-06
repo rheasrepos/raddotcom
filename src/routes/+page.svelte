@@ -2180,6 +2180,11 @@
 		object-fit: contain;
 		display: block;
 		box-shadow: 2px 2px 0 rgba(0,0,0,0.28);
+		/* let the whole tile be dragged: the image itself must not capture the
+		   pointer or start the browser's native image-drag. */
+		pointer-events: none;
+		-webkit-user-drag: none;
+		user-select: none;
 	}
 	.float-item .mac-icon-label {
 		max-width: calc(96px * var(--zoom, 1));
@@ -2220,6 +2225,7 @@
 	.mac-icon-svg {
 		width: 100%;
 		height: 100%;
+		pointer-events: none;
 	}
 
 	/* Icons show the real thing: a video's still, the artwork, or the first
@@ -2231,6 +2237,8 @@
 		object-position: top center;
 		border: 1px solid #888;
 		background: #fff;
+		pointer-events: none;
+		-webkit-user-drag: none;
 	}
 
 	.mac-icon-label {
