@@ -14,6 +14,7 @@
 	let hovered = null;
 	let raf = null;
 	let running = false;
+	let alpha = 1; // simulation "heat" — decays so the graph SETTLES and stops
 
 	// --- node dragging (like Obsidian's graph view) ---
 	let svgEl;
@@ -31,6 +32,7 @@
 		e.preventDefault();
 		dragging = n;
 		dragMoved = false;
+		reheat(0.25); // let neighbours follow the node you're dragging
 	}
 	function onPointerMove(e) {
 		if (!dragging) return;
@@ -68,11 +70,15 @@
 				if (c.parent) wanted.add(c.parent);
 			}
 		});
-		cats.forEach((c) => {
-			if (!wanted.has(c.id)) return;
+		// Each category gets a fixed ANCHOR spread around a ring, so categories
+		// form distinct clusters instead of piling into the middle.
+		const wantedList = cats.filter((c) => wanted.has(c.id));
+		wantedList.forEach((c, i) => {
+			const ang = (2 * Math.PI * i) / Math.max(1, wantedList.length) - Math.PI / 2;
+			const ax = cx + Math.cos(ang) * 270, ay = cy + Math.sin(ang) * 200;
 			const n = {
 				id: 'cat:' + c.id, kind: 'cat', label: c.label, color: getCategoryColor(c.id),
-				r: 16, x: cx + (Math.random() - 0.5) * 200, y: cy + (Math.random() - 0.5) * 200, vx: 0, vy: 0
+				r: 15, ax, ay, x: ax, y: ay, vx: 0, vy: 0
 			};
 			hubs[c.id] = n; nodeMap[n.id] = n;
 		});
@@ -86,10 +92,13 @@
 			}
 		});
 		posts.forEach((p) => {
+			const h = hubs[p.type];
+			const ax = h ? h.ax : cx, ay = h ? h.ay : cy;
 			const n = {
 				id: 'post:' + p.id, kind: 'post', label: p.title, type: p.type,
 				color: getCategoryColor(p.type), tags: tagsOf(p), post: p,
-				r: 7, x: cx + (Math.random() - 0.5) * 400, y: cy + (Math.random() - 0.5) * 400, vx: 0, vy: 0
+				r: 6, ax, ay,
+				x: ax + (Math.random() - 0.5) * 120, y: ay + (Math.random() - 0.5) * 120, vx: 0, vy: 0
 			};
 			nodeMap[n.id] = n;
 			if (hubs[p.type]) L.push({ source: n.id, target: 'cat:' + p.type, w: 1 });
@@ -119,6 +128,7 @@
 				id: 'tag:' + t, kind: 'tag', label: '#' + t, count,
 				color: '#cfcfcf',
 				r: 5 + Math.sqrt(count) * 3.4, // area ∝ how many notes share the idea
+				ax: cx, ay: cy,
 				x: cx + (Math.random() - 0.5) * 300, y: cy + (Math.random() - 0.5) * 300, vx: 0, vy: 0
 			};
 			nodeMap[n.id] = n;
@@ -151,19 +161,30 @@
 		links = L;
 	}
 
-	// --- simple force-directed simulation ---
+	// --- force-directed simulation with cooling (settles, then stops) ---
+	function reheat(a = 0.6) {
+		alpha = Math.max(alpha, a);
+		if (!running) { running = true; loop(); }
+	}
 	function step() {
-		const cx = W / 2, cy = H / 2;
-		const REP = 2600, SPRING = 0.02, DAMP = 0.86, CENTER = 0.006;
+		const REP = 1400, SPRING = 0.045, DAMP = 0.82, GRAV = 0.02;
+		// Repulsion + hard collision (short range → fast and keeps clusters tight)
 		for (let i = 0; i < nodes.length; i++) {
 			const a = nodes[i];
 			for (let j = i + 1; j < nodes.length; j++) {
 				const b = nodes[j];
 				let dx = a.x - b.x, dy = a.y - b.y;
 				let d2 = dx * dx + dy * dy || 0.01;
-				const f = REP / d2;
 				const d = Math.sqrt(d2);
-				const fx = (dx / d) * f, fy = (dy / d) * f;
+				if (d > 240) continue; // ignore far pairs — big speedup at 200+ nodes
+				const f = REP / d2;
+				let fx = (dx / d) * f, fy = (dy / d) * f;
+				// collision: never let two circles overlap
+				const min = a.r + b.r + 4;
+				if (d < min) {
+					const push = (min - d) * 0.5;
+					fx += (dx / d) * push; fy += (dy / d) * push;
+				}
 				a.vx += fx; a.vy += fy; b.vx -= fx; b.vy -= fy;
 			}
 		}
@@ -173,27 +194,29 @@
 			if (!s || !t) return;
 			const dx = t.x - s.x, dy = t.y - s.y;
 			const dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
-			const target = l.w >= 1 ? 70 : 130;
+			const target = l.w >= 1 ? 60 : 46;
 			const f = (dist - target) * SPRING * l.w;
 			const fx = (dx / dist) * f, fy = (dy / dist) * f;
 			s.vx += fx; s.vy += fy; t.vx -= fx; t.vy -= fy;
 		});
 		nodes.forEach((n) => {
-			// A held node is pinned to the cursor — the sim doesn't move it,
-			// but it still repels/pulls its neighbours.
 			if (n === dragging) { n.vx = 0; n.vy = 0; return; }
-			n.vx += (cx - n.x) * CENTER;
-			n.vy += (cy - n.y) * CENTER;
+			// pull toward the node's category anchor → visible per-category clusters
+			n.vx += (n.ax - n.x) * GRAV;
+			n.vy += (n.ay - n.y) * GRAV;
 			n.vx *= DAMP; n.vy *= DAMP;
-			n.x += n.vx; n.y += n.vy;
+			// movement scales with alpha, so the whole thing cools to a stop
+			n.x += n.vx * alpha; n.y += n.vy * alpha;
 			n.x = Math.max(n.r, Math.min(W - n.r, n.x));
 			n.y = Math.max(n.r, Math.min(H - n.r, n.y));
 		});
+		alpha *= 0.985; // cool down
 		nodes = nodes; // trigger reactivity
 	}
 	function loop() {
 		step();
-		if (running) raf = requestAnimationFrame(loop);
+		if (running && alpha > 0.02) raf = requestAnimationFrame(loop);
+		else { running = false; }
 	}
 
 	function neighbors(id) {
@@ -213,8 +236,8 @@
 	onMount(async () => {
 		const posts = await loadPosts();
 		buildGraph(posts);
-		running = true;
-		loop();
+		alpha = 1;
+		reheat(1);
 	});
 	onDestroy(() => { running = false; if (raf) cancelAnimationFrame(raf); });
 </script>
@@ -285,7 +308,7 @@
 		position: relative;
 		max-width: 1100px;
 		margin: 10px auto 0;
-		background: #191919;
+		background: #0c0c0c;
 		border: 1px solid #000;
 		overflow: hidden;
 	}
@@ -298,10 +321,10 @@
 	.node.post:hover circle { stroke: #ffffff; stroke-width: 2; }
 	.node.cat circle { stroke: #ffffff; stroke-width: 2; }
 	.node.dim { opacity: 0.25; }
-	/* Labels: single flat colour, no white halo behind the text */
-	.node-label { text-anchor: middle; font-size: 11px; fill: #ffffff; }
-	.node-label.cat { font-weight: 700; font-size: 12.5px; fill: #ffffff; }
-	.node-label.tag { fill: #cfcfcf; font-size: 11px; }
+	/* Labels: terminal/mono, single flat colour, no halo */
+	.node-label { text-anchor: middle; font-size: 10.5px; fill: #eaeaea; font-family: 'SF Mono', ui-monospace, Menlo, monospace; letter-spacing: -0.02em; }
+	.node-label.cat { font-weight: 700; font-size: 12px; fill: #ffffff; text-transform: lowercase; }
+	.node-label.tag { fill: #b8b8b8; font-size: 10.5px; }
 	.node.tag circle { stroke: #777; stroke-width: 1; }
 	.net-tooltip {
 		position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%);
