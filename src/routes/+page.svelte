@@ -2221,6 +2221,13 @@
 		-webkit-user-drag: none;
 		user-select: none;
 	}
+	/* The scan is bigger than the default 56px icon box — let the box grow to
+	   the image so the label sits BELOW it instead of under the overflow. */
+	.float-item .mac-icon {
+		width: auto;
+		height: auto;
+		max-height: calc(88px * var(--zoom, 1));
+	}
 	.float-item .mac-icon-label {
 		max-width: calc(96px * var(--zoom, 1));
 		max-height: 2.6em;

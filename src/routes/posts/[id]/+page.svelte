@@ -5,6 +5,24 @@
 	import { loadPosts, getPostById, formatDate, getProjectColor } from '$lib/posts.js';
 	import { renderMarkdown, isHtmlContent } from '$lib/markdown.js';
 	import { redactionClass, APPLY_TO_BODY } from '$lib/redaction.js';
+	import { categoryConfig } from '$lib/categories.js';
+	import { SITE_NAME } from '$lib/site.js';
+
+	// Build an accurate folder path from the post's category chain + subfolder,
+	// e.g. "www.rhea.com / Collecting / Analog Archive".
+	function prettyFolder(s) {
+		return String(s || '').replace(/-/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
+	}
+	function crumbFor(p) {
+		if (!p) return '';
+		const parts = [];
+		let c = categoryConfig[p.type];
+		const chain = [];
+		while (c) { chain.unshift(c.label); c = c.parent ? categoryConfig[c.parent] : null; }
+		parts.push(...(chain.length ? chain : [p.type]));
+		if (p.subfolder) parts.push(prettyFolder(p.subfolder));
+		return parts.join(' / ');
+	}
 
 	// Get post ID from URL
 	$: postId = $page.params.id;
@@ -97,7 +115,7 @@
 			<!-- Browser-style bar: back sits at the top, like surfing Rhea's Web -->
 			<nav class="reader-bar">
 				<button class="reader-nav-btn" on:click={goBack} title="Back">←</button>
-				<div class="reader-address">rheasweb / {post.type}</div>
+				<div class="reader-address">{SITE_NAME} / {crumbFor(post)}</div>
 				<a class="reader-nav-btn text" href="/blog" title="All posts">All Posts</a>
 			</nav>
 
@@ -220,12 +238,12 @@
 		align-items: center;
 		gap: 10px;
 		border: 2px solid #000;
-		background: #fff;
+		background: #d9d9d9;
 		padding: 6px 8px;
 		margin-bottom: 24px;
 	}
 	.reader-nav-btn {
-		background: #fff;
+		background: #ececec;
 		border: 1px solid #000;
 		color: #000;
 		font-family: Arial, sans-serif;
