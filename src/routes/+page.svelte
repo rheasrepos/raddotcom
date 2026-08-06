@@ -29,11 +29,10 @@
 	let iconStart = { mx: 0, my: 0, x: 0, y: 0 };
 	function defaultIconPos(i) { return { x: 40 + i * 150, y: 30 }; }
 	function iconXY(id, i) { return iconPos[id] || defaultIconPos(i); }
-	function iconDown(e, id, i) {
+	function iconDown(e, id, pos) {
 		iconDragging = id;
 		iconMoved = false;
-		const cur = iconXY(id, i);
-		iconStart = { mx: e.clientX, my: e.clientY, x: cur.x, y: cur.y };
+		iconStart = { mx: e.clientX, my: e.clientY, x: pos.x, y: pos.y };
 		// capture the pointer so the drag keeps tracking even if the cursor
 		// leaves the icon — this is what was missing (drag "did nothing").
 		try { e.currentTarget.setPointerCapture(e.pointerId); } catch {}
@@ -103,8 +102,20 @@
 	// without it the desktop renders once while projects is empty and never
 	// updates (which made all folders vanish).
 	$: topFolders = projects
-		? categories.filter((c) => !categoryConfig[c.id].parent && hasPostsDeep(c.id))
+		? categories.filter((c) => !categoryConfig[c.id].parent && c.id !== 'artifacts' && hasPostsDeep(c.id))
 		: [];
+	// The analog archive has no real-life folders — every scan floats loose on
+	// the desktop (alongside any note explicitly marked loose: true).
+	$: floatingItems = projects
+		? projects.filter((p) => p.loose === true || p.type === 'artifacts')
+		: [];
+	// Default scatter for loose items: a wrapping grid BELOW the folder row.
+	function defaultFloatPos(i) {
+		const w = (typeof window !== 'undefined' ? window.innerWidth : 1200) - 90;
+		const perRow = Math.max(3, Math.floor(w / 118));
+		return { x: 40 + (i % perRow) * 118, y: 190 + Math.floor(i / perRow) * 132 };
+	}
+	function xyFloat(id, i) { return iconPos[id] || defaultFloatPos(i); }
 	// Contents of the folder window's CURRENT level (top of its stack).
 	// A level shows: its direct child-category folders (that contain posts),
 	// its own subfolders, and its own posts — never grandchildren directly.
@@ -917,7 +928,7 @@
 							<div
 								class="desktop-icon draggable"
 								style="left:{pos.x}px; top:{pos.y}px;"
-								on:pointerdown={(e) => iconDown(e, category.id, i)}
+								on:pointerdown={(e) => iconDown(e, category.id, pos)}
 								on:click={() => { if (!iconMoved) openFolderWindow(category.id); }}
 								on:keydown={(e) => e.key === 'Enter' && openFolderWindow(category.id)}
 								tabindex="0"
@@ -937,11 +948,15 @@
 								<div class="mac-icon-label">{categoryInfo.label}</div>
 							</div>
 					{/each}
-					<!-- Loose files float directly on the desktop (set loose: true in frontmatter) -->
-					{#each (projects || []).filter(p => p.loose === true) as project (project.id)}
+					<!-- Loose files + the whole analog archive float directly on the
+					     desktop as draggable objects (no folder). -->
+					{#each floatingItems as project, i (project.id)}
+						{@const fpos = xyFloat(project.id, i)}
 						<div
-							class="desktop-icon"
-							on:click={() => toggleProject(project.id)}
+							class="desktop-icon draggable float-item"
+							style="left:{fpos.x}px; top:{fpos.y}px;"
+							on:pointerdown={(e) => iconDown(e, project.id, fpos)}
+							on:click={() => { if (!iconMoved) toggleProject(project.id); }}
 							on:keydown={(e) => e.key === 'Enter' && toggleProject(project.id)}
 							on:mouseenter={() => (hoveredProject = project)}
 							on:focus={() => (hoveredProject = project)}
@@ -950,8 +965,8 @@
 							aria-label="Open {project.title}"
 						>
 							<div class="mac-icon">
-								{#if project.thumb || project.iconImage}
-									<img src={project.thumb || project.iconImage} alt={project.title} class="mac-icon-img" loading="lazy" />
+								{#if project.image || project.thumb || project.iconImage}
+									<img src={project.image || project.thumb || project.iconImage} alt={project.title} class="float-thumb" loading="lazy" />
 								{:else}
 									<svg viewBox="0 0 44 56" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
 										<path d="M4 0 L30 0 L44 14 L44 54 Q44 56 42 56 L4 56 Q2 56 0 54 L0 2 Q0 0 4 0 Z" fill="#f8f8f8" stroke="#aaaaaa" stroke-width="1.5"/>
@@ -2150,6 +2165,15 @@
 		user-select: none;
 	}
 	.desktop-icon.draggable:active { cursor: grabbing; }
+	/* Free-floating scans/notes: show the actual image as the object. */
+	.float-item { width: 96px; }
+	.float-thumb {
+		max-width: 88px;
+		max-height: 88px;
+		object-fit: contain;
+		display: block;
+		box-shadow: 2px 2px 0 rgba(0,0,0,0.28);
+	}
 
 	.desktop-icon {
 		display: flex;
