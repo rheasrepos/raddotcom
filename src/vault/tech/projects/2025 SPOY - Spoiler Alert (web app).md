@@ -1,21 +1,17 @@
 ---
-title: "SPOY: Spoiler Alert — spoiler-safe episode discussions"
-description: "A web app for discussing shows without getting spoiled. Live on Vercel."
+title: "Spoiler Alert (SPOY)"
+description: ""
 date: 2025-06-01
 date_approx: true
 type: programming
 published: true
 link: https://spoileralert-phi.vercel.app/
-tags: [ai/nlp, coding-journey]
+tags: [coding-journey]
 form: [project]
-affiliation: industry
+affiliation: independent
 ---
 
-**Live project:** [spoileralert-phi.vercel.app](https://spoileralert-phi.vercel.app/)
+<!-- NOTE: the previous description here was AI-drafted and inaccurate — removed.
+Rhea to write the real description of the SPOY project (User Centered Design). -->
 
-Spoiler Alert (SPOY) — a web app for episode-by-episode discussion threads that keep you safe from spoilers past where you've watched.
-
-## Topics
-- [[Topic - ai]]
-- [[Topic - ai · nlp]]
-- [[Topic - coding-journey]]
+The live app is embedded below.

@@ -1,5 +1,6 @@
 <script>
 	import PageLayout from '../../components/PageLayout.svelte';
+	import PostPreview from '../../components/PostPreview.svelte';
 	import { categoryConfig, getCategoryColor } from '../../lib/categories.js';
 	import { onMount, tick } from 'svelte';
 	import { page } from '$app/stores';
@@ -183,13 +184,7 @@
 			<div class="tile-grid">
 				{#each sorted as p}
 					<a class="tile" href="/posts/{p.id}{hideParam}">
-						{#if coverOf(p)}
-							<div class="tile-thumb"><img src={coverOf(p)} alt={p.title} loading="lazy" /></div>
-						{:else if p.link}
-							<div class="tile-site"><iframe src={p.link} title={p.title} loading="lazy" scrolling="no" tabindex="-1"></iframe></div>
-						{:else}
-							<div class="tile-text {redactionClass(p.date)}">{excerpt(p)}</div>
-						{/if}
+						<div class="tile-media"><PostPreview post={p} /></div>
 						<div class="tile-meta">
 							<span class="tile-title" class:ai-title={p.aiTitle}>{p.title}</span>
 							<span class="tile-sub">{catLabel(p.type)} · {fmt(p.date)}</span>
@@ -398,44 +393,8 @@
 		color: inherit;
 		background: transparent;
 	}
-	.tile:hover .tile-thumb,
-	.tile:hover .tile-text { outline: 1px solid rgba(0, 0, 0, 0.25); }
-	.tile-thumb {
-		background: #f2f2f2;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	.tile-thumb img {
-		width: 100%;
-		height: auto;
-		display: block;
-		object-fit: contain;
-	}
-	.tile-text {
-		padding: 10px;
-		font-size: 0.72rem;
-		line-height: 1.35;
-		color: #444;
-		background: #fafafa;
-		max-height: 150px;
-		overflow: hidden;
-	}
-	/* Live site preview (are.na-style) for link projects */
-	.tile-site {
-		height: 150px;
-		overflow: hidden;
-		background: #fff;
-		position: relative;
-	}
-	.tile-site iframe {
-		width: 1100px;
-		height: 800px;
-		border: 0;
-		transform: scale(0.18);
-		transform-origin: top left;
-		pointer-events: none;
-	}
+	.tile:hover .tile-media { outline: 1px solid rgba(0, 0, 0, 0.25); }
+	.tile-media { height: 150px; overflow: hidden; }
 	.tile-meta {
 		padding: 8px 10px;
 		display: flex;

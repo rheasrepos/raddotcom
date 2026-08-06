@@ -164,6 +164,10 @@ export async function GET() {
 			const { data: frontmatter, content: body } = matter(raw);
 			// Only publish notes with published: true
 			if (!frontmatter.published) continue;
+			// Resolve the PDF ONCE (manual pdf: override, else auto-attach by
+			// slug) so both `pdf` and `thumb` use the same value.
+			const slug = slugify(file.replace('.md', ''));
+			const resolvedPdf = frontmatter.pdf || (pdfSet.has(`${slug}.pdf`) ? `/docs/${slug}.pdf` : null);
 			posts.push({
 				id: `vault-${file.replace('.md', '')}`,
 				title: frontmatter.title || file.replace('.md', ''),
@@ -182,9 +186,8 @@ export async function GET() {
 				// ai_title / ai_description mark AI-drafted text (dashed underline)
 				aiTitle: frontmatter.ai_title === true || frontmatter.aiTitle === true,
 				aiDescription: frontmatter.ai_description === true || frontmatter.aiDescription === true,
-				// PDF is auto-attached by slug (static/docs/<slug>.pdf). A manual
-				// pdf: frontmatter line still overrides if you ever need it.
-				pdf: frontmatter.pdf || (pdfSet.has(`${slugify(file.replace('.md', ''))}.pdf`) ? `/docs/${slugify(file.replace('.md', ''))}.pdf` : null),
+				// PDF auto-attached by slug (static/docs/<slug>.pdf); manual pdf: overrides.
+				pdf: resolvedPdf,
 				// tags power the /network graph cross-links between posts
 				tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
 				// form badge: paper | discussion post | blog post | …
@@ -214,8 +217,8 @@ export async function GET() {
 						if (v) return `https://i.ytimg.com/vi/${v[1]}/hqdefault.jpg`;
 					}
 					if (frontmatter.image) return frontmatter.image;
-					if (frontmatter.pdf) {
-						return '/docs/covers/' + String(frontmatter.pdf).split('/').pop().replace(/\.pdf$/, '') + '.png';
+					if (resolvedPdf) {
+						return '/docs/covers/' + String(resolvedPdf).split('/').pop().replace(/\.pdf$/, '') + '.png';
 					}
 					return null;
 				})()

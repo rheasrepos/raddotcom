@@ -7,6 +7,7 @@
 	import Navigation from '../components/Navigation.svelte';
 	import DesktopNavigation from '../components/DesktopNavigation.svelte';
 	import FilterTabs from '../components/FilterTabs.svelte';
+	import PostPreview from '../components/PostPreview.svelte';
 	import { loadPosts, getProjectColor, formatDate } from '$lib/posts.js';
 	import { categoryConfig, getCategoryLabel } from '$lib/categories.js';
 	import { siteName, SITE_TAGLINE } from '$lib/site.js';
@@ -27,14 +28,31 @@
 	let iconDragging = null;
 	let iconMoved = false;
 	let iconStart = { mx: 0, my: 0, x: 0, y: 0 };
+	let deskW = 1200;          // measured desktop width (bind:clientWidth)
 	// Spacing scales with zoom so icons don't pile up when enlarged. Up to
 	// 175% the gap tracks the icon size (keeps the slight overlap Rhea likes);
-	// past 175% spacing grows slower, so they deliberately overlap more.
+	// past 175% spacing grows slower, so they deliberately overlap.
 	function spaceFactor(z) {
 		z = z || 1;
 		return z <= 1.75 ? z : 1.75 + (z - 1.75) * 0.5;
 	}
-	function defaultIconPos(i, z = 1) { return { x: 40 + i * 150 * spaceFactor(z), y: 30 }; }
+	// Lay items on a grid that WRAPS to the measured desktop width and hard-
+	// clamps every icon fully inside it — so at high zoom they overlap but no
+	// icon is ever clipped or pushed off-screen (no horizontal scroll).
+	function gridPos(i, z, baseStep, iconW, startY, rowH, w) {
+		const margin = 24;
+		const W = w || deskW || (typeof window !== 'undefined' ? window.innerWidth : 1200);
+		const step = baseStep * spaceFactor(z);
+		const cols = Math.max(1, Math.floor((W - 2 * margin) / step));
+		const col = i % cols, row = Math.floor(i / cols);
+		let x = margin + col * step;
+		x = Math.min(x, W - margin - iconW * z);   // never past the right edge
+		x = Math.max(margin, x);
+		return { x, y: startY + row * rowH };
+	}
+	function defaultIconPos(i, z = 1, w) {
+		return gridPos(i, z, 150, 110, 30, 150 * spaceFactor(z), w);
+	}
 	function iconXY(id, i) { return iconPos[id] || defaultIconPos(i); }
 	function iconDown(e, id, pos) {
 		iconDragging = id;
@@ -117,13 +135,9 @@
 		? projects.filter((p) => p.loose === true || p.type === 'artifacts')
 		: [];
 	// Default scatter for loose items: a wrapping grid BELOW the folder row.
-	function defaultFloatPos(i, z = 1) {
+	function defaultFloatPos(i, z = 1, w) {
 		const sf = spaceFactor(z);
-		const colW = 118 * sf, rowH = 138 * sf;
-		const w = (typeof window !== 'undefined' ? window.innerWidth : 1200) - 90;
-		const perRow = Math.max(3, Math.floor(w / colW));
-		const startY = 150 + 60 * sf; // clears the (also-scaling) folder row above
-		return { x: 30 + (i % perRow) * colW, y: startY + Math.floor(i / perRow) * rowH };
+		return gridPos(i, z, 118, 96, 150 + 60 * sf, 138 * sf, w);
 	}
 	function xyFloat(id, i) { return iconPos[id] || defaultFloatPos(i); }
 	// Contents of the folder window's CURRENT level (top of its stack).
@@ -929,7 +943,7 @@
 		>
 
 			<!-- Desktop Icons (empty-space clicks bubble up as "go full screen") -->
-			<div class="desktop-icons" on:click={(e) => { if (!surfing && e.target === e.currentTarget) surf(); }}>
+			<div class="desktop-icons" bind:clientWidth={deskW} on:click={(e) => { if (!surfing && e.target === e.currentTarget) surf(); }}>
 				{#if viewMode === 'desktop'}
 					<!-- Videos are posts (form: video), not a folder — they live in
 					     Creative / Comedy / Music alongside everything else. -->
@@ -937,7 +951,7 @@
 					     (Comedy, Music) live inside their parent (Creative). -->
 					{#each topFolders as category, i}
 						{@const categoryInfo = categoryConfig[category.id]}
-						{@const pos = iconPos[category.id] || defaultIconPos(i, zoomLevel)}
+						{@const pos = iconPos[category.id] || defaultIconPos(i, zoomLevel, deskW)}
 							<div
 								class="desktop-icon draggable"
 								style="left:{pos.x}px; top:{pos.y}px;"
@@ -964,7 +978,7 @@
 					<!-- Loose files + the whole analog archive float directly on the
 					     desktop as draggable objects (no folder). -->
 					{#each floatingItems as project, i (project.id)}
-						{@const fpos = iconPos[project.id] || defaultFloatPos(i, zoomLevel)}
+						{@const fpos = iconPos[project.id] || defaultFloatPos(i, zoomLevel, deskW)}
 						<div
 							class="desktop-icon draggable float-item"
 							style="left:{fpos.x}px; top:{fpos.y}px;"
@@ -1203,12 +1217,7 @@
 								{/each}
 								{#each c.posts as p (p.id)}
 									<button class="win-cell" on:click={() => openFileWindow(p)}>
-										{#if p.thumb || p.iconImage}
-											<div class="cell-thumb"><img src={p.thumb || p.iconImage} alt="" loading="lazy" /></div>
-										{:else}
-											<!-- No image/PDF cover: preview the document's actual text like a page -->
-											<div class="cell-page">{excerpt(p.content, 320)}</div>
-										{/if}
+										<div class="cell-media"><PostPreview post={p} /></div>
 										<span class="cell-cap">{p.title}</span>
 									</button>
 								{/each}
@@ -1232,6 +1241,9 @@
 								<div class="win-embed"><iframe src="https://www.youtube.com/embed/{ytId(p.video)}" title={p.title} allowfullscreen></iframe></div>
 							{:else if p.pdf}
 								<iframe class="win-pdf" src={p.pdf} title={p.title}></iframe>
+							{:else if p.link}
+								<!-- Live view of the project site (same as blog / post page) -->
+								<div class="win-embed"><iframe src={p.link} title={p.title}></iframe></div>
 							{:else}
 								<div class="win-prose">{@html renderMarkdownSafe(p.content)}</div>
 							{/if}
@@ -1427,6 +1439,8 @@
 		font-size: 0.72rem;
 		line-height: 1.45;
 	}
+	/* Shared post preview fills the cell above the caption */
+	.cell-media { flex: 1; min-height: 0; overflow: hidden; }
 	/* Folder cells: the classic icon, centered and scaled to the cell */
 	.win-cell.folder { background: #fafafa; align-items: center; justify-content: center; gap: 12px; padding: 12px; }
 	.cell-folder { width: 55%; max-width: 160px; height: auto; }
