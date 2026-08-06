@@ -148,6 +148,18 @@
 					{/if}
 				{/if}
 
+				{#if post.link}
+					<!-- Live view of the project site, like a window onto the real thing -->
+					<div class="site-embed">
+						<div class="site-bar">
+							<span class="site-dot"></span><span class="site-dot"></span><span class="site-dot"></span>
+							<span class="site-url">{post.link.replace(/^https?:\/\//, '')}</span>
+							<a class="site-open" href={post.link} target="_blank" rel="noopener noreferrer">Open live ↗</a>
+						</div>
+						<iframe src={post.link} title="{post.title} (live site)" class="site-frame" loading="lazy"></iframe>
+					</div>
+				{/if}
+
 				{#if post.doi}
 					<p class="pub-links">
 						<a href={post.doi} target="_blank" rel="noopener noreferrer">Read the paper on bioRxiv ↗</a>
@@ -317,6 +329,21 @@
 		height: 80vh;
 		border: none;
 	}
+	/* Live project-site embed (are.na-style window) */
+	.site-embed { margin: 18px 0; border: 1px solid #000; background: #fff; }
+	.site-bar {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		padding: 6px 10px;
+		background: #ececec;
+		border-bottom: 1px solid #000;
+		font-size: 0.8rem;
+	}
+	.site-dot { width: 10px; height: 10px; border-radius: 50%; background: #cfcfcf; }
+	.site-url { margin-left: 6px; color: #444; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	.site-open { margin-left: auto; white-space: nowrap; }
+	.site-frame { display: block; width: 100%; height: 68vh; border: none; background: #fff; }
 
 	/* AI-drafted titles: dashed underline, same convention as AIText */
 	.reader-title.ai-title {

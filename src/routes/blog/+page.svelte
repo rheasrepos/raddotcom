@@ -185,6 +185,8 @@
 					<a class="tile" href="/posts/{p.id}{hideParam}">
 						{#if coverOf(p)}
 							<div class="tile-thumb"><img src={coverOf(p)} alt={p.title} loading="lazy" /></div>
+						{:else if p.link}
+							<div class="tile-site"><iframe src={p.link} title={p.title} loading="lazy" scrolling="no" tabindex="-1"></iframe></div>
 						{:else}
 							<div class="tile-text {redactionClass(p.date)}">{excerpt(p)}</div>
 						{/if}
@@ -394,16 +396,15 @@
 		flex-direction: column;
 		text-decoration: none;
 		color: inherit;
-		border: 1px solid #000;
-		background: #fff;
+		background: transparent;
 	}
-	.tile:hover { box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4); }
+	.tile:hover .tile-thumb,
+	.tile:hover .tile-text { outline: 1px solid rgba(0, 0, 0, 0.25); }
 	.tile-thumb {
 		background: #f2f2f2;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		border-bottom: 1px solid #000;
 	}
 	.tile-thumb img {
 		width: 100%;
@@ -416,9 +417,24 @@
 		font-size: 0.72rem;
 		line-height: 1.35;
 		color: #444;
-		border-bottom: 1px solid #000;
+		background: #fafafa;
 		max-height: 150px;
 		overflow: hidden;
+	}
+	/* Live site preview (are.na-style) for link projects */
+	.tile-site {
+		height: 150px;
+		overflow: hidden;
+		background: #fff;
+		position: relative;
+	}
+	.tile-site iframe {
+		width: 1100px;
+		height: 800px;
+		border: 0;
+		transform: scale(0.18);
+		transform-origin: top left;
+		pointer-events: none;
 	}
 	.tile-meta {
 		padding: 8px 10px;

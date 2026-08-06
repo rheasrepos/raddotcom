@@ -27,7 +27,14 @@
 	let iconDragging = null;
 	let iconMoved = false;
 	let iconStart = { mx: 0, my: 0, x: 0, y: 0 };
-	function defaultIconPos(i) { return { x: 40 + i * 150, y: 30 }; }
+	// Spacing scales with zoom so icons don't pile up when enlarged. Up to
+	// 175% the gap tracks the icon size (keeps the slight overlap Rhea likes);
+	// past 175% spacing grows slower, so they deliberately overlap more.
+	function spaceFactor(z) {
+		z = z || 1;
+		return z <= 1.75 ? z : 1.75 + (z - 1.75) * 0.5;
+	}
+	function defaultIconPos(i, z = 1) { return { x: 40 + i * 150 * spaceFactor(z), y: 30 }; }
 	function iconXY(id, i) { return iconPos[id] || defaultIconPos(i); }
 	function iconDown(e, id, pos) {
 		iconDragging = id;
@@ -110,10 +117,13 @@
 		? projects.filter((p) => p.loose === true || p.type === 'artifacts')
 		: [];
 	// Default scatter for loose items: a wrapping grid BELOW the folder row.
-	function defaultFloatPos(i) {
+	function defaultFloatPos(i, z = 1) {
+		const sf = spaceFactor(z);
+		const colW = 118 * sf, rowH = 138 * sf;
 		const w = (typeof window !== 'undefined' ? window.innerWidth : 1200) - 90;
-		const perRow = Math.max(3, Math.floor(w / 118));
-		return { x: 40 + (i % perRow) * 118, y: 190 + Math.floor(i / perRow) * 132 };
+		const perRow = Math.max(3, Math.floor(w / colW));
+		const startY = 150 + 60 * sf; // clears the (also-scaling) folder row above
+		return { x: 30 + (i % perRow) * colW, y: startY + Math.floor(i / perRow) * rowH };
 	}
 	function xyFloat(id, i) { return iconPos[id] || defaultFloatPos(i); }
 	// Contents of the folder window's CURRENT level (top of its stack).
@@ -927,7 +937,7 @@
 					     (Comedy, Music) live inside their parent (Creative). -->
 					{#each topFolders as category, i}
 						{@const categoryInfo = categoryConfig[category.id]}
-						{@const pos = iconPos[category.id] || defaultIconPos(i)}
+						{@const pos = iconPos[category.id] || defaultIconPos(i, zoomLevel)}
 							<div
 								class="desktop-icon draggable"
 								style="left:{pos.x}px; top:{pos.y}px;"
@@ -954,7 +964,7 @@
 					<!-- Loose files + the whole analog archive float directly on the
 					     desktop as draggable objects (no folder). -->
 					{#each floatingItems as project, i (project.id)}
-						{@const fpos = iconPos[project.id] || defaultFloatPos(i)}
+						{@const fpos = iconPos[project.id] || defaultFloatPos(i, zoomLevel)}
 						<div
 							class="desktop-icon draggable float-item"
 							style="left:{fpos.x}px; top:{fpos.y}px;"
