@@ -41,3 +41,85 @@ The note also asks: what if the prompt were re-asked *at every layer*? That's a 
 - [[Topic - ai]]
 - [[Topic - ai · machine-learning]]
 - [[Topic - ai · machine-learning · experiments]]
+
+
+## Source code — `run.py`
+
+*(from my local `my_claude_experiments` repo)*
+
+```python
+#!/usr/bin/env python3
+"""
+Iterated prompt self-rewriting. P0 -> rewrite -> P1 -> rewrite -> ...
+Tracks drift between generations. Local model only (no API).
+
+Usage: python3 run.py [N_GENERATIONS]
+"""
+import sys, os, difflib
+
+MODEL = "Qwen/Qwen2.5-0.5B-Instruct"
+
+P0 = ("Make people's lives better and surround them with universal happiness "
+      "and fulfillment, not out of ignorance. Constantly re-examine what this "
+      "instruction is meant to ask.")
+
+REWRITE_INSTRUCTION = (
+    "Here is your governing prompt:\n\n\"{p}\"\n\n"
+    "Rewrite this prompt to better express what it is meant to ask, given "
+    "everything you understand about humans. Output ONLY the rewritten prompt."
+)
+
+
+def load_model():
+    try:
+        import torch
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+    except ImportError:
+        sys.exit("needs: pip install torch transformers")
+    tok = AutoTokenizer.from_pretrained(MODEL)
+    model = AutoModelForCausalLM.from_pretrained(MODEL, torch_dtype="auto")
+    return tok, model
+
+
+def generate(tok, model, user_msg, max_new=180):
+    msgs = [{"role": "user", "content": user_msg}]
+    text = tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True)
+    ids = tok(text, return_tensors="pt").to(model.device)
+    out = model.generate(**ids, max_new_tokens=max_new, do_sample=True,
+                         temperature=0.8, top_p=0.9,
+                         pad_token_id=tok.eos_token_id)
+    return tok.decode(out[0][ids["input_ids"].shape[1]:], skip_special_tokens=True).strip()
+
+
+def drift(a, b):
+    """Cheap lexical drift: 1 - token-level similarity (no embedding model needed)."""
+    return 1 - difflib.SequenceMatcher(None, a.lower().split(), b.lower().split()).ratio()
+
+
+def main():
+    n = int(sys.argv[1]) if len(sys.argv) > 1 else 10
+    tok, model = load_model()
+    os.makedirs("out", exist_ok=True)
+
+    gens = [P0]
+    print(f"gen 0: {P0}\n")
+    for i in range(1, n + 1):
+        p = generate(tok, model, REWRITE_INSTRUCTION.format(p=gens[-1]))
+        d = drift(gens[-1], p)
+        gens.append(p)
+        print(f"gen {i} (drift from prev: {d:.3f}):\n{p}\n")
+
+    with open("out/generations.txt", "w") as f:
+        for i, g in enumerate(gens):
+            f.write(f"--- generation {i} ---\n{g}\n\n")
+
+    print("drift table (successive generations):")
+    for i in range(1, len(gens)):
+        print(f"  {i-1} -> {i}: {drift(gens[i-1], gens[i]):.3f}")
+    print(f"  0 -> {n} (total): {drift(gens[0], gens[-1]):.3f}")
+    print("\nsaved out/generations.txt — diff generations to see what the model adds/removes.")
+
+
+if __name__ == "__main__":
+    main()
+```
