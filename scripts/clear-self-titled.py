@@ -48,8 +48,16 @@ for p in sorted(glob.glob("raddotcom Vault (vault-drafts)/**/*.md", recursive=Tr
     if not m:
         continue
     title = m.group(1).strip()
-    # core = title minus a leading COURSE PREFIX ("SOSC: ", "MBM — ", "PHIL OF AI: ")
+    # Build several candidate forms of the title and match ANY against the doc:
+    #  - the whole title
+    #  - minus a leading COURSE PREFIX ("SOSC: ", "MBM — ", "PHIL OF AI: ")
+    #  - minus a trailing qualifier I added ("(poem)", "(script)")
+    #  - just the part before an em-dash (my "— spring quarter script" suffix)
     core = re.sub(r"^[A-Z][A-Z0-9 &/]{1,20}[:—-]\s*", "", title).strip()
+    cand_set = {title, core}
+    cand_set.add(re.sub(r"\s*\([^)]*\)\s*$", "", core).strip())
+    cand_set.add(re.split(r"\s+[—–-]\s+", core)[0].strip())
+    cand_set.add(re.sub(r"\s*\([^)]*\)\s*$", "", re.split(r"\s+[—–-]\s+", core)[0]).strip())
     body = re.sub(r"^---.*?---", "", t, count=1, flags=re.S)
     slug = slugify(os.path.basename(p)[:-3])
     doc = body
@@ -58,9 +66,9 @@ for p in sorted(glob.glob("raddotcom Vault (vault-drafts)/**/*.md", recursive=Tr
         doc += "\n" + pdftext(pdfp)
     hay = collapse(norm(doc))
     hit = None
-    for cand in {title, core}:
+    for cand in cand_set:
         c = collapse(norm(cand))
-        if len(c) >= 12 and c in hay:
+        if len(c) >= 10 and c in hay:
             hit = cand
             break
     if hit:

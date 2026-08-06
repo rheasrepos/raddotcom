@@ -1,6 +1,5 @@
 ---
 title: "Aldous Huxley — a first-person narrative"
-ai_title: true
 date: 2018
 date_approx: true
 type: creative

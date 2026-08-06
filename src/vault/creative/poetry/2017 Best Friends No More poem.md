@@ -1,6 +1,5 @@
 ---
 title: Best Friends No More (poem)
-ai_title: true
 date: 2017
 type: creative
 academic: true

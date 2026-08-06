@@ -1,6 +1,5 @@
 ---
 title: "TAPS: I'm Here For You — supplemental final essay"
-ai_title: true
 date: 2026-03-12
 type: creative
 academic: false

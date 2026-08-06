@@ -1,6 +1,5 @@
 ---
 title: "S&P: Journal Critique 1 — Uniformity Illusion"
-ai_title: true
 date: 2025-02-03
 type: coursework
 academic: true

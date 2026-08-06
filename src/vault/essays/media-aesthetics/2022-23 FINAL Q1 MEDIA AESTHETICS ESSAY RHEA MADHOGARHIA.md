@@ -1,6 +1,5 @@
 ---
 title: "HUMA: Media Aesthetics — Q1 Final Essay"
-ai_title: true
 date: 2022-12-09
 type: essays
 academic: true

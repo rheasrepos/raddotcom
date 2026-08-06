@@ -2,7 +2,6 @@
 date: 2026-06-01
 date_approx: true
 title: "Claude experiments — 00: overview"
-ai_title: true
 tags: [ai/machine-learning/experiments]
 affiliation: independent
 kind: [meta/index]

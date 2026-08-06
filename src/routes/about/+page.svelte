@@ -51,6 +51,7 @@
         <div class="hero-content">
             <div class="hero-text">
                 <h1>Hiii, I'm Rhea Madhogarhia (currently a Master's student at NYU Courant studying Computer Science)</h1>
+                <p class="hero-bio">{aboutText}</p>
             </div>
         </div>
     </section>
@@ -76,6 +77,14 @@
 </PageLayout>
 
 <style>
+    .hero-bio {
+        max-width: 720px;
+        margin: 22px auto 0;
+        font-size: 1rem;
+        line-height: 1.6;
+        white-space: pre-line;
+        text-align: left;
+    }
     .hero-section {
         display: flex;
         justify-content: center;

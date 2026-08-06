@@ -1,6 +1,5 @@
 ---
 title: "PHIL: Philosophy of Mind — Final Paper"
-ai_title: true
 date: 2024-12
 date_approx: true
 type: essays

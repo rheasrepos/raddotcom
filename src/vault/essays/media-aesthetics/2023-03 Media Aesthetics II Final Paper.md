@@ -1,6 +1,5 @@
 ---
 title: "HUMA: Media Aesthetics — Final Paper"
-ai_title: true
 date: 2023-03-10
 type: essays
 academic: true

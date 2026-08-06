@@ -1,6 +1,5 @@
 ---
 title: "HUMA: Media Aesthetics — Q2 Essay 1"
-ai_title: true
 date: 2023-01-28
 type: essays
 academic: true
