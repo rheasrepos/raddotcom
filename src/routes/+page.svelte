@@ -661,12 +661,14 @@
 	}
 
 	function resetZoom() {
-		console.log('Reset zoom clicked');
 		zoomLevel = 1;
 		panOffset = { x: 0, y: 0 };
-		console.log('Reset to zoom level:', zoomLevel);
-		// Force reactivity
 		zoomLevel = zoomLevel;
+	}
+	// Put every dragged folder / floating item back to its default spot.
+	function resetIconPositions() {
+		iconPos = {};
+		try { localStorage.removeItem('iconPos'); } catch {}
 	}
 
 	// Reset pan offset when zoom level changes to 1
@@ -903,6 +905,7 @@
 				<span class="tb-zoom">{Math.round(zoomLevel * 100)}%</span>
 				<button class="tb-btn" on:click={zoomIn} title="Zoom In">+</button>
 				<button class="tb-btn" on:click={resetZoom} title="Reset Zoom">⌂</button>
+				<button class="tb-btn" on:click={resetIconPositions} title="Reset icon positions">⇱</button>
 				<span class="tb-sep"></span>
 				<button class="tb-btn" on:click={surf} title={surfing ? 'Exit full screen (Esc)' : 'Full screen'}>
 					{surfing ? '⤡' : '⤢'}
@@ -924,7 +927,7 @@
 					     (Comedy, Music) live inside their parent (Creative). -->
 					{#each topFolders as category, i}
 						{@const categoryInfo = categoryConfig[category.id]}
-						{@const pos = iconXY(category.id, i)}
+						{@const pos = iconPos[category.id] || defaultIconPos(i)}
 							<div
 								class="desktop-icon draggable"
 								style="left:{pos.x}px; top:{pos.y}px;"
@@ -951,7 +954,7 @@
 					<!-- Loose files + the whole analog archive float directly on the
 					     desktop as draggable objects (no folder). -->
 					{#each floatingItems as project, i (project.id)}
-						{@const fpos = xyFloat(project.id, i)}
+						{@const fpos = iconPos[project.id] || defaultFloatPos(i)}
 						<div
 							class="desktop-icon draggable float-item"
 							style="left:{fpos.x}px; top:{fpos.y}px;"
@@ -1393,13 +1396,15 @@
 	.cell-thumb {
 		flex: 1;
 		min-height: 0;
-		background: #1c1c1c;
+		background: #f2f2f2;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
+		padding: 6px;
 	}
-	.cell-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+	/* Show the WHOLE cover fit inside the tile (letterboxed), never cropped. */
+	.cell-thumb img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
 	/* Text-only documents get a real page preview: their opening words on
 	   white, like the top of the actual page. */
 	.cell-page {
@@ -2157,7 +2162,7 @@
 	/* Draggable desktop folders sit as free objects, not in the grid flow */
 	.desktop-icon.draggable {
 		position: absolute;
-		width: 110px;
+		width: calc(110px * var(--zoom, 1));
 		cursor: grab;
 		/* pinch-zoom (not none) so two-finger zoom still works on mobile;
 		   one-finger drag keeps working via pointer events */
@@ -2165,14 +2170,26 @@
 		user-select: none;
 	}
 	.desktop-icon.draggable:active { cursor: grabbing; }
-	/* Free-floating scans/notes: show the actual image as the object. */
-	.float-item { width: 96px; }
+	/* Free-floating scans/notes: show the actual image as the object. The
+	   thumbnail and label BOTH scale with zoom (not just the text), and the
+	   label is clamped so long titles don't overlap neighbouring scans. */
+	.float-item { width: calc(96px * var(--zoom, 1)); }
 	.float-thumb {
-		max-width: 88px;
-		max-height: 88px;
+		max-width: calc(88px * var(--zoom, 1));
+		max-height: calc(88px * var(--zoom, 1));
 		object-fit: contain;
 		display: block;
 		box-shadow: 2px 2px 0 rgba(0,0,0,0.28);
+	}
+	.float-item .mac-icon-label {
+		max-width: calc(96px * var(--zoom, 1));
+		max-height: 2.6em;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		word-break: break-word;
 	}
 
 	.desktop-icon {

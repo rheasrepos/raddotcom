@@ -10,3 +10,8 @@ Img/
 node_modules/
 .DS_Store
 .svelte-kit/
+
+# iCloud sync-conflict copies (repo lives in iCloud Desktop) — never commit these
+* [0-9].md
+* [0-9].pdf
+* [0-9].png
