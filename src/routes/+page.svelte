@@ -156,11 +156,26 @@
 	$: topFolders = projects
 		? categories.filter((c) => !categoryConfig[c.id].parent && c.id !== 'artifacts' && hasPostsDeep(c.id))
 		: [];
-	// The analog archive has no real-life folders — every scan floats loose on
-	// the desktop (alongside any note explicitly marked loose: true).
-	$: floatingItems = projects
-		? projects.filter((p) => p.loose === true || p.type === 'artifacts')
+	// Free-floating desktop items: notes marked loose, plus the pieces that are
+	// actually Rhea's ART (image filenames with "myart"). The rest of the
+	// analog archive (the "img*" scans of belongings) collapses into a single
+	// expandable "hoard" stack so the desktop isn't buried in 70+ scans.
+	let hoardOpen = false;
+	function isMyArt(p) { return /myart/i.test(p.image || p.thumb || ''); }
+	$: looseFloat = projects
+		? projects.filter((p) => p.loose === true || (p.type === 'artifacts' && isMyArt(p)))
 		: [];
+	$: hoardItems = projects
+		? projects.filter((p) => p.type === 'artifacts' && !isMyArt(p))
+		: [];
+	// What actually gets laid out: the loose art, then the hoard stack icon,
+	// then (only when opened) the hoard's contents fanned out after it.
+	$: floatingItems = [
+		...looseFloat,
+		...(hoardItems.length ? [{ id: '__hoard__', hoard: true, title: `hoard (${hoardItems.length})` }] : []),
+		...(hoardOpen ? hoardItems : [])
+	];
+	function toggleHoard() { hoardOpen = !hoardOpen; }
 	// Default scatter for loose items: a wrapping grid BELOW the folder row.
 	function defaultFloatPos(i, z = 1, w) {
 		const sf = spaceFactor(z);
@@ -1022,30 +1037,51 @@
 					     desktop as draggable objects (no folder). -->
 					{#each floatingItems as project, i (project.id)}
 						{@const fpos = iconPos[project.id] || defaultFloatPos(i, zoomLevel, deskW)}
-						<div
-							class="desktop-icon draggable float-item"
-							style="left:{fpos.x}px; top:{fpos.y}px;"
-							on:pointerdown={(e) => iconDown(e, project.id, fpos)}
-							on:click={() => { if (!iconMoved) toggleProject(project.id); }}
-							on:keydown={(e) => e.key === 'Enter' && toggleProject(project.id)}
-							on:mouseenter={() => (hoveredProject = project)}
-							on:focus={() => (hoveredProject = project)}
-							tabindex="0"
-							role="button"
-							aria-label="Open {project.title}"
-						>
-							<div class="mac-icon">
-								{#if project.image || project.thumb || project.iconImage}
-									<img src={project.image || project.thumb || project.iconImage} alt={project.title} class="float-thumb" loading="lazy" />
-								{:else}
-									<svg viewBox="0 0 44 56" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
-										<path d="M4 0 L30 0 L44 14 L44 54 Q44 56 42 56 L4 56 Q2 56 0 54 L0 2 Q0 0 4 0 Z" fill="#f8f8f8" stroke="#aaaaaa" stroke-width="1.5"/>
-										<path d="M30 0 L30 14 L44 14" stroke="#aaaaaa" stroke-width="1.5" fill="none"/>
-									</svg>
-								{/if}
+						{#if project.hoard}
+							<!-- The "hoard": one stack that fans open to reveal the img* scans -->
+							<div
+								class="desktop-icon draggable float-item hoard-stack"
+								style="left:{fpos.x}px; top:{fpos.y}px;"
+								on:pointerdown={(e) => iconDown(e, project.id, fpos)}
+								on:click={() => { if (!iconMoved) toggleHoard(); }}
+								on:keydown={(e) => e.key === 'Enter' && toggleHoard()}
+								tabindex="0"
+								role="button"
+								aria-label={hoardOpen ? 'Collapse hoard' : 'Expand hoard'}
+							>
+								<div class="mac-icon hoard-visual">
+									{#each hoardItems.slice(0, 3) as h, k}
+										<img src={h.thumb || h.image} alt="" class="hoard-layer" style="transform: rotate({(k - 1) * 5}deg) translate({(k - 1) * 3}px, {k * 2}px);" loading="lazy" />
+									{/each}
+								</div>
+								<div class="mac-icon-label">{hoardOpen ? 'hoard ▾' : project.title}</div>
 							</div>
-							<div class="mac-icon-label">{project.title}</div>
-						</div>
+						{:else}
+							<div
+								class="desktop-icon draggable float-item"
+								style="left:{fpos.x}px; top:{fpos.y}px;"
+								on:pointerdown={(e) => iconDown(e, project.id, fpos)}
+								on:click={() => { if (!iconMoved) toggleProject(project.id); }}
+								on:keydown={(e) => e.key === 'Enter' && toggleProject(project.id)}
+								on:mouseenter={() => (hoveredProject = project)}
+								on:focus={() => (hoveredProject = project)}
+								tabindex="0"
+								role="button"
+								aria-label="Open {project.title}"
+							>
+								<div class="mac-icon">
+									{#if project.image || project.thumb || project.iconImage}
+										<img src={project.image || project.thumb || project.iconImage} alt={project.title} class="float-thumb" loading="lazy" />
+									{:else}
+										<svg viewBox="0 0 44 56" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
+											<path d="M4 0 L30 0 L44 14 L44 54 Q44 56 42 56 L4 56 Q2 56 0 54 L0 2 Q0 0 4 0 Z" fill="#f8f8f8" stroke="#aaaaaa" stroke-width="1.5"/>
+											<path d="M30 0 L30 14 L44 14" stroke="#aaaaaa" stroke-width="1.5" fill="none"/>
+										</svg>
+									{/if}
+								</div>
+								<div class="mac-icon-label">{project.title}</div>
+							</div>
+						{/if}
 					{/each}
 				{:else if viewMode === 'all'}
 					<!-- Child categories appear as folders inside their parent -->
@@ -2258,6 +2294,24 @@
 		-webkit-user-drag: none;
 		user-select: none;
 	}
+	/* The hoard stack: a few scans layered like a messy pile you can fan open */
+	.hoard-visual {
+		position: relative;
+		width: calc(84px * var(--zoom, 1));
+		height: calc(84px * var(--zoom, 1));
+	}
+	.hoard-layer {
+		position: absolute;
+		top: 0; left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border: 1px solid #999;
+		background: #fff;
+		box-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+	}
+	.hoard-stack:hover .hoard-layer:nth-child(1) { transform: rotate(-9deg) translate(-5px, 1px) !important; }
+	.hoard-stack:hover .hoard-layer:nth-child(3) { transform: rotate(9deg) translate(5px, 3px) !important; }
 	/* The scan is bigger than the default 56px icon box — let the box grow to
 	   the image so the label sits BELOW it instead of under the overflow. */
 	.float-item .mac-icon {
