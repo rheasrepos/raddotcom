@@ -1051,8 +1051,11 @@
 								aria-label={hoardOpen ? 'Collapse hoard' : 'Expand hoard'}
 							>
 								<div class="mac-icon hoard-visual">
-									{#each hoardItems.slice(0, 3) as h, k}
-										<img src={h.thumb || h.image} alt="" class="hoard-layer" style="transform: rotate({(k - 1) * 5}deg) translate({(k - 1) * 3}px, {k * 2}px);" loading="lazy" />
+									{#each hoardItems.slice(0, 30) as h, k}
+										{@const rot = ((k * 41) % 15) - 7}
+										{@const dx = ((k * 29) % 15) - 7}
+										{@const dy = ((k * 17) % 11) - 4}
+										<img src={h.thumb || h.image} alt="" class="hoard-layer" style="transform: rotate({rot}deg) translate({dx}px, {dy}px); z-index:{k};" loading="lazy" />
 									{/each}
 								</div>
 								<div class="mac-icon-label">{hoardOpen ? 'hoard ▾' : project.title}</div>
@@ -2295,24 +2298,25 @@
 		-webkit-user-drag: none;
 		user-select: none;
 	}
-	/* The hoard stack: a few scans layered like a messy pile you can fan open */
-	.hoard-visual {
+	/* The hoard: the whole pile of scans stacked on top of each other. Explicit
+	   size (higher specificity than the auto-sizing .float-item .mac-icon rule,
+	   which was collapsing it to nothing → the "tiny dots"). */
+	.float-item .mac-icon.hoard-visual {
 		position: relative;
-		width: calc(84px * var(--zoom, 1));
-		height: calc(84px * var(--zoom, 1));
+		width: calc(96px * var(--zoom, 1));
+		height: calc(112px * var(--zoom, 1));
+		max-height: none;
 	}
 	.hoard-layer {
 		position: absolute;
-		top: 0; left: 0;
-		width: 100%;
-		height: 100%;
+		top: 8%; left: 8%;
+		width: 84%;
+		height: 84%;
 		object-fit: cover;
-		border: 1px solid #999;
+		border: 1px solid #888;
 		background: #fff;
-		box-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+		box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35);
 	}
-	.hoard-stack:hover .hoard-layer:nth-child(1) { transform: rotate(-9deg) translate(-5px, 1px) !important; }
-	.hoard-stack:hover .hoard-layer:nth-child(3) { transform: rotate(9deg) translate(5px, 3px) !important; }
 	/* The scan is bigger than the default 56px icon box — let the box grow to
 	   the image so the label sits BELOW it instead of under the overflow. */
 	.float-item .mac-icon {
