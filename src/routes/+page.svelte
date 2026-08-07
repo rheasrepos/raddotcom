@@ -161,7 +161,8 @@
 	// analog archive (the "img*" scans of belongings) collapses into a single
 	// expandable "hoard" stack so the desktop isn't buried in 70+ scans.
 	let hoardOpen = false;
-	function isMyArt(p) { return /myart/i.test(p.image || p.thumb || ''); }
+	// Rhea's own pieces (art + tools) float loose; the plain "img*" scans hoard.
+	function isMyArt(p) { return /myart|tools/i.test(p.image || p.thumb || ''); }
 	$: looseFloat = projects
 		? projects.filter((p) => p.loose === true || (p.type === 'artifacts' && isMyArt(p)))
 		: [];
