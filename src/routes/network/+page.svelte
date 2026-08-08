@@ -167,7 +167,7 @@
 		if (!running) { running = true; loop(); }
 	}
 	function step() {
-		const REP = 1400, SPRING = 0.045, DAMP = 0.82, GRAV = 0.02;
+		const REP = 2200, SPRING = 0.04, DAMP = 0.82, GRAV = 0.018;
 		// Repulsion + hard collision (short range → fast and keeps clusters tight)
 		for (let i = 0; i < nodes.length; i++) {
 			const a = nodes[i];
@@ -180,9 +180,9 @@
 				const f = REP / d2;
 				let fx = (dx / d) * f, fy = (dy / d) * f;
 				// collision: never let two circles overlap
-				const min = a.r + b.r + 4;
+				const min = a.r + b.r + 12;   // wider keep-apart gap → less visual overlap
 				if (d < min) {
-					const push = (min - d) * 0.5;
+					const push = (min - d) * 0.9;
 					fx += (dx / d) * push; fy += (dy / d) * push;
 				}
 				a.vx += fx; a.vy += fy; b.vx -= fx; b.vy -= fy;
@@ -194,7 +194,7 @@
 			if (!s || !t) return;
 			const dx = t.x - s.x, dy = t.y - s.y;
 			const dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
-			const target = l.w >= 1 ? 60 : 46;
+			const target = l.w >= 1 ? 74 : 58;
 			const f = (dist - target) * SPRING * l.w;
 			const fx = (dx / dist) * f, fy = (dy / dist) * f;
 			s.vx += fx; s.vy += fy; t.vx -= fx; t.vy -= fy;

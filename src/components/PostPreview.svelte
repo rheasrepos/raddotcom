@@ -29,7 +29,7 @@
 {/if}
 
 <style>
-	.pv { overflow: hidden; background: #fff; position: relative; width: 100%; height: 100%; }
+	.pv { overflow: hidden; background: #ececec; position: relative; width: 100%; height: 100%; }
 	.pv-thumb { display: flex; align-items: center; justify-content: center; background: #f2f2f2; }
 	.pv-thumb img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
 	.pv-site iframe {

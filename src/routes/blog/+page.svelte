@@ -268,7 +268,7 @@
 	}
 	.arch-side,
 	.archive {
-		background: #fff;
+		background: #ececec;
 		border: 1px solid #000;
 	}
 	.archive { padding: 26px 30px 44px; }
@@ -283,14 +283,14 @@
 	.side-select {
 		width: 100%;
 		border: 1px solid #000;
-		background: #fff;
+		background: #f7f7f7;
 		padding: 5px 6px;
 		font-size: 0.8rem;
 	}
 	.side-search {
 		width: 100%;
 		border: 1px solid #000;
-		background: #fff;
+		background: #f7f7f7;
 		padding: 6px 8px;
 		font-size: 0.82rem;
 	}
@@ -464,7 +464,7 @@
 		width: 118px;
 		flex: none;
 		border: 1px solid #999;
-		background: #fff;
+		background: #ececec;
 		object-fit: cover;
 		object-position: top center;
 		align-self: flex-start;
@@ -505,7 +505,7 @@
 		align-items: center;
 		gap: 6px;
 		border: 1px solid #000;
-		background: #fff;
+		background: #ececec;
 		font-size: 0.8rem;
 		padding: 3px 9px;
 		cursor: pointer;
