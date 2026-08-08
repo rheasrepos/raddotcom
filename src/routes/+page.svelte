@@ -2440,10 +2440,10 @@
 	}
 
 	.modal-content {
-		background: white;
+		background: #ececec;
 		width: 90%;
-		max-width: 600px;
-		max-height: 70vh;
+		max-width: 760px;
+		max-height: 88vh;
 		overflow-y: auto;
 		position: relative;
 		border: 2px solid #000000;
@@ -2470,10 +2470,14 @@
 	}
 
 	.modal-body img {
-		width: 100%;
-		height: 200px;
-		object-fit: cover;
-		margin-bottom: 20px;
+		display: block;
+		max-width: 100%;
+		max-height: 60vh;
+		width: auto;
+		height: auto;
+		object-fit: contain;
+		margin: 0 auto 20px;
+		background: #f2f2f2;
 	}
 
 	.modal-body h2 {

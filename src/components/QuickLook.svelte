@@ -13,9 +13,12 @@
 
 	const dispatch = createEventDispatcher();
 
+	let big = false; // green = expand the preview to (near) fullscreen
 	function close() {
+		big = false;
 		dispatch('close');
 	}
+	function toggleBig() { big = !big; }
 	function open(target) {
 		dispatch('open', target ?? item);
 	}
@@ -35,12 +38,12 @@
 		on:click|self={close}
 		transition:fade={{ duration: 120 }}
 	>
-		<div class="ql-window {item.kind}" out:scale={{ duration: 140, start: 0.96 }}>
+		<div class="ql-window {item.kind}" class:big out:scale={{ duration: 140, start: 0.96 }}>
 			<header class="ql-titlebar">
 				<div class="ql-traffic">
 					<button class="dot red" title="Close" on:click={close} aria-label="Close"></button>
-					<span class="dot yellow"></span>
-					<span class="dot green"></span>
+					<button class="dot yellow" title="Minimize" on:click={close} aria-label="Minimize"></button>
+					<button class="dot green" title="Full screen" on:click={toggleBig} aria-label="Full screen"></button>
 				</div>
 				<span class="ql-title">{item.label || item.title}</span>
 				<span class="ql-spacer"></span>
@@ -72,7 +75,10 @@
 					{#if item.description}
 						<p class="ql-desc">{item.description}</p>
 					{/if}
-					{#if item.pdf}
+					{#if item.image || item.thumb}
+						<!-- Show the actual image/scan, fully visible -->
+						<div class="ql-imgwrap"><img class="ql-img" src={item.image || item.thumb} alt={item.title || item.label} /></div>
+					{:else if item.pdf}
 						<!-- Preview the original document, not the re-rendered text -->
 						<iframe src={item.pdf} title="{item.title || item.label} (PDF)" class="ql-pdf"></iframe>
 					{:else}
@@ -104,7 +110,7 @@
 		padding: 24px;
 	}
 	.ql-window {
-		background: #fbfbfd;
+		background: #ececec;
 		border: 1px solid #000;
 		width: min(560px, 92vw);
 		max-height: 84vh;
@@ -149,6 +155,13 @@
 	.ql-title { font-weight: 700; font-size: 0.95rem; }
 	.ql-spacer { flex: 1; }
 	.ql-file-body { padding: 22px 24px; overflow: auto; }
+	/* Show the whole image/scan, fit inside the preview (never cropped) */
+	.ql-imgwrap { display: flex; justify-content: center; align-items: center; background: #f2f2f2; padding: 8px; }
+	.ql-img { max-width: 100%; max-height: 60vh; width: auto; height: auto; object-fit: contain; display: block; }
+	/* Green traffic light → expand the preview to near-fullscreen */
+	.ql-window.big { width: 96vw; max-width: 1200px; max-height: 94vh; }
+	.ql-window.big .ql-img { max-height: 80vh; }
+	.ql-window.big .ql-pdf { height: 82vh; }
 	.ql-pdf {
 		display: block;
 		width: 100%;
