@@ -121,14 +121,33 @@ A post and its PDF are now bound by the post's **slug** (its filename, lowercase
 
 ---
 
-## 5. Adding a caption to an artifact / image
+## 5. Artifacts (the analog archive) — adding, captioning, splitting
 
-Artifacts live in `artifacts/`. Each has an `image:` line already pointing at the scan. To caption one:
-1. Open the note.
-2. Write your caption in the body (below the `---`).
-3. Set `published: true`.
-4. Delete `ai_description: true` if it's there (you wrote it now).
-Promote + push.
+Each artifact is one `.md` note in `artifacts/` plus one or more image files in `static/artifacts/`. On the desktop, pieces whose image name contains **`myart`** or **`tools`** float loose; everything else (the `img*` scans) lives in the **hoard** stack.
+
+**Add a new artifact:**
+1. Put the scan in `static/artifacts/` — name it `myart99.jpg` (your art/tools, floats loose) or `img99.jpg` (belongings, goes in the hoard).
+2. Make a note `artifacts/Artifact 99.md` with:
+   ```
+   ---
+   title: "Artifact 99"
+   date: 2026-08-06
+   type: artifacts
+   published: true
+   image: /artifacts/myart99.jpg
+   images: [/artifacts/myart99.jpg]
+   ---
+   Your caption goes here, below the dashes.
+   ```
+3. Promote + push.
+
+**Caption / describe one:** open its note, write the caption in the **body** (below `---`). For a one-line subtitle, add a `description: "..."` line. If a `ai_description: true` line is there, delete it (the text is yours now).
+
+**Two views of the SAME object** (front/back, pages): list them all in `images: [...]` — e.g. `images: [/artifacts/img21.jpg, /artifacts/img21-1.jpg]`. They show as a gallery on one post.
+
+**Split two DIFFERENT objects that got grouped** (e.g. a `.jpg` and `.png` that collided on a number): remove the stray image from the first note's `images:` list, then create a second note pointing at it. Example pattern used for `Artifact 02` → `Artifact 02b`.
+
+> [!warning] Before publishing a scan, check it for personal info (IDs, addresses, DOB). Anything with that visible should stay `published: false` or be redacted first.
 
 ---
 
