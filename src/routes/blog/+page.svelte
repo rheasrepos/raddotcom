@@ -268,7 +268,7 @@
 	}
 	.arch-side,
 	.archive {
-		background: #ececec;
+		background: #c0c0c0;
 		border: 1px solid #000;
 	}
 	.archive { padding: 26px 30px 44px; }
@@ -464,7 +464,7 @@
 		width: 118px;
 		flex: none;
 		border: 1px solid #999;
-		background: #ececec;
+		background: #c0c0c0;
 		object-fit: cover;
 		object-position: top center;
 		align-self: flex-start;
@@ -505,7 +505,7 @@
 		align-items: center;
 		gap: 6px;
 		border: 1px solid #000;
-		background: #ececec;
+		background: #c0c0c0;
 		font-size: 0.8rem;
 		padding: 3px 9px;
 		cursor: pointer;

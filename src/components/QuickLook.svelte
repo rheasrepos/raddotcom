@@ -110,7 +110,7 @@
 		padding: 24px;
 	}
 	.ql-window {
-		background: #ececec;
+		background: #c0c0c0;
 		border: 1px solid #000;
 		width: min(560px, 92vw);
 		max-height: 84vh;

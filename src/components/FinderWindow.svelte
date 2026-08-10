@@ -112,7 +112,7 @@
 	.fw {
 		position: fixed;
 		/* soft grey window shell (classic Mac), not stark white */
-		background: #ececec;
+		background: #c0c0c0;
 		border: 2px solid #000;
 		box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
 		display: flex;
@@ -144,7 +144,7 @@
 		padding: 5px 9px;
 		/* allow two-finger pinch-zoom on mobile; one-finger drag still works */
 		touch-action: pinch-zoom;
-		background: #d9d9d9;
+		background: #c0c0c0;
 		border-bottom: 2px solid #000;
 		cursor: grab;
 		user-select: none;

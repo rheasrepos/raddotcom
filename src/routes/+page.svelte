@@ -1601,7 +1601,7 @@
 	.dock-tab {
 		display: flex;
 		align-items: center;
-		background: #d9d9d9;
+		background: #c0c0c0;
 		border: 2px solid #000;
 		box-shadow: 2px 2px 0 rgba(0,0,0,0.35);
 		max-width: 220px;
@@ -2440,7 +2440,7 @@
 	}
 
 	.modal-content {
-		background: #ececec;
+		background: #c0c0c0;
 		width: 90%;
 		max-width: 760px;
 		max-height: 88vh;

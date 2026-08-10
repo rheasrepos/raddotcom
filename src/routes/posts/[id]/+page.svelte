@@ -243,12 +243,12 @@
 		align-items: center;
 		gap: 10px;
 		border: 2px solid #000;
-		background: #d9d9d9;
+		background: #c0c0c0;
 		padding: 6px 8px;
 		margin-bottom: 24px;
 	}
 	.reader-nav-btn {
-		background: #ececec;
+		background: #c0c0c0;
 		border: 1px solid #000;
 		color: #000;
 		font-family: Arial, sans-serif;
@@ -362,7 +362,7 @@
 		align-items: center;
 		gap: 6px;
 		padding: 6px 10px;
-		background: #ececec;
+		background: #c0c0c0;
 		border-bottom: 1px solid #000;
 		font-size: 0.8rem;
 	}
