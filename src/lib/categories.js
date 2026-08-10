@@ -8,33 +8,28 @@
 // inside Making). To move a category into a different group, change its
 // `parent`. To rename a group, change its `label`.
 export const categoryConfig = {
-	// ---- GROUPS (the 4 desktop folders) ----
-	'grp-writing':    { id: 'grp-writing',    label: 'Writing',     color: '#4a69bd', group: true },
-	'grp-making':     { id: 'grp-making',     label: 'Making',      color: '#e17055', group: true },
-	'grp-collecting': { id: 'grp-collecting', label: 'Collecting',  color: '#00b894', group: true },
+	// ---- THE 5 DESKTOP FOLDERS (top level, no parent) ----
+	research:    { id: 'research',    label: 'Research',              color: 'var(--color-research)' },
+	art:         { id: 'art',         label: 'Art',                   color: '#e17055' },
+	uchicago:    { id: 'uchicago',    label: 'University of Chicago', color: '#800000' }, // UChicago maroon
+	writing:     { id: 'writing',     label: 'Personal Writing',      color: 'var(--color-writing)' },
+	programming: { id: 'programming', label: 'Projects',              color: 'var(--color-programming)' },
 
-	// ---- WRITING ----
-	writing:   { id: 'writing',   label: 'Notes & Writing',  color: 'var(--color-writing)', parent: 'grp-writing' },
-	essays:    { id: 'essays',    label: 'Essays & Papers',  color: '#4a69bd',              parent: 'grp-writing' },
-	coursework:{ id: 'coursework',label: 'Coursework',       color: '#78909c',              parent: 'grp-writing' },
-	thesis:    { id: 'thesis',    label: 'Thesis Notes',     color: '#8e44ad',              parent: 'grp-writing' },
+	// ---- ART (visual art loose inside; creative work nested) ----
+	creative:  { id: 'creative',  label: 'Creative',          color: '#e17055',             parent: 'art' },
+	comedy:    { id: 'comedy',    label: 'Comedy',            color: 'var(--color-comedy)', parent: 'creative' },
+	music:     { id: 'music',     label: 'Music',             color: 'var(--color-music)',  parent: 'creative' },
+	// the img* scans of kept things (the hoard) live here inside Art
+	artifacts: { id: 'artifacts', label: 'Collected & Kept',  color: '#b26b3f',             parent: 'art' },
 
-	// ---- RESEARCH ----
-	// Research is its own top-level folder (no group wrapper) — it goes
-	// straight to its subfolders (cab-lab, coursework-research, …), so there's
-	// no redundant "Research / Research" nesting.
-	research:  { id: 'research',  label: 'Research',         color: 'var(--color-research)' },
+	// ---- UNIVERSITY OF CHICAGO (coursework + academic essays, by course) ----
+	coursework: { id: 'coursework', label: 'Coursework',      color: '#78909c', parent: 'uchicago' },
+	essays:     { id: 'essays',     label: 'Essays & Papers', color: '#4a69bd', parent: 'uchicago' },
 
-	// ---- MAKING ----
-	creative:    { id: 'creative',    label: 'Creative',       color: '#e17055',                  parent: 'grp-making' },
-	comedy:      { id: 'comedy',      label: 'Comedy',         color: 'var(--color-comedy)',      parent: 'creative' },
-	music:       { id: 'music',       label: 'Music',          color: 'var(--color-music)',       parent: 'creative' },
-	programming: { id: 'programming', label: 'Tech & Industry',color: 'var(--color-programming)', parent: 'grp-making' },
-
-	// ---- COLLECTING ----
-	recs:      { id: 'recs',      label: 'Recommendations',      color: '#00b894', parent: 'grp-collecting' },
-	friends:   { id: 'friends',   label: 'Field Notes on Rhea',  color: '#fd79a8', parent: 'grp-collecting' },
-	artifacts: { id: 'artifacts', label: 'Analog Archive',       color: '#b26b3f', parent: 'grp-collecting' }
+	// ---- PERSONAL WRITING (opinions/think-pieces at top; notes & scraps) ----
+	thesis:  { id: 'thesis',  label: 'Thesis Notes',        color: '#8e44ad', parent: 'writing' },
+	recs:    { id: 'recs',    label: 'Recommendations',     color: '#00b894', parent: 'writing' },
+	friends: { id: 'friends', label: 'Field Notes on Rhea', color: '#fd79a8', parent: 'writing' }
 };
 
 // Helper function to get category display name

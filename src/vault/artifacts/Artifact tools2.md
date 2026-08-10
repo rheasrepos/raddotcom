@@ -1,7 +1,7 @@
 ---
 title: "Artifact tools2"
 date: 2026-07-23
-type: artifacts
+type: art
 published: true
 image: /artifacts/tools2.png
 tags: []

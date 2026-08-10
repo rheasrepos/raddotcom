@@ -90,7 +90,7 @@ If a title/description has a dashed underline on the site, it's because the file
    ```
 3. Save. Double-click `promote-to-site.command`. Commit + push.
 
-**`type:` must be one of the category ids** in `src/lib/categories.js`: `writing`, `essays`, `coursework`, `thesis`, `research`, `creative`, `comedy`, `music`, `programming`, `recs`, `friends`, `artifacts`. (You never set a `grp-` group as a `type:` — those are just the desktop folders the categories live in.)
+**`type:` must be one of the category ids** in `src/lib/categories.js`. The 5 desktop folders are `research`, `art`, `uchicago`, `writing` (Personal Writing), `programming` (Projects). Nested inside: `creative`/`comedy`/`music` + `artifacts` (Collected & Kept — the img* scans) under Art; `coursework`/`essays` under University of Chicago; `thesis`/`recs`/`friends` under Personal Writing. Your own visual pieces (myart/tools scans) are `type: art` — they float on the desktop AND live in the Art folder. The `artifacts/baby-rhea-art/` vault subfolder shows as a "Baby Rhea Art" folder inside Art — drag notes into it in Obsidian.
 
 ### Optional extras you can add to any post's frontmatter
 | Line | What it does |

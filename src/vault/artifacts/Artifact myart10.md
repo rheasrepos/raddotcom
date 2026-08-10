@@ -1,7 +1,7 @@
 ---
 title: "Artifact myart10"
 date: 2026-07-23
-type: artifacts
+type: art
 published: true
 image: /artifacts/myart10.jpg
 tags: []

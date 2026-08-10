@@ -154,20 +154,20 @@
 	// without it the desktop renders once while projects is empty and never
 	// updates (which made all folders vanish).
 	$: topFolders = projects
-		? categories.filter((c) => !categoryConfig[c.id].parent && c.id !== 'artifacts' && hasPostsDeep(c.id))
+		? categories.filter((c) => !categoryConfig[c.id].parent && hasPostsDeep(c.id))
 		: [];
 	// Free-floating desktop items: notes marked loose, plus the pieces that are
 	// actually Rhea's ART (image filenames with "myart"). The rest of the
 	// analog archive (the "img*" scans of belongings) collapses into a single
 	// expandable "hoard" stack so the desktop isn't buried in 70+ scans.
 	let hoardOpen = false;
-	// Rhea's own pieces (art + tools) float loose; the plain "img*" scans hoard.
-	function isMyArt(p) { return /myart|tools/i.test(p.image || p.thumb || ''); }
+	// Rhea's own pieces (type: art — the myart/tools scans) float loose; the
+	// img* scans (type: artifacts = "Collected & Kept") pile into the hoard.
 	$: looseFloat = projects
-		? projects.filter((p) => p.loose === true || (p.type === 'artifacts' && isMyArt(p)))
+		? projects.filter((p) => p.loose === true || p.type === 'art')
 		: [];
 	$: hoardItems = projects
-		? projects.filter((p) => p.type === 'artifacts' && !isMyArt(p))
+		? projects.filter((p) => p.type === 'artifacts')
 		: [];
 	// What actually gets laid out: the loose art, then the hoard stack icon,
 	// then (only when opened) the hoard's contents fanned out after it.
