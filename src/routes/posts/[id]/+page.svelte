@@ -7,6 +7,10 @@
 	import { redactionClass, APPLY_TO_BODY } from '$lib/redaction.js';
 	import { categoryConfig } from '$lib/categories.js';
 	import { SITE_NAME } from '$lib/site.js';
+	import ImageViewer from '$components/ImageViewer.svelte';
+
+	// Full-screen zoomable image viewer
+	let viewerSrc = null;
 
 	// Build an accurate folder path from the post's category chain + subfolder,
 	// e.g. "www.rhea.com / Collecting / Analog Archive".
@@ -151,10 +155,10 @@
 
 				{#if post.images && post.images.length}
 					{#each post.images as img, i}
-						<img class="post-image" src={img} alt="{post.title}{post.images.length > 1 ? ` — ${i + 1} of ${post.images.length}` : ''}" loading="lazy" />
+						<img class="post-image" src={img} alt="{post.title}{post.images.length > 1 ? ` — ${i + 1} of ${post.images.length}` : ''}" loading="lazy" style="cursor: zoom-in;" title="Click to view full size" on:click={() => (viewerSrc = img)} />
 					{/each}
 				{:else if post.image}
-					<img class="post-image" src={post.image} alt={post.title} loading="lazy" />
+					<img class="post-image" src={post.image} alt={post.title} loading="lazy" style="cursor: zoom-in;" title="Click to view full size" on:click={() => (viewerSrc = post.image)} />
 				{/if}
 
 				{#if post.video}
@@ -235,6 +239,8 @@
 		{/if}
 	</div>
 </PageLayout>
+
+<ImageViewer src={viewerSrc} alt={post ? post.title : ''} on:close={() => (viewerSrc = null)} />
 
 <style>
 	/* Browser-style bar at the top of a post */

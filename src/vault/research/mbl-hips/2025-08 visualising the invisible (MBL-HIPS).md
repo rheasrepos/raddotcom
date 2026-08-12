@@ -2,6 +2,7 @@
 title: "HIPS/MBL: Visualising the Invisible"
 date: 2025-11-30
 type: research
+also_in: [programming]
 academic: true
 course: HIPS Science/Culture/Society
 published: true

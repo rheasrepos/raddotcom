@@ -2,6 +2,7 @@
 title: Uncovering Latent Structure in ESA Satellite Telemetry
 date: 2026-04-30
 type: research
+also_in: [programming]
 academic: true
 course: TTIC 31220 Unsupervised Learning & Data Analysis
 collaborators:

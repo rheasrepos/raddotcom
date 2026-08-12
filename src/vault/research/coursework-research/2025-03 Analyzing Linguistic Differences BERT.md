@@ -2,6 +2,7 @@
 title: Analyzing the Linguistic Differences Between Spoken and Written Text Using BERT
 date: 2025-03
 type: research
+also_in: [programming]
 academic: true
 course: CMSC NLP
 published: true

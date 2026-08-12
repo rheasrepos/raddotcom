@@ -8,6 +8,12 @@
 	import DesktopNavigation from '../components/DesktopNavigation.svelte';
 	import FilterTabs from '../components/FilterTabs.svelte';
 	import PostPreview from '../components/PostPreview.svelte';
+	import ImageViewer from '../components/ImageViewer.svelte';
+
+	// Full-screen zoomable viewer — set to an image URL to open.
+	let viewerSrc = null;
+	let viewerAlt = '';
+	function openViewer(src, alt = '') { viewerSrc = src; viewerAlt = alt; }
 	import { loadPosts, getProjectColor, formatDate } from '$lib/posts.js';
 	import { categoryConfig, getCategoryLabel } from '$lib/categories.js';
 	import { siteName, SITE_TAGLINE } from '$lib/site.js';
@@ -58,8 +64,9 @@
 		return { x, y: startY + row * rowH };
 	}
 	function defaultIconPos(i, z = 1, w) {
-		// folders: compact row(s) at the top-left, like a real desktop
-		return gridPos(i, z, 150, 110, 30, 150 * spaceFactor(z), w, false);
+		// folders: compact row(s) at the top-left, like a real desktop.
+		// Row height covers icon + a wrapped 2-line label at any zoom.
+		return gridPos(i, z, 150, 110, 30, 190 * spaceFactor(z), w, false);
 	}
 	function iconXY(id, i) { return iconPos[id] || defaultIconPos(i); }
 	function iconDown(e, id, pos) {
@@ -126,7 +133,10 @@
 		windows = windows;
 	}
 	function navBack(win) {
+		// Back pops a level; at the TOP level it closes the window, returning
+		// you to the desktop (the "meta" view of all folders).
 		if (win.stack.length > 1) { win.stack = win.stack.slice(0, -1); windows = windows; }
+		else { windows = windows.filter((w) => w.id !== win.id); }
 	}
 	// Open a file as its own preview window.
 	function openFileWindow(project) {
@@ -180,10 +190,16 @@
 	// Default scatter for loose items: a wrapping grid BELOW the folder row.
 	function defaultFloatPos(i, z = 1, w) {
 		const sf = spaceFactor(z);
-		// start clearly BELOW the folder row (which scales with zoom), and give
-		// each row enough height that a tall scan + a 2-line label never spill
-		// into the row beneath it.
-		const startY = 60 + 130 * sf;
+		// Start BELOW however many rows the folders wrap into at this zoom —
+		// at high zoom the 5 folders can take 2+ rows, and the art must clear
+		// ALL of them (this was the "folder hidden behind the art" bug).
+		const margin = 24;
+		const W = w || deskW || 1200;
+		const fstep = 150 * sf;
+		const fcols = Math.max(1, Math.floor((W - 2 * margin) / fstep));
+		const nf = (topFolders || []).length || 5;
+		const frows = Math.ceil(nf / fcols);
+		const startY = 30 + frows * 190 * sf + 40 * sf; // folder rows + clearance
 		return gridPos(i, z, 116, 96, startY, 162 * sf, w);
 	}
 	function xyFloat(id, i) { return iconPos[id] || defaultFloatPos(i); }
@@ -1240,7 +1256,13 @@
 					<button class="close-btn" on:click={closeProject}>×</button>
 					<div class="modal-body">
 						{#if selectedProject.image}
-							<img src={selectedProject.image} alt={selectedProject.title} />
+							<img
+								src={selectedProject.image}
+								alt={selectedProject.title}
+								title="Click to view full size"
+								style="cursor: zoom-in;"
+								on:click={() => openViewer(selectedProject.image, selectedProject.title)}
+							/>
 						{/if}
 						<h2 class:ai-title={selectedProject.aiTitle} title={selectedProject.aiTitle ? 'Title drafted with AI assistance' : undefined}>{selectedProject.title}</h2>
 						<p class="project-date">{new Date(selectedProject.date).toLocaleDateString()}</p>
@@ -1264,13 +1286,16 @@
 			</div>
 		{/if}
 
+		<!-- Full-screen zoomable image viewer (opens from any clicked image) -->
+		<ImageViewer src={viewerSrc} alt={viewerAlt} on:close={() => (viewerSrc = null)} />
+
 		<!-- Draggable / resizable Finder windows -->
 		{#each windows as win (win.id)}
 			{#if !win.minimized}
 				<FinderWindow
-					title={win.kind === 'folder' ? win.stack[win.stack.length - 1].title : win.post.title}
+					title={win.kind === 'folder' ? win.stack.map((l) => l.title).join(' / ') : win.post.title}
 					bind:x={win.x} bind:y={win.y} bind:w={win.w} bind:h={win.h} z={win.z}
-					canBack={win.kind === 'folder' && win.stack.length > 1}
+					canBack={win.kind === 'folder'}
 					on:focus={() => focusWindow(win.id)}
 					on:close={() => closeWindow(win.id)}
 					on:minimize={() => minimizeWindow(win.id)}
@@ -1313,11 +1338,11 @@
 							{#if p.images && p.images.length > 1}
 								<div class="win-gallery">
 									{#each p.images as img, i}
-										<img class="win-gimg" src={img} alt="{p.title} — {i + 1} of {p.images.length}" loading="lazy" />
+										<img class="win-gimg" src={img} alt="{p.title} — {i + 1} of {p.images.length}" loading="lazy" style="cursor: zoom-in;" on:click={() => openViewer(img, p.title)} />
 									{/each}
 								</div>
 							{:else if p.image}
-								<div class="win-imgwrap"><img class="win-image" src={p.image} alt={p.title} loading="lazy" /></div>
+								<div class="win-imgwrap"><img class="win-image" src={p.image} alt={p.title} loading="lazy" style="cursor: zoom-in;" on:click={() => openViewer(p.image, p.title)} /></div>
 							{:else if p.youtubePlaylist}
 								<div class="win-embed"><iframe src="https://www.youtube.com/embed/videoseries?list={p.youtubePlaylist}" title={p.title} allowfullscreen></iframe></div>
 							{:else if p.video && ytId(p.video)}
@@ -1479,12 +1504,11 @@
 	   are bigger and a single folder/file fills the whole window. */
 	.win-fill {
 		display: grid;
-		gap: 16px;
-		min-height: 100%;
-		/* Rows fill the window when there are few items (1fr expands to the
-		   min-height), but never shrink below a readable size — with many
-		   items the grid grows past the window and it scrolls. */
-		grid-auto-rows: minmax(170px, 1fr);
+		gap: 14px;
+		/* Compact tiles: rows size to their content — no giant stretched
+		   cells full of empty white space. */
+		grid-auto-rows: min-content;
+		align-content: start;
 	}
 	.win-cell {
 		background: #fff;
@@ -1496,6 +1520,7 @@
 		flex-direction: column;
 		min-height: 0;
 		overflow: hidden;
+		align-self: start;
 	}
 	.win-cell:hover { box-shadow: 4px 4px 0 #000; }
 	.cell-thumb {
@@ -1522,11 +1547,20 @@
 		font-size: 0.72rem;
 		line-height: 1.45;
 	}
-	/* Shared post preview fills the cell above the caption */
-	.cell-media { flex: 1; min-height: 0; overflow: hidden; }
-	/* Folder cells: the classic icon, centered and scaled to the cell */
-	.win-cell.folder { background: #fafafa; align-items: center; justify-content: center; gap: 12px; padding: 12px; }
-	.cell-folder { width: 55%; max-width: 160px; height: auto; }
+	/* Shared post preview: FIXED height so the tile is the shape of its
+	   content ("just the button shape"), not a stretched empty box */
+	.cell-media { height: 160px; overflow: hidden; }
+	/* Folder cells: just the folder icon + name — no white box around it */
+	.win-cell.folder {
+		background: transparent;
+		border: none;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 8px;
+		padding: 10px 6px;
+	}
+	.win-cell.folder:hover { background: rgba(0, 0, 0, 0.06); }
+	.cell-folder { width: 72px; height: auto; }
 	.cell-cap {
 		flex: none;
 		padding: 8px 10px;
