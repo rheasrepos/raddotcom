@@ -211,11 +211,16 @@
 		const childCats = Object.values(categoryConfig)
 			.filter((c) => c.parent === cur.category && hasPostsDeep(c.id));
 		const own = (projects || []).filter((p) => inCat(p, cur.category));
+		// Cross-listed posts (here via also_in:, not their primary type) don't
+		// drag their ORIGIN subfolder in as a confusing one-off folder — they
+		// group under a single virtual "Course Final Projects" folder.
+		const XSUB = '__crosslisted__';
+		const effSub = (p) => (p.type === cur.category ? p.subfolder : XSUB);
 		if (cur.subfolder) {
-			return { childCats: [], subs: [], posts: own.filter((p) => p.subfolder === cur.subfolder) };
+			return { childCats: [], subs: [], posts: own.filter((p) => effSub(p) === cur.subfolder) };
 		}
-		const subs = [...new Set(own.filter((p) => p.subfolder).map((p) => p.subfolder))].sort();
-		return { childCats, subs, posts: own.filter((p) => !p.subfolder) };
+		const subs = [...new Set(own.filter((p) => effSub(p)).map((p) => effSub(p)))].sort();
+		return { childCats, subs, posts: own.filter((p) => !effSub(p)) };
 	}
 	function ytId(url) {
 		const m = String(url || '').match(/(?:v=|youtu\.be\/|embed\/)([\w-]{6,})/);
@@ -586,6 +591,7 @@
 	// Subfolder navigation inside a category folder (essays/media-aesthetics …)
 	let selectedSubfolder = null;
 	function prettyFolder(s) {
+		if (s === '__crosslisted__') return 'Course Final Projects';
 		return String(s).replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 	}
 	function openSubfolder(s) {
