@@ -7,7 +7,9 @@
 	"/api/posts": [
 		"src/routes/api/posts/+server.js"
 	],
-	"/blog": [],
+	"/blog": [
+		"src/routes/blog/+page.js"
+	],
 	"/network": [],
 	"/posts/[id]": [
 		"src/routes/posts/[id]/+page.js"

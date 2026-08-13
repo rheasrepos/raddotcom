@@ -1315,8 +1315,8 @@
 						{#if total === 0}
 							<p class="win-empty">Empty.</p>
 						{:else}
-							<!-- One grid; every tile scales to fill the window (fewer items = bigger). -->
-							<div class="win-fill" style="grid-template-columns: repeat({cols}, 1fr);">
+							<!-- Icon-view grid: uniform paper-sized tiles that wrap. -->
+							<div class="win-fill">
 								{#each c.childCats as child}
 									<button class="win-cell folder" on:click={() => navInto(win, child.id, null, child.label)}>
 										<svg viewBox="0 0 56 46" class="cell-folder"><path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999" stroke-width="1.2"/><rect x="0" y="11" width="56" height="35" fill="#e8e8e8" stroke="#999" stroke-width="1.2"/></svg>
@@ -1330,7 +1330,7 @@
 									</button>
 								{/each}
 								{#each c.posts as p (p.id)}
-									<button class="win-cell" on:click={() => openFileWindow(p)}>
+									<button class="win-cell" class:art={p.type === 'art'} on:click={() => openFileWindow(p)}>
 										<div class="cell-media"><PostPreview post={p} /></div>
 										<span class="cell-cap">{p.title}</span>
 									</button>
@@ -1510,25 +1510,45 @@
 	   are bigger and a single folder/file fills the whole window. */
 	.win-fill {
 		display: grid;
-		gap: 14px;
-		/* Compact tiles: rows size to their content — no giant stretched
-		   cells full of empty white space. */
+		/* Mac icon-view: uniform, paper-ish tiles that wrap, no stretching. */
+		grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+		gap: 20px 16px;
 		grid-auto-rows: min-content;
 		align-content: start;
+		justify-items: center;
 	}
 	.win-cell {
-		background: #fff;
-		border: 2px solid #000;
+		background: transparent;
+		border: none;
 		padding: 0;
 		cursor: pointer;
 		font: inherit;
 		display: flex;
 		flex-direction: column;
-		min-height: 0;
-		overflow: hidden;
+		align-items: center;
+		width: 130px;
 		align-self: start;
 	}
-	.win-cell:hover { box-shadow: 4px 4px 0 #000; }
+	/* The cover is a downscaled 8.5×11 sheet (portrait), like a document icon */
+	.win-cell .cell-media {
+		width: 108px;
+		height: 140px;
+		border: 1px solid #000;
+		background: #fff;
+		overflow: hidden;
+		display: flex;
+	}
+	/* Art tiles: no paper frame — just the artwork itself, like a folder icon */
+	.win-cell.art .cell-media {
+		width: 118px;
+		height: auto;
+		max-height: 150px;
+		border: none;
+		background: transparent;
+	}
+	.win-cell.art .cell-media :global(.pv) { background: transparent; }
+	.win-cell.art .cell-media :global(.pv-thumb) { background: transparent; }
+	.win-cell:hover .cell-media { outline: 2px solid #000; }
 	.cell-thumb {
 		flex: 1;
 		min-height: 0;
@@ -1553,30 +1573,26 @@
 		font-size: 0.72rem;
 		line-height: 1.45;
 	}
-	/* Shared post preview: FIXED height so the tile is the shape of its
-	   content ("just the button shape"), not a stretched empty box */
-	.cell-media { height: 160px; overflow: hidden; }
-	/* Folder cells: just the folder icon + name — no white box around it */
+	/* Folder cells: just the folder icon + name (icon-view style) */
 	.win-cell.folder {
 		background: transparent;
 		border: none;
-		align-items: center;
-		justify-content: flex-start;
-		gap: 8px;
-		padding: 10px 6px;
+		gap: 6px;
+		padding: 0;
 	}
+	.win-cell.folder:hover .cell-media { outline: none; }
 	.win-cell.folder:hover { background: rgba(0, 0, 0, 0.06); }
-	.cell-folder { width: 72px; height: auto; }
+	.cell-folder { width: 84px; height: auto; }
+	/* Caption: a plain label under the icon, no box/border */
 	.cell-cap {
 		flex: none;
-		padding: 8px 10px;
-		font-size: 0.82rem;
-		line-height: 1.25;
-		border-top: 2px solid #000;
+		padding: 6px 2px 0;
+		font-size: 0.78rem;
+		line-height: 1.2;
 		text-align: center;
 		word-break: break-word;
+		max-width: 130px;
 	}
-	.win-cell.folder .cell-cap { border-top: none; padding-top: 0; }
 	.win-empty { color: #999; font-size: 0.85rem; }
 	.win-file-meta { font-size: 0.75rem; color: #777; margin-bottom: 10px; }
 	.win-embed { position: relative; padding-top: 56.25%; }

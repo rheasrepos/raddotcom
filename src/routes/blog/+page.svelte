@@ -8,7 +8,8 @@
 	import { SITE_NAME } from '$lib/site.js';
 	import { redactionClass } from '$lib/redaction.js';
 
-	let posts = [];
+	export let data;
+	let posts = (data && data.posts) || [];
 	let grouping = 'date'; // 'date' | 'category' | 'month'
 	let layout = 'list';   // 'list' | 'grid' — grid shows content tiles
 
@@ -32,10 +33,9 @@
 	onMount(async () => {
 		const h = new URL(window.location.href).searchParams.get('hide');
 		if (h) hidden = new Set(h.split(',').filter(Boolean));
-		try {
-			posts = await loadPosts();
-		} catch (e) {
-			posts = [];
+		// Posts already arrived via load(); only fetch as a fallback.
+		if (!posts || posts.length === 0) {
+			try { posts = await loadPosts(); } catch (e) { posts = []; }
 		}
 	});
 
