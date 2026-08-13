@@ -64,6 +64,8 @@ If a title/description has a dashed underline on the site, it's because the file
 
 **To prune (unpublish) a post you don't want live:** open its `.md` file, change `published: true` to `published: false`, save, double-click `promote-to-site.command`, commit + push. It disappears from the site but stays in your vault. Nothing is deleted.
 
+**Scraps (Personal Writing):** `personal/scraps/` holds lines, thoughts, and unfinished notes (the old seeds live there now). They're all `published: false` — flip one to `true` to make it appear in a Scraps folder inside Personal Writing. The top-level `scraps/` vault folder is different: that one is fully private and NEVER publishes.
+
 **To prune in bulk / find what to prune:**
 - In Obsidian, use Search (`⌘⇧F`) for `published: true` to see everything that's live.
 - To hide a whole folder at once, you can set `published: false` on each note, or just move the folder into `scraps/` — the promote script never publishes anything in `scraps/`.

@@ -28,7 +28,10 @@ promoted=[]
 for root,dirs,files in os.walk(src):
     # skip hidden dirs (.obsidian, .smart-env), _meta housekeeping, and scraps
     # (scraps are notes/dumps that should never publish, even if flagged)
-    dirs[:]=[d for d in dirs if not d.startswith((".","_")) and d != "scraps"]
+    # Skip the PRIVATE top-level scraps/ dump only. personal/scraps is the
+    # public-facing Scraps section of Personal Writing (notes stay hidden
+    # until individually flipped to published: true).
+    dirs[:]=[d for d in dirs if not d.startswith((".","_")) and not (d == "scraps" and root == src)]
     for f in sorted(files):
         if not f.endswith(".md") or f.startswith("_"): continue
         # skip iCloud/Obsidian sync-conflict copies like "Foo 2.md", "Foo 3.md"
