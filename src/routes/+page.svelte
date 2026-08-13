@@ -9,6 +9,7 @@
 	import FilterTabs from '../components/FilterTabs.svelte';
 	import PostPreview from '../components/PostPreview.svelte';
 	import ImageViewer from '../components/ImageViewer.svelte';
+	import { redactionClass } from '$lib/redaction.js';
 
 	// Full-screen zoomable viewer — set to an image URL to open.
 	let viewerSrc = null;
@@ -1332,7 +1333,7 @@
 								{#each c.posts as p (p.id)}
 									<button class="win-cell" class:art={p.type === 'art'} on:click={() => openFileWindow(p)}>
 										<div class="cell-media"><PostPreview post={p} /></div>
-										<span class="cell-cap">{p.title}</span>
+										<span class="cell-cap {redactionClass(p.date)}">{p.title}</span>
 									</button>
 								{/each}
 							</div>
