@@ -59,6 +59,32 @@
 	$: hideParam = hidden.size ? `?hide=${[...hidden].join(',')}` : '';
 	$: presentCats = Object.values(categoryConfig).filter((c) => posts.some((p) => inCat(p, c.id)));
 	$: catCounts = Object.fromEntries(presentCats.map((c) => [c.id, posts.filter((p) => inCat(p, c.id)).length]));
+
+	// Group the category filter to mirror the 5 desktop folders: each top-level
+	// category (no parent) is a header, with its nested categories indented
+	// beneath it — so the blog filter and the desktop agree.
+	function depth(c) { let d = 0, x = c; while (x && x.parent) { d++; x = categoryConfig[x.parent]; } return d; }
+	function rootOf(c) { let x = c; while (x && x.parent) x = categoryConfig[x.parent]; return x; }
+	$: catTree = (() => {
+		const present = new Set(presentCats.map((c) => c.id));
+		// include a parent header if it OR any descendant has posts
+		const roots = Object.values(categoryConfig).filter((c) => !c.parent);
+		const out = [];
+		const addSub = (parentId) => {
+			Object.values(categoryConfig)
+				.filter((c) => c.parent === parentId)
+				.forEach((c) => {
+					const hasSelf = present.has(c.id);
+					const kids = Object.values(categoryConfig).some((k) => k.parent === c.id && present.has(k.id));
+					if (hasSelf || kids) { out.push({ cat: c, d: depth(c) }); addSub(c.id); }
+				});
+		};
+		roots.forEach((r) => {
+			const kids = Object.values(categoryConfig).some((k) => rootOf(k) === r && present.has(k.id));
+			if (present.has(r.id) || kids) { out.push({ cat: r, d: 0, header: true }); addSub(r.id); }
+		});
+		return out;
+	})();
 	$: monthList = [...new Set(sorted.map((p) => monthLabel(p.date)))];
 
 	function slugify(s) {
@@ -130,20 +156,20 @@
 				<span>·</span>
 				<button class="side-mini" on:click={deselectAllCats}>Deselect all</button>
 			</div>
-			{#each presentCats as c}
-				<div class="side-row">
+			{#each catTree as node}
+				<div class="side-row" class:header={node.header} style="padding-left: {node.d * 16}px">
 					<input
 						type="checkbox"
-						id="side-{c.id}"
-						checked={!hidden.has(c.id)}
-						on:change={() => toggleHidden(c.id)}
-						title={hidden.has(c.id) ? `Show ${c.label}` : `Hide ${c.label}`}
+						id="side-{node.cat.id}"
+						checked={!hidden.has(node.cat.id)}
+						on:change={() => toggleHidden(node.cat.id)}
+						title={hidden.has(node.cat.id) ? `Show ${node.cat.label}` : `Hide ${node.cat.label}`}
 					/>
-					<span class="chip-dot" style="--chip: {getCategoryColor(c.id)}"></span>
-					<button class="side-link" class:off={hidden.has(c.id)} on:click={() => jumpTo('category', catLabel(c.id))}>
-						{c.label}
+					<span class="chip-dot" style="--chip: {getCategoryColor(node.cat.id)}"></span>
+					<button class="side-link" class:off={hidden.has(node.cat.id)} on:click={() => jumpTo('category', catLabel(node.cat.id))}>
+						{node.cat.label}
 					</button>
-					<span class="side-count">{catCounts[c.id]}</span>
+					{#if catCounts[node.cat.id]}<span class="side-count">{catCounts[node.cat.id]}</span>{/if}
 				</div>
 			{/each}
 		</div>
@@ -295,6 +321,8 @@
 		font-size: 0.82rem;
 	}
 	.side-count-line { font-size: 0.72rem; color: #777; margin-top: 5px; }
+	.side-row.header { margin-top: 8px; }
+	.side-row.header .side-link { font-weight: 700; }
 	.side-allnone { display: flex; gap: 6px; align-items: center; font-size: 0.7rem; color: #999; margin-bottom: 6px; }
 	.side-mini { background: none; border: none; padding: 0; font-size: 0.7rem; color: #555; cursor: pointer; text-decoration: underline; }
 	.side-mini:hover { color: #000; }
