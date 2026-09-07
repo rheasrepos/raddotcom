@@ -2,6 +2,7 @@
 	import '../app.css';
 	import PageTransitionOverlay from '$components/PageTransitionOverlay.svelte';
 	import FinderWindow from '$components/FinderWindow.svelte';
+	import Guestbook from '$components/Guestbook.svelte';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
@@ -43,6 +44,9 @@
 <main>
 	<slot />
 </main>
+
+<!-- Floating guestbook / feedback button on every page -->
+<Guestbook />
 
 <!-- Global music toggle — always reachable, on every page -->
 {#if playerMode === 'closed'}

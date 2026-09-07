@@ -153,6 +153,14 @@ Each artifact is one `.md` note in `artifacts/` plus one or more image files in 
 
 ---
 
+## 5c. The "tell Rhea you visited" guestbook button
+
+A floating button (bottom-right, every page) opens a little box where visitors leave a comment/question. Because the site has no server, it sends via **Formspree** (free) or falls back to opening the visitor's email app.
+
+**To get the notes in your inbox:** make a free form at [formspree.io](https://formspree.io), copy its form id (the bit after `/f/`, e.g. `xyzabcd`), and set `FORMSPREE_ID = 'xyzabcd'` at the top of `src/components/Guestbook.svelte`. Commit + push. Until you do, the button opens the visitor's email to `rhea0866@gmail.com` instead.
+
+---
+
 ## 6. Categories & the desktop folders — add, rename, recolor, regroup
 
 Everything about folders lives in **one file: `src/lib/categories.js`**. It has two kinds of entries.
