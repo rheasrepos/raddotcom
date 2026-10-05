@@ -34,6 +34,7 @@ declare module '$env/static/private' {
 	export const SANDBOX_RUNTIME: string;
 	export const npm_config_user_agent: string;
 	export const CLAUDE_CODE_HOST_SOCKS_PROXY_PORT: string;
+	export const CLOUDSDK_PROXY_USERNAME: string;
 	export const all_proxy: string;
 	export const DOCKER_HTTPS_PROXY: string;
 	export const npm_node_execpath: string;
@@ -57,6 +58,7 @@ declare module '$env/static/private' {
 	export const _: string;
 	export const npm_config_prefix: string;
 	export const npm_config_npm_version: string;
+	export const GIT_CONFIG_PARAMETERS: string;
 	export const npm_config_cache: string;
 	export const grpc_proxy: string;
 	export const npm_config_node_gyp: string;
@@ -65,6 +67,7 @@ declare module '$env/static/private' {
 	export const CLAUDE_CODE_TMPDIR: string;
 	export const NODE: string;
 	export const npm_package_name: string;
+	export const CLOUDSDK_PROXY_PASSWORD: string;
 	export const ftp_proxy: string;
 	export const LANG: string;
 	export const npm_lifecycle_script: string;
@@ -126,6 +129,7 @@ declare module '$env/dynamic/private' {
 		SANDBOX_RUNTIME: string;
 		npm_config_user_agent: string;
 		CLAUDE_CODE_HOST_SOCKS_PROXY_PORT: string;
+		CLOUDSDK_PROXY_USERNAME: string;
 		all_proxy: string;
 		DOCKER_HTTPS_PROXY: string;
 		npm_node_execpath: string;
@@ -149,6 +153,7 @@ declare module '$env/dynamic/private' {
 		_: string;
 		npm_config_prefix: string;
 		npm_config_npm_version: string;
+		GIT_CONFIG_PARAMETERS: string;
 		npm_config_cache: string;
 		grpc_proxy: string;
 		npm_config_node_gyp: string;
@@ -157,6 +162,7 @@ declare module '$env/dynamic/private' {
 		CLAUDE_CODE_TMPDIR: string;
 		NODE: string;
 		npm_package_name: string;
+		CLOUDSDK_PROXY_PASSWORD: string;
 		ftp_proxy: string;
 		LANG: string;
 		npm_lifecycle_script: string;

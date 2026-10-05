@@ -2,7 +2,7 @@
 
 // Official name. (The rotating-title experiment is kept below but switched off;
 // set ROTATE = true and it cycles through SITE_NAMES again.)
-export const SITE_NAME = 'WWW.RHEA.COM';
+export const SITE_NAME = 'WWW.PORTRHEA.COM';
 export const ROTATE = false;
 
 export const SITE_NAMES = [
@@ -39,7 +39,7 @@ export const SITE_NAMES = [
 	'STASH'
 ];
 
-export const SITE_TAGLINE = 'a public personal archive — my digital media';
+export const SITE_TAGLINE = 'RHEA\'S WEB PORTAL';
 export const SITE_AUTHOR = 'Rhea Madhogarhia';
 
 /** The site's name. Rotates only if ROTATE is turned on. */
