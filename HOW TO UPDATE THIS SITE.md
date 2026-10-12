@@ -161,11 +161,22 @@ A floating button (bottom-right, every page) opens a little box where visitors l
 
 ---
 
-## 5d. The WPM typing test ("create your own WPM")
+## 5d. The "one minute" sticky-note wall
 
-A retro "ad" that pops up once per session (and from the ⌨ button, bottom-left) — visitors type a short line and get a WPM + accuracy score; their **personal best** is saved in their browser. Edit the passages in `src/components/WpmTest.svelte` (the `PASSAGES` array).
+A retro "ad" that pops up once per session (and from the ✎ button, bottom-left): visitors get **60 seconds to write anything**, then pin it to a shared **wall** of sticky notes. The wall is searchable and sortable (new↔old, long↔short, and — when searching — by relevance with a % word-match on each note).
 
-**A GLOBAL leaderboard** (scores shared across all visitors) needs a tiny backend, because this site is static. Easiest path: a free **Supabase** table (or Vercel KV) with two columns (name, wpm) — the test POSTs a score and reads the top 10. Tell me when you want it and I'll wire it; until then it's a personal best + the current session's runs.
+**The wall is SHARED across visitors, so it needs a tiny backend** (this site is static). It's wired to **Supabase** (free). To turn it on:
+1. Make a free project at [supabase.com](https://supabase.com).
+2. In the SQL editor, create the table + open it to anonymous writes/reads:
+   ```sql
+   create table notes (id uuid primary key default gen_random_uuid(), text text not null, name text, created_at timestamptz default now());
+   alter table notes enable row level security;
+   create policy "anyone can read"  on notes for select using (true);
+   create policy "anyone can write" on notes for insert with check (char_length(text) <= 1000);
+   ```
+3. In Settings → API, copy the **Project URL** and the **anon public key**, and paste them into `SUPABASE_URL` / `SUPABASE_ANON_KEY` at the top of `src/components/OneMinute.svelte`. Commit + push.
+
+The policy is insert-only, so visitors can't edit or delete each other's notes; you moderate by deleting rows in the Supabase dashboard. Until you add the keys, it falls back to a **local wall** (only notes written in that one browser).
 
 ---
 

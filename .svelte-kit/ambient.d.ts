@@ -35,6 +35,7 @@ declare module '$env/static/private' {
 	export const npm_config_user_agent: string;
 	export const CLAUDE_CODE_HOST_SOCKS_PROXY_PORT: string;
 	export const CLOUDSDK_PROXY_USERNAME: string;
+	export const JAVA_TOOL_OPTIONS: string;
 	export const all_proxy: string;
 	export const DOCKER_HTTPS_PROXY: string;
 	export const npm_node_execpath: string;
@@ -72,6 +73,7 @@ declare module '$env/static/private' {
 	export const LANG: string;
 	export const npm_lifecycle_script: string;
 	export const SHELL: string;
+	export const NODE_PATH: string;
 	export const npm_package_version: string;
 	export const npm_lifecycle_event: string;
 	export const CLOUDSDK_PROXY_TYPE: string;
@@ -130,6 +132,7 @@ declare module '$env/dynamic/private' {
 		npm_config_user_agent: string;
 		CLAUDE_CODE_HOST_SOCKS_PROXY_PORT: string;
 		CLOUDSDK_PROXY_USERNAME: string;
+		JAVA_TOOL_OPTIONS: string;
 		all_proxy: string;
 		DOCKER_HTTPS_PROXY: string;
 		npm_node_execpath: string;
@@ -167,6 +170,7 @@ declare module '$env/dynamic/private' {
 		LANG: string;
 		npm_lifecycle_script: string;
 		SHELL: string;
+		NODE_PATH: string;
 		npm_package_version: string;
 		npm_lifecycle_event: string;
 		CLOUDSDK_PROXY_TYPE: string;
