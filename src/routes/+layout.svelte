@@ -3,6 +3,7 @@
 	import PageTransitionOverlay from '$components/PageTransitionOverlay.svelte';
 	import FinderWindow from '$components/FinderWindow.svelte';
 	import Guestbook from '$components/Guestbook.svelte';
+	import WpmTest from '$components/WpmTest.svelte';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
@@ -47,6 +48,9 @@
 
 <!-- Floating guestbook / feedback button on every page -->
 <Guestbook />
+
+<!-- "Create your own WPM" typing test — pops up like an ad -->
+<WpmTest />
 
 <!-- Global music toggle — always reachable, on every page -->
 {#if playerMode === 'closed'}

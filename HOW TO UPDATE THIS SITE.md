@@ -161,6 +161,14 @@ A floating button (bottom-right, every page) opens a little box where visitors l
 
 ---
 
+## 5d. The WPM typing test ("create your own WPM")
+
+A retro "ad" that pops up once per session (and from the ⌨ button, bottom-left) — visitors type a short line and get a WPM + accuracy score; their **personal best** is saved in their browser. Edit the passages in `src/components/WpmTest.svelte` (the `PASSAGES` array).
+
+**A GLOBAL leaderboard** (scores shared across all visitors) needs a tiny backend, because this site is static. Easiest path: a free **Supabase** table (or Vercel KV) with two columns (name, wpm) — the test POSTs a score and reads the top 10. Tell me when you want it and I'll wire it; until then it's a personal best + the current session's runs.
+
+---
+
 ## 6. Categories & the desktop folders — add, rename, recolor, regroup
 
 Everything about folders lives in **one file: `src/lib/categories.js`**. It has two kinds of entries.
