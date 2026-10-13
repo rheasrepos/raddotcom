@@ -225,7 +225,7 @@
 					<a class="tile" href="/posts/{p.id}{hideParam}">
 						<div class="tile-media"><PostPreview post={p} /></div>
 						<div class="tile-meta">
-							<span class="tile-title" class:ai-title={p.aiTitle}>{p.title}</span>
+							<span class="tile-title {redactionClass(p.date)}" class:ai-title={p.aiTitle}>{p.title}</span>
 							<span class="tile-sub">{catLabel(p.type)} · {fmt(p.date)}</span>
 						</div>
 					</a>

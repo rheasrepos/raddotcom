@@ -1,6 +1,7 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 	import { fade, scale } from 'svelte/transition';
+	import { redactionClass } from '$lib/redaction.js';
 
 	/**
 	 * A Mac-style "Quick Look" overlay.
@@ -45,7 +46,7 @@
 					<button class="dot yellow" title="Minimize" on:click={close} aria-label="Minimize"></button>
 					<button class="dot green" title="Full screen" on:click={toggleBig} aria-label="Full screen"></button>
 				</div>
-				<span class="ql-title">{item.label || item.title}</span>
+				<span class="ql-title {item.date ? redactionClass(item.date) : ''}">{item.label || item.title}</span>
 				<span class="ql-spacer"></span>
 			</header>
 
@@ -82,7 +83,7 @@
 						<!-- Preview the original document, not the re-rendered text -->
 						<iframe src={item.pdf} title="{item.title || item.label} (PDF)" class="ql-pdf"></iframe>
 					{:else}
-						<p class="ql-excerpt">{excerpt(item.content)}</p>
+						<p class="ql-excerpt {item.date ? redactionClass(item.date) : ''}">{excerpt(item.content)}</p>
 					{/if}
 					<button class="ql-open" on:click={() => open()}>Open full post →</button>
 				</div>

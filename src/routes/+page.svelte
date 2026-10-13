@@ -1106,7 +1106,7 @@
 										</svg>
 									{/if}
 								</div>
-								<div class="mac-icon-label">{project.title}</div>
+								<div class="mac-icon-label {redactionClass(project.date)}">{project.title}</div>
 							</div>
 						{/if}
 					{/each}
@@ -1178,7 +1178,7 @@
 									</svg>
 								{/if}
 							</div>
-							<div class="mac-icon-label">{project.title}</div>
+							<div class="mac-icon-label {redactionClass(project.date)}">{project.title}</div>
 						</div>
 					{/each}
 				{:else if viewMode === 'folders'}
@@ -1271,14 +1271,14 @@
 								on:click={() => openViewer(selectedProject.image, selectedProject.title)}
 							/>
 						{/if}
-						<h2 class:ai-title={selectedProject.aiTitle} title={selectedProject.aiTitle ? 'Title drafted with AI assistance' : undefined}>{selectedProject.title}</h2>
+						<h2 class="{redactionClass(selectedProject.date)}" class:ai-title={selectedProject.aiTitle} title={selectedProject.aiTitle ? 'Title drafted with AI assistance' : undefined}>{selectedProject.title}</h2>
 						<p class="project-date">{new Date(selectedProject.date).toLocaleDateString()}</p>
-						<p class="project-description" class:ai-desc={selectedProject.aiDescription} title={selectedProject.aiDescription ? 'Description drafted with AI assistance' : undefined}>{selectedProject.description}</p>
+						<p class="project-description {redactionClass(selectedProject.date)}" class:ai-desc={selectedProject.aiDescription} title={selectedProject.aiDescription ? 'Description drafted with AI assistance' : undefined}>{selectedProject.description}</p>
 						{#if selectedProject.pdf}
 							<!-- Original document beats mangled text every time -->
 							<iframe src={selectedProject.pdf} title="{selectedProject.title} (PDF)" class="modal-pdf"></iframe>
 						{:else}
-							<div class="project-content">
+							<div class="project-content {redactionClass(selectedProject.date)}">
 								{@html selectedProject.content}
 							</div>
 						{/if}
@@ -1360,7 +1360,7 @@
 								<!-- Live view of the project site (same as blog / post page) -->
 								<div class="win-embed"><iframe src={p.link} title={p.title}></iframe></div>
 							{:else}
-								<div class="win-prose">{@html renderMarkdownSafe(p.content)}</div>
+								<div class="win-prose {redactionClass(p.date)}">{@html renderMarkdownSafe(p.content)}</div>
 							{/if}
 							{#if p.link}
 								<a class="win-open" href={p.link} target="_blank" rel="noopener noreferrer">Open ↗</a>
