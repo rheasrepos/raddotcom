@@ -221,9 +221,9 @@
 	@keyframes omPop { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 	.om-bar {
 		display: flex; align-items: center; justify-content: space-between;
-		padding: 6px 10px; background: #000080; color: #fff; font-size: 0.8rem; font-weight: 700;
+		padding: 6px 10px; background: #c0c0c0; color: #000; border-bottom: 2px solid #000; font-size: 0.8rem; font-weight: 700;
 	}
-	.om-x { background: none; border: none; color: #fff; font-size: 1.1rem; line-height: 1; cursor: pointer; }
+	.om-x { background: none; border: none; color: #000; font-size: 1.1rem; line-height: 1; cursor: pointer; }
 	.om-body { padding: 12px; }
 	.om-intro p { font-size: 0.9rem; line-height: 1.5; margin: 0 0 12px; }
 	.om-actions { display: flex; align-items: center; gap: 12px; }

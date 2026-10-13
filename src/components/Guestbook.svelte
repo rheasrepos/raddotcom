@@ -133,12 +133,13 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 6px 10px;
-		background: #000;
-		color: #fff;
+		background: #c0c0c0;
+		color: #000;
+		border-bottom: 2px solid #000;
 		font-size: 0.82rem;
 		font-weight: 700;
 	}
-	.gb-x { background: none; border: none; color: #fff; font-size: 1.1rem; line-height: 1; cursor: pointer; padding: 0 2px; }
+	.gb-x { background: none; border: none; color: #000; font-size: 1.1rem; line-height: 1; cursor: pointer; padding: 0 2px; }
 	.gb-body { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
 	.gb-input, .gb-text {
 		width: 100%;
