@@ -53,7 +53,7 @@
 		return list.sort(by[wallSort] || by.new);
 	})();
 
-	const COLORS = ['#fff7a8', '#ffd6e0', '#c9f0d2', '#cfe3ff', '#ffe6c2', '#e8d6ff'];
+	const COLORS = ['#ffffff'];
 
 	onMount(() => {
 		try {
