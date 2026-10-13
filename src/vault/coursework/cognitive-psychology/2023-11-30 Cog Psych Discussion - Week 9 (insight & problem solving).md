@@ -2,6 +2,7 @@
 title: "COG PSYCH: Discussion Week 9 — Insight & Problem Solving"
 ai_title: true
 date: 2023-11-30
+added: 2026-07-30
 type: coursework
 academic: true
 course: Cognitive Psychology

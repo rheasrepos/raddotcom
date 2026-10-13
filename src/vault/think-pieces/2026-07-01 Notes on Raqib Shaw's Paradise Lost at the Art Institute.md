@@ -2,6 +2,7 @@
 title: Notes on Raqib Shaw's Paradise Lost at the Art Institute
 ai_title: true
 date: 2026-07-01
+added: 2026-07-28
 type: writing
 published: true
 tags:

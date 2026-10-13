@@ -2,6 +2,7 @@
 title: "Spoiler Alert (SPOY)"
 description: ""
 date: 2025-06-01
+added: 2026-07-23
 date_approx: true
 type: programming
 published: true

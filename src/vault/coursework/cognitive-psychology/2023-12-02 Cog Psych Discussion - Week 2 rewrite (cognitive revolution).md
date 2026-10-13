@@ -2,6 +2,7 @@
 title: "COG PSYCH: Discussion Week 2 — Cognitive Revolution (rewrite)"
 ai_title: true
 date: 2023-12-02
+added: 2026-07-30
 type: coursework
 academic: true
 course: Cognitive Psychology

@@ -2,6 +2,7 @@
 title: "Crew Digital Archive"
 description: "Digital archive created for the University of Chicago Club Crew team."
 date: 2026-06-01
+added: 2026-08-06
 type: programming
 published: true
 link: https://crewdigitalarchive.vercel.app/

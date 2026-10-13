@@ -1,6 +1,7 @@
 ---
 title: "UCD: Reading Response — Saharaline Teacher Support (Varanasi et al)"
 date: 2026-01-27
+added: 2026-07-19
 type: coursework
 academic: true
 course: User-Centered Design

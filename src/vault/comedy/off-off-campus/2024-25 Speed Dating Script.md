@@ -1,6 +1,7 @@
 ---
 title: "Speed Dating (a sketch)"
 date: 2025
+added: 2026-07-30
 date_approx: true
 type: comedy
 academic: false

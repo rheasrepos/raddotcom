@@ -2,6 +2,7 @@
 title: "BPRO: Story Structure — The Golden Record"
 ai_title: true
 date: 2026-04
+added: 2026-07-30
 date_approx: true
 type: creative
 academic: false

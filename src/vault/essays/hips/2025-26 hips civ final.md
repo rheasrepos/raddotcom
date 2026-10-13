@@ -2,6 +2,7 @@
 title: "HIPS: Civ — Final Essay"
 ai_title: true
 date: 2026-05-29
+added: 2026-07-19
 type: essays
 academic: true
 course: HIPS Civ

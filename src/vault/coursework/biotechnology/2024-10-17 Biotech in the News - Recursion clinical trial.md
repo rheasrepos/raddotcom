@@ -2,6 +2,7 @@
 title: Biotech in the News — Recursion's clinical trial
 ai_title: true
 date: 2024-10-17
+added: 2026-07-28
 type: coursework
 academic: true
 course: Biotechnology

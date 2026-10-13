@@ -2,6 +2,7 @@
 title: "MBM: Final Paper"
 ai_title: true
 date: 2024-03-08
+added: 2026-07-19
 type: essays
 academic: true
 course: COGS Mind, Brain & Meaning

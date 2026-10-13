@@ -2,6 +2,7 @@
 title: Goldwater Research Essay
 ai_title: true
 date: 2024
+added: 2026-07-28
 date_approx: true
 type: research
 academic: false

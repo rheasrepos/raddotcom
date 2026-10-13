@@ -1,6 +1,7 @@
 ---
 title: "NSCI 20101: Research Paper"
 date: 2024-12-04
+added: 2026-07-20
 type: research
 academic: true
 course: NSCI Neuroscience

@@ -1,6 +1,7 @@
 ---
 title: "PHIL OF AI: Limits of Matter and Manner"
 date: 2025-12-15
+added: 2026-10-12
 type: essays
 published: true
 featured: true

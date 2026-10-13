@@ -23,6 +23,19 @@ export const REDACTION_STEPS = [
 
 export const APPLY_TO_BODY = true; // false = titles only
 
+// WHICH date drives the decay:
+//   'date'  = when the writing itself was made (older writing = more pixelated)
+//   'added' = when it was first put on the site (from git history, `added:`)
+// Every post carries both; flip this one line to switch the whole site.
+export const DECAY_BY = 'date';
+
+// Convenience: pass a whole post and it picks the right field.
+export function redactionClassFor(post) {
+	if (!post) return '';
+	const d = DECAY_BY === 'added' ? (post.added || post.date) : post.date;
+	return redactionClass(d);
+}
+
 // Months between a date and now (fractional).
 function monthsOld(dateStr) {
 	const d = new Date(dateStr);

@@ -4,6 +4,7 @@ ai_title: true
 ai_description: true
 description: "Neural mechanisms underlying social insight moments during naturalistic narrative comprehension, using inter-subject RSA."
 date: 2025-03-12
+added: 2026-07-21
 type: research
 published: true
 doi: https://www.biorxiv.org/content/10.64898/2026.05.13.724907v1

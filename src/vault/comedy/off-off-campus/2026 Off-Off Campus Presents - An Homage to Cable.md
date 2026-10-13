@@ -2,6 +2,7 @@
 title: "Off Off Campus Presents: An Homage to Cable"
 description: "Second City show — I helped write, direct, and starred in it."
 date: 2026
+added: 2026-07-27
 date_approx: true
 type: comedy
 form: [video]

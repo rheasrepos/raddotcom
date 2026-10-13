@@ -1,6 +1,7 @@
 ---
 title: "ICCA Semifinals 2025 - Voices in Your Head | First Place"
 date: 2025
+added: 2026-07-27
 date_approx: true
 type: music
 form: [video]

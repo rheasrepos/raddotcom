@@ -2,6 +2,7 @@
 title: "COG PSYCH: Take-Home Final Essay Exam"
 ai_title: true
 date: 2023-12-07
+added: 2026-07-19
 type: essays
 academic: true
 course: Cognitive Psychology

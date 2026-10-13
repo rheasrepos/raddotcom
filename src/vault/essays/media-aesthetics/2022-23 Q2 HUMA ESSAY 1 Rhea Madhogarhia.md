@@ -1,6 +1,7 @@
 ---
 title: "HUMA: Media Aesthetics — Q2 Essay 1"
 date: 2023-01-28
+added: 2026-07-19
 type: essays
 academic: true
 course: HUMA Media Aesthetics

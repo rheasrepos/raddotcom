@@ -1,6 +1,7 @@
 ---
 title: "EUROVISION: The Moment Itself: Chicagovision 2024 - “The Moment”"
 date: 2024-05-20
+added: 2026-07-19
 type: essays
 academic: true
 course: MUSI Eurovision

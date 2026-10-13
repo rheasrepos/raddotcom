@@ -1,6 +1,7 @@
 ---
 title: "Aldous Huxley — a first-person narrative"
 date: 2018
+added: 2026-07-30
 date_approx: true
 type: creative
 published: true

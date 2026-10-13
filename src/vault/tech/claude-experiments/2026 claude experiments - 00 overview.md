@@ -1,5 +1,6 @@
 ---
 date: 2026-06-01
+added: 2026-07-30
 date_approx: true
 title: "Claude experiments — 00: overview"
 tags: [ai/machine-learning/experiments]

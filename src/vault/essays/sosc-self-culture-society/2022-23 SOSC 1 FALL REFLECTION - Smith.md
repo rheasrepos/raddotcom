@@ -2,6 +2,7 @@
 title: "SOSC: Self, Culture & Society — Fall Essay"
 ai_title: true
 date: 2022-11-01
+added: 2026-07-19
 type: essays
 academic: true
 course: SOSC Self/Culture/Society

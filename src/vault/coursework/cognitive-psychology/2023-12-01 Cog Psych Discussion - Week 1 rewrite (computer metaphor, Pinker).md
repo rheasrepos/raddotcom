@@ -2,6 +2,7 @@
 title: "COG PSYCH: Discussion Week 1 — Computer Metaphor (rewrite)"
 ai_title: true
 date: 2023-12-01
+added: 2026-07-30
 type: coursework
 academic: true
 course: Cognitive Psychology

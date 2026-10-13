@@ -1,6 +1,7 @@
 ---
 title: "Back Pocket (Vulfpeck) - earthrise - A Cappella Academy"
 date: 2023
+added: 2026-07-27
 date_approx: true
 type: music
 form: [video]

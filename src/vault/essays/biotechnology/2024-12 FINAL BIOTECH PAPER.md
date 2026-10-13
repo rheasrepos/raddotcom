@@ -2,6 +2,7 @@
 title: "BIOTECH: Final Paper"
 ai_title: true
 date: 2024-12-12
+added: 2026-07-19
 type: essays
 academic: true
 course: BIOS Biotechnology

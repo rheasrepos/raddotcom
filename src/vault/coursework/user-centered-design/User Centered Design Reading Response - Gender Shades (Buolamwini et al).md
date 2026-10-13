@@ -1,6 +1,7 @@
 ---
 title: "UCD: Reading Response — Gender Shades (Buolamwini et al)"
 date: 2026-02-19
+added: 2026-07-19
 type: coursework
 academic: true
 course: User-Centered Design

@@ -2,6 +2,7 @@
 title: TEAL Teaching Philosophy Statement
 ai_title: true
 date: 2025-01-21
+added: 2026-07-28
 type: writing
 academic: true
 course: TEAL

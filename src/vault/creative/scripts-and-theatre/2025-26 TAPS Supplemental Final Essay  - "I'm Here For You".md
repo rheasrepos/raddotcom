@@ -1,6 +1,7 @@
 ---
 title: "TAPS: I'm Here For You — supplemental final essay"
 date: 2026-03-12
+added: 2026-07-23
 type: creative
 academic: false
 course: TAPS Theatre

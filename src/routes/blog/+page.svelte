@@ -237,7 +237,7 @@
 				{#each sorted as p}
 					<li class="entry">
 						<a class="entry-link" href="/posts/{p.id}{hideParam}">
-							<span class="entry-date">{fmt(p.date)}</span>
+							<span class="entry-date" title={p.added ? `added to site ${fmt(p.added)}` : ''}>{fmt(p.date)}</span>
 							<span class="entry-title {redactionClass(p.date)}" class:ai-title={p.aiTitle} title={p.aiTitle ? 'Title drafted with AI assistance' : undefined}>{p.title}</span>
 							{#if p.form}<span class="entry-form">{p.form}</span>{/if}
 						</a>
@@ -266,7 +266,7 @@
 							{#each items as p}
 								<li class="entry">
 									<a class="entry-link" href="/posts/{p.id}{hideParam}">
-										<span class="entry-date">{fmt(p.date)}</span>
+										<span class="entry-date" title={p.added ? `added to site ${fmt(p.added)}` : ''}>{fmt(p.date)}</span>
 										<span class="entry-title {redactionClass(p.date)}" class:ai-title={p.aiTitle} title={p.aiTitle ? 'Title drafted with AI assistance' : undefined}>{p.title}</span>
 										{#if p.form}<span class="entry-form">{p.form}</span>{/if}
 									</a>

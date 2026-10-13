@@ -1,6 +1,7 @@
 ---
 title: "PSYCH ANTHRO: Cultural Specificity of the Abnormal: The Impact of Culture on Mental Health and Feeling"
 date: 2024-05-21
+added: 2026-07-19
 type: essays
 academic: true
 course: CHDV Psych Anthropology

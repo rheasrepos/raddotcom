@@ -221,6 +221,15 @@ The graph code itself is `src/routes/network/+page.svelte` — you rarely need t
 
 ---
 
+## 7b. Two dates on every post — `date:` vs `added:`
+
+- **`date:`** — when the writing itself was made. You set this. It's what the Redaction age-decay reads by default (older writing = more pixelated).
+- **`added:`** — when the note was first put on the site, stamped automatically from **git history** by `python3 scripts/stamp-added-dates.py --apply` (run it after publishing new notes; it never overwrites an `added:` you've typed by hand). Shown on the post page as "added to site …" and as a hover on blog dates.
+
+To make the decay follow *added-to-site* time instead of the writing's date, change one line in `src/lib/redaction.js`: `DECAY_BY = 'added'`.
+
+---
+
 ## 8. Links section
 
 The links page is a normal post: `recommendations/2026-07 Links.md`. Add a bullet with `- [name](https://url)` and it appears. Promote + push.

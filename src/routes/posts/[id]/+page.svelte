@@ -134,7 +134,7 @@
 					<p class="reader-desc" class:ai-desc={post.aiDescription} title={post.aiDescription ? 'Description drafted with AI assistance' : undefined}>{post.description}</p>
 				{/if}
 				<div class="reader-meta">
-					{formatDate(post.date)} · <span style="color: {getProjectColor(post.type)}">{post.type}</span>
+					{formatDate(post.date)} · <span style="color: {getProjectColor(post.type)}">{post.type}</span>{#if post.added}<span class="added-stamp" title="First added to this site (from git history)"> · added to site {formatDate(post.added)}</span>{/if}
 					{#if post.form}<span class="reader-form">{post.form}</span>{/if}
 				</div>
 
@@ -282,6 +282,7 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
+	.added-stamp { color: #777; font-size: 0.85em; }
 	.crumb-link { color: #333; text-decoration: none; }
 	.crumb-link:hover { color: #000; text-decoration: underline; }
 	.crumb-sep { color: #999; }

@@ -1,6 +1,7 @@
 ---
 title: "HUMA: Media Aesthetics — Final Paper"
 date: 2023-03-10
+added: 2026-07-19
 type: essays
 academic: true
 course: HUMA Media Aesthetics

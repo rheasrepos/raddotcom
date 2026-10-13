@@ -2,6 +2,7 @@
 title: On Apple TV's 'Pluribus'
 ai_title: true
 date: 2026-07-27
+added: 2026-08-04
 type: writing
 published: true
 tags:

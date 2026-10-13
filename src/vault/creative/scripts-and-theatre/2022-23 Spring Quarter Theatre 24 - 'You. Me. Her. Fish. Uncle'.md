@@ -2,6 +2,7 @@
 title: "THEATRE 24: Camille & Rhea — spring quarter script"
 ai_title: true
 date: 2023
+added: 2026-07-23
 date_approx: true
 type: creative
 academic: true

@@ -1,6 +1,7 @@
 ---
 title: The Stage I Dreamed of but Nonetheless Feared
 date: 2021
+added: 2026-07-28
 type: writing
 academic: false
 published: true

@@ -1,6 +1,7 @@
 ---
 title: Common App Personal Essay (Camp Poconos)
 date: 2021
+added: 2026-07-28
 date_approx: true
 type: writing
 academic: false

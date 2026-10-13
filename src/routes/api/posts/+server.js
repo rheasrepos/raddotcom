@@ -186,6 +186,9 @@ export async function GET() {
 				// them leapfrog the real latest post).
 				date: frontmatter.date ? String(frontmatter.date) : '0001-01-01',
 				undated: !frontmatter.date,
+				// added: when it was first put ON THE SITE (stamped from git history by
+				// scripts/stamp-added-dates.py) — distinct from `date`, the writing's own date.
+				added: frontmatter.added ? String(frontmatter.added) : null,
 				content: body.trim(),
 				// Support custom icon image per note
 				iconImage: frontmatter.iconImage || null,

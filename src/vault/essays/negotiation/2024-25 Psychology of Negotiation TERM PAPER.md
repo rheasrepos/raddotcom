@@ -2,6 +2,7 @@
 title: "Psychology of NEGOTIATION: Term Paper"
 ai_title: true
 date: 2025-03-12
+added: 2026-07-19
 type: essays
 academic: true
 course: PSYC Negotiation

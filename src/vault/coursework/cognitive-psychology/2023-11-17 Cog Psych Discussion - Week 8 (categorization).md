@@ -2,6 +2,7 @@
 title: "COG PSYCH: Discussion Week 8 — Categorization"
 ai_title: true
 date: 2023-11-17
+added: 2026-07-30
 type: coursework
 academic: true
 course: Cognitive Psychology

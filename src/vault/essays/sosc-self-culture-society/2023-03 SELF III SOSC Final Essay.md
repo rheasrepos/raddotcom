@@ -2,6 +2,7 @@
 title: "SOSC: Self, Culture & Society III — Final Essay"
 ai_title: true
 date: 2023-03-24
+added: 2026-07-19
 type: essays
 academic: true
 course: SOSC Self/Culture/Society

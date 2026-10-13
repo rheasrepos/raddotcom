@@ -2,6 +2,7 @@
 title: "The Flowers — analytical project (7th grade)"
 ai_title: true
 date: 2017
+added: 2026-07-30
 date_approx: true
 type: creative
 published: true

@@ -4,6 +4,7 @@ ai_title: true
 ai_description: true
 description: "Cortical reinstatement of causally related events sparks narrative insights by updating neural representation patterns."
 date: 2025-03-12
+added: 2026-07-21
 type: research
 published: true
 doi: https://doi.org/10.1101/2025.03.12.642853

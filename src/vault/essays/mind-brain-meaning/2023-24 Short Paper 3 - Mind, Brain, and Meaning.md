@@ -2,6 +2,7 @@
 title: "MBM: Short Paper 3"
 ai_title: true
 date: 2024-02-27
+added: 2026-07-19
 type: essays
 academic: true
 course: COGS Mind, Brain & Meaning

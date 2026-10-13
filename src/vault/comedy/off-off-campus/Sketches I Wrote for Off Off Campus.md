@@ -1,6 +1,7 @@
 ---
 title: Sketches I Wrote for Off Off Campus
 date: 2026-06-01
+added: 2026-07-30
 type: comedy
 published: true
 tags:

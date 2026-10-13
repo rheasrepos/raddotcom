@@ -1,6 +1,7 @@
 ---
 title: "Artifact 02b"
 date: 2026-07-23
+added: 2026-08-09
 type: artifacts
 published: true
 image: /artifacts/img02.png

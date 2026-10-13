@@ -2,6 +2,7 @@
 title: Cognitive Psychology Discussion Post (context & object recognition)
 ai_title: true
 date: 2023-10-13
+added: 2026-07-19
 type: coursework
 academic: true
 course: Cognitive Psychology

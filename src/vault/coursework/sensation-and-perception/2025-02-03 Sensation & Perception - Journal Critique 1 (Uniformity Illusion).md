@@ -1,6 +1,7 @@
 ---
 title: "S&P: Journal Critique 1 — Uniformity Illusion"
 date: 2025-02-03
+added: 2026-07-19
 type: coursework
 academic: true
 course: Sensation & Perception

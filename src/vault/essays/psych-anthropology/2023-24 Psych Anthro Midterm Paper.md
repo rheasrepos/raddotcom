@@ -1,6 +1,7 @@
 ---
 title: "PSYCH ANTHRO: Cultural Schemas Influence on Emotional Expression and Socialization"
 date: 2024-04-22
+added: 2026-07-19
 type: essays
 academic: true
 course: CHDV Psych Anthropology

@@ -1,6 +1,7 @@
 ---
 title: "HS ENGLISH: There There — Tony Loneman's Death & Native American Identity"
 date: 2019
+added: 2026-07-28
 date_approx: true
 type: essays
 published: true

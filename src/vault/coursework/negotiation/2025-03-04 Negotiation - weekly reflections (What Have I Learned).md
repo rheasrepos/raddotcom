@@ -1,6 +1,7 @@
 ---
 title: "NEGOTIATION: Weekly Reflections — What Have I Learned?"
 date: 2025-03-04
+added: 2026-07-19
 type: coursework
 pdf: /docs/2025-03-04-negotiation-weekly-reflections-what-have-i-learned.pdf
 academic: true

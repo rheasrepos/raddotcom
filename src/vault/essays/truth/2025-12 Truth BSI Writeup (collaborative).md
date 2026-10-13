@@ -2,6 +2,7 @@
 title: "TRUTH: Bullshit Detection Instrument — Collaborative Writeup"
 ai_title: true
 date: 2025-12-08
+added: 2026-07-20
 type: essays
 also_in: [programming]
 published: true

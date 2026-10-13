@@ -2,6 +2,7 @@
 title: Seven Poems (7th grade)
 ai_title: true
 date: 2017-01
+added: 2026-07-30
 type: creative
 academic: true
 published: true

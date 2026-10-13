@@ -2,6 +2,7 @@
 title: "COG PSYCH: Discussion Week 4 — Mental Imagery"
 ai_title: true
 date: 2023-10-20
+added: 2026-07-30
 type: coursework
 academic: true
 course: Cognitive Psychology

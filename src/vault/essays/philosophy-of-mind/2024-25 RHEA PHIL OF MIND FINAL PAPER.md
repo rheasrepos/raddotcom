@@ -1,6 +1,7 @@
 ---
 title: "PHIL: Philosophy of Mind — Final Paper"
 date: 2024-12
+added: 2026-07-19
 date_approx: true
 type: essays
 academic: true

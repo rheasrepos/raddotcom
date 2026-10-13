@@ -1,6 +1,7 @@
 ---
 title: "HIPS/MBL: Visualising the Invisible"
 date: 2025-11-30
+added: 2026-07-19
 type: research
 also_in: [programming]
 academic: true

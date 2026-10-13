@@ -1,6 +1,7 @@
 ---
 title: "Artifact myart12"
 date: 2026-07-23
+added: 2026-07-27
 type: art
 published: true
 image: /artifacts/myart12.jpg

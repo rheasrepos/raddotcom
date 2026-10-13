@@ -1,6 +1,7 @@
 ---
 title: "UCD: Reading Response — FamiData Smart-Home Datafication (Wang et al)"
 date: 2026-02-18
+added: 2026-07-19
 type: coursework
 academic: true
 course: User-Centered Design

@@ -1,6 +1,7 @@
 ---
 title: Best Friends No More (poem)
 date: 2017
+added: 2026-07-30
 type: creative
 academic: true
 published: true

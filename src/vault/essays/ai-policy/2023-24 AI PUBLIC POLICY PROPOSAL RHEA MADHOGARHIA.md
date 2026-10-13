@@ -1,6 +1,7 @@
 ---
 title: "AI POLICY: AI Public Policy Proposal Competition"
 date: 2024-05-04
+added: 2026-07-20
 type: essays
 academic: false
 published: true

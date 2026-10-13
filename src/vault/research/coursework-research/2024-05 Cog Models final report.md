@@ -2,6 +2,7 @@
 title: "COG MODELS: Final Report"
 ai_title: true
 date: 2024-05-18
+added: 2026-07-28
 type: research
 also_in: [programming]
 published: true

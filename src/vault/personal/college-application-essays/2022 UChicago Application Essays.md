@@ -1,6 +1,7 @@
 ---
 title: "UChicago Application Essays"
 date: 2022-01-01
+added: 2026-08-06
 type: essays
 published: true
 ai_description: true

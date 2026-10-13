@@ -1,6 +1,7 @@
 ---
 title: "Finders, Keepers — WHPK radio show"
 date: 2025-26
+added: 2026-07-30
 date_approx: true
 type: music
 academic: false

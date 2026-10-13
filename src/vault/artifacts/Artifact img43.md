@@ -1,6 +1,7 @@
 ---
 title: "Artifact 43"
 date: 2026-07-23
+added: 2026-07-27
 type: artifacts
 published: true
 image: /artifacts/img43.jpg

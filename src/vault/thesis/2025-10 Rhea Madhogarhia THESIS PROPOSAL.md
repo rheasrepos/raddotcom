@@ -1,6 +1,7 @@
 ---
 title: "THESIS: Proposal"
 date: 2025-10
+added: 2026-07-28
 date_approx: true
 type: thesis
 academic: true

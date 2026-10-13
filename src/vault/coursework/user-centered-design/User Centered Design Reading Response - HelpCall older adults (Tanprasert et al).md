@@ -1,6 +1,7 @@
 ---
 title: "UCD: Reading Response — HelpCall for Older Adults (Tanprasert et al)"
 date: 2026-01-13
+added: 2026-07-19
 type: coursework
 academic: true
 course: User-Centered Design

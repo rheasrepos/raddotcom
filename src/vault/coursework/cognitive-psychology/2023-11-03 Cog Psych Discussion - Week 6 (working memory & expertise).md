@@ -2,6 +2,7 @@
 title: "COG PSYCH: Discussion Week 6 — Working Memory & Expertise"
 ai_title: true
 date: 2023-11-03
+added: 2026-07-30
 type: coursework
 academic: true
 course: Cognitive Psychology
