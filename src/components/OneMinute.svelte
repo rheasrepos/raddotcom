@@ -202,7 +202,7 @@
 
 <style>
 	.om-fab {
-		position: fixed; left: 14px; bottom: 44px; z-index: 9400;
+		position: fixed; right: 14px; top: 62px; z-index: 9400;
 		background: #c0c0c0; color: #000;
 		border: 2px solid #000; border-color: #fff #808080 #808080 #fff;
 		padding: 7px 11px; font: inherit; font-size: 0.78rem; cursor: pointer;
@@ -210,7 +210,8 @@
 	}
 	.om-fab:hover { background: #cfcfcf; }
 	.om-ad {
-		position: fixed; left: 14px; bottom: 44px; z-index: 9400;
+		position: fixed; right: 14px; top: 62px; z-index: 9400;
+		max-height: calc(100vh - 120px); overflow-y: auto;
 		width: min(380px, 92vw);
 		background: #c0c0c0; border: 2px solid #000;
 		box-shadow: 4px 4px 0 rgba(0,0,0,0.45);
@@ -249,5 +250,5 @@
 	.om-note-text { white-space: pre-wrap; word-break: break-word; }
 	.om-note-sig { margin-top: 8px; font-size: 0.7rem; color: #444; text-align: right; }
 	.om-write-own { margin-top: 12px; }
-	@media (max-width: 600px) { .om-fab, .om-ad { left: 8px; bottom: 40px; } }
+	@media (max-width: 600px) { .om-fab, .om-ad { right: 8px; top: 58px; } }
 </style>
