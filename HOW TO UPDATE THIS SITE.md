@@ -23,7 +23,7 @@ Open the vault in Obsidian: **Open folder as vault** → pick `raddotcom Vault (
 |---|---|
 | **Desktop** (the home screen, folders, windows) | `src/routes/+page.svelte` |
 | **Blog** (the list of posts) | `src/routes/blog/+page.svelte` |
-| **Obsidian** (the node graph) | `src/routes/network/+page.svelte` |
+| **Obsidian** (the 3-D map of notes) | `src/routes/network/+page.svelte` — the dots come from `static/vault-space.json`, which `promote-to-site.command` rebuilds via `scripts/embed-vault.py` |
 | **Resume** | `src/routes/resume/+page.svelte` (the PDF it shows is `static/resume.pdf`) |
 | **About** | `src/routes/about/+page.svelte` |
 | **Admin** | `src/routes/admin/+page.svelte` (local-only draft tool; ignore it) |

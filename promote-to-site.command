@@ -67,5 +67,8 @@ if promoted:
 else:
     print("\nNo notes marked published:true yet. In Obsidian, set published: true on the ones you want live, then re-run this.")
 PY
+
+# Rebuild the Obsidian page's 3-D map from the published notes (static/vault-space.json).
+python3 scripts/embed-vault.py || echo "(embed-vault.py failed — the Obsidian page will show the previous map)"
 echo ""
 read -p "Press Enter to close."

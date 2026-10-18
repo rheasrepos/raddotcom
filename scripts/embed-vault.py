@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+"""
+Turn the published vault (src/vault/**.md) into points in space for the Obsidian page.
+
+    python3 scripts/embed-vault.py                 # TF-IDF + SVD, pure numpy, no downloads
+    python3 scripts/embed-vault.py --model all-MiniLM-L6-v2   # sentence-transformers, if installed
+
+Writes static/vault-space.json:
+  { "model": ..., "variance": [v1,v2,v3], "notes": [ {id, title, date, type, tags, sub, xyz:[x,y,z]} ... ] }
+Notes are sorted by `date` (undated last), so the order IS the path through time.
+`id` matches the site's post id (`vault-<filename>`), so a point can link to /posts/<id>.
+
+Only src/vault (the PUBLISHED copy) is read. The private draft vault is never touched.
+promote-to-site.command runs this automatically after promoting notes.
+"""
+import os, re, json, sys, math
+import numpy as np
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+VAULT = os.path.join(ROOT, "src", "vault")
+OUT = os.path.join(ROOT, "static", "vault-space.json")
+model_name = sys.argv[sys.argv.index("--model") + 1] if "--model" in sys.argv else None
+
+# ---------------------------------------------------------------- read notes
+def frontmatter(t):
+    m = re.match(r"^---\n(.*?)\n---\n?(.*)$", t, re.S)
+    if not m: return {}, t
+    fm = {}
+    for line in m.group(1).split("\n"):
+        k, _, v = line.partition(":")
+        if _: fm[k.strip()] = v.strip().strip('"\'')
+    return fm, m.group(2)
+
+def tags_of(v):
+    if not v: return []
+    return [x.strip().strip('"\'') for x in v.strip("[]").split(",") if x.strip()]
+
+notes = []
+for root, dirs, files in os.walk(VAULT):
+    dirs[:] = [d for d in dirs if not d.startswith(".")]
+    for f in sorted(files):
+        if not f.endswith(".md") or f == "README.md": continue
+        raw = open(os.path.join(root, f), encoding="utf-8", errors="ignore").read()
+        fm, body = frontmatter(raw)
+        if fm.get("published", "").lower() != "true": continue
+        body = re.sub(r"\[\[Topic - [^\]]*\]\]", " ", body)          # topic backlinks are bookkeeping, not content
+        body = re.sub(r"[#>*_`\[\]\(\)\-]|https?://\S+", " ", body)
+        rel = os.path.relpath(root, VAULT).split(os.sep)
+        notes.append({
+            "id": "vault-" + f[:-3],
+            "title": fm.get("title") or f[:-3],
+            "date": fm.get("date", ""),
+            "type": fm.get("type", rel[0] if rel[0] != "." else ""),
+            "tags": tags_of(fm.get("tags")),
+            "sub": rel[1] if len(rel) >= 2 else None,
+            "_text": (fm.get("title", "") + " ") * 3 + " ".join(fm.get("tags", "").split("/")) + " " + body,
+        })
+if len(notes) < 4:
+    sys.exit(f"only {len(notes)} published notes in {VAULT}; need a few more to make a space")
+print(f"{len(notes)} published notes")
+
+# ---------------------------------------------------------------- embed
+if model_name:
+    from sentence_transformers import SentenceTransformer
+    M = SentenceTransformer(model_name).encode([n["_text"][:4000] for n in notes], normalize_embeddings=True)
+    label = f"sentence-transformers/{model_name}"
+else:
+    # TF-IDF, pure numpy. Each note = a bag of words weighted by how rare they are across the vault.
+    STOP = set("the a an and or of to in on for with is are was were be been it its this that these those i you we they he she my your our as at by from not but have has had do does did so if than then there here which who what when where why how can could would should will just like also into over about more most some any all very".split())
+    docs = [[w for w in re.findall(r"[a-z][a-z']+", n["_text"].lower()) if w not in STOP and len(w) > 2] for n in notes]
+    df = {}
+    for d in docs:
+        for w in set(d): df[w] = df.get(w, 0) + 1
+    vocab = sorted(w for w, c in df.items() if c >= 2)                 # a word must appear in 2+ notes to connect anything
+    idx = {w: i for i, w in enumerate(vocab)}
+    M = np.zeros((len(notes), len(vocab)))
+    for r, d in enumerate(docs):
+        for w in d:
+            if w in idx: M[r, idx[w]] += 1
+    M = np.log1p(M) * np.log(len(notes) / np.array([df[w] for w in vocab]))
+    M /= np.linalg.norm(M, axis=1, keepdims=True) + 1e-9
+    label = f"tf-idf over {len(vocab)} words"
+print(f"embedding: {label}  ->  {M.shape}")
+
+# ---------------------------------------------------------------- 3-D via SVD (PCA on the centered matrix)
+mu = M.mean(0)
+U, S, Vt = np.linalg.svd(M - mu, full_matrices=False)
+xyz = (M - mu) @ Vt[:3].T
+xyz /= np.abs(xyz).max() + 1e-9                                        # unit cube, so the viewer needs no scaling
+var = (S[:3] ** 2 / (S ** 2).sum()).tolist()
+print(f"3 components keep {sum(var):.1%} of the variance")
+
+# ---------------------------------------------------------------- attach coordinates, order by date, write
+for n, p in zip(notes, xyz):                       # xyz rows are in read order, same as `notes`
+    n["xyz"] = [round(float(c), 4) for c in p]
+    del n["_text"]
+notes.sort(key=lambda n: (n["date"] == "", n["date"]))   # dated notes chronologically, undated last
+json.dump({"model": label, "variance": var, "count": len(notes), "notes": notes}, open(OUT, "w"))
+print(f"wrote {os.path.relpath(OUT, ROOT)}")

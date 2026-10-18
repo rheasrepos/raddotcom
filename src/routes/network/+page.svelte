@@ -1,334 +1,243 @@
 <script>
+	// Obsidian page: every published note is a point in a 3-D space built from
+	// the notes' own words (scripts/embed-vault.py → static/vault-space.json).
+	// Near points are notes that use the same vocabulary. The line joins them in
+	// date order, so it is the path my writing took through that space.
 	import { onMount, onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { loadPosts } from '$lib/posts.js';
 	import { categoryConfig, getCategoryColor, getCategoryLabel } from '$lib/categories.js';
 	import PageLayout from '../../components/PageLayout.svelte';
-	import AIText from '../../components/AIText.svelte';
 
-	const W = 1000;
-	const H = 680;
+	let stage;            // the div the canvas lives in
+	let data = null;      // vault-space.json
+	let hovered = null;   // note under the pointer
+	let showPath = true;
+	let flat = '3d';      // '3d' | '12' | '13' | '23'
+	let query = '';
+	let upTo = 1;         // how many notes (in date order) are drawn
+	let status = 'loading…';
 
-	let nodes = [];
-	let links = [];
-	let hovered = null;
-	let raf = null;
-	let running = false;
-	let alpha = 1; // simulation "heat" — decays so the graph SETTLES and stops
+	// three.js state (kept out of Svelte reactivity on purpose)
+	let THREE, renderer, scene, persp, ortho, camera, dyn, raf;
+	let theta = 0.9, phi = 1.15, dist = 2.6;
+	let drag = null, moved = false;
+	const target = { x: 0, y: 0, z: 0 };
+	let pts = [];         // [{note, v: THREE.Vector3, color: THREE.Color}]
 
-	// --- node dragging (like Obsidian's graph view) ---
-	let svgEl;
-	let dragging = null;
-	let dragMoved = false;
-
-	function toGraphCoords(e) {
-		const rect = svgEl.getBoundingClientRect();
-		return {
-			x: ((e.clientX - rect.left) / rect.width) * W,
-			y: ((e.clientY - rect.top) / rect.height) * H
-		};
-	}
-	function startDrag(n, e) {
-		e.preventDefault();
-		dragging = n;
-		dragMoved = false;
-		reheat(0.25); // let neighbours follow the node you're dragging
-	}
-	function onPointerMove(e) {
-		if (!dragging) return;
-		const p = toGraphCoords(e);
-		dragging.x = Math.max(dragging.r, Math.min(W - dragging.r, p.x));
-		dragging.y = Math.max(dragging.r, Math.min(H - dragging.r, p.y));
-		dragging.vx = 0;
-		dragging.vy = 0;
-		dragMoved = true;
-		nodes = nodes; // trigger reactivity so edges follow while held
-	}
-	function endDrag() {
-		dragging = null;
+	// resolve `var(--color-x)` category colors to real hex for the GPU
+	function cssColor(c) {
+		if (!c.startsWith('var(')) return c;
+		const name = c.slice(4, -1).trim();
+		return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || '#9aa3b2';
 	}
 
-	function tagsOf(p) {
-		if (Array.isArray(p.tags)) return p.tags;
-		if (typeof p.tags === 'string') return p.tags.split(',').map((t) => t.trim()).filter(Boolean);
-		return [];
+	function placeCam() {
+		const w = stage.clientWidth, h = stage.clientHeight;
+		renderer.setSize(w, h, false);
+		persp.aspect = w / h; persp.updateProjectionMatrix();
+		const a = w / h, z = dist * 0.42;
+		ortho.left = -z * a; ortho.right = z * a; ortho.top = z; ortho.bottom = -z; ortho.updateProjectionMatrix();
+		camera.position.set(
+			target.x + dist * Math.sin(phi) * Math.cos(theta),
+			target.y + dist * Math.cos(phi),
+			target.z + dist * Math.sin(phi) * Math.sin(theta)
+		);
+		camera.lookAt(target.x, target.y, target.z);
 	}
 
-	function buildGraph(posts) {
-		const cx = W / 2, cy = H / 2;
-		const nodeMap = {};
-		const hubs = {};
-
-		// Category hub nodes. A hub exists if it has posts, or if it's the
-		// parent of a category that has posts (so e.g. Creative appears to
-		// tie Comedy and Music together even before it has posts of its own).
-		const cats = Object.values(categoryConfig);
-		const wanted = new Set();
-		cats.forEach((c) => {
-			if (posts.some((p) => p.type === c.id)) {
-				wanted.add(c.id);
-				if (c.parent) wanted.add(c.parent);
-			}
-		});
-		// Each category gets a fixed ANCHOR spread around a ring, so categories
-		// form distinct clusters instead of piling into the middle.
-		const wantedList = cats.filter((c) => wanted.has(c.id));
-		wantedList.forEach((c, i) => {
-			const ang = (2 * Math.PI * i) / Math.max(1, wantedList.length) - Math.PI / 2;
-			const ax = cx + Math.cos(ang) * 270, ay = cy + Math.sin(ang) * 200;
-			const n = {
-				id: 'cat:' + c.id, kind: 'cat', label: c.label, color: getCategoryColor(c.id),
-				r: 15, ax, ay, x: ax, y: ay, vx: 0, vy: 0
-			};
-			hubs[c.id] = n; nodeMap[n.id] = n;
-		});
-
-		const L = [];
-
-		// Hub-to-hub family links (comedy → creative, music → creative, …)
-		cats.forEach((c) => {
-			if (c.parent && hubs[c.id] && hubs[c.parent]) {
-				L.push({ source: 'cat:' + c.id, target: 'cat:' + c.parent, w: 1 });
-			}
-		});
-		posts.forEach((p) => {
-			const h = hubs[p.type];
-			const ax = h ? h.ax : cx, ay = h ? h.ay : cy;
-			const n = {
-				id: 'post:' + p.id, kind: 'post', label: p.title, type: p.type,
-				color: getCategoryColor(p.type), tags: tagsOf(p), post: p,
-				r: 6, ax, ay,
-				x: ax + (Math.random() - 0.5) * 120, y: ay + (Math.random() - 0.5) * 120, vx: 0, vy: 0
-			};
-			nodeMap[n.id] = n;
-			if (hubs[p.type]) L.push({ source: n.id, target: 'cat:' + p.type, w: 1 });
-		});
-
-		// --- TOPIC NODES ---------------------------------------------------
-		// Every tag becomes a node in its own right, and its SIZE is how many
-		// notes carry it. So the graph shows which ideas you return to — a
-		// post is always the same small dot; topics are what grow.
-		const tagCount = {};
-		posts.forEach((p) => {
-			const seen = new Set();
-			tagsOf(p).forEach((t) => {
-				String(t).split('/').reduce((acc, part) => {
-					const path = acc ? acc + '/' + part : part;
-					seen.add(path);
-					return path;
-				}, '');
-			});
-			seen.forEach((t) => (tagCount[t] = (tagCount[t] || 0) + 1));
-		});
-		// Skip bookkeeping tags and any tag on only one note (nothing to connect).
-		const SKIP = /^(affiliation|meta|artifact|analog-archive|scraps|daily|seed|links|list)\b/;
-		Object.entries(tagCount).forEach(([t, count]) => {
-			if (count < 2 || SKIP.test(t)) return;
-			const n = {
-				id: 'tag:' + t, kind: 'tag', label: '#' + t, count,
-				color: '#cfcfcf',
-				r: 5 + Math.sqrt(count) * 3.4, // area ∝ how many notes share the idea
-				ax: cx, ay: cy,
-				x: cx + (Math.random() - 0.5) * 300, y: cy + (Math.random() - 0.5) * 300, vx: 0, vy: 0
-			};
-			nodeMap[n.id] = n;
-		});
-		// Attach each post to its topics.
-		posts.forEach((p) => {
-			const seen = new Set();
-			tagsOf(p).forEach((t) => {
-				String(t).split('/').reduce((acc, part) => {
-					const path = acc ? acc + '/' + part : part;
-					seen.add(path);
-					return path;
-				}, '');
-			});
-			seen.forEach((t) => {
-				if (nodeMap['tag:' + t]) L.push({ source: 'post:' + p.id, target: 'tag:' + t, w: 0.8 });
-			});
-		});
-		// Nest topics: academic/philosophy → academic
-		Object.keys(tagCount).forEach((t) => {
-			const parent = t.split('/').slice(0, -1).join('/');
-			if (parent && nodeMap['tag:' + t] && nodeMap['tag:' + parent]) {
-				L.push({ source: 'tag:' + t, target: 'tag:' + parent, w: 1 });
-			}
-		});
-
-		// Posts connect THROUGH topics now, not directly to each other — the
-		// topic node is the shared thing, so it carries the weight and grows.
-		nodes = Object.values(nodeMap);
-		links = L;
-	}
-
-	// --- force-directed simulation with cooling (settles, then stops) ---
-	function reheat(a = 0.6) {
-		alpha = Math.max(alpha, a);
-		if (!running) { running = true; loop(); }
-	}
-	function step() {
-		const REP = 2200, SPRING = 0.04, DAMP = 0.82, GRAV = 0.018;
-		// Repulsion + hard collision (short range → fast and keeps clusters tight)
-		for (let i = 0; i < nodes.length; i++) {
-			const a = nodes[i];
-			for (let j = i + 1; j < nodes.length; j++) {
-				const b = nodes[j];
-				let dx = a.x - b.x, dy = a.y - b.y;
-				let d2 = dx * dx + dy * dy || 0.01;
-				const d = Math.sqrt(d2);
-				if (d > 240) continue; // ignore far pairs — big speedup at 200+ nodes
-				const f = REP / d2;
-				let fx = (dx / d) * f, fy = (dy / d) * f;
-				// collision: never let two circles overlap
-				const min = a.r + b.r + 12;   // wider keep-apart gap → less visual overlap
-				if (d < min) {
-					const push = (min - d) * 0.9;
-					fx += (dx / d) * push; fy += (dy / d) * push;
-				}
-				a.vx += fx; a.vy += fy; b.vx -= fx; b.vy -= fy;
-			}
+	function setView(v) {
+		flat = v;
+		if (v === '3d') { camera = persp; theta = 0.9; phi = 1.15; }
+		else {
+			camera = ortho;
+			if (v === '12') { theta = Math.PI / 2; phi = Math.PI / 2; }
+			if (v === '13') { theta = 0; phi = 1e-3; }
+			if (v === '23') { theta = 0; phi = Math.PI / 2; }
 		}
-		const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
-		links.forEach((l) => {
-			const s = byId[l.source], t = byId[l.target];
-			if (!s || !t) return;
-			const dx = t.x - s.x, dy = t.y - s.y;
-			const dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
-			const target = l.w >= 1 ? 74 : 58;
-			const f = (dist - target) * SPRING * l.w;
-			const fx = (dx / dist) * f, fy = (dy / dist) * f;
-			s.vx += fx; s.vy += fy; t.vx -= fx; t.vy -= fy;
-		});
-		nodes.forEach((n) => {
-			if (n === dragging) { n.vx = 0; n.vy = 0; return; }
-			// pull toward the node's category anchor → visible per-category clusters
-			n.vx += (n.ax - n.x) * GRAV;
-			n.vy += (n.ay - n.y) * GRAV;
-			n.vx *= DAMP; n.vy *= DAMP;
-			// movement scales with alpha, so the whole thing cools to a stop
-			n.x += n.vx * alpha; n.y += n.vy * alpha;
-			n.x = Math.max(n.r, Math.min(W - n.r, n.x));
-			n.y = Math.max(n.r, Math.min(H - n.r, n.y));
-		});
-		alpha *= 0.985; // cool down
-		nodes = nodes; // trigger reactivity
-	}
-	function loop() {
-		step();
-		if (running && alpha > 0.02) raf = requestAnimationFrame(loop);
-		else { running = false; }
+		placeCam(); draw();
 	}
 
-	function neighbors(id) {
-		const set = new Set();
-		links.forEach((l) => {
-			if (l.source === id) set.add(l.target);
-			if (l.target === id) set.add(l.source);
-		});
-		return set;
+	function matches(n) {
+		if (!query) return false;
+		try { const re = new RegExp(query, 'i'); return re.test(n.title) || n.tags.some((t) => re.test(t)) || re.test(n.type); }
+		catch { return false; }
 	}
-	$: hi = hovered ? neighbors(hovered.id) : null;
 
-	function openNode(n) {
-		if (n.kind === 'post') goto('/posts/' + n.post.id);
+	function draw() {
+		if (!renderer || !data) return;
+		while (dyn.children.length) dyn.remove(dyn.children[0]);
+		const shown = pts.slice(0, upTo);
+		const anyQuery = !!query;
+
+		// the path through time
+		if (showPath && shown.length > 1) {
+			const g = new THREE.BufferGeometry().setFromPoints(shown.map((p) => p.v));
+			const cols = new Float32Array(shown.flatMap((p) => [p.color.r, p.color.g, p.color.b]));
+			g.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+			dyn.add(new THREE.Line(g, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.45 })));
+		}
+		// the notes
+		for (const p of shown) {
+			const hit = anyQuery && matches(p.note);
+			const isHov = hovered && hovered.id === p.note.id;
+			const r = isHov ? 0.03 : hit ? 0.024 : 0.014;
+			const m = new THREE.Mesh(new THREE.SphereGeometry(r, 12, 12),
+				new THREE.MeshBasicMaterial({ color: p.color, transparent: true, opacity: anyQuery && !hit ? 0.18 : 1 }));
+			m.position.copy(p.v); m.userData = p.note; dyn.add(m);
+		}
+		// thread the search hits in order
+		if (anyQuery) {
+			const hits = shown.filter((p) => matches(p.note)).map((p) => p.v);
+			if (hits.length > 1) dyn.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(hits),
+				new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 })));
+		}
+		// faint axes
+		for (const [v, c] of [[[1, 0, 0], 0x7a4a4a], [[0, 1, 0], 0x4a7a55], [[0, 0, 1], 0x4a5a7a]]) {
+			const g = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...v.map((x) => -x * 1.3)), new THREE.Vector3(...v.map((x) => x * 1.3))]);
+			dyn.add(new THREE.Line(g, new THREE.LineBasicMaterial({ color: c, transparent: true, opacity: 0.6 })));
+		}
+		renderer.render(scene, camera);
 	}
+
+	// pointer → which note
+	const ray = { caster: null, ndc: null };
+	function pick(e) {
+		const rect = renderer.domElement.getBoundingClientRect();
+		ray.ndc.set(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1);
+		ray.caster.setFromCamera(ray.ndc, camera);
+		const hit = ray.caster.intersectObjects(dyn.children.filter((o) => o.isMesh));
+		return hit.length ? hit[0].object.userData : null;
+	}
+	function onDown(e) { drag = [e.clientX, e.clientY]; moved = false; }
+	function onMove(e) {
+		if (drag) {
+			theta += (e.clientX - drag[0]) * 0.008;
+			phi = Math.max(0.15, Math.min(Math.PI - 0.15, phi - (e.clientY - drag[1]) * 0.008));
+			if (Math.abs(e.clientX - drag[0]) + Math.abs(e.clientY - drag[1]) > 2) moved = true;
+			drag = [e.clientX, e.clientY]; placeCam(); draw(); return;
+		}
+		const n = pick(e);
+		if ((n && n.id) !== (hovered && hovered.id)) { hovered = n; draw(); }
+	}
+	function onUp(e) {
+		const wasDrag = moved; drag = null;
+		if (wasDrag) return;
+		const n = pick(e);
+		if (n) goto('/posts/' + n.id);
+	}
+	function onWheel(e) { e.preventDefault(); dist = Math.max(0.6, Math.min(8, dist * (1 + e.deltaY * 0.001))); placeCam(); draw(); }
 
 	onMount(async () => {
-		const posts = await loadPosts();
-		buildGraph(posts);
-		alpha = 1;
-		reheat(1);
+		try {
+			const r = await fetch('/vault-space.json');
+			if (!r.ok) throw new Error('no vault-space.json — run scripts/embed-vault.py');
+			data = await r.json();
+		} catch (e) { status = e.message; return; }
+
+		// three.js from the CDN (same build the machine-fiddling viewers use)
+		await new Promise((res, rej) => {
+			if (window.THREE) return res();
+			const s = document.createElement('script');
+			s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+			s.onload = res; s.onerror = () => rej(new Error('could not load three.js')); document.head.appendChild(s);
+		}).catch((e) => { status = e.message; });
+		if (!window.THREE) return;
+		THREE = window.THREE;
+
+		renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+		renderer.setPixelRatio(Math.min(2, window.devicePixelRatio));
+		renderer.setClearColor(0x000000, 0);
+		stage.appendChild(renderer.domElement);
+		scene = new THREE.Scene(); dyn = new THREE.Group(); scene.add(dyn);
+		persp = new THREE.PerspectiveCamera(40, 1, 0.01, 100);
+		ortho = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.01, 100);
+		camera = persp;
+		ray.caster = new THREE.Raycaster(); ray.caster.params.Points = { threshold: 0.02 }; ray.ndc = new THREE.Vector2();
+
+		pts = data.notes.map((n) => ({ note: n, v: new THREE.Vector3(...n.xyz), color: new THREE.Color(cssColor(getCategoryColor(n.type))) }));
+		upTo = pts.length;
+		status = '';
+		placeCam(); draw();
+		window.addEventListener('resize', onResize);
 	});
-	onDestroy(() => { running = false; if (raf) cancelAnimationFrame(raf); });
+	function onResize() { if (renderer) { placeCam(); draw(); } }
+	onDestroy(() => { if (typeof window !== 'undefined') window.removeEventListener('resize', onResize); if (renderer) renderer.dispose(); });
+
+	$: if (renderer) { upTo; showPath; query; draw(); }
+
+	const legend = Object.values(categoryConfig).filter((c) => !c.parent || true);
+	$: usedTypes = data ? [...new Set(data.notes.map((n) => n.type))] : [];
 </script>
 
-<svelte:window on:pointermove={onPointerMove} on:pointerup={endDrag} on:pointercancel={endDrag} />
-
 <PageLayout title="Obsidian - Rhea Madhogarhia">
-<div class="net-page">
-	<header class="net-head">
+<div class="space-page">
+	<header class="space-head">
 		<h1>Obsidian</h1>
-		<p><AIText>Posts are small, fixed dots. <strong>Topics grow</strong> — a topic node's size is how many pieces of writing carry it, so the ideas I keep returning to are the biggest things here. Drag anything; click a post to open it.</AIText></p>
+		<p>
+			Every published note is a point. Its position comes from the words in it, so notes that talk about the same things sit near each other.
+			The line joins the notes in the order I wrote them. Drag to turn it, scroll to zoom, click a point to read the note.
+			{#if data}<span class="meta">{data.count} notes · {data.model} · the 3 axes keep {Math.round(100 * data.variance.reduce((a, b) => a + b, 0))}% of the differences between notes; the rest is flattened out.</span>{/if}
+		</p>
 	</header>
 
-	<div class="net-stage">
-		<svg viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMid meet" class="net-svg" bind:this={svgEl}>
-			{#each links as l}
-				{@const byId = Object.fromEntries(nodes.map((n) => [n.id, n]))}
-				{@const s = byId[l.source]}
-				{@const t = byId[l.target]}
-				{#if s && t}
-					<line
-						x1={s.x} y1={s.y} x2={t.x} y2={t.y}
-						class="edge {hovered && (l.source === hovered.id || l.target === hovered.id) ? 'hot' : ''}"
-						class:dim={hovered && !(l.source === hovered.id || l.target === hovered.id)}
-					/>
-				{/if}
-			{/each}
-
-			{#each nodes as n}
-				<g
-					class="node {n.kind}"
-					class:dim={hovered && hovered.id !== n.id && !(hi && hi.has(n.id))}
-					transform="translate({n.x},{n.y})"
-					on:mouseenter={() => (hovered = n)}
-					on:mouseleave={() => (hovered = null)}
-					on:pointerdown={(e) => startDrag(n, e)}
-					on:click={() => { if (!dragMoved) openNode(n); }}
-					role="button"
-					tabindex="0"
-				>
-					<circle r={n.kind === 'post' && hovered && hovered.id === n.id ? n.r + 3 : n.r} fill={n.color} />
-					{#if n.kind === 'cat' || (n.kind === 'tag' && n.count >= 4) || (hovered && (hovered.id === n.id || (hi && hi.has(n.id))))}
-						<text y={n.r + (n.kind === 'cat' ? 16 : 12)} class="node-label {n.kind}">
-							{n.label.length > 34 ? n.label.slice(0, 34) + '…' : n.label}{#if n.kind === 'tag'} ({n.count}){/if}
-						</text>
-					{/if}
-				</g>
-			{/each}
-		</svg>
-
-		{#if hovered && hovered.kind === 'post'}
-			<div class="net-tooltip">{hovered.label}</div>
+	<div class="space-stage" bind:this={stage}
+		on:pointerdown={onDown} on:pointermove={onMove} on:pointerup={onUp} on:pointerleave={() => { drag = null; if (hovered) { hovered = null; draw(); } }}
+		on:wheel={onWheel} role="img" aria-label="3-D map of the notes">
+		{#if status}<div class="space-status">{status}</div>{/if}
+		{#if hovered}
+			<div class="space-tip">
+				<span class="dot" style="background:{getCategoryColor(hovered.type)}"></span>
+				<strong>{hovered.title}</strong>
+				<span class="muted">{hovered.date || 'undated'} · {getCategoryLabel(hovered.type)}{hovered.sub ? ' / ' + hovered.sub : ''}</span>
+				{#if hovered.tags.length}<span class="muted">#{hovered.tags.join('  #')}</span>{/if}
+			</div>
 		{/if}
+	</div>
+
+	<div class="space-controls">
+		<label class="grow">
+			<span>through time</span>
+			<input type="range" min="1" max={pts.length || 1} bind:value={upTo} />
+			<span class="muted">{upTo}/{pts.length}{#if pts[upTo - 1]} · {pts[upTo - 1].note.date || 'undated'}{/if}</span>
+		</label>
+		<label><input type="checkbox" bind:checked={showPath} /> path</label>
+		<input class="find" type="text" placeholder="find: title, tag, or category" bind:value={query} />
+		<span class="views">
+			{#each [['3d', '3D'], ['12', 'flat 1·2'], ['13', 'flat 1·3'], ['23', 'flat 2·3']] as [v, l]}
+				<button class:on={flat === v} on:click={() => setView(v)}>{l}</button>
+			{/each}
+		</span>
+	</div>
+
+	<div class="space-legend">
+		{#each legend.filter((c) => usedTypes.includes(c.id)) as c}
+			<button class="chip" on:click={() => (query = query === '^' + c.id + '$' ? '' : '^' + c.id + '$')} class:on={query === '^' + c.id + '$'}>
+				<span class="dot" style="background:{c.color}"></span>{c.label}
+			</button>
+		{/each}
 	</div>
 </div>
 </PageLayout>
 
 <style>
-	.net-page {
-		padding: 4px 0 20px;
-		font-family: var(--font-family, Arial, sans-serif);
-		color: #111;
-	}
-	.net-head { max-width: 720px; margin: 0 auto 12px; text-align: center; }
-	.net-head h1 { font-size: 2rem; margin: 4px 0; }
-	.net-head p { color: #333; font-size: 1rem; margin: 0; }
-	.net-stage {
-		position: relative;
-		max-width: 1100px;
-		margin: 10px auto 0;
-		background: #0c0c0c;
-		border: 1px solid #000;
-		overflow: hidden;
-	}
-	.net-svg { width: 100%; height: auto; display: block; touch-action: none; }
-	.edge { stroke: rgba(255, 255, 255, 0.22); stroke-width: 1; }
-	.edge.hot { stroke: #ffffff; stroke-width: 1.8; }
-	.edge.dim { stroke: rgba(255, 255, 255, 0.07); }
-	.node { cursor: grab; }
-	.node:active { cursor: grabbing; }
-	.node.post:hover circle { stroke: #ffffff; stroke-width: 2; }
-	.node.cat circle { stroke: #ffffff; stroke-width: 2; }
-	.node.dim { opacity: 0.25; }
-	/* Labels: terminal/mono, single flat colour, no halo */
-	.node-label { text-anchor: middle; font-size: 10.5px; fill: #eaeaea; font-family: 'SF Mono', ui-monospace, Menlo, monospace; letter-spacing: -0.02em; }
-	.node-label.cat { font-weight: 700; font-size: 12px; fill: #ffffff; text-transform: lowercase; }
-	.node-label.tag { fill: #b8b8b8; font-size: 10.5px; }
-	.node.tag circle { stroke: #777; stroke-width: 1; }
-	.net-tooltip {
-		position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%);
-		background: #000; color: #fff; padding: 6px 12px; border-radius: 0;
-		font-size: 0.85rem; max-width: 90%; pointer-events: none;
-	}
+	.space-page { padding: 4px 0 20px; }
+	.space-head h1 { margin: 0 0 6px; }
+	.space-head p { margin: 0 0 12px; max-width: 70ch; opacity: 0.85; }
+	.space-head .meta { display: block; margin-top: 6px; font-size: 0.85em; opacity: 0.7; }
+	.space-stage { position: relative; width: 100%; height: min(72vh, 760px); border: 1px solid rgba(128, 128, 128, 0.25); border-radius: 6px; overflow: hidden; cursor: grab; touch-action: none; }
+	.space-stage:active { cursor: grabbing; }
+	.space-stage :global(canvas) { display: block; width: 100%; height: 100%; }
+	.space-status { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0.7; }
+	.space-tip { position: absolute; left: 12px; bottom: 12px; display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; background: rgba(0, 0, 0, 0.72); color: #fff; border-radius: 4px; font-size: 0.85em; pointer-events: none; max-width: 60%; }
+	.space-tip .muted { opacity: 0.7; }
+	.dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+	.space-controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin: 10px 0 8px; font-size: 0.9em; }
+	.space-controls label { display: flex; align-items: center; gap: 8px; }
+	.space-controls .grow { flex: 1 1 260px; }
+	.space-controls .grow input[type='range'] { flex: 1 1 auto; min-width: 120px; }
+	.space-controls .find { flex: 0 1 240px; padding: 4px 8px; font: inherit; }
+	.space-controls .views button, .chip { font: inherit; font-size: 0.9em; padding: 3px 9px; border: 1px solid rgba(128, 128, 128, 0.4); background: transparent; color: inherit; border-radius: 3px; cursor: pointer; }
+	.space-controls .views button.on, .chip.on { border-color: currentColor; }
+	.space-legend { display: flex; flex-wrap: wrap; gap: 6px; }
+	.muted { opacity: 0.7; }
 </style>
