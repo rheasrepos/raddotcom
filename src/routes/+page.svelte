@@ -635,7 +635,7 @@
 										</svg>
 									{/if}
 								</div>
-								<div class="mac-icon-label {redactionClass(project.date)}">{project.title}</div>
+								<div class="mac-icon-label {redactionClass(project.date)}">{project.title}{#if project.dateApprox && !project.undated} · {new Date(project.date).getFullYear()}{/if}</div>
 							</div>
 						{/if}
 					{/each}

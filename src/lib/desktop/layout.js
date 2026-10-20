@@ -48,5 +48,7 @@ export function defaultFloatPos(i, z = 1, w, nFolders = 5) {
 	const nf = nFolders || 5;
 	const frows = Math.ceil(nf / fcols);
 	const startY = 30 + frows * 190 * sf + 40 * sf; // folder rows + clearance
-	return gridPos(i, z, 116, 96, startY, 162 * sf, w);
+	// justify=false: pack them next to each other like the folders, instead of
+	// spreading one row across the whole width (which read as 'scattered').
+	return gridPos(i, z, 116, 96, startY, 162 * sf, w, false);
 }

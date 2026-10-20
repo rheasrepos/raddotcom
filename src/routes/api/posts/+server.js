@@ -194,6 +194,7 @@ export async function GET() {
 				// them leapfrog the real latest post).
 				date: frontmatter.date ? String(frontmatter.date) : '0001-01-01',
 				undated: !frontmatter.date,
+				dateApprox: frontmatter.date_approx === true, // year-only guess (shown as '· 2019' on art labels)
 				// added: when it was first put ON THE SITE (stamped from git history by
 				// scripts/stamp-added-dates.py) — distinct from `date`, the writing's own date.
 				added: frontmatter.added ? String(frontmatter.added) : null,
