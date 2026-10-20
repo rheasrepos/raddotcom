@@ -6,7 +6,8 @@ type: art
 published: true
 image: /artifacts/myart27.jpg
 tags: []
-affiliation: independent
+affiliation: before-college
+era: before-college
 kind: [artifact, analog-archive]
 ---
 
