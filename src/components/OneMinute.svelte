@@ -15,6 +15,9 @@
 	const configured = SUPABASE_URL && SUPABASE_ANON_KEY;
 
 	import { onMount } from 'svelte';
+	import { wpmOpen } from '$lib/wpm.js';
+	// top nav 'WPM' → open the popup
+	$: if ($wpmOpen) { open = true; if (phase === 'wall' || phase === 'intro') phase = 'intro'; wpmOpen.set(false); }
 	import AIText from './AIText.svelte';
 
 	let open = false;
@@ -72,7 +75,7 @@
 	});
 
 	function openIt() { open = true; phase = 'intro'; }
-	// × closes the popup; the ⌨ wpm button stays (auto-popup is once per session anyway)
+	// '–' minimizes to the ⌨ wpm button; nothing is ever closed for good
 	function dismiss() { open = false; stop(); }
 
 	function start() {
@@ -144,7 +147,7 @@
 	<div class="om-ad" class:wide={phase === 'wall'}>
 		<div class="om-bar">
 			<span>⌨ wpm — www.rhea.com</span>
-			<button class="om-x" on:click={dismiss} aria-label="Close">×</button>
+			<button class="om-x" on:click={dismiss} title="Minimize" aria-label="Minimize">–</button>
 		</div>
 
 		{#if phase === 'intro'}

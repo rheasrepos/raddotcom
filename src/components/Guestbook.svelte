@@ -13,7 +13,6 @@
 
 	import { onMount } from 'svelte';
 	let open = false;
-	let dismissed = false; // X'd out entirely (remembered per browser)
 	let name = '';
 	let message = '';
 	let sending = false;
@@ -21,13 +20,10 @@
 	let error = '';
 
 	onMount(() => {
-		try { dismissed = localStorage.getItem('gbDismissed') === '1'; } catch {}
+		// an older build could hide this for good (gbDismissed); nothing is
+		// ever closed for good now — the button is the minimized state
+		try { localStorage.removeItem('gbDismissed'); } catch {}
 	});
-	function dismiss() {
-		dismissed = true;
-		open = false;
-		try { localStorage.setItem('gbDismissed', '1'); } catch {}
-	}
 
 	async function submit() {
 		if (!message.trim()) { error = 'Add a note first!'; return; }
@@ -57,20 +53,17 @@
 	}
 </script>
 
-{#if dismissed}
-	<!-- fully dismissed: nothing shown -->
-{:else if !open}
+{#if !open}
 	<div class="gb-fab-wrap">
 		<button class="gb-fab" on:click={() => (open = true)} title="Leave Rhea a note">
 			tell rhea you visited her site! ✎
 		</button>
-		<button class="gb-dismiss" on:click={dismiss} title="Dismiss" aria-label="Dismiss">×</button>
 	</div>
 {:else}
 	<div class="gb-card">
 		<div class="gb-bar">
 			<span>tell rhea you visited!</span>
-			<button class="gb-x" on:click={() => (open = false)} aria-label="Close">×</button>
+			<button class="gb-x" on:click={() => (open = false)} title="Minimize" aria-label="Minimize">–</button>
 		</div>
 		{#if done}
 			<div class="gb-body gb-thanks">
@@ -92,19 +85,6 @@
 
 <style>
 	.gb-fab-wrap { position: fixed; right: 14px; bottom: 44px; z-index: 9500; display: flex; align-items: flex-start; }
-	.gb-dismiss {
-		background: #c0c0c0;
-		border: 2px solid #000;
-		border-color: #ffffff #808080 #808080 #ffffff;
-		color: #000;
-		font-size: 0.9rem;
-		line-height: 1;
-		padding: 4px 6px;
-		margin-left: -1px;
-		cursor: pointer;
-		box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
-	}
-	.gb-dismiss:hover { background: #e88; }
 	.gb-fab {
 		position: static;
 		background: #c0c0c0;

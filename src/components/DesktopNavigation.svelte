@@ -1,6 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 	import { createEventDispatcher } from 'svelte';
+	import { wpmOpen } from '$lib/wpm.js';
 	
 	const dispatch = createEventDispatcher();
 	
@@ -11,12 +12,14 @@
 		{ path: '/network', label: 'Obsidian' },
 		{ path: '/resume', label: 'Resume' },
 		{ path: '/about', label: 'About' },
-		{ path: '/admin', label: 'Admin' }
+		{ path: '/admin', label: 'Admin' },
+		{ path: '#wpm', label: 'WPM', action: 'wpm' } // opens the typing-test popup, no page change
 	];
 
-	function handleClick(event, path) {
+	function handleClick(event, item) {
 		event.preventDefault();
-		dispatch('navigate', { path });
+		if (item.action === 'wpm') { wpmOpen.set(true); return; }
+		dispatch('navigate', { path: item.path });
 	}
 </script>
 
@@ -27,7 +30,7 @@
 				<a 
 					href={item.path} 
 					class="desktop-nav-link {$page.url.pathname === item.path ? 'active' : ''}"
-					on:click={(e) => handleClick(e, item.path)}
+					on:click={(e) => handleClick(e, item)}
 				>
 					{item.label}
 				</a>
