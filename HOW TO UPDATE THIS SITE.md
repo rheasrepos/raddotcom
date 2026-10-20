@@ -161,15 +161,15 @@ A floating button (bottom-right, every page) opens a little box where visitors l
 
 ---
 
-## 5d. The "one minute" sticky-note wall
+## 5d. "WPM" — the one-minute typing test + sticky-note wall
 
-A retro "ad" that pops up once per session (and from the ✎ button, bottom-left): visitors get **60 seconds to write anything**, then pin it to a shared **wall** of sticky notes. The wall is searchable and sortable (new↔old, long↔short, and — when searching — by relevance with a % word-match on each note).
+A retro "ad" that pops up once per session (and from the ⌨ wpm button, top-right): visitors get **60 seconds to write anything**, see their **words-per-minute**, then pin it to a shared **wall** of sticky notes. The wall is the leaderboard: searchable and sortable (new↔old, long↔short, fastest wpm, and — when searching — by relevance with a % word-match on each note). Component: `src/components/OneMinute.svelte`.
 
 **The wall is SHARED across visitors, so it needs a tiny backend** (this site is static). It's wired to **Supabase** (free). To turn it on:
 1. Make a free project at [supabase.com](https://supabase.com).
 2. In the SQL editor, create the table + open it to anonymous writes/reads:
    ```sql
-   create table notes (id uuid primary key default gen_random_uuid(), text text not null, name text, created_at timestamptz default now());
+   create table notes (id uuid primary key default gen_random_uuid(), text text not null, name text, wpm int, created_at timestamptz default now());
    alter table notes enable row level security;
    create policy "anyone can read"  on notes for select using (true);
    create policy "anyone can write" on notes for insert with check (char_length(text) <= 1000);

@@ -1,13 +1,14 @@
 <script>
-	// "Write for one minute on www.rhea.com" — pops up like a retro ad. You get
-	// 60 seconds to write anything, then pin it to a shared sticky-note WALL of
-	// what visitors chose to say.
+	// "WPM" — a one-minute typing test that pops up like a retro ad. You get
+	// 60 seconds to write anything; we count your words-per-minute, then you pin
+	// it to a shared sticky-note WALL of what visitors chose to say (sortable by
+	// wpm, so the wall doubles as the leaderboard).
 	//
 	// THE WALL IS SHARED, so it needs a tiny backend (this site is static).
 	// Easiest: a free Supabase table. Fill the two constants below and it's a
 	// real shared wall; leave them empty and it falls back to a local wall
 	// (only notes written in THIS browser). Setup steps in HOW TO §5d.
-	//   table `notes`:  id (uuid, default), text (text), name (text), created_at (timestamptz, default now())
+	//   table `notes`:  id (uuid, default), text (text), name (text), wpm (int), created_at (timestamptz, default now())
 	//   RLS: allow anon INSERT + SELECT (insert-only — visitors can't edit/delete others').
 	const SUPABASE_URL = '';       // e.g. 'https://abcd.supabase.co'
 	const SUPABASE_ANON_KEY = '';  // the public anon key
@@ -21,13 +22,15 @@
 	let text = '';
 	let name = '';
 	let left = 60;
+	let wpm = 0;          // words per minute of the last run
+	let startedAt = 0;
 	let timer = null;
 	let notes = [];
 	let loading = false;
 	let error = '';
 	let inputEl;
 	// Wall sorting / searching
-	let wallSort = 'new'; // 'new' | 'old' | 'long' | 'short' | 'relevance'
+	let wallSort = 'new'; // 'new' | 'old' | 'long' | 'short' | 'fast' | 'relevance'
 	let wallQuery = '';
 	$: shown = (() => {
 		let list = notes.map((n) => ({ ...n }));
@@ -48,6 +51,7 @@
 			old: (a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0),
 			long: (a, b) => String(b.text || '').length - String(a.text || '').length,
 			short: (a, b) => String(a.text || '').length - String(b.text || '').length,
+			fast: (a, b) => (b.wpm || 0) - (a.wpm || 0),
 			relevance: (a, b) => (b.sim || 0) - (a.sim || 0)
 		};
 		return list.sort(by[wallSort] || by.new);
@@ -69,7 +73,7 @@
 	function dismiss() { open = false; dismissed = true; stop(); try { localStorage.setItem('omDismissed', '1'); } catch {} }
 
 	function start() {
-		text = ''; left = 60; phase = 'writing';
+		text = ''; left = 60; wpm = 0; startedAt = Date.now(); phase = 'writing';
 		setTimeout(() => inputEl && inputEl.focus(), 50);
 		timer = setInterval(() => {
 			left -= 1;
@@ -78,7 +82,12 @@
 	}
 	function stop() {
 		if (timer) { clearInterval(timer); timer = null; }
-		if (phase === 'writing') phase = 'review';
+		if (phase === 'writing') {
+			const mins = Math.max((Date.now() - startedAt) / 60000, 1 / 60);
+			const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+			wpm = Math.round(words / mins);
+			phase = 'review';
+		}
 	}
 
 	async function loadWall() {
@@ -99,7 +108,7 @@
 	async function pin() {
 		if (!text.trim()) { error = 'Nothing written yet!'; return; }
 		error = ''; loading = true;
-		const note = { text: text.trim(), name: (name || 'anonymous').trim() };
+		const note = { text: text.trim(), name: (name || 'anonymous').trim(), wpm };
 		try {
 			if (configured) {
 				const res = await fetch(`${SUPABASE_URL}/rest/v1/notes`, {
@@ -125,22 +134,22 @@
 </script>
 
 {#if !dismissed && !open}
-	<button class="om-fab" on:click={openIt} title="Write for one minute">✎ one minute</button>
+	<button class="om-fab" on:click={openIt} title="WPM — one-minute typing test">⌨ wpm</button>
 {/if}
 
 {#if open}
 	<div class="om-ad" class:wide={phase === 'wall'}>
 		<div class="om-bar">
-			<span>✎ one minute on www.rhea.com</span>
+			<span>⌨ wpm — www.rhea.com</span>
 			<button class="om-x" on:click={dismiss} aria-label="Close">×</button>
 		</div>
 
 		{#if phase === 'intro'}
 			<div class="om-body om-intro">
-				<p>you have <b>one minute</b> to write anything — a thought, a hello, a confession. then pin it to the wall of what visitors chose to say.</p>
+				<p>a typing test. you have <b>one minute</b> to write anything — a thought, a hello, a confession. we'll count your <b>words per minute</b>, then you pin it to the wall of what visitors chose to say.</p>
 				<div class="om-actions">
 					<button class="om-go" on:click={start}>start writing →</button>
-					<button class="om-link" on:click={loadWall}>see the wall</button>
+					<button class="om-link" on:click={loadWall}>see the wall / leaderboard</button>
 				</div>
 			</div>
 		{:else if phase === 'writing'}
@@ -151,7 +160,7 @@
 			</div>
 		{:else if phase === 'review'}
 			<div class="om-body">
-				<p class="om-up">time! pin it to the wall?</p>
+				<p class="om-up">time! <b>{wpm} wpm</b> — pin it to the wall?</p>
 				<div class="om-note-preview" style="background: {color(0)}">{text || '(you wrote nothing)'}</div>
 				<input class="om-name" placeholder="sign it (optional)" bind:value={name} />
 				{#if error}<div class="om-err">{error}</div>{/if}
@@ -172,6 +181,7 @@
 							<button class:on={wallSort === 'old'} on:click={() => (wallSort = 'old')}>old→new</button>
 							<button class:on={wallSort === 'long'} on:click={() => (wallSort = 'long')}>long→short</button>
 							<button class:on={wallSort === 'short'} on:click={() => (wallSort = 'short')}>short→long</button>
+							<button class:on={wallSort === 'fast'} on:click={() => (wallSort = 'fast')}>fastest wpm</button>
 						</div>
 					</div>
 				{/if}
@@ -189,7 +199,7 @@
 							<div class="om-note" style="background: {color(i)}; transform: rotate({tilt(i)}deg)">
 								{#if wallQuery.trim() && n.sim !== undefined}<div class="om-sim">{n.sim}% match</div>{/if}
 								<div class="om-note-text">{n.text}</div>
-								<div class="om-note-sig">— {n.name || 'anonymous'}</div>
+								<div class="om-note-sig">— {n.name || 'anonymous'}{#if n.wpm}<span class="om-wpm"> · {n.wpm} wpm</span>{/if}</div>
 							</div>
 						{/each}
 					</div>
@@ -249,6 +259,7 @@
 	.om-note { padding: 10px; border: 1px solid rgba(0,0,0,0.2); box-shadow: 1px 2px 3px rgba(0,0,0,0.25); font-size: 0.8rem; }
 	.om-note-text { white-space: pre-wrap; word-break: break-word; }
 	.om-note-sig { margin-top: 8px; font-size: 0.7rem; color: #444; text-align: right; }
+	.om-wpm { font-weight: 700; color: #000; }
 	.om-write-own { margin-top: 12px; }
 	@media (max-width: 600px) { .om-fab, .om-ad { right: 8px; top: 58px; } }
 </style>

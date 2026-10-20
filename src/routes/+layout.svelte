@@ -49,7 +49,7 @@
 <!-- Floating guestbook / feedback button on every page -->
 <Guestbook />
 
-<!-- "One minute" free-write → shared sticky-note wall, pops up like an ad -->
+<!-- "WPM" one-minute typing test → shared sticky-note wall, pops up like an ad -->
 <OneMinute />
 
 <!-- Global music toggle — always reachable, on every page -->
