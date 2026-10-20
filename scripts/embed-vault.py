@@ -13,12 +13,34 @@ Notes are sorted by `date` (undated last), so the order IS the path through time
 Only src/vault (the PUBLISHED copy) is read. The private draft vault is never touched.
 promote-to-site.command runs this automatically after promoting notes.
 """
-import os, re, json, sys, math
+import os, re, json, sys, math, subprocess, shutil, hashlib
 import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VAULT = os.path.join(ROOT, "src", "vault")
 OUT = os.path.join(ROOT, "static", "vault-space.json")
+DOCS = os.path.join(ROOT, "static", "docs")
+CACHE = os.path.join(ROOT, "scripts", ".pdf-text-cache.json")   # gitignored; pdftotext is slow
+
+# Same slug rule as src/routes/api/posts/+server.js — a note's PDF is static/docs/<slug>.pdf
+def slugify(s):
+    s = re.sub(r"['’\"]", "", s.lower())
+    s = re.sub(r"[^a-z0-9]+", "-", s)
+    return re.sub(r"-+", "-", s).strip("-")
+
+# Most notes are a one-line stub over a PDF ("original document below"), so
+# the words that say what a note is ABOUT live in the PDF. Pull them in.
+_cache = json.load(open(CACHE)) if os.path.exists(CACHE) else {}
+def pdf_text(path):
+    if not path or not os.path.exists(path) or not shutil.which("pdftotext"): return ""
+    key = f"{path}:{os.path.getmtime(path)}"
+    if key not in _cache:
+        try:
+            out = subprocess.run(["pdftotext", "-l", "12", "-q", path, "-"], capture_output=True, text=True, timeout=60).stdout
+        except Exception:
+            out = ""
+        _cache[key] = re.sub(r"\s+", " ", out)[:20000]
+    return _cache[key]
 model_name = sys.argv[sys.argv.index("--model") + 1] if "--model" in sys.argv else None
 
 # ---------------------------------------------------------------- read notes
@@ -46,6 +68,9 @@ for root, dirs, files in os.walk(VAULT):
         body = re.sub(r"\[\[Topic - [^\]]*\]\]", " ", body)          # topic backlinks are bookkeeping, not content
         body = re.sub(r"[#>*_`\[\]\(\)\-]|https?://\S+", " ", body)
         rel = os.path.relpath(root, VAULT).split(os.sep)
+        pdf = fm.get("pdf") or ""
+        pdf_path = os.path.join(ROOT, "static", pdf.lstrip("/")) if pdf else os.path.join(DOCS, slugify(f[:-3]) + ".pdf")
+        doc = pdf_text(pdf_path)
         # [[wikilinks]] — what the Obsidian-style graph view draws. Kept raw
         # (target text only, no alias/heading); resolved against note names
         # below. "Topic - x" targets are the vault's topic hub notes.
@@ -57,13 +82,21 @@ for root, dirs, files in os.walk(VAULT):
             "type": fm.get("type", rel[0] if rel[0] != "." else ""),
             "tags": tags_of(fm.get("tags")),
             "sub": rel[1] if len(rel) >= 2 else None,
-            "_text": (fm.get("title", "") + " ") * 3 + " ".join(fm.get("tags", "").split("/")) + " " + body,
+            "_text": (fm.get("title", "") + " ") * 3 + " ".join(fm.get("tags", "").split("/")) + " " + body + " " + doc,
+            "_words": len(re.findall(r"[a-zA-Z]{3,}", body + " " + doc)),
             "_links": links,
             "_name": f[:-3],
         })
+json.dump(_cache, open(CACHE, "w"))
+# Scans and artwork have no words (they're pictures), so "what is this note
+# about" has no answer for them — they'd all pile onto one point and squash the
+# real notes into a corner (which is exactly what the old map looked like).
+# They stay in the graph view; the space is for notes with text.
+skipped = [n for n in notes if n["_words"] < 25]
+notes = [n for n in notes if n["_words"] >= 25]
 if len(notes) < 4:
-    sys.exit(f"only {len(notes)} published notes in {VAULT}; need a few more to make a space")
-print(f"{len(notes)} published notes")
+    sys.exit(f"only {len(notes)} published notes with text in {VAULT}; need a few more to make a space")
+print(f"{len(notes)} notes with text in the space ({len(skipped)} image-only notes left out)")
 
 # ---------------------------------------------------------------- embed
 if model_name:
@@ -92,7 +125,10 @@ print(f"embedding: {label}  ->  {M.shape}")
 mu = M.mean(0)
 U, S, Vt = np.linalg.svd(M - mu, full_matrices=False)
 xyz = (M - mu) @ Vt[:3].T
-xyz /= np.abs(xyz).max() + 1e-9                                        # unit cube, so the viewer needs no scaling
+# Robust scaling per axis: a few outliers must not shrink everyone else into a
+# dot. Each axis is scaled by its 96th-percentile spread and clipped to ±1.
+scale = np.percentile(np.abs(xyz), 96, axis=0) + 1e-9
+xyz = np.clip(xyz / scale, -1, 1)
 var = (S[:3] ** 2 / (S ** 2).sum()).tolist()
 print(f"3 components keep {sum(var):.1%} of the variance")
 
@@ -108,7 +144,7 @@ for n, p in zip(notes, xyz):                       # xyz rows are in read order,
         if t.lower() in by_name and by_name[t.lower()] != n["id"]: out.append(by_name[t.lower()])
         elif t.startswith("Topic - "): out.append("topic:" + t[len("Topic - "):].strip())
     n["links"] = sorted(set(out))
-    del n["_text"], n["_links"], n["_name"]
+    del n["_text"], n["_links"], n["_name"], n["_words"]
 notes.sort(key=lambda n: (n["date"] == "", n["date"]))   # dated notes chronologically, undated last
-json.dump({"model": label, "variance": var, "count": len(notes), "notes": notes}, open(OUT, "w"))
+json.dump({"model": label, "variance": var, "count": len(notes), "left_out": len(skipped), "notes": notes}, open(OUT, "w"))
 print(f"wrote {os.path.relpath(OUT, ROOT)}")

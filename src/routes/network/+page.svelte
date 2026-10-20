@@ -190,7 +190,7 @@
 		<p>
 			<AIText>Every published note is a point. Its position comes from the words in it, so notes that talk about the same things sit near each other.
 			The line joins the notes in the order I wrote them. Drag to turn it, scroll to zoom, click a point to read the note.</AIText>
-			{#if data}<span class="meta">{data.count} notes · {data.model} · the 3 axes keep {Math.round(100 * data.variance.reduce((a, b) => a + b, 0))}% of the differences between notes; the rest is flattened out.</span>{/if}
+			{#if data}<span class="meta"><AIText>{data.count} notes with text (the words of an attached PDF count){data.left_out ? ` — ${data.left_out} image-only scans and artworks have no words to place, so they're only in the graph view` : ''} · {data.model} · the 3 axes keep {Math.round(100 * data.variance.reduce((a, b) => a + b, 0))}% of the differences between notes; the rest is flattened out.</AIText></span>{/if}
 		</p>
 		{:else}
 		<p>

@@ -219,7 +219,7 @@ The graph builds itself from your posts. You control it two ways, both in the `.
 - **Topic nodes** = your `tags:`. A tag becomes a node once 2+ posts share it; its size = how many posts carry it. So to make a topic bigger, tag more posts with it. To remove a topic, remove the tag.
 - **Filing tags don't show** (`affiliation:`, `kind:`, `form:` are separate fields on purpose, so they don't clutter the graph).
 
-The page has two modes: **space** (the 3-D embedding, `src/routes/network/+page.svelte`) and **graph** (a rebuild of Obsidian's Graph view from the notes' `[[wikilinks]]`, `src/components/ObsidianGraph.svelte`). Obsidian has no export for its graph, so the graph mode redraws it from the same links; `embed-vault.py` now also writes each note's `links` into `vault-space.json`. You rarely need to touch either.
+The page has two modes: **space** (the 3-D embedding, `src/routes/network/+page.svelte`) and **graph** (a rebuild of Obsidian's Graph view from the notes' `[[wikilinks]]`, `src/components/ObsidianGraph.svelte`). Obsidian has no export for its graph, so the graph mode redraws it from the same links; `embed-vault.py` now also writes each note's `links` into `vault-space.json`. For the space it reads the text of each note's PDF too (`pdftotext`, cached in `scripts/.pdf-text-cache.json`), and leaves out notes with no words (art + scans) — otherwise they all land on one point and squash everything else into a corner. You rarely need to touch either.
 
 ---
 
