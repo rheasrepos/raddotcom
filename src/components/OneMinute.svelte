@@ -18,7 +18,6 @@
 	import AIText from './AIText.svelte';
 
 	let open = false;
-	let dismissed = false;
 	let phase = 'intro';   // 'intro' | 'writing' | 'review' | 'wall'
 	let text = '';
 	let name = '';
@@ -62,8 +61,10 @@
 
 	onMount(() => {
 		try {
-			dismissed = localStorage.getItem('omDismissed') === '1';
-			if (!dismissed && !sessionStorage.getItem('omShown')) {
+			// (an older build stored a permanent omDismissed flag that hid the
+			// button forever — clear it so the ⌨ wpm button is always there)
+			localStorage.removeItem('omDismissed');
+			if (!sessionStorage.getItem('omShown')) {
 				sessionStorage.setItem('omShown', '1');
 				setTimeout(() => (open = true), 1400);
 			}
@@ -71,7 +72,8 @@
 	});
 
 	function openIt() { open = true; phase = 'intro'; }
-	function dismiss() { open = false; dismissed = true; stop(); try { localStorage.setItem('omDismissed', '1'); } catch {} }
+	// × closes the popup; the ⌨ wpm button stays (auto-popup is once per session anyway)
+	function dismiss() { open = false; stop(); }
 
 	function start() {
 		text = ''; left = 60; wpm = 0; startedAt = Date.now(); phase = 'writing';
@@ -134,7 +136,7 @@
 	function tilt(i) { return ((i * 7) % 7) - 3; }
 </script>
 
-{#if !dismissed && !open}
+{#if !open}
 	<button class="om-fab" on:click={openIt} title="WPM — one-minute typing test">⌨ wpm</button>
 {/if}
 
