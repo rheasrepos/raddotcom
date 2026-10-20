@@ -21,7 +21,7 @@ Open the vault in Obsidian: **Open folder as vault** → pick `raddotcom Vault (
 
 | Nav item | File to edit |
 |---|---|
-| **Desktop** (the home screen, folders, windows) | `src/routes/+page.svelte` |
+| **Desktop** (the home screen, icons, zoom, search, View modes) | `src/routes/+page.svelte` — the frame + icons only; the pieces are split out: `src/components/desktop/IntroOverlay.svelte` (typewriter landing), `ProjectModal.svelte` (the grey file dialog), `DesktopWindows.svelte` (Finder windows + minimized dock), `WallpaperToolbar.svelte` (colour picker + social links); and the logic in `src/lib/desktop/layout.js` (where icons sit), `content.js` (what's in which folder, previews, search), `windows.js` (open/close/navigate windows) |
 | **Blog** (the list of posts) | `src/routes/blog/+page.svelte` |
 | **Obsidian** (the 3-D map of notes) | `src/routes/network/+page.svelte` — the dots come from `static/vault-space.json`, which `promote-to-site.command` rebuilds via `scripts/embed-vault.py` |
 | **Resume** | `src/routes/resume/+page.svelte` (the PDF it shows is `static/resume.pdf`) |
