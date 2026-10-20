@@ -42,7 +42,6 @@ declare module '$env/static/private' {
 	export const SHLVL: string;
 	export const npm_config_noproxy: string;
 	export const HOME: string;
-	export const GIT_CONFIG_COUNT: string;
 	export const OLDPWD: string;
 	export const NO_PROXY: string;
 	export const npm_package_json: string;
@@ -50,7 +49,6 @@ declare module '$env/static/private' {
 	export const npm_config_local_prefix: string;
 	export const SYSTEMD_EXEC_PID: string;
 	export const COLOR: string;
-	export const GIT_OPTIONAL_LOCKS: string;
 	export const TMPDIR: string;
 	export const https_proxy: string;
 	export const CLAUDE_CODE_HOST_HTTP_PROXY_PORT: string;
@@ -64,7 +62,6 @@ declare module '$env/static/private' {
 	export const GIT_CONFIG_PARAMETERS: string;
 	export const npm_config_cache: string;
 	export const grpc_proxy: string;
-	export const GIT_CONFIG_VALUE_0: string;
 	export const npm_config_node_gyp: string;
 	export const PATH: string;
 	export const INVOCATION_ID: string;
@@ -79,7 +76,6 @@ declare module '$env/static/private' {
 	export const NODE_PATH: string;
 	export const npm_package_version: string;
 	export const npm_lifecycle_event: string;
-	export const GIT_CONFIG_KEY_0: string;
 	export const CLOUDSDK_PROXY_TYPE: string;
 	export const CLOUDSDK_PROXY_ADDRESS: string;
 	export const CLOUDSDK_PROXY_PORT: string;
@@ -92,6 +88,7 @@ declare module '$env/static/private' {
 	export const npm_config_global_prefix: string;
 	export const HTTP_PROXY: string;
 	export const npm_command: string;
+	export const TZ: string;
 	export const DOCKER_HTTP_PROXY: string;
 	export const GRPC_PROXY: string;
 	export const INIT_CWD: string;
@@ -142,7 +139,6 @@ declare module '$env/dynamic/private' {
 		SHLVL: string;
 		npm_config_noproxy: string;
 		HOME: string;
-		GIT_CONFIG_COUNT: string;
 		OLDPWD: string;
 		NO_PROXY: string;
 		npm_package_json: string;
@@ -150,7 +146,6 @@ declare module '$env/dynamic/private' {
 		npm_config_local_prefix: string;
 		SYSTEMD_EXEC_PID: string;
 		COLOR: string;
-		GIT_OPTIONAL_LOCKS: string;
 		TMPDIR: string;
 		https_proxy: string;
 		CLAUDE_CODE_HOST_HTTP_PROXY_PORT: string;
@@ -164,7 +159,6 @@ declare module '$env/dynamic/private' {
 		GIT_CONFIG_PARAMETERS: string;
 		npm_config_cache: string;
 		grpc_proxy: string;
-		GIT_CONFIG_VALUE_0: string;
 		npm_config_node_gyp: string;
 		PATH: string;
 		INVOCATION_ID: string;
@@ -179,7 +173,6 @@ declare module '$env/dynamic/private' {
 		NODE_PATH: string;
 		npm_package_version: string;
 		npm_lifecycle_event: string;
-		GIT_CONFIG_KEY_0: string;
 		CLOUDSDK_PROXY_TYPE: string;
 		CLOUDSDK_PROXY_ADDRESS: string;
 		CLOUDSDK_PROXY_PORT: string;
@@ -192,6 +185,7 @@ declare module '$env/dynamic/private' {
 		npm_config_global_prefix: string;
 		HTTP_PROXY: string;
 		npm_command: string;
+		TZ: string;
 		DOCKER_HTTP_PROXY: string;
 		GRPC_PROXY: string;
 		INIT_CWD: string;
