@@ -8,6 +8,7 @@
 	import { categoryConfig, getCategoryColor, getCategoryLabel } from '$lib/categories.js';
 	import PageLayout from '../../components/PageLayout.svelte';
 	import ObsidianGraph from '../../components/ObsidianGraph.svelte';
+	import AIText from '../../components/AIText.svelte';
 
 	// Two ways to see the same notes:
 	//   'space' — the 3-D embedding (position = what the note is about)
@@ -187,15 +188,15 @@
 		</div>
 		{#if mode === 'space'}
 		<p>
-			Every published note is a point. Its position comes from the words in it, so notes that talk about the same things sit near each other.
-			The line joins the notes in the order I wrote them. Drag to turn it, scroll to zoom, click a point to read the note.
+			<AIText>Every published note is a point. Its position comes from the words in it, so notes that talk about the same things sit near each other.
+			The line joins the notes in the order I wrote them. Drag to turn it, scroll to zoom, click a point to read the note.</AIText>
 			{#if data}<span class="meta">{data.count} notes · {data.model} · the 3 axes keep {Math.round(100 * data.variance.reduce((a, b) => a + b, 0))}% of the differences between notes; the rest is flattened out.</span>{/if}
 		</p>
 		{:else}
 		<p>
-			The same notes drawn the way Obsidian's Graph view draws them: a node per note, a line per [[link]], bigger nodes have more links.
-			Hover to light up a neighbourhood, drag nodes around, scroll to zoom (labels appear as you get closer), click a note to read it.
-			<span class="meta">Obsidian has no way to export its graph, so this is a rebuild from the same links — most of this vault's links run from notes to topic hubs.</span>
+			<AIText>The same notes drawn the way Obsidian's Graph view draws them: a node per note, a line per [[link]], bigger nodes have more links.
+			Hover to light up a neighbourhood, drag nodes around, scroll to zoom (labels appear as you get closer), click a note to read it.</AIText>
+			<span class="meta"><AIText>Obsidian has no way to export its graph, so this is a rebuild from the same links — most of this vault's links run from notes to topic hubs.</AIText></span>
 		</p>
 		{/if}
 	</header>

@@ -1,4 +1,5 @@
 <script>
+	import AIText from './AIText.svelte';
 	// Floating "tell Rhea you visited" button → a little popup with a message
 	// box for comments / suggestions / questions.
 	//
@@ -73,7 +74,7 @@
 		</div>
 		{#if done}
 			<div class="gb-body gb-thanks">
-				<p>thank you for visiting :) it means a lot.</p>
+				<p><AIText>thank you for visiting :) it means a lot.</AIText></p>
 				<button class="gb-again" on:click={() => { done = false; }}>leave another note</button>
 			</div>
 		{:else}

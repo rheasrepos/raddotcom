@@ -59,6 +59,8 @@ To change the body, just type in it. To change the title, edit the `title:` line
 ### Removing the AI-generated dashed underline
 If a title/description has a dashed underline on the site, it's because the file has `ai_title: true` or `ai_description: true`. **When you rewrite that text yourself, delete that line.** The underline disappears. That's the whole system — one line per file.
 
+The same rule covers **site copy** (sentences in the UI, not in posts): any prose an AI drafted is wrapped in `<AIText>…</AIText>` (`src/components/AIText.svelte`), which gives it the same dashed underline plus a hover note. Currently wrapped: the Obsidian page's two explanations, the WPM intro + "time!" line, the guestbook thank-you, and the landing ticker. Button labels and menu items are not wrapped (too noisy). **When you rewrite a wrapped sentence yourself, remove the `<AIText>` tags.** Your own words — the About text, titles you wrote — are never wrapped. Rule for any agent editing this site: new visitor-facing prose goes inside `<AIText>`, or it doesn't ship.
+
 ### Making a post live / hidden (PRUNING)
 `published: true` = on the site. `published: false` = hidden. Change the word, promote, push.
 

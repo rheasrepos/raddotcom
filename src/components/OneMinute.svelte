@@ -15,6 +15,7 @@
 	const configured = SUPABASE_URL && SUPABASE_ANON_KEY;
 
 	import { onMount } from 'svelte';
+	import AIText from './AIText.svelte';
 
 	let open = false;
 	let dismissed = false;
@@ -146,7 +147,7 @@
 
 		{#if phase === 'intro'}
 			<div class="om-body om-intro">
-				<p>a typing test. you have <b>one minute</b> to write anything — a thought, a hello, a confession. we'll count your <b>words per minute</b>, then you pin it to the wall of what visitors chose to say.</p>
+				<p><AIText>a typing test. you have <b>one minute</b> to write anything — a thought, a hello, a confession. we'll count your <b>words per minute</b>, then you pin it to the wall of what visitors chose to say.</AIText></p>
 				<div class="om-actions">
 					<button class="om-go" on:click={start}>start writing →</button>
 					<button class="om-link" on:click={loadWall}>see the wall / leaderboard</button>
@@ -160,7 +161,7 @@
 			</div>
 		{:else if phase === 'review'}
 			<div class="om-body">
-				<p class="om-up">time! <b>{wpm} wpm</b> — pin it to the wall?</p>
+				<p class="om-up"><AIText>time! <b>{wpm} wpm</b> — pin it to the wall?</AIText></p>
 				<div class="om-note-preview" style="background: {color(0)}">{text || '(you wrote nothing)'}</div>
 				<input class="om-name" placeholder="sign it (optional)" bind:value={name} />
 				{#if error}<div class="om-err">{error}</div>{/if}

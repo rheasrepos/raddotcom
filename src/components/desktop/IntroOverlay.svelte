@@ -2,6 +2,7 @@
 	// Landing beat: the site name types itself out; click anywhere to enter
 	// the desktop. Shown once per session (the page decides when).
 	import { createEventDispatcher } from 'svelte';
+	import AIText from '../AIText.svelte';
 	export let typed = '';
 	export let tagline = '';
 	const dispatch = createEventDispatcher();
@@ -14,7 +15,7 @@
 		<div class="intro-sub">{tagline}</div>
 		<div class="intro-hint">[ click anywhere to enter ]</div>
 	</div>
-	<div class="intro-ticker"><span>double-click a folder to open it · press space to preview any file · ⌘K to search everything · drag the obsidian graph · wallpaper picker bottom-left · welcome to my desktop ·</span></div>
+	<div class="intro-ticker"><span><AIText>double-click a folder to open it · press space to preview any file · ⌘K to search everything · drag the obsidian graph · wallpaper picker bottom-left · welcome to my desktop ·</AIText></span></div>
 </div>
 
 <style>
