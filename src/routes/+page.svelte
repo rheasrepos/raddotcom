@@ -1,81 +1,60 @@
 <script>
+	// THE DESKTOP. This file owns the monitor frame, the topbar, the draggable
+	// icons, zoom, search and the "View:" modes. The bigger pieces live in
+	// their own files:
+	//   src/components/desktop/IntroOverlay.svelte     — typewriter landing beat
+	//   src/components/desktop/ProjectModal.svelte     — the grey file dialog
+	//   src/components/desktop/DesktopWindows.svelte   — Finder windows + dock
+	//   src/components/desktop/WallpaperToolbar.svelte — colour picker + socials
+	//   src/lib/desktop/layout.js   — icon grid math (where icons sit)
+	//   src/lib/desktop/content.js  — what's in which folder, previews, search
+	//   src/lib/desktop/windows.js  — open/close/navigate window operations
 	import { onMount, tick } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { transitionActions } from '../lib/pageTransition.js';
-	import ProjectPane from '../components/ProjectPane.svelte';
-	import Navigation from '../components/Navigation.svelte';
 	import DesktopNavigation from '../components/DesktopNavigation.svelte';
-	import FilterTabs from '../components/FilterTabs.svelte';
-	import PostPreview from '../components/PostPreview.svelte';
 	import ImageViewer from '../components/ImageViewer.svelte';
+	import QuickLook from '../components/QuickLook.svelte';
+	import Spotlight from '../components/Spotlight.svelte';
+	import IntroOverlay from '../components/desktop/IntroOverlay.svelte';
+	import ProjectModal from '../components/desktop/ProjectModal.svelte';
+	import DesktopWindows from '../components/desktop/DesktopWindows.svelte';
+	import WallpaperToolbar from '../components/desktop/WallpaperToolbar.svelte';
 	import { redactionClass } from '$lib/redaction.js';
+	import { loadPosts } from '$lib/posts.js';
+	import { categoryConfig } from '$lib/categories.js';
+	import { siteName, SITE_TAGLINE } from '$lib/site.js';
+	import { spaceFactor, defaultIconPos, defaultFloatPos } from '$lib/desktop/layout.js';
+	import { inCat, hasPostsDeep, prettyFolder, matchesQuery } from '$lib/desktop/content.js';
+	import { openFolder } from '$lib/desktop/windows.js';
 
-	// Full-screen zoomable viewer — set to an image URL to open.
+	// Posts arrive from the page `load` function (+page.js), so the desktop
+	// renders WITH content immediately — no blank-until-reload flash.
+	export let data;
+	let projects = (data && data.posts) || [];
+	let categories = Object.values(categoryConfig);
+
+	// --- Full-screen zoomable image viewer — set to an image URL to open ---
 	let viewerSrc = null;
 	let viewerAlt = '';
 	function openViewer(src, alt = '') { viewerSrc = src; viewerAlt = alt; }
-	import { loadPosts, getProjectColor, formatDate } from '$lib/posts.js';
-	import { categoryConfig, getCategoryLabel } from '$lib/categories.js';
-	import { siteName, SITE_TAGLINE } from '$lib/site.js';
-	import QuickLook from '../components/QuickLook.svelte';
-	import Spotlight from '../components/Spotlight.svelte';
-	import FinderWindow from '../components/FinderWindow.svelte';
 
-	// --- Finder-style windows: draggable, resizable, many at once, minimize to
-	//     a bottom tab. A FOLDER window navigates in place (breadcrumb stack +
-	//     back button); opening a subfolder changes the same window, not a new
-	//     one. A FILE window shows a real preview. ---
+	// --- Finder-style windows (see DesktopWindows + $lib/desktop/windows.js) ---
 	let windows = [];
-	let winSeq = 1;
-	let winZ = 20;
 
-	// --- Draggable desktop folder icons (like real Mac desktop objects) ---
-	let iconPos = {};          // folderId -> {x, y}
+	// --- Draggable desktop icons (like real Mac desktop objects) ---
+	let iconPos = {};          // id -> {x, y}; persisted in localStorage
 	let iconDragging = null;
 	let iconMoved = false;
 	let iconStart = { mx: 0, my: 0, x: 0, y: 0 };
 	let deskW = 1200;          // measured desktop width (bind:clientWidth)
-	// Spacing scales with zoom so icons don't pile up when enlarged. Up to
-	// 175% the gap tracks the icon size (keeps the slight overlap Rhea likes);
-	// past 175% spacing grows slower, so they deliberately overlap.
-	function spaceFactor(z) {
-		z = z || 1;
-		return z <= 1.75 ? z : 1.75 + (z - 1.75) * 0.5;
-	}
-	// Lay items on a grid that WRAPS to the measured desktop width and hard-
-	// clamps every icon fully inside it — so at high zoom they overlap but no
-	// icon is ever clipped or pushed off-screen (no horizontal scroll).
-	// Lay items on a grid that FILLS the desktop width: pick the column count
-	// from an ideal step, then JUSTIFY the row so the last item's right edge
-	// meets the right margin — no dead space on the right, and the gap shrinks
-	// as items grow. Every icon stays fully on-screen (overlap allowed).
-	function gridPos(i, z, baseStep, iconW, startY, rowH, w, justify = true) {
-		const margin = 24;
-		const W = w || deskW || (typeof window !== 'undefined' ? window.innerWidth : 1200);
-		const iw = iconW * z;
-		const step0 = baseStep * spaceFactor(z);
-		const cols = Math.max(1, Math.round((W - 2 * margin) / step0));
-		// justify=true → spread the row so the last item meets the right margin
-		// (fills the width). justify=false → compact, left-aligned (folders).
-		const step = justify && cols > 1 ? (W - 2 * margin - iw) / (cols - 1) : step0;
-		const col = i % cols, row = Math.floor(i / cols);
-		let x = margin + col * step;
-		x = Math.min(Math.max(margin, x), W - margin - iw);
-		return { x, y: startY + row * rowH };
-	}
-	function defaultIconPos(i, z = 1, w) {
-		// folders: compact row(s) at the top-left, like a real desktop.
-		// Row height covers icon + a wrapped 2-line label at any zoom.
-		return gridPos(i, z, 150, 110, 30, 190 * spaceFactor(z), w, false);
-	}
-	function iconXY(id, i) { return iconPos[id] || defaultIconPos(i); }
 	function iconDown(e, id, pos) {
 		iconDragging = id;
 		iconMoved = false;
 		iconStart = { mx: e.clientX, my: e.clientY, x: pos.x, y: pos.y };
 		// capture the pointer so the drag keeps tracking even if the cursor
-		// leaves the icon — this is what was missing (drag "did nothing").
+		// leaves the icon.
 		try { e.currentTarget.setPointerCapture(e.pointerId); } catch {}
 	}
 	function iconMove(e) {
@@ -90,96 +69,24 @@
 			iconDragging = null;
 		}
 	}
-	function focusWindow(id) {
-		const w = windows.find((x) => x.id === id);
-		if (w) { w.z = ++winZ; w.minimized = false; windows = windows; }
+	// Put every dragged folder / floating item back to its default spot.
+	function resetIconPositions() {
+		iconPos = {};
+		try { localStorage.removeItem('iconPos'); } catch {}
 	}
-	function closeWindow(id) { windows = windows.filter((x) => x.id !== id); }
-	function minimizeWindow(id) {
-		const w = windows.find((x) => x.id === id);
-		if (w) { w.minimized = true; windows = windows; }
-	}
-	function cascade() {
-		const n = windows.length;
-		return { x: 60 + n * 34, y: 70 + n * 30 };
-	}
-	// Open a top-level category folder (its stack starts at that category).
-	function openFolderWindow(categoryId) {
-		const info = categoryConfig[categoryId];
-		if (!info) return;
-		const { x, y } = cascade();
-		windows = [...windows, {
-			id: winSeq++, kind: 'folder',
-			stack: [{ category: categoryId, subfolder: null, title: info.label }],
-			x, y, w: 640, h: 440, z: ++winZ, minimized: false
-		}];
-	}
-	// Open a folder window straight to a category (and optionally a subfolder) —
-	// used when arriving from a post's clickable breadcrumb (/?open=…&sub=…).
-	function openFolderFromParam(categoryId, subfolder) {
-		const info = categoryConfig[categoryId];
-		if (!info) return;
-		const { x, y } = cascade();
-		const stack = [{ category: categoryId, subfolder: null, title: info.label }];
-		if (subfolder) stack.push({ category: categoryId, subfolder, title: prettyFolder(subfolder) });
-		windows = [...windows, {
-			id: winSeq++, kind: 'folder', stack,
-			x, y, w: 640, h: 440, z: ++winZ, minimized: false
-		}];
-	}
-	// Navigate INSIDE a folder window (push a subfolder / child category).
-	function navInto(win, category, subfolder, title) {
-		win.stack = [...win.stack, { category, subfolder, title }];
-		win.z = ++winZ;
-		windows = windows;
-	}
-	function navBack(win) {
-		// Back pops a level; at the TOP level it closes the window, returning
-		// you to the desktop (the "meta" view of all folders).
-		if (win.stack.length > 1) { win.stack = win.stack.slice(0, -1); windows = windows; }
-		else { windows = windows.filter((w) => w.id !== win.id); }
-	}
-	// Open a file as its own preview window.
-	function openFileWindow(project) {
-		const { x, y } = cascade();
-		windows = [...windows, {
-			id: winSeq++, kind: 'file', post: project,
-			x, y, w: 680, h: 560, z: ++winZ, minimized: false
-		}];
-	}
-	// A post belongs to a category if it's its primary `type` OR it's listed
-	// in the post's extra `categories` (from `also_in:`). This is what lets a
-	// file live in multiple folders at once.
-	function inCat(p, catId) {
-		return p.type === catId || (Array.isArray(p.categories) && p.categories.includes(catId));
-	}
-	// Does a category (or any category nested under it) contain posts?
-	function hasPostsDeep(catId) {
-		if ((projects || []).some((p) => inCat(p, catId))) return true;
-		return Object.values(categoryConfig)
-			.filter((c) => c.parent === catId)
-			.some((c) => hasPostsDeep(c.id));
-	}
-	// Reactive: the top-level desktop folders (the 4 groups that have content).
-	// Referencing `projects` here makes Svelte recompute when posts load —
-	// without it the desktop renders once while projects is empty and never
-	// updates (which made all folders vanish).
+
+	// --- What's on the desktop ---
+	// Top-level folders: the groups that have content. Referencing `projects`
+	// makes Svelte recompute when posts load.
 	$: topFolders = projects
-		? categories.filter((c) => !categoryConfig[c.id].parent && hasPostsDeep(c.id))
+		? categories.filter((c) => !categoryConfig[c.id].parent && hasPostsDeep(projects, c.id))
 		: [];
-	// Free-floating desktop items: notes marked loose, plus the pieces that are
-	// actually Rhea's ART (image filenames with "myart"). The rest of the
-	// analog archive (the "img*" scans of belongings) collapses into a single
-	// expandable "hoard" stack so the desktop isn't buried in 70+ scans.
+	// Free-floating items: notes marked loose, plus Rhea's own ART (type: art).
+	// The img* scans of belongings (type: artifacts = "Collected & Kept") pile
+	// into a single expandable "hoard" stack so the desktop isn't buried.
 	let hoardOpen = false;
-	// Rhea's own pieces (type: art — the myart/tools scans) float loose; the
-	// img* scans (type: artifacts = "Collected & Kept") pile into the hoard.
-	$: looseFloat = projects
-		? projects.filter((p) => p.loose === true || p.type === 'art')
-		: [];
-	$: hoardItems = projects
-		? projects.filter((p) => p.type === 'artifacts')
-		: [];
+	$: looseFloat = projects ? projects.filter((p) => p.loose === true || p.type === 'art') : [];
+	$: hoardItems = projects ? projects.filter((p) => p.type === 'artifacts') : [];
 	// What actually gets laid out: the loose art, then the hoard stack icon,
 	// then (only when opened) the hoard's contents fanned out after it.
 	$: floatingItems = [
@@ -188,179 +95,39 @@
 		...(hoardOpen ? hoardItems : [])
 	];
 	function toggleHoard() { hoardOpen = !hoardOpen; }
-	// Default scatter for loose items: a wrapping grid BELOW the folder row.
-	function defaultFloatPos(i, z = 1, w) {
-		const sf = spaceFactor(z);
-		// Start BELOW however many rows the folders wrap into at this zoom —
-		// at high zoom the 5 folders can take 2+ rows, and the art must clear
-		// ALL of them (this was the "folder hidden behind the art" bug).
-		const margin = 24;
-		const W = w || deskW || 1200;
-		const fstep = 150 * sf;
-		const fcols = Math.max(1, Math.floor((W - 2 * margin) / fstep));
-		const nf = (topFolders || []).length || 5;
-		const frows = Math.ceil(nf / fcols);
-		const startY = 30 + frows * 190 * sf + 40 * sf; // folder rows + clearance
-		return gridPos(i, z, 116, 96, startY, 162 * sf, w);
-	}
-	function xyFloat(id, i) { return iconPos[id] || defaultFloatPos(i); }
-	// Contents of the folder window's CURRENT level (top of its stack).
-	// A level shows: its direct child-category folders (that contain posts),
-	// its own subfolders, and its own posts — never grandchildren directly.
-	function folderContents(win) {
-		const cur = win.stack[win.stack.length - 1];
-		const childCats = Object.values(categoryConfig)
-			.filter((c) => c.parent === cur.category && hasPostsDeep(c.id));
-		const own = (projects || []).filter((p) => inCat(p, cur.category));
-		// Cross-listed posts (here via also_in:, not their primary type) don't
-		// drag their ORIGIN subfolder in as a confusing one-off folder — they
-		// group under a single virtual "Course Final Projects" folder.
-		const XSUB = '__crosslisted__';
-		const effSub = (p) => (p.type === cur.category ? p.subfolder : XSUB);
-		if (cur.subfolder) {
-			return { childCats: [], subs: [], posts: own.filter((p) => effSub(p) === cur.subfolder) };
-		}
-		const subs = [...new Set(own.filter((p) => effSub(p)).map((p) => effSub(p)))].sort();
-		return { childCats, subs, posts: own.filter((p) => !effSub(p)) };
-	}
-	function ytId(url) {
-		const m = String(url || '').match(/(?:v=|youtu\.be\/|embed\/)([\w-]{6,})/);
-		return m ? m[1] : null;
-	}
-	// A plain-text excerpt of a post's body for the tile "page" preview.
-	function excerpt(md, max = 320) {
-		const t = String(md || '')
-			.replace(/\n#+\s*(Topics|Related)\s*\n(?:\s*[-*]\s*\[\[.*?\]\].*\n?)+/gi, '')
-			.replace(/\[\[.*?\]\]/g, '')
-			.replace(/<[^>]*>/g, ' ')
-			.replace(/[#>*_`]/g, '')
-			.replace(/\s+/g, ' ')
-			.trim();
-		return t.length > max ? t.slice(0, max) + '…' : t || '(no text yet)';
-	}
-	// Preview a post's body, minus the Obsidian graph plumbing, as plain text.
-	function renderMarkdownSafe(md) {
-		const t = String(md || '')
-			.replace(/\n#+\s*(Topics|Related)\s*\n(?:\s*[-*]\s*\[\[.*?\]\].*\n?)+/gi, '')
-			.replace(/\[\[.*?\]\]/g, '')
-			.replace(/[#>*_`]/g, '')
-			.trim();
-		const esc = t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-		return esc.split(/\n{2,}/).slice(0, 6).map((p) => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
-	}
 
-	// --- NEW: SVG Icon Definitions ---
-	const categoryIcons = {
-		thesis: `
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-				<path d="M15.2 3H18a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2.8"/>
-				<path d="M8 3h8v3H8z"/>
-				<line x1="8" y1="12" x2="16" y2="12"/>
-				<line x1="8" y1="16" x2="16" y2="16"/>
-			</svg>
-		`,
-		programming: `
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-				<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-				<line x1="2" y1="20" x2="22" y2="20"/>
-			</svg>
-		`,
-		comedy: `
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-				<path d="M18 13a6 6 0 0 1-6 5 6 6 0 0 1-6-5h12Z"/>
-				<path d="M6 8.8A8.5 8.5 0 0 1 12 5a8.5 8.5 0 0 1 6 3.8"/>
-			</svg>
-		`,
-		music: `
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-				<path d="M9 18V5l12-2v13"/>
-				<circle cx="6" cy="18" r="3"/>
-				<circle cx="18" cy="16" r="3"/>
-			</svg>
-		`,
-		research: `
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-				<circle cx="6" cy="15" r="3" />
-				<circle cx="18" cy="15" r="3" />
-				<path d="M10.5 15H13.5"/>
-				<path d="M8.3 13.5A6 6 0 0 1 12 9a6 6 0 0 1 3.7 4.5"/>
-			</svg>
-		`,
-		writing: `
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-				<path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
-			</svg>
-		`,
-		art: `
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-				<path d="M7 21h10"/>
-				<path d="M12 11l-4.04 4.04a2.83 2.83 0 0 0 4.04 4.04l4.04-4.04"/>
-				<path d="M12.01 11.01L15.5 7.5a2.83 2.83 0 0 0-4-4L8 7"/>
-				<path d="M3 21h4"/>
-			</svg>
-		`,
-		default: `
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-				<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-			</svg>
-		`
-	};
-	// --- END SVG Icon Definitions ---
-
-	// Posts arrive from the page `load` function (+page.js), so the desktop
-	// renders WITH content immediately — no blank-until-reload flash.
-	export let data;
-	let projects = (data && data.posts) || [];
-	let categories = Object.values(categoryConfig); // Get dynamic categories
-
-	let filteredProjects = [...(projects || [])];
-	let activeFilter = 'all';
-	
-	// Get all unique month/year combinations that have projects
-	// This will be reactively calculated *after* projects are loaded
-	$: availableMonths = (projects || [])
-		.map(project => {
-			const date = new Date(project.date);
-			return { month: date.getMonth(), year: date.getFullYear() };
-		})
-		.filter((monthYear, index, array) => 
-			array.findIndex(m => m.month === monthYear.month && m.year === monthYear.year) === index
-		)
-		.sort((a, b) => {
-			// Sort by year first, then by month (newest first)
-			if (a.year !== b.year) return b.year - a.year;
-			return b.month - a.month;
-		});
-
-	// Initialize current month/year with today's date
-	let currentDate = new Date();
-	let currentMonth = currentDate.getMonth();
-	let currentYear = currentDate.getFullYear();
-	
-	let expandedProjects = [];
-	let selectedFilter = 'all';
-	let initialized = false;
-	let viewMode = 'desktop'; // Default view mode: combined folders + loose files
-	let selectedProject = null;
-	let modalScrollPosition = 0;
+	// --- View state ---
+	let viewMode = 'desktop'; // 'desktop' | 'all' | 'folders' (by month) | 'categories'
+	let selectedProject = null;   // open file dialog
+	let selectedFilter = 'all';   // category open in the All Posts view
+	let selectedSubfolder = null; // subfolder open inside that category
+	let breadcrumbPath = ['Desktop'];
+	let previousView = null;
 	let folderOpening = false;
 	let openingFolder = null;
 	let zoomLevel = 1;
-	let isDragging = false;
-	let wallpaperColor = '#ff8c42'; // Default orange
-	let showWallpaperToolbar = false;
-	let breadcrumbPath = ['Desktop'];
-	let previousView = null;
+	let panOffset = { x: 0, y: 0 };
+	let wallpaperColor = '#ff8c42';
 	let showSearch = false;
 	let searchQuery = '';
-	let isNavigating = false;
 	let isClosingSearch = false;
+	let isNavigating = false;
 	let isContracting = false;
-	let dragStart = { x: 0, y: 0 };
-	let panOffset = { x: 0, y: 0 };
 	let currentTime = new Date().toLocaleTimeString();
 
-	// --- Surf zoom, Quick Look (spacebar), Spotlight search ---
+	// Month/year combinations that have posts (By Month view), newest first.
+	$: availableMonths = (projects || [])
+		.map((project) => {
+			const date = new Date(project.date);
+			return { month: date.getMonth(), year: date.getFullYear() };
+		})
+		.filter((my, index, array) => array.findIndex((m) => m.month === my.month && m.year === my.year) === index)
+		.sort((a, b) => (a.year !== b.year ? b.year - a.year : b.month - a.month));
+	let currentMonth = new Date().getMonth();
+	let currentYear = new Date().getFullYear();
+	$: currentMonthIndex = availableMonths ? availableMonths.findIndex((m) => m.month === currentMonth && m.year === currentYear) : -1;
+
+	// --- Quick Look (spacebar), Spotlight search ---
 	let hoveredProject = null;
 	let quickLookItem = null;
 	let spotlightOpen = false;
@@ -378,7 +145,7 @@
 		const prevVp = vp ? vp.getAttribute('content') : null;
 		if (vp && window.innerWidth < 768) vp.setAttribute('content', 'width=1024');
 
-		thisVisitName = siteName(); // rotates per visit
+		thisVisitName = siteName();
 		if (typeof sessionStorage !== 'undefined' && !sessionStorage.getItem('introSeen')) {
 			showIntro = true;
 			let i = 0;
@@ -387,7 +154,6 @@
 				if (i >= thisVisitName.length) clearInterval(t);
 			}, 150);
 		}
-		// restore the normal responsive viewport when leaving the desktop
 		return () => { if (vp && prevVp) vp.setAttribute('content', prevVp); };
 	});
 	function enterSite() {
@@ -395,9 +161,8 @@
 		try { sessionStorage.setItem('introSeen', '1'); } catch {}
 	}
 
-	// "Surf my web" — the monitor SCREEN expands to fill the whole window (go inside).
+	// --- Full screen: the monitor SCREEN expands to fill the whole window ---
 	let surfing = false;
-
 	// FLIP animation: layout jumps to its final state in ONE reflow, then we
 	// animate a compositor-only transform from the old position to the new one.
 	// Animating width/height instead re-lays-out the entire desktop every frame,
@@ -415,27 +180,25 @@
 		const dy = first.top + first.height / 2 - (last.top + last.height / 2);
 		if (Math.abs(sx - 1) < 0.001 && Math.abs(sy - 1) < 0.001 && !dx && !dy) return;
 		screen.animate(
-			[
-				{ transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` },
-				{ transform: 'none' }
-			],
+			[{ transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` }, { transform: 'none' }],
 			{ duration: 380, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
 		);
 	}
-
 	function surf() {
 		surfing = !surfing;
 		zoomLevel = 1;
 		panOffset = { x: 0, y: 0 };
 		animateScreenFlip();
 	}
+
+	// --- Keyboard: ⌘K spotlight, space = Quick Look, Esc ---
 	function handleQuickLookOpen(e) {
 		quickLookItem = null;
 		if (e && e.detail && e.detail.id) toggleProject(e.detail.id);
 	}
 	function onSpotlightSelect(e) {
 		spotlightOpen = false;
-		selectProject(e.detail);
+		selectedProject = e.detail;
 	}
 	function onWindowKeydown(e) {
 		if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
@@ -458,124 +221,59 @@
 			if (quickLookItem) quickLookItem = null;
 		}
 	}
-	
 
-
-	// Load posts and update time on mount
+	// --- Browser-only setup ---
 	onMount(async () => {
-		console.log('Component mounted, loading posts...');
+		if (typeof window === 'undefined') return;
+		const savedColor = localStorage.getItem('wallpaperColor');
+		if (savedColor) wallpaperColor = savedColor;
+		// Restore any dragged desktop icon positions
+		try { iconPos = JSON.parse(localStorage.getItem('iconPos') || '{}'); } catch {}
 
-		// Only run in browser
-		if (typeof window !== 'undefined') {
-
-			// Load wallpaper color from localStorage
-			const savedColor = localStorage.getItem('wallpaperColor');
-			if (savedColor) {
-				wallpaperColor = savedColor;
-			}
-			// Restore any dragged desktop icon positions
-			try { iconPos = JSON.parse(localStorage.getItem('iconPos') || '{}'); } catch {}
-
-			// If we arrived here from a page's search icon, open Spotlight.
-			if (window.location.search.includes('spotlight=1')) {
-				spotlightOpen = true;
-				window.history.replaceState({}, '', '/');
-			}
-			// Arriving from a post's breadcrumb (?open=<cat>&sub=<subfolder>):
-			// open that folder window on the desktop, then clean the URL.
-			const params = new URL(window.location.href).searchParams;
-			const openId = params.get('open');
-			if (openId) {
-				await tick();
-				openFolderFromParam(openId, params.get('sub') || null);
-				window.history.replaceState({}, '', '/');
-			}
-
-			// Posts already came from +page.js `load`. Only fetch as a fallback
-			// if for some reason none arrived, so the desktop is never blank.
-			try {
-				if (!projects || projects.length === 0) {
-					projects = await loadPosts();
-				}
-
-				// --- FIX: ---
-				// After posts are loaded, set the currentMonth/Year
-				// to the *newest available month* from the posts.
-				if (availableMonths.length > 0) {
-					currentMonth = availableMonths[0].month;
-					currentYear = availableMonths[0].year;
-				}
-				// --- END FIX ---
-
-			} catch (error) {
-				console.warn('Error loading posts:', error);
-				projects = [];
-			}
-
-			// Update time every second
-			const timeInterval = setInterval(() => {
-				currentTime = new Date().toLocaleTimeString();
-			}, 1000);
-
-			// Cleanup on component destroy
-			return () => {
-				if (timeInterval) {
-					clearInterval(timeInterval);
-				}
-			};
+		// If we arrived here from a page's search icon, open Spotlight.
+		if (window.location.search.includes('spotlight=1')) {
+			spotlightOpen = true;
+			window.history.replaceState({}, '', '/');
 		}
+		// Arriving from a post's breadcrumb (?open=<cat>&sub=<subfolder>):
+		// open that folder window on the desktop, then clean the URL.
+		const params = new URL(window.location.href).searchParams;
+		const openId = params.get('open');
+		if (openId) {
+			await tick();
+			windows = openFolder(windows, openId, params.get('sub') || null);
+			window.history.replaceState({}, '', '/');
+		}
+
+		// Posts already came from +page.js `load`. Only fetch as a fallback
+		// if for some reason none arrived, so the desktop is never blank.
+		try {
+			if (!projects || projects.length === 0) projects = await loadPosts();
+			// Start the By Month view on the newest month that has posts.
+			if (availableMonths.length > 0) {
+				currentMonth = availableMonths[0].month;
+				currentYear = availableMonths[0].year;
+			}
+		} catch (error) {
+			console.warn('Error loading posts:', error);
+			projects = [];
+		}
+
+		const timeInterval = setInterval(() => { currentTime = new Date().toLocaleTimeString(); }, 1000);
+		return () => clearInterval(timeInterval);
 	});
 
-	// Renamed "Rad Stuff" to "Posts"
-	$: projectTypes = [
-		{ id: 'all', label: 'All Posts', color: '#ff6b6b' },
-		...Object.values(categoryConfig)
-	];
-
-	function filterProjects(type) {
-		activeFilter = type;
-		if (type === 'all') {
-			filteredProjects = [...(projects || [])];
-		} else {
-			filteredProjects = (projects || []).filter(project => inCat(project, type));
-		}
+	// --- Opening things ---
+	function toggleProject(projectId) {
+		const project = (projects || []).find((p) => p.id === projectId);
+		if (project) selectedProject = project;
 	}
-
-	function selectProject(project) {
-		// Capture current scroll position
-		modalScrollPosition = window.scrollY;
-		selectedProject = project;
-	}
-
-	function closeProject() {
-		selectedProject = null;
-	}
-
-	function navigateBack() {
-		if (previousView) {
-			if (previousView.mode === 'folders') {
-				viewMode = 'folders';
-				currentMonth = previousView.month;
-				currentYear = previousView.year;
-				breadcrumbPath = ['Desktop'];
-			} else if (previousView.mode === 'categories') {
-				viewMode = 'categories';
-				selectedFilter = previousView.category || 'all';
-				breadcrumbPath = ['Desktop'];
-			}
-			previousView = null;
-		}
-	}
+	function closeProject() { selectedProject = null; }
 
 	async function handleNavigation(path) {
-		// Don't navigate if already on the target page
-		if (path === $page.url.pathname) {
-			return;
-		}
-		
+		if (path === $page.url.pathname) return;
 		// Start transition immediately to show overlay during frame animation
 		transitionActions.startTransition($page.url.pathname, path);
-
 		isNavigating = true;
 		animateScreenFlip();
 		// Let the monitor finish expanding to full-screen, then swap in the
@@ -583,17 +281,26 @@
 		setTimeout(async () => {
 			await goto(path);
 			isNavigating = false;
-			setTimeout(() => {
-				transitionActions.completeTransition();
-			}, 50);
+			setTimeout(() => transitionActions.completeTransition(), 50);
 		}, 380);
 	}
 
-	// Subfolder navigation inside a category folder (essays/media-aesthetics …)
-	let selectedSubfolder = null;
-	function prettyFolder(s) {
-		if (s === '__crosslisted__') return 'Course Final Projects';
-		return String(s).replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+	// --- "View:" modes other than the desktop (All Posts / By Month / By Category) ---
+	// These render flat icon grids in the same desktop area. Folders here open
+	// in place (with a breadcrumb) rather than as Finder windows.
+	function navigateBack() {
+		if (!previousView) return;
+		if (previousView.mode === 'folders') {
+			viewMode = 'folders';
+			currentMonth = previousView.month;
+			currentYear = previousView.year;
+			breadcrumbPath = ['Desktop'];
+		} else if (previousView.mode === 'categories') {
+			viewMode = 'categories';
+			selectedFilter = previousView.category || 'all';
+			breadcrumbPath = ['Desktop'];
+		}
+		previousView = null;
 	}
 	function openSubfolder(s) {
 		selectedSubfolder = s;
@@ -604,8 +311,6 @@
 		breadcrumbPath.length > 1 && !/\d{4}/.test(breadcrumbPath[1])
 			? [...new Set((projects || []).filter((p) => inCat(p, selectedFilter) && p.subfolder).map((p) => p.subfolder))].sort()
 			: [];
-
-	// Breadcrumb helpers — one Back button that does the natural thing
 	function goToDesktop() {
 		viewMode = 'desktop';
 		selectedFilter = 'all';
@@ -613,9 +318,9 @@
 		previousView = null;
 		selectedSubfolder = null;
 	}
+	// One Back button that does the natural thing
 	function goBackNav() {
 		if (selectedSubfolder) {
-			// step out of the subfolder, back to the category folder
 			selectedSubfolder = null;
 			breadcrumbPath = breadcrumbPath.slice(0, 2);
 			return;
@@ -634,190 +339,66 @@
 		}
 		goToDesktop();
 	}
-
-	function closeSearch() {
-		isClosingSearch = true;
-		// Wait for animation to complete before hiding
-		setTimeout(() => {
-			showSearch = false;
-			isClosingSearch = false;
-		}, 300);
-	}
-
-
-
-	function generateCalendarDays() {
-		const firstDay = new Date(currentYear, currentMonth, 1);
-		const lastDay = new Date(currentYear, currentMonth + 1, 0);
-		const startDate = new Date(firstDay);
-		startDate.setDate(startDate.getDate() - firstDay.getDay());
-		
-		const days = [];
-		const currentDate = new Date(startDate);
-		
-		while (currentDate.getMonth() <= currentMonth) {
-			const dateStr = currentDate.toISOString().split('T')[0];
-			const project = (projects || []).find(p => p.date === dateStr);
-			
-			days.push({
-				date: currentDate.getDate(),
-				project: project,
-				isPlaceholder: currentDate.getMonth() < currentMonth || currentDate.getMonth() > currentMonth
-			});
-			
-			currentDate.setDate(currentDate.getDate() + 1);
-		}
-		
-		return days;
-	}
-
-	// Find the current month/year index in available months
-	$: currentMonthIndex = availableMonths ? availableMonths.findIndex(m => 
-		m.month === currentMonth && m.year === currentYear
-	) : -1;
-	
-
-
 	function changeMonth(delta) {
-		console.log('changeMonth called with delta:', delta);
-		console.log('availableMonths:', availableMonths);
-		console.log('currentMonthIndex:', currentMonthIndex);
-		
-		if (!availableMonths || availableMonths.length === 0) {
-			console.log('No available months');
-			return;
-		}
-		
+		if (!availableMonths || availableMonths.length === 0) return;
 		let newIndex = currentMonthIndex + delta;
-		console.log('newIndex before wrap:', newIndex);
-		
-		// Wrap around if needed
-		if (newIndex < 0) {
-			newIndex = availableMonths.length - 1;
-		} else if (newIndex >= availableMonths.length) {
-			newIndex = 0;
-		}
-		
-		console.log('newIndex after wrap:', newIndex);
-		const newMonthYear = availableMonths[newIndex];
-		console.log('newMonthYear:', newMonthYear);
-		
-		// Update the variables to trigger reactivity
-		currentMonth = newMonthYear.month;
-		currentYear = newMonthYear.year;
-		
-		console.log('Updated currentMonth:', currentMonth, 'currentYear:', currentYear);
+		if (newIndex < 0) newIndex = availableMonths.length - 1;
+		else if (newIndex >= availableMonths.length) newIndex = 0;
+		currentMonth = availableMonths[newIndex].month;
+		currentYear = availableMonths[newIndex].year;
 	}
-
-	function toggleProject(projectId) {
-		const project = (projects || []).find(p => p.id === projectId);
-		if (project) {
-			// Capture current scroll position
-			modalScrollPosition = window.scrollY;
-			selectedProject = project;
-		}
-	}
-
 	function openMonthFolder(monthYear) {
 		folderOpening = true;
-		openingFolder = new Date(monthYear.year, monthYear.month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-		
-		// Simulate folder opening animation
+		const label = new Date(monthYear.year, monthYear.month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+		openingFolder = label;
 		setTimeout(() => {
 			previousView = { mode: 'folders', month: currentMonth, year: currentYear };
 			currentMonth = monthYear.month;
 			currentYear = monthYear.year;
 			viewMode = 'all';
-			breadcrumbPath = ['Desktop', new Date(monthYear.year, monthYear.month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })];
+			breadcrumbPath = ['Desktop', label];
 			folderOpening = false;
 			openingFolder = null;
 		}, 300);
 	}
-
 	function openCategoryFolder(category) {
 		folderOpening = true;
 		openingFolder = categoryConfig[category].label;
-		
-		// Simulate folder opening animation
 		setTimeout(() => {
 			previousView = { mode: 'categories', category: selectedFilter };
 			selectedFilter = category;
 			selectedSubfolder = null;
-			viewMode = 'all'; // Switch to all view to show the filtered projects
+			viewMode = 'all';
 			breadcrumbPath = ['Desktop', categoryConfig[category].label];
 			folderOpening = false;
 			openingFolder = null;
 		}, 300);
 	}
 
-	function zoomIn() {
-		console.log('Zoom in clicked, current level:', zoomLevel);
-		zoomLevel = Math.min(zoomLevel + 0.2, 3);
-		console.log('New zoom level:', zoomLevel);
-		// Force reactivity
-		zoomLevel = zoomLevel;
-	}
-
-	function zoomOut() {
-		console.log('Zoom out clicked, current level:', zoomLevel);
-		zoomLevel = Math.max(zoomLevel - 0.2, 1.0); // Prevent zooming out below 100%
-		console.log('New zoom level:', zoomLevel);
-		// Force reactivity
-		zoomLevel = zoomLevel;
-	}
-
-	function resetZoom() {
-		zoomLevel = 1;
-		panOffset = { x: 0, y: 0 };
-		zoomLevel = zoomLevel;
-	}
-	// Put every dragged folder / floating item back to its default spot.
-	function resetIconPositions() {
-		iconPos = {};
-		try { localStorage.removeItem('iconPos'); } catch {}
-	}
-
-	// Reset pan offset when zoom level changes to 1
-	$: if (zoomLevel === 1) {
-		panOffset = { x: 0, y: 0 };
-	}
-
-	function handleMouseDown(event) {
-		if (event.button === 0 && zoomLevel > 1) { // Only allow panning when zoomed in
-			isDragging = true;
-			dragStart = { x: event.clientX - panOffset.x, y: event.clientY - panOffset.y };
-		}
-	}
-
-	function handleMouseMove(event) {
-		if (isDragging && zoomLevel > 1) {
-			panOffset = { x: event.clientX - dragStart.x, y: event.clientY - dragStart.y };
-		}
-	}
-
-	function handleMouseUp() {
-		isDragging = false;
-	}
-
+	// --- Zoom (toolbar buttons + ⌘/ctrl-wheel) ---
+	function zoomIn() { zoomLevel = Math.min(zoomLevel + 0.2, 3); }
+	function zoomOut() { zoomLevel = Math.max(zoomLevel - 0.2, 1.0); }
+	function resetZoom() { zoomLevel = 1; panOffset = { x: 0, y: 0 }; }
+	$: if (zoomLevel === 1) panOffset = { x: 0, y: 0 };
 	function handleWheel(event) {
 		// Zoom only on Ctrl/Cmd + wheel or trackpad pinch — never plain scroll.
 		if (event.ctrlKey || event.metaKey) {
 			event.preventDefault();
 			const delta = event.deltaY > 0 ? -0.1 : 0.1;
-			const newZoomLevel = Math.max(1.0, Math.min(3, zoomLevel + delta)); // Prevent zooming out below 100%
-			zoomLevel = newZoomLevel;
-			console.log('Wheel zoom level changed to:', zoomLevel);
+			zoomLevel = Math.max(1.0, Math.min(3, zoomLevel + delta));
 		}
-		// Don't prevent default for normal scrolling
 	}
 
-
-
-
-
-	// When searching from the Desktop view, flip to All Posts so matches are
-	// actually visible (the desktop only shows category folders). Restore the
-	// desktop when the query is cleared.
+	// --- Search ---
+	function closeSearch() {
+		isClosingSearch = true;
+		setTimeout(() => {
+			showSearch = false;
+			isClosingSearch = false;
+		}, 200);
+	}
+	// Searching from the Desktop view flips to All Posts so matches are
+	// actually visible; the desktop comes back when the query is cleared.
 	let searchCameFromDesktop = false;
 	$: if (searchQuery.trim() && viewMode === 'desktop') {
 		searchCameFromDesktop = true;
@@ -827,91 +408,39 @@
 		viewMode = 'desktop';
 	}
 
+	// Posts shown in the All Posts view: search filter, then the open folder.
 	$: projectsWithDates = (projects || [])
-		.filter(project => {
-			// First apply search filter if there's a search query
-			if (searchQuery.trim()) {
-				const query = searchQuery.toLowerCase();
-				const titleMatch = project.title.toLowerCase().includes(query);
-				const descriptionMatch = project.description?.toLowerCase().includes(query) ?? false;
-				// Strip HTML tags and search raw content text
-				const contentText = project.content ? String(project.content).replace(/<[^>]*>/g, ' ') : '';
-				const contentMatch = contentText.toLowerCase().includes(query);
-				if (!titleMatch && !descriptionMatch && !contentMatch) {
-					return false;
-				}
-			}
-
-			// This logic was incorrect. It should only filter when inside a folder.
-			// The default view (viewMode === 'all' and breadcrumbPath.length === 1)
-			// should show all posts.
+		.filter((project) => {
+			if (!matchesQuery(project, searchQuery.trim())) return false;
 			if (viewMode === 'all') {
-				if (breadcrumbPath.length > 1) {
-					// We're inside a folder, so filter accordingly
-					if (/\d{4}/.test(breadcrumbPath[1])) {
-						// We're in a month folder, show all projects from this month
-						const projectDate = new Date(project.date);
-						const monthMatch = projectDate.getMonth() === currentMonth && projectDate.getFullYear() === currentYear;
-						return monthMatch;
-					} else {
-						// We're in a category folder. If a subfolder is open, show
-						// its posts; otherwise show only posts that sit at the
-						// category root (subfoldered posts appear as folders).
-						// A parent category (Creative) also holds its children's posts.
-						const childIds = Object.values(categoryConfig)
-							.filter((c) => c.parent === selectedFilter)
-							.map((c) => c.id);
-						if (project.type !== selectedFilter && !childIds.includes(project.type)) return false;
-						return selectedSubfolder
-							? project.subfolder === selectedSubfolder
-							: !project.subfolder;
-					}
-				} else {
-					// We're at the root, show all projects
-					return true; 
+				if (breadcrumbPath.length <= 1) return true; // root: everything
+				if (/\d{4}/.test(breadcrumbPath[1])) {
+					// Inside a month folder
+					const d = new Date(project.date);
+					return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
 				}
+				// Inside a category folder. If a subfolder is open, show its
+				// posts; otherwise only posts at the category root (subfoldered
+				// posts appear as folders). A parent category also holds its
+				// children's posts.
+				const childIds = Object.values(categoryConfig).filter((c) => c.parent === selectedFilter).map((c) => c.id);
+				if (project.type !== selectedFilter && !childIds.includes(project.type)) return false;
+				return selectedSubfolder ? project.subfolder === selectedSubfolder : !project.subfolder;
 			}
-
-			// Filter for 'By Month' view (which shows folders)
-			// This logic seems to be incorrectly placed in the 'projectsWithDates' filter.
-			// The 'folders' view iterates over 'availableMonths', not 'projectsWithDates'.
-			// We'll rely on the viewMode = 'all' logic above.
 			if (viewMode === 'folders') {
-				// This block is technically not used by the 'folders' view template,
-				// but we'll correct it for robustness anyway.
-				const projectDate = new Date(project.date);
-				const monthMatch = projectDate.getMonth() === currentMonth && projectDate.getFullYear() === currentYear;
-				return monthMatch;
+				const d = new Date(project.date);
+				return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
 			}
-			
-			// Filter for 'By Category' view
-			if (viewMode === 'categories') {
-				// This block is also not used by the 'categories' view template,
-				// but it's harmless to leave.
-				return selectedFilter === 'all' || inCat(project, selectedFilter);
-			}
-			
+			if (viewMode === 'categories') return selectedFilter === 'all' || inCat(project, selectedFilter);
 			return true;
 		})
 		.sort((a, b) => new Date(a.date) - new Date(b.date));
-	
-	$: console.log('Reactive update - currentMonth:', currentMonth, 'currentYear:', currentYear, 'projectsWithDates length:', projectsWithDates.length);
 </script>
-
-
 
 <svelte:window on:keydown={onWindowKeydown} on:pointermove={iconMove} on:pointerup={iconUp} />
 
 {#if showIntro}
-	<!-- Landing beat: click anywhere to enter the desktop -->
-	<div class="intro-overlay" on:click={enterSite} on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && enterSite()} role="button" tabindex="0">
-		<div class="intro-inner">
-			<h1 class="intro-title">{typed}<span class="intro-caret">&nbsp;</span></h1>
-			<div class="intro-sub">{SITE_TAGLINE}</div>
-			<div class="intro-hint">[ click anywhere to enter ]</div>
-		</div>
-		<div class="intro-ticker"><span>double-click a folder to open it · press space to preview any file · ⌘K to search everything · drag the obsidian graph · wallpaper picker bottom-left · welcome to my desktop ·</span></div>
-	</div>
+	<IntroOverlay {typed} tagline={SITE_TAGLINE} on:enter={enterSite} />
 {/if}
 
 <div class="laptop-frame" class:navigating={isNavigating} class:contracting={isContracting} class:surfing={surfing}>
@@ -1038,8 +567,8 @@
 								class="desktop-icon draggable"
 								style="left:{pos.x}px; top:{pos.y}px;"
 								on:pointerdown={(e) => iconDown(e, category.id, pos)}
-								on:click={() => { if (!iconMoved) openFolderWindow(category.id); }}
-								on:keydown={(e) => e.key === 'Enter' && openFolderWindow(category.id)}
+								on:click={() => { if (!iconMoved) windows = openFolder(windows, category.id); }}
+								on:keydown={(e) => e.key === 'Enter' && (windows = openFolder(windows, category.id))}
 								tabindex="0"
 								role="button"
 								aria-label="Open {categoryInfo.label} folder"
@@ -1060,7 +589,7 @@
 					<!-- Loose files + the whole analog archive float directly on the
 					     desktop as draggable objects (no folder). -->
 					{#each floatingItems as project, i (project.id)}
-						{@const fpos = iconPos[project.id] || defaultFloatPos(i, zoomLevel, deskW)}
+						{@const fpos = iconPos[project.id] || defaultFloatPos(i, zoomLevel, deskW, topFolders.length)}
 						{#if project.hoard}
 							<!-- The "hoard": one stack that fans open to reveal the img* scans -->
 							<div
@@ -1258,133 +787,14 @@
 
 		<!-- Project Modal (outside scrollable homepage so it always covers the full screen) -->
 		{#if selectedProject}
-			<div class="modal-overlay" on:click={closeProject}>
-				<div class="modal-content" on:click|stopPropagation>
-					<button class="close-btn" on:click={closeProject}>×</button>
-					<div class="modal-body">
-						{#if selectedProject.image}
-							<img
-								src={selectedProject.image}
-								alt={selectedProject.title}
-								title="Click to view full size"
-								style="cursor: zoom-in;"
-								on:click={() => openViewer(selectedProject.image, selectedProject.title)}
-							/>
-						{/if}
-						<h2 class="{redactionClass(selectedProject.date)}" class:ai-title={selectedProject.aiTitle} title={selectedProject.aiTitle ? 'Title drafted with AI assistance' : undefined}>{selectedProject.title}</h2>
-						<p class="project-date">{new Date(selectedProject.date).toLocaleDateString()}</p>
-						<p class="project-description {redactionClass(selectedProject.date)}" class:ai-desc={selectedProject.aiDescription} title={selectedProject.aiDescription ? 'Description drafted with AI assistance' : undefined}>{selectedProject.description}</p>
-						{#if selectedProject.pdf}
-							<!-- Original document beats mangled text every time -->
-							<iframe src={selectedProject.pdf} title="{selectedProject.title} (PDF)" class="modal-pdf"></iframe>
-						{:else}
-							<div class="project-content {redactionClass(selectedProject.date)}">
-								{@html selectedProject.content}
-							</div>
-						{/if}
-						<div class="project-actions">
-							{#if selectedProject.link}
-								<a href={selectedProject.link} target="_blank" rel="noopener noreferrer" class="view-post-btn">Open project ↗</a>
-							{/if}
-							<a href="/posts/{selectedProject.id}" class="view-post-btn">View Full Post →</a>
-						</div>
-					</div>
-				</div>
-			</div>
+			<ProjectModal project={selectedProject} on:close={closeProject} on:viewimage={(e) => openViewer(e.detail.src, e.detail.alt)} />
 		{/if}
 
 		<!-- Full-screen zoomable image viewer (opens from any clicked image) -->
 		<ImageViewer src={viewerSrc} alt={viewerAlt} on:close={() => (viewerSrc = null)} />
 
-		<!-- Draggable / resizable Finder windows -->
-		{#each windows as win (win.id)}
-			{#if !win.minimized}
-				<FinderWindow
-					title={win.kind === 'folder' ? win.stack.map((l) => l.title).join(' / ') : win.post.title}
-					bind:x={win.x} bind:y={win.y} bind:w={win.w} bind:h={win.h} z={win.z}
-					canBack={win.kind === 'folder'}
-					on:focus={() => focusWindow(win.id)}
-					on:close={() => closeWindow(win.id)}
-					on:minimize={() => minimizeWindow(win.id)}
-					on:back={() => navBack(win)}
-				>
-					{#if win.kind === 'folder'}
-						{@const c = folderContents(win)}
-						{@const cur = win.stack[win.stack.length - 1]}
-						{@const total = c.childCats.length + c.subs.length + c.posts.length}
-						{@const cols = total <= 1 ? 1 : total <= 4 ? 2 : total <= 9 ? 3 : 4}
-						{#if total === 0}
-							<p class="win-empty">Empty.</p>
-						{:else}
-							<!-- Icon-view grid: uniform paper-sized tiles that wrap. -->
-							<div class="win-fill">
-								{#each c.childCats as child}
-									<button class="win-cell folder" on:click={() => navInto(win, child.id, null, child.label)}>
-										<svg viewBox="0 0 56 46" class="cell-folder"><path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999" stroke-width="1.2"/><rect x="0" y="11" width="56" height="35" fill="#e8e8e8" stroke="#999" stroke-width="1.2"/></svg>
-										<span class="cell-cap">{child.label}</span>
-									</button>
-								{/each}
-								{#each c.subs as sub}
-									<button class="win-cell folder" on:click={() => navInto(win, cur.category, sub, prettyFolder(sub))}>
-										<svg viewBox="0 0 56 46" class="cell-folder"><path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999" stroke-width="1.2"/><rect x="0" y="11" width="56" height="35" fill="#e8e8e8" stroke="#999" stroke-width="1.2"/></svg>
-										<span class="cell-cap">{prettyFolder(sub)}</span>
-									</button>
-								{/each}
-								{#each c.posts as p (p.id)}
-									<button class="win-cell" class:art={p.type === 'art'} on:click={() => openFileWindow(p)}>
-										<div class="cell-media"><PostPreview post={p} /></div>
-										<span class="cell-cap {redactionClass(p.date)}">{p.title}</span>
-									</button>
-								{/each}
-							</div>
-						{/if}
-					{:else if win.kind === 'file'}
-						{@const p = win.post}
-						<div class="win-file" class:media={p.image || (p.images && p.images.length) || p.pdf || p.video || p.youtubePlaylist}>
-							<div class="win-file-meta">{formatDate(p.date)} · {getCategoryLabel(p.type)}</div>
-							{#if p.images && p.images.length > 1}
-								<div class="win-gallery">
-									{#each p.images as img, i}
-										<img class="win-gimg" src={img} alt="{p.title} — {i + 1} of {p.images.length}" loading="lazy" style="cursor: zoom-in;" on:click={() => openViewer(img, p.title)} />
-									{/each}
-								</div>
-							{:else if p.image}
-								<div class="win-imgwrap"><img class="win-image" src={p.image} alt={p.title} loading="lazy" style="cursor: zoom-in;" on:click={() => openViewer(p.image, p.title)} /></div>
-							{:else if p.youtubePlaylist}
-								<div class="win-embed"><iframe src="https://www.youtube.com/embed/videoseries?list={p.youtubePlaylist}" title={p.title} allowfullscreen></iframe></div>
-							{:else if p.video && ytId(p.video)}
-								<div class="win-embed"><iframe src="https://www.youtube.com/embed/{ytId(p.video)}" title={p.title} allowfullscreen></iframe></div>
-							{:else if p.pdf}
-								<iframe class="win-pdf" src={p.pdf} title={p.title}></iframe>
-							{:else if p.link}
-								<!-- Live view of the project site (same as blog / post page) -->
-								<div class="win-embed"><iframe src={p.link} title={p.title}></iframe></div>
-							{:else}
-								<div class="win-prose {redactionClass(p.date)}">{@html renderMarkdownSafe(p.content)}</div>
-							{/if}
-							{#if p.link}
-								<a class="win-open" href={p.link} target="_blank" rel="noopener noreferrer">Open ↗</a>
-							{/if}
-							<a class="win-open" href="/posts/{p.id}">Open full post →</a>
-						</div>
-					{/if}
-				</FinderWindow>
-			{/if}
-		{/each}
-
-		<!-- Minimized windows dock as tabs along the bottom (like Gmail drafts) -->
-		{#if windows.some((w) => w.minimized)}
-			<div class="win-dock">
-				{#each windows.filter((w) => w.minimized) as win (win.id)}
-					<div class="dock-tab">
-						<button class="dock-title" on:click={() => focusWindow(win.id)}>
-							{win.kind === 'folder' ? win.stack[win.stack.length - 1].title : win.post.title}
-						</button>
-						<button class="dock-close" on:click={() => closeWindow(win.id)} title="Close" aria-label="Close">×</button>
-					</div>
-				{/each}
-			</div>
-		{/if}
+		<!-- Draggable / resizable Finder windows + the dock of minimized ones -->
+		<DesktopWindows bind:windows {projects} on:viewimage={(e) => openViewer(e.detail.src, e.detail.alt)} />
 
 		<!-- Quick Look (spacebar preview) + Spotlight search -->
 		<QuickLook item={quickLookItem} on:close={() => (quickLookItem = null)} on:open={handleQuickLookOpen} />
@@ -1392,99 +802,7 @@
 			<Spotlight posts={projects} on:select={onSpotlightSelect} on:close={() => (spotlightOpen = false)} />
 		{/if}
 
-		<!-- Wallpaper Toolbar -->
-		<div class="wallpaper-toolbar">
-			<div class="toolbar-section">
-				<span class="toolbar-label">Wallpaper:</span>
-				<div class="color-picker">
-					<button 
-						class="color-btn {wallpaperColor === '#ff8c42' ? 'active' : ''}"
-						style="background: #ff8c42;"
-						on:click={() => {
-							wallpaperColor = '#ff8c42';
-							localStorage.setItem('wallpaperColor', '#ff8c42');
-							document.body.style.background = '#ff8c42';
-						}}
-						title="Orange"
-					></button>
-					<button 
-						class="color-btn {wallpaperColor === '#4ecdc4' ? 'active' : ''}"
-						style="background: #4ecdc4;"
-						on:click={() => {
-							wallpaperColor = '#4ecdc4';
-							localStorage.setItem('wallpaperColor', '#4ecdc4');
-							document.body.style.background = '#4ecdc4';
-						}}
-						title="Teal"
-					></button>
-					<button 
-						class="color-btn {wallpaperColor === '#45b7d1' ? 'active' : ''}"
-						style="background: #45b7d1;"
-						on:click={() => {
-							wallpaperColor = '#45b7d1';
-							localStorage.setItem('wallpaperColor', '#45b7d1');
-							document.body.style.background = '#45b7d1';
-						}}
-						title="Blue"
-					></button>
-					<button 
-						class="color-btn {wallpaperColor === '#4caf3f' ? 'active' : ''}"
-						style="background: #4caf3f;"
-						on:click={() => {
-							wallpaperColor = '#4caf3f';
-							localStorage.setItem('wallpaperColor', '#4caf3f');
-							document.body.style.background = '#4caf3f';
-						}}
-						title="Green"
-					></button>
-					<button 
-						class="color-btn {wallpaperColor === '#feca57' ? 'active' : ''}"
-						style="background: #feca57;"
-						on:click={() => {
-							wallpaperColor = '#feca57';
-							localStorage.setItem('wallpaperColor', '#feca57');
-							document.body.style.background = '#feca57';
-						}}
-						title="Yellow"
-					></button>
-					<button 
-						class="color-btn {wallpaperColor === '#9b59b6' ? 'active' : ''}"
-						style="background: #9b59b6;"
-						on:click={() => {
-							wallpaperColor = '#9b59b6';
-							localStorage.setItem('wallpaperColor', '#9b59b6');
-							document.body.style.background = '#9b59b6';
-						}}
-						title="Purple"
-					></button>
-				</div>
-			</div>
-			
-			<!-- Social Media Icons -->
-			<div class="social-icons">
-				<a href="https://www.linkedin.com/in/rhea-mad/" target="_blank" rel="noopener noreferrer" class="social-icon" title="LinkedIn">
-					<svg viewBox="0 0 24 24" fill="currentColor">
-						<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-					</svg>
-				</a>
-				<a href="https://github.com/rheasrepos" target="_blank" rel="noopener noreferrer" class="social-icon" title="GitHub">
-					<svg viewBox="0 0 24 24" fill="currentColor">
-						<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-					</svg>
-				</a>
-				<a href="mailto:rheamad@uchicago.edu" class="social-icon" title="Email">
-					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-						<polyline points="22,6 12,13 2,6"/>
-					</svg>
-				</a>
-				<a href="https://youtube.com/@rheamad" target="_blank" rel="noopener noreferrer" class="social-icon" title="YouTube">
-					<svg viewBox="0 0 24 24" fill="currentColor">
-						<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-					</svg>
-				</a>
-			</div>
-		</div>
+		<WallpaperToolbar bind:wallpaperColor />
 	</div>
 	
 	<!-- Desktop Stand (moved outside laptop screen) -->
@@ -1499,252 +817,6 @@
 </div>
 
 <style>
-	.modal-pdf {
-		display: block;
-		width: 100%;
-		height: 60vh;
-		border: 2px solid #000;
-		background: #fff;
-	}
-
-	/* One fill-the-window grid: rows share the height equally, so fewer items
-	   are bigger and a single folder/file fills the whole window. */
-	.win-fill {
-		display: grid;
-		/* Mac icon-view: uniform, paper-ish tiles that wrap, no stretching. */
-		grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-		gap: 20px 16px;
-		grid-auto-rows: min-content;
-		align-content: start;
-		justify-items: center;
-	}
-	.win-cell {
-		background: transparent;
-		border: none;
-		padding: 0;
-		cursor: pointer;
-		font: inherit;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		width: 130px;
-		align-self: start;
-	}
-	/* The cover is a downscaled 8.5×11 sheet (portrait), like a document icon */
-	.win-cell .cell-media {
-		width: 108px;
-		height: 140px;
-		border: 1px solid #000;
-		background: #fff;
-		overflow: hidden;
-		display: flex;
-	}
-	/* Art tiles: no paper frame — just the artwork itself, like a folder icon */
-	.win-cell.art .cell-media {
-		width: 118px;
-		height: auto;
-		max-height: 150px;
-		border: none;
-		background: transparent;
-	}
-	.win-cell.art .cell-media :global(.pv) { background: transparent; }
-	.win-cell.art .cell-media :global(.pv-thumb) { background: transparent; }
-	.win-cell:hover .cell-media { outline: 2px solid #000; }
-	.cell-thumb {
-		flex: 1;
-		min-height: 0;
-		background: #f2f2f2;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		overflow: hidden;
-		padding: 6px;
-	}
-	/* Show the WHOLE cover fit inside the tile (letterboxed), never cropped. */
-	.cell-thumb img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
-	/* Text-only documents get a real page preview: their opening words on
-	   white, like the top of the actual page. */
-	.cell-page {
-		flex: 1;
-		min-height: 0;
-		overflow: hidden;
-		background: #fff;
-		color: #222;
-		padding: 14px 16px;
-		font-size: 0.72rem;
-		line-height: 1.45;
-	}
-	/* Folder cells: just the folder icon + name (icon-view style) */
-	.win-cell.folder {
-		background: transparent;
-		border: none;
-		gap: 6px;
-		padding: 0;
-	}
-	.win-cell.folder:hover .cell-media { outline: none; }
-	.win-cell.folder:hover { background: rgba(0, 0, 0, 0.06); }
-	.cell-folder { width: 84px; height: auto; }
-	/* Caption: a plain label under the icon, no box/border */
-	.cell-cap {
-		flex: none;
-		padding: 6px 2px 0;
-		font-size: 0.78rem;
-		line-height: 1.2;
-		text-align: center;
-		word-break: break-word;
-		max-width: 130px;
-	}
-	.win-empty { color: #999; font-size: 0.85rem; }
-	.win-file-meta { font-size: 0.75rem; color: #777; margin-bottom: 10px; }
-	.win-embed { position: relative; padding-top: 56.25%; }
-	.win-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 1px solid #000; }
-	.win-pdf { width: 100%; height: 60vh; border: 1px solid #000; }
-	/* The file window is a flex column filling its window; the image scales
-	   to fit (contain) so the WHOLE artifact is always visible, at any window
-	   size — resize the window and the image just scales with it. */
-	.win-file { display: flex; flex-direction: column; height: 100%; min-height: 0; }
-	/* Media (image/pdf/video) fills the window edge-to-edge: pull out the
-	   window body padding and shrink the chrome so the content dominates. */
-	.win-file.media {
-		margin: -14px;
-		height: calc(100% + 28px);
-	}
-	.win-file.media .win-file-meta { padding: 8px 12px 6px; margin: 0; }
-	.win-file.media .win-open { margin: 0; border: none; border-top: 1px solid #000; }
-	.win-file.media .win-image { border: none; }
-	/* Multi-page/side artifact: a scrollable stack of all its images */
-	.win-gallery { flex: 1; min-height: 0; overflow: auto; display: flex; flex-direction: column; gap: 10px; }
-	.win-gimg { max-width: 100%; border: 1px solid #000; display: block; }
-	/* Image wrapper fills remaining height; image fits inside (contain) so the
-	   whole scan shows and scales as the window resizes. */
-	.win-imgwrap {
-		flex: 1;
-		min-height: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		overflow: hidden;
-	}
-	.win-image {
-		max-width: 100%;
-		max-height: 100%;
-		width: auto;
-		height: auto;
-		object-fit: contain;
-		border: 1px solid #000;
-		display: block;
-	}
-	.win-open {
-		display: inline-block;
-		margin-top: 12px;
-		border: 1px solid #000;
-		padding: 5px 12px;
-		text-decoration: none;
-		color: #000;
-	}
-	.win-open:hover { background: #000; color: #fff; }
-	.win-prose { font-size: 0.9rem; line-height: 1.5; }
-	.win-prose :global(p) { margin: 0 0 0.7em; }
-
-	/* Minimized windows dock as tabs at the bottom, like Gmail drafts */
-	.win-dock {
-		position: fixed;
-		bottom: 40px;
-		right: 16px;
-		display: flex;
-		gap: 8px;
-		z-index: 400;
-	}
-	.dock-tab {
-		display: flex;
-		align-items: center;
-		background: #c0c0c0;
-		border: 2px solid #000;
-		box-shadow: 2px 2px 0 rgba(0,0,0,0.35);
-		max-width: 220px;
-	}
-	.dock-title {
-		background: none;
-		border: none;
-		padding: 6px 10px;
-		font-size: 0.78rem;
-		font-weight: 700;
-		cursor: pointer;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-	.dock-close {
-		background: none;
-		border: none;
-		border-left: 1px solid #000;
-		padding: 6px 9px;
-		cursor: pointer;
-		font-size: 0.9rem;
-	}
-	.dock-close:hover { background: #ff5f57; }
-
-	/* File previews fade in quietly. (The old-Windows slit animation is kept
-	   for folders only, in QuickLook.) */
-	:global(.modal-content) {
-		animation: modalFade 0.14s ease-out;
-	}
-	@keyframes modalFade {
-		from { opacity: 0; transform: scale(0.98); }
-		to { opacity: 1; transform: scale(1); }
-	}
-
-	/* Landing beat */
-	.intro-overlay {
-		position: fixed;
-		inset: 0;
-		background: #ff8c42;
-		z-index: 5000;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		text-align: center;
-		cursor: pointer;
-		overflow: hidden;
-	}
-	.intro-title {
-		font-size: clamp(44px, 10vw, 120px);
-		letter-spacing: -2px;
-		margin: 0;
-		color: #000;
-	}
-	.intro-caret {
-		display: inline-block;
-		width: 0.55em;
-		background: #000;
-		animation: introBlink 1s steps(1) infinite;
-	}
-	@keyframes introBlink { 50% { opacity: 0; } }
-	.intro-sub { font-size: clamp(14px, 2vw, 20px); margin-top: 14px; color: #000; }
-	.intro-hint { margin-top: 56px; font-size: 14px; animation: introBlink 1.6s steps(1) infinite; color: #000; }
-	.intro-ticker {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		background: #000;
-		color: #ff8c42;
-		font-size: 12px;
-		padding: 6px 0;
-		white-space: nowrap;
-		overflow: hidden;
-	}
-	.intro-ticker span { display: inline-block; padding-left: 100%; animation: introTick 18s linear infinite; }
-	@keyframes introTick { to { transform: translateX(-100%); } }
-
-	/* AI-generated titles get a dashed underline (same convention as AIText) */
-	.ai-title {
-		text-decoration: underline dashed;
-		text-decoration-thickness: 1px;
-		text-underline-offset: 3px;
-		cursor: help;
-	}
-
 	/* Space/Dark Grey Laptop Frame */
 	.laptop-frame {
 		display: flex;
@@ -1921,53 +993,10 @@
 		gap: 10px;
 	}
 
-	.surf-btn {
-		background: rgba(255, 255, 255, 0.92);
-		color: #111;
-		border: 1px solid rgba(0, 0, 0, 0.25);
-		padding: 4px 10px;
-		font-family: Arial, sans-serif;
-		font-size: 0.8rem;
-		font-weight: 700;
-		cursor: pointer;
-		white-space: nowrap;
-	}
-	.surf-btn:hover { background: #ffffff; }
-
 	.system-time {
 		color: #ffffff;
 		font-family: Arial, sans-serif;
 		font-size: 0.8rem;
-	}
-
-	/* Social Media Icons in Toolbar */
-	.social-icons {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		margin-left: auto;
-	}
-
-	.social-icon {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 20px;
-		height: 20px;
-		color: #ffffff;
-		text-decoration: none;
-		transition: all 0.2s ease;
-		padding: 2px;
-	}
-
-	.social-icon:hover {
-		background: rgba(255, 255, 255, 0.1);
-		transform: scale(1.1);
-	}
-
-	.social-icon svg {
-		width: 16px;
-		height: 16px;
 	}
 
 	/* Search Styles */
@@ -2086,7 +1115,6 @@
 		cursor: grabbing;
 	}
 
-
 	/* Zoom Controls */
 	/* Old-school retro filter toolbar (sits above the surf button) */
 	.filter-toolbar {
@@ -2145,35 +1173,6 @@
 		border-right: 1px solid #ffffff;
 	}
 
-
-
-	.hero {
-		text-align: center;
-		margin-bottom: 20px;
-		padding: 6px 0 14px;
-	}
-
-	.hero-content {
-		max-width: 900px;
-		margin: 0 auto;
-	}
-
-	/* Surf button, now living inside the monitor where the brand used to be */
-	.surf-btn.hero-surf {
-		font-family: 'Akzidenz-Grotesk', 'Akzidenz-Grotesk BQ', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-		font-size: 1.05rem;
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-		padding: 10px 26px;
-		border: 2px solid #000000;
-		background: #ffffff;
-		transition: background 0.12s ease, color 0.12s ease;
-	}
-	.surf-btn.hero-surf:hover {
-		background: #000000;
-		color: #ffffff;
-	}
-
 	/* RAD.COM brand on the orange desktop, above the monitor */
 	.desktop-brand {
 		position: absolute;
@@ -2221,7 +1220,6 @@
 		   `clip` (not hidden) so vertical scrolling is unaffected. */
 		overflow-x: clip;
 	}
-
 
 	/* Breadcrumb Navigation — quiet Finder-style path bar */
 	.breadcrumb-nav {
@@ -2276,44 +1274,6 @@
 
 	.breadcrumb-link:hover {
 		background: rgba(0, 0, 0, 0.08);
-	}
-
-	.back-btn {
-		background: #f0f0f0;
-		border: 1px solid #ccc;
-		color: #333;
-		cursor: pointer;
-		padding: 4px 8px;
-		font-size: 0.8rem;
-		margin-left: 10px;
-		transition: all 0.2s ease;
-	}
-
-	.back-btn:hover {
-		background: #e0e0e0;
-		border-color: #999;
-	}
-
-
-
-	.view-post-btn {
-		display: inline-block;
-		padding: 8px 16px;
-		background: #000000;
-		color: #ffffff;
-		text-decoration: none;
-		border: 1px solid #000000;
-		transition: all 0.2s ease;
-	}
-
-	.view-post-btn:hover {
-		background: #ffffff;
-		color: #000000;
-	}
-
-	.project-actions {
-		margin-top: 15px;
-		text-align: center;
 	}
 
 	.desktop-icons {
@@ -2407,7 +1367,6 @@
 		text-align: center;
 	}
 
-
 	/* Mac-style icon container */
 	.mac-icon {
 		width: calc(56px * var(--zoom, 1));
@@ -2460,131 +1419,10 @@
 		transition: font-size 0.15s ease, max-width 0.15s ease;
 	}
 
-	.folder-count {
-		font-size: 0.7rem;
-		color: #636e72;
-	}
-
-
-	.view-post-btn {
-		display: inline-block;
-		background: #000000;
-		color: #ffffff;
-		text-decoration: none;
-		padding: 0.75rem 1.5rem;
-		font-family: Arial, sans-serif;
-		font-size: 1rem;
-		border: 1px solid #000000;
-		transition: all 0.3s ease;
-	}
-
-	.view-post-btn:hover {
-		opacity: 0.8;
-	}
-
-
-
-	/* Modal Styles */
-	.modal-overlay {
-		position: absolute;
-		top: 50px; /* Below the topbar */
-		left: 0;
-		right: 0;
-		bottom: 35px; /* Above the wallpaper toolbar */
-		background: rgba(0, 0, 0, 0.4);
-		z-index: 500;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-
-	.modal-content {
-		background: #c0c0c0;
-		width: 90%;
-		max-width: 760px;
-		max-height: 88vh;
-		overflow-y: auto;
-		position: relative;
-		border: 2px solid #000000;
-	}
-
-	.close-btn {
-		position: absolute;
-		top: 15px;
-		right: 20px;
-		background: none;
-		border: none;
-		font-size: 2rem;
-		cursor: pointer;
-		color: #636e72;
-		z-index: 1;
-	}
-
-	.close-btn:hover {
-		color: #ff6b6b;
-	}
-
-	.modal-body {
-		padding: 30px;
-	}
-
-	.modal-body img {
-		display: block;
-		max-width: 100%;
-		max-height: 60vh;
-		width: auto;
-		height: auto;
-		object-fit: contain;
-		margin: 0 auto 20px;
-		background: #f2f2f2;
-	}
-
-	.modal-body h2 {
-		font-size: 1.8rem;
-		margin-bottom: 10px;
-		color: #2d3436;
-	}
-
-	.project-date {
-		color: #636e72;
-		font-size: 0.9rem;
-		margin-bottom: 15px;
-	}
-
-	.project-description {
-		/* UPDATED: Made font smaller and added truncation */
-		font-size: 1rem;
-		color: #2d3436;
-		margin-bottom: 20px;
-		line-height: 1.5;
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 3; /* Show 3 lines */
-		overflow: hidden;
-		text-overflow: ellipsis;
-		max-height: calc(1.5em * 3); /* line-height * 3 lines */
-	}
-
-	.project-content {
-		line-height: 1.8;
-		color: #2d3436;
-	}
-
 	/* Responsive Design */
 	@media (max-width: 768px) {
-		.title {
-			font-size: 2.5rem;
-		}
-
-		.subtitle {
-			font-size: 1.1rem;
-		}
-
-
-
-		.hero {
-			padding: 40px 0;
-		}
+		.title { font-size: 2.5rem; }
+		.subtitle { font-size: 1.1rem; }
 	}
 
 	/* MacBook-style Folder Opening Animation */
@@ -2693,87 +1531,8 @@
 		transform: scale(0.95);
 	}
 
-	.folder-icon {
-		transition: all 0.3s ease;
-	}
-
-	.folder-icon:hover {
-		transform: scale(1.1);
-	}
-
-	.folder-icon:active {
-		transform: scale(0.9);
-	}
-
 	/* Smooth transitions for view mode changes */
 	.desktop-icons {
 		transition: all 0.3s ease;
 	}
-
-	/* Wallpaper Toolbar */
-	.player-btn {
-		background: #1db954;
-		border: 1px solid #000;
-		color: #000;
-		font-size: 1rem;
-		line-height: 1;
-		width: 26px;
-		height: 22px;
-		cursor: pointer;
-		margin-right: 12px;
-	}
-	.player-btn:hover { background: #1ed760; }
-
-	.wallpaper-toolbar {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		height: 35px;
-		background: #222222;
-		border-top: 1px solid rgba(255, 255, 255, 0.3);
-		display: flex;
-		align-items: center;
-		padding: 0 15px;
-		z-index: 1000;
-	}
-
-	.toolbar-section {
-		display: flex;
-		align-items: center;
-		gap: 10px;
-	}
-
-	.toolbar-label {
-		color: white;
-		font-size: 0.75rem;
-		font-family: Arial, sans-serif;
-	}
-
-	.color-picker {
-		display: flex;
-		gap: 5px;
-	}
-
-	.color-btn {
-		width: 20px;
-		height: 20px;
-		border: 2px solid transparent;
-		cursor: pointer;
-		transition: all 0.2s ease;
-	}
-
-	.color-btn:hover {
-		border-color: white;
-		transform: scale(1.1);
-	}
-
-	.color-btn.active {
-		border-color: white;
-		box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-	}
-
-
-
-
 </style>
