@@ -7,6 +7,12 @@
 	import { goto } from '$app/navigation';
 	import { categoryConfig, getCategoryColor, getCategoryLabel } from '$lib/categories.js';
 	import PageLayout from '../../components/PageLayout.svelte';
+	import ObsidianGraph from '../../components/ObsidianGraph.svelte';
+
+	// Two ways to see the same notes:
+	//   'space' — the 3-D embedding (position = what the note is about)
+	//   'graph' — a recreation of Obsidian's Graph view (position = what links to what)
+	let mode = 'space';
 
 	let stage;            // the div the canvas lives in
 	let data = null;      // vault-space.json
@@ -108,8 +114,9 @@
 		const hit = ray.caster.intersectObjects(dyn.children.filter((o) => o.isMesh));
 		return hit.length ? hit[0].object.userData : null;
 	}
-	function onDown(e) { drag = [e.clientX, e.clientY]; moved = false; }
+	function onDown(e) { if (mode !== 'space') return; drag = [e.clientX, e.clientY]; moved = false; }
 	function onMove(e) {
+		if (mode !== 'space') return;
 		if (drag) {
 			theta += (e.clientX - drag[0]) * 0.008;
 			phi = Math.max(0.15, Math.min(Math.PI - 0.15, phi - (e.clientY - drag[1]) * 0.008));
@@ -120,12 +127,13 @@
 		if ((n && n.id) !== (hovered && hovered.id)) { hovered = n; draw(); }
 	}
 	function onUp(e) {
+		if (mode !== 'space') return;
 		const wasDrag = moved; drag = null;
 		if (wasDrag) return;
 		const n = pick(e);
 		if (n) goto('/posts/' + n.id);
 	}
-	function onWheel(e) { e.preventDefault(); dist = Math.max(0.6, Math.min(8, dist * (1 + e.deltaY * 0.001))); placeCam(); draw(); }
+	function onWheel(e) { if (mode !== 'space') return; e.preventDefault(); dist = Math.max(0.6, Math.min(8, dist * (1 + e.deltaY * 0.001))); placeCam(); draw(); }
 
 	onMount(async () => {
 		try {
@@ -173,18 +181,33 @@
 <div class="space-page">
 	<header class="space-head">
 		<h1>Obsidian</h1>
+		<div class="mode">
+			<button class:on={mode === 'space'} on:click={() => (mode = 'space')}>space</button>
+			<button class:on={mode === 'graph'} on:click={() => (mode = 'graph')}>graph</button>
+		</div>
+		{#if mode === 'space'}
 		<p>
 			Every published note is a point. Its position comes from the words in it, so notes that talk about the same things sit near each other.
 			The line joins the notes in the order I wrote them. Drag to turn it, scroll to zoom, click a point to read the note.
 			{#if data}<span class="meta">{data.count} notes · {data.model} · the 3 axes keep {Math.round(100 * data.variance.reduce((a, b) => a + b, 0))}% of the differences between notes; the rest is flattened out.</span>{/if}
 		</p>
+		{:else}
+		<p>
+			The same notes drawn the way Obsidian's Graph view draws them: a node per note, a line per [[link]], bigger nodes have more links.
+			Hover to light up a neighbourhood, drag nodes around, scroll to zoom (labels appear as you get closer), click a note to read it.
+			<span class="meta">Obsidian has no way to export its graph, so this is a rebuild from the same links — most of this vault's links run from notes to topic hubs.</span>
+		</p>
+		{/if}
 	</header>
 
 	<div class="space-stage" bind:this={stage}
 		on:pointerdown={onDown} on:pointermove={onMove} on:pointerup={onUp} on:pointerleave={() => { drag = null; if (hovered) { hovered = null; draw(); } }}
 		on:wheel={onWheel} role="img" aria-label="3-D map of the notes">
 		{#if status}<div class="space-status">{status}</div>{/if}
-		{#if hovered}
+		{#if mode === 'graph' && data}
+			<div class="graph-layer"><ObsidianGraph notes={data.notes} {query} /></div>
+		{/if}
+		{#if hovered && mode === 'space'}
 			<div class="space-tip">
 				<span class="dot" style="background:{getCategoryColor(hovered.type)}"></span>
 				<strong>{hovered.title}</strong>
@@ -195,18 +218,22 @@
 	</div>
 
 	<div class="space-controls">
+		{#if mode === 'space'}
 		<label class="grow">
 			<span>through time</span>
 			<input type="range" min="1" max={pts.length || 1} bind:value={upTo} />
 			<span class="muted">{upTo}/{pts.length}{#if pts[upTo - 1]} · {pts[upTo - 1].note.date || 'undated'}{/if}</span>
 		</label>
 		<label><input type="checkbox" bind:checked={showPath} /> path</label>
+		{/if}
 		<input class="find" type="text" placeholder="find: title, tag, or category" bind:value={query} />
+		{#if mode === 'space'}
 		<span class="views">
 			{#each [['3d', '3D'], ['12', 'flat 1·2'], ['13', 'flat 1·3'], ['23', 'flat 2·3']] as [v, l]}
 				<button class:on={flat === v} on:click={() => setView(v)}>{l}</button>
 			{/each}
 		</span>
+		{/if}
 	</div>
 
 	<div class="space-legend">
@@ -222,6 +249,10 @@
 <style>
 	.space-page { padding: 4px 0 20px; }
 	.space-head h1 { margin: 0 0 6px; }
+	.mode { display: inline-flex; margin: 0 0 10px; border: 1px solid rgba(128, 128, 128, 0.4); border-radius: 3px; overflow: hidden; }
+	.mode button { font: inherit; font-size: 0.9em; padding: 3px 12px; border: none; background: transparent; color: inherit; cursor: pointer; }
+	.mode button.on { background: rgba(128, 128, 128, 0.35); }
+	.graph-layer { position: absolute; inset: 0; z-index: 2; }
 	.space-head p { margin: 0 0 12px; max-width: 70ch; opacity: 0.85; }
 	.space-head .meta { display: block; margin-top: 6px; font-size: 0.85em; opacity: 0.7; }
 	.space-stage { position: relative; width: 100%; height: min(72vh, 760px); border: 1px solid rgba(128, 128, 128, 0.25); border-radius: 6px; overflow: hidden; cursor: grab; touch-action: none; }

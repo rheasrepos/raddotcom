@@ -6,7 +6,7 @@ Turn the published vault (src/vault/**.md) into points in space for the Obsidian
     python3 scripts/embed-vault.py --model all-MiniLM-L6-v2   # sentence-transformers, if installed
 
 Writes static/vault-space.json:
-  { "model": ..., "variance": [v1,v2,v3], "notes": [ {id, title, date, type, tags, sub, xyz:[x,y,z]} ... ] }
+  { "model": ..., "variance": [v1,v2,v3], "notes": [ {id, title, date, type, tags, sub, xyz:[x,y,z], links:[ids / "topic:…"]} ... ] }
 Notes are sorted by `date` (undated last), so the order IS the path through time.
 `id` matches the site's post id (`vault-<filename>`), so a point can link to /posts/<id>.
 
@@ -46,6 +46,10 @@ for root, dirs, files in os.walk(VAULT):
         body = re.sub(r"\[\[Topic - [^\]]*\]\]", " ", body)          # topic backlinks are bookkeeping, not content
         body = re.sub(r"[#>*_`\[\]\(\)\-]|https?://\S+", " ", body)
         rel = os.path.relpath(root, VAULT).split(os.sep)
+        # [[wikilinks]] — what the Obsidian-style graph view draws. Kept raw
+        # (target text only, no alias/heading); resolved against note names
+        # below. "Topic - x" targets are the vault's topic hub notes.
+        links = [m.strip() for m in re.findall(r"\[\[([^\]|#]+)", raw)]
         notes.append({
             "id": "vault-" + f[:-3],
             "title": fm.get("title") or f[:-3],
@@ -54,6 +58,8 @@ for root, dirs, files in os.walk(VAULT):
             "tags": tags_of(fm.get("tags")),
             "sub": rel[1] if len(rel) >= 2 else None,
             "_text": (fm.get("title", "") + " ") * 3 + " ".join(fm.get("tags", "").split("/")) + " " + body,
+            "_links": links,
+            "_name": f[:-3],
         })
 if len(notes) < 4:
     sys.exit(f"only {len(notes)} published notes in {VAULT}; need a few more to make a space")
@@ -91,9 +97,18 @@ var = (S[:3] ** 2 / (S ** 2).sum()).tolist()
 print(f"3 components keep {sum(var):.1%} of the variance")
 
 # ---------------------------------------------------------------- attach coordinates, order by date, write
+by_name = {n["_name"].lower(): n["id"] for n in notes}
 for n, p in zip(notes, xyz):                       # xyz rows are in read order, same as `notes`
     n["xyz"] = [round(float(c), 4) for c in p]
-    del n["_text"]
+    # links: to another published note → its id; to a "Topic - …" hub → "topic:<name>";
+    # anything else (unpublished / missing note) is dropped, like Obsidian with
+    # "existing files only" on.
+    out = []
+    for t in n["_links"]:
+        if t.lower() in by_name and by_name[t.lower()] != n["id"]: out.append(by_name[t.lower()])
+        elif t.startswith("Topic - "): out.append("topic:" + t[len("Topic - "):].strip())
+    n["links"] = sorted(set(out))
+    del n["_text"], n["_links"], n["_name"]
 notes.sort(key=lambda n: (n["date"] == "", n["date"]))   # dated notes chronologically, undated last
 json.dump({"model": label, "variance": var, "count": len(notes), "notes": notes}, open(OUT, "w"))
 print(f"wrote {os.path.relpath(OUT, ROOT)}")
