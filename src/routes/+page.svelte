@@ -1749,10 +1749,10 @@
 	.laptop-frame {
 		display: flex;
 		justify-content: center;
-		align-items: center;
+		align-items: flex-start; /* monitor sits high; the stand gets the room below */
 		height: 100vh;
 		background: #ff8c42;
-		padding: 10px 10px 0 10px;
+		padding: 7vh 10px 0 10px; /* brand lives in the 7vh above the screen */
 		position: relative;
 		overflow: hidden;
 	}
@@ -1807,7 +1807,7 @@
 	.laptop-screen {
 		width: 90%;
 		max-width: 1080px;
-		height: 82vh;
+		height: 73vh; /* bottom edge at 80vh → 20vh below for a stand that reads as a stand */
 		background: #ff8c42;
 		border: 3px solid #333333;
 		overflow: hidden; /* Prevent content from overflowing the screen */
@@ -1833,7 +1833,7 @@
 	/* Desktop Stand — anchored to frame bottom, extends upward */
 	.desktop-stand {
 		position: absolute;
-		bottom: 0;
+		bottom: 3vh; /* 3vh of "desk" under the base */
 		left: 50%;
 		transform: translateX(-50%);
 		z-index: 10;
@@ -1843,19 +1843,21 @@
 		align-items: center;
 	}
 
-	/* Sized in vh so the whole stand always fits in the gap BELOW the screen
-	   (~9vh) and never pokes up into the screen / bottom toolbar. */
+	/* Sized in vh so the stand exactly fills the gap BELOW the screen
+	   (screen bottom 80vh → neck 14vh + base 3vh + 3vh desk = 100vh) and never
+	   pokes up into the screen. Widths scale with the viewport like clipart
+	   monitor stands: neck ≈ 7% / base ≈ 30% of the screen width. */
 	.stand-vertical {
-		width: 42px;
-		height: 6.6vh;
+		width: min(7vw, 76px);
+		height: 14vh;
 		background: #1a1a1a;
 		border: 2px solid #000000;
 	}
 
 	.stand-base {
-		width: 210px;
-		height: 1.9vh;
-		min-height: 14px;
+		width: min(30vw, 320px);
+		height: 3vh;
+		min-height: 16px;
 		background: #1a1a1a;
 		border: 2px solid #000000;
 		clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
