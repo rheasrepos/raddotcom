@@ -11,7 +11,7 @@ source: /Users/rheamadhogarhia/Desktop/oldmacdesktop/ALL BEFORE COLLEGE/HARVARD 
 tags: [creative/poetry/found-poetry]
 era: before-college
 affiliation: before-college
-genre: academic: false
+genre: academic
 ---
 
 Rhea Madhogarhia

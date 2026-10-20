@@ -161,7 +161,15 @@ export async function GET() {
 			// folder inside the category folder on the desktop)
 			const rel = path.replace('/src/vault/', '').split('/');
 			const subfolder = rel.length >= 3 ? rel[rel.length - 2] : null;
-			const { data: frontmatter, content: body } = matter(raw);
+			// One note with broken YAML must never blank the whole site: skip it
+			// (and say which) instead of letting the error escape to the outer catch.
+			let frontmatter, body;
+			try {
+				({ data: frontmatter, content: body } = matter(raw));
+			} catch (e) {
+				console.warn(`Skipping ${path}: bad frontmatter — ${String(e.message).split('\n')[0]}`);
+				continue;
+			}
 			// Only publish notes with published: true
 			if (!frontmatter.published) continue;
 			// Resolve the PDF ONCE (manual pdf: override, else auto-attach by
