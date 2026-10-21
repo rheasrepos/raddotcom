@@ -65,6 +65,7 @@
 	// How much does the clustering agree with the folders? (purity: for each
 	// cluster, the share of its notes from its commonest folder, weighted)
 	$: agreement = clusters.length && data ? clusters.reduce((a, c) => a + c.purity * c.n, 0) / data.notes.length : 0;
+	$: k = mode === 'clusters' ? (k || 4) : 0;
 	$: if (data) { k; seed; kmeans(); }
 	let status = 'loading…';
 
@@ -161,9 +162,9 @@
 		const hit = ray.caster.intersectObjects(dyn.children.filter((o) => o.isMesh));
 		return hit.length ? hit[0].object.userData : null;
 	}
-	function onDown(e) { if (mode !== 'space') return; drag = [e.clientX, e.clientY]; moved = false; }
+	function onDown(e) { if (mode === 'graph') return; drag = [e.clientX, e.clientY]; moved = false; }
 	function onMove(e) {
-		if (mode !== 'space') return;
+		if (mode === 'graph') return;
 		if (drag) {
 			theta += (e.clientX - drag[0]) * 0.008;
 			phi = Math.max(0.15, Math.min(Math.PI - 0.15, phi - (e.clientY - drag[1]) * 0.008));
@@ -174,13 +175,13 @@
 		if ((n && n.id) !== (hovered && hovered.id)) { hovered = n; draw(); }
 	}
 	function onUp(e) {
-		if (mode !== 'space') return;
+		if (mode === 'graph') return;
 		const wasDrag = moved; drag = null;
 		if (wasDrag) return;
 		const n = pick(e);
 		if (n) goto('/posts/' + n.id);
 	}
-	function onWheel(e) { if (mode !== 'space') return; e.preventDefault(); dist = Math.max(0.6, Math.min(8, dist * (1 + e.deltaY * 0.001))); placeCam(); draw(); }
+	function onWheel(e) { if (mode === 'graph') return; e.preventDefault(); dist = Math.max(0.6, Math.min(8, dist * (1 + e.deltaY * 0.001))); placeCam(); draw(); }
 
 	onMount(async () => {
 		try {
@@ -231,8 +232,13 @@
 		<div class="mode">
 			<button class:on={mode === 'space'} on:click={() => (mode = 'space')}>space</button>
 			<button class:on={mode === 'graph'} on:click={() => (mode = 'graph')}>graph</button>
+			<button class:on={mode === 'clusters'} on:click={() => (mode = 'clusters')}>clusters</button>
 		</div>
-		{#if mode === 'space'}
+		{#if mode === 'clusters'}
+		<p>
+			<AIText>The same space, but you do the grouping: pick k and the notes are split into k clusters by where they sit (k-means), each named by the words its notes share. Re-run from a different random start and watch the borders move — there is no ground truth here, only choices.</AIText>
+		</p>
+		{:else if mode === 'space'}
 		<p>
 			<AIText>Every published note is a point. Its position comes from the words in it, so notes that talk about the same things sit near each other.
 			The line joins the notes in the order I wrote them. Drag to turn it, scroll to zoom, click a point to read the note.</AIText>
@@ -254,7 +260,7 @@
 		{#if mode === 'graph' && data}
 			<div class="graph-layer"><ObsidianGraph notes={data.notes} {query} /></div>
 		{/if}
-		{#if hovered && mode === 'space'}
+		{#if hovered && mode !== 'graph'}
 			<div class="space-tip">
 				<span class="dot" style="background:{getCategoryColor(hovered.type)}"></span>
 				<strong>{hovered.title}</strong>
@@ -265,7 +271,7 @@
 	</div>
 
 	<div class="space-controls">
-		{#if mode === 'space'}
+		{#if mode !== 'graph'}
 		<label class="grow">
 			<span>through time</span>
 			<input type="range" min="1" max={pts.length || 1} bind:value={upTo} />
@@ -274,22 +280,21 @@
 		<label><input type="checkbox" bind:checked={showPath} /> path</label>
 		{/if}
 		<input class="find" type="text" placeholder="find: title, tag, or category" bind:value={query} />
-		{#if mode === 'space'}
+		{#if mode !== 'graph'}
 		<span class="views">
 			{#each [['3d', '3D'], ['12', 'flat 1·2'], ['13', 'flat 1·3'], ['23', 'flat 2·3']] as [v, l]}
-				<button class:on={flat === v && !k} on:click={() => { k = 0; setView(v); }}>{l}</button>
+				<button class:on={flat === v} on:click={() => setView(v)}>{l}</button>
 			{/each}
-			<button class:on={!!k} on:click={() => { if (!k) k = 4; }} title="k-means clusters, coloured">clusters</button>
-			{#if k}
-				<span class="kctl">
-					k = <select bind:value={k}>{#each [2, 3, 4, 5, 6, 7, 8] as n}<option value={n}>{n}</option>{/each}</select>
-					<button class="rerun" on:click={() => (seed += 1)} title="Different random start">↻</button>
-				</span>
-			{/if}
 		</span>
+		{#if mode === 'clusters'}
+			<span class="kctl">
+				k = <select bind:value={k}>{#each [2, 3, 4, 5, 6, 7, 8] as n}<option value={n}>{n}</option>{/each}</select>
+				<button class="rerun" on:click={() => (seed += 1)} title="Different random start">re-run ↻</button>
+			</span>
+		{/if}
 		{/if}
 	</div>
-	{#if mode === 'space' && k && clusters.length}
+	{#if mode === 'clusters' && clusters.length}
 		<div class="clusters">
 			{#each clusters as c}
 				<div class="cl"><span class="dot" style="background:{PALETTE[c.id % PALETTE.length]}"></span><b>{c.n}</b> {c.terms.join(' · ') || '—'} <span class="muted">· mostly {getCategoryLabel(c.topType)} ({Math.round(c.purity * 100)}%)</span></div>
