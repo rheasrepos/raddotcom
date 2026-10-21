@@ -1314,7 +1314,6 @@
 		max-height: calc(88px * var(--zoom, 1));
 		object-fit: contain;
 		display: block;
-		box-shadow: 2px 2px 0 rgba(0,0,0,0.28);
 		/* let the whole tile be dragged: the image itself must not capture the
 		   pointer or start the browser's native image-drag. */
 		pointer-events: none;

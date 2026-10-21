@@ -277,17 +277,16 @@
 		{#if mode === 'space'}
 		<span class="views">
 			{#each [['3d', '3D'], ['12', 'flat 1·2'], ['13', 'flat 1·3'], ['23', 'flat 2·3']] as [v, l]}
-				<button class:on={flat === v} on:click={() => setView(v)}>{l}</button>
+				<button class:on={flat === v && !k} on:click={() => { k = 0; setView(v); }}>{l}</button>
 			{/each}
+			<button class:on={!!k} on:click={() => { if (!k) k = 4; }} title="k-means clusters, coloured">clusters</button>
+			{#if k}
+				<span class="kctl">
+					k = <select bind:value={k}>{#each [2, 3, 4, 5, 6, 7, 8] as n}<option value={n}>{n}</option>{/each}</select>
+					<button class="rerun" on:click={() => (seed += 1)} title="Different random start">↻</button>
+				</span>
+			{/if}
 		</span>
-		<label class="kctl">
-			<span>cluster it yourself: k =</span>
-			<select bind:value={k}>
-				<option value={0}>off</option>
-				{#each [2, 3, 4, 5, 6, 7, 8] as n}<option value={n}>{n}</option>{/each}
-			</select>
-			{#if k}<button class="rerun" on:click={() => (seed += 1)} title="Different random start">re-run ↻</button>{/if}
-		</label>
 		{/if}
 	</div>
 	{#if mode === 'space' && k && clusters.length}
@@ -333,6 +332,7 @@
 	.space-controls .views button, .chip { font: inherit; font-size: 0.9em; padding: 3px 9px; border: 1px solid rgba(128, 128, 128, 0.4); background: transparent; color: inherit; border-radius: 3px; cursor: pointer; }
 	.space-controls .views button.on, .chip.on { border-color: currentColor; }
 	.space-legend { display: flex; flex-wrap: wrap; gap: 6px; }
+	.kctl { display: inline-flex; align-items: center; gap: 4px; margin-left: 6px; font-size: 0.9em; }
 	.kctl select { font: inherit; padding: 2px 6px; }
 	.kctl .rerun { font: inherit; font-size: 0.9em; padding: 3px 9px; border: 1px solid rgba(128, 128, 128, 0.4); background: transparent; color: inherit; border-radius: 3px; cursor: pointer; }
 	.clusters { margin: 4px 0 10px; font-size: 0.88em; }

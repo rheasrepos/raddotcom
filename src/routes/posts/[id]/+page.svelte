@@ -360,7 +360,10 @@
 	.pdf-frame {
 		display: block;
 		width: 100%;
-		height: 80vh;
+		/* tall, but never taller than the monitor view's screen (78vh minus the
+		   bars) — in full screen it still fills most of the window */
+		height: min(80vh, calc(78vh - 150px));
+		min-height: 320px;
 		border: none;
 	}
 	/* Live project-site embed (are.na-style window) */

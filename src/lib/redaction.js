@@ -12,7 +12,7 @@
 // ────────────────────────────────────────────────────────────────────
 
 export const REDACTION_STEPS = [
-	{ months: 6,   grade: 'R'   }, // ≥ 6 months old → clean Redaction
+	{ months: 0,   grade: 'R'   }, // everything starts in clean Redaction (titles never use the site mono)
 	{ months: 12,  grade: '10'  }, // ≥ 1 year
 	{ months: 24,  grade: '20'  }, // ≥ 2 years
 	{ months: 48,  grade: '35'  }, // ≥ 4 years
@@ -43,12 +43,11 @@ function monthsOld(dateStr) {
 	return (Date.now() - d.getTime()) / (1000 * 60 * 60 * 24 * 30.44);
 }
 
-// Returns a CSS class like 'redact-20', or '' for posts newer than the
-// first threshold (they keep the normal site font).
+// Returns a CSS class like 'redact-20'. Undated posts get clean Redaction.
 export function redactionClass(dateStr) {
-	if (!dateStr) return '';
+	if (!dateStr) return 'redact-R';
 	const age = monthsOld(dateStr);
-	let cls = '';
+	let cls = 'redact-R';
 	for (const step of REDACTION_STEPS) {
 		if (age >= step.months) cls = `redact-${step.grade}`;
 	}

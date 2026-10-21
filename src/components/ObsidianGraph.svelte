@@ -65,6 +65,7 @@
 		alpha = 1;
 	}
 	$: if (ctx) { showTopics; showTags; showOrphans; build(); }
+	$: if (ctx) { try { localStorage.setItem(PREF, JSON.stringify({ showTopics, showTags, showOrphans, showLabels, groups })); } catch {} }
 
 	// ---- force simulation (centre + repel + link, like Obsidian's sliders) ---
 	function tick() {
@@ -190,7 +191,13 @@
 		canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
 	}
 
+	// remember the panel choices per browser, like Obsidian does per vault
+	const PREF = 'ogPrefs';
 	onMount(() => {
+		try {
+			const p = JSON.parse(localStorage.getItem(PREF) || '{}');
+			if ('showTopics' in p) ({ showTopics, showTags, showOrphans, showLabels, groups } = { showTopics, showTags, showOrphans, showLabels, groups, ...p });
+		} catch {}
 		ctx = canvas.getContext('2d');
 		resize(); build(); loop();
 		window.addEventListener('resize', resize);

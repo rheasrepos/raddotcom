@@ -277,30 +277,49 @@
 	/* Monitor view — any page inside the resting desktop monitor, matching
 	   the homepage's frame (orange surround, bezel, stand). */
 	.laptop-frame.framed {
-		padding: 10px 10px 0 10px;
+		padding: 9vh 10px 0 10px;
+		align-items: flex-start;
 	}
 	.laptop-frame.framed .laptop-screen {
 		max-width: 1080px;
 		width: 90%;
-		height: 82vh;
+		height: 78vh; /* same monitor as the desktop: 9vh + 78vh, stand below */
+		position: relative;
+		z-index: 2;
 		border: 3px solid #333333;
 		box-shadow:
 			0 0 0 1px #222222,
 			0 10px 25px rgba(0, 0, 0, 0.5),
 			inset 0 0 10px rgba(0, 0, 0, 0.2);
 	}
-	.laptop-frame.framed::after {
-		/* monitor stand */
+	/* monitor stand — neck (::before) + base (::after), same sizes as the desktop's */
+	.laptop-frame.framed::before {
 		content: '';
 		position: absolute;
-		bottom: 0;
+		bottom: 5.5vh;
 		left: 50%;
 		transform: translateX(-50%);
-		width: 42px;
-		height: 6.6vh;
+		width: min(7vw, 76px);
+		height: 9.5vh; /* 1vh tucked under the screen edge */
 		background: #1a1a1a;
 		border: 2px solid #000000;
 		pointer-events: none;
+		z-index: 1;
+	}
+	.laptop-frame.framed::after {
+		content: '';
+		position: absolute;
+		bottom: 2.5vh;
+		left: 50%;
+		transform: translateX(-50%);
+		width: min(30vw, 320px);
+		height: 3vh;
+		min-height: 16px;
+		background: #1a1a1a;
+		border: 2px solid #000000;
+		clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+		pointer-events: none;
+		z-index: 1;
 	}
 
 	.monitor-btn {
