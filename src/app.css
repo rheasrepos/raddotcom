@@ -1,14 +1,28 @@
-/* SF Mono is macOS's native terminal font. It isn't a webfont, so we name it
-   directly with a monospace fallback chain for non-Apple devices. */
+/* ── SITE FONT ──────────────────────────────────────────────────────
+   Frutiger and Akzidenz-Grotesk are commercial (no web licence to ship), so
+   the site uses their closest open-source relatives, self-hosted from npm
+   (no Google request on page load):
+     Akzidenz-Grotesk → Archivo  (variable; @fontsource-variable/archivo)
+     Frutiger         → Hind     (@fontsource/hind)
+   SWITCH: change --site-font below. Redaction (titles, by age) is separate. */
+:root {
+  --font-akzidenz: 'Archivo Variable', 'Akzidenz-Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-frutiger: 'Hind', 'Frutiger', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --site-font: var(--font-akzidenz);
+  --font-family: var(--site-font);
+}
 
 /* Retro: nothing gets rounded corners anywhere on the site. */
 *, *::before, *::after {
   border-radius: 0;
 }
 
-/* One typeface across the whole site: SF Mono (macOS terminal), then other
-   terminal monospaces so non-Mac visitors get the same feel. */
+/* One typeface across the whole site (see --site-font above). Code blocks
+   keep a monospace. */
 *, *::before, *::after {
+  font-family: var(--site-font) !important;
+}
+pre, code, kbd, samp, .mono {
   font-family: 'SF Mono', ui-monospace, 'Menlo', 'Consolas', 'Roboto Mono', 'Courier New', monospace !important;
 }
 
@@ -27,13 +41,13 @@
 @font-face { font-family: 'Redaction 100'; src: url('/fonts/redaction/Redaction_100-Regular.woff2') format('woff2'); font-display: swap; }
 
 /* Class specificity beats the universal SF Mono rule above. */
-.redact-R   { font-family: 'Redaction',     'SF Mono', ui-monospace, monospace !important; }
-.redact-10  { font-family: 'Redaction 10',  'SF Mono', ui-monospace, monospace !important; }
-.redact-20  { font-family: 'Redaction 20',  'SF Mono', ui-monospace, monospace !important; }
-.redact-35  { font-family: 'Redaction 35',  'SF Mono', ui-monospace, monospace !important; }
-.redact-50  { font-family: 'Redaction 50',  'SF Mono', ui-monospace, monospace !important; }
-.redact-70  { font-family: 'Redaction 70',  'SF Mono', ui-monospace, monospace !important; }
-.redact-100 { font-family: 'Redaction 100', 'SF Mono', ui-monospace, monospace !important; }
+.redact-R   { font-family: 'Redaction',     var(--site-font) !important; }
+.redact-10  { font-family: 'Redaction 10',  var(--site-font) !important; }
+.redact-20  { font-family: 'Redaction 20',  var(--site-font) !important; }
+.redact-35  { font-family: 'Redaction 35',  var(--site-font) !important; }
+.redact-50  { font-family: 'Redaction 50',  var(--site-font) !important; }
+.redact-70  { font-family: 'Redaction 70',  var(--site-font) !important; }
+.redact-100 { font-family: 'Redaction 100', var(--site-font) !important; }
 /* Decay applies to every element inside a decayed body too. */
 .redact-R *, .redact-10 *, .redact-20 *, .redact-35 *, .redact-50 *, .redact-70 *, .redact-100 * { font-family: inherit !important; }
 

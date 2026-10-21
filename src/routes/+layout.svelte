@@ -1,4 +1,9 @@
 <script>
+	// self-hosted site fonts (see app.css → --site-font)
+	import '@fontsource-variable/archivo';
+	import '@fontsource/hind/400.css';
+	import '@fontsource/hind/500.css';
+	import '@fontsource/hind/700.css';
 	import '../app.css';
 	import PageTransitionOverlay from '$components/PageTransitionOverlay.svelte';
 	import FinderWindow from '$components/FinderWindow.svelte';
