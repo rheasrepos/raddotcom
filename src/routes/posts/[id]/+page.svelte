@@ -27,7 +27,10 @@
 		while (c) { chain.unshift(c); c = c.parent ? categoryConfig[c.parent] : null; }
 		if (chain.length) chain.forEach((cat) => segs.push({ label: cat.label, href: `/?open=${cat.id}` }));
 		else segs.push({ label: p.type, href: `/?open=${p.type}` });
-		if (p.subfolder) segs.push({ label: prettyFolder(p.subfolder), href: `/?open=${p.type}&sub=${encodeURIComponent(p.subfolder)}` });
+		// before-college posts live under a virtual "Before College" drawer in their folder
+		const bc = p.era === 'before-college';
+		if (bc) segs.push({ label: 'Before College', href: `/?open=${p.type}&sub=${BC}` });
+		if (p.subfolder) segs.push({ label: prettyFolder(p.subfolder), href: `/?open=${p.type}&sub=${encodeURIComponent(bc ? BC + '/' + p.subfolder : p.subfolder)}` });
 		return segs;
 	}
 

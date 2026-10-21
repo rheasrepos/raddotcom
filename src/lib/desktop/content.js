@@ -21,9 +21,17 @@ export function hasPostsDeep(projects, catId) {
 // group under a single virtual "Course Final Projects" subfolder instead of
 // dragging their ORIGIN subfolder in as a confusing one-off folder.
 export const XSUB = '__crosslisted__';
+// Anything with `era: before-college` sits in a virtual "Before College"
+// subfolder of whichever folder it's in (Art, Personal Writing, …), keeping
+// its own subfolder underneath (e.g. Before College / College Application
+// Essays). Encoded as BC or "BC/<subfolder>".
+export const BC = '__before_college__';
+export const isBC = (p) => p.era === 'before-college';
 
 export function prettyFolder(s) {
 	if (s === XSUB) return 'Course Final Projects';
+	if (s === BC) return 'Before College';
+	if (String(s).startsWith(BC + '/')) return prettyFolder(String(s).slice(BC.length + 1));
 	return String(s).replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
@@ -34,12 +42,24 @@ export function folderContents(win, projects) {
 	const cur = win.stack[win.stack.length - 1];
 	const childCats = Object.values(categoryConfig)
 		.filter((c) => c.parent === cur.category && hasPostsDeep(projects, c.id));
-	const own = (projects || []).filter((p) => inCat(p, cur.category));
+	const all = (projects || []).filter((p) => inCat(p, cur.category));
 	const effSub = (p) => (p.type === cur.category ? p.subfolder : XSUB);
+	// Inside "Before College": its posts, grouped by their own subfolder
+	if (cur.subfolder === BC) {
+		const own = all.filter(isBC);
+		const subs = [...new Set(own.filter((p) => p.subfolder).map((p) => BC + '/' + p.subfolder))].sort();
+		return { childCats: [], subs, posts: own.filter((p) => !p.subfolder) };
+	}
+	if (cur.subfolder && cur.subfolder.startsWith(BC + '/')) {
+		const inner = cur.subfolder.slice(BC.length + 1);
+		return { childCats: [], subs: [], posts: all.filter((p) => isBC(p) && p.subfolder === inner) };
+	}
+	const own = all.filter((p) => !isBC(p));
 	if (cur.subfolder) {
 		return { childCats: [], subs: [], posts: own.filter((p) => effSub(p) === cur.subfolder) };
 	}
 	const subs = [...new Set(own.filter((p) => effSub(p)).map((p) => effSub(p)))].sort();
+	if (all.some(isBC)) subs.push(BC); // last, like a drawer at the bottom
 	return { childCats, subs, posts: own.filter((p) => !effSub(p)) };
 }
 

@@ -85,7 +85,8 @@
 	// The img* scans of belongings (type: artifacts = "Collected & Kept") pile
 	// into a single expandable "hoard" stack so the desktop isn't buried.
 	let hoardOpen = false;
-	$: looseFloat = projects ? projects.filter((p) => p.loose === true || p.type === 'art') : [];
+	// (before-college art stays in Art / Before College, not loose on the desktop)
+	$: looseFloat = projects ? projects.filter((p) => p.loose === true || (p.type === 'art' && p.era !== 'before-college')) : [];
 	$: hoardItems = projects ? projects.filter((p) => p.type === 'artifacts') : [];
 	// What actually gets laid out: the loose art, then the hoard stack icon,
 	// then (only when opened) the hoard's contents fanned out after it.
