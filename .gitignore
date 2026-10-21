@@ -19,3 +19,6 @@ node_modules/
 # iCloud sync-conflict copies — directories too
 *[0-9]/
 scripts/.pdf-text-cache.json
+.env
+.env.*
+!.env.example

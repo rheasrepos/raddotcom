@@ -1,7 +1,6 @@
 <script>
 	import { page } from '$app/stores';
 	import { createEventDispatcher } from 'svelte';
-	import { wpmOpen } from '$lib/wpm.js';
 	
 	const dispatch = createEventDispatcher();
 	
@@ -13,12 +12,11 @@
 		{ path: '/resume', label: 'Resume' },
 		{ path: '/about', label: 'About' },
 		{ path: '/admin', label: 'Admin' },
-		{ path: '#wpm', label: 'WPM', action: 'wpm' } // opens the typing-test popup, no page change
+		{ path: '/wpm', label: 'WPM' }
 	];
 
 	function handleClick(event, item) {
 		event.preventDefault();
-		if (item.action === 'wpm') { wpmOpen.set(true); return; }
 		dispatch('navigate', { path: item.path });
 	}
 </script>

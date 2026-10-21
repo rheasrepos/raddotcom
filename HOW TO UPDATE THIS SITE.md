@@ -165,20 +165,35 @@ A floating button (bottom-right, every page) opens a little box where visitors l
 
 ## 5d. "WPM" — the one-minute typing test + sticky-note wall
 
-A retro "ad" that pops up once per session (and from the ⌨ wpm button, top-right): visitors get **60 seconds to write anything**, see their **words-per-minute**, then pin it to a shared **wall** of sticky notes. The wall is the leaderboard: searchable and sortable (new↔old, long↔short, fastest wpm, and — when searching — by relevance with a % word-match on each note). Component: `src/components/OneMinute.svelte`.
+A retro "ad" that pops up once per session (and lives behind the ⌨ wpm button, top-right): visitors get **60 seconds to write anything**, see their **words-per-minute**, then pin it to a shared **wall** of sticky notes. The wall is the leaderboard: searchable and sortable (new↔old, long↔short, fastest wpm, and — when searching — by relevance with a % word-match). **WPM** in the top nav goes to `/wpm`, the full-page version: the wall + top-3 strip + a "do a new one" button. Code: `src/lib/wpm.js` (backend), `src/components/WpmTest.svelte` (the test), `src/components/OneMinute.svelte` (the popup shell), `src/routes/wpm/+page.svelte` (the page).
 
-**The wall is SHARED across visitors, so it needs a tiny backend** (this site is static). It's wired to **Supabase** (free). To turn it on:
-1. Make a free project at [supabase.com](https://supabase.com).
-2. In the SQL editor, create the table + open it to anonymous writes/reads:
+**The wall is SHARED across visitors, so it needs a tiny backend** (this site is static). It's wired to **Supabase** (free tier is plenty). Until it's set up, the wall is *local* (each browser sees only its own notes) and says so. To turn it on — about 10 minutes, once:
+
+1. Go to [supabase.com](https://supabase.com) → **New project** (any name, e.g. `rhea-com`; pick a region near you; save the database password somewhere, you won't need it again here).
+2. Left sidebar → **SQL Editor** → **New query** → paste this and click **Run**:
    ```sql
-   create table notes (id uuid primary key default gen_random_uuid(), text text not null, name text, wpm int, created_at timestamptz default now());
+   create table notes (
+     id uuid primary key default gen_random_uuid(),
+     text text not null check (char_length(text) <= 2000),
+     name text check (char_length(name) <= 80),
+     wpm int check (wpm between 0 and 400),
+     created_at timestamptz default now()
+   );
    alter table notes enable row level security;
    create policy "anyone can read"  on notes for select using (true);
-   create policy "anyone can write" on notes for insert with check (char_length(text) <= 1000);
+   create policy "anyone can write" on notes for insert with check (true);
    ```
-3. In Settings → API, copy the **Project URL** and the **anon public key**, and paste them into `SUPABASE_URL` / `SUPABASE_ANON_KEY` at the top of `src/components/OneMinute.svelte`. Commit + push.
+   (Insert-only: visitors can't edit or delete anyone's note. You moderate by deleting rows in **Table Editor → notes**.)
+3. Left sidebar → **Project Settings → API**. Copy **Project URL** and the **anon public** key (NOT the service_role key — that one must never leave your computer).
+4. Give them to the site as environment variables named exactly:
+   - `PUBLIC_SUPABASE_URL` = the Project URL
+   - `PUBLIC_SUPABASE_ANON_KEY` = the anon public key
 
-The policy is insert-only, so visitors can't edit or delete each other's notes; you moderate by deleting rows in the Supabase dashboard. Until you add the keys, it falls back to a **local wall** (only notes written in that one browser).
+   **On Vercel:** vercel.com → your project → **Settings → Environment Variables** → add both (all environments) → **Deployments → ⋯ → Redeploy** (env vars only apply to new builds).
+   **Locally:** copy `.env.example` to `.env` and fill in the two lines (`.env` is gitignored — never commit it).
+5. Open the site, write a note, and check **Table Editor → notes** in Supabase: your row should be there. The "(local wall …)" notice disappears once the keys are live.
+
+If you ever rotate the anon key in Supabase, update the Vercel variable and redeploy.
 
 ---
 
