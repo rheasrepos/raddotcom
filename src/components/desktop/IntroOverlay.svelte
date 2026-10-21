@@ -11,6 +11,7 @@
 
 <div class="intro-overlay" on:click={enter} on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && enter()} role="button" tabindex="0">
 	<div class="intro-inner">
+		<img class="intro-tag" src="/hello-my-name-is-rhea.png" alt="HELLO my name is RHEA — a handwritten name tag" />
 		<h1 class="intro-title">{typed}<span class="intro-caret">&nbsp;</span></h1>
 		<div class="intro-sub">{tagline}</div>
 		<div class="intro-hint">[ click anywhere to enter ]</div>
@@ -31,6 +32,7 @@
 		cursor: pointer;
 		overflow: hidden;
 	}
+	.intro-tag { display: block; width: min(300px, 44vw); margin: 0 auto 22px; transform: rotate(-2deg); box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.25); }
 	.intro-title {
 		font-size: clamp(44px, 10vw, 120px);
 		letter-spacing: -2px;

@@ -448,7 +448,7 @@
 	<!-- Brand sits on the orange desktop, outside the monitor -->
 	<div class="desktop-brand">
 		<span class="title">{thisVisitName || 'RAD.COM'}</span>
-		<span class="subtitle">A Portal to Rhea </span>
+		<span class="subtitle">a web portal</span>
 	</div>
 	<div class="laptop-screen" style="background: {wallpaperColor};">
 		<!-- Navigation and Controls in the frame bezel -->
@@ -825,7 +825,7 @@
 		align-items: flex-start; /* monitor sits high; the stand gets the room below */
 		height: 100vh;
 		background: #ff8c42;
-		padding: 7vh 10px 0 10px; /* brand lives in the 7vh above the screen */
+		padding: 9vh 10px 0 10px; /* brand lives in the 9vh above the screen */
 		position: relative;
 		overflow: hidden;
 	}
@@ -880,11 +880,12 @@
 	.laptop-screen {
 		width: 90%;
 		max-width: 1080px;
-		height: 73vh; /* bottom edge at 80vh → 20vh below for a stand that reads as a stand */
+		height: 78vh; /* 9vh + 78vh → bottom edge at 87vh; the stand takes the 13vh below */
 		background: #ff8c42;
 		border: 3px solid #333333;
 		overflow: hidden; /* Prevent content from overflowing the screen */
 		position: relative;
+		z-index: 2; /* above the stand, which tucks under this bottom edge */
 		box-shadow:
 			0 0 0 1px #222222,
 			0 10px 25px rgba(0, 0, 0, 0.5),
@@ -906,7 +907,8 @@
 	/* Desktop Stand — anchored to frame bottom, extends upward */
 	.desktop-stand {
 		position: absolute;
-		bottom: 3vh; /* 3vh of "desk" under the base */
+		bottom: 2.5vh; /* a little "desk" under the base */
+		z-index: 1;  /* under the screen, so the neck tucks behind its bottom edge (no hairline gap) */
 		left: 50%;
 		transform: translateX(-50%);
 		z-index: 10;
@@ -916,13 +918,14 @@
 		align-items: center;
 	}
 
-	/* Sized in vh so the stand exactly fills the gap BELOW the screen
-	   (screen bottom 80vh → neck 14vh + base 3vh + 3vh desk = 100vh) and never
-	   pokes up into the screen. Widths scale with the viewport like clipart
-	   monitor stands: neck ≈ 7% / base ≈ 30% of the screen width. */
+	/* Sized in vh so the stand fills the gap BELOW the screen and overlaps its
+	   bottom edge by ~1vh (it sits UNDER the screen, so no hairline gap can
+	   show): screen bottom 87vh → neck 8.5vh + base 3vh + 2.5vh desk. Widths
+	   scale with the viewport like clipart monitor stands: neck ≈ 7% /
+	   base ≈ 30% of the screen width. */
 	.stand-vertical {
 		width: min(7vw, 76px);
-		height: 14vh;
+		height: 8.5vh;
 		background: #1a1a1a;
 		border: 2px solid #000000;
 	}
@@ -1177,7 +1180,7 @@
 	/* RAD.COM brand on the orange desktop, above the monitor */
 	.desktop-brand {
 		position: absolute;
-		top: 1.4vh;
+		top: 1.6vh;
 		left: 50%;
 		transform: translateX(-50%);
 		z-index: 5;
@@ -1207,7 +1210,7 @@
 		font-size: clamp(0.68rem, 1.4vh, 0.9rem);
 		font-weight: 500;
 		color: #2a2a2a;
-		margin: 4px 0 0;
+		margin: 0.9vh 0 0;
 		line-height: 1.3;
 	}
 
