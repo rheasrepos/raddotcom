@@ -22,6 +22,50 @@
 	let flat = '3d';      // '3d' | '12' | '13' | '23'
 	let query = '';
 	let upTo = 1;         // how many notes (in date order) are drawn
+
+	// --- Clustering you can run yourself ---------------------------------
+	// k-means on the 3-D positions. There is no ground truth: k is a choice,
+	// the random start is a choice, and the folders are just ONE labelling to
+	// compare against. Colour by cluster, name each by its notes' own words.
+	let k = 0;            // 0 = off
+	let clusterOf = [];   // note index → cluster id
+	let clusters = [];    // [{id, n, terms:[], topType, purity}]
+	let seed = 1;
+	const PALETTE = ['#ff5e5b', '#ffd166', '#06d6a0', '#4cc9f0', '#c77dff', '#ff9f1c', '#8ac926', '#f15bb5'];
+	function rng(s) { return () => { s = (s * 1664525 + 1013904223) % 4294967296; return s / 4294967296; }; }
+	const dist2 = (a, b) => (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2;
+	function kmeans() {
+		const X = (data ? data.notes : []).map((n) => n.xyz);
+		if (!k || X.length < k) { clusterOf = []; clusters = []; return; }
+		const rand = rng(seed * 7919);
+		// k-means++ start
+		let C = [X[Math.floor(rand() * X.length)]];
+		while (C.length < k) {
+			const d2 = X.map((x) => Math.min(...C.map((c) => dist2(x, c))));
+			let r = rand() * d2.reduce((a, b) => a + b, 0), i = 0;
+			while ((r -= d2[i]) > 0 && i < X.length - 1) i++;
+			C.push(X[i]);
+		}
+		let asg = new Array(X.length).fill(0);
+		for (let it = 0; it < 50; it++) {
+			const next = X.map((x) => { let b = 0, bd = Infinity; C.forEach((c, j) => { const d = dist2(x, c); if (d < bd) { bd = d; b = j; } }); return b; });
+			if (next.every((v, i) => v === asg[i])) break;
+			asg = next;
+			C = C.map((c, j) => { const m = X.filter((_, i) => asg[i] === j); return m.length ? [0, 1, 2].map((d) => m.reduce((a, x) => a + x[d], 0) / m.length) : c; });
+		}
+		clusterOf = asg;
+		clusters = C.map((_, j) => {
+			const idx = asg.map((a, i) => (a === j ? i : -1)).filter((i) => i >= 0);
+			const tf = {}; idx.forEach((i) => (data.notes[i].terms || []).forEach((t) => (tf[t] = (tf[t] || 0) + 1)));
+			const types = {}; idx.forEach((i) => (types[data.notes[i].type] = (types[data.notes[i].type] || 0) + 1));
+			const top = Object.entries(types).sort((a, b) => b[1] - a[1])[0];
+			return { id: j, n: idx.length, terms: Object.entries(tf).sort((a, b) => b[1] - a[1]).slice(0, 4).map((e) => e[0]), topType: top ? top[0] : null, purity: top && idx.length ? top[1] / idx.length : 0 };
+		});
+	}
+	// How much does the clustering agree with the folders? (purity: for each
+	// cluster, the share of its notes from its commonest folder, weighted)
+	$: agreement = clusters.length && data ? clusters.reduce((a, c) => a + c.purity * c.n, 0) / data.notes.length : 0;
+	$: if (data) { k; seed; kmeans(); }
 	let status = 'loading…';
 
 	// three.js state (kept out of Svelte reactivity on purpose)
@@ -88,8 +132,10 @@
 			const hit = anyQuery && matches(p.note);
 			const isHov = hovered && hovered.id === p.note.id;
 			const r = isHov ? 0.03 : hit ? 0.024 : 0.014;
+			const idx = pts.indexOf(p);
+			const col = k && clusterOf.length ? new THREE.Color(PALETTE[clusterOf[idx] % PALETTE.length]) : p.color;
 			const m = new THREE.Mesh(new THREE.SphereGeometry(r, 12, 12),
-				new THREE.MeshBasicMaterial({ color: p.color, transparent: true, opacity: anyQuery && !hit ? 0.18 : 1 }));
+				new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: anyQuery && !hit ? 0.18 : 1 }));
 			m.position.copy(p.v); m.userData = p.note; dyn.add(m);
 		}
 		// thread the search hits in order
@@ -172,7 +218,7 @@
 	function onResize() { if (renderer) { placeCam(); draw(); } }
 	onDestroy(() => { if (typeof window !== 'undefined') window.removeEventListener('resize', onResize); if (renderer) renderer.dispose(); });
 
-	$: if (renderer) { upTo; showPath; query; draw(); }
+	$: if (renderer) { upTo; showPath; query; clusterOf; draw(); }
 
 	const legend = Object.values(categoryConfig).filter((c) => !c.parent || true);
 	$: usedTypes = data ? [...new Set(data.notes.map((n) => n.type))] : [];
@@ -234,8 +280,24 @@
 				<button class:on={flat === v} on:click={() => setView(v)}>{l}</button>
 			{/each}
 		</span>
+		<label class="kctl">
+			<span>cluster it yourself: k =</span>
+			<select bind:value={k}>
+				<option value={0}>off</option>
+				{#each [2, 3, 4, 5, 6, 7, 8] as n}<option value={n}>{n}</option>{/each}
+			</select>
+			{#if k}<button class="rerun" on:click={() => (seed += 1)} title="Different random start">re-run ↻</button>{/if}
+		</label>
 		{/if}
 	</div>
+	{#if mode === 'space' && k && clusters.length}
+		<div class="clusters">
+			{#each clusters as c}
+				<div class="cl"><span class="dot" style="background:{PALETTE[c.id % PALETTE.length]}"></span><b>{c.n}</b> {c.terms.join(' · ') || '—'} <span class="muted">· mostly {getCategoryLabel(c.topType)} ({Math.round(c.purity * 100)}%)</span></div>
+			{/each}
+			<p class="muted small"><AIText>k-means on the 3 axes above. The folders agree with this split {Math.round(agreement * 100)}% of the time — but nothing says the folders are the right answer either. Change k, re-run from a different start, and watch the groups move: clustering has no ground truth, only choices.</AIText></p>
+		</div>
+	{/if}
 
 	<div class="space-legend">
 		{#each legend.filter((c) => usedTypes.includes(c.id)) as c}
@@ -271,5 +333,10 @@
 	.space-controls .views button, .chip { font: inherit; font-size: 0.9em; padding: 3px 9px; border: 1px solid rgba(128, 128, 128, 0.4); background: transparent; color: inherit; border-radius: 3px; cursor: pointer; }
 	.space-controls .views button.on, .chip.on { border-color: currentColor; }
 	.space-legend { display: flex; flex-wrap: wrap; gap: 6px; }
+	.kctl select { font: inherit; padding: 2px 6px; }
+	.kctl .rerun { font: inherit; font-size: 0.9em; padding: 3px 9px; border: 1px solid rgba(128, 128, 128, 0.4); background: transparent; color: inherit; border-radius: 3px; cursor: pointer; }
+	.clusters { margin: 4px 0 10px; font-size: 0.88em; }
+	.clusters .cl { padding: 2px 0; }
+	.clusters .small { font-size: 0.9em; margin: 8px 0 0; max-width: 70ch; }
 	.muted { opacity: 0.7; }
 </style>

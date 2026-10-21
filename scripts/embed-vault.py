@@ -103,6 +103,7 @@ if model_name:
     from sentence_transformers import SentenceTransformer
     M = SentenceTransformer(model_name).encode([n["_text"][:4000] for n in notes], normalize_embeddings=True)
     label = f"sentence-transformers/{model_name}"
+    for n in notes: n["terms"] = []
 else:
     # TF-IDF, pure numpy. Each note = a bag of words weighted by how rare they are across the vault.
     STOP = set("the a an and or of to in on for with is are was were be been it its this that these those i you we they he she my your our as at by from not but have has had do does did so if than then there here which who what when where why how can could would should will just like also into over about more most some any all very".split())
@@ -119,6 +120,11 @@ else:
     M = np.log1p(M) * np.log(len(notes) / np.array([df[w] for w in vocab]))
     M /= np.linalg.norm(M, axis=1, keepdims=True) + 1e-9
     label = f"tf-idf over {len(vocab)} words"
+    # each note's 6 most distinctive words — lets the site name a cluster by
+    # what its notes actually talk about
+    for r, n in enumerate(notes):
+        top = np.argsort(-M[r])[:6]
+        n["terms"] = [vocab[i] for i in top if M[r, i] > 0]
 print(f"embedding: {label}  ->  {M.shape}")
 
 # ---------------------------------------------------------------- 3-D via SVD (PCA on the centered matrix)
