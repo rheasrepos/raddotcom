@@ -184,6 +184,9 @@ The policy is insert-only, so visitors can't edit or delete each other's notes; 
 
 ## 6. Categories & the desktop folders — add, rename, recolor, regroup
 
+### "Before College" drawers
+Put `era: before-college` in a note's frontmatter (the older `affiliation: before-college` works too) and it moves into a virtual **Before College** subfolder at the bottom of whichever folder it lives in — Art / Before College, Personal Writing / Before College / College Application Essays, and so on. Its own subfolder is kept underneath. Before-college art is *not* scattered loose on the desktop; it only appears inside Art / Before College. Nothing to configure — it's the `era` line.
+
 Everything about folders lives in **one file: `src/lib/categories.js`**. It has two kinds of entries.
 
 **GROUPS** are the big desktop folders (there are 4: Writing, Research, Making, Collecting). They look like this:

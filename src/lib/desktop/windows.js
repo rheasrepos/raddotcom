@@ -6,7 +6,7 @@
 // opening a subfolder changes the same window, not a new one. A FILE window
 // shows a real preview of one post.
 import { categoryConfig } from '$lib/categories.js';
-import { prettyFolder } from './content.js';
+import { prettyFolder, BC } from './content.js';
 
 let winSeq = 1; // ids
 let winZ = 20;  // stacking order — the last-touched window is on top
@@ -24,6 +24,8 @@ export function openFolder(windows, categoryId, subfolder = null) {
 	if (!info) return windows;
 	const { x, y } = cascade(windows);
 	const stack = [{ category: categoryId, subfolder: null, title: info.label }];
+	// "Before College / <sub>" arrives as one param → two levels, so Back works
+	if (subfolder && subfolder.startsWith(BC + '/')) stack.push({ category: categoryId, subfolder: BC, title: prettyFolder(BC) });
 	if (subfolder) stack.push({ category: categoryId, subfolder, title: prettyFolder(subfolder) });
 	return [...windows, {
 		id: winSeq++, kind: 'folder', stack,

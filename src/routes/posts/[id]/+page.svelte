@@ -14,9 +14,7 @@
 
 	// Build an accurate folder path from the post's category chain + subfolder,
 	// e.g. "www.rhea.com / Collecting / Analog Archive".
-	function prettyFolder(s) {
-		return String(s || '').replace(/-/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
-	}
+	import { prettyFolder, BC } from '$lib/desktop/content.js';
 	// Breadcrumb as CLICKABLE segments. Each links back to the desktop with a
 	// ?open= param so clicking "Collecting" opens the Collecting folder there.
 	function crumbSegments(p) {
