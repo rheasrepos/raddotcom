@@ -32,7 +32,7 @@
 		cursor: pointer;
 		overflow: hidden;
 	}
-	.intro-tag { display: block; width: min(300px, 44vw); margin: 0 auto 22px; transform: rotate(-2deg); box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.25); }
+	.intro-tag { display: block; width: min(320px, 46vw); margin: 0 auto 22px; } /* Rhea's own cutout — it carries its shape and tilt */
 	.intro-title {
 		font-size: clamp(44px, 10vw, 120px);
 		letter-spacing: -2px;
