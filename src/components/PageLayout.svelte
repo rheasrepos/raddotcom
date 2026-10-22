@@ -91,7 +91,7 @@
 		<!-- Navigation and Controls in the frame bezel -->
 		<div class="frame-topbar">
 			<div class="topbar-left">
-				<a href="/" class="about-link">Rhea Madhogarhia</a>
+				<a href="/about" class="about-link" title="About Rhea"><img class="about-tag" src="/hello-my-name-is-rhea.png" alt="HELLO my name is RHEA — about" /></a>
 			</div>
 			<div class="topbar-center">
 				<DesktopNavigation on:navigate={({ detail }) => handleNavigation(detail.path)} />
@@ -357,15 +357,16 @@
 		align-items: center;
 	}
 
+	/* the name tag, shrunk to a button → /about */
 	.about-link {
-		color: #ffffff;
-		font-family: Arial, sans-serif;
-		font-size: 0.85rem;
-		text-decoration: none;
-		padding: 4px 8px;
+		display: inline-flex;
+		align-items: center;
+		padding: 2px 4px;
 		border: 1px solid transparent;
 		transition: all 0.2s ease;
+		line-height: 0;
 	}
+	.about-tag { height: 36px; width: auto; display: block; }
 
 	.about-link:hover {
 		border-color: #ffffff;
