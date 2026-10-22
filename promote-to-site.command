@@ -43,6 +43,9 @@ for root,dirs,files in os.walk(src):
             outdir=os.path.join(dst,rel) if rel != "." else dst
             os.makedirs(outdir,exist_ok=True)
             shutil.copy2(os.path.join(root,f),os.path.join(outdir,f)); promoted.append(os.path.join(rel,f))
+# The video list (vault/_videos.md → src/data/videos.md) feeds the About page gallery.
+if os.path.exists(os.path.join(src,"_videos.md")):
+    os.makedirs("src/data",exist_ok=True); shutil.copy2(os.path.join(src,"_videos.md"),"src/data/videos.md"); print("Copied _videos.md → src/data/videos.md")
 print(f"Promoted {len(promoted)} note(s) to src/vault/:")
 for f in promoted: print("  +",f)
 

@@ -53,6 +53,7 @@
     // those stay as cards. GitHub refuses too, but its public API doesn't:
     // the tile lists the repos live.
     import { onMount } from 'svelte';
+    import VideoGallery from '../../components/VideoGallery.svelte';
     let repos = null; // null = loading, [] = failed/none
     onMount(async () => {
         try {
@@ -90,8 +91,8 @@
                         <div class="link-arrow">→</div>
                     </a>
                     {#if link.kind === 'youtube'}
-                        <!-- the channel's uploads, as a playlist player: the ≡ menu in the player is the gallery -->
-                        <div class="link-embed yt"><iframe src="https://www.youtube.com/embed/videoseries?list={link.playlist}" title="{link.label} — videos" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+                        <!-- gallery: channel uploads + the extras from the vault's _videos.md -->
+                        <div class="link-embed gallery"><VideoGallery channelUrl={link.url} /></div>
                     {:else if link.kind === 'site'}
                         <!-- live site, scrollable inside the tile -->
                         <div class="link-embed site"><iframe src={link.url} title="{link.label} — live site" loading="lazy"></iframe></div>
@@ -185,8 +186,7 @@
     .link-tile.wide { grid-column: 1 / -1; }
     .link-tile .link-card { border: none; }
     .link-embed { border-top: 1px solid #000; background: #000; }
-    .link-embed.yt { aspect-ratio: 16 / 9; }
-    .link-embed.yt iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .link-embed.gallery { background: #fff; }
     .link-embed.site { height: 480px; background: #fff; }
     .link-embed.site iframe { width: 100%; height: 100%; border: 0; display: block; }
     .link-repos { border-top: 1px solid #000; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1px; background: #000; }

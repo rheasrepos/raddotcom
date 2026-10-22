@@ -197,6 +197,9 @@ If you ever rotate the anon key in Supabase, update the Vercel variable and rede
 
 ---
 
+## 5e. The video gallery (About → YouTube)
+The YouTube tile on the About page is a thumbnail gallery: every upload on @rheamad (read live from the channel's public feed — no API key, newest 15) **plus any video you list in the vault's `_videos.md`** — one YouTube link per line, optionally ` — a caption`. Those show with a "not on my channel" tag. `promote-to-site.command` copies `_videos.md` to `src/data/videos.md`; commit and push as usual. Click a thumbnail and it plays in place.
+
 ## 6. Categories & the desktop folders — add, rename, recolor, regroup
 
 ### "Before College" drawers
