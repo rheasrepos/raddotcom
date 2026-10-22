@@ -27,7 +27,7 @@
 	import { categoryConfig } from '$lib/categories.js';
 	import { siteName, SITE_TAGLINE } from '$lib/site.js';
 	import { spaceFactor, defaultIconPos } from '$lib/desktop/layout.js';
-	import { inCat, hasPostsDeep, prettyFolder, matchesQuery } from '$lib/desktop/content.js';
+	import { hasPostsDeep } from '$lib/desktop/content.js';
 	import { openFolder } from '$lib/desktop/windows.js';
 
 	// Posts arrive from the page `load` function (+page.js), so the desktop
@@ -102,35 +102,11 @@
 	function toggleHoard() { hoardOpen = !hoardOpen; }
 
 	// --- View state ---
-	let viewMode = 'desktop'; // 'desktop' | 'all' | 'folders' (by month) | 'categories'
 	let selectedProject = null;   // open file dialog
-	let selectedFilter = 'all';   // category open in the All Posts view
-	let selectedSubfolder = null; // subfolder open inside that category
-	let breadcrumbPath = ['Desktop'];
-	let previousView = null;
-	let folderOpening = false;
-	let openingFolder = null;
 	let zoomLevel = 1;
 	let panOffset = { x: 0, y: 0 };
 	let wallpaperColor = '#ff8c42';
-	let showSearch = false;
-	let searchQuery = '';
-	let isClosingSearch = false;
-	let isNavigating = false;
-	let isContracting = false;
 	let currentTime = new Date().toLocaleTimeString();
-
-	// Month/year combinations that have posts (By Month view), newest first.
-	$: availableMonths = (projects || [])
-		.map((project) => {
-			const date = new Date(project.date);
-			return { month: date.getMonth(), year: date.getFullYear() };
-		})
-		.filter((my, index, array) => array.findIndex((m) => m.month === my.month && m.year === my.year) === index)
-		.sort((a, b) => (a.year !== b.year ? b.year - a.year : b.month - a.month));
-	let currentMonth = new Date().getMonth();
-	let currentYear = new Date().getFullYear();
-	$: currentMonthIndex = availableMonths ? availableMonths.findIndex((m) => m.month === currentMonth && m.year === currentYear) : -1;
 
 	// --- Quick Look (spacebar), Spotlight search ---
 	let hoveredProject = null;
@@ -212,7 +188,7 @@
 			return;
 		}
 		// Esc exits full screen (unless a modal/search layer is open and wants it)
-		if (e.key === 'Escape' && surfing && !spotlightOpen && !quickLookItem && !selectedProject && !showSearch) {
+		if (e.key === 'Escape' && surfing && !spotlightOpen && !quickLookItem && !selectedProject) {
 			surf();
 			return;
 		}
@@ -254,11 +230,6 @@
 		// if for some reason none arrived, so the desktop is never blank.
 		try {
 			if (!projects || projects.length === 0) projects = await loadPosts();
-			// Start the By Month view on the newest month that has posts.
-			if (availableMonths.length > 0) {
-				currentMonth = availableMonths[0].month;
-				currentYear = availableMonths[0].year;
-			}
 		} catch (error) {
 			console.warn('Error loading posts:', error);
 			projects = [];
@@ -290,96 +261,6 @@
 		}, 380);
 	}
 
-	// --- "View:" modes other than the desktop (All Posts / By Month / By Category) ---
-	// These render flat icon grids in the same desktop area. Folders here open
-	// in place (with a breadcrumb) rather than as Finder windows.
-	function navigateBack() {
-		if (!previousView) return;
-		if (previousView.mode === 'folders') {
-			viewMode = 'folders';
-			currentMonth = previousView.month;
-			currentYear = previousView.year;
-			breadcrumbPath = ['Desktop'];
-		} else if (previousView.mode === 'categories') {
-			viewMode = 'categories';
-			selectedFilter = previousView.category || 'all';
-			breadcrumbPath = ['Desktop'];
-		}
-		previousView = null;
-	}
-	function openSubfolder(s) {
-		selectedSubfolder = s;
-		breadcrumbPath = [...breadcrumbPath.slice(0, 2), prettyFolder(s)];
-	}
-	// Subfolders present in the currently-open category folder
-	$: catSubfolders =
-		breadcrumbPath.length > 1 && !/\d{4}/.test(breadcrumbPath[1])
-			? [...new Set((projects || []).filter((p) => inCat(p, selectedFilter) && p.subfolder).map((p) => p.subfolder))].sort()
-			: [];
-	function goToDesktop() {
-		viewMode = 'desktop';
-		selectedFilter = 'all';
-		breadcrumbPath = ['Desktop'];
-		previousView = null;
-		selectedSubfolder = null;
-	}
-	// One Back button that does the natural thing
-	function goBackNav() {
-		if (selectedSubfolder) {
-			selectedSubfolder = null;
-			breadcrumbPath = breadcrumbPath.slice(0, 2);
-			return;
-		}
-		if (previousView) { navigateBack(); return; }
-		if (breadcrumbPath.length > 1 && /\d{4}/.test(breadcrumbPath[1])) {
-			// Came from the By Month folder grid — return there
-			viewMode = 'folders';
-			selectedFilter = 'all';
-			breadcrumbPath = ['Desktop'];
-			if (availableMonths && availableMonths.length > 0) {
-				currentMonth = availableMonths[0].month;
-				currentYear = availableMonths[0].year;
-			}
-			return;
-		}
-		goToDesktop();
-	}
-	function changeMonth(delta) {
-		if (!availableMonths || availableMonths.length === 0) return;
-		let newIndex = currentMonthIndex + delta;
-		if (newIndex < 0) newIndex = availableMonths.length - 1;
-		else if (newIndex >= availableMonths.length) newIndex = 0;
-		currentMonth = availableMonths[newIndex].month;
-		currentYear = availableMonths[newIndex].year;
-	}
-	function openMonthFolder(monthYear) {
-		folderOpening = true;
-		const label = new Date(monthYear.year, monthYear.month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-		openingFolder = label;
-		setTimeout(() => {
-			previousView = { mode: 'folders', month: currentMonth, year: currentYear };
-			currentMonth = monthYear.month;
-			currentYear = monthYear.year;
-			viewMode = 'all';
-			breadcrumbPath = ['Desktop', label];
-			folderOpening = false;
-			openingFolder = null;
-		}, 300);
-	}
-	function openCategoryFolder(category) {
-		folderOpening = true;
-		openingFolder = categoryConfig[category].label;
-		setTimeout(() => {
-			previousView = { mode: 'categories', category: selectedFilter };
-			selectedFilter = category;
-			selectedSubfolder = null;
-			viewMode = 'all';
-			breadcrumbPath = ['Desktop', categoryConfig[category].label];
-			folderOpening = false;
-			openingFolder = null;
-		}, 300);
-	}
-
 	// --- Zoom (toolbar buttons + ⌘/ctrl-wheel) ---
 	function zoomIn() { zoomLevel = Math.min(zoomLevel + 0.2, 3); }
 	function zoomOut() { zoomLevel = Math.max(zoomLevel - 0.2, 1.0); }
@@ -394,52 +275,6 @@
 		}
 	}
 
-	// --- Search ---
-	function closeSearch() {
-		isClosingSearch = true;
-		setTimeout(() => {
-			showSearch = false;
-			isClosingSearch = false;
-		}, 200);
-	}
-	// Searching from the Desktop view flips to All Posts so matches are
-	// actually visible; the desktop comes back when the query is cleared.
-	let searchCameFromDesktop = false;
-	$: if (searchQuery.trim() && viewMode === 'desktop') {
-		searchCameFromDesktop = true;
-		viewMode = 'all';
-	} else if (!searchQuery.trim() && searchCameFromDesktop) {
-		searchCameFromDesktop = false;
-		viewMode = 'desktop';
-	}
-
-	// Posts shown in the All Posts view: search filter, then the open folder.
-	$: projectsWithDates = (projects || [])
-		.filter((project) => {
-			if (!matchesQuery(project, searchQuery.trim())) return false;
-			if (viewMode === 'all') {
-				if (breadcrumbPath.length <= 1) return true; // root: everything
-				if (/\d{4}/.test(breadcrumbPath[1])) {
-					// Inside a month folder
-					const d = new Date(project.date);
-					return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-				}
-				// Inside a category folder. If a subfolder is open, show its
-				// posts; otherwise only posts at the category root (subfoldered
-				// posts appear as folders). A parent category also holds its
-				// children's posts.
-				const childIds = Object.values(categoryConfig).filter((c) => c.parent === selectedFilter).map((c) => c.id);
-				if (project.type !== selectedFilter && !childIds.includes(project.type)) return false;
-				return selectedSubfolder ? project.subfolder === selectedSubfolder : !project.subfolder;
-			}
-			if (viewMode === 'folders') {
-				const d = new Date(project.date);
-				return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-			}
-			if (viewMode === 'categories') return selectedFilter === 'all' || inCat(project, selectedFilter);
-			return true;
-		})
-		.sort((a, b) => new Date(a.date) - new Date(b.date));
 </script>
 
 <svelte:window on:keydown={onWindowKeydown} on:pointermove={iconMove} on:pointerup={iconUp} />
@@ -467,36 +302,12 @@
 				<SyntheticToggle />
 				<!-- Search Button and Input -->
 				<div class="search-container">
-					{#if showSearch}
-						<input 
-							type="text" 
-							class="search-input {isClosingSearch ? 'closing' : ''}" 
-							placeholder="Search posts..."
-							bind:value={searchQuery}
-							on:blur={() => {
-								if (!searchQuery.trim()) {
-									closeSearch();
-								}
-							}}
-							on:keydown={(e) => {
-								if (e.key === 'Escape') {
-									closeSearch();
-									searchQuery = '';
-								}
-							}}
-						/>
-					{:else}
-						<button 
-							class="search-btn" 
-							on:click={() => spotlightOpen = true}
-							title="Spotlight search (⌘K)"
-						>
-							<svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-								<circle cx="11" cy="11" r="8"></circle>
-								<path d="m21 21-4.35-4.35"></path>
-							</svg>
-						</button>
-					{/if}
+					<button class="search-btn" on:click={() => spotlightOpen = true} title="Spotlight search (⌘K)">
+						<svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<circle cx="11" cy="11" r="8"></circle>
+							<path d="m21 21-4.35-4.35"></path>
+						</svg>
+					</button>
 				</div>
 					<span class="system-time">{currentTime}</span>
 			</div>
@@ -511,48 +322,6 @@
 		>
 			
 			<div class="container">
-			{#if breadcrumbPath.length > 1 || previousView}
-			<!-- Finder-style path bar: back arrow + clickable crumbs (sits above the View toolbar) -->
-			<div class="breadcrumb-nav">
-				<button class="crumb-back" on:click={goBackNav} title="Back">←</button>
-				{#each breadcrumbPath as path, index}
-					{#if index > 0}
-						<span class="breadcrumb-separator">›</span>
-					{/if}
-					{#if index === breadcrumbPath.length - 1 && breadcrumbPath.length > 1}
-						<span class="breadcrumb-current">{path}</span>
-					{:else}
-						<button class="breadcrumb-link" on:click={() => { if (index === 0) goToDesktop(); else { selectedSubfolder = null; breadcrumbPath = breadcrumbPath.slice(0, 2); } }}>{path}</button>
-					{/if}
-				{/each}
-			</div>
-			{/if}
-			<!-- Old-school filter toolbar, above the surf button -->
-			<div class="filter-toolbar">
-				<span class="tb-label">View:</span>
-				<select class="tb-select" bind:value={viewMode} on:change={() => { if (viewMode === 'desktop') breadcrumbPath = ['Desktop']; }}>
-					<option value="desktop">Desktop</option>
-					<option value="all">All Posts</option>
-					<option value="folders">By Month</option>
-					<option value="categories">By Category</option>
-				</select>
-				{#if viewMode === 'folders'}
-					<span class="tb-sep"></span>
-					<button class="tb-btn" on:click={() => changeMonth(-1)} disabled={availableMonths.length <= 1}>←</button>
-					<button class="tb-btn" on:click={() => changeMonth(1)} disabled={availableMonths.length <= 1}>→</button>
-				{/if}
-				<span class="tb-sep"></span>
-				<button class="tb-btn" on:click={zoomOut} title="Zoom Out">−</button>
-				<span class="tb-zoom">{Math.round(zoomLevel * 100)}%</span>
-				<button class="tb-btn" on:click={zoomIn} title="Zoom In">+</button>
-				<button class="tb-btn" on:click={resetZoom} title="Reset Zoom">⌂</button>
-				<button class="tb-btn" on:click={resetIconPositions} title="Reset icon positions">⇱</button>
-				<span class="tb-sep"></span>
-				<button class="tb-btn" on:click={surf} title={surfing ? 'Exit full screen (Esc)' : 'Full screen'}>
-					{surfing ? '⤡' : '⤢'}
-				</button>
-			</div>
-
 		<!-- Desktop View (click an empty spot on the desktop to go full screen) -->
 		<div
 			class="desktop-container"
@@ -561,7 +330,6 @@
 
 			<!-- Desktop Icons (empty-space clicks bubble up as "go full screen") -->
 			<div class="desktop-icons" bind:clientWidth={deskW} on:click={(e) => { if (!surfing && e.target === e.currentTarget) surf(); }}>
-				{#if viewMode === 'desktop'}
 					<!-- Videos are posts (form: video), not a folder — they live in
 					     Creative / Comedy / Music alongside everything else. -->
 					<!-- Desktop: top-level category folders only. Child categories
@@ -645,143 +413,8 @@
 							</div>
 						{/if}
 					{/each}
-				{:else if viewMode === 'all'}
-					<!-- Child categories appear as folders inside their parent -->
-					{#if !selectedSubfolder}
-						{#each categories.filter(c => c.parent === selectedFilter) as child (child.id)}
-							{@const n = (projects || []).filter(p => inCat(p, child.id)).length}
-							{#if n > 0}
-								<div
-									class="desktop-icon"
-									on:click={() => openCategoryFolder(child.id)}
-									on:keydown={(e) => e.key === 'Enter' && openCategoryFolder(child.id)}
-									tabindex="0"
-									role="button"
-									aria-label="Open {child.label} folder"
-								>
-									<div class="mac-icon">
-										<svg viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
-											<path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999999" stroke-width="1.2"/>
-											<rect x="0" y="11" width="56" height="35" fill="#e8e8e8" stroke="#999999" stroke-width="1.2"/>
-										</svg>
-									</div>
-									<div class="mac-icon-label">{child.label}</div>
-								</div>
-							{/if}
-						{/each}
-					{/if}
-					<!-- Subfolders inside the open category folder -->
-					{#if !selectedSubfolder}
-						{#each catSubfolders as sub (sub)}
-							<div
-								class="desktop-icon"
-								on:click={() => openSubfolder(sub)}
-								on:keydown={(e) => e.key === 'Enter' && openSubfolder(sub)}
-								tabindex="0"
-								role="button"
-								aria-label="Open {prettyFolder(sub)} folder"
-							>
-								<div class="mac-icon">
-									<svg viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
-										<path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999999" stroke-width="1.2"/>
-										<rect x="0" y="11" width="56" height="35" fill="#e8e8e8" stroke="#999999" stroke-width="1.2"/>
-									</svg>
-								</div>
-								<div class="mac-icon-label">{prettyFolder(sub)}</div>
-							</div>
-						{/each}
-					{/if}
-					<!-- Posts as Mac-style document icons -->
-					{#each projectsWithDates as project (project.id)}
-						<div
-							class="desktop-icon"
-							on:click={() => toggleProject(project.id)}
-							on:keydown={(e) => e.key === 'Enter' && toggleProject(project.id)}
-							on:mouseenter={() => (hoveredProject = project)}
-							on:focus={() => (hoveredProject = project)}
-							tabindex="0"
-							role="button"
-							aria-label="Open {project.title}"
-						>
-							<div class="mac-icon">
-								{#if project.thumb || project.iconImage}
-									<img src={project.thumb || project.iconImage} alt={project.title} class="mac-icon-img" loading="lazy" />
-								{:else}
-									<svg viewBox="0 0 44 56" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
-										<path d="M4 0 L30 0 L44 14 L44 54 Q44 56 42 56 L4 56 Q2 56 0 54 L0 2 Q0 0 4 0 Z" fill="#f8f8f8" stroke="#aaaaaa" stroke-width="1.5"/>
-										<path d="M30 0 L30 14 L44 14" stroke="#aaaaaa" stroke-width="1.5" fill="none"/>
-									</svg>
-								{/if}
-							</div>
-							<div class="mac-icon-label {redactionClass(project.date)}">{project.title}</div>
-						</div>
-					{/each}
-				{:else if viewMode === 'folders'}
-					<!-- Month folders as Mac-style folder icons -->
-					{#each availableMonths as monthYear}
-						{@const label = new Date(monthYear.year, monthYear.month).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-						<div
-							class="desktop-icon"
-							on:click={() => openMonthFolder(monthYear)}
-							on:keydown={(e) => e.key === 'Enter' && openMonthFolder(monthYear)}
-							tabindex="0"
-							role="button"
-							aria-label="Open {label} folder"
-						>
-							<div class="mac-icon">
-								<svg viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
-									<path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999999" stroke-width="1.2"/>
-									<rect x="0" y="11" width="56" height="35" rx="3" fill="#e8e8e8" stroke="#999999" stroke-width="1.2"/>
-								</svg>
-							</div>
-							<div class="mac-icon-label">{label}</div>
-						</div>
-					{/each}
-				{:else if viewMode === 'categories'}
-					<!-- Category folders as Mac-style folder icons -->
-					{#each categories as category}
-						{@const categoryInfo = categoryConfig[category.id]}
-						<div
-							class="desktop-icon"
-							on:click={() => openCategoryFolder(category.id)}
-							on:keydown={(e) => e.key === 'Enter' && openCategoryFolder(category.id)}
-							tabindex="0"
-							role="button"
-							aria-label="Open {categoryInfo.label} folder"
-						>
-							<div class="mac-icon">
-								{#if categoryInfo.iconImage}
-									<img src={categoryInfo.iconImage} alt={categoryInfo.label} class="mac-icon-img" />
-								{:else}
-									<svg viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg" class="mac-icon-svg">
-										<path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999999" stroke-width="1.2"/>
-										<rect x="0" y="11" width="56" height="35" rx="3" fill="#e8e8e8" stroke="#999999" stroke-width="1.2"/>
-									</svg>
-								{/if}
-							</div>
-							<div class="mac-icon-label">{categoryInfo.label}</div>
-						</div>
-					{/each}
-				{/if}
 			</div>
 
-			<!-- Folder Opening Animation -->
-			{#if folderOpening}
-				<div class="folder-opening-overlay">
-					<div class="folder-opening-content">
-						<div class="folder-icon-opening">
-						<svg viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:84px;height:auto;">
-							<path d="M0 12 L0 8 Q0 6 2 6 L20 6 L24 12 Z" fill="#d8d8d8" stroke="#999999" stroke-width="1.2" />
-							<rect x="0" y="11" width="56" height="35" rx="3" fill="#e8e8e8" stroke="#999999" stroke-width="1.2" />
-						</svg>
-					</div>
-						<div class="folder-opening-text">Opening {openingFolder}...</div>
-						<div class="folder-opening-progress">
-							<div class="progress-bar"></div>
-						</div>
-					</div>
-				</div>
-			{/if}
 
 
 
@@ -808,7 +441,8 @@
 			<Spotlight posts={projects} on:select={onSpotlightSelect} on:close={() => (spotlightOpen = false)} />
 		{/if}
 
-		<WallpaperToolbar bind:wallpaperColor />
+		<WallpaperToolbar bind:wallpaperColor {zoomLevel} {surfing}
+			on:zoomin={zoomIn} on:zoomout={zoomOut} on:zoomreset={resetZoom} on:reseticons={resetIconPositions} on:surf={surf} />
 	</div>
 	
 	<!-- Desktop Stand (moved outside laptop screen) -->
@@ -823,6 +457,8 @@
 </div>
 
 <style>
+	.desktop-icon:hover { transform: scale(1.05); }
+	.desktop-icon:active { transform: scale(0.95); }
 	/* Space/Dark Grey Laptop Frame */
 	.laptop-frame {
 		display: flex;
@@ -1050,58 +686,6 @@
 		height: 16px;
 	}
 
-	.search-input {
-		background: rgba(255, 255, 255, 0.9);
-		border: 1px solid #ffffff;
-		color: #000000;
-		padding: 4px 8px;
-		font-size: 0.8rem;
-		font-family: Arial, sans-serif;
-		width: 150px;
-		outline: none;
-		animation: searchExpand 0.3s ease-out;
-		transform-origin: right center;
-	}
-
-	.search-input.closing {
-		animation: searchCollapse 0.3s ease-out forwards;
-	}
-
-	@keyframes searchExpand {
-		from {
-			width: 0;
-			opacity: 0;
-			transform: scaleX(0);
-		}
-		to {
-			width: 150px;
-			opacity: 1;
-			transform: scaleX(1);
-		}
-	}
-
-	@keyframes searchCollapse {
-		from {
-			width: 150px;
-			opacity: 1;
-			transform: scaleX(1);
-		}
-		to {
-			width: 0;
-			opacity: 0;
-			transform: scaleX(0);
-		}
-	}
-
-	.search-input::placeholder {
-		color: #666;
-	}
-
-	.search-input:focus {
-		border-color: #ffffff;
-		background: #ffffff;
-	}
-
 	.homepage {
 		height: 100%;
 		/* FIX: 
@@ -1123,64 +707,6 @@
 	
 	.homepage.zoomed:active {
 		cursor: grabbing;
-	}
-
-	/* Zoom Controls */
-	/* Old-school retro filter toolbar (sits above the surf button) */
-	.filter-toolbar {
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 8px;
-		width: fit-content;
-		max-width: 100%;
-		margin: 0 auto 16px;
-		padding: 5px 8px;
-		background: #c0c0c0;
-		border: 2px solid;
-		border-color: #ffffff #808080 #808080 #ffffff;
-		color: #000000;
-		font-size: 0.82rem;
-	}
-	.tb-label {
-		font-weight: 700;
-	}
-	.tb-select {
-		background: #ffffff;
-		color: #000;
-		border: 2px solid;
-		border-color: #808080 #ffffff #ffffff #808080;
-		padding: 2px 6px;
-		font-size: 0.82rem;
-		cursor: pointer;
-	}
-	.tb-btn {
-		background: #c0c0c0;
-		color: #000;
-		border: 2px solid;
-		border-color: #ffffff #808080 #808080 #ffffff;
-		padding: 1px 9px;
-		font-size: 0.82rem;
-		line-height: 1.4;
-		cursor: pointer;
-	}
-	.tb-btn:active {
-		border-color: #808080 #ffffff #ffffff #808080;
-	}
-	.tb-btn:disabled {
-		color: #808080;
-		cursor: default;
-	}
-	.tb-zoom {
-		min-width: 42px;
-		text-align: center;
-	}
-	.tb-sep {
-		width: 0;
-		align-self: stretch;
-		margin: 0 2px;
-		border-left: 1px solid #808080;
-		border-right: 1px solid #ffffff;
 	}
 
 	/* RAD.COM brand on the orange desktop, above the monitor */
@@ -1229,61 +755,6 @@
 		   not reachable by scrolling. Applies to monitor + fullscreen views.
 		   `clip` (not hidden) so vertical scrolling is unaffected. */
 		overflow-x: clip;
-	}
-
-	/* Breadcrumb Navigation — quiet Finder-style path bar */
-	.breadcrumb-nav {
-		display: inline-flex;
-		align-items: center;
-		gap: 4px;
-		font-size: 0.85rem;
-		font-family: Arial, sans-serif;
-		background: rgba(255, 255, 255, 0.7);
-		border: 1px solid rgba(0, 0, 0, 0.25);
-		border-radius: 0;
-		padding: 4px 10px 4px 4px;
-		margin-bottom: 14px;
-	}
-
-	.crumb-back {
-		border: none;
-		background: rgba(0, 0, 0, 0.07);
-		border-radius: 0;
-		width: 26px;
-		height: 26px;
-		cursor: pointer;
-		font-size: 0.95rem;
-		line-height: 1;
-		color: #222;
-		margin-right: 4px;
-	}
-	.crumb-back:hover {
-		background: rgba(0, 0, 0, 0.16);
-	}
-
-	.breadcrumb-separator {
-		color: #555;
-		margin: 0 2px;
-	}
-
-	.breadcrumb-current {
-		color: #000;
-		font-weight: 600;
-		padding: 3px 2px;
-	}
-
-	.breadcrumb-link {
-		background: none;
-		border: none;
-		color: #222;
-		cursor: pointer;
-		font-size: 0.85rem;
-		padding: 3px 6px;
-		border-radius: 0;
-	}
-
-	.breadcrumb-link:hover {
-		background: rgba(0, 0, 0, 0.08);
 	}
 
 	.desktop-icons {
@@ -1434,110 +905,10 @@
 		.subtitle { font-size: 1.1rem; }
 	}
 
-	/* MacBook-style Folder Opening Animation */
-	.folder-opening-overlay {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background: rgba(0, 0, 0, 0.8);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		z-index: 2000;
-		animation: fadeIn 0.2s ease-out;
-	}
-
-	.folder-opening-content {
-		background: rgba(255, 255, 255, 0.95);
-		border: 1px solid #000000;
-		padding: 40px;
-		text-align: center;
-		min-width: 300px;
-		animation: slideIn 0.3s ease-out;
-	}
-
-	.folder-icon-opening {
-		font-size: 80px;
-		margin-bottom: 20px;
-		animation: folderBounce 0.6s ease-in-out;
-	}
-
-	.folder-opening-text {
-		font-size: 1.2rem;
-		color: #000000;
-		font-weight: bold;
-		margin-bottom: 20px;
-		font-family: Arial, sans-serif;
-	}
-
-	.folder-opening-progress {
-		width: 100%;
-		height: 4px;
-		background: rgba(0, 0, 0, 0.1);
-		border: 1px solid #000000;
-		overflow: hidden;
-	}
-
-	.progress-bar {
-		height: 100%;
-		background: #000000;
-		width: 0%;
-		animation: progressFill 0.3s ease-out forwards;
-	}
-
-	/* Animation Keyframes */
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-
-	@keyframes slideIn {
-		from {
-			transform: translateY(-50px);
-			opacity: 0;
-		}
-		to {
-			transform: translateY(0);
-			opacity: 1;
-		}
-	}
-
-	@keyframes folderBounce {
-		0%, 100% {
-			transform: scale(1);
-		}
-		50% {
-			transform: scale(1.1);
-		}
-	}
-
-	@keyframes progressFill {
-		from {
-			width: 0%;
-		}
-		to {
-			width: 100%;
-		}
-	}
-
 	/* Enhanced Desktop Icon Animations */
 	.desktop-icon {
 		transition: background 0.15s ease, border-color 0.15s ease; /* NOT left/top — dragging must track the cursor instantly */
 		position: relative;
-	}
-
-	.desktop-icon:hover {
-		transform: scale(1.05);
-	}
-
-	.desktop-icon:active {
-		transform: scale(0.95);
 	}
 
 	/* Smooth transitions for view mode changes */

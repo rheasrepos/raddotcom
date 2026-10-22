@@ -2,6 +2,12 @@
 	// Bottom strip of the monitor: wallpaper colour picker + social links.
 	// `wallpaperColor` is bound to the page (the screen background).
 	export let wallpaperColor = '#ff8c42';
+	// the desktop's zoom / reset / full-screen controls live here too (the
+	// bottom bar of the monitor), not inside the desktop itself
+	export let zoomLevel = 1;
+	export let surfing = false;
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 	function pick(c) {
 		wallpaperColor = c;
 		localStorage.setItem('wallpaperColor', c);
@@ -52,6 +58,16 @@
 		</div>
 	</div>
 	
+	<div class="tb-tools">
+		<button class="tb-btn" on:click={() => dispatch('zoomout')} title="Zoom out">−</button>
+		<span class="tb-zoom">{Math.round(zoomLevel * 100)}%</span>
+		<button class="tb-btn" on:click={() => dispatch('zoomin')} title="Zoom in">+</button>
+		<button class="tb-btn" on:click={() => dispatch('zoomreset')} title="Reset zoom">⌂</button>
+		<button class="tb-btn" on:click={() => dispatch('reseticons')} title="Reset icon positions">⇱</button>
+		<span class="tb-sep"></span>
+		<button class="tb-btn" on:click={() => dispatch('surf')} title={surfing ? 'Exit full screen (Esc)' : 'Full screen'}>{surfing ? '⤡' : '⤢'}</button>
+	</div>
+
 	<!-- Social Media Icons -->
 	<div class="social-icons">
 		<a href="https://www.linkedin.com/in/rhea-mad/" target="_blank" rel="noopener noreferrer" class="social-icon" title="LinkedIn">
@@ -79,6 +95,11 @@
 </div>
 
 <style>
+	.tb-tools { display: flex; align-items: center; gap: 6px; }
+	.tb-btn { background: #c0c0c0; color: #000; border: 2px solid; border-color: #fff #808080 #808080 #fff; width: 26px; height: 22px; font: inherit; font-size: 0.85rem; line-height: 1; cursor: pointer; padding: 0; }
+	.tb-btn:active { border-color: #808080 #fff #fff #808080; }
+	.tb-zoom { color: #fff; font-size: 0.78rem; min-width: 38px; text-align: center; }
+	.tb-sep { width: 1px; height: 18px; background: #666; margin: 0 4px; }
 	/* Social Media Icons in Toolbar */
 	.social-icons {
 		display: flex;
@@ -119,6 +140,8 @@
 		border-top: 1px solid rgba(255, 255, 255, 0.3);
 		display: flex;
 		align-items: center;
+		justify-content: space-between; /* wallpaper · zoom tools · socials */
+		gap: 16px;
 		padding: 0 15px;
 		z-index: 1000;
 	}
