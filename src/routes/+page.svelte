@@ -1367,7 +1367,7 @@
 		padding: 10px;
 		border: 1px solid transparent;
 		cursor: pointer;
-		transition: all 0.3s ease;
+		transition: background 0.15s ease, border-color 0.15s ease; /* NOT left/top — dragging must track the cursor instantly */
 		text-align: center;
 	}
 
@@ -1523,7 +1523,7 @@
 
 	/* Enhanced Desktop Icon Animations */
 	.desktop-icon {
-		transition: all 0.3s ease;
+		transition: background 0.15s ease, border-color 0.15s ease; /* NOT left/top — dragging must track the cursor instantly */
 		position: relative;
 	}
 
