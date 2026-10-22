@@ -16,7 +16,7 @@
 		<div class="intro-sub">{tagline}</div>
 		<div class="intro-hint">[ click anywhere to enter ]</div>
 	</div>
-	<div class="intro-ticker"><span><AIText>double-click a folder to open it · press space to preview any file · ⌘K to search everything · drag the obsidian graph · wallpaper picker bottom-left · welcome to my desktop ·</AIText></span></div>
+	<div class="intro-ticker" data-no-reveal><span><AIText>double-click a folder to open it · press space to preview any file · ⌘K to search everything · drag the obsidian graph · wallpaper picker bottom-left · welcome to my desktop ·</AIText></span></div>
 </div>
 
 <style>

@@ -53,6 +53,15 @@ pre, code, kbd, samp, .mono {
 
 /* AI-drafted text is always marked with a dashed underline, site-wide.
    Same convention as the AIText component. */
+/* AI text "generates" itself on first sight (src/lib/aiReveal.js) */
+.ai-revealing .ai-w { opacity: 0; transition: opacity 0.12s ease; }
+.ai-revealing .ai-w.on { opacity: 1; }
+.ai-caret { display: inline-block; margin-left: 1px; animation: aiCaret 0.7s steps(1) infinite; }
+@keyframes aiCaret { 50% { opacity: 0; } }
+/* visitor chose to hide AI-drafted text (toggle in the AI popup / bottom-left chip) */
+html.hide-ai .ai-text, html.hide-ai .ai-generated { display: none !important; }
+html.hide-ai .ai-title, html.hide-ai .ai-desc { filter: blur(4px); } /* titles stay (the page needs them) but go soft */
+
 /* block-level AI marker (an <ai>…</ai> section in a note): underline every line inside */
 .ai-block { padding-left: 10px; border-left: 2px dashed rgba(0,0,0,0.35); }
 .ai-block * { text-decoration: underline dashed !important; text-decoration-thickness: 1px !important; text-underline-offset: 3px !important; }

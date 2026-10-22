@@ -9,6 +9,7 @@
 	import FinderWindow from '$components/FinderWindow.svelte';
 	import Guestbook from '$components/Guestbook.svelte';
 	import OneMinute from '$components/OneMinute.svelte';
+	import { aiReveal, aiHidden } from '$lib/aiReveal.js';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
@@ -56,6 +57,11 @@
 
 <!-- "WPM" one-minute typing test → shared sticky-note wall, pops up like an ad -->
 <OneMinute />
+{#if $aiHidden}
+	<button class="ai-hidden-chip" on:click={() => aiHidden.set(false)} title="AI-drafted text is hidden — click to show it">AI text hidden · show</button>
+{/if}
+<svelte:body use:aiReveal />
+
 
 <!-- Global music toggle — always reachable, on every page -->
 {#if playerMode === 'closed'}
@@ -80,6 +86,7 @@
 {/if}
 
 <style>
+	.ai-hidden-chip { position: fixed; left: 14px; bottom: 44px; z-index: 9300; background: #c0c0c0; color: #000; border: 2px solid #000; border-color: #fff #808080 #808080 #fff; padding: 5px 9px; font: inherit; font-size: 0.72rem; cursor: pointer; }
 	:global(*) {
 		box-sizing: border-box;
 	}

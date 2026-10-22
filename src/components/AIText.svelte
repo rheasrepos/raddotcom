@@ -4,11 +4,12 @@
 	//   <AIText>some copy</AIText>
 	//   <AIText note="Custom explanation.">some copy</AIText>
 	export let note = 'This text was drafted with AI assistance.';
+	import { aiHidden } from '$lib/aiReveal.js';
 </script>
 
 <span class="ai-text" tabindex="0" role="note" aria-label={note}>
 	<slot />
-	<span class="ai-pop">{note}</span>
+	<span class="ai-pop">{note} <button class="ai-hide" on:click|stopPropagation={() => aiHidden.set(true)}>hide all AI text</button></span>
 </span>
 
 <style>
@@ -42,6 +43,8 @@
 		z-index: 60;
 		pointer-events: none;
 	}
+	.ai-hide { display: block; margin-top: 6px; background: none; border: 1px solid #666; color: #fff; font: inherit; font-size: 0.72rem; padding: 2px 6px; cursor: pointer; pointer-events: auto; }
+	.ai-text:hover .ai-pop, .ai-text:focus-within .ai-pop { pointer-events: auto; }
 
 	/* Little pointer arrow */
 	.ai-pop::after {
