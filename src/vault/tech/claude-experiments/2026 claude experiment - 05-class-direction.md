@@ -14,6 +14,7 @@ published: true
 
 **Note entry (Dec 2025, watching 3Blue1Brown):** to what degree is *class* encoded in language? Find the plebeian↔aristocrat direction in embedding space — like man↔woman in king − man + woman ≈ queen — and project a bunch of words onto it.
 
+<ai>
 ## The experiment
 
 Classic embedding-arithmetic probing (Mikolov et al. 2013; Bolukbasi et al. 2016 did exactly this for gender bias — "Man is to Computer Programmer as Woman is to Homemaker"). Your question extends it to socioeconomic class, which is much less studied than gender/race directions — a real gap. Kozlowski, Taddy & Evans, "The Geometry of Culture" (American Sociological Review, 2019) built an "affluence" axis in word2vec and tracked it across a century of books; your version asks what *today's* embeddings carry, and the note's larger frame ("a pulse on humanity / extract our stereotypes") is exactly what this measures.
@@ -139,3 +140,4 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+</ai>

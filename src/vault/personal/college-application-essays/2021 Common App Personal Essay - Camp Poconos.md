@@ -15,8 +15,8 @@ form:
 affiliation: before-college
 genre: Personal
 ---
-*Prompt 5 — Discuss an accomplishment, event, or realization that sparked a period of personal growth and a new understanding of yourself or others. (650 words)*
-
+<ai>*Prompt 5 — Discuss an accomplishment, event, or realization that sparked a period of personal growth and a new understanding of yourself or others. (650 words)*
+</ai>
 Growing up, I was shamed for eating out with friends only to be force-fed highly caloric Indian food at home each night. Food is my parent's love language, yet their language surrounding food is restrictive and obsessive. My parents blame each other for my chubby physique, inadvertently criticizing me for the way I exist in the world.
 
 Spring 2018, I was already working with a trainer my parents hired and navigating fitness apps my mother sent me, so I didn't understand why my dad texted me a link to a "weight loss camp" in Philadelphia. I wanted the traditional sleepaway camp experience I was never allowed, so I decided I'd go, for myself, not for my parents.

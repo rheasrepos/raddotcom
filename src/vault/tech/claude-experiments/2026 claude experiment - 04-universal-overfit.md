@@ -14,6 +14,7 @@ published: true
 
 **Note entry (phil of AI class):** can you fit a model to *any* problem and *any* curve just by training the weights A LOT, without changing the architecture at all?
 
+<ai>
 ## The honest answer this experiment demonstrates
 
 Theory says *almost*: the **universal approximation theorem** (Cybenko 1989, Hornik 1991) guarantees a fixed-depth net can approximate any continuous function — but only if you're allowed to grow *width*. With architecture truly frozen (fixed width AND depth), capacity is finite, so there exist curves it cannot fit no matter how long you train. The philosophical bite: "train a lot" buys you optimization, not capacity.
@@ -153,3 +154,4 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+</ai>

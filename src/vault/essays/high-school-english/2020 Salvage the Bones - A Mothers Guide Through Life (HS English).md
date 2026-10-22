@@ -15,8 +15,8 @@ affiliation: before-college
 ---
 
 # A Mother's Guide Through Life — Salvage the Bones essay
-*Rhea Madhogarhia (HS English, 10th grade ~2020, recovered from Google Drive).*
-
+<ai>*Rhea Madhogarhia (HS English, 10th grade ~2020, recovered from Google Drive).*
+</ai>
 > See now that I, even I am he, and there is no god with me; I kill and I make alive, I wound and I heal, neither is there any can deliver out of my hand. — Deuteronomy
 
 These words from the Bible can be interpreted as describing the all powerful force and nature of a higher being like God, but in Salvage the Bones Jesmyn Ward seems to interpret this higher power as a force of nature. The verse speaks to the fact that no one is immune from the destruction that a higher power can bring and that the effects of it's wreckage is inescapable. It speaks to the uncontrollable impact that a strong force, such as nature, or even God, can have on others. Throughout the book we see Esch's connection to her surroundings and the impact that nature and environment has on her feelings. When thinking about nature, we often associate it with the persona of a mother, a strong and loving being. In the book, motherhood becomes a prominent theme as we follow and understand the story of Esch, a newly pregnant child, China, a mother of puppies, and the memory of Mama. As the memory of Mama often haunts and lingers around Esch's mind, we see that even though she is dead, she is very much alive in the spirit of her family's lives. Just as Mother Nature brought destruction to Esch's family and forced them to set on a new path and the loss of China deeply hurt and broke down Skeetah, Mama's death brought a similar kind of tragedy and loss that created her legacy and stayed with them for their lives without her. As Esch sees the effect Hurricane Katrina had on everyone around her, she comes to understand the strength and power of a mother and the impact a mother has on her child.

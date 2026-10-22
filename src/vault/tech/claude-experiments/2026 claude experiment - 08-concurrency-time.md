@@ -14,6 +14,7 @@ published: true
 
 **Note entry (Mar 9 2026):** "concurrency is cool because it deals with time — can truly concurrent processes happen to computers?"
 
+<ai>
 ## The question, sharpened
 
 "Truly concurrent" can mean three different things, and the answer differs for each:
@@ -147,3 +148,4 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+</ai>

@@ -13,6 +13,8 @@ form: [publication]
 affiliation: uchicago
 ---
 
+<ai>
+
 **Ke, J., Madhogarhia, R., & Rosenberg, M. D.** Social aha moments during naturalistic narrative comprehension: an inter-subject representational similarity analysis (IS-RSA) approach.
 https://www.biorxiv.org/content/10.64898/2026.05.13.724907v1
 
@@ -22,3 +24,5 @@ Research conducted at the [CAB Lab, University of Chicago](https://cablab.uchica
 - [[Topic - academic]]
 - [[Topic - academic · neuroscience]]
 - [[Topic - fmri]]
+
+</ai>

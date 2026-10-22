@@ -13,6 +13,8 @@ affiliation: uchicago
 genre: project
 ---
 
+<ai>
+
 # Finders Keepers (WHPK radio show)
 
 Radio show on WHPK — interviews and features exploring music across languages and cultures. Originally pitched under the working title **"Cup of Tea"** on the application, before the show had a name.
@@ -36,3 +38,5 @@ Sits in  and . Related to the a-cappella /  world and to [[2020-21 (approx) R+V 
 - [[Topic - performance]]
 - [[Topic - creative · music]]
 - [[Topic - radio]]
+
+</ai>

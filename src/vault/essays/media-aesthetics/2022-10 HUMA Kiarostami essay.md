@@ -12,4 +12,8 @@ form:
 affiliation: independent
 ---
 
+<ai>
+
 A graded Media Aesthetics (HUMA) essay on Abbas Kiarostami, Q1 fall 2022. Original document below.
+
+</ai>

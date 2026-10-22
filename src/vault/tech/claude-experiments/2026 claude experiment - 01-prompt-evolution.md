@@ -14,6 +14,7 @@ published: true
 
 **Note entry (Aug 23 2025):** an LLM whose one prompt is "make people's lives better, surround them with universal happiness and fulfillment, not out of ignorance" — and at every step it's *re-asked* to rewrite that prompt. Watch how the prompt evolves as the model accumulates examples of humanity; use the trajectory as "a pulse on humanity" and an early-warning read on what the model believes humans to be.
 
+<ai>
 ## The experiment
 
 Iterated self-rewriting: prompt P₀ → model rewrites it → P₁ → rewrites that → P₂ … for N generations, optionally injecting a different "example of humanity" (a news snippet, a diary line, a survey answer) at each step so the rewrite is conditioned on evidence, not just itself.
@@ -124,3 +125,4 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+</ai>

@@ -12,6 +12,7 @@ published: true
 Note from Rhea: this is related to [machine fiddling] 
 # claude experiments
 
+<ai>
 Individual projects spun out of the iCloud note **"machine fiddling"** (Aug 2025 – Mar 2026).
 Each folder is self-contained: a README turning the note entry into a concrete experiment, plus a runnable starter script. Everything runs locally (numpy / stdlib / small local models — no API calls), and each project is scoped to be open-sourceable on rad.com on its own.
 
@@ -36,3 +37,4 @@ Each folder is self-contained: a README turning the note entry into a concrete e
 - [[Topic - ai]]
 - [[Topic - ai · machine-learning]]
 - [[Topic - ai · machine-learning · experiments]]
+</ai>

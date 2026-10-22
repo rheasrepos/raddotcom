@@ -14,6 +14,7 @@ published: true
 
 **Note entry (Nov 19 2025):** take the inputs to a model — or the weights — and multiply by its transpose, its transpose's transpose... "every possible, or at least four-way, direction of the data."
 
+<ai>
 ## What this already is (and where it goes further)
 
 Multiplying by the transpose is not idle fiddling — it's the front door to most of linear-algebra-based interpretability:
@@ -158,3 +159,4 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+</ai>

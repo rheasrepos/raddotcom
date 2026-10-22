@@ -70,7 +70,7 @@ export function ytId(url) {
 
 // A plain-text excerpt of a post's body for tile previews.
 export function excerpt(md, max = 320) {
-	const t = String(md || '')
+	const t = String(md || '').replace(/<\/?ai>/g, '')
 		.replace(/\n#+\s*(Topics|Related)\s*\n(?:\s*[-*]\s*\[\[.*?\]\].*\n?)+/gi, '')
 		.replace(/\[\[.*?\]\]/g, '')
 		.replace(/<[^>]*>/g, ' ')
@@ -82,7 +82,7 @@ export function excerpt(md, max = 320) {
 
 // Preview a post's body, minus the Obsidian graph plumbing, as plain text.
 export function renderMarkdownSafe(md) {
-	const t = String(md || '')
+	const t = String(md || '').replace(/<\/?ai>/g, '')
 		.replace(/\n#+\s*(Topics|Related)\s*\n(?:\s*[-*]\s*\[\[.*?\]\].*\n?)+/gi, '')
 		.replace(/\[\[.*?\]\]/g, '')
 		.replace(/[#>*_`]/g, '')

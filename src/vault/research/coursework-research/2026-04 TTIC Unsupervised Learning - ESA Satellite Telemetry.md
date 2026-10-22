@@ -19,6 +19,8 @@ affiliation: uchicago
 genre: project
 ---
 
+<ai>
+
 # Uncovering Latent Structure in ESA Satellite Telemetry
 
 Final project for **TTIC 31220 (Unsupervised Learning & Data Analysis)**, with Hewitt Watkins, April 2026.
@@ -43,3 +45,5 @@ Methodologically adjacent to your [[2026 claude experiment - 02-weight-symmetrie
 - [[Topic - academic]]
 - [[Topic - ai]]
 - [[Topic - ai · machine-learning]]
+
+</ai>

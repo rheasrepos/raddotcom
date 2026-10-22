@@ -14,6 +14,7 @@ published: true
 
 **Note entry (Mar 14 2026):** "the three body problem evolutionary algorithm."
 
+<ai>
 ## The experiment
 
 The three-body problem has no general closed-form solution, but *stable periodic orbits exist* (the figure-eight of Chenciner & Montgomery 2000; hundreds more found numerically by Šuvakov & Dmitrašinović 2013 — and notably, later searches used ML/optimization to find thousands). So: **evolve** initial conditions instead of deriving them.
@@ -169,3 +170,4 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+</ai>

@@ -12,6 +12,10 @@ form:
 affiliation: independent
 ---
 
+<ai>
+
 My University of Chicago application essays (2022) — the "reimagine a celestial
 object" extended essay (Pluto as a childhood magic towel) and the "why UChicago"
 response. Original document below.
+
+</ai>

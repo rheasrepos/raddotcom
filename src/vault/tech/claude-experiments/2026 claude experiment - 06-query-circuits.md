@@ -14,6 +14,7 @@ published: true
 
 **Note entry (Mar 9 2026, 10:34pm):** rotate a SQL parse tree and it looks like a neural net (a graph). What if neurons were *specialized* — each node a query-execution operator, weights passed through specialized functions? Is that what ML was before it was "AI"? A wrapper supervising specific circuits and blocks; maybe intelligence emerges from AI training another model — training as "giving the AI a body, a set of instructions and bounds with which to move."
 
+<ai>
 ## Where this idea actually lives
 
 You independently arrived at several real research programs:
@@ -139,3 +140,4 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+</ai>

@@ -14,6 +14,7 @@ published: true
 
 **Note entry (prob-ML homework):** instead of calculating probabilities first and then sampling (reducing the chance the highest-probability item is chosen), do the opposite — **generate randomly first, then correct by probability.**
 
+<ai>
 ## What this is
 
 This is a real family of methods: **rejection sampling** (propose uniformly, accept with probability ∝ target), **Metropolis–Hastings** (propose randomly, correct via accept/reject), and at the LLM scale, **speculative decoding** (a cheap model proposes, the real model corrects). The homework intuition generalizes shockingly far.
@@ -147,3 +148,4 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+</ai>

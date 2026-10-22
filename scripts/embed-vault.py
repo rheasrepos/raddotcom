@@ -65,7 +65,8 @@ for root, dirs, files in os.walk(VAULT):
         raw = open(os.path.join(root, f), encoding="utf-8", errors="ignore").read()
         fm, body = frontmatter(raw)
         if fm.get("published", "").lower() != "true": continue
-        body = re.sub(r"\[\[Topic - [^\]]*\]\]", " ", body)          # topic backlinks are bookkeeping, not content
+        body = re.sub(r"\[\[Topic - [^\]]*\]\]", " ", body)
+        body = re.sub(r"</?ai>", " ", body)                                 # AI-drafted markers are not words          # topic backlinks are bookkeeping, not content
         body = re.sub(r"[#>*_`\[\]\(\)\-]|https?://\S+", " ", body)
         rel = os.path.relpath(root, VAULT).split(os.sep)
         pdf = fm.get("pdf") or ""

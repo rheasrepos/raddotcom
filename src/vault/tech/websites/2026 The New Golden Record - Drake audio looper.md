@@ -12,6 +12,8 @@ form: [project]
 affiliation: uchicago
 ---
 
+<ai>
+
 **Live project:** [thenewgoldenrecord.vercel.app](https://thenewgoldenrecord.vercel.app/golden-recordv2.html)
 
 The New Golden Record — a Big Problems (BPRO) project: an interactive Drake-equation audio looper imagining what humanity would put on a new Golden Record.
@@ -20,3 +22,5 @@ The New Golden Record — a Big Problems (BPRO) project: an interactive Drake-eq
 - [[Topic - creative]]
 - [[Topic - science-communication]]
 - [[Topic - golden-record]]
+
+</ai>

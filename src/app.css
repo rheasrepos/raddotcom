@@ -53,6 +53,9 @@ pre, code, kbd, samp, .mono {
 
 /* AI-drafted text is always marked with a dashed underline, site-wide.
    Same convention as the AIText component. */
+/* block-level AI marker (an <ai>…</ai> section in a note): underline every line inside */
+.ai-block { padding-left: 10px; border-left: 2px dashed rgba(0,0,0,0.35); }
+.ai-block * { text-decoration: underline dashed !important; text-decoration-thickness: 1px !important; text-underline-offset: 3px !important; }
 .ai-title, .ai-desc, .ai-generated {
   text-decoration: underline dashed !important;
   text-decoration-thickness: 1px !important;
