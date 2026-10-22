@@ -2,7 +2,7 @@
 title: "HS ENGLISH: You Don't Own Me — Kindred essay"
 date: 2018-01-29
 added: 2026-07-28
-type: essays
+type: writing
 published: true
 recovered_from: Desktop/University of Chicago/Year 4/Recovered Writing/College Essays/2018-01-29 Kindred - You Dont Own Me.md
 tags:

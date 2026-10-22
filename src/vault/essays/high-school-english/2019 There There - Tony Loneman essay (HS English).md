@@ -3,7 +3,7 @@ title: "HS ENGLISH: There There — Tony Loneman's Death & Native American Ident
 date: 2019
 added: 2026-07-28
 date_approx: true
-type: essays
+type: writing
 published: true
 recovered_from: Desktop/University of Chicago/Year 4/Recovered Writing/College Essays/2019 There There - Tony Loneman essay.md
 tags:

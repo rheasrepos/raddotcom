@@ -3,7 +3,7 @@ title: "HS ENGLISH: A Mother's Guide Through Life — Salvage the Bones essay"
 date: 2020
 added: 2026-07-28
 date_approx: true
-type: essays
+type: writing
 published: true
 recovered_from: Desktop/University of Chicago/Year 4/Recovered Writing/College Essays/2020 Salvage the Bones - A Mothers Guide Through Life.md
 tags:

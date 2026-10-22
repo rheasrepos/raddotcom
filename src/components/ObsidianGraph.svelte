@@ -17,11 +17,11 @@
 	export let query = '';
 
 	// Obsidian's Filters / Groups panel, reduced to what matters here
-	let showTopics = true;   // the "Topic - …" hub notes
-	let showTags = false;    // Obsidian: Filters → Tags
+	let showTopics = false;  // the "Topic - …" hub notes (Rhea's default: off)
+	let showTags = true;     // Obsidian: Filters → Tags (Rhea's default: on)
 	let showOrphans = true;  // Obsidian: Filters → Orphans
 	let showLabels = true;   // text
-	let groups = false;      // Obsidian: Groups → colour by folder (off = all grey, the default)
+	let groups = true;       // Obsidian: Groups → colour by folder (Rhea's default: on)
 
 	// Obsidian default-dark palette
 	const C = { bg: '#1e1e1e', node: '#a6a6a6', hub: '#8a8a8a', tag: '#6f6f6f', line: '#4a4a4a', text: '#dcddde', accent: '#a882ff' };
@@ -192,7 +192,7 @@
 	}
 
 	// remember the panel choices per browser, like Obsidian does per vault
-	const PREF = 'ogPrefs';
+	const PREF = 'ogPrefs.v2';
 	onMount(() => {
 		try {
 			const p = JSON.parse(localStorage.getItem(PREF) || '{}');
