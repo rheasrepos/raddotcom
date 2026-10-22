@@ -44,6 +44,9 @@
 	let windows = [];
 
 	// --- Draggable desktop icons (like real Mac desktop objects) ---
+	// Saved drag positions. The key is VERSIONED: bump it whenever the default
+	// layout changes, so visitors' old saved spots don't keep the old layout alive.
+	const ICON_POS_KEY = 'iconPos.v2';
 	let iconPos = {};          // id -> {x, y}; persisted in localStorage
 	let iconDragging = null;
 	let iconMoved = false;
@@ -65,14 +68,14 @@
 	}
 	function iconUp() {
 		if (iconDragging) {
-			try { localStorage.setItem('iconPos', JSON.stringify(iconPos)); } catch {}
+			try { localStorage.setItem(ICON_POS_KEY, JSON.stringify(iconPos)); } catch {}
 			iconDragging = null;
 		}
 	}
 	// Put every dragged folder / floating item back to its default spot.
 	function resetIconPositions() {
 		iconPos = {};
-		try { localStorage.removeItem('iconPos'); } catch {}
+		try { localStorage.removeItem(ICON_POS_KEY); } catch {}
 	}
 
 	// --- What's on the desktop ---
@@ -229,7 +232,7 @@
 		const savedColor = localStorage.getItem('wallpaperColor');
 		if (savedColor) wallpaperColor = savedColor;
 		// Restore any dragged desktop icon positions
-		try { iconPos = JSON.parse(localStorage.getItem('iconPos') || '{}'); } catch {}
+		try { iconPos = JSON.parse(localStorage.getItem(ICON_POS_KEY) || '{}'); } catch {}
 
 		// If we arrived here from a page's search icon, open Spotlight.
 		if (window.location.search.includes('spotlight=1')) {
