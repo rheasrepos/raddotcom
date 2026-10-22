@@ -35,20 +35,5 @@ export function defaultIconPos(i, z = 1, w) {
 	return gridPos(i, z, 150, 110, 30, 190 * spaceFactor(z), w, false);
 }
 
-// Loose items: a wrapping grid BELOW the folder rows. Starts below however
-// many rows the `nFolders` folders wrap into at this zoom — at high zoom the
-// 5 folders can take 2+ rows, and the art must clear ALL of them (this was
-// the "folder hidden behind the art" bug).
-export function defaultFloatPos(i, z = 1, w, nFolders = 5) {
-	const sf = spaceFactor(z);
-	const margin = 24;
-	const W = w || 1200;
-	const fstep = 150 * sf;
-	const fcols = Math.max(1, Math.floor((W - 2 * margin) / fstep));
-	const nf = nFolders || 5;
-	const frows = Math.ceil(nf / fcols);
-	const startY = 30 + frows * 190 * sf + 40 * sf; // folder rows + clearance
-	// justify=false: pack them next to each other like the folders, instead of
-	// spreading one row across the whole width (which read as 'scattered').
-	return gridPos(i, z, 116, 96, startY, 162 * sf, w, false);
-}
+// (Loose items use defaultIconPos too, continuing the index after the
+// folders — one grid, folders then art, no gap.)

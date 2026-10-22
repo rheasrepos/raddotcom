@@ -25,7 +25,7 @@
 	import { loadPosts } from '$lib/posts.js';
 	import { categoryConfig } from '$lib/categories.js';
 	import { siteName, SITE_TAGLINE } from '$lib/site.js';
-	import { spaceFactor, defaultIconPos, defaultFloatPos } from '$lib/desktop/layout.js';
+	import { spaceFactor, defaultIconPos } from '$lib/desktop/layout.js';
 	import { inCat, hasPostsDeep, prettyFolder, matchesQuery } from '$lib/desktop/content.js';
 	import { openFolder } from '$lib/desktop/windows.js';
 
@@ -590,7 +590,7 @@
 					<!-- Loose files + the whole analog archive float directly on the
 					     desktop as draggable objects (no folder). -->
 					{#each floatingItems as project, i (project.id)}
-						{@const fpos = iconPos[project.id] || defaultFloatPos(i, zoomLevel, deskW, topFolders.length)}
+						{@const fpos = iconPos[project.id] || defaultIconPos(topFolders.length + i, zoomLevel, deskW) /* same grid as the folders: art flows right after them */}
 						{#if project.hoard}
 							<!-- The "hoard": one stack that fans open to reveal the img* scans -->
 							<div
