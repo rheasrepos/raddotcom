@@ -58,7 +58,7 @@
 <!-- "WPM" one-minute typing test → shared sticky-note wall, pops up like an ad -->
 <OneMinute />
 {#if $aiHidden}
-	<button class="ai-hidden-chip" on:click={() => aiHidden.set(false)} title="AI-drafted text is hidden — click to show it">AI text hidden · show</button>
+	<button class="ai-hidden-chip" on:click={() => aiHidden.set(false)} title="Synthetic (AI-drafted) text is hidden — click to show it">synthetic text hidden · show</button>
 {/if}
 <svelte:body use:aiReveal />
 

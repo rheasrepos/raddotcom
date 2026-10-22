@@ -9,7 +9,7 @@
 
 <span class="ai-text" tabindex="0" role="note" aria-label={note}>
 	<slot />
-	<span class="ai-pop">{note} <button class="ai-hide" on:click|stopPropagation={() => aiHidden.set(true)}>hide all AI text</button></span>
+	<span class="ai-pop">{note} <button class="ai-hide" on:click|stopPropagation={() => aiHidden.set(true)}>hide all synthetic text</button></span>
 </span>
 
 <style>

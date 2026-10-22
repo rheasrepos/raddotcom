@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import DesktopNavigation from './DesktopNavigation.svelte';
+	import SyntheticToggle from './SyntheticToggle.svelte';
 	import { transitionActions } from '../lib/pageTransition.js';
 
 	// Props
@@ -97,6 +98,7 @@
 				<DesktopNavigation on:navigate={({ detail }) => handleNavigation(detail.path)} />
 			</div>
 			<div class="topbar-right">
+				<SyntheticToggle />
 				<!-- Search stays present on every page so the bar never shifts. -->
 				<div class="search-container">
 					{#if showSearch}

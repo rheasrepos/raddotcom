@@ -21,6 +21,7 @@
 	import ProjectModal from '../components/desktop/ProjectModal.svelte';
 	import DesktopWindows from '../components/desktop/DesktopWindows.svelte';
 	import WallpaperToolbar from '../components/desktop/WallpaperToolbar.svelte';
+	import SyntheticToggle from '../components/SyntheticToggle.svelte';
 	import { redactionClass } from '$lib/redaction.js';
 	import { loadPosts } from '$lib/posts.js';
 	import { categoryConfig } from '$lib/categories.js';
@@ -463,6 +464,7 @@
 				<DesktopNavigation on:navigate={({ detail }) => handleNavigation(detail.path)} />
 			</div>
 			<div class="topbar-right">
+				<SyntheticToggle />
 				<!-- Search Button and Input -->
 				<div class="search-container">
 					{#if showSearch}
