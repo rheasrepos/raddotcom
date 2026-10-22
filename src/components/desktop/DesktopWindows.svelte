@@ -81,7 +81,7 @@
 						<!-- Live view of the project site (same as blog / post page) -->
 						<div class="win-embed"><iframe src={p.link} title={p.title}></iframe></div>
 					{:else}
-						<div class="win-prose {redactionClass(p.date)}">{@html renderMarkdownSafe(p.content)}</div>
+						<div class="win-prose {redactionClass(p.date)}" class:ai-generated={p.aiBody} title={p.aiBody ? 'This text was drafted with AI assistance' : undefined}>{@html renderMarkdownSafe(p.content)}</div>
 					{/if}
 					{#if p.link}
 						<a class="win-open" href={p.link} target="_blank" rel="noopener noreferrer">Open ↗</a>

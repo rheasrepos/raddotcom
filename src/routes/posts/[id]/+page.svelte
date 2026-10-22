@@ -206,7 +206,7 @@
 				{:else if view === 'raw'}
 					<pre class="content-raw">{post.content}</pre>
 				{:else}
-					<div class="content-body prose {APPLY_TO_BODY ? redactionClass(post.date) : ''}">{@html renderedContent}</div>
+					<div class="content-body prose {APPLY_TO_BODY ? redactionClass(post.date) : ''}" class:ai-generated={post.aiBody} title={post.aiBody ? 'This text was drafted with AI assistance' : undefined}>{@html renderedContent}</div>
 				{/if}
 
 				{#if nextPost || previousPost}

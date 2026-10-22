@@ -1,6 +1,8 @@
 ---
 title: "THIS WEBSITE (raddotcom)"
 description: "A personal digital workspace, interactive desktop, and writing repository built with SvelteKit."
+ai_description: true
+ai_body: true
 date: 2026-08-05
 added: 2026-08-06
 type: programming

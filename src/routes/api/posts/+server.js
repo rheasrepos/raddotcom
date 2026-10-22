@@ -209,6 +209,7 @@ export async function GET() {
 				// ai_title / ai_description mark AI-drafted text (dashed underline)
 				aiTitle: frontmatter.ai_title === true || frontmatter.aiTitle === true,
 				aiDescription: frontmatter.ai_description === true || frontmatter.aiDescription === true,
+				aiBody: frontmatter.ai_body === true, // whole body drafted with AI → dashed underline on the text
 				// PDF auto-attached by slug (static/docs/<slug>.pdf); manual pdf: overrides.
 				pdf: resolvedPdf,
 				// tags power the /network graph cross-links between posts

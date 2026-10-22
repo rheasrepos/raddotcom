@@ -30,7 +30,7 @@
 				<!-- Original document beats mangled text every time -->
 				<iframe src={project.pdf} title="{project.title} (PDF)" class="modal-pdf"></iframe>
 			{:else}
-				<div class="project-content {redactionClass(project.date)}">
+				<div class="project-content {redactionClass(project.date)}" class:ai-generated={project.aiBody} title={project.aiBody ? 'This text was drafted with AI assistance' : undefined}>
 					{@html project.content}
 				</div>
 			{/if}
