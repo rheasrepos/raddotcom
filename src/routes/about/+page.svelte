@@ -16,18 +16,24 @@
             label: 'YouTube',
             url: 'https://youtube.com/@rheamad',
             description: 'Videos, comedy, and more',
+            kind: 'youtube',
+            // the channel's uploads playlist (channel id UC… → UU…) — embeds as a gallery
+            playlist: 'UUEQ38C8Z5AjJCOr_MN-tGuA',
             icon: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`
         },
         {
             label: 'GitHub',
             url: 'https://github.com/rheasrepos',
             description: 'Code and projects',
+            kind: 'github',
+            user: 'rheasrepos',
             icon: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>`
         },
         {
             label: 'CAB Lab',
             url: 'https://cablab.uchicago.edu',
             description: 'Cognition, Attention, and Brain Lab @ UChicago — where I do research',
+            kind: 'site', // the site allows embedding → live scrollable preview
             icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="15" r="3"/><circle cx="18" cy="15" r="3"/><path d="M10.5 15H13.5"/><path d="M8.3 13.5A6 6 0 0 1 12 9a6 6 0 0 1 3.7 4.5"/></svg>`
         },
         {
@@ -43,6 +49,17 @@
             icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13a6 6 0 0 1-6 5 6 6 0 0 1-6-5h12Z"/><path d="M6 8.8A8.5 8.5 0 0 1 12 5a8.5 8.5 0 0 1 6 3.8"/></svg>`
         }
     ];
+    // LinkedIn and Instagram refuse to be embedded (X-Frame-Options / CSP), so
+    // those stay as cards. GitHub refuses too, but its public API doesn't:
+    // the tile lists the repos live.
+    import { onMount } from 'svelte';
+    let repos = null; // null = loading, [] = failed/none
+    onMount(async () => {
+        try {
+            const r = await fetch('https://api.github.com/users/rheasrepos/repos?sort=pushed&per_page=30');
+            repos = r.ok ? (await r.json()).filter((x) => !x.fork) : [];
+        } catch { repos = []; }
+    });
 </script>
 
 <PageLayout title="About - Rhea Madhogarhia">
@@ -61,16 +78,41 @@
         <h2 class="links-title">Links</h2>
         <div class="links-grid">
             {#each links as link}
-                <a href={link.url} target="_blank" rel="noopener noreferrer" class="link-card">
-                    <div class="link-icon">
-                        {@html link.icon}
-                    </div>
-                    <div class="link-info">
-                        <span class="link-label">{link.label}</span>
-                        <span class="link-description">{link.description}</span>
-                    </div>
-                    <div class="link-arrow">→</div>
-                </a>
+                <div class="link-tile" class:wide={link.kind === 'youtube' || link.kind === 'github' || link.kind === 'site'}>
+                    <a href={link.url} target="_blank" rel="noopener noreferrer" class="link-card">
+                        <div class="link-icon">
+                            {@html link.icon}
+                        </div>
+                        <div class="link-info">
+                            <span class="link-label">{link.label}</span>
+                            <span class="link-description">{link.description}</span>
+                        </div>
+                        <div class="link-arrow">→</div>
+                    </a>
+                    {#if link.kind === 'youtube'}
+                        <!-- the channel's uploads, as a playlist player: the ≡ menu in the player is the gallery -->
+                        <div class="link-embed yt"><iframe src="https://www.youtube.com/embed/videoseries?list={link.playlist}" title="{link.label} — videos" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+                    {:else if link.kind === 'site'}
+                        <!-- live site, scrollable inside the tile -->
+                        <div class="link-embed site"><iframe src={link.url} title="{link.label} — live site" loading="lazy"></iframe></div>
+                    {:else if link.kind === 'github'}
+                        <div class="link-repos">
+                            {#if repos === null}
+                                <span class="muted">loading repos…</span>
+                            {:else if repos.length === 0}
+                                <span class="muted">(repos unavailable right now)</span>
+                            {:else}
+                                {#each repos as r}
+                                    <a class="repo" href={r.html_url} target="_blank" rel="noopener noreferrer">
+                                        <b>{r.name}</b>
+                                        {#if r.description}<span class="repo-desc">{r.description}</span>{/if}
+                                        <span class="muted">{r.language || ''}{r.language ? ' · ' : ''}{new Date(r.pushed_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+                                    </a>
+                                {/each}
+                            {/if}
+                        </div>
+                    {/if}
+                </div>
             {/each}
         </div>
     </section>
@@ -135,10 +177,24 @@
     }
 
     .links-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
     }
+    .link-tile { display: flex; flex-direction: column; border: 1px solid #000; background: rgba(255, 255, 255, 0.85); }
+    .link-tile.wide { grid-column: 1 / -1; }
+    .link-tile .link-card { border: none; }
+    .link-embed { border-top: 1px solid #000; background: #000; }
+    .link-embed.yt { aspect-ratio: 16 / 9; }
+    .link-embed.yt iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .link-embed.site { height: 480px; background: #fff; }
+    .link-embed.site iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .link-repos { border-top: 1px solid #000; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1px; background: #000; }
+    .link-repos .repo { background: #fff; padding: 10px 12px; text-decoration: none; color: #000; display: flex; flex-direction: column; gap: 3px; font-size: 0.85rem; }
+    .link-repos .repo:hover { background: #000; color: #fff; }
+    .link-repos .repo-desc { font-size: 0.8rem; opacity: 0.85; }
+    .link-repos .muted, .link-tile .muted { font-size: 0.75rem; opacity: 0.65; padding: 10px 12px; }
+    @media (max-width: 640px) { .links-grid { grid-template-columns: 1fr; } }
 
     .link-card {
         display: flex;
