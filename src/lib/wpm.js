@@ -4,7 +4,7 @@
 // a free Supabase table. The two keys come from environment variables:
 //
 //   PUBLIC_SUPABASE_URL       e.g. https://abcd.supabase.co
-//   PUBLIC_SUPABASE_ANON_KEY  the "anon public" key (safe to ship to browsers)
+//   PUBLIC_SUPABASE_ANON_KEY  the publishable key (sb_publishable_…) or legacy anon key — safe in browsers
 //
 // Locally: put them in a .env file (see .env.example). On Vercel: Project →
 // Settings → Environment Variables, then redeploy. Without them the wall
@@ -19,7 +19,9 @@ const URL = env.PUBLIC_SUPABASE_URL || '';
 const KEY = env.PUBLIC_SUPABASE_ANON_KEY || '';
 export const configured = Boolean(URL && KEY);
 const LOCAL = 'omLocalWall';
-const headers = { apikey: KEY, Authorization: `Bearer ${KEY}` };
+// Only the apikey header: works for both the new publishable keys (sb_publishable_…)
+// and legacy anon JWTs; a publishable key sent as a Bearer token is rejected.
+const headers = { apikey: KEY };
 
 export async function loadWall(limit = 200) {
 	if (configured) {
