@@ -12,8 +12,8 @@ _Kept current by Claude at the end of each session. Tick things off or delete li
 
 ## Setup on your Mac / accounts
 - [ ] **Move the repo out of iCloud** (`~/Desktop` → e.g. `~/Code/raddotcom`, then "Add existing repository" in GitHub Desktop). `.git` has been corrupted by iCloud 3× — each recovery was luck.
-- [ ] **Supabase keys** for the shared WPM wall → HOW TO §5d (5 steps).
-- [ ] **Formspree ID** for the guestbook (`src/components/Guestbook.svelte`, `FORMSPREE_ID`) — falls back to mailto until then.
+- [x] ~~Supabase keys for the shared WPM wall~~ — done 2026-10-23 (project `rhea-com`, table `notes`; moderate in Supabase → Table Editor → notes). Delete the "setup test" row whenever.
+- [x] ~~Formspree for the guestbook~~ — done 2026-10-23 (form `rhea.com guestbook`). **Click the confirmation link in the first Formspree email** or later notes won't arrive.
 - [ ] **`brew install poppler`** — promote then builds PDF covers and the Obsidian space reads PDF text.
 - [ ] **Push `my_claude_experiments` to GitHub** so the experiment posts can link live code.
 - [ ] **`_videos.md`** in the draft vault — paste YouTube links of videos you're in that aren't on your channel (About → video gallery).
