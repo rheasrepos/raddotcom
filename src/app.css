@@ -54,7 +54,8 @@ pre, code, kbd, samp, .mono {
 /* AI-drafted text is always marked with a dashed underline, site-wide.
    Same convention as the AIText component. */
 /* AI text "generates" itself on first sight (src/lib/aiReveal.js) */
-.ai-revealing .ai-w { opacity: 0; transition: opacity 0.12s ease; }
+.ai-revealing .ai-w { opacity: 0; text-decoration-color: transparent !important; transition: opacity 0.12s ease; }
+.ai-revealing .ai-w.on { text-decoration-color: currentColor !important; }
 .ai-revealing .ai-w.on { opacity: 1; }
 .ai-caret { display: inline-block; margin-left: 1px; animation: aiCaret 0.7s steps(1) infinite; }
 @keyframes aiCaret { 50% { opacity: 0; } }

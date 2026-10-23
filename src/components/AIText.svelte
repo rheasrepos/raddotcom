@@ -15,6 +15,9 @@
 <style>
 	.ai-text {
 		position: relative;
+	}
+	:global(.ai-text.ai-revealing) { text-decoration-color: transparent; }
+	.ai-text {
 		text-decoration: underline dashed;
 		text-decoration-thickness: 1px;
 		text-underline-offset: 3px;
