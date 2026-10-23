@@ -106,6 +106,8 @@
 	let zoomLevel = 1;
 	let panOffset = { x: 0, y: 0 };
 	let wallpaperColor = '#ff8c42';
+	let isNavigating = false;   // monitor expanding to full screen before a page change
+	let isContracting = false;
 	let currentTime = new Date().toLocaleTimeString();
 
 	// --- Quick Look (spacebar), Spotlight search ---
