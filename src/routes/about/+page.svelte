@@ -101,7 +101,7 @@
                             {#if repos === null}
                                 <span class="muted">loading repos…</span>
                             {:else if repos.length === 0}
-                                <span class="muted">(repos unavailable right now)</span>
+                                <span class="muted"><AIText>(repos unavailable right now)</AIText></span>
                             {:else}
                                 {#each repos as r}
                                     <a class="repo" href={r.html_url} target="_blank" rel="noopener noreferrer">

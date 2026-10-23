@@ -112,7 +112,7 @@
 				{/if}
 			</div>
 		{/if}
-		{#if !configured}<div class="om-note-local">(local wall — notes written in this browser only. A shared wall needs the two Supabase keys, see HOW TO §5d)</div>{/if}
+		{#if !configured}<div class="om-note-local"><AIText>(local wall — notes written in this browser only. A shared wall needs the two Supabase keys, see HOW TO §5d)</AIText></div>{/if}
 		{#if notes.length}
 			<div class="om-sortbar">
 				<input class="om-search" placeholder="search the wall…" bind:value={wallQuery} />
@@ -131,9 +131,9 @@
 		{:else if error}
 			<div class="om-err">{error}</div>
 		{:else if notes.length === 0}
-			<p class="om-up">no notes yet — be the first.</p>
+			<p class="om-up"><AIText>no notes yet — be the first.</AIText></p>
 		{:else if shown.length === 0}
-			<p class="om-up">no notes match “{wallQuery}”.</p>
+			<p class="om-up"><AIText>no notes match “{wallQuery}”.</AIText></p>
 		{:else}
 			<div class="om-wall" class:page>
 				{#each shown as n, i}

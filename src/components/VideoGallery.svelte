@@ -2,6 +2,7 @@
 	// Grid of video thumbnails (channel uploads + the extras from _videos.md);
 	// click one and it plays in place.
 	import { onMount } from 'svelte';
+	import AIText from './AIText.svelte';
 	export let channelUrl = 'https://youtube.com/@rheamad';
 	let videos = null; // null = loading
 	let playing = null;
@@ -13,7 +14,7 @@
 {#if videos === null}
 	<p class="vg-msg">loading videos…</p>
 {:else if videos.length === 0}
-	<p class="vg-msg">couldn't load the videos right now — <a href={channelUrl} target="_blank" rel="noopener noreferrer">open the channel ↗</a></p>
+	<p class="vg-msg"><AIText>couldn't load the videos right now —</AIText> <a href={channelUrl} target="_blank" rel="noopener noreferrer">open the channel ↗</a></p>
 {:else}
 	<div class="vg">
 		{#each videos as v (v.id)}
@@ -28,7 +29,7 @@
 				{/if}
 				<div class="vg-cap">
 					<span class="vg-title">{v.title}</span>
-					<span class="vg-meta">{v.date}{v.source === 'extra' ? (v.date ? ' · ' : '') + 'not on my channel' : ''}</span>
+					<span class="vg-meta">{v.date}{#if v.source === 'extra'}{v.date ? ' · ' : ''}<AIText>not on my channel</AIText>{/if}</span>
 				</div>
 			</div>
 		{/each}
