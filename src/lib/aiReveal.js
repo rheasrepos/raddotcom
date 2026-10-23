@@ -1,3 +1,5 @@
+// NOTE: the reveal replaces text nodes, so text that UPDATES live (contains a
+// {variable} that changes while shown) must opt out with data-no-reveal.
 // AI-drafted text "generates" itself when it scrolls into view — word by word
 // with a caret, like a model streaming tokens (and like the landing title
 // typing itself out). Works on the <AIText> component AND on the

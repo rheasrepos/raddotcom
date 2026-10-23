@@ -133,7 +133,7 @@
 		{:else if notes.length === 0}
 			<p class="om-up"><AIText>no notes yet — be the first.</AIText></p>
 		{:else if shown.length === 0}
-			<p class="om-up"><AIText>no notes match “{wallQuery}”.</AIText></p>
+			<p class="om-up" data-no-reveal><AIText>no notes match “{wallQuery}”.</AIText></p>
 		{:else}
 			<div class="om-wall" class:page>
 				{#each shown as n, i}
