@@ -4,11 +4,12 @@
 	// box for comments / suggestions / questions.
 	//
 	// WHERE SUBMISSIONS GO: this static site has no backend, so it posts to a
-	// Formspree form (free) which emails Rhea. Paste your form id below. Until
-	// you do, the button falls back to opening the visitor's email app.
-	//   1. make a free form at https://formspree.io  →  copy the id (e.g. "xyzabcd")
-	//   2. set FORMSPREE_ID to that id.  Done.
-	const FORMSPREE_ID = ''; // e.g. 'xyzabcd' — empty = use mailto fallback
+	// Formspree form (free) which emails Rhea. The form id comes from the
+	// PUBLIC_FORMSPREE_ID environment variable (Vercel → Settings → Environment
+	// Variables; locally .env). Until it's set, the button falls back to
+	// opening the visitor's email app. Setup: HOW TO §5c.
+	import { env } from '$env/dynamic/public';
+	const FORMSPREE_ID = env.PUBLIC_FORMSPREE_ID || ''; // empty = mailto fallback
 	const FALLBACK_EMAIL = 'rhea0866@gmail.com';
 
 	import { onMount } from 'svelte';

@@ -157,13 +157,13 @@ Each artifact is one `.md` note in `artifacts/` plus one or more image files in 
 
 ---
 
-## 5c. The "tell Rhea you visited" guestbook button
-
-A floating button (bottom-right, every page) opens a little box where visitors leave a comment/question. Because the site has no server, it sends via **Formspree** (free) or falls back to opening the visitor's email app.
-
-**To get the notes in your inbox:** make a free form at [formspree.io](https://formspree.io), copy its form id (the bit after `/f/`, e.g. `xyzabcd`), and set `FORMSPREE_ID = 'xyzabcd'` at the top of `src/components/Guestbook.svelte`. Commit + push. Until you do, the button opens the visitor's email to `rhea0866@gmail.com` instead.
-
----
+## 5c. Guestbook ("tell rhea you visited")
+Submissions go to a free **Formspree** form, which emails you. Until it's set up, the button opens the visitor's own email app instead (works, but clunkier). To turn it on — 5 minutes, once:
+1. [formspree.io](https://formspree.io) → sign up with rhea0866@gmail.com (free plan: 50 submissions/month).
+2. **+ New Form** → name it "rhea.com guestbook" → the email it sends to is your sign-up email.
+3. Copy the form **ID** — the endpoint looks like `https://formspree.io/f/xabcdefg`; the ID is `xabcdefg`.
+4. Vercel → your project → **Settings → Environment Variables** → add `PUBLIC_FORMSPREE_ID` = that ID (all environments) → **Deployments → ⋯ → Redeploy**. (Locally: add the line to `.env`.)
+5. Leave yourself a test note on the site. The **first** submission makes Formspree email you a confirmation link — click it, or later notes won't be delivered.
 
 ## 5d. "WPM" — the one-minute typing test + sticky-note wall
 
