@@ -9,7 +9,7 @@
 <PageLayout title="WPM - Rhea Madhogarhia">
 <div class="wpm-page">
 	<header>
-		<h1>⌨ WPM</h1>
+		<h1>WPM</h1>
 		<p><AIText>one minute, write anything, get a words-per-minute. everything visitors pinned is below — sort by fastest for the leaderboard.</AIText></p>
 	</header>
 	<div class="wpm-box">

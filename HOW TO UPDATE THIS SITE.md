@@ -167,7 +167,7 @@ Submissions go to a free **Formspree** form, which emails you. Until it's set up
 
 ## 5d. "WPM" — the one-minute typing test + sticky-note wall
 
-A retro "ad" that pops up once per session (and lives behind the ⌨ wpm button, top-right): visitors get **60 seconds to write anything**, see their **words-per-minute**, then pin it to a shared **wall** of sticky notes. The wall is the leaderboard: searchable and sortable (new↔old, long↔short, fastest wpm, and — when searching — by relevance with a % word-match). **WPM** in the top nav goes to `/wpm`, the full-page version: the wall + top-3 strip + a "do a new one" button. Code: `src/lib/wpm.js` (backend), `src/components/WpmTest.svelte` (the test), `src/components/OneMinute.svelte` (the popup shell), `src/routes/wpm/+page.svelte` (the page).
+A retro "ad" that pops up once per session (and lives behind the wpm button, top-right): visitors get **60 seconds to write anything**, see their **words-per-minute**, then pin it to a shared **wall** of sticky notes. The wall is the leaderboard: searchable and sortable (new↔old, long↔short, fastest wpm, and — when searching — by relevance with a % word-match). **WPM** in the top nav goes to `/wpm`, the full-page version: the wall + top-3 strip + a "do a new one" button. Code: `src/lib/wpm.js` (backend), `src/components/WpmTest.svelte` (the test), `src/components/OneMinute.svelte` (the popup shell), `src/routes/wpm/+page.svelte` (the page).
 
 **The wall is SHARED across visitors, so it needs a tiny backend** (this site is static). It's wired to **Supabase** (free tier is plenty). Until it's set up, the wall is *local* (each browser sees only its own notes) and says so. To turn it on — about 10 minutes, once:
 

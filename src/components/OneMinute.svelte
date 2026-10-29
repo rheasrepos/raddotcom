@@ -1,6 +1,6 @@
 <script>
 	// "WPM" popup — the one-minute typing test, popping up like a retro ad once
-	// per session, otherwise living behind the ⌨ wpm button (top-right). The
+	// per session, otherwise living behind the wpm button (top-right). The
 	// test itself is WpmTest.svelte; the full-page version is /wpm.
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
@@ -21,17 +21,17 @@
 			}
 		} catch {}
 	});
-	// '–' minimizes to the ⌨ wpm button; nothing is ever closed for good
+	// '–' minimizes to the wpm button; nothing is ever closed for good
 	function dismiss() { open = false; }
 </script>
 
 {#if !onPage}
 	{#if !open}
-		<button class="om-fab" on:click={() => (open = true)} title="WPM — one-minute typing test">⌨ wpm</button>
+		<button class="om-fab" on:click={() => (open = true)} title="WPM — one-minute typing test">wpm</button>
 	{:else}
 		<div class="om-ad">
 			<div class="om-bar">
-				<span>⌨ wpm — www.rhea.com</span>
+				<span>wpm — www.rhea.com</span>
 				<span class="om-bar-r">
 					<a class="om-full" href="/wpm" title="Leaderboard + full page">full page ↗</a>
 					<button class="om-x" on:click={dismiss} title="Minimize" aria-label="Minimize">–</button>

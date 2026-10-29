@@ -65,14 +65,14 @@
 
 <!-- Global music toggle — always reachable, on every page -->
 {#if playerMode === 'closed'}
-	<button class="global-player-btn" on:click={togglePlayer} title="Music" aria-label="Music player">♪</button>
+	<button class="global-player-btn" on:click={togglePlayer} title="Music" aria-label="Music player">music</button>
 {:else if playerMode === 'min'}
-	<button class="global-player-btn playing" on:click={() => setPlayer('open')} title="Show player" aria-label="Show player">♪ ▸</button>
+	<button class="global-player-btn playing" on:click={() => setPlayer('open')} title="Show player" aria-label="Show player">music ▸</button>
 {/if}
 
 <!-- Mounted whenever not fully closed, so minimizing/navigating never stops the music -->
 {#if playerMode !== 'closed'}
-	<FinderWindow title="♪ browsing playlist" hidden={playerMode === 'min'} bind:x={playerX} bind:y={playerY} w={340} h={420} z={9000}
+	<FinderWindow title="browsing playlist" hidden={playerMode === 'min'} bind:x={playerX} bind:y={playerY} w={340} h={420} z={9000}
 		on:focus={() => {}} on:close={() => setPlayer('closed')} on:minimize={() => setPlayer('min')}>
 		<iframe
 			title="Rhea's playlist"
@@ -138,12 +138,13 @@
 		left: 14px;
 		bottom: 8px;
 		z-index: 9001;
-		width: 30px;
+		width: auto;
+		padding: 0 8px;
 		height: 26px;
 		background: #1db954;
 		border: 1px solid #000;
 		color: #000;
-		font-size: 1.05rem;
+		font-size: 0.75rem;
 		line-height: 1;
 		cursor: pointer;
 	}

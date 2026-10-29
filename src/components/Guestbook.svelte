@@ -57,7 +57,7 @@
 {#if !open}
 	<div class="gb-fab-wrap">
 		<button class="gb-fab" on:click={() => (open = true)} title="Leave Rhea a note">
-			tell rhea you visited her site! ✎
+			tell rhea you visited her site!
 		</button>
 	</div>
 {:else}

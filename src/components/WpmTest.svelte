@@ -104,7 +104,7 @@
 	<div class="om-body" class:page>
 		{#if page}
 			<div class="om-pagehead">
-				<button class="om-go" on:click={start}>⌨ do a new one →</button>
+				<button class="om-go" on:click={start}>do a new one →</button>
 				{#if top3.length}
 					<div class="om-top3">
 						{#each top3 as n, i}<span class="om-medal"><b>#{i + 1}</b> {n.name || 'anonymous'} · {n.wpm} wpm</span>{/each}

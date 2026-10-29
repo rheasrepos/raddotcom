@@ -289,7 +289,7 @@
 		{#if mode === 'clusters'}
 			<span class="kctl">
 				k = <select bind:value={k}>{#each [2, 3, 4, 5, 6, 7, 8] as n}<option value={n}>{n}</option>{/each}</select>
-				<button class="rerun" on:click={() => (seed += 1)} title="Different random start">re-run ↻</button>
+				<button class="rerun" on:click={() => (seed += 1)} title="Different random start">re-run</button>
 			</span>
 		{/if}
 		{/if}
