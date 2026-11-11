@@ -16,7 +16,6 @@
 	.ai-text {
 		position: relative;
 	}
-	:global(.ai-text.ai-revealing) { text-decoration-color: transparent; }
 	.ai-text {
 		text-decoration: underline dashed;
 		text-decoration-thickness: 1px;
@@ -66,4 +65,7 @@
 		visibility: visible;
 		transform: translateY(0);
 	}
+	/* while the words are still appearing, the wrapper draws no underline (it
+	   would show under the not-yet-visible words as stray dashes) */
+	.ai-text:global(.ai-revealing) { text-decoration-color: transparent; }
 </style>
