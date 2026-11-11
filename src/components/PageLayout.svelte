@@ -359,6 +359,15 @@
 		align-items: center;
 	}
 
+	/* Phones: the nav links don't fit beside the name tag + controls, so the
+	   middle strip scrolls sideways instead of pushing links off-screen. */
+	@media (max-width: 768px) {
+		.topbar-center { flex: 1 1 auto; min-width: 0; overflow-x: auto; scrollbar-width: none; margin: 0 6px; }
+		.topbar-center::-webkit-scrollbar { display: none; }
+		.topbar-center :global(.desktop-nav-links) { flex-wrap: nowrap; white-space: nowrap; }
+		.topbar-left, .topbar-right { flex: 0 0 auto; }
+	}
+
 	/* the name tag, shrunk to a button → /about */
 	.about-link {
 		display: inline-flex;
