@@ -19,8 +19,6 @@ form:
   - project
 affiliation: uchicago
 ---
-*** CHECK IF THINGS CAN COOCCUR ON SITE.. (this should also be in tech/projects)
-
 Submit a short report describing the group’s "bullshit" instrument and providing an assessment of its viability (which can be jointly authored), along with a description and self-assessment of their particular contributions to the project.
 
 What is “bullshit”?

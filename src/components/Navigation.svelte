@@ -6,8 +6,8 @@
 		// Changed path to /blog and label to Blog
 		{ path: '/blog', label: 'Blog', icon: '' },
 		{ path: '/resume', label: 'Resume', icon: '' },
-		{ path: '/about', label: 'About', icon: '' },
-		{ path: '/admin', label: 'Admin', icon: '' }
+		{ path: '/about', label: 'About', icon: '' }
+
 	];
 </script>
 
