@@ -15,4 +15,4 @@ affiliation: independent
 <!-- NOTE: the previous description here was AI-drafted and inaccurate — removed.
 Rhea to write the real description of the SPOY project (User Centered Design). -->
 
-The live app is embedded below.
+<ai>The live app is embedded below.</ai>
