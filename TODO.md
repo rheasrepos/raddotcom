@@ -5,6 +5,9 @@ _Kept current by Claude at the end of each session. Tick things off or delete li
 ## Decisions / content only you can do
 - [ ] **ShieldFont proof** — pick one essay to try it on (see chat 2026-10-22 for the trade-offs: breaks find/copy/search/SEO for that text).
 - [ ] **Art years** — open `scripts/art-date-sheet.html` (run `python3 scripts/stamp-art-dates.py --sheet` first, with `npm run dev` running), type the year each piece was made, "copy CSV" → `artifacts/_dates.csv` in the draft vault → `python3 scripts/stamp-art-dates.py` → promote. Until then the art shows no year and doesn't degrade (all 99 pieces carry the 2026-07-23 scan date).
+- [ ] **About page**: replace "INSERT LINK LOL" (the Redaction font link) and decide on "bio incoming.... this is a work in progress".
+- [ ] **HIPS/MBL "Visualising the Invisible"**: body still says "CONTENT TO PASTE" — download the PDF from iCloud and paste the essay (or give it a PDF).
+- [ ] **Resume/CV**: `static/resume.pdf` still says "Graduating June 2026" with your UChicago email — update when you have a new one.
 - [ ] **SPOY description** — the note still has the placeholder comment; write the real one.
 - [ ] **"RPM (rhea's personal machine)"** from the handwritten note — never placed; decide where (or drop).
 - [ ] **WhatsApp digital-garden message** — Claude can only draft it; send it yourself.
