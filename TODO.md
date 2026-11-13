@@ -9,6 +9,7 @@ _Kept current by Claude at the end of each session. Tick things off or delete li
 - [ ] **HIPS/MBL "Visualising the Invisible"**: body still says "CONTENT TO PASTE" — download the PDF from iCloud and paste the essay (or give it a PDF).
 - [ ] **Resume/CV**: `static/resume.pdf` still says "Graduating June 2026" with your UChicago email — update when you have a new one.
 - [ ] **Library sources**: Chrome bookmarks reviewed and kept as-is (438, 2026-11-13). Apple Notes links are exported (243, 2026-11-13) to `recommendations/_from-apple-notes.md` — skim, delete anything private, set `include: true`, then rebuild. Add your Wild card picks to `recommendations/_wildcard.md`.
+- [ ] **Online-presence cleanup** (found 2026-11-13): delete the Nextdoor "Sherman Oaks" page; close the 2 old LinkedIn profiles (Bored of Boredom / University of Chicago); ask theorg.com to remove its scraped profile; unpublish espanolrhea.blogspot.com + the therhealdeal Blogger if unwanted; check Tumblr / Trello "rhea" / CS50 visibility; check people-search sites (Spokeo, Whitepages…) yourself. Send me your exact TikTok handle (Profile → share) — @voicesinyourshowerhead didn't resolve.
 - [ ] **SPOY description** — the note still has the placeholder comment; write the real one.
 - [ ] **"RPM (rhea's personal machine)"** from the handwritten note — never placed; decide where (or drop).
 - [ ] **WhatsApp digital-garden message** — Claude can only draft it; send it yourself.
