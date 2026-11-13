@@ -61,6 +61,15 @@ def clean_title(raw):
     s = URL.sub("", s)
     return re.sub(r"[*_`]|\[\[|\]\]", "", s).strip(" .;,:—–-")
 
+def norm_url(u):
+    # one key per page: ignore http/https, www./m., HTML-escaped &, tracking bits, reel/reels
+    u = u.replace("&amp;", "&").lower()
+    u = re.sub(r"^https?://(www\.|m\.)?", "", u)
+    u = re.sub(r"[?&](utm_[^&]*|igsh[^&]*|img_index[^&]*|si=[^&]*|hl=[^&]*|feature=[^&]*)", "", u)
+    u = re.sub(r"#.*", "", u).replace("youtu.be/", "youtube.com/watch?v=")
+    u = re.sub(r"instagram\.com/reels?/", "instagram.com/reel/", u)
+    return u.rstrip("/?&")
+
 def host_title(url):
     host = re.sub(r"^www\.", "", url.split("/")[2])
     return {"instagram.com": "Instagram post", "youtu.be": "YouTube video", "youtube.com": "YouTube video"}.get(host, host)
@@ -80,7 +89,8 @@ for fname in sorted(os.listdir(SRC)):
                 continue
             val = m.group(1)
             mdl = MDLINK.search(val)
-            wild_keys.add((mdl.group(2) if mdl else val).rstrip("/").lower())
+            v = mdl.group(2) if mdl else val
+            wild_keys.add(norm_url(v) if re.match(r"https?://", v) else v.rstrip("/").lower())
         # wildcard entries written as links are also items in their own right
     elif fname.startswith("_") and not re.search(r"^include:\s*true\b", fm, re.M):
         skipped.append(fname)
@@ -111,7 +121,9 @@ for fname in sorted(os.listdir(SRC)):
         title = (whole.group(1).strip() if whole else clean_title(raw)) or (host_title(url) if url else "")
         if len(title) < 2 or title.lower() in ("inbox",):
             continue
-        key = (url.rstrip("/").lower() if url else title.lower())
+        if url and re.search(r"//(www\.)?google\.[a-z.]+/(webhp|search)", url):
+            continue  # saved Google searches are not things (and the links are dead)
+        key = (norm_url(url) if url else re.sub(r"[^a-z0-9]+", " ", title.lower()).strip())
         if key in seen:
             continue
         seen.add(key)
