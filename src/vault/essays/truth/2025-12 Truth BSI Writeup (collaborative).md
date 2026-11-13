@@ -18,6 +18,7 @@ form:
   - essay
   - project
 affiliation: uchicago
+code: https://github.com/nolpozz/PrepostAI
 ---
 Submit a short report describing the group’s "bullshit" instrument and providing an assessment of its viability (which can be jointly authored), along with a description and self-assessment of their particular contributions to the project.
 
