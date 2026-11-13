@@ -114,10 +114,10 @@
 				{#each list as it}
 					<li>
 						{#if it.url}
-							<a href={it.url} target="_blank" rel="noopener noreferrer">{it.title}</a>
+							<a href={it.url} target="_blank" rel="noopener noreferrer">{#if it.ai_title}<AIText>{it.title}</AIText>{:else}{it.title}{/if}</a>
 							<span class="dom">{domain(it.url)}</span>
 						{:else}
-							<span class="plain">{it.title}</span>
+							<span class="plain">{#if it.ai_title}<AIText>{it.title}</AIText>{:else}{it.title}{/if}</span>
 							<a class="dom" href="https://duckduckgo.com/?q={encodeURIComponent(it.title)}" target="_blank" rel="noopener noreferrer">search ↗</a>
 						{/if}
 						{#if it.added || it.published}<span class="when">{#if it.added}saved {it.added}{/if}{#if it.added && it.published} · {/if}{#if it.published}published {it.published}{/if}</span>{/if}

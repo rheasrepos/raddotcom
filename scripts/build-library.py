@@ -107,7 +107,9 @@ for fname in sorted(os.listdir(SRC)):
         # dates: "@added YYYY-MM-DD" (when Rhea saved it) / "@published YYYY[-MM[-DD]]" (when it came out)
         DATE = r"(\d{4}(?:-\d{2}){0,2})"
         added = re.search(r"@added\s+" + DATE, raw); published = re.search(r"@published\s+" + DATE, raw)
-        raw = re.sub(r"\s*@(added|published)\s+\S+", "", raw).strip()
+        ai_title = bool(re.search(r"\s@ai\b", raw))   # title written by Claude, not copied from the source
+        raw = re.sub(r"\s*@(added|published)\s+\S+", "", raw)
+        raw = re.sub(r"\s*@ai\b", "", raw).strip()
         # navigation / template lines, not saved things: bullets that are only a
         # [[wikilink]] (+ its gloss), and the how-to-use instructions
         if re.match(r"^\[\[[^\]]+\]\]", raw) or fname.endswith("Recommendations - Home.md"):
@@ -133,15 +135,28 @@ for fname in sorted(os.listdir(SRC)):
         items.append({"title": title[:160], "url": url, "kind": kind_of(title, url), "_ctx": context, "_key": key,
                       "_me": fname == "_me-online.md",   # fixed topic "Me online" (not clustered)
                       "_via": via.group(1) if via else None,
-                      "_added": added.group(1) if added else None, "_published": published.group(1) if published else None})   # posted ABOUT Rhea by someone else
+                      "_added": added.group(1) if added else None, "_ai": ai_title, "_published": published.group(1) if published else None})   # posted ABOUT Rhea by someone else
 
-# links that no longer open (recommendations/_dead-links.txt): keep the item, drop the link
-DEADF = os.path.join(SRC, "_dead-links.txt")
-DEAD = [l.strip() for l in open(DEADF, encoding="utf-8") if l.strip() and not l.startswith("#")] if os.path.exists(DEADF) else []
+# link fixes (recommendations/_link-fixes.txt): "fragment => new url" replaces a link;
+# a bare host / URL fragment / YouTube id drops the item (dead or login-only links)
+FIXF = os.path.join(SRC, "_link-fixes.txt")
+FIX, DROP = {}, []
+if os.path.exists(FIXF):
+    for l in open(FIXF, encoding="utf-8"):
+        l = l.strip()
+        if not l or l.startswith("#"): continue
+        if "=>" in l: k, v = [x.strip() for x in l.split("=>", 1)]; FIX[k] = v
+        else: DROP.append(l)
+def hits(u, d): return ("//" + d) in u or ("." + d) in u or ("v=" + d) in u or ("youtu.be/" + d) in u or ("/" + d) in u
+kept = []
 for it in items:
-    u = it["url"] or ""
-    if u and any(("//" + d) in u or ("." + d) in u or ("v=" + d) in u or ("youtu.be/" + d) in u for d in DEAD):
-        it["url"] = None
+    u = (it["url"] or "").replace("&amp;", "&")
+    for k, v in FIX.items():
+        if u and k in u: it["url"] = u = v
+    if u and any(hits(u, d) for d in DROP): continue
+    kept.append(it)
+print(f"link fixes: {len(items) - len(kept)} dropped, {sum(1 for it in kept if it['url'] in FIX.values())} replaced")
+items = kept
 
 # ------------------------------------------------------------------ embed (TF-IDF, numpy only)
 STOP = set("""the a an and or of to in on for with is are was were be been it its this that these those you your
@@ -237,6 +252,7 @@ for i, (it, lab) in enumerate(zip(items, labels)):
                 "topic": topic, "wild": wild or bool(it.get("_me")), "near": nbrs[i],
                 **({"via": it["_via"]} if it.get("_via") else {}),
                 **({"added": it["_added"]} if it.get("_added") else {}),
+                **({"ai_title": True} if it.get("_ai") else {}),
                 **({"published": it["_published"]} if it.get("_published") else {})})
 json.dump({"count": len(out), "k": chosen, "items": out}, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 

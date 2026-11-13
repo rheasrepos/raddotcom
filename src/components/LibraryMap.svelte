@@ -210,7 +210,7 @@
 		<button on:click={() => { view = { x: 0, y: 0, k: 0.42 }; }}>reset</button>
 	</div>
 	{#if hovered && hovered.it}
-		<div class="tip" data-no-reveal><b>{hovered.it.title}</b><span>{hovered.it.topic} · {hovered.it.kind}{#if hovered.it.via} · <AIText>posted by {hovered.it.via}</AIText>{/if}</span></div>
+		<div class="tip" data-no-reveal><b>{#if hovered.it.ai_title}<AIText>{hovered.it.title}</AIText>{:else}{hovered.it.title}{/if}</b><span>{hovered.it.topic} · {hovered.it.kind}{#if hovered.it.via} · <AIText>posted by {hovered.it.via}</AIText>{/if}</span></div>
 	{:else if hovered && hovered.hub}
 		<div class="tip" data-no-reveal><b>{hovered.label}</b><span><AIText>{hovered.kids.length} posted about Rhea</AIText></span></div>
 	{/if}
