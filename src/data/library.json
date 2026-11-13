@@ -1,24 +1,24 @@
 {
- "count": 706,
+ "count": 720,
  "k": 18,
  "items": [
   {
    "title": "Si Tú Me Quisieras",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     13,
     9,
-    10
+    11
    ]
   },
   {
    "title": "Ojos de Girasol",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     3,
@@ -30,19 +30,19 @@
    "title": "¿Qué Se Siente Que Me Gustes Tanto?",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
+    8,
     1,
-    3,
-    4
+    7
    ]
   },
   {
    "title": "No Te Preocupes Si Me Ves Llorando",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     1,
@@ -54,7 +54,7 @@
    "title": "Mi Querer",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     1,
@@ -66,19 +66,19 @@
    "title": "De Haber Sabido (feat. Diego Lorenzini)",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
-    8,
     1,
-    3
+    3,
+    4
    ]
   },
   {
    "title": "Perdido de Amor [Lost in Love]",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     1,
@@ -90,7 +90,7 @@
    "title": "Brisa",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     1,
@@ -102,7 +102,7 @@
    "title": "me olvidarás (como lo haces ya)",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     1,
@@ -114,23 +114,23 @@
    "title": "Bésame (Cnt. 1:1)",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     13,
-    10,
-    11
+    11,
+    12
    ]
   },
   {
    "title": "Algo contigo",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
-    12,
     11,
+    12,
     13
    ]
   },
@@ -138,11 +138,11 @@
    "title": "Quien lo diría",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
-    12,
     10,
+    12,
     13
    ]
   },
@@ -150,11 +150,11 @@
    "title": "Nunca vas a comprender",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
-    11,
     10,
+    11,
     13
    ]
   },
@@ -162,11 +162,11 @@
    "title": "Bésame Mucho",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     9,
-    10,
+    12,
     11
    ]
   },
@@ -174,7 +174,7 @@
    "title": "Soledad y el Mar (feat. Los Macorinos)",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     10,
@@ -186,7 +186,7 @@
    "title": "Gregory Porter",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     18,
@@ -198,19 +198,19 @@
    "title": "Nardwuar",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     15,
     18,
-    17
+    19
    ]
   },
   {
    "title": "\"Slipping Through My Fingers\"",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     15,
@@ -222,7 +222,7 @@
    "title": "\"Chestnuts Roasting\" (The Christmas Song)",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     19,
@@ -234,7 +234,7 @@
    "title": "BEMO song · \"color song\" (your own drafts/notes)",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     18,
@@ -246,7 +246,7 @@
    "title": "Yebba — Dawn",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     18,
@@ -258,43 +258,43 @@
    "title": "\"From Entropy to Epiplexity: Rethinking Information for Computationally Bounded Intelligence\"",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     518,
     547,
-    548
+    641
    ]
   },
   {
    "title": "Adam Brown",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     27,
     643,
-    63
+    554
    ]
   },
   {
    "title": "\"The Imitation Reversal\"",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
-    641,
     27,
-    73
+    641,
+    643
    ]
   },
   {
    "title": "\"LLM-morphism\"",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     25,
@@ -306,19 +306,19 @@
    "title": "CEBRA paper",
    "url": null,
    "kind": "paper",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     24,
     27,
-    641
+    643
    ]
   },
   {
    "title": "\"Topology & AI: ANN inspired by human brain topology\"",
    "url": "https://youtu.be/y8Xrb2AAzU8",
    "kind": "video",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     220,
@@ -330,11 +330,11 @@
    "title": "Mechanistic-interpretability reels",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
-    641,
     23,
+    641,
     643
    ]
   },
@@ -342,7 +342,7 @@
    "title": "\"On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?\"",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     31,
@@ -354,19 +354,19 @@
    "title": "\"Gender Shades\"",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     31,
     30,
-    33
+    28
    ]
   },
   {
    "title": "\"Model Cards for Model Reporting\"",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     31,
@@ -378,7 +378,7 @@
    "title": "\"Datasheets for Datasets\"",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     29,
@@ -390,7 +390,7 @@
    "title": "\"The Values Encoded in Machine Learning Research\"",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     33,
@@ -402,7 +402,7 @@
    "title": "@cahdoria",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     30,
@@ -414,7 +414,7 @@
    "title": "5 books on AI's impact",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     35,
@@ -426,7 +426,7 @@
    "title": "\"AI and Epistemology\"",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     34,
@@ -438,7 +438,7 @@
    "title": "Nvidia–OpenAI 10 GW data-center campus",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     41,
@@ -450,7 +450,7 @@
    "title": "OpenAI influencer \"luxury brand trip\" critique",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     652,
@@ -462,7 +462,7 @@
    "title": "@okaashish repo roundup",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     39,
@@ -474,43 +474,43 @@
    "title": "@kalypsodesigns open-source roundup",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     578,
-    41,
-    611
+    38,
+    41
    ]
   },
   {
    "title": "Tip",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
-    165,
+    164,
     41,
-    164
+    165
    ]
   },
   {
    "title": "AI text-to-hardware generator",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     165,
-    214,
-    212
+    212,
+    214
    ]
   },
   {
    "title": "Telegram-connected AI agent \"team\"",
    "url": null,
    "kind": "thing",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     572,
@@ -522,7 +522,7 @@
    "title": "Epiplexity",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     645,
@@ -534,19 +534,19 @@
    "title": "The Door",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     47,
     49,
-    46
+    59
    ]
   },
   {
    "title": "\"There Will Come Soft Rains\"",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     47,
@@ -558,7 +558,7 @@
    "title": "Transcription",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     47,
@@ -570,19 +570,19 @@
    "title": "Ursula K. Le Guin as literature's \"greatest hater\"",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     46,
     49,
-    45
+    48
    ]
   },
   {
    "title": "Gardens of the Moon",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     50,
@@ -594,7 +594,7 @@
    "title": "Helen of Nowhere",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     47,
@@ -606,7 +606,7 @@
    "title": "Tent of Miracles",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     48,
@@ -618,7 +618,7 @@
    "title": "Books under 200 pages",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     52,
@@ -630,7 +630,7 @@
    "title": "Ryan Holiday's \"books you can read in a single sitting\"",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     51,
@@ -642,19 +642,19 @@
    "title": "Solarpunk/regenerative book+film community database",
    "url": null,
    "kind": "book",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     48,
-    50,
-    54
+    54,
+    50
    ]
   },
   {
    "title": "Ironic \"3 books you should never read\"",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     49,
@@ -666,19 +666,19 @@
    "title": "I Am Not a Robot: My Year Using AI to Do (Almost) Everything",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     48,
-    50,
-    54
+    54,
+    50
    ]
   },
   {
    "title": "CS/math books",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     54,
@@ -690,7 +690,7 @@
    "title": "Topic map for four of these as theory-of-computation companion reading",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     54,
@@ -702,19 +702,19 @@
    "title": "time & space studio \"Book Corner\"",
    "url": null,
    "kind": "book",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
+    50,
     48,
-    55,
-    50
+    55
    ]
   },
   {
    "title": "Der Nadler wimmelbild artwork",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     47,
@@ -726,7 +726,7 @@
    "title": "Claude Corps Fellow",
    "url": null,
    "kind": "thing",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     653,
@@ -738,7 +738,7 @@
    "title": "Rithm Project fellowship",
    "url": "https://www.therithmproject.org/rithm-fellow",
    "kind": "website",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     66,
@@ -750,7 +750,7 @@
    "title": "MIT Catalyst Fellowship",
    "url": null,
    "kind": "thing",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     64,
@@ -762,7 +762,7 @@
    "title": "Rishub Jain",
    "url": null,
    "kind": "thing",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     65,
@@ -774,7 +774,7 @@
    "title": "Simile",
    "url": null,
    "kind": "thing",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     65,
@@ -786,7 +786,7 @@
    "title": "Clair Health",
    "url": null,
    "kind": "thing",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     64,
@@ -798,7 +798,7 @@
    "title": "Scott Elmegreen",
    "url": null,
    "kind": "thing",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     61,
@@ -810,7 +810,7 @@
    "title": "PhD statement-of-purpose advice",
    "url": "https://open.substack.com/pub/bivi/p/why-your-statement-of-purpose-isnt",
    "kind": "website",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     69,
@@ -822,7 +822,7 @@
    "title": "Peer LinkedIn reference",
    "url": null,
    "kind": "thing",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     69,
@@ -834,7 +834,7 @@
    "title": "NYU Courant MS orientation",
    "url": null,
    "kind": "thing",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     67,
@@ -846,7 +846,7 @@
    "title": "The Penny Hoarder",
    "url": null,
    "kind": "thing",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     64,
@@ -861,16 +861,16 @@
    "topic": "pdf · css · coding",
    "wild": false,
    "near": [
-    625,
     538,
-    511
+    625,
+    574
    ]
   },
   {
    "title": "@vro.sews",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     73,
@@ -882,19 +882,19 @@
    "title": "Joomchi",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
-    23,
     76,
-    72
+    72,
+    74
    ]
   },
   {
    "title": "A6 journal cover",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     73,
@@ -906,7 +906,7 @@
    "title": "Embroidered-newspaper wearable art",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     76,
@@ -918,7 +918,7 @@
    "title": "@limepokes",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     77,
@@ -930,7 +930,7 @@
    "title": "Tattoo flash wishlist",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     76,
@@ -942,11 +942,11 @@
    "title": "Nishorama",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
-    81,
     85,
+    81,
     84
    ]
   },
@@ -954,7 +954,7 @@
    "title": "Etica Denim",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     84,
@@ -966,7 +966,7 @@
    "title": "@oliviadaytonn outfit sources",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     83,
@@ -978,7 +978,7 @@
    "title": "Gossard black corset top",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     83,
@@ -990,7 +990,7 @@
    "title": "Temu",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     84,
@@ -1002,7 +1002,7 @@
    "title": "Jeans-that-are-sweatpants",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     80,
@@ -1014,7 +1014,7 @@
    "title": "Aritzia Super Puff tag refs",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     85,
@@ -1026,7 +1026,7 @@
    "title": "Cream wide-leg cargo pants that fit curvy sizes",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     84,
@@ -1038,7 +1038,7 @@
    "title": "Comfortable shoes",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     89,
@@ -1050,19 +1050,19 @@
    "title": "Summer 2026 pedicure shades",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     89,
     86,
-    84
+    82
    ]
   },
   {
    "title": "WellNature \"Cyperus Rotundus Follicle Reduction Oil\"",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     89,
@@ -1074,7 +1074,7 @@
    "title": "Zahler ParaGuard",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     84,
@@ -1086,7 +1086,7 @@
    "title": "@graceburton's semester film list",
    "url": null,
    "kind": "thing",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     525,
@@ -1098,7 +1098,7 @@
    "title": "\"2022–23 Favorite Shows\" classroom poster",
    "url": null,
    "kind": "thing",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     94,
@@ -1110,7 +1110,7 @@
    "title": "The Rock",
    "url": null,
    "kind": "thing",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     605,
@@ -1122,7 +1122,7 @@
    "title": "\"What the Bleep Do We Know!?\"",
    "url": null,
    "kind": "thing",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     92,
@@ -1134,7 +1134,7 @@
    "title": "The Color of Friendship",
    "url": null,
    "kind": "thing",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     605,
@@ -1146,7 +1146,7 @@
    "title": "Movies",
    "url": null,
    "kind": "thing",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     96,
@@ -1158,7 +1158,7 @@
    "title": "Shows",
    "url": null,
    "kind": "thing",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     95,
@@ -1170,7 +1170,7 @@
    "title": "\"Conversations Worth Your Time\" list",
    "url": null,
    "kind": "thing",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     98,
@@ -1182,19 +1182,19 @@
    "title": "David Senra's YouTube channel",
    "url": null,
    "kind": "thing",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     99,
     92,
-    605
+    94
    ]
   },
   {
    "title": "\"Psychic Militancy\"",
    "url": "https://youtu.be/uv9EPy0Qi74",
    "kind": "video",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     98,
@@ -1206,19 +1206,19 @@
    "title": "The Minimalists ep. 419",
    "url": null,
    "kind": "thing",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     99,
     98,
-    97
+    92
    ]
   },
   {
    "title": "Flavor combo to steal",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     102,
@@ -1230,7 +1230,7 @@
    "title": "Spudsy Sweet Potato Puffs",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     107,
@@ -1242,7 +1242,7 @@
    "title": "Tocaya",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     102,
@@ -1254,7 +1254,7 @@
    "title": "Crispy chili-oil garlic tofu stir-fry",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     105,
@@ -1266,7 +1266,7 @@
    "title": "One-pan roasted Mediterranean chickpeas & feta",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     106,
@@ -1278,7 +1278,7 @@
    "title": "Whipped ricotta & honey toast",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     105,
@@ -1290,7 +1290,7 @@
    "title": "Ceremonial iced matcha latte protocol",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     105,
@@ -1302,7 +1302,7 @@
    "title": "Cold brew extraction ratio",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     105,
@@ -1314,7 +1314,7 @@
    "title": "Thuma",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     110,
@@ -1326,7 +1326,7 @@
    "title": "Aardhen Minimal Bed Frame",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     112,
@@ -1338,7 +1338,7 @@
    "title": "IKEA Malm",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     110,
@@ -1350,7 +1350,7 @@
    "title": "\"Marshmallow\"",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     110,
@@ -1362,7 +1362,7 @@
    "title": "Comment wisdom",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     109,
@@ -1374,7 +1374,7 @@
    "title": "Vintage mid-century bed with ledge headboard",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     109,
@@ -1386,7 +1386,7 @@
    "title": "Yechen Home",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     112,
@@ -1398,7 +1398,7 @@
    "title": "Koala",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     110,
@@ -1410,7 +1410,7 @@
    "title": "Zonli floor futon/mattress",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     116,
@@ -1422,79 +1422,79 @@
    "title": "Evidence-based revision blueprint",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     122,
     136,
-    121
+    120
    ]
   },
   {
    "title": "\"Marginalia\" 1x1x1 reading-retention method",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     118,
-    120,
-    121
+    122,
+    120
    ]
   },
   {
    "title": "Cambridge 3-step study method",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     118,
     121,
-    119
+    122
    ]
   },
   {
    "title": "Study-resource tier ranking",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
-    118,
+    136,
     122,
-    136
+    118
    ]
   },
   {
    "title": "Academic-writing pattern",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     118,
     136,
-    121
+    519
    ]
   },
   {
    "title": "Prof. Pete Carr (U. Minnesota) — \"How to Write a Paper in a Weekend\"",
    "url": null,
    "kind": "paper",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     118,
     120,
-    119
+    122
    ]
   },
   {
    "title": "Free-sites roundup",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     125,
@@ -1506,7 +1506,7 @@
    "title": "\"Hot Girls do Research\" free resources",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     124,
@@ -1518,7 +1518,7 @@
    "title": "watch.plex.tv",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     125,
@@ -1530,7 +1530,7 @@
    "title": "Comprehensible-input language learning",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     129,
@@ -1542,7 +1542,7 @@
    "title": "10 hobbies to get smart again",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     130,
@@ -1554,7 +1554,7 @@
    "title": "Craftsy/Creativebug-style on-demand craft course platform",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     510,
@@ -1566,7 +1566,7 @@
    "title": "Ray Bradbury's nightly routine",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     129,
@@ -1578,7 +1578,7 @@
    "title": "Hand-built Obsidian knowledge graph of all of medicine",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
     132,
@@ -1590,7 +1590,7 @@
    "title": "AI second-brain stack",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
     131,
@@ -1602,7 +1602,7 @@
    "title": "Claude-maintained Obsidian wiki setup",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
     131,
@@ -1614,7 +1614,7 @@
    "title": "Why saved content never gets used",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     120,
@@ -1626,7 +1626,7 @@
    "title": "PKM / digital-minimalism reel batch",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
     132,
@@ -1638,7 +1638,7 @@
    "title": "Dazed",
    "url": null,
    "kind": "thing",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     122,
@@ -1650,7 +1650,7 @@
    "title": "Neural correlates of consciousness",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     145,
@@ -1662,7 +1662,7 @@
    "title": "\"Psychologymaxxing\" niche concepts",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     139,
@@ -1674,7 +1674,7 @@
    "title": "Institute of Art and Ideas",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     140,
@@ -1686,7 +1686,7 @@
    "title": "Ulcca Hansen",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     139,
@@ -1698,43 +1698,43 @@
    "title": "BirdsEyes",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     142,
-    137,
-    145
+    145,
+    140
    ]
   },
   {
    "title": "Panpsychism & psychedelics series, Part 2",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     145,
     139,
-    137
+    140
    ]
   },
   {
    "title": "Cleve Backster \"primary perception\"",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     140,
-    142,
-    139
+    139,
+    142
    ]
   },
   {
    "title": "\"Consistency of Regions of Interest as Nodes of Functional Brain Networks\"",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     145,
@@ -1746,7 +1746,7 @@
    "title": "fMRI connectivity reels",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     142,
@@ -1758,31 +1758,31 @@
    "title": "inter-subject correlation / neural synchrony during movie watching",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     145,
-    142,
-    137
+    144,
+    142
    ]
   },
   {
    "title": "\"Philosophymaxxing\" niche concepts",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     156,
     149,
-    153
+    154
    ]
   },
   {
    "title": "History-of-philosophy starter books",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     149,
@@ -1794,7 +1794,7 @@
    "title": "Think/write/argue clearly book list",
    "url": null,
    "kind": "book",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     156,
@@ -1806,19 +1806,19 @@
    "title": "Sabine Hossenfelder IAI reel",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     156,
-    153,
-    154
+    154,
+    153
    ]
   },
   {
    "title": "John Conway(?) free-will lecture clip",
    "url": null,
    "kind": "video",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     157,
@@ -1830,7 +1830,7 @@
    "title": "Stephen Wolfram, A New Kind of Science",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     156,
@@ -1842,7 +1842,7 @@
    "title": "Iain McGilchrist(?) lecture at Ralston College",
    "url": null,
    "kind": "video",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     156,
@@ -1854,7 +1854,7 @@
    "title": "Kant quote for openers",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     156,
@@ -1866,7 +1866,7 @@
    "title": "The Minimalists podcast ep. 419 clip",
    "url": null,
    "kind": "podcast",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     157,
@@ -1878,7 +1878,7 @@
    "title": "\"Ancients knew the necessity of masks\"",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     153,
@@ -1890,7 +1890,7 @@
    "title": "Vault Empowers interview clip",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     155,
@@ -1902,7 +1902,7 @@
    "title": "Philosophy-of-technology links",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     156,
@@ -1914,7 +1914,7 @@
    "title": "Strange-attractor animation formula",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     162,
@@ -1926,7 +1926,7 @@
    "title": "Random walks & the Brownian frontier",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     268,
@@ -1938,19 +1938,19 @@
    "title": "Math of Origami, Day 7",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
     159,
     162,
-    231
+    234
    ]
   },
   {
    "title": "Recamán's sequence arc visualization",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     159,
@@ -1962,19 +1962,19 @@
    "title": "Privacy habits from an ex-Reddit employee",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     584,
     614,
-    652
+    643
    ]
   },
   {
    "title": "3 OSINT tools",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     165,
@@ -1986,31 +1986,31 @@
    "title": "Vibe-coded app security checks + Strix",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     41,
-    164,
-    214
+    214,
+    164
    ]
   },
   {
    "title": "NFC tag stickers",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
     630,
     552,
-    224
+    227
    ]
   },
   {
    "title": "Mac apps",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     164,
@@ -2034,19 +2034,19 @@
    "title": "Quantum-leap manifestation quote",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     173,
     640,
-    652
+    573
    ]
   },
   {
    "title": "Washington Post",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     584,
@@ -2058,35 +2058,35 @@
    "title": "Quora explainer of the Hindi slang \"bhosdike\"",
    "url": null,
    "kind": "thing",
-   "topic": "research · bloomingdale's · making",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
-    172,
     173,
-    575
+    575,
+    172
    ]
   },
   {
    "title": "\"I'm gonna take all my online finals at a restaurant because the customer is always right\"",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
-    670,
-    638,
-    627
+    711,
+    719,
+    638
    ]
   },
   {
    "title": "English teacher's delighted reaction",
    "url": null,
    "kind": "thing",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     169,
-    138,
+    171,
     153
    ]
   },
@@ -2094,7 +2094,7 @@
    "title": "Ethel Cain",
    "url": null,
    "kind": "thing",
-   "topic": "other · songs · artists",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     176,
@@ -2106,7 +2106,7 @@
    "title": "Local Natives",
    "url": null,
    "kind": "thing",
-   "topic": "other · songs · artists",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     177,
@@ -2118,7 +2118,7 @@
    "title": "Chloe Frances",
    "url": null,
    "kind": "thing",
-   "topic": "other · songs · artists",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     177,
@@ -2130,7 +2130,7 @@
    "title": "Mary in the Junkyard",
    "url": null,
    "kind": "thing",
-   "topic": "other · songs · artists",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     181,
@@ -2142,7 +2142,7 @@
    "title": "\"Musta Been a Ghost\"",
    "url": null,
    "kind": "thing",
-   "topic": "other · songs · artists",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     182,
@@ -2154,7 +2154,7 @@
    "title": "\"Lonely One\"",
    "url": null,
    "kind": "thing",
-   "topic": "other · songs · artists",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     181,
@@ -2166,19 +2166,19 @@
    "title": "Shazam/scan song IDs",
    "url": null,
    "kind": "thing",
-   "topic": "other · songs · artists",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     175,
     181,
-    179
+    177
    ]
   },
   {
    "title": "\"In My Head\" lyric hunt",
    "url": null,
    "kind": "thing",
-   "topic": "other · songs · artists",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     179,
@@ -2190,7 +2190,7 @@
    "title": "\"Solidaritätslied\"",
    "url": null,
    "kind": "thing",
-   "topic": "other · songs · artists",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     178,
@@ -2202,7 +2202,7 @@
    "title": "@icxn",
    "url": null,
    "kind": "thing",
-   "topic": "other · songs · artists",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     177,
@@ -2214,7 +2214,7 @@
    "title": "Favorite albums of 2022 list",
    "url": null,
    "kind": "thing",
-   "topic": "other · songs · artists",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     174,
@@ -2226,31 +2226,31 @@
    "title": "Kid Cudi \"Man on the Moon II\" tracklist poster",
    "url": null,
    "kind": "thing",
-   "topic": "other · songs · artists",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     177,
     181,
-    175
+    179
    ]
   },
   {
    "title": "Discover Weekly oddities",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     188,
     187,
-    189
+    184
    ]
   },
   {
    "title": "Recently-played captures",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     188,
@@ -2262,7 +2262,7 @@
    "title": "Daily Mix 1 scroll (indie core)",
    "url": null,
    "kind": "thing",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     189,
@@ -2274,7 +2274,7 @@
    "title": "Car now-playing captures",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     188,
@@ -2286,7 +2286,7 @@
    "title": "\"the perfect pair\"",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     191,
@@ -2298,7 +2298,7 @@
    "title": "\"A Change Is Gonna Come\"",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     190,
@@ -2310,7 +2310,7 @@
    "title": "\"She Used to Be Mine\"",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     190,
@@ -2322,11 +2322,11 @@
    "title": "\"In Pieces\"",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
-    190,
     195,
+    190,
     191
    ]
   },
@@ -2334,7 +2334,7 @@
    "title": "Cabaret solo performance clip",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     193,
@@ -2346,19 +2346,19 @@
    "title": "Amy Winehouse \"Back to Black\"",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     191,
-    192,
-    193
+    193,
+    192
    ]
   },
   {
    "title": "flowkey",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     198,
@@ -2370,19 +2370,19 @@
    "title": "Karaoke YouTube channels worth keeping",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     196,
     198,
-    186
+    340
    ]
   },
   {
    "title": "WNYU (wnyu.org) management contacts",
    "url": null,
    "kind": "thing",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     196,
@@ -2394,31 +2394,31 @@
    "title": "Sluggers World Class Sports Bar",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     200,
     204,
-    201
+    207
    ]
   },
   {
    "title": "Freestyle Ceramics / Freestyle Tufting",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
+    207,
     204,
-    199,
-    207
+    199
    ]
   },
   {
    "title": "Thrifting guide",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     202,
@@ -2430,7 +2430,7 @@
    "title": "Hospital of Emotions",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     509,
@@ -2442,7 +2442,7 @@
    "title": "Octavia Lab",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     202,
@@ -2454,7 +2454,7 @@
    "title": "Road to Hana (Maui)",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     201,
@@ -2466,7 +2466,7 @@
    "title": "Souvenir shopping finds",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     82,
@@ -2478,31 +2478,31 @@
    "title": "Broadway open call",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     207,
     578,
-    559
+    200
    ]
   },
   {
    "title": "Researching NYC landlords",
    "url": null,
    "kind": "thing",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     200,
     206,
-    203
+    204
    ]
   },
   {
    "title": "McNally Jackson bookstore",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     55,
@@ -2514,7 +2514,7 @@
    "title": "Brooklyn Public Library reading lawns",
    "url": null,
    "kind": "thing",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     208,
@@ -2526,7 +2526,7 @@
    "title": "Erowid Experience Vaults",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     512,
@@ -2538,19 +2538,19 @@
    "title": "Instafest",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     512,
     212,
-    631
+    213
    ]
   },
   {
    "title": "@rj.bernaldo interactive-site roundup, the rest of it",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     217,
@@ -2562,19 +2562,19 @@
    "title": "The Pudding",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     212,
     217,
-    512
+    214
    ]
   },
   {
    "title": "Taxiway",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     212,
@@ -2586,7 +2586,7 @@
    "title": "Five free design archives",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     214,
@@ -2598,19 +2598,19 @@
    "title": "Stripe Press",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     217,
-    164,
-    212
+    212,
+    213
    ]
   },
   {
    "title": "elimarigodesign.com",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     212,
@@ -2622,7 +2622,7 @@
    "title": "WebGL / TouchDesigner link batch",
    "url": null,
    "kind": "thing",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     217,
@@ -2634,7 +2634,7 @@
    "title": "MIT Press Network Neuroscience Paper",
    "url": "https://direct.mit.edu/netn/article/1/3/254/2197/Consistency-of-Regions-of-Interest-as-nodes-of",
    "kind": "paper",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     222,
@@ -2646,7 +2646,7 @@
    "title": "Transformer Circuits Workspace",
    "url": "https://transformer-circuits.pub/2026/workspace/index.html#intro",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     221,
@@ -2658,19 +2658,19 @@
    "title": "ARENA Chapter 1",
    "url": "https://arena-chapter1-transformer-interp.streamlit.app/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     220,
     222,
-    641
+    219
    ]
   },
   {
    "title": "Consciousness Atlas",
    "url": "https://www.consciousnessatlas.com/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     219,
@@ -2682,156 +2682,156 @@
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DbNrDy_TGWk/",
    "kind": "video",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
+    232,
     230,
-    235,
-    234
+    229
    ]
   },
   {
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DXMsbDPxHmq/",
    "kind": "video",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
+    232,
     230,
-    235,
-    234
+    229
    ]
   },
   {
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DYnr4evNfjE/",
    "kind": "video",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
+    232,
     230,
-    235,
-    234
+    229
    ]
   },
   {
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DbMuDRYsv3X/",
    "kind": "video",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
+    232,
     230,
-    235,
-    234
+    229
    ]
   },
   {
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DbJlJyIBx2k/",
    "kind": "video",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
+    232,
     230,
-    235,
-    234
+    229
    ]
   },
   {
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DVYvXAaDRui/",
    "kind": "video",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
+    232,
     230,
-    235,
-    234
+    229
    ]
   },
   {
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DawhhrtNg4W/",
    "kind": "video",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
+    232,
     230,
-    235,
-    234
+    233
    ]
   },
   {
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DYkUEUWEdhx/",
    "kind": "video",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
-    229,
-    235,
-    234
+    232,
+    233,
+    229
    ]
   },
   {
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DXhdG1oDsmD/",
    "kind": "video",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
-    229,
-    235,
-    234
+    232,
+    230,
+    229
    ]
   },
   {
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DVeH5E9FKP4/",
    "kind": "video",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
-    229,
-    235,
-    234
+    233,
+    230,
+    229
    ]
   },
   {
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/Da1FndIBXfc/",
    "kind": "video",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
-    229,
-    235,
-    234
+    232,
+    230,
+    229
    ]
   },
   {
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DW4dgg3jJ6e/",
    "kind": "video",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
-    229,
-    235,
-    233
+    232,
+    230,
+    229
    ]
   },
   {
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DauzoEdoYSP/",
    "kind": "video",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
-    229,
-    234,
-    233
+    232,
+    230,
+    229
    ]
   },
   {
@@ -2841,9 +2841,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    241,
-    242
+    254,
+    237,
+    259
    ]
   },
   {
@@ -2853,9 +2853,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    241,
-    242
+    254,
+    257,
+    256
    ]
   },
   {
@@ -2865,9 +2865,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    241,
-    242
+    254,
+    258,
+    257
    ]
   },
   {
@@ -2877,9 +2877,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    258,
+    257
    ]
   },
   {
@@ -2889,9 +2889,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    258,
+    257
    ]
   },
   {
@@ -2901,9 +2901,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    258,
+    257
    ]
   },
   {
@@ -2913,9 +2913,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    239,
-    243
+    254,
+    258,
+    257
    ]
   },
   {
@@ -2925,9 +2925,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    239
+    254,
+    258,
+    257
    ]
   },
   {
@@ -2937,9 +2937,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    258,
+    257
    ]
   },
   {
@@ -2949,9 +2949,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    258,
+    257
    ]
   },
   {
@@ -2961,9 +2961,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    258,
+    257
    ]
   },
   {
@@ -2973,9 +2973,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    252,
-    241,
-    242
+    254,
+    258,
+    257
    ]
   },
   {
@@ -2985,9 +2985,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    258,
+    257
    ]
   },
   {
@@ -2997,9 +2997,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    258,
+    257
    ]
   },
   {
@@ -3009,9 +3009,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    258,
+    257
    ]
   },
   {
@@ -3021,9 +3021,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    258,
+    257
    ]
   },
   {
@@ -3033,9 +3033,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    258,
+    257
    ]
   },
   {
@@ -3045,9 +3045,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    258,
+    257
    ]
   },
   {
@@ -3057,9 +3057,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    236,
+    238,
+    257
    ]
   },
   {
@@ -3069,9 +3069,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    258,
+    257
    ]
   },
   {
@@ -3081,9 +3081,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    258,
+    257
    ]
   },
   {
@@ -3093,9 +3093,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    258,
+    256
    ]
   },
   {
@@ -3105,9 +3105,9 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    257,
+    256
    ]
   },
   {
@@ -3117,16 +3117,16 @@
    "topic": "website · inspiration · cool",
    "wild": false,
    "near": [
-    247,
-    242,
-    243
+    254,
+    257,
+    256
    ]
   },
   {
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DbPGE1JMuGO/",
    "kind": "video",
-   "topic": "online · harvard · swift",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
     262,
@@ -3138,7 +3138,7 @@
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DX67nJggULH/",
    "kind": "video",
-   "topic": "online · harvard · swift",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
     262,
@@ -3150,7 +3150,7 @@
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DXrU-lsjGfO/",
    "kind": "video",
-   "topic": "online · harvard · swift",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
     261,
@@ -3162,11 +3162,11 @@
    "title": "Instagram post",
    "url": "https://www.instagram.com/p/DZvR_JRlMFy/?img_index=6",
    "kind": "post",
-   "topic": "online · harvard · swift",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
-    260,
     261,
+    260,
     262
    ]
   },
@@ -3174,31 +3174,31 @@
    "title": "Stop Overthinking Obsidian (Medium)",
    "url": "https://medium.com/@andremonthy/stop-overthinking-obsidian-a-beginners-guide-that-actually-works-c46ae9953ac7",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
     263,
-    265,
-    260
+    262,
+    261
    ]
   },
   {
    "title": "Digital Gardening (Medium)",
    "url": "https://medium.com/the-mycelium/digital-gardening-6100d678bd3a",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
     264,
     263,
-    262
+    260
    ]
   },
   {
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DZrm8hYTU0e/",
    "kind": "video",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     268,
@@ -3210,7 +3210,7 @@
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DaeeojNCCaX/",
    "kind": "video",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     268,
@@ -3222,7 +3222,7 @@
    "title": "Instagram post",
    "url": "https://www.instagram.com/reels/DYlP7w2RmHy/",
    "kind": "video",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     267,
@@ -3237,9 +3237,9 @@
    "topic": "essentials · shopping · outfitters",
    "wild": false,
    "near": [
+    271,
     288,
-    287,
-    273
+    287
    ]
   },
   {
@@ -3250,7 +3250,7 @@
    "wild": false,
    "near": [
     272,
-    273,
+    271,
     269
    ]
   },
@@ -3273,9 +3273,9 @@
    "topic": "essentials · shopping · outfitters",
    "wild": false,
    "near": [
+    271,
     269,
-    273,
-    288
+    287
    ]
   },
   {
@@ -3285,9 +3285,9 @@
    "topic": "essentials · shopping · outfitters",
    "wild": false,
    "near": [
+    271,
     288,
-    287,
-    271
+    287
    ]
   },
   {
@@ -3298,7 +3298,7 @@
    "wild": false,
    "near": [
     270,
-    287,
+    269,
     271
    ]
   },
@@ -3321,9 +3321,9 @@
    "topic": "essentials · shopping · outfitters",
    "wild": false,
    "near": [
-    280,
-    278,
-    282
+    282,
+    281,
+    280
    ]
   },
   {
@@ -3345,9 +3345,9 @@
    "topic": "essentials · shopping · outfitters",
    "wild": false,
    "near": [
-    280,
     282,
-    281
+    281,
+    280
    ]
   },
   {
@@ -3359,7 +3359,7 @@
    "near": [
     283,
     282,
-    281
+    276
    ]
   },
   {
@@ -3369,9 +3369,9 @@
    "topic": "essentials · shopping · outfitters",
    "wild": false,
    "near": [
-    276,
-    278,
-    282
+    282,
+    281,
+    278
    ]
   },
   {
@@ -3381,7 +3381,7 @@
    "topic": "essentials · shopping · outfitters",
    "wild": false,
    "near": [
-    276,
+    282,
     280,
     278
    ]
@@ -3393,7 +3393,7 @@
    "topic": "essentials · shopping · outfitters",
    "wild": false,
    "near": [
-    276,
+    281,
     280,
     278
    ]
@@ -3406,8 +3406,8 @@
    "wild": false,
    "near": [
     279,
-    282,
-    281
+    276,
+    278
    ]
   },
   {
@@ -3418,7 +3418,7 @@
    "wild": false,
    "near": [
     283,
-    278,
+    281,
     276
    ]
   },
@@ -3429,16 +3429,16 @@
    "topic": "essentials · shopping · outfitters",
    "wild": false,
    "near": [
+    290,
     291,
-    272,
-    290
+    272
    ]
   },
   {
    "title": "13 Secret Spots Nobody Tells You About In Los Angeles",
    "url": "https://www.buzzfeed.com/vcomarriott/13-secrets-angelinos-will-never-tell-you-when-you-visit?b=1&amp;bfsource=bbf_enus&amp;utm_term=.ot2BNz1zR#.jb616edeq",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     509,
@@ -3453,8 +3453,8 @@
    "topic": "essentials · shopping · outfitters",
    "wild": false,
    "near": [
-    288,
     273,
+    288,
     271
    ]
   },
@@ -3465,8 +3465,8 @@
    "topic": "essentials · shopping · outfitters",
    "wild": false,
    "near": [
-    287,
     273,
+    287,
     271
    ]
   },
@@ -3490,8 +3490,8 @@
    "wild": false,
    "near": [
     285,
-    272,
-    270
+    291,
+    272
    ]
   },
   {
@@ -3503,7 +3503,7 @@
    "near": [
     270,
     272,
-    271
+    274
    ]
   },
   {
@@ -3515,26 +3515,26 @@
    "near": [
     270,
     291,
-    274
+    272
    ]
   },
   {
    "title": "HW Inc",
    "url": "http://www.hwinc.co/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
-    593,
+    591,
     622,
-    615
+    603
    ]
   },
   {
    "title": "Mixlr | Home",
    "url": "https://mixlr.com/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     115,
@@ -3546,31 +3546,31 @@
    "title": "CLVR",
    "url": "https://www.soul-cycle.com/studios/clvr/1038/",
    "kind": "website",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
     457,
-    225,
-    235
+    552,
+    225
    ]
   },
   {
    "title": "English to French, Italian, German & Spanish Dictionary",
    "url": "http://www.wordreference.com/",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
-    311,
     310,
-    298
+    311,
+    297
    ]
   },
   {
    "title": "Negation",
    "url": "http://studyspanish.com/grammar/lessons/neg",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     298,
@@ -3582,7 +3582,7 @@
    "title": "Descubre 1",
    "url": "https://conjuguemos.com/vocabulary/flashcard_play/16254",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     297,
@@ -3594,19 +3594,19 @@
    "title": "Affirmative and Negative Words Flashcards | Quizlet",
    "url": "https://quizlet.com/1869338/affirmative-and-negative-words-flash-cards/",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     376,
     459,
-    495
+    474
    ]
   },
   {
    "title": "Rainy Mood",
    "url": "https://rainymood.com/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     301,
@@ -3618,7 +3618,7 @@
    "title": "Schoolhouse Rock",
    "url": "http://www.schoolhouserock.tv/Bill.html",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     631,
@@ -3630,19 +3630,19 @@
    "title": "Women's Knockout Headphones",
    "url": "http://www.skullcandy.com/headphones/KNOCKOUT.html?cgid=1110&amp;color=Robin%2FPurple&amp;skdy_mic=iOS#RibrJy7YVCk6Wz34.97",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     631,
     685,
-    301
+    388
    ]
   },
   {
    "title": "NoRedInk | Student",
    "url": "https://www.noredink.com/learn/home#",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     305,
@@ -3654,7 +3654,7 @@
    "title": "The Summer I Was Sixteen, by Geraldine Connolly",
    "url": "https://www.loc.gov/poetry/180/003.html",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     305,
@@ -3666,19 +3666,19 @@
    "title": "Cartoon Physics, part 1, by Nick Flynn",
    "url": "https://www.loc.gov/poetry/180/038.html",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     304,
     303,
-    563
+    568
    ]
   },
   {
    "title": "Rorschach Inkblot Test Results | Rorschach Inkblot Test",
    "url": "http://www.inkblottest.com/testresults/Q85WPKJ6K5KF2333Z9M4M93P/",
    "kind": "website",
-   "topic": "test · sat · subject",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     473,
@@ -3690,7 +3690,7 @@
    "title": "Flowers for Algernon",
    "url": "https://books.google.com/books?id=_oG_iTxP1pIC&amp;printsec=frontcover&amp;dq=flowers+for+algernon+book&amp;hl=en&amp;sa=X&amp;ved=0ahUKEwiQpIWT9PXSAhUP42MKHZ2eDEEQ6AEIIDAB#v=snippet&amp;q=the%20ice&amp;f=false",
    "kind": "website",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     53,
@@ -3702,7 +3702,7 @@
    "title": "No Fear Shakespeare",
    "url": "http://nfs.sparknotes.com/tempest/page_86.html",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     557,
@@ -3714,7 +3714,7 @@
    "title": "VHL Central | home",
    "url": "https://www.vhlcentral.com/home",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     486,
@@ -3726,31 +3726,31 @@
    "title": "Ser and Estar",
    "url": "http://www.studyspanish.com/lessons/serest2.htm",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     311,
     296,
-    298
+    297
    ]
   },
   {
    "title": "Ser and Estar",
    "url": "http://www.studyspanish.com/lessons/serest3.htm",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     310,
     296,
-    298
+    297
    ]
   },
   {
    "title": "Gun Manufacturers and Gun Brands List- American Firearms",
    "url": "http://www.americanfirearms.org/manufacturers/",
    "kind": "website",
-   "topic": "other · songs · artists",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     498,
@@ -3834,19 +3834,19 @@
    "title": "Breezin' Thru Theory",
    "url": "http://breezinthrutheory.com/binder2016/index.php",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     395,
-    645,
-    330
+    382,
+    483
    ]
   },
   {
    "title": "Asaf Avidan",
    "url": "http://www.metrolyrics.com/gold-shadow-lyrics-asaf-avidan.html",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     379,
@@ -3858,43 +3858,43 @@
    "title": "Demos",
    "url": "http://www.evabeebe.com/demos/",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
-    330,
-    467,
-    481
+    483,
+    375,
+    332
    ]
   },
   {
    "title": "Lovely",
    "url": "https://www.youtube.com/watch?v=fbgMDpT5at0",
    "kind": "video",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     367,
-    401,
-    362
+    362,
+    401
    ]
   },
   {
    "title": "Practice & Learn Vocabulary | SpanishDict",
    "url": "https://www.spanishdict.com/vocabulary?utm_medium=vocab_modal&amp;utm_campaign=back_to_escuela",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     537,
     384,
-    418
+    458
    ]
   },
   {
    "title": "Biology",
    "url": "https://www.youtube.com/watch?v=URUJD5NEXC8",
    "kind": "video",
-   "topic": "test · sat · subject",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     473,
@@ -3906,103 +3906,103 @@
    "title": "Curriculum | NoRedInk",
    "url": "https://www.noredink.com/curriculum/pathway/893",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     366,
-    489,
-    465
+    303,
+    489
    ]
   },
   {
    "title": "mvf-frontend",
    "url": "http://moviefeud.com/info/rules",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
-    330,
-    499,
-    481
+    483,
+    375,
+    332
    ]
   },
   {
    "title": "What is the mystery/meaning of Sri Yantra in Hinduism?",
    "url": "https://www.quora.com/What-is-the-mystery-meaning-of-Sri-Yantra-in-Hinduism",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     489,
-    476,
-    325
+    325,
+    328
    ]
   },
   {
    "title": "What Holden Caulfield Could Teach Trump",
    "url": "https://www.thedailybeast.com/what-holden-caulfield-could-teach-trump",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     366,
-    476,
-    385
+    385,
+    476
    ]
   },
   {
    "title": "Storyboard Creator | Comic Strip Maker | Online Storyboarding",
    "url": "https://www.storyboardthat.com/storyboard-creator",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     491,
     638,
-    627
+    716
    ]
   },
   {
    "title": "Haley Pham",
    "url": "https://www.youtube.com/user/sodapop738",
    "kind": "video",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
-    375,
-    332,
-    365
+    326,
+    467,
+    321
    ]
   },
   {
    "title": "khws | harvard-westlake student radio",
    "url": "http://khwsradio.com/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     445,
     442,
-    440
+    441
    ]
   },
   {
    "title": "Discord",
    "url": "https://discordapp.com/channels/544287400420048966/544287400420048969",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
-    330,
+    326,
     467,
-    326
+    321
    ]
   },
   {
    "title": "JTAppleCalendar Creating a Calendar from scratch #Important Warning in Description",
    "url": "https://www.youtube.com/watch?v=zOphH-h-qCs",
    "kind": "video",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     362,
@@ -4014,7 +4014,7 @@
    "title": "You're Gonna Live Forever in Me",
    "url": "https://hdpiano.com/lesson/youre-gonna-live-forever-in-me-by-john-mayer/",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     401,
@@ -4026,19 +4026,19 @@
    "title": "Justinian & Theodora",
    "url": "https://study.com/academy/lesson/justinian-theodora-marriage-facts-mosaics.html",
    "kind": "website",
-   "topic": "ethics · study · bowl",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
-    121,
     118,
-    120
+    121,
+    122
    ]
   },
   {
    "title": "Learn Hindi online | Free Hindi lessons",
    "url": "https://www.loecsen.com/en/learn-hindi#/en/Essentials",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     582,
@@ -4050,19 +4050,19 @@
    "title": "My Team Shop",
    "url": "https://www.bsnteamsports.com/v3/shop/thanks",
    "kind": "website",
-   "topic": "project · fellowships · career",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     355,
-    42,
-    356
+    359,
+    358
    ]
   },
   {
    "title": "Goodhuman crewneck (limited run)",
    "url": "https://goodhumanla.com/collections/goodhuman-crewneck",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     465,
@@ -4074,7 +4074,7 @@
    "title": "Tema 1 Vocab",
    "url": "https://quizlet.com/310297614/tema-1-vocab-las-relaciones-personales-flash-cards/",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     299,
@@ -4086,7 +4086,7 @@
    "title": "BBC Radio 4",
    "url": "https://www.bbc.co.uk/programmes/b050bcf1",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     656,
@@ -4098,7 +4098,7 @@
    "title": "Countdown Timer",
    "url": "https://www.timeanddate.com/countdown/generic?iso=20181012T00&amp;p0=137&amp;font=cursive",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     466,
@@ -4110,7 +4110,7 @@
    "title": "Biology SAT Subject Test",
    "url": "https://quizlet.com/7705511/biology-sat-subject-test-plants-flash-cards/",
    "kind": "website",
-   "topic": "test · sat · subject",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     344,
@@ -4122,7 +4122,7 @@
    "title": "Plants",
    "url": "https://quizlet.com/84590774/plants-bio-sat-ii-flash-cards/",
    "kind": "website",
-   "topic": "test · sat · subject",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     351,
@@ -4134,7 +4134,7 @@
    "title": "Biological Diversity",
    "url": "https://quizlet.com/200643047/biological-diversity-sat-biology-subject-test-flash-cards/",
    "kind": "website",
-   "topic": "test · sat · subject",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     342,
@@ -4146,7 +4146,7 @@
    "title": "Biology Subject Test",
    "url": "https://quizlet.com/108166740/biology-subject-test-biological-diversity-chapter-12-flash-cards/",
    "kind": "website",
-   "topic": "test · sat · subject",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     344,
@@ -4158,7 +4158,7 @@
    "title": "SAT 2 Bio Hormones Flashcards | Quizlet",
    "url": "https://quizlet.com/42741527/sat-2-bio-hormones-flash-cards/",
    "kind": "website",
-   "topic": "test · sat · subject",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     348,
@@ -4170,7 +4170,7 @@
    "title": "Prokaryotic cells vs. Eukaryotic cells Questions and Study Guide | Quizlet Flashcards by djmelgar",
    "url": "https://quizlet.com/4777345/prokaryotic-cells-vs-eukaryotic-cells-flash-cards/",
    "kind": "website",
-   "topic": "test · sat · subject",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     351,
@@ -4182,7 +4182,7 @@
    "title": "Prokaryotes vs. Eukaryotes Flashcards | Quizlet",
    "url": "https://quizlet.com/44471782/prokaryotes-vs-eukaryotes-flash-cards/",
    "kind": "website",
-   "topic": "test · sat · subject",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     346,
@@ -4194,7 +4194,7 @@
    "title": "Plant vs Animal cells Flashcards | Quizlet",
    "url": "https://quizlet.com/27554457/plant-vs-animal-cells-flash-cards/",
    "kind": "website",
-   "topic": "test · sat · subject",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     346,
@@ -4206,7 +4206,7 @@
    "title": "Biology Plant vs Animal Cells Questions and Study Guide | Quizlet Flashcards by xakal3x",
    "url": "https://quizlet.com/8173305/biology-plant-vs-animal-cells-flash-cards/",
    "kind": "website",
-   "topic": "test · sat · subject",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     347,
@@ -4218,7 +4218,7 @@
    "title": "Evo/Eco Test Questions and Study Guide | Quizlet Flashcards by CoryAP",
    "url": "https://quizlet.com/381107744/evoeco-test-flash-cards/?i=rqg5d&amp;x=1jqY",
    "kind": "website",
-   "topic": "test · sat · subject",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     347,
@@ -4230,7 +4230,7 @@
    "title": "Unit 7",
    "url": "https://quizlet.com/382064707/unit-7-ecoevo-flash-cards/?i=rqg5d&amp;x=1jqY",
    "kind": "website",
-   "topic": "test · sat · subject",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     348,
@@ -4242,19 +4242,19 @@
    "title": "CoryAP | Quizlet",
    "url": "https://quizlet.com/CoryAP",
    "kind": "website",
-   "topic": "test · sat · subject",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     344,
-    342,
-    346
+    346,
+    342
    ]
   },
   {
    "title": "SAT Subject Test (Bio) (Human Immune System) Flashcards | Quizlet",
    "url": "https://quizlet.com/56436469/sat-subject-test-bio-human-immune-system-flash-cards/",
    "kind": "website",
-   "topic": "test · sat · subject",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     353,
@@ -4269,9 +4269,9 @@
    "topic": "debate · age · drinkig",
    "wild": false,
    "near": [
-    357,
+    361,
     359,
-    358
+    356
    ]
   },
   {
@@ -4281,9 +4281,9 @@
    "topic": "debate · age · drinkig",
    "wild": false,
    "near": [
+    359,
     357,
-    358,
-    359
+    358
    ]
   },
   {
@@ -4293,9 +4293,9 @@
    "topic": "debate · age · drinkig",
    "wild": false,
    "near": [
+    359,
     356,
-    358,
-    359
+    358
    ]
   },
   {
@@ -4305,9 +4305,9 @@
    "topic": "debate · age · drinkig",
    "wild": false,
    "near": [
+    359,
     356,
-    357,
-    359
+    357
    ]
   },
   {
@@ -4317,8 +4317,8 @@
    "topic": "debate · age · drinkig",
    "wild": false,
    "near": [
-    356,
     357,
+    356,
     358
    ]
   },
@@ -4331,7 +4331,7 @@
    "near": [
     355,
     359,
-    358
+    356
    ]
   },
   {
@@ -4343,18 +4343,18 @@
    "near": [
     355,
     542,
-    358
+    359
    ]
   },
   {
    "title": "CodingBat Java",
    "url": "https://codingbat.com/java",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
-    385,
     333,
+    385,
     465
    ]
   },
@@ -4362,7 +4362,7 @@
    "title": "HW Honors Chemistry",
    "url": "https://quizlet.com/class/695672/",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     364,
@@ -4374,23 +4374,23 @@
    "title": "Honors Chemistry Unit 1",
    "url": "https://quizlet.com/25207084/honors-chemistry-unit-1-important-compounds-flash-cards/",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     363,
-    339,
-    299
+    299,
+    339
    ]
   },
   {
    "title": "826LA",
    "url": "http://826la.org/",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
-    330,
-    321,
+    326,
+    483,
     332
    ]
   },
@@ -4398,19 +4398,19 @@
    "title": "Axios",
    "url": "https://www.axios.com/microsofts-bing-and-browser-pivot-to-business-4bce7cfc-0f01-4df5-9d6e-ca2240faad04.html",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     385,
     328,
-    489
+    465
    ]
   },
   {
    "title": "actyvevolleyball.com",
    "url": "https://www.actyvevolleyball.com/16molten-black",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     401,
@@ -4422,7 +4422,7 @@
    "title": "34 Products I Think Were Solely Designed To Make Your Life Easier",
    "url": "https://www.buzzfeed.com/samanthawieder/products-i-think-were-solely-designed-to-make-your-life?origin=bshp",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     628,
@@ -4434,19 +4434,19 @@
    "title": "Belin-Blank Center",
    "url": "https://belinblank.education.uiowa.edu/about/",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     465,
-    489,
-    494
+    494,
+    461
    ]
   },
   {
    "title": "Quarter Zero",
    "url": "https://www.quarterzero.com/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     387,
@@ -4458,43 +4458,43 @@
    "title": "Welcome to COSMOS | COSMOS Platform",
    "url": "https://cosmos-ucop.ucdavis.edu/app/main",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
+    333,
     385,
-    328,
-    333
+    328
    ]
   },
   {
    "title": "Speed Dating 10 Comedians Based on Their Jokes",
    "url": "https://www.youtube.com/watch?v=YoM0wbZn7jw",
    "kind": "video",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     479,
     377,
-    461
+    553
    ]
   },
   {
    "title": "Speed Dating 11 Women Through Their Music",
    "url": "https://www.youtube.com/watch?v=y_XpRb1jTAw",
    "kind": "video",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
-    377,
     17,
-    15
+    15,
+    377
    ]
   },
   {
    "title": "This Is The Kit",
    "url": "https://genius.com/This-is-the-kit-bashed-out-lyrics",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     320,
@@ -4506,55 +4506,55 @@
    "title": "YouTube",
    "url": "https://www.youtube.com/watch?v=FcsY1YPBwzQ&amp;t=8s",
    "kind": "video",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
-    330,
-    467,
-    481
+    326,
+    483,
+    365
    ]
   },
   {
    "title": "AP Spanish Midterm Flashcards | Quizlet",
    "url": "https://quizlet.com/362014218/ap-spanish-midterm-flash-cards/",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     459,
     299,
-    495
+    474
    ]
   },
   {
    "title": "Why The Costumes of Little Women did NOT deserve an Oscar",
    "url": "https://www.youtube.com/watch?v=_sBqqERMblo",
    "kind": "video",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
+    372,
     373,
-    553,
-    555
+    479
    ]
   },
   {
    "title": "George Orwell",
    "url": "http://www.george-orwell.org/1984/17.html",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     476,
     325,
-    465
+    482
    ]
   },
   {
    "title": "Moral of the Story",
    "url": "https://www.youtube.com/watch?v=D8qHajsGNnA",
    "kind": "video",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     320,
@@ -4566,19 +4566,19 @@
    "title": "8th All Down Guitar Strumming (Level 2 03) Beginner Guitar Tutorial",
    "url": "https://www.youtube.com/watch?v=K2PfNdBtQb4&amp;list=PL-RYb_OMw7GfG6MS0WBO1v2qvtomUkZci&amp;index=11",
    "kind": "video",
-   "topic": "books · guitar · reading",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     402,
     588,
-    621
+    463
    ]
   },
   {
    "title": "3rd grade Writing Worksheets",
    "url": "https://www.greatschools.org/gk/worksheets/punctuation-practice/",
    "kind": "website",
-   "topic": "ethics · study · bowl",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     517,
@@ -4590,19 +4590,19 @@
    "title": "Okay",
    "url": "https://www.youtube.com/watch?v=HdDh15bs81g",
    "kind": "video",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     385,
-    467,
-    326
+    481,
+    483
    ]
   },
   {
    "title": "Repl.it",
    "url": "https://repl.it/languages/java10",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     521,
@@ -4614,7 +4614,7 @@
    "title": "Adjective or Adverb? | Learn English",
    "url": "https://www.ecenglish.com/learnenglish/lessons/adjective-or-adverb",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     323,
@@ -4626,19 +4626,19 @@
    "title": "Scratch",
    "url": "https://cs50.harvard.edu/x/2020/psets/0/scratch/",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     465,
     489,
-    476
+    366
    ]
   },
   {
    "title": "Actress Richa Moorjani On Her Unconventional Path to 'Never Have I Ever'",
    "url": "https://www.browngirlmagazine.com/2020/04/richa-moorjani-never-have-i-ever/",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     502,
@@ -4650,7 +4650,7 @@
    "title": "A High School Student’s Guide To CS Programs/Internships",
    "url": "https://code.likeagirl.io/a-high-school-students-guide-to-cs-programs-internships-487586031e07",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     370,
@@ -4662,7 +4662,7 @@
    "title": "How to Write a DBQ (Document Based Question) for 2020—AP World History, APUSH, and AP Euro",
    "url": "https://www.youtube.com/watch?v=0DbevaMnI7w",
    "kind": "video",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     631,
@@ -4674,7 +4674,7 @@
    "title": "Sci-Hub | Musical Chemistry",
    "url": "https://sci-hub.tw/https://pubs.acs.org/doi/pdf/10.1021/ed084p1933",
    "kind": "website",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     391,
@@ -4686,19 +4686,19 @@
    "title": "Chemistry In Everyday Life",
    "url": "https://www.worldofchemicals.com/455/chemistry-articles/chemistry-in-everyday-life.html",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     363,
-    659,
-    392
+    392,
+    659
    ]
   },
   {
    "title": "Music and Chemistry Have This in Common",
    "url": "https://www.evolveandascend.com/2016/04/03/parallels-music-chemistry/",
    "kind": "website",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     389,
@@ -4710,7 +4710,7 @@
    "title": "The Chemistry Behind the Smell of Old Books",
    "url": "http://www.openculture.com/2014/10/the-chemistry-behind-the-smell-of-old-books-explained-with-a-free-infographic.html",
    "kind": "website",
-   "topic": "books · guitar · reading",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     390,
@@ -4722,7 +4722,7 @@
    "title": "How To Slim Down Muscular Thighs",
    "url": "https://www.rachaelattard.com/slim-muscular-thighs-skinny-legs/",
    "kind": "website",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     16,
@@ -4734,31 +4734,31 @@
    "title": "Spelling Rules That Every Child Should Know + Free Posters Archive",
    "url": "https://blog.allaboutlearningpress.com/category/spelling-rules/",
    "kind": "website",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     510,
-    129,
-    130
+    130,
+    129
    ]
   },
   {
    "title": "Ebony",
    "url": "https://www.wagsandwalks.org/dogs-available-for-adoption-in-los-angeles/ebony",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     382,
-    330,
-    365
+    326,
+    375
    ]
   },
   {
    "title": "Culture + People + Stuff AP for CULTURAL COMPARISONS Flashcards | Quizlet",
    "url": "https://quizlet.com/292372866/culture-people-stuff-ap-for-cultural-comparisons-flash-cards/",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     339,
@@ -4770,7 +4770,7 @@
    "title": "Untitled song",
    "url": "https://www.soundtrap.com/studio/",
    "kind": "website",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     393,
@@ -4782,7 +4782,7 @@
    "title": "Basic Spelling Rules Explained",
    "url": "https://www.dictionary.com/e/spelling-rules/",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     362,
@@ -4794,11 +4794,11 @@
    "title": "View Our Animals",
    "url": "https://animalcare.lacounty.gov/view-our-animals/?animalCareCenter=ALL&amp;animalType=DOG&amp;sex=ALL&amp;breed=ALL&amp;animalAge=ALL&amp;animalSize=ALL&amp;animalID=&amp;pageNumber=5&amp;animalDetail=A5318785",
    "kind": "website",
-   "topic": "cats · dogs · petharbor",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     503,
-    678,
+    681,
     683
    ]
   },
@@ -4806,7 +4806,7 @@
    "title": "Podcast Hosting, Distribution & Analytics",
    "url": "https://simplecast.com/#_r_podinsights",
    "kind": "podcast",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     464,
@@ -4818,19 +4818,19 @@
    "title": "Black Lives Matter",
    "url": "https://interns4good.org/black-lives-matter/",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     367,
-    334,
-    322
+    322,
+    334
    ]
   },
   {
    "title": "EASY Blues Riff for Beginner Guitar (Level 3 05) Beginner Blues Guitar Tutorial",
    "url": "https://www.youtube.com/watch?v=EUE2-TxYUPY&amp;list=PL-RYb_OMw7GfG6MS0WBO1v2qvtomUkZci&amp;index=21",
    "kind": "video",
-   "topic": "books · guitar · reading",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     588,
@@ -4842,19 +4842,19 @@
    "title": "Playing for Change",
    "url": "https://playingforchange.com/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     410,
-    411,
-    406
+    406,
+    411
    ]
   },
   {
    "title": "Get Involved | Music Unites",
    "url": "http://www.musicunites.org/music-unites-get-involved/",
    "kind": "website",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     406,
@@ -4866,7 +4866,7 @@
    "title": "Donate",
    "url": "https://www.harmony-project.org/donate",
    "kind": "website",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     407,
@@ -4878,7 +4878,7 @@
    "title": "Join",
    "url": "https://www.womeninmusic.org/join.html",
    "kind": "website",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     404,
@@ -4890,7 +4890,7 @@
    "title": "Party with a Purpose | Whole Planet Foundation",
    "url": "https://www.wholeplanetfoundation.org/party-with-a-purpose/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     410,
@@ -4902,7 +4902,7 @@
    "title": "Volunteering With Musicians On Call",
    "url": "https://www.musiciansoncall.org/volunteer/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     410,
@@ -4914,31 +4914,31 @@
    "title": "About Us | School on Wheels",
    "url": "https://schoolonwheels.org/about-us/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     407,
     410,
-    403
+    406
    ]
   },
   {
    "title": "Volunteer | 826LA",
    "url": "http://826la.org/volunteer/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     411,
     403,
-    415
+    408
    ]
   },
   {
    "title": "L.A. Works",
    "url": "https://www.laworks.com/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     415,
@@ -4950,19 +4950,19 @@
    "title": "L.A. Works | Cause",
    "url": "https://www.laworks.com/arts-and-culture",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     415,
     414,
-    411
+    413
    ]
   },
   {
    "title": "L.A. Works | Cause",
    "url": "https://www.laworks.com/children-and-youth-education",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     415,
@@ -4974,7 +4974,7 @@
    "title": "L.A. Works | Cause",
    "url": "https://www.laworks.com/family-services",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     415,
@@ -4986,7 +4986,7 @@
    "title": "L.A. Works | Cause",
    "url": "https://www.laworks.com/hunger-and-homelessness",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     414,
@@ -4998,7 +4998,7 @@
    "title": "iOS & Swift Tutorials | raywenderlich.com",
    "url": "https://www.raywenderlich.com/ios",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     417,
@@ -5010,7 +5010,7 @@
    "title": "A Swift Tour",
    "url": "https://docs.swift.org/swift-book/GuidedTour/GuidedTour.html",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     416,
@@ -5022,7 +5022,7 @@
    "title": "If I have one month to learn iOS, how would I spend it?",
    "url": "https://android.jlelse.eu/if-i-have-one-month-to-learn-ios-how-would-i-spend-it-a5b2aba87cc2",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     416,
@@ -5034,7 +5034,7 @@
    "title": "GitHub",
    "url": "https://github.com/ochococo/Design-Patterns-In-Swift",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     417,
@@ -5046,7 +5046,7 @@
    "title": "Watch John Oliver Make a Comprehensive (and Hilarious) Case for Tearing Down Confederate Monuments | artnet News",
    "url": "https://news.artnet.com/art-world/watch-comedian-john-oliver-1110980",
    "kind": "website",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     431,
@@ -5058,7 +5058,7 @@
    "title": "The sad but unexpectedly hopeful cancer saga of Cassandra Callender",
    "url": "https://sciencebasedmedicine.org/the-sad-but-unexpectedly-hopeful-cancer-saga-of-cassandra-callender/",
    "kind": "website",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     423,
@@ -5070,7 +5070,7 @@
    "title": "Christina Aguilera",
    "url": "https://www.youtube.com/watch?v=eAfyFTzZDMM",
    "kind": "video",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     428,
@@ -5082,7 +5082,7 @@
    "title": "Ellie Goulding",
    "url": "https://www.youtube.com/watch?v=pM_UlBNzXWA",
    "kind": "video",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     427,
@@ -5094,7 +5094,7 @@
    "title": "Adele",
    "url": "https://www.youtube.com/watch?v=3Rzo-vMWJOk",
    "kind": "video",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     427,
@@ -5106,7 +5106,7 @@
    "title": "Shontelle",
    "url": "https://www.youtube.com/watch?v=NWdrO4BoCu8",
    "kind": "video",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     423,
@@ -5118,7 +5118,7 @@
    "title": "Jasmine Thompson-Old Friends LYRICS HD",
    "url": "https://www.youtube.com/watch?v=S68fqQqsNQs",
    "kind": "video",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     425,
@@ -5130,7 +5130,7 @@
    "title": "YouTube video",
    "url": "https://www.youtube.com/watch?v=Mv7kTdsNpRI",
    "kind": "video",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     423,
@@ -5142,7 +5142,7 @@
    "title": "Christina Aguilera",
    "url": "https://www.youtube.com/watch?v=wwCykGDEp7M",
    "kind": "video",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     422,
@@ -5154,7 +5154,7 @@
    "title": "Josh Groban",
    "url": "https://www.youtube.com/watch?v=SOfagBBxrfs",
    "kind": "video",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     428,
@@ -5166,7 +5166,7 @@
    "title": "Can't Help Falling In Love",
    "url": "https://musescore.com/georgewu/ptxcanthelpfallinginlove",
    "kind": "website",
-   "topic": "ethics · study · bowl",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     426,
@@ -5178,7 +5178,7 @@
    "title": "Finneas Sings Justin Bieber, Billie Eilish and Rihanna in a Game of Song Association | ELLE",
    "url": "https://www.youtube.com/watch?v=y_AfLbwgtqs",
    "kind": "video",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     429,
@@ -5190,7 +5190,7 @@
    "title": "Totalitarianism | Internet Encyclopedia of Philosophy",
    "url": "https://www.iep.utm.edu/totalita/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
     435,
@@ -5202,7 +5202,7 @@
    "title": "Speech to 20th Congress of the C.P.S.U",
    "url": "https://www.marxists.org/archive/khrushchev/1956/02/24.htm",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
     438,
@@ -5214,7 +5214,7 @@
    "title": "1924",
    "url": "https://www.marxists.org/reference/archive/stalin/works/1924/11_19.htm#s3",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
     438,
@@ -5226,23 +5226,23 @@
    "title": "Stalin Internet Archive",
    "url": "https://www.marxists.org/reference/archive/stalin/bios.htm",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
-    436,
     438,
-    434
+    434,
+    436
    ]
   },
   {
    "title": "Wilson Center Digital Archive",
    "url": "https://digitalarchive.wilsoncenter.org/document/115995",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
-    438,
     435,
+    438,
     434
    ]
   },
@@ -5250,7 +5250,7 @@
    "title": "Norah Jones",
    "url": "https://www.youtube.com/watch?v=tO4dxvguQDk",
    "kind": "video",
-   "topic": "online · harvard · swift",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
     438,
@@ -5262,7 +5262,7 @@
    "title": "Repression and Terror",
    "url": "https://www.loc.gov/exhibits/archives/reps.html",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
     434,
@@ -5274,19 +5274,19 @@
    "title": "Online Services Login",
    "url": "https://dceweb.harvard.edu/prod/gowlogn3.taf?splash=sum",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
-    661,
     665,
-    663
+    661,
+    445
    ]
   },
   {
    "title": "Introducing SwiftUI",
    "url": "https://developer.apple.com/videos/play/wwdc2019/204/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     441,
@@ -5298,7 +5298,7 @@
    "title": "Building Custom Views with SwiftUI",
    "url": "https://developer.apple.com/videos/play/wwdc2019/237/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     440,
@@ -5310,7 +5310,7 @@
    "title": "Mastering Xcode Previews",
    "url": "https://developer.apple.com/videos/play/wwdc2019/233/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     441,
@@ -5322,7 +5322,7 @@
    "title": "SwiftUI",
    "url": "https://www.raywenderlich.com/3715234-swiftui-getting-started",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     442,
@@ -5334,7 +5334,7 @@
    "title": "Conway's Game of Life",
    "url": "https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     442,
@@ -5346,7 +5346,7 @@
    "title": "Harvard CSCI X-65G Class Materials",
    "url": "https://github.com/CSCIX65G",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     443,
@@ -5358,7 +5358,7 @@
    "title": "CSCIX65G/S65GAssignments20",
    "url": "https://github.com/CSCIX65G/S65GAssignments20",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     443,
@@ -5370,19 +5370,19 @@
    "title": "rvsrvs/learn-swift",
    "url": "https://github.com/rvsrvs/learn-swift",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
-    416,
+    450,
     417,
-    450
+    416
    ]
   },
   {
    "title": "Science Trivia Challenge!",
    "url": "http://web.mit.edu/trivia/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
     445,
@@ -5394,7 +5394,7 @@
    "title": "Swift.org",
    "url": "https://swift.org/documentation/api-design-guidelines/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     451,
@@ -5406,7 +5406,7 @@
    "title": "Swift Style Guide Updated for Swift 3 | raywenderlich.com",
    "url": "https://www.raywenderlich.com/809-swift-style-guide-updated-for-swift-3%29",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     451,
@@ -5418,7 +5418,7 @@
    "title": "apple/swift-format",
    "url": "https://github.com/apple/swift-format",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     452,
@@ -5430,7 +5430,7 @@
    "title": "NoTests/RxFeedback.swift",
    "url": "https://github.com/NoTests/RxFeedback.swift",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     451,
@@ -5442,11 +5442,11 @@
    "title": "Want To Learn How To Code? Get Our HTML & CSS Step-By-Step Guide Today »",
    "url": "https://html.com/#HTML_for_Absolute_Beginners",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
-    384,
     323,
+    384,
     537
    ]
   },
@@ -5470,8 +5470,8 @@
    "wild": false,
    "near": [
     456,
-    625,
-    538
+    538,
+    625
    ]
   },
   {
@@ -5482,43 +5482,43 @@
    "wild": false,
    "near": [
     455,
-    468,
-    471
+    471,
+    468
    ]
   },
   {
    "title": "Wang Crunchy Math Calc BC Workbook",
    "url": "https://crunchymath.weebly.com/uploads/8/2/4/0/8240213/apcalcprobbook_mccaffrey_revised.pdf",
    "kind": "paper",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
-    227,
-    233,
-    232
+    235,
+    234,
+    233
    ]
   },
   {
    "title": "Intermediate | Vocabulary Quizzes | SpanishDict",
    "url": "https://www.spanishdict.com/lists/506024/intermediate/quiz",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     323,
     384,
-    461
+    325
    ]
   },
   {
    "title": "Unit 1 Spanish Flashcards | Quizlet",
    "url": "https://quizlet.com/318930309/unit-1-spanish-flash-cards/",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     376,
-    474,
+    495,
     485
    ]
   },
@@ -5526,7 +5526,7 @@
    "title": "Nueva Historia de Espana 01 de 20 Iberia Solar de Pueblos",
    "url": "https://www.youtube.com/watch?v=TwClHVtEWng",
    "kind": "video",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     461,
@@ -5538,7 +5538,7 @@
    "title": "Nueva Historia de Espana 03 de 20 El Reino Visigodo",
    "url": "https://www.youtube.com/watch?v=9AOTFF3YJKc",
    "kind": "video",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     460,
@@ -5550,7 +5550,7 @@
    "title": "LANDR",
    "url": "https://www.landr.com/",
    "kind": "website",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     214,
@@ -5562,7 +5562,7 @@
    "title": "(1) ELECTRIC LOVE CHORDS (ver 2) by BØRNS for guitar and piano @ Ultimate-Guitar.Com",
    "url": "https://tabs.ultimate-guitar.com/tab/1708890",
    "kind": "website",
-   "topic": "books · guitar · reading",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     613,
@@ -5574,7 +5574,7 @@
    "title": "Gladiator (2000 film)",
    "url": "https://en.wikipedia.org/wiki/Gladiator_%282000_film%29",
    "kind": "website",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     605,
@@ -5586,7 +5586,7 @@
    "title": "La Historia de América Latina 01 Imaginarios Latinoamericanos",
    "url": "https://www.youtube.com/watch?v=ED8lTm9oZ6w",
    "kind": "video",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     385,
@@ -5598,7 +5598,7 @@
    "title": "Los pueblos del sol (Mayas, Aztecas e Incas)",
    "url": "https://www.youtube.com/watch?v=eGr6xFwrp34",
    "kind": "video",
-   "topic": "online · harvard · swift",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     341,
@@ -5610,12 +5610,12 @@
    "title": "hwquizbowl",
    "url": "https://protobowl.com/hwquizbowl",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
+    483,
     330,
-    326,
-    499
+    332
    ]
   },
   {
@@ -5634,7 +5634,7 @@
    "title": "2020 Senior Ring Ceremony on Livestream",
    "url": "https://livestream.com/hwtvschool/ring2020/videos/210922372",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     460,
@@ -5646,7 +5646,7 @@
    "title": "Unity 5 2D Platformer Tutorial",
    "url": "https://www.youtube.com/watch?v=TAo2RQzR5RY",
    "kind": "video",
-   "topic": "books · guitar · reading",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     380,
@@ -5670,31 +5670,31 @@
    "title": "quipqiup",
    "url": "https://quipqiup.com/",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     382,
-    332,
-    326
+    365,
+    481
    ]
   },
   {
    "title": "Scoring New SAT Practice Test 3 | SAT Suite of Assessments",
    "url": "https://collegereadiness.collegeboard.org/pdf/scoring-sat-practice-test-3.pdf",
    "kind": "paper",
-   "topic": "test · sat · subject",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     342,
     345,
-    344
+    306
    ]
   },
   {
    "title": "Post AP Spanish",
    "url": "https://quizlet.com/323591396/post-ap-spanish-unit-3-flash-cards/#:~:text=this%20set%20%2840%29-,%C2%BFPor%20qu%C3%A9%20la%20invasi%C3%B3n%20musulmana%20de%20711%20s%C3%B3lo%20tard%C3%B3%20unos,en%20ocupar%20toda%20la%20pen%C3%ADnsula%3F&amp;text=Norte%20de%20Africa-,3.,de%20otras%20culturas%20y%20religiones.",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     495,
@@ -5706,7 +5706,7 @@
    "title": "The Five Senses",
    "url": "https://www.youtube.com/watch?v=0q1qH5DB3RM&amp;feature=youtu.be",
    "kind": "video",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     382,
@@ -5718,7 +5718,7 @@
    "title": "Sample6ROUND6",
    "url": "https://science.osti.gov/-/media/wdts/nsb/pdf/HS-Sample-Questions/Sample-Set-6/Sample6_ROUND6",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     385,
@@ -5730,7 +5730,7 @@
    "title": "57 Best Happy Feel-Good Songs for Your Playlist",
    "url": "https://www.elle.com/culture/music/g28056826/happy-feel-good-songs/",
    "kind": "website",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     692,
@@ -5742,11 +5742,11 @@
    "title": "Where in the World? | Education World",
    "url": "https://www.educationworld.com/a_lesson/03/lp325-01.shtml",
    "kind": "website",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
-    128,
     302,
+    128,
     388
    ]
   },
@@ -5754,7 +5754,7 @@
    "title": "How These Teachers Used Kahoot! to Host a Geography Bee in Their Classrooms",
    "url": "https://www.weareteachers.com/kahoot-geography/?utm_source=WeAreTeachers&amp;utm_medium=Article2&amp;utm_campaign=NatGeoArtSer&amp;utm_content=ArtOne",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     372,
@@ -5766,55 +5766,55 @@
    "title": "How to Cite Sources in MLA Citation Format",
    "url": "https://www.mendeley.com/guides/mla-citation-guide",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
-    338,
     494,
-    488
+    338,
+    492
    ]
   },
   {
    "title": "YouScience",
    "url": "https://app.youscience.com/aptitudes",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
+    483,
     330,
-    467,
-    326
+    332
    ]
   },
   {
    "title": "'Practices aimed to suppress the vote'",
    "url": "https://mississippitoday.org/2020/10/13/practices-aimed-to-suppress-the-vote-mississippi-is-the-only-state-without-early-voting-for-all-during-pandemic/",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     476,
-    382,
-    465
+    378,
+    382
    ]
   },
   {
    "title": "2020 Election Forecast | FiveThirtyEight",
    "url": "https://projects.fivethirtyeight.com/2020-election-forecast/",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
-    330,
-    467,
-    326
+    326,
+    365,
+    467
    ]
   },
   {
    "title": "BYU Vocal Point \"Go the Distance\" (arr. McKay Crockett, James L. Stevens) SATB Choir A Cappella Choral Sheet Music in C Major",
    "url": "https://www.musicnotes.com/sheetmusic/mtd.asp?ppn=MN0183459",
    "kind": "website",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     596,
@@ -5826,11 +5826,11 @@
    "title": "Post AP Spanish",
    "url": "https://quizlet.com/163417078/post-ap-spanish-unit-4-flash-cards/",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
-    474,
     495,
+    474,
     459
    ]
   },
@@ -5838,7 +5838,7 @@
    "title": "Home! | HWMUN",
    "url": "https://kburry1.wixsite.com/hwmun",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     294,
@@ -5850,7 +5850,7 @@
    "title": "Scilympiad",
    "url": "https://scilympiad.com/boyceville",
    "kind": "website",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
     505,
@@ -5862,19 +5862,19 @@
    "title": "2002 AP Calculus AB Scoring Guidelines",
    "url": "https://secure-media.collegeboard.org/apc/sg_calculus_ab_02_11386.pdf",
    "kind": "paper",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
-    489,
+    454,
     465,
-    385
+    489
    ]
   },
   {
    "title": "Advanced Placment",
    "url": "http://imathesis.com/media/AP_calc89-97a.pdf",
    "kind": "paper",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     465,
@@ -5886,7 +5886,7 @@
    "title": "salt",
    "url": "https://translate.google.com/translate?hl=en&amp;sl=es&amp;u=https://www.inkatimetours.com/es/las-minas-de-sal-en-maras/&amp;prev=search&amp;pto=aue",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     106,
@@ -5898,7 +5898,7 @@
    "title": "Hill Cipher",
    "url": "https://www.dcode.fr/hill-cipher",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     329,
@@ -5910,7 +5910,7 @@
    "title": "WHO | Making fair choices on the path to universal health coverage",
    "url": "https://www.who.int/choice/documents/making_fair_choices/en/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     493,
@@ -5922,7 +5922,7 @@
    "title": "Accelerating health equity",
    "url": "https://bmcmedicine.biomedcentral.com/articles/10.1186/s12916-015-0342-3",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     492,
@@ -5934,23 +5934,23 @@
    "title": "New Zealand's bold strategy for reducing health disparities",
    "url": "https://www.thelancet.com/pdfs/journals/lancet/PIIS0140-6736%2811%2961726-1.pdf",
    "kind": "paper",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     461,
     492,
-    493
+    476
    ]
   },
   {
    "title": "Post AP Spanish",
    "url": "https://quizlet.com/169641978/post-ap-spanish-unit-6-flash-cards/",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
-    474,
     485,
+    474,
     459
    ]
   },
@@ -5958,7 +5958,7 @@
    "title": "Bruno Major",
    "url": "https://www.youtube.com/watch?v=EFQt1RmAWOY",
    "kind": "video",
-   "topic": "books · guitar · reading",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     402,
@@ -5970,7 +5970,7 @@
    "title": "Post AP Spanish",
    "url": "https://quizlet.com/310086947/post-ap-spanish-unit-7-flash-cards/",
    "kind": "website",
-   "topic": "spanish · quizlet · flashcards",
+   "topic": "quizlet · flashcards · spanish",
    "wild": false,
    "near": [
     495,
@@ -5982,7 +5982,7 @@
    "title": "Mother Country by Richard Blanco",
    "url": "https://poets.org/poem/mother-country",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     312,
@@ -5994,43 +5994,43 @@
    "title": "Flipgrid | 7f77a924",
    "url": "https://flipgrid.com/ae937a03",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
-    330,
-    321,
-    332
+    326,
+    483,
+    467
    ]
   },
   {
    "title": "Arts and Crafts Supplies & Painting Online Store",
    "url": "https://kitkraft.com/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     638,
-    329,
-    491
+    712,
+    714
    ]
   },
   {
    "title": "Let America Be America Again by Langston Hughes",
    "url": "https://poets.org/poem/let-america-be-america-again",
    "kind": "website",
-   "topic": "debate · age · drinkig",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     543,
-    617,
-    496
+    496,
+    617
    ]
   },
   {
    "title": "Plastic has a problem; is chemical recycling the solution?",
    "url": "https://cen.acs.org/environment/recycling/Plastic-problem-chemical-recycling-solution/97/i39",
    "kind": "website",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     461,
@@ -6042,19 +6042,19 @@
    "title": "Kahoot! | National Geographic Society",
    "url": "https://www.nationalgeographic.org/topics/kahoot/?q=&amp;page=2&amp;per_page=25",
    "kind": "website",
-   "topic": "cats · dogs · petharbor",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
-    683,
-    681,
-    680
+    677,
+    678,
+    679
    ]
   },
   {
    "title": "Symphony (Lower Key of C) (Piano Karaoke) Clean Bandit & Zara Larsson",
    "url": "https://www.youtube.com/watch?v=xLnk-ahvcoM",
    "kind": "video",
-   "topic": "grade · historia · noredink",
+   "topic": "grade · historia · scratch",
    "wild": false,
    "near": [
     470,
@@ -6066,7 +6066,7 @@
    "title": "HW Science Olympiad",
    "url": "https://www.notion.so/HW-Science-Olympiad-514c57fee83d42b4b38a5fb03deae0b1",
    "kind": "website",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
     587,
@@ -6078,7 +6078,7 @@
    "title": "SING THIS FOR YOUR SENIOR YEAR",
    "url": "https://www.youtube.com/watch?v=QOaunXfjEBY",
    "kind": "video",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     571,
@@ -6090,7 +6090,7 @@
    "title": "On Demand",
    "url": "https://watch.spectrum.net/ondemand/featured",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     600,
@@ -6102,7 +6102,7 @@
    "title": "YEBBA",
    "url": "https://genius.com/Yebba-my-mind-annotated",
    "kind": "website",
-   "topic": "science · math · tech",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     604,
@@ -6114,19 +6114,19 @@
    "title": "Alec Davila & Joseph Lesher-Liao | Voice + Tap Dance | 2018 YoungArts Los Angeles",
    "url": "https://www.youtube.com/watch?v=k2mIXPOPygI",
    "kind": "video",
-   "topic": "online · harvard · swift",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     202,
-    466,
-    341
+    201,
+    466
    ]
   },
   {
    "title": "picoCTF",
    "url": "https://picoctf.com/resources",
    "kind": "website",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     129,
@@ -6141,8 +6141,8 @@
    "topic": "pdf · css · coding",
    "wild": false,
    "near": [
-    538,
     625,
+    538,
     644
    ]
   },
@@ -6150,7 +6150,7 @@
    "title": "WeTTy",
    "url": "https://2019webshell1.picoctf.com/",
    "kind": "website",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     212,
@@ -6162,43 +6162,43 @@
    "title": "Beginner Course Songs | Andy Guitar",
    "url": "https://www.andyguitar.co.uk/online-lessons/lessons/ive-got-a-feelin-by-the-beatles",
    "kind": "website",
-   "topic": "books · guitar · reading",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
+    530,
     621,
-    613,
-    617
+    613
    ]
   },
   {
    "title": "YouTube",
    "url": "https://www.youtube.com/watch?v=glxrwC9zsHY",
    "kind": "video",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     593,
     591,
-    526
+    567
    ]
   },
   {
    "title": "6 Trichotillomania Hair Regrowth Products For Faster, Quicker Results!",
    "url": "https://trichotillomaniablog.com/trichotillomania-hair-regrowth-products/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
-    591,
-    615,
-    622
+    593,
+    526,
+    603
    ]
   },
   {
    "title": "Chloe Ting",
    "url": "https://www.chloeting.com/program/2019/two-weeks-shred-challenge.html",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     592,
@@ -6210,7 +6210,7 @@
    "title": "Grammar Mechanics Worksheets",
    "url": "https://www.k12reader.com/subject/grammar/mechanics/",
    "kind": "website",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     519,
@@ -6222,7 +6222,7 @@
    "title": "Introducing a Topic",
    "url": "https://www.k12reader.com/writing-introductions/introducing_a_topic_giving_information.pdf",
    "kind": "paper",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     21,
@@ -6234,12 +6234,12 @@
    "title": "Proper and Common Nouns Worksheets | K5 Learning",
    "url": "https://www.k5learning.com/free-grammar-worksheets/first-grade-1/nouns/common-proper",
    "kind": "website",
-   "topic": "ethics · study · bowl",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     517,
-    381,
-    122
+    122,
+    381
    ]
   },
   {
@@ -6249,16 +6249,16 @@
    "topic": "pdf · css · coding",
    "wild": false,
    "near": [
-    538,
+    644,
     625,
-    644
+    538
    ]
   },
   {
    "title": "Repl.it",
    "url": "https://repl.it/languages/python3",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     383,
@@ -6270,19 +6270,19 @@
    "title": "200 Fun Facts That'll Actually Make Your Life Better | The Fact Site",
    "url": "https://www.thefactsite.com/top-100-random-funny-facts/",
    "kind": "website",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     368,
     628,
-    623
+    659
    ]
   },
   {
    "title": "Stretches To Get Thinner Legs & Slim Thighs | 10 Mins Routine",
    "url": "https://www.youtube.com/watch?v=a3gaS8gz1aw",
    "kind": "video",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     620,
@@ -6294,7 +6294,7 @@
    "title": "Watch Free Movies and TV Shows Online | Free Streaming Video | Tubi",
    "url": "https://tubitv.com/",
    "kind": "video",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     521,
@@ -6306,7 +6306,7 @@
    "title": "Kanopy",
    "url": "https://www.kanopy.com/",
    "kind": "website",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     605,
@@ -6318,19 +6318,19 @@
    "title": "A Bunny and Some Eggs",
    "url": "http://www.clarkness.com/Reading%20files/Picture%20Books/A%20Bunny%20and%20Some%20Eggs.pdf",
    "kind": "paper",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     593,
     591,
-    622
+    567
    ]
   },
   {
    "title": "Hollow Coves",
    "url": "https://www.youtube.com/watch?v=DAE1NbKstqk",
    "kind": "video",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     704,
@@ -6342,7 +6342,7 @@
    "title": "Old Fashioned",
    "url": "https://www.youtube.com/watch?v=lYyBeuF46PY",
    "kind": "video",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     624,
@@ -6354,43 +6354,43 @@
    "title": "berklee bops!",
    "url": "https://open.spotify.com/playlist/2lcuZmSGr79y1wUcWzs6O9?si=7QcEQjBWRG-jAD36xUq_zQ",
    "kind": "website",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
-    555,
     620,
-    586
+    585,
+    16
    ]
   },
   {
    "title": "Five Easy Guitar Songs With Only Open Chords | Do Re Mi Studios",
    "url": "https://www.doremistudios.com.au/five-easy-guitar-songs-open-chords/",
    "kind": "website",
-   "topic": "books · guitar · reading",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     513,
     617,
-    543
+    621
    ]
   },
   {
    "title": "Empowering the Pipeline",
    "url": "https://www.wcaps.org/empowering-the-pipeline",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     593,
     591,
-    526
+    567
    ]
   },
   {
    "title": "Politics in the Gilded Age | Unit 6",
    "url": "https://fiveable.me/apush/unit-6/politics-gilded-age/study-guide/8nIh2AsuMR3xXcKSZRaq",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     685,
@@ -6402,7 +6402,7 @@
    "title": "JAY-Z & Kanye West",
    "url": "https://genius.com/314412",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     527,
@@ -6414,22 +6414,22 @@
    "title": "Pulling data from the Spotify API",
    "url": "https://www.youtube.com/watch?v=rzk8n-4gMWs",
    "kind": "video",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
-    648,
     636,
-    36
+    36,
+    213
    ]
   },
   {
    "title": "Tabby Cats Club",
    "url": "http://tabbycats.club/y1u474",
    "kind": "website",
-   "topic": "cats · dogs · petharbor",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
-    683,
+    678,
     681,
     680
    ]
@@ -6438,19 +6438,19 @@
    "title": "Kahoot!",
    "url": "https://create.kahoot.it/#user/4b9a40e9-4487-48f8-ba0c-564924c54fa0/kahoots/created",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     609,
     637,
-    589
+    610
    ]
   },
   {
    "title": "10 Things You Can Learn To Do In 10 Minutes (Or Less)",
    "url": "https://www.simplemost.com/things-you-can-learn-to-do-in-10-minutes-or-less/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     323,
@@ -6474,19 +6474,19 @@
    "title": "Resurgent Communism in Latin America",
    "url": "https://www.thenewamerican.com/world-news/south-america/item/10497-resurgent-communism-in-latin-america",
    "kind": "website",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
-    10,
     12,
-    11
+    11,
+    10
    ]
   },
   {
    "title": "\"Say Something\"",
    "url": "https://www.youtube.com/watch?v=d-bQ8SbhBJU",
    "kind": "video",
-   "topic": "ethics · study · bowl",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     28,
@@ -6498,7 +6498,7 @@
    "title": "‘What Happens When Children Are Raised Without God Nor A Strong Father Figure:’ | by Annie Harrigan | Medium",
    "url": "https://annie-harrigan.medium.com/what-happens-when-children-are-raised-without-god-nor-a-strong-father-figure-aa106fecdbb7",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "obsidian · stalin · claude",
    "wild": false,
    "near": [
     264,
@@ -6522,7 +6522,7 @@
    "title": "BEN PLATT",
    "url": "https://www.chordzone.org/2020/04/ben-platt-grow-as-we-go-chords-for-guitar-and-piano.html",
    "kind": "website",
-   "topic": "books · guitar · reading",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     621,
@@ -6534,19 +6534,19 @@
    "title": "53-Word Story Contest",
    "url": "https://www.press53.com/53word-story-contest",
    "kind": "website",
-   "topic": "books · guitar · reading",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
+    52,
     57,
-    55,
-    52
+    55
    ]
   },
   {
    "title": "Dispatch from the Floor of the Model Minority Factory | The Offing",
    "url": "https://theoffingmag.com/essay/dispatch-from-the-floor-of-the-model-minority-factory/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     117,
@@ -6558,19 +6558,19 @@
    "title": "Opinion | A Conversation With Asian-Americans on Race",
    "url": "https://www.nytimes.com/video/opinion/100000004308529/a-conversation-with-asians-on-race.html",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     568,
     75,
-    603
+    526
    ]
   },
   {
    "title": "Six origin groups make up 85% of all Asian Americans | Pew Research Center",
    "url": "https://www.pewresearch.org/fact-tank/2019/05/22/key-facts-about-asian-origin-groups-in-the-u-s/ft_19-05-23_asianamericans_sixorigingroupsmakeup85/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     554,
@@ -6582,7 +6582,7 @@
    "title": "Nature and Artifice",
    "url": "https://sites.google.com/view/nature-and-artifice-mechanism/4-romanticism/galvanic-experiments",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     635,
@@ -6594,7 +6594,7 @@
    "title": "Evolution in Four Dimensions | The MIT Press",
    "url": "https://mitpress.mit.edu/books/evolution-four-dimensions",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     219,
@@ -6606,7 +6606,7 @@
    "title": "Jae Deal | USC Thornton School of Music",
    "url": "https://music.usc.edu/jae-deal/",
    "kind": "website",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     597,
@@ -6618,7 +6618,7 @@
    "title": "2-in-1 Flowy Fitness Shorts (Pre-Order)",
    "url": "https://www.keikikona.com/products/2-in-1-flowy-fitness-shorts?variant=29181326295120",
    "kind": "website",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     95,
@@ -6630,31 +6630,31 @@
    "title": "Spotify NYC Tech Fellowship",
    "url": "https://fellowship.spotify.com/",
    "kind": "website",
-   "topic": "project · fellowships · career",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
     295,
     630,
-    226
+    457
    ]
   },
   {
    "title": "Women in Politics",
    "url": "https://www.ipu.org/women-in-politics-2021",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     555,
     576,
-    377
+    372
    ]
   },
   {
    "title": "More have lost their jobs in U.S. than in EU during COVID-19 downturn | Pew Research Center",
    "url": "https://www.pewresearch.org/fact-tank/2021/04/15/fewer-jobs-have-been-lost-in-the-eu-than-in-the-u-s-during-the-covid-19-downturn/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     27,
@@ -6666,19 +6666,19 @@
    "title": "The workplace hasn't gotten much better for women since the movie \"9 to 5\"",
    "url": "https://www.npr.org/2021/04/14/987333798/workin-9-to-5",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     553,
-    620,
-    637
+    637,
+    620
    ]
   },
   {
    "title": "ACT PROBABILITY",
    "url": "http://mrframbesmath.weebly.com/uploads/1/9/2/2/19224895/probability.pdf",
    "kind": "paper",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     558,
@@ -6690,7 +6690,7 @@
    "title": "ACT PROBABLITY2",
    "url": "http://maths.mq.edu.au/numeracy/web_mums/module4/Worksheet411/module4.pdf",
    "kind": "paper",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     556,
@@ -6702,7 +6702,7 @@
    "title": "ACT PROBABILITY 3",
    "url": "https://mi01000971.schoolwires.net/cms/lib/MI01000971/Centricity/Domain/429/Probability%20Day%201%20Worksheet%202016%2017.pdf",
    "kind": "paper",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     556,
@@ -6714,7 +6714,7 @@
    "title": "STAY OPEN",
    "url": "https://www.eventbrite.com/e/stay-open-open-house-tickets-159502735977",
    "kind": "website",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     611,
@@ -6726,7 +6726,7 @@
    "title": "Great Neck South High School",
    "url": "https://4.files.edl.io/e311/12/01/18/192538-f1cda721-6939-42a2-b2a1-a526bc897a16.pdf",
    "kind": "paper",
-   "topic": "online · harvard · swift",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     597,
@@ -6738,19 +6738,19 @@
    "title": "Outer Love",
    "url": "https://www.iamtonina.com/lyrics/outer-love",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     624,
     659,
-    628
+    528
    ]
   },
   {
    "title": "How to downsize the waist of jeans | Take in jeans waist | Pant waist alteration (Easy & Quick)",
    "url": "https://www.youtube.com/watch?v=M3kD9WFW-I8",
    "kind": "video",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     81,
@@ -6762,23 +6762,23 @@
    "title": "A disorganized list of great classes at Stanford | by Stanford Guide | Stanford Guide",
    "url": "https://stanfordguide.org/the-best-classes-at-stanford-4467013ae936",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     577,
-    305,
-    304
+    387,
+    305
    ]
   },
   {
    "title": "Presidential Campaign on Social Media",
    "url": "http://archive.nytimes.com/www.nytimes.com/interactive/2012/10/08/technology/campaign-social-media.html?_r=0",
    "kind": "website",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
-    36,
     652,
+    36,
     165
    ]
   },
@@ -6786,43 +6786,43 @@
    "title": "decim",
    "url": "https://docs.microsoft.com/en-us/dotnet/visual-basic/programming-guide/language-features/data-types/numeric-data-types",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     593,
-    622,
-    615
+    591,
+    531
    ]
   },
   {
    "title": "Best Online Music Production Course 2021",
    "url": "https://www.rollingstone.com/product-recommendations/lifestyle/best-online-courses-music-production-1121635/",
    "kind": "website",
-   "topic": "music · listen · latin",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     650,
-    638,
-    627
+    719,
+    712
    ]
   },
   {
    "title": "n|a",
    "url": "http://www.thisisna.com/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     593,
-    622,
-    615
+    591,
+    531
    ]
   },
   {
    "title": "Day of Rage",
    "url": "https://www.nytimes.com/video/us/politics/100000007606996/capitol-riot-trump-supporters.html",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     597,
@@ -6834,31 +6834,31 @@
    "title": "LZW (Lempel–Ziv–Welch) Compression technique",
    "url": "https://www.geeksforgeeks.org/lzw-lempel-ziv-welch-compression-technique/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     637,
     642,
-    591
+    565
    ]
   },
   {
    "title": "Physics for Scientists and Engineers, 10th Edition",
    "url": "https://www.cengage.com/c/physics-for-scientists-and-engineers-10e-serway/9781337553278PF/?filterBy=Student",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
-    567,
-    622,
-    615
+    615,
+    514,
+    526
    ]
   },
   {
    "title": "Senior Ceremony on Livestream",
    "url": "https://livestream.com/hwtvschool/events/9834996/videos/225848460",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     590,
@@ -6870,24 +6870,24 @@
    "title": "mhacks11.devpost.com",
    "url": "https://mhacks11.devpost.com/project-gallery",
    "kind": "website",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     619,
-    42,
-    61
+    61,
+    42
    ]
   },
   {
    "title": "Asturiana F Minor Accompaniment",
    "url": "https://www.youtube.com/watch?v=_Jb7Fqw5Ji4",
    "kind": "video",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     590,
-    603,
-    526
+    622,
+    642
    ]
   },
   {
@@ -6897,8 +6897,8 @@
    "topic": "pdf · css · coding",
    "wild": false,
    "near": [
-    625,
     538,
+    625,
     644
    ]
   },
@@ -6906,19 +6906,19 @@
    "title": "How to Write the MIT Supplemental Essay | College Essay Guy",
    "url": "https://www.collegeessayguy.com/blog/mit-supplemental-essay#C1",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     23,
-    635,
-    548
+    658,
+    27
    ]
   },
   {
    "title": "Instead Of Losing Family And Friends Over Politics, Experts Say Communicate",
    "url": "https://www.npr.org/2020/10/27/928209548/dude-i-m-done-when-politics-tears-families-and-friendships-apart",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     553,
@@ -6930,19 +6930,19 @@
    "title": "Footnotes/Endnotes",
    "url": "https://research.wou.edu/c.php?g=551307&amp;p=3785233",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     563,
     570,
-    200
+    199
    ]
   },
   {
    "title": "Aave",
    "url": "https://app.aave.com/markets",
    "kind": "website",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     611,
@@ -6954,7 +6954,7 @@
    "title": "Cute Cats (Free Airdrop)",
    "url": "https://opensea.io/assets/matic/0x2953399124f0cbb46d2cbacd8a89cf0599974963/76374567104453310171121307207691841610539904843114566785078304168490043641152",
    "kind": "website",
-   "topic": "cats · dogs · petharbor",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     516,
@@ -6966,11 +6966,11 @@
    "title": "Remix",
    "url": "https://remix.ethereum.org/#optimize=false&amp;runs=200&amp;evmVersion=null&amp;version=soljson-v0.8.9+commit.e5eed63a.js",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     616,
-    521,
+    507,
     600
    ]
   },
@@ -6978,7 +6978,7 @@
    "title": "Street by Street",
    "url": "https://www.edityouraudio.com/vocal-remover/5f373018427f78000881ea4f",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     203,
@@ -6990,7 +6990,7 @@
    "title": "Learn LaTeX in 30 minutes",
    "url": "https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes#Adding_math_to_LaTeX",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     537,
@@ -7002,7 +7002,7 @@
    "title": "Under the Insurrection Act of 1807, here’s what a U.S. president can and cannot do",
    "url": "https://www.washingtonpost.com/politics/2020/06/19/under-insurrection-act-1807-heres-what-us-president-can-cannot-do/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     557,
@@ -7014,7 +7014,7 @@
    "title": "Incarceration in Real Numbers",
    "url": "https://mkorostoff.github.io/incarceration-in-real-numbers/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     652,
@@ -7026,7 +7026,7 @@
    "title": "2021-22 Early Action and Early Decision Notification Dates | CEA",
    "url": "https://www.collegeessayadvisors.com/2021-22-early-decision-early-action-and-early-decision-ii-notification-dates-class-of-2026/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     620,
@@ -7038,7 +7038,7 @@
    "title": "2021 SCVA Vocal Jazz/Contemporary A Capella Honor Choir",
    "url": "https://www.facebook.com/scvachoral/videos/1733657806842602/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     620,
@@ -7050,7 +7050,7 @@
    "title": "Advanced Topics in Computer Science",
    "url": "https://codehw.net/",
    "kind": "website",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
     505,
@@ -7062,7 +7062,7 @@
    "title": "LET IT SNOW CHORDS (ver 2) by Misc Christmas @ Ultimate-Guitar.Com",
    "url": "https://tabs.ultimate-guitar.com/tab/misc-christmas/let-it-snow-chords-1116584",
    "kind": "website",
-   "topic": "books · guitar · reading",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     621,
@@ -7074,43 +7074,43 @@
    "title": "12ft Ladder",
    "url": "https://12ft.io/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     652,
     637,
-    526
+    642
    ]
   },
   {
    "title": "changes made for localStorage · coliny125/colinwebsite@61d8210",
    "url": "https://github.com/coliny125/colinwebsite/commit/61d8210628a9c6cea5c07a8eba07ca73465a167b#diff-c3524598a7349c79336b2dab23f6ec71bca23b832f041bfff738044a00dfb303",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     573,
-    293,
-    642
+    615,
+    526
    ]
   },
   {
    "title": "Tux Paint",
    "url": "https://tuxpaint.org/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     593,
     622,
-    615
+    603
    ]
   },
   {
    "title": "Supernova Cord Jeans | Free People",
    "url": "https://www.freepeople.com/shop/supernova-cord-jeans/?category=flare-jeans&amp;color=000&amp;type=REGULAR&amp;quantity=1",
    "kind": "website",
-   "topic": "project · fellowships · career",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     516,
@@ -7122,31 +7122,31 @@
    "title": "OUSD",
    "url": "https://www.ousd.com/swap",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     591,
     622,
-    615
+    603
    ]
   },
   {
    "title": "Stephen Thompson | Flickr",
    "url": "https://www.flickr.com/photos/42002170@N00/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
+    514,
     526,
-    565,
-    642
+    593
    ]
   },
   {
    "title": "The Girl From Ipanema (garota De Ipanema) By",
    "url": "https://www.sheetmusicplus.com/title/the-girl-from-ipanema-garota-de-ipanema-digital-sheet-music/22041845",
    "kind": "website",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     596,
@@ -7158,7 +7158,7 @@
    "title": "Antonio Carlos Jobim \"The Girl from Ipanema\" (arr. Berty Rice) SATB Choir A Cappella Choral Sheet Music in Ab Major",
    "url": "https://www.musicnotes.com/sheetmusic/mtd.asp?ppn=MN0164620",
    "kind": "website",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     484,
@@ -7170,7 +7170,7 @@
    "title": "SCHOOL NEWSPAPER LIBEL SUIT SETTLED",
    "url": "https://www.nytimes.com/1987/04/19/nyregion/school-newspaper-libel-suit-settled.html",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     560,
@@ -7182,7 +7182,7 @@
    "title": "Afresh",
    "url": "https://www.afresh.com/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     651,
@@ -7194,7 +7194,7 @@
    "title": "AMERICAN BOY",
    "url": "https://americanboy.crd.co/",
    "kind": "website",
-   "topic": "other · songs · artists",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     498,
@@ -7206,7 +7206,7 @@
    "title": "With Every Breath I Take (Cy Coleman)",
    "url": "https://www.youtube.com/watch?v=IxjzUIEa7CM&amp;ab_channel=NatalieWilliams",
    "kind": "video",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     507,
@@ -7218,19 +7218,19 @@
    "title": "Gag Gift Inflatable Punching Bag Gift",
    "url": "https://bonkfit.com/products/gag-gift-custom-inflatable-punching-bag-for-adults?variant=33626826760",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     614,
-    514,
-    293
+    593,
+    603
    ]
   },
   {
    "title": "Frank Wedekind",
    "url": "https://genius.com/Frank-wedekind-spring-awakening-act-2-annotated",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "act · learn · english",
    "wild": false,
    "near": [
     557,
@@ -7242,19 +7242,19 @@
    "title": "How to use the Harman Reusable Camera",
    "url": "https://www.youtube.com/watch?v=Mwi4HgRUjgI&amp;ab_channel=8storeytree",
    "kind": "video",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     591,
     622,
-    615
+    293
    ]
   },
   {
    "title": "Yebba",
    "url": "https://www.youtube.com/watch?v=8q3C9PwkcT4&amp;ab_channel=KowliProd",
    "kind": "video",
-   "topic": "music · listen · latin",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     508,
@@ -7266,7 +7266,7 @@
    "title": "The Serpent and the Rainbow (film)",
    "url": "https://en.wikipedia.org/wiki/The_Serpent_and_the_Rainbow_%28film%29",
    "kind": "website",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     94,
@@ -7278,7 +7278,7 @@
    "title": "Jonestown Massacre",
    "url": "https://www.rollingstone.com/feature/jonestown-13-things-you-should-know-about-cult-massacre-121974/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     601,
@@ -7290,7 +7290,7 @@
    "title": "Alice and Olivia Harmony Asymmetric Midi Dress | Bloomingdale's",
    "url": "https://www.bloomingdales.com/shop/product/alice-olivia-harmony-asymmetric-midi-dress?ID=4175519&amp;CategoryID=1144659",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     610,
@@ -7302,7 +7302,7 @@
    "title": "Mac Duggal Long Dress | Bloomingdale's",
    "url": "https://www.bloomingdales.com/shop/product/mac-duggal-long-dress?ID=4136133&amp;CategoryID=1005210",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     610,
@@ -7314,7 +7314,7 @@
    "title": "Nookie Dream Drape Satin Gown | Bloomingdale's",
    "url": "https://www.bloomingdales.com/shop/product/nookie-dream-drape-satin-gown?ID=3936801&amp;CategoryID=1005210",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     610,
@@ -7326,7 +7326,7 @@
    "title": "ML Monique Lhuillier Sleeveless Jacquard Dress | Bloomingdale's",
    "url": "https://www.bloomingdales.com/shop/product/ml-monique-lhuillier-sleeveless-jacquard-dress?ID=4201400&amp;CategoryID=1005210",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     609,
@@ -7338,7 +7338,7 @@
    "title": "Open Mics LA | UP(st)ART Creative",
    "url": "https://www.liveatupstart.com/open-mics-la",
    "kind": "website",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     578,
@@ -7350,19 +7350,19 @@
    "title": "COVERS NIGHT OPEN MIC",
    "url": "https://thesongwritingschool.com/collections/upcoming-events/products/first-friday-covers-night-open-mic-interpreting-cover-songs",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     206,
-    202,
-    509
+    509,
+    202
    ]
   },
   {
    "title": "AS A CHILD CHORDS by madelinetheperson @ Ultimate-Guitar.Com",
    "url": "https://tabs.ultimate-guitar.com/tab/madelinetheperson/as-a-child-chords-3335735",
    "kind": "website",
-   "topic": "books · guitar · reading",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     621,
@@ -7374,7 +7374,7 @@
    "title": "Community",
    "url": "https://www.vennft.com/whowhatvenn",
    "kind": "website",
-   "topic": "books · guitar · reading",
+   "topic": "ethics · books · reading",
    "wild": false,
    "near": [
     601,
@@ -7386,19 +7386,19 @@
    "title": "Tarot",
    "url": "https://www.tarot.to/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     591,
-    622,
-    531
+    293,
+    603
    ]
   },
   {
    "title": "FOMO MOFO #5292",
    "url": "https://opensea.io/assets/0x818a19a6d3f0859b68e8490a6e945a51060caad1/5292",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     580,
@@ -7410,7 +7410,7 @@
    "title": "God Must Hate Me",
    "url": "https://chordseasy.com/song/33888/god-must-hate-me",
    "kind": "website",
-   "topic": "books · guitar · reading",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     621,
@@ -7422,7 +7422,7 @@
    "title": "Chocolate-Matcha Butter Mochi Cake Recipe | Bon Appétit",
    "url": "https://www.bonappetit.com/recipe/chocolate-matcha-butter-mochi-cake",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     628,
@@ -7434,19 +7434,19 @@
    "title": "Tor Project | Success",
    "url": "https://www.torproject.org/thank-you/",
    "kind": "website",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     572,
-    42,
-    61
+    61,
+    42
    ]
   },
   {
    "title": "Untitled",
    "url": "https://aplusphysics.com/courses/ap-c/tutorials/APC-Gravity.pdf",
    "kind": "paper",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     523,
@@ -7458,7 +7458,7 @@
    "title": "DOOMSDAY CHORDS (ver 3) by Lizzy McAlpine @ Ultimate-Guitar.Com",
    "url": "https://tabs.ultimate-guitar.com/tab/lizzy-mcalpine/doomsday-chords-3933701",
    "kind": "website",
-   "topic": "books · guitar · reading",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     613,
@@ -7470,31 +7470,31 @@
    "title": "Ex",
    "url": "https://www.youtube.com/watch?v=R5-egVQ9-X0&amp;ab_channel=Mathispower4u",
    "kind": "video",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     591,
-    615,
-    531
+    293,
+    603
    ]
   },
   {
    "title": "Nerdle",
    "url": "https://nerdlegame.com/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     659,
     21,
-    628
+    518
    ]
   },
   {
    "title": "Glee-Saving All My Love For You (Full Performance)",
    "url": "https://www.youtube.com/watch?v=Wk3ofxqRWgA&amp;ab_channel=AnskyLun",
    "kind": "video",
-   "topic": "music · listen · latin",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     561,
@@ -7518,7 +7518,7 @@
    "title": "Social Credit System",
    "url": "https://en.wikipedia.org/wiki/Social_Credit_System",
    "kind": "website",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     598,
@@ -7530,19 +7530,19 @@
    "title": "Image histogram online",
    "url": "https://pinetools.com/image-histogram",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
+    719,
     638,
-    667,
-    660
+    712
    ]
   },
   {
    "title": "Best Chocolate Carrot Cake Recipe",
    "url": "https://food52.com/recipes/81521-chocolate-carrot-snacking-cake-with-cream-cheese-frosting",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     618,
@@ -7554,31 +7554,31 @@
    "title": "Playwrights Festival 2022",
    "url": "https://livestream.com/hwtvschool/playwrights22a",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     571,
     548,
-    589
+    652
    ]
   },
   {
    "title": "Dermatologist Answers Skin Questions From Twitter | Tech Support | WIRED",
    "url": "https://www.youtube.com/watch?v=d-97pEeP0LY&amp;ab_channel=WIRED",
    "kind": "video",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
-    224,
-    223,
-    225
+    230,
+    229,
+    228
    ]
   },
   {
    "title": "Transfer history",
    "url": "https://takeout.google.com/transfer/history",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     685,
@@ -7590,7 +7590,7 @@
    "title": "ML SYSTEMS SYLLABUS",
    "url": "https://noise-lab.net/ml-systems/agenda.html",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     639,
@@ -7602,19 +7602,19 @@
    "title": "Cognitive Science and Artificial Intelligence",
    "url": "https://www.bbk.ac.uk/courses/postgraduate/cognitive-science-and-artificial-intelligence",
    "kind": "website",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
     634,
-    587,
-    505
+    505,
+    587
    ]
   },
   {
    "title": "Cognitive Science",
    "url": "https://www.cmu.edu/dietrich/psychology/graduate/research-training-areas/cognitive-science/index.html",
    "kind": "website",
-   "topic": "science · math · tech",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
     633,
@@ -7626,7 +7626,7 @@
    "title": "Master of Engineering in Computation and Cognition | Brain and Cognitive Sciences",
    "url": "https://bcs.mit.edu/academic-program/course-6-9-computation-and-cognition/master-engineering-computation-and-cognition",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     658,
@@ -7638,43 +7638,43 @@
    "title": "Search",
    "url": "https://ourworldindata.org/search",
    "kind": "website",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     534,
     36,
-    41
+    633
    ]
   },
   {
    "title": "Box",
    "url": "https://wustl.app.box.com/s/9cqg9j0te1aixg2jzj0zw24mu3hmfrxs",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
-    591,
-    526,
-    531
+    615,
+    593,
+    591
    ]
   },
   {
    "title": "WALS Online",
    "url": "https://wals.info/feature/131A?iconsize=20&amp;labels=0&amp;v1=c0000DD&amp;v2=c666bff&amp;v3=cDD0000&amp;v4=cCCCCCC&amp;v5=cFFFF00&amp;v6=cFFFFFF#map-container",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
-    627,
-    667,
-    660
+    719,
+    712,
+    716
    ]
   },
   {
    "title": "EDUC 525",
    "url": "https://www.math.drexel.edu/~jsteuber/Educ525/History/history.html#:~:text=The%20Mayans%20used%20a%20vigesimal,giving%2020%20fingers%20and%20toes.",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     632,
@@ -7686,23 +7686,23 @@
    "title": "Rare",
    "url": "https://www.rarelanguage.com/blog/exploring-mayan-numbers",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
-    593,
-    514,
-    591
+    591,
+    615,
+    565
    ]
   },
   {
    "title": "Transformer Explainer",
    "url": "https://poloclub.github.io/transformer-explainer/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
-    27,
     23,
+    27,
     220
    ]
   },
@@ -7710,24 +7710,24 @@
    "title": "NLPFin",
    "url": "https://www.kaggle.com/code/spuli2002/nlpfin",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     591,
-    622,
-    615
+    603,
+    565
    ]
   },
   {
    "title": "Analyzing the Linguistic Differences Between Spoken and Written Text Using BERT · minalee-research/cs257-students Wiki",
    "url": "https://github.com/minalee-research/cs257-students/wiki/Analyzing-the-Linguistic-Differences-Between-Spoken-and-Written-Text-Using-BERT",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     27,
     23,
-    24
+    25
    ]
   },
   {
@@ -7746,55 +7746,55 @@
    "title": "The Shard Theory of Human Values",
    "url": "https://turntrout.com/shard-theory",
    "kind": "website",
-   "topic": "books · guitar · reading",
+   "topic": "ideas · mind · philosophy",
    "wild": false,
    "near": [
     43,
-    154,
-    160
+    160,
+    154
    ]
   },
   {
    "title": "uchicago-cmsc23500-win-2026 repositories",
    "url": "https://github.com/orgs/uchicago-cmsc23500-win-2026/repositories",
    "kind": "website",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     66,
     65,
-    64
+    63
    ]
   },
   {
    "title": "memoryaha/README.md at main · hyssong/memoryaha · GitHub",
    "url": "https://github.com/hyssong/memoryaha/blob/main/README.md",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     648,
-    652,
-    77
+    77,
+    598
    ]
   },
   {
    "title": "GitHub",
    "url": "https://github.com/hyssong/memoryaha",
    "kind": "website",
-   "topic": "open · web · site",
+   "topic": "swift · open · web",
    "wild": false,
    "near": [
     647,
-    534,
-    77
+    77,
+    564
    ]
   },
   {
    "title": "Battle of the DJs",
    "url": "https://uchicagomab.com/mablog/2025/2/4/battle-of-the-djs-photos?fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnSNd4NgbeCwv1H3jytt1WQg9fbTElRmD_BOmYl02qZ2VeuM6dd0m8VXbJNpg_aem_DbUx6HkuhTpt8cEF4vYFOg",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     589,
@@ -7806,67 +7806,67 @@
    "title": "Algorithmic Music Online",
    "url": "https://algorithmicmusic.online/",
    "kind": "website",
-   "topic": "music · listen · latin",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     566,
-    638,
-    627
+    719,
+    638
    ]
   },
   {
    "title": "guy915/System-Prompts",
    "url": "https://github.com/guy915/System-Prompts",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     598,
     626,
-    647
+    77
    ]
   },
   {
    "title": "tribedemo.ipynb",
    "url": "https://colab.research.google.com/github/facebookresearch/tribev2/blob/main/tribe_demo.ipynb",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     589,
     637,
-    514
+    565
    ]
   },
   {
    "title": "Programs | Astra Fellowship | Constellation Institute",
    "url": "https://constellation.org/programs/astra",
    "kind": "website",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     69,
     62,
-    64
+    68
    ]
   },
   {
    "title": "Is coding a relevant metaphor for building AI?",
    "url": "https://pubmed.ncbi.nlm.nih.gov/31775918/",
    "kind": "paper",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
+    639,
     632,
-    518,
-    639
+    518
    ]
   },
   {
    "title": "Chord progressions in major keys",
    "url": "https://www.jeffreypepperrodgers.com/blog/songwriting-lesson-chord-progressions-in-major-keys",
    "kind": "website",
-   "topic": "music · listen · latin",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     596,
@@ -7878,19 +7878,19 @@
    "title": "WNYC | New York Public Radio, Podcasts, Live Streaming Radio, News",
    "url": "https://wnyc.org/home",
    "kind": "podcast",
-   "topic": "film · podcasts · wikipedia",
+   "topic": "music · film · check",
    "wild": false,
    "near": [
     340,
-    91,
-    97
+    97,
+    197
    ]
   },
   {
    "title": "Oral History Project | Hamrah Arts Club",
    "url": "https://www.hamrahartsclub.com/oral-history-project",
    "kind": "website",
-   "topic": "project · fellowships · career",
+   "topic": "project · school · fellowships",
    "wild": false,
    "near": [
     685,
@@ -7902,19 +7902,19 @@
    "title": "The Berkeley Artificial Intelligence Research Blog",
    "url": "https://bair.berkeley.edu/blog/",
    "kind": "website",
-   "topic": "research · bloomingdale's · making",
+   "topic": "research · bloomingdale's · system",
    "wild": false,
    "near": [
     635,
-    27,
-    643
+    23,
+    27
    ]
   },
   {
    "title": "Chocolate Sheet Cake | Life, Love and Sugar",
    "url": "https://www.lifeloveandsugar.com/easy-moist-chocolate-cake/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     628,
@@ -7926,7 +7926,7 @@
    "title": "Online Courses",
    "url": "https://courses.edx.org/courses/course-v1:HarvardX+CS50+X/course/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     667,
@@ -7938,7 +7938,7 @@
    "title": "CS50's Introduction to Artificial Intelligence with Python | Harvard University",
    "url": "https://online-learning.harvard.edu/course/cs50s-introduction-artificial-intelligence-python?delta=0",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     665,
@@ -7950,7 +7950,7 @@
    "title": "Data Science",
    "url": "https://online-learning.harvard.edu/course/data-science-machine-learning?delta=0",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
     663,
@@ -7962,7 +7962,7 @@
    "title": "Data Science",
    "url": "https://online-learning.harvard.edu/course/data-science-r-basics?delta=0",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
     662,
@@ -7974,7 +7974,7 @@
    "title": "Science & Cooking",
    "url": "https://online-learning.harvard.edu/course/science-and-cooking?delta=0",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "science · tech · math",
    "wild": false,
    "near": [
     663,
@@ -7986,7 +7986,7 @@
    "title": "Hinduism Through Its Scriptures | Harvard University",
    "url": "https://online-learning.harvard.edu/course/hinduism-through-its-scriptures?delta=0",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     661,
@@ -7998,60 +7998,60 @@
    "title": "Lecture 1",
    "url": "https://cs50.harvard.edu/x/2020/notes/1/#string",
    "kind": "video",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     660,
     667,
-    638
+    711
    ]
   },
   {
    "title": "Berklee Online",
    "url": "https://bocce.online.berklee.edu/#/6814/BSPLA-100.01/6877",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     660,
     638,
-    627
+    719
    ]
   },
   {
    "title": "Writing Persuasive Essays | Ereading Worksheets",
    "url": "https://www.ereadingworksheets.com/writing/writing-persuasive-essays/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     517,
-    381,
-    519
+    519,
+    381
    ]
   },
   {
    "title": "Bebe Rexha Hosts 2020 Women in Harmony Event | Pictures | POPSUGAR Celebrity",
    "url": "https://www.popsugar.com/celebrity/celebrities-at-bebe-rexhas-2020-women-in-harmony-brunch-47143437",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
-    667,
     660,
-    500
+    667,
+    666
    ]
   },
   {
    "title": "Keeping college radio alive in a crisis",
    "url": "http://blog.wmbr.org/?p=548",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
+    711,
     172,
-    660,
-    667
+    710
    ]
   },
   {
@@ -8061,16 +8061,16 @@
    "topic": "pdf · css · coding",
    "wild": false,
    "near": [
-    625,
     538,
-    644
+    625,
+    520
    ]
   },
   {
    "title": "Free stock photo of cereal, food, life",
    "url": "https://www.pexels.com/photo/breakfast-cereal-food-life-101668/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "online · courses · rhea",
    "wild": false,
    "near": [
     524,
@@ -8082,7 +8082,7 @@
    "title": "Letter Grade Assignments",
    "url": "http://www.cs.uni.edu/~mccormic/lettergrade.html",
    "kind": "website",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     675,
@@ -8094,7 +8094,7 @@
    "title": "Online Ear Training with Intervals, Melodies, Jazz Chord Progressions | IWasDoingAllRight",
    "url": "https://www.iwasdoingallright.com/tools/ear_training/online/",
    "kind": "website",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     675,
@@ -8106,7 +8106,7 @@
    "title": "How to Memorize Fast and Easily",
    "url": "https://www.youtube.com/watch?v=0nFkQ4cQhME",
    "kind": "video",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     676,
@@ -8118,7 +8118,7 @@
    "title": "We Are in the Future",
    "url": "https://www.thisamericanlife.org/623/we-are-in-the-future",
    "kind": "website",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     675,
@@ -8130,67 +8130,67 @@
    "title": "PetHarbor.com",
    "url": "https://petharbor.com/detail.asp?ID=A1935939&amp;LOCATION=LACT&amp;searchtype=ADOPT&amp;start=4&amp;stylesheet=https://laanimalservices.com/wp-content/themes/laas/laasph.css&amp;friends=1&amp;samaritans=1&amp;nosuccess=0&amp;orderby=ID&amp;rows=10&amp;imght=120&amp;imgres=thumb&amp;tWidth=200&amp;view=sysadm.v_lact&amp;fontface=arial&amp;fontsize=10&amp;miles=20&amp;shelterlist=%27LACT%27,%27LACT1%27,%27LACT2%27,%27LACT3%27,%27LACT4%27,%27LACT5%27&amp;atype=&amp;where=type_DOG",
    "kind": "website",
-   "topic": "cats · dogs · petharbor",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
-    680,
     679,
-    678
+    683,
+    681
    ]
   },
   {
    "title": "PetHarbor.com",
    "url": "https://petharbor.com/detail.asp?ID=A1935684&amp;LOCATION=LACT&amp;searchtype=ADOPT&amp;start=4&amp;stylesheet=https://laanimalservices.com/wp-content/themes/laas/laasph.css&amp;friends=1&amp;samaritans=1&amp;nosuccess=0&amp;orderby=ID&amp;rows=10&amp;imght=120&amp;imgres=thumb&amp;tWidth=200&amp;view=sysadm.v_lact&amp;fontface=arial&amp;fontsize=10&amp;miles=20&amp;shelterlist=%27LACT%27,%27LACT1%27,%27LACT2%27,%27LACT3%27,%27LACT4%27,%27LACT5%27&amp;atype=&amp;where=type_DOG",
    "kind": "website",
-   "topic": "cats · dogs · petharbor",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
-    680,
     679,
-    677
+    683,
+    681
    ]
   },
   {
    "title": "PetHarbor.com",
    "url": "https://petharbor.com/detail.asp?ID=A1914628&amp;LOCATION=LACT1&amp;searchtype=ADOPT&amp;start=4&amp;stylesheet=https://laanimalservices.com/wp-content/themes/laas/laasph.css&amp;friends=1&amp;samaritans=1&amp;nosuccess=0&amp;orderby=ID&amp;rows=10&amp;imght=120&amp;imgres=thumb&amp;tWidth=200&amp;view=sysadm.v_lact&amp;fontface=arial&amp;fontsize=10&amp;miles=20&amp;shelterlist=%27LACT%27,%27LACT1%27,%27LACT2%27,%27LACT3%27,%27LACT4%27,%27LACT5%27&amp;atype=&amp;where=type_DOG",
    "kind": "website",
-   "topic": "cats · dogs · petharbor",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
-    680,
     678,
-    677
+    683,
+    681
    ]
   },
   {
    "title": "PetHarbor.com",
    "url": "https://petharbor.com/detail.asp?ID=A1928633&amp;LOCATION=LACT1&amp;searchtype=ADOPT&amp;start=4&amp;stylesheet=https://laanimalservices.com/wp-content/themes/laas/laasph.css&amp;friends=1&amp;samaritans=1&amp;nosuccess=0&amp;orderby=ID&amp;rows=10&amp;imght=120&amp;imgres=thumb&amp;tWidth=200&amp;view=sysadm.v_lact&amp;fontface=arial&amp;fontsize=10&amp;miles=20&amp;shelterlist=%27LACT%27,%27LACT1%27,%27LACT2%27,%27LACT3%27,%27LACT4%27,%27LACT5%27&amp;atype=&amp;where=type_DOG",
    "kind": "website",
-   "topic": "cats · dogs · petharbor",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
-    679,
     678,
-    677
+    683,
+    681
    ]
   },
   {
    "title": "PetHarbor.com",
    "url": "https://petharbor.com/detail.asp?ID=A1585302&amp;LOCATION=LACT1&amp;searchtype=ADOPT&amp;start=4&amp;stylesheet=https://laanimalservices.com/wp-content/themes/laas/laasph.css&amp;friends=1&amp;samaritans=1&amp;nosuccess=0&amp;orderby=ID&amp;rows=10&amp;imght=120&amp;imgres=thumb&amp;tWidth=200&amp;view=sysadm.v_lact&amp;fontface=arial&amp;fontsize=10&amp;miles=20&amp;shelterlist=%27LACT%27,%27LACT1%27,%27LACT2%27,%27LACT3%27,%27LACT4%27,%27LACT5%27&amp;atype=&amp;where=type_DOG",
    "kind": "website",
-   "topic": "cats · dogs · petharbor",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
-    679,
     678,
-    677
+    683,
+    680
    ]
   },
   {
    "title": "Finding a Companion | Los Angeles Animal Services",
    "url": "http://www.laanimalservices.com/adopt/finding-a-companion/",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     509,
@@ -8202,31 +8202,31 @@
    "title": "PetHarbor.com",
    "url": "https://petharbor.com/detail.asp?ID=A1852697&amp;LOCATION=LACT2&amp;searchtype=ADOPT&amp;start=4&amp;stylesheet=https://laanimalservices.com/wp-content/themes/laas/laasph.css&amp;friends=1&amp;samaritans=1&amp;nosuccess=0&amp;orderby=Located%20At&amp;rows=25&amp;imght=120&amp;imgres=thumb&amp;tWidth=200&amp;view=sysadm.v_lact&amp;fontface=arial&amp;fontsize=10&amp;miles=20&amp;shelterlist=%27LACT%27,%27LACT1%27,%27LACT2%27,%27LACT3%27,%27LACT4%27,%27LACT5%27&amp;atype=&amp;where=type_DOG",
    "kind": "website",
-   "topic": "cats · dogs · petharbor",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
-    679,
     678,
-    677
+    681,
+    680
    ]
   },
   {
    "title": "Drunk Makeup Tutorial!",
    "url": "https://www.youtube.com/watch?v=z35gYP4z0vE",
    "kind": "video",
-   "topic": "cats · dogs · petharbor",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     683,
-    677,
-    679
+    681,
+    680
    ]
   },
   {
    "title": "Sora",
    "url": "https://soraapp.com/open",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "home · guitar · history",
    "wild": false,
    "near": [
     631,
@@ -8238,7 +8238,7 @@
    "title": "HD Artsy Backgrounds | Wallpapers, Backgrounds, Images, Art Photos",
    "url": "http://www.pixelstalk.net/hd-artsy-backgrounds/",
    "kind": "website",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     690,
@@ -8250,7 +8250,7 @@
    "title": "This Woman Did A Stunning Maternity Shoot After Going Through Six Miscarriages",
    "url": "https://www.buzzfeed.com/kassycho/this-woman-did-a-stunning-maternity-shoot-after-going-throug?utm_term=.siBx7Q9A#.vxEb9lGN",
    "kind": "website",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     698,
@@ -8262,19 +8262,19 @@
    "title": "35 Awesome Cyber Monday Deals From Stores You've Never Heard Of",
    "url": "https://www.buzzfeed.com/mallorymcinnis/cyber-monday-deals-from-stores-youve-never-heard?utm_term=.gwwn0L2K#.obEB5gMd",
    "kind": "website",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     690,
-    694,
-    691
+    691,
+    694
    ]
   },
   {
    "title": "16 Photos That Will Almost Definitely Make You Feel Happy",
    "url": "https://www.buzzfeed.com/andyneuenschwander/16-photos-that-will-almost-definitely-make-you-feel-happy?utm_term=.abGdJDno#.anxvjmbX",
    "kind": "website",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     698,
@@ -8286,11 +8286,11 @@
    "title": "Housing",
    "url": "http://www.eqclearinghouse.org/2015-09-16-chile/category/housing/",
    "kind": "website",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
-    691,
     694,
+    691,
     693
    ]
   },
@@ -8298,7 +8298,7 @@
    "title": "Evening on a swamp / 500px",
    "url": "https://500px.com/photo/157724135/poppy-sunset-by-vlad-observer?utm_source=momentum",
    "kind": "website",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     694,
@@ -8310,31 +8310,31 @@
    "title": "Top 100 Best Songs Of 2016",
    "url": "https://www.youtube.com/watch?v=dPq-0y8STDg",
    "kind": "video",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     705,
-    697,
-    477
+    477,
+    697
    ]
   },
   {
    "title": "2016...That Is A Wrap! (ft. #TeamSuper)",
    "url": "https://www.youtube.com/watch?v=xrZlIVqdMrQ",
    "kind": "video",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     690,
-    691,
-    694
+    694,
+    691
    ]
   },
   {
    "title": "Garcinia Cambogia",
    "url": "https://bestbodysource.com/getgarcinia/d/?AFFID=Affiliati&amp;C1=1514&amp;C2=&amp;C3=130122084",
    "kind": "website",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     691,
@@ -8346,7 +8346,7 @@
    "title": "andy goldsworthy",
    "url": "https://www.google.com/webhp?sourceid=chrome-instant&amp;rlz=1C5CHFA_enUS700US700&amp;ion=1&amp;espv=2&amp;ie=UTF-8#q=andy%20goldsworthy",
    "kind": "website",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     690,
@@ -8358,7 +8358,7 @@
    "title": "How Fairfax Became The Coolest Street In Los Angeles | The Huffington Post",
    "url": "http://www.huffingtonpost.com/2015/02/02/fairfax-los-angeles_n_6558672.html",
    "kind": "website",
-   "topic": "online · harvard · swift",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     509,
@@ -8370,7 +8370,7 @@
    "title": "19 Kids and Counting Canceled After Josh Duggar Molestation Scandal",
    "url": "http://people.com/tv/19-kids-and-counting-canceled-after-josh-duggar-molestation-scandal/",
    "kind": "website",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     690,
@@ -8382,7 +8382,7 @@
    "title": "HOW TO MAKE CLEAR LIQUID SLIME | DIY Contact Lens Solution Glue Slime",
    "url": "https://www.youtube.com/watch?v=nKT1U9uxWS0",
    "kind": "video",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     689,
@@ -8406,7 +8406,7 @@
    "title": "Tori Kelly",
    "url": "https://www.youtube.com/watch?v=cUijoUVmJmA&amp;list=PLk7XDMsqAiiwgcoauUWZrFVMcaiC-Jesp&amp;index=6",
    "kind": "video",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     701,
@@ -8418,7 +8418,7 @@
    "title": "Tori Kelly",
    "url": "https://www.youtube.com/watch?v=FL_7ZbRCODA&amp;index=9&amp;list=PLk7XDMsqAiiwgcoauUWZrFVMcaiC-Jesp",
    "kind": "video",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     700,
@@ -8430,19 +8430,19 @@
    "title": "Tori Kelly",
    "url": "https://www.youtube.com/watch?v=ySGUPckoeCg&amp;index=10&amp;list=PLk7XDMsqAiiwgcoauUWZrFVMcaiC-Jesp",
    "kind": "video",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     700,
     701,
-    704
+    703
    ]
   },
   {
    "title": "Tori Kelly",
    "url": "https://www.youtube.com/watch?v=nsbcKoRAiF4",
    "kind": "video",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     702,
@@ -8454,7 +8454,7 @@
    "title": "TORI KELLY LYRICS",
    "url": "http://www.azlyrics.com/lyrics/torikelly/funny.html",
    "kind": "website",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     701,
@@ -8466,12 +8466,180 @@
    "title": "The Voice Kids 2015",
    "url": "https://www.youtube.com/watch?v=u04QyBQhq0U",
    "kind": "video",
-   "topic": "other · songs · artists",
+   "topic": "other · los · angeles",
    "wild": false,
    "near": [
     692,
     693,
     697
+   ]
+  },
+  {
+   "title": "Rhea Madhogarhia",
+   "url": "https://www.linkedin.com/in/rhea-mad/",
+   "kind": "website",
+   "topic": "Me online",
+   "wild": true,
+   "near": [
+    714,
+    707,
+    716
+   ]
+  },
+  {
+   "title": "Rhea Madhogarhia",
+   "url": "https://scholar.google.com/citations?user=cHK2o8gAAAAJ&hl=en",
+   "kind": "website",
+   "topic": "Me online",
+   "wild": true,
+   "near": [
+    706,
+    714,
+    715
+   ]
+  },
+  {
+   "title": "Neural dynamics of updating social impressions during movie watching (bioRxiv, 2026)",
+   "url": "https://www.biorxiv.org/content/10.64898/2026.05.13.724907v1",
+   "kind": "paper",
+   "topic": "Me online",
+   "wild": true,
+   "near": [
+    709,
+    710,
+    713
+   ]
+  },
+  {
+   "title": "Cortical reinstatement of causally related events sparks narrative insights (bioRxiv preprint)",
+   "url": "https://www.biorxiv.org/content/10.1101/2025.03.12.642853v1",
+   "kind": "paper",
+   "topic": "Me online",
+   "wild": true,
+   "near": [
+    708,
+    713,
+    706
+   ]
+  },
+  {
+   "title": "UChicago College Research Roundup, Winter 2026",
+   "url": "https://college.uchicago.edu/news/research-roundup-winter-quarter-2026",
+   "kind": "website",
+   "topic": "Me online",
+   "wild": true,
+   "near": [
+    708,
+    709,
+    711
+   ]
+  },
+  {
+   "title": "Slot Machine",
+   "url": "https://midwaveradio.com/show/slot-machine-an-improv-variety-show",
+   "kind": "website",
+   "topic": "Me online",
+   "wild": true,
+   "near": [
+    667,
+    660,
+    670
+   ]
+  },
+  {
+   "title": "@rheamad",
+   "url": "https://youtube.com/@rheamad",
+   "kind": "video",
+   "topic": "Me online",
+   "wild": true,
+   "near": [
+    716,
+    715,
+    719
+   ]
+  },
+  {
+   "title": "rheasrepos",
+   "url": "https://github.com/rheasrepos",
+   "kind": "website",
+   "topic": "Me online",
+   "wild": true,
+   "near": [
+    638,
+    719,
+    712
+   ]
+  },
+  {
+   "title": "Rhea",
+   "url": "https://rheamad.substack.com/",
+   "kind": "website",
+   "topic": "Me online",
+   "wild": true,
+   "near": [
+    716,
+    715,
+    712
+   ]
+  },
+  {
+   "title": "rheamadhogarhia",
+   "url": "https://www.pinterest.com/rheamadhogarhia/",
+   "kind": "website",
+   "topic": "Me online",
+   "wild": true,
+   "near": [
+    716,
+    712,
+    714
+   ]
+  },
+  {
+   "title": "@rheamadhogarhia",
+   "url": "https://www.instagram.com/rheamadhogarhia/",
+   "kind": "post",
+   "topic": "Me online",
+   "wild": true,
+   "near": [
+    715,
+    712,
+    714
+   ]
+  },
+  {
+   "title": "Spoiler Alert (web app)",
+   "url": "https://spoileralert-phi.vercel.app/",
+   "kind": "website",
+   "topic": "Me online",
+   "wild": true,
+   "near": [
+    713,
+    719,
+    638
+   ]
+  },
+  {
+   "title": "Crew Digital Archive",
+   "url": "https://crewdigitalarchive-one.vercel.app/",
+   "kind": "website",
+   "topic": "Me online",
+   "wild": true,
+   "near": [
+    627,
+    719,
+    712
+   ]
+  },
+  {
+   "title": "The New Golden Record",
+   "url": "https://thenewgoldenrecord.vercel.app/golden-recordv2.html",
+   "kind": "website",
+   "topic": "Me online",
+   "wild": true,
+   "near": [
+    638,
+    712,
+    715
    ]
   }
  ]

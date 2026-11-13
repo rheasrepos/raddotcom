@@ -30,7 +30,8 @@
 	$: topics = (() => {
 		const c = {};
 		for (const it of items) c[it.topic] = (c[it.topic] || 0) + 1;
-		return Object.entries(c).sort((a, b) => (a[0] === 'Wild card' ? -1 : b[0] === 'Wild card' ? 1 : b[1] - a[1]));
+		const pin = (t) => (t === 'Me online' ? 0 : t === 'Wild card' ? 1 : 2); // hand-made topics first
+		return Object.entries(c).sort((a, b) => pin(a[0]) - pin(b[0]) || b[1] - a[1]);
 	})();
 
 	$: shown = items.filter((it) => {
@@ -41,7 +42,7 @@
 		return q.toLowerCase().split(/\s+/).filter(Boolean).every((w) => hay.includes(w));
 	});
 
-	$: colors = Object.fromEntries(topics.map(([t], i) => [t, t === 'Wild card' ? '#000' : PALETTE[i % PALETTE.length]]));
+	$: colors = Object.fromEntries(topics.map(([t], i) => [t, t === 'Wild card' ? '#000' : t === 'Me online' ? '#ff8c42' : PALETTE[i % PALETTE.length]]));
 
 	const byTitle = (a, b) => a.title.localeCompare(b.title, undefined, { sensitivity: 'base' });
 	// grouped by topic (default) or by kind; or one flat A–Z / Z–A list
@@ -87,8 +88,8 @@
 			<button class="t" class:on={topic === 'all'} on:click={() => (topic = 'all')}>all topics <span class="n">{items.length}</span></button>
 			{#each topics as [t, n]}
 				<button class="t" class:on={topic === t} on:click={() => (topic = topic === t ? 'all' : t)}
-					title={t === 'Wild card' ? "Rhea's own picks" : 'Machine-made topic name'}>
-					<i style="background:{colors[t]}"></i><span class:machine={t !== 'Wild card'}>{t}</span> <span class="n">{n}</span>
+					title={t === 'Wild card' ? "Rhea's own picks" : t === 'Me online' ? 'Pages by or about Rhea' : 'Machine-made topic name'}>
+					<i style="background:{colors[t]}"></i><span class:machine={t !== 'Wild card' && t !== 'Me online'}>{t}</span> <span class="n">{n}</span>
 				</button>
 			{/each}
 		</div>
@@ -102,7 +103,7 @@
 	{:else}
 	{#each groups as [t, list] (t)}
 		<section>
-			<h2 class:machine={t !== 'Wild card'}>{t}</h2>
+			<h2 class:machine={t !== 'Wild card' && t !== 'Me online'}>{t}</h2>
 			<ul>
 				{#each list as it}
 					<li>
