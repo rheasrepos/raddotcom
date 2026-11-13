@@ -14,7 +14,7 @@
 	$: inFilter = (it) => shown.includes(it);
 
 	const items = lib.items;
-	const KINDS = ['video', 'website', 'paper', 'book', 'podcast', 'post', 'thing'];
+	const KINDS = ['video', 'website', 'paper', 'book', 'podcast', 'post', 'person', 'thing'];
 
 	let q = '';
 	let topic = 'all';
@@ -24,13 +24,14 @@
 	// one colour per topic, shared by the sidebar and the map
 	const PALETTE = ['#e6194b', '#3cb44b', '#4363d8', '#f58231', '#911eb4', '#42d4f4', '#f032e6', '#9a6324', '#469990', '#800000', '#808000', '#000075', '#e6a800', '#7a7a7a', '#bfef45', '#dcbeff', '#aaffc3', '#ffd8b1', '#fabed4'];
 
+	const HAND = ['Wild card', 'Me online', 'Influential minds']; // topics Rhea made by hand (no AI underline)
 	const domain = (u) => (u ? u.replace(/^https?:\/\/(www\.)?/, '').split('/')[0] : '');
 
 	// topics, Wild card first, then by size
 	$: topics = (() => {
 		const c = {};
 		for (const it of items) c[it.topic] = (c[it.topic] || 0) + 1;
-		const pin = (t) => (t === 'Me online' ? 0 : t === 'Wild card' ? 1 : 2); // hand-made topics first
+		const pin = (t) => (t === 'Me online' ? 0 : t === 'Influential minds' ? 1 : t === 'Wild card' ? 2 : 3); // hand-made topics first
 		return Object.entries(c).sort((a, b) => pin(a[0]) - pin(b[0]) || b[1] - a[1]);
 	})();
 
@@ -42,7 +43,7 @@
 		return q.toLowerCase().split(/\s+/).filter(Boolean).every((w) => hay.includes(w));
 	});
 
-	$: colors = Object.fromEntries(topics.map(([t], i) => [t, t === 'Wild card' ? '#000' : t === 'Me online' ? '#ff8c42' : PALETTE[i % PALETTE.length]]));
+	$: colors = Object.fromEntries(topics.map(([t], i) => [t, t === 'Wild card' ? '#000' : t === 'Me online' ? '#ff8c42' : t === 'Influential minds' ? '#6b3fa0' : PALETTE[i % PALETTE.length]]));
 
 	const byTitle = (a, b) => a.title.localeCompare(b.title, undefined, { sensitivity: 'base' });
 	// grouped by topic (default) or by kind; or one flat A–Z / Z–A list
@@ -94,8 +95,8 @@
 			<button class="t" class:on={topic === 'all'} on:click={() => (topic = 'all')}>all topics <span class="n">{items.length}</span></button>
 			{#each topics as [t, n]}
 				<button class="t" class:on={topic === t} on:click={() => (topic = topic === t ? 'all' : t)}
-					title={t === 'Wild card' ? "Rhea's own picks" : t === 'Me online' ? 'Pages by or about Rhea' : 'Machine-made topic name'}>
-					<i style="background:{colors[t]}"></i><span class:machine={t !== 'Wild card' && t !== 'Me online'}>{t}</span> <span class="n">{n}</span>
+					title={t === 'Wild card' ? "Rhea's own picks" : t === 'Me online' ? 'Pages by or about Rhea' : t === 'Influential minds' ? 'People whose teaching or work shaped Rhea' : 'Machine-made topic name'}>
+					<i style="background:{colors[t]}"></i><span class:machine={!HAND.includes(t)}>{t}</span> <span class="n">{n}</span>
 				</button>
 			{/each}
 		</div>
@@ -109,7 +110,7 @@
 	{:else}
 	{#each groups as [t, list] (t)}
 		<section>
-			<h2 class:machine={t !== 'Wild card' && t !== 'Me online'}>{t}</h2>
+			<h2 class:machine={!HAND.includes(t)}>{t}</h2>
 			<ul>
 				{#each list as it}
 					<li>

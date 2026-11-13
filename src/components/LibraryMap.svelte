@@ -148,7 +148,7 @@
 			const dim = highlight && !nodes.some((n) => n.it && n.it.topic === t && highlight(n.it));
 			ctx.globalAlpha = dim ? 0.25 : 1; ctx.fillStyle = darker(colorOf(t));
 			ctx.fillText(t, lx, ly);
-			if (t !== 'Wild card' && t !== 'Me online') {
+			if (t !== 'Wild card' && t !== 'Me online' && t !== 'Influential minds') {
 				const w = ctx.measureText(t).width;
 				ctx.strokeStyle = ctx.fillStyle; ctx.lineWidth = 1 / view.k; ctx.setLineDash([3 / view.k, 2 / view.k]);
 				ctx.beginPath(); ctx.moveTo(lx - w / 2, ly + 3 / view.k); ctx.lineTo(lx + w / 2, ly + 3 / view.k); ctx.stroke(); ctx.setLineDash([]);
