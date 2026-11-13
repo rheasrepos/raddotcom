@@ -136,6 +136,23 @@
 			ctx.beginPath(); ctx.arc(n.x, n.y, n === hovered ? n.r + 3 : n.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 		}
 		ctx.globalAlpha = 1;
+		// each topic's name, just inside ring 1 at the topic's average angle.
+		// Machine-made names get the dashed AI underline, as in the sidebar.
+		const acc = {};
+		for (const n of nodes) if (n.it && !n.it.via) { const a = (acc[n.it.topic] ||= { x: 0, y: 0, c: 0 }); a.x += n.x; a.y += n.y; a.c++; }
+		ctx.font = `bold ${11 / view.k}px sans-serif`; ctx.textAlign = 'center';
+		for (const [t, a] of Object.entries(acc)) {
+			const ang = Math.atan2(a.y, a.x), lx = Math.cos(ang) * (R1 - 90), ly = Math.sin(ang) * (R1 - 90);
+			const dim = highlight && !nodes.some((n) => n.it && n.it.topic === t && highlight(n.it));
+			ctx.globalAlpha = dim ? 0.25 : 1; ctx.fillStyle = darker(colorOf(t));
+			ctx.fillText(t, lx, ly);
+			if (t !== 'Wild card' && t !== 'Me online') {
+				const w = ctx.measureText(t).width;
+				ctx.strokeStyle = ctx.fillStyle; ctx.lineWidth = 1 / view.k; ctx.setLineDash([3 / view.k, 2 / view.k]);
+				ctx.beginPath(); ctx.moveTo(lx - w / 2, ly + 3 / view.k); ctx.lineTo(lx + w / 2, ly + 3 / view.k); ctx.stroke(); ctx.setLineDash([]);
+			}
+		}
+		ctx.globalAlpha = 1;
 		// Rhea, in the middle
 		ctx.fillStyle = '#ff8c42'; ctx.strokeStyle = '#000'; ctx.lineWidth = 2 / view.k;
 		ctx.beginPath(); ctx.arc(0, 0, center.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
@@ -167,23 +184,31 @@
 		panning = null;
 		if (!moved) { const n = pick(e); if (n && n.it) dispatch('open', n.it); }
 	}
-	function wheel(e) {
-		e.preventDefault();
-		const r = canvas.getBoundingClientRect(), mx = e.clientX - r.left - r.width / 2, my = e.clientY - r.top - r.height / 2;
-		const k = Math.max(0.15, Math.min(5, view.k * Math.exp(-e.deltaY * 0.0015)));
+	// zoom about a screen point (mx, my measured from the canvas centre)
+	function zoomAt(k, mx = 0, my = 0) {
+		k = Math.max(0.15, Math.min(8, k));
 		view.x = mx - (mx - view.x) * (k / view.k); view.y = my - (my - view.y) * (k / view.k); view.k = k;
+	}
+	function wheel(e) {
+		e.preventDefault(); // registered non-passive, so the page doesn't scroll and a trackpad pinch doesn't zoom the browser
+		const r = canvas.getBoundingClientRect();
+		zoomAt(view.k * Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0015)), e.clientX - r.left - r.width / 2, e.clientY - r.top - r.height / 2);
 	}
 	function resize() {
 		canvas.width = wrap.clientWidth * devicePixelRatio; canvas.height = wrap.clientHeight * devicePixelRatio;
 		canvas.style.width = wrap.clientWidth + 'px'; canvas.style.height = wrap.clientHeight + 'px';
 	}
-	onMount(() => { ctx = canvas.getContext('2d'); resize(); build(); loop(); window.addEventListener('resize', resize); });
+	onMount(() => { ctx = canvas.getContext('2d'); resize(); build(); loop(); window.addEventListener('resize', resize); canvas.addEventListener('wheel', wheel, { passive: false }); });
 	onDestroy(() => { if (typeof window !== 'undefined') { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); } });
 </script>
 
 <div class="map" bind:this={wrap}>
-	<canvas bind:this={canvas} on:pointerdown={down} on:pointermove={move} on:pointerup={up} on:pointerleave={() => { panning = null; hovered = null; }} on:wheel={wheel}
-		role="img" aria-label="Map of the library: items joined to their most similar items, coloured by topic"></canvas>
+	<canvas bind:this={canvas} on:pointerdown={down} on:pointermove={move} on:pointerup={up} on:pointerleave={() => { panning = null; hovered = null; }}		role="img" aria-label="Map of the library: items joined to their most similar items, coloured by topic"></canvas>
+	<div class="zoom">
+		<button on:click={() => zoomAt(view.k * 1.4)} aria-label="zoom in">+</button>
+		<button on:click={() => zoomAt(view.k / 1.4)} aria-label="zoom out">−</button>
+		<button on:click={() => { view = { x: 0, y: 0, k: 0.42 }; }}>reset</button>
+	</div>
 	{#if hovered && hovered.it}
 		<div class="tip" data-no-reveal><b>{hovered.it.title}</b><span>{hovered.it.topic} · {hovered.it.kind}{#if hovered.it.via} · <AIText>posted by {hovered.it.via}</AIText>{/if}</span></div>
 	{:else if hovered && hovered.hub}
@@ -195,5 +220,7 @@
 	.map { position: relative; width: 100%; height: min(72vh, 720px); border: 1px solid #000; background: transparent; }
 	canvas { display: block; touch-action: none; cursor: grab; }
 	.tip { position: absolute; left: 10px; bottom: 10px; background: #000; color: #fff; padding: 6px 9px; font-size: 0.8rem; max-width: 60%; display: flex; flex-direction: column; gap: 2px; pointer-events: none; }
+	.zoom { position: absolute; top: 8px; right: 8px; display: flex; gap: 4px; }
+	.zoom button { font: inherit; font-size: 0.8rem; min-width: 26px; padding: 2px 8px; border: 1px solid #000; background: #c0c0c0; cursor: pointer; }
 	.tip span { opacity: 0.7; font-size: 0.72rem; }
 </style>

@@ -94,6 +94,10 @@ for fname in sorted(os.listdir(SRC)):
         if not m or line.lstrip().startswith(">"):
             continue
         raw = m.group(1)
+        # dates: "@added YYYY-MM-DD" (when Rhea saved it) / "@published YYYY[-MM[-DD]]" (when it came out)
+        DATE = r"(\d{4}(?:-\d{2}){0,2})"
+        added = re.search(r"@added\s+" + DATE, raw); published = re.search(r"@published\s+" + DATE, raw)
+        raw = re.sub(r"\s*@(added|published)\s+\S+", "", raw).strip()
         # navigation / template lines, not saved things: bullets that are only a
         # [[wikilink]] (+ its gloss), and the how-to-use instructions
         if re.match(r"^\[\[[^\]]+\]\]", raw) or fname.endswith("Recommendations - Home.md"):
@@ -103,7 +107,8 @@ for fname in sorted(os.listdir(SRC)):
         url = mdl.group(2) if mdl else (um.group(0) if um else None)
         if fname == "_wildcard.md" and not url:
             continue  # bare names in _wildcard.md just point at existing items
-        title = clean_title(raw) or (host_title(url) if url else "")
+        whole = re.fullmatch(r"\[([^\]]+)\]\((https?://[^)\s]+)\)", raw)   # a bare [title](url) line: keep the full title
+        title = (whole.group(1).strip() if whole else clean_title(raw)) or (host_title(url) if url else "")
         if len(title) < 2 or title.lower() in ("inbox",):
             continue
         key = (url.rstrip("/").lower() if url else title.lower())
@@ -115,7 +120,8 @@ for fname in sorted(os.listdir(SRC)):
         via = re.search(r"@via\s+(.+?)\s*$", raw)
         items.append({"title": title[:160], "url": url, "kind": kind_of(title, url), "_ctx": context, "_key": key,
                       "_me": fname == "_me-online.md",   # fixed topic "Me online" (not clustered)
-                      "_via": via.group(1) if via else None})   # posted ABOUT Rhea by someone else
+                      "_via": via.group(1) if via else None,
+                      "_added": added.group(1) if added else None, "_published": published.group(1) if published else None})   # posted ABOUT Rhea by someone else
 
 # ------------------------------------------------------------------ embed (TF-IDF, numpy only)
 STOP = set("""the a an and or of to in on for with is are was were be been it its this that these those you your
@@ -209,7 +215,9 @@ for i, (it, lab) in enumerate(zip(items, labels)):
     topic = "Me online" if it.get("_me") else ("Wild card" if wild else names[int(lab)])
     out.append({"title": it["title"], "url": it["url"], "kind": it["kind"],
                 "topic": topic, "wild": wild or bool(it.get("_me")), "near": nbrs[i],
-                **({"via": it["_via"]} if it.get("_via") else {})})
+                **({"via": it["_via"]} if it.get("_via") else {}),
+                **({"added": it["_added"]} if it.get("_added") else {}),
+                **({"published": it["_published"]} if it.get("_published") else {})})
 json.dump({"count": len(out), "k": chosen, "items": out}, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
 counts = {}

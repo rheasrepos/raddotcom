@@ -1,17 +1,10 @@
 <script>
     import PageLayout from '../../components/PageLayout.svelte';
-    import AIText from '../../components/AIText.svelte';
 
     const aboutText = ` bio incoming.... this is a work in progress. in the process of making this, vibe coding this, designing this, and iterating, I've found that there are many others out there creating digital archives of their own as their personal internet spaces (pis). some go as far as calling it digital gardening, and I encourage you all to look up this practice in your own time!! I see this as an archive of my digital life, what im willing to share with the internet, and my offiical internet presence. It's not exhaustive but this website contains a backlog of a lot of coursework over the years, dating back to middle school, pdfs that I've saved and submitted, projects, research, notes to self, and more. There are also scans of my phyiscal belongins and artwork (specifically the bits of paper and objects that helped decorate my walls living in Chicago). I hope that this archive continues to grow with my thoughts, career, and hobbies. Yes, I've thought of substack and I'm not sure that's the place for me right now. how this website is organized is still a work in progress. all of it is a work in progress, but i love suggestions, feedback, and see this website not only as a way to have my own designed virutal space, but also as a place to learn about how I best consume websites and digital content. Email me if something is hard to navigate! I want to learn about how other people consume what I create (and if the vibe coded portions of this site have user experience issues I'm overlooking)." for now, we'll call this site www.rhea.com. Its modeled after a simple desktop (a place I personally spend a lot of time as a physical and digital hoarder) and I hope you learn somethign about me as you navigate!! One note on the font.... the font is called redaction and I set it up so that it degrades into pixels the older the content you're viewing is.... you can learn more about the font here: INSERT LINK LOL
     `;
 
     const links = [
-        {
-            label: 'LinkedIn',
-            url: 'https://www.linkedin.com/in/rhea-mad/',
-            description: 'Work, experience, and professional updates',
-            icon: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`
-        },
         {
             label: 'YouTube',
             url: 'https://youtube.com/@rheamad',
@@ -20,14 +13,6 @@
             // the channel's uploads playlist (channel id UC… → UU…) — embeds as a gallery
             playlist: 'UUEQ38C8Z5AjJCOr_MN-tGuA',
             icon: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`
-        },
-        {
-            label: 'GitHub',
-            url: 'https://github.com/rheasrepos',
-            description: 'Code and projects',
-            kind: 'github',
-            user: 'rheasrepos',
-            icon: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>`
         },
         {
             label: 'CAB Lab',
@@ -49,18 +34,10 @@
             icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13a6 6 0 0 1-6 5 6 6 0 0 1-6-5h12Z"/><path d="M6 8.8A8.5 8.5 0 0 1 12 5a8.5 8.5 0 0 1 6 3.8"/></svg>`
         }
     ];
-    // LinkedIn and Instagram refuse to be embedded (X-Frame-Options / CSP), so
-    // those stay as cards. GitHub refuses too, but its public API doesn't:
-    // the tile lists the repos live.
-    import { onMount } from 'svelte';
+    // Instagram refuses to be embedded (X-Frame-Options / CSP), so those stay as
+    // cards. LinkedIn lives in the bottom toolbar and GitHub projects on the
+    // desktop, so neither is repeated here (Rhea, 2026-11-13).
     import VideoGallery from '../../components/VideoGallery.svelte';
-    let repos = null; // null = loading, [] = failed/none
-    onMount(async () => {
-        try {
-            const r = await fetch('https://api.github.com/users/rheasrepos/repos?sort=pushed&per_page=30');
-            repos = r.ok ? (await r.json()).filter((x) => !x.fork) : [];
-        } catch { repos = []; }
-    });
 </script>
 
 <PageLayout title="About - Rhea Madhogarhia">
@@ -80,7 +57,7 @@
         <h2 class="links-title">Links</h2>
         <div class="links-grid">
             {#each links as link}
-                <div class="link-tile" class:wide={link.kind === 'youtube' || link.kind === 'github' || link.kind === 'site'}>
+                <div class="link-tile" class:wide={link.kind === 'youtube' || link.kind === 'site'}>
                     <a href={link.url} target="_blank" rel="noopener noreferrer" class="link-card">
                         <div class="link-icon">
                             {@html link.icon}
@@ -97,22 +74,6 @@
                     {:else if link.kind === 'site'}
                         <!-- live site, scrollable inside the tile -->
                         <div class="link-embed site"><iframe src={link.url} title="{link.label} — live site" loading="lazy"></iframe></div>
-                    {:else if link.kind === 'github'}
-                        <div class="link-repos">
-                            {#if repos === null}
-                                <span class="muted">loading repos…</span>
-                            {:else if repos.length === 0}
-                                <span class="muted"><AIText>(repos unavailable right now)</AIText></span>
-                            {:else}
-                                {#each repos as r}
-                                    <a class="repo" href={r.html_url} target="_blank" rel="noopener noreferrer">
-                                        <b>{r.name}</b>
-                                        {#if r.description}<span class="repo-desc">{r.description}</span>{/if}
-                                        <span class="muted">{r.language || ''}{r.language ? ' · ' : ''}{new Date(r.pushed_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
-                                    </a>
-                                {/each}
-                            {/if}
-                        </div>
                     {/if}
                 </div>
             {/each}
@@ -193,11 +154,6 @@
     .link-embed.gallery { background: #fff; }
     .link-embed.site { height: 480px; background: #fff; }
     .link-embed.site iframe { width: 100%; height: 100%; border: 0; display: block; }
-    .link-repos { border-top: 1px solid #000; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1px; background: #000; }
-    .link-repos .repo { background: #fff; padding: 10px 12px; text-decoration: none; color: #000; display: flex; flex-direction: column; gap: 3px; font-size: 0.85rem; }
-    .link-repos .repo:hover { background: #000; color: #fff; }
-    .link-repos .repo-desc { font-size: 0.8rem; opacity: 0.85; }
-    .link-repos .muted, .link-tile .muted { font-size: 0.75rem; opacity: 0.65; padding: 10px 12px; }
     @media (max-width: 640px) { .links-grid { grid-template-columns: 1fr; } }
 
     .link-card {

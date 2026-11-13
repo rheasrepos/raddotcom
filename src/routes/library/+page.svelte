@@ -19,7 +19,7 @@
 	let q = '';
 	let topic = 'all';
 	let kind = 'all';
-	let sort = 'topic'; // 'topic' | 'az' | 'za' | 'kind'
+	let sort = 'topic'; // 'topic' | 'az' | 'za' | 'kind' | 'added' | 'published'
 
 	// one colour per topic, shared by the sidebar and the map
 	const PALETTE = ['#e6194b', '#3cb44b', '#4363d8', '#f58231', '#911eb4', '#42d4f4', '#f032e6', '#9a6324', '#469990', '#800000', '#808000', '#000075', '#e6a800', '#7a7a7a', '#bfef45', '#dcbeff', '#aaffc3', '#ffd8b1', '#fabed4'];
@@ -46,7 +46,11 @@
 
 	const byTitle = (a, b) => a.title.localeCompare(b.title, undefined, { sensitivity: 'base' });
 	// grouped by topic (default) or by kind; or one flat A–Z / Z–A list
-	$: groups = sort === 'topic'
+	// newest first; undated items go last
+	const byDate = (f) => (a, b) => (b[f] || '').localeCompare(a[f] || '') || byTitle(a, b);
+	$: groups = sort === 'added' || sort === 'published'
+		? [[sort === 'added' ? 'newest saved first' : 'newest published first', [...shown].sort(byDate(sort))]]
+		: sort === 'topic'
 		? topics.map(([t]) => [t, shown.filter((it) => it.topic === t)]).filter(([, l]) => l.length)
 		: sort === 'kind'
 			? KINDS.map((k) => [k + 's', shown.filter((it) => it.kind === k).sort(byTitle)]).filter(([, l]) => l.length)
@@ -58,7 +62,7 @@
 	<header>
 		<h1>Library</h1>
 		<p class="meta" data-no-reveal>{items.length} <AIText>things saved from around the internet</AIText></p>
-		<p class="note"><AIText>Topics are found automatically by clustering the items and are named by the words most typical of each group, except Wild card, which is hand-picked. Names were transcribed from saved screenshots and bookmarks.</AIText></p>
+		<p class="note"><AIText>Topics are found automatically by clustering the items and are named by the words most typical of each group, except Wild card, which is hand-picked. Names were transcribed from saved screenshots, bookmarks and PDFs. Where known, “saved” is when Rhea saved it (bookmark and file dates) and “published” is when it came out; many older items have neither.</AIText></p>
 	</header>
 
 	<div class="layout">
@@ -81,6 +85,8 @@
 					<option value="az">A–Z</option>
 					<option value="za">Z–A</option>
 					<option value="kind">by kind</option>
+					<option value="added">date saved</option>
+					<option value="published">date published</option>
 				</select>
 			</label>
 		{/if}
@@ -98,7 +104,7 @@
 	<p class="count">{shown.length} shown</p>
 
 	{#if view === 'map'}
-		<p class="note"><AIText>Rhea is in the middle. The first ring is everything she saved or made, grouped by topic and joined to the three things most like it. Further out are the people and places that posted something about her, and beyond them, those posts. Hover to see a dot and its neighbours, click to open it, drag and scroll to move around. Search and filters dim everything else.</AIText></p>
+		<p class="note"><AIText>Rhea is in the middle. The first ring is everything she saved or made, grouped by topic and joined to the three things most like it. Further out are the people and places that posted something about her, and beyond them, those posts. Each topic's name sits just inside the first ring. Hover a dot to see its title, topic and neighbours; click to open it; drag to move around; scroll, pinch or use + and − to zoom. Search and filters dim everything else.</AIText></p>
 		<LibraryMap {items} {colors} highlight={inFilter} on:open={(e) => e.detail.url ? window.open(e.detail.url, '_blank', 'noopener') : window.open('https://duckduckgo.com/?q=' + encodeURIComponent(e.detail.title), '_blank', 'noopener')} />
 	{:else}
 	{#each groups as [t, list] (t)}
@@ -114,7 +120,8 @@
 							<span class="plain">{it.title}</span>
 							<a class="dom" href="https://duckduckgo.com/?q={encodeURIComponent(it.title)}" target="_blank" rel="noopener noreferrer">search ↗</a>
 						{/if}
-						<span class="kind">{it.kind}</span>
+						{#if it.added || it.published}<span class="when">{#if it.added}saved {it.added}{/if}{#if it.added && it.published} · {/if}{#if it.published}published {it.published}{/if}</span>{/if}
+							<span class="kind">{it.kind}</span>
 					</li>
 				{/each}
 			</ul>
@@ -160,5 +167,6 @@
 	li a { color: #000; }
 	.plain { color: #000; }
 	.dom { margin-left: auto; font-size: 0.72rem; opacity: 0.65; white-space: nowrap; color: #000; }
+	.when { font-size: 0.68rem; opacity: 0.65; white-space: nowrap; font-variant-numeric: tabular-nums; }
 	.kind { font-size: 0.68rem; border: 1px solid rgba(0, 0, 0, 0.4); padding: 0 5px; white-space: nowrap; }
 </style>
