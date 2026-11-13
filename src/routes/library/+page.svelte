@@ -8,6 +8,10 @@
 	import PageLayout from '../../components/PageLayout.svelte';
 	import AIText from '../../components/AIText.svelte';
 	import lib from '../../data/library.json';
+	import LibraryMap from '../../components/LibraryMap.svelte';
+	let view = 'list'; // 'list' | 'map'
+	// the map dims everything outside the current search / topic / kind filter
+	$: inFilter = (it) => shown.includes(it);
 
 	const items = lib.items;
 	const KINDS = ['video', 'website', 'paper', 'book', 'podcast', 'post', 'thing'];
@@ -47,6 +51,11 @@
 		<p class="note"><AIText>Topics are found automatically by clustering the items and are named by the words most typical of each group, except Wild card, which is hand-picked. Names were transcribed from saved screenshots and bookmarks.</AIText></p>
 	</header>
 
+	<div class="views">
+		<button class:on={view === 'list'} on:click={() => (view = 'list')}>list</button>
+		<button class:on={view === 'map'} on:click={() => (view = 'map')}>map</button>
+	</div>
+
 	<div class="controls">
 		<input class="search" type="search" placeholder="search the library…" bind:value={q} />
 		<select bind:value={kind} aria-label="Kind">
@@ -66,6 +75,10 @@
 
 	<p class="count">{shown.length} shown</p>
 
+	{#if view === 'map'}
+		<p class="note"><AIText>Each dot is one saved thing, joined to the three things most like it. Colours are topics. Hover to see a dot and its neighbours, click to open it, drag and scroll to move around. Search and filters above dim everything else.</AIText></p>
+		<LibraryMap {items} highlight={inFilter} on:open={(e) => e.detail.url ? window.open(e.detail.url, '_blank', 'noopener') : window.open('https://duckduckgo.com/?q=' + encodeURIComponent(e.detail.title), '_blank', 'noopener')} />
+	{:else}
 	{#each groups as [t, list] (t)}
 		<section>
 			<h2 class:machine={t !== 'Wild card'}>{t}</h2>
@@ -85,6 +98,7 @@
 			</ul>
 		</section>
 	{/each}
+	{/if}
 	{#if !shown.length}<p class="count" data-no-reveal><AIText>nothing matches.</AIText></p>{/if}
 </div>
 </PageLayout>
@@ -95,6 +109,9 @@
 	.meta { margin: 0; opacity: 0.75; font-size: 0.9rem; }
 	.note { margin: 8px 0 14px; max-width: 70ch; font-size: 0.85rem; opacity: 0.85; }
 	.controls { display: flex; gap: 8px; margin-bottom: 10px; }
+	.views { display: inline-flex; margin-bottom: 10px; border: 1px solid #000; }
+	.views button { font: inherit; font-size: 0.85rem; padding: 3px 12px; border: none; background: #c0c0c0; cursor: pointer; }
+	.views button.on { background: #000; color: #fff; }
 	.search { flex: 1; padding: 6px 10px; border: 1px solid #000; background: #f7f7f7; font: inherit; }
 	select { font: inherit; border: 1px solid #000; background: #f7f7f7; padding: 4px 6px; }
 	.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }

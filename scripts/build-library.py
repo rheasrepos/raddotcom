@@ -189,12 +189,22 @@ for j in sorted(set(labels)):
     top = [vocab[i] for i in np.argsort(-score)[:3] if score[i] > 0]
     names[j] = " · ".join(top) if top else "assorted"
 
+# ------------------------------------------------------------------ neighbours (for the map view)
+# each item links to its 3 most similar items (cosine in the reduced space),
+# like a connected-papers graph; weak links (< 0.35) are dropped
+sim = Z @ Z.T
+np.fill_diagonal(sim, -1)
+nbrs = []
+for i in range(len(items)):
+    top = [int(j) for j in np.argsort(-sim[i])[:3] if sim[i, j] >= 0.35]
+    nbrs.append(top)
+
 # ------------------------------------------------------------------ write
 out = []
-for it, lab in zip(items, labels):
+for i, (it, lab) in enumerate(zip(items, labels)):
     wild = it["_key"] in wild_keys or it["title"].lower() in wild_keys
     out.append({"title": it["title"], "url": it["url"], "kind": it["kind"],
-                "topic": "Wild card" if wild else names[int(lab)], "wild": wild})
+                "topic": "Wild card" if wild else names[int(lab)], "wild": wild, "near": nbrs[i]})
 json.dump({"count": len(out), "k": chosen, "items": out}, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
 counts = {}
