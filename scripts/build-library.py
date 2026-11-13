@@ -117,7 +117,7 @@ for fname in sorted(os.listdir(SRC)):
         url = mdl.group(2) if mdl else (um.group(0) if um else None)
         if fname == "_wildcard.md" and not url:
             continue  # bare names in _wildcard.md just point at existing items
-        whole = re.fullmatch(r"\[([^\]]+)\]\((https?://[^)\s]+)\)", raw)   # a bare [title](url) line: keep the full title
+        whole = re.fullmatch(r"\[([^\]]+)\]\((https?://[^)\s]+)\)", re.sub(r"\s*@via\s+.*$", "", raw))   # a bare [title](url) line: keep the full title
         title = (whole.group(1).strip() if whole else clean_title(raw)) or (host_title(url) if url else "")
         if len(title) < 2 or title.lower() in ("inbox",):
             continue
@@ -134,6 +134,14 @@ for fname in sorted(os.listdir(SRC)):
                       "_me": fname == "_me-online.md",   # fixed topic "Me online" (not clustered)
                       "_via": via.group(1) if via else None,
                       "_added": added.group(1) if added else None, "_published": published.group(1) if published else None})   # posted ABOUT Rhea by someone else
+
+# links that no longer open (recommendations/_dead-links.txt): keep the item, drop the link
+DEADF = os.path.join(SRC, "_dead-links.txt")
+DEAD = [l.strip() for l in open(DEADF, encoding="utf-8") if l.strip() and not l.startswith("#")] if os.path.exists(DEADF) else []
+for it in items:
+    u = it["url"] or ""
+    if u and any(("//" + d) in u or ("." + d) in u or ("v=" + d) in u or ("youtu.be/" + d) in u for d in DEAD):
+        it["url"] = None
 
 # ------------------------------------------------------------------ embed (TF-IDF, numpy only)
 STOP = set("""the a an and or of to in on for with is are was were be been it its this that these those you your
