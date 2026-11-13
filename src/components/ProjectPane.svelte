@@ -1,4 +1,5 @@
 <script>
+	import { formatDate } from '$lib/posts.js';
 	import { createEventDispatcher } from 'svelte';
 	
 	const dispatch = createEventDispatcher();
@@ -25,13 +26,7 @@
 		dispatch('click');
 	}
 	
-	function formatDate(dateString) {
-		return new Date(dateString).toLocaleDateString('en-US', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric'
-		});
-	}
+	
 </script>
 
 <div class="project-pane card" on:click={handleClick}>

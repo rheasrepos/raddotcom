@@ -7,7 +7,6 @@ type: essays
 academic: true
 course: PSYC Negotiation
 published: true
-pdf: /docs/2024-25-psychology-of-negotiation-term-paper.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Third Year/Y3Q2/psych of negotiation/Psychology of Negotiation TERM PAPER - Rhea Madhog.docx
 tags:
   - academic/psychology/negotiation

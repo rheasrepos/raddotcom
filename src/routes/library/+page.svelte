@@ -6,6 +6,7 @@
 	// (named by their most distinctive words), except "Wild card", which is
 	// Rhea's own pick (recommendations/_wildcard.md).
 	import PageLayout from '../../components/PageLayout.svelte';
+	import { formatDate } from '$lib/posts.js';
 	import AIText from '../../components/AIText.svelte';
 	import lib from '../../data/library.json';
 	import LibraryMap from '../../components/LibraryMap.svelte';
@@ -121,7 +122,7 @@
 							<span class="plain">{#if it.ai_title}<AIText>{it.title}</AIText>{:else}{it.title}{/if}</span>
 							<a class="dom" href="https://duckduckgo.com/?q={encodeURIComponent(it.title)}" target="_blank" rel="noopener noreferrer">search ↗</a>
 						{/if}
-						{#if it.added || it.published}<span class="when">{#if it.added}saved {it.added}{/if}{#if it.added && it.published} · {/if}{#if it.published}published {it.published}{/if}</span>{/if}
+						{#if it.added || it.published}<span class="when">{#if it.added}saved {formatDate(it.added)}{/if}{#if it.added && it.published} · {/if}{#if it.published}published {formatDate(it.published)}{/if}</span>{/if}
 							<span class="kind">{it.kind}</span>
 					</li>
 				{/each}

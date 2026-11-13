@@ -5,7 +5,6 @@ added: 2026-07-20
 type: essays
 academic: false
 published: true
-pdf: /docs/2023-24-ai-public-policy-proposal-rhea-madhogarhia.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Second Year/Y2Q3/AI PUBLIC POLICY PROPOSAL RHEA MADHOGARHIA.docx
 tags: [ai/ai-policy]
 form: [opinion]

@@ -5,7 +5,6 @@ added: 2026-07-28
 type: writing
 academic: false
 published: true
-pdf: /docs/2021-the-stage-i-dreamed-of-but-nonetheless-feared.pdf
 source: /Users/rheamadhogarhia/Desktop/Recovered Writing/2021 The Stage I Dreamed of but Nonetheless Feared.md
 tags:
   - creative/music

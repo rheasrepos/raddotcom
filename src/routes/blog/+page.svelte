@@ -1,4 +1,5 @@
 <script>
+	import { formatDate } from '$lib/posts.js';
 	import PageLayout from '../../components/PageLayout.svelte';
 	import PostPreview from '../../components/PostPreview.svelte';
 	import { categoryConfig, getCategoryColor } from '../../lib/categories.js';
@@ -104,9 +105,7 @@
 		document.getElementById('grp-' + slugify(name))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	}
 
-	function fmt(d) {
-		return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-	}
+	const fmt = formatDate; // points style, e.g. 10.2.26
 	function monthLabel(d) {
 		return new Date(d).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 	}

@@ -220,6 +220,8 @@ export async function GET() {
 				subfolder,
 				// link: external project URL — shows an "Open project ↗" action
 				link: frontmatter.link || null,
+				// code: the project's GitHub repo — shows a "Code on GitHub ↗" link
+				code: frontmatter.code || null,
 				// video: a YouTube URL — the post embeds the player
 				video: frontmatter.video || null,
 				// youtube_playlist: a channel's uploads playlist — embeds as a

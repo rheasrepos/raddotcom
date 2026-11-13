@@ -1,4 +1,5 @@
 <script>
+	import { formatDate } from '$lib/posts.js';
 	// The grey file dialog that opens when you click a loose file / search hit
 	// on the desktop. Sits inside .laptop-screen (absolute, under the topbar,
 	// above the wallpaper toolbar). Emits `close` and `viewimage` (src, alt).
@@ -24,7 +25,7 @@
 				/>
 			{/if}
 			<h2 class="{redactionClass(project.date)}" class:ai-title={project.aiTitle} title={project.aiTitle ? 'Title drafted with AI assistance' : undefined}>{project.title}</h2>
-			<p class="project-date">{new Date(project.date).toLocaleDateString()}</p>
+			<p class="project-date">{formatDate(project.date)}</p>
 			<p class="project-description {redactionClass(project.date)}" class:ai-desc={project.aiDescription} title={project.aiDescription ? 'Description drafted with AI assistance' : undefined}>{project.description}</p>
 			{#if project.pdf}
 				<!-- Original document beats mangled text every time -->

@@ -172,12 +172,20 @@ export function getProjectColor(type) {
  * @returns {string}
  */
 export function formatDate(dateString) {
+	// Rhea's date style (2026-11-13): month.day.two-digit-year with points, e.g. 10.2.26.
+	// Year-only → "2026"; year-month → "10.2026". Read straight from the
+	// YYYY-MM-DD text so time zones can't shift the day.
+	if (!dateString) return '';
+	const m = String(dateString).match(/^(\d{4})(?:-(\d{1,2}))?(?:-(\d{1,2}))?/);
+	if (m) {
+		const [, y, mo, d] = m;
+		if (!mo) return y;
+		if (!d) return `${+mo}.${y}`;
+		return `${+mo}.${+d}.${y.slice(2)}`;
+	}
 	const date = new Date(dateString);
-	return date.toLocaleDateString('en-US', { 
-		year: 'numeric', 
-		month: 'long', 
-		day: 'numeric' 
-	});
+	if (isNaN(date)) return String(dateString);
+	return `${date.getMonth() + 1}.${date.getDate()}.${String(date.getFullYear()).slice(2)}`;
 }
 
 /**

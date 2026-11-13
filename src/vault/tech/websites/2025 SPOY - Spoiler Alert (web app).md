@@ -10,6 +10,7 @@ link: https://spoileralert-phi.vercel.app/
 tags: [coding-journey]
 form: [project]
 affiliation: independent
+code: https://github.com/rheasrepos/spoileralert
 ---
 
 <!-- NOTE: the previous description here was AI-drafted and inaccurate — removed.

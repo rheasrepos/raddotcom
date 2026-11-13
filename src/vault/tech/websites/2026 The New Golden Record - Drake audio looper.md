@@ -10,6 +10,7 @@ link: https://thenewgoldenrecord.vercel.app/golden-recordv2.html
 tags: [creative, science-communication, golden-record]
 form: [project]
 affiliation: uchicago
+code: https://github.com/rheasrepos/bprofinalrecord
 ---
 
 <ai>

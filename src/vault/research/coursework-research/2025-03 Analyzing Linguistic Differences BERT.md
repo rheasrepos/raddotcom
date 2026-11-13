@@ -16,6 +16,7 @@ affiliation: uchicago
 kind:
   - stub
 genre: Research
+code: https://github.com/rheasrepos/nlpfinal
 ---
 https://github.com/minalee-research/cs257-students/wiki/Analyzing-the-Linguistic-Differences-Between-Spoken-and-Written-Text-Using-BERT
 

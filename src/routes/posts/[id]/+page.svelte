@@ -188,6 +188,12 @@
 					</div>
 				{/if}
 
+				{#if post.code}
+					<p class="pub-links">
+						<a href={post.code} target="_blank" rel="noopener noreferrer">Code on GitHub ↗</a>
+					</p>
+				{/if}
+
 				{#if post.doi}
 					<p class="pub-links">
 						<a href={post.doi} target="_blank" rel="noopener noreferrer">Read the paper on bioRxiv ↗</a>

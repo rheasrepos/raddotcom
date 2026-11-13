@@ -6,7 +6,6 @@ type: coursework
 academic: true
 course: User-Centered Design
 published: true
-pdf: /docs/user-centered-design-reading-response-period-tracking-privacy-post-roe-cao-et-al.pdf
 source: raddotcom Vault/2026-01-08 Untitled document (1)-1.pdf
 tags: [academic/hci/user-centered-design, privacy]
 form: [reading-response]

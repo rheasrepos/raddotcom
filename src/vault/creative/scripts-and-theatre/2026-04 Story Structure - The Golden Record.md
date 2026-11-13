@@ -7,7 +7,6 @@ date_approx: true
 type: creative
 academic: false
 published: true
-pdf: /docs/2026-04-story-structure-the-golden-record.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/Unorganized/Story Structure_ The Golden Record.docx
 tags: [creative/screenwriting/story-structure, creative/comedy]
 affiliation: uchicago

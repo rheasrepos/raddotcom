@@ -8,7 +8,6 @@ type: coursework
 academic: true
 course: HIND Hindi
 published: true
-pdf: /docs/2022-23-hindi-103-video-summary.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/HINDI/HINDI 103 Video Summary.docx
 tags: [academic/language/hindi, creative]
 form: [script]

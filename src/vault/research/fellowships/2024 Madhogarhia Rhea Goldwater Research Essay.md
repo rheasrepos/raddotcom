@@ -7,7 +7,6 @@ date_approx: true
 type: research
 academic: false
 published: true
-pdf: /docs/2024-madhogarhia-rhea-goldwater-research-essay.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/career-applications-randomwriting/Madhogarhia, Rhea Goldwater Research Essay.docx
 tags:
   - academic/cognitive-science

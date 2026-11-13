@@ -32,6 +32,8 @@ for root,dirs,files in os.walk(src):
     # public-facing Scraps section of Personal Writing (notes stay hidden
     # until individually flipped to published: true).
     dirs[:]=[d for d in dirs if not d.startswith((".","_")) and not (d == "scraps" and root == src)]
+    # research/ai-wiki is compiled from PRIVATE AI chats: never publish it, even if a note says published: true (CLAUDE.md)
+    dirs[:]=[d for d in dirs if not (d == "ai-wiki" and os.path.basename(root) == "research")]
     for f in sorted(files):
         if not f.endswith(".md") or f.startswith("_"): continue
         # skip iCloud/Obsidian sync-conflict copies like "Foo 2.md", "Foo 3.md"
@@ -46,8 +48,35 @@ for root,dirs,files in os.walk(src):
 # The video list (vault/_videos.md → src/data/videos.md) feeds the About page gallery.
 if os.path.exists(os.path.join(src,"_videos.md")):
     os.makedirs("src/data",exist_ok=True); shutil.copy2(os.path.join(src,"_videos.md"),"src/data/videos.md"); print("Copied _videos.md → src/data/videos.md")
+# The questions list (vault/_questions.md → src/data/questions.md) feeds the Questions tab.
+if os.path.exists(os.path.join(src,"_questions.md")):
+    os.makedirs("src/data",exist_ok=True); shutil.copy2(os.path.join(src,"_questions.md"),"src/data/questions.md"); print("Copied _questions.md → src/data/questions.md")
 print(f"Promoted {len(promoted)} note(s) to src/vault/:")
 for f in promoted: print("  +",f)
+
+# Files live NEXT TO their notes in the vault (one content folder). The website
+# can only serve files from static/, so copy them there on every promote:
+#   essays/Foo.md + essays/Foo.pdf          -> static/docs/<slug of Foo>.pdf
+#   artifacts/Artifact x.md + its images    -> static/artifacts/<image name>
+# Copies only (newer vault file wins); nothing in static/ is ever deleted here.
+def _slug(s):
+    s=s.lower().replace("'","").replace("’","").replace('"',"")
+    s=re.sub(r"[^a-z0-9]+","-",s); return re.sub(r"-+","-",s).strip("-")
+def _newer(a,b): return not os.path.exists(b) or os.path.getmtime(a)>os.path.getmtime(b)+1
+pdfs=imgs=0
+for rel in promoted:
+    note=os.path.join(src,rel); folder=os.path.dirname(note); stem=os.path.basename(rel)[:-3]
+    pdf=os.path.join(folder,stem+".pdf")
+    if os.path.exists(pdf):
+        out=os.path.join("static/docs",_slug(stem)+".pdf"); os.makedirs("static/docs",exist_ok=True)
+        if _newer(pdf,out): shutil.copy2(pdf,out); pdfs+=1
+    t=open(note,encoding="utf-8",errors="ignore").read()
+    for ref in set(re.findall(r"/artifacts/([^\s,\]'\"]+\.(?:jpg|jpeg|png|gif|webp|pdf))",t,re.I)):
+        f=os.path.join(folder,os.path.basename(ref))
+        if os.path.exists(f):
+            out=os.path.join("static/artifacts",ref); os.makedirs(os.path.dirname(out),exist_ok=True)
+            if _newer(f,out): shutil.copy2(f,out); imgs+=1
+if pdfs or imgs: print(f"Copied {pdfs} PDF(s) → static/docs/ and {imgs} image(s) → static/artifacts/ from beside their notes")
 
 # Generate blog cover thumbnails (first PDF page) for any new documents.
 # Needs poppler: brew install poppler

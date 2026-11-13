@@ -1,5 +1,5 @@
 ---
-title: "BIOTECH: Final Paper"
+title: "Biotechnology in the 21st Century: Final Paper"
 ai_title: true
 date: 2024-12-12
 added: 2026-07-19
@@ -7,10 +7,10 @@ type: essays
 academic: true
 course: BIOS Biotechnology
 published: true
-pdf: /docs/2024-12-final-biotech-paper.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Third Year/Y3Q1/biotechnology/FINAL BIOTECH PAPER!.docx
-tags: [academic/natural-science, academic/biology/biotech]
-
+tags:
+  - academic/natural-science
+  - academic/biology/biotech
 affiliation: uchicago
 genre: Essay
 ---

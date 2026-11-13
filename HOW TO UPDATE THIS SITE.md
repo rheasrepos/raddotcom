@@ -222,6 +222,12 @@ Moderate by deleting rows in Table Editor → complexity.
 
 ---
 
+## 5h. Questions (rhea.com/questions) and GitHub links
+**Questions tab:** edit `_questions.md` at the top of the draft vault. `## Section` lines, then `- your exact words | where it came from`. Promote copies it to `src/data/questions.md`. Quotes show in quotation marks (yours, no AI mark); section names and the "where it came from" line show with the AI underline until you rewrite them.
+**GitHub on a post:** add `code: https://github.com/rheasrepos/<repo>` to the post's frontmatter → a "Code on GitHub ↗" link under it (alongside `link:` for the live site). Only link PUBLIC repos — a private one 404s for visitors.
+
+---
+
 ## 5e. The video gallery (About → YouTube)
 The YouTube tile on the About page is a thumbnail gallery: every upload on @rheamad (read live from the channel's public feed — no API key, newest 15) **plus any video you list in the vault's `_videos.md`** — one YouTube link per line, optionally ` — a caption`. Those show with a "not on my channel" tag. `promote-to-site.command` copies `_videos.md` to `src/data/videos.md`; commit and push as usual. Click a thumbnail and it plays in place.
 
