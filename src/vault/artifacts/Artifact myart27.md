@@ -1,5 +1,5 @@
 ---
-title: "Artifact myart27"
+title: "myart27"
 date: 2026-07-23
 added: 2026-07-27
 type: art

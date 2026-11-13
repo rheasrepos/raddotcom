@@ -1,5 +1,5 @@
 ---
-title: "Artifact 02b"
+title: "img02"
 date: 2026-07-23
 added: 2026-08-09
 type: artifacts
