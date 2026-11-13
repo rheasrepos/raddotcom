@@ -104,7 +104,7 @@
 	<p class="count">{shown.length} shown</p>
 
 	{#if view === 'map'}
-		<p class="note"><AIText>Rhea is in the middle. The first ring is everything she saved or made, grouped by topic and joined to the three things most like it. Further out are the people and places that posted something about her, and beyond them, those posts. Each topic's name sits just inside the first ring. Hover a dot to see its title, topic and neighbours; click to open it; drag to move around; scroll, pinch or use + and − to zoom. Search and filters dim everything else.</AIText></p>
+		<p class="note"><AIText>Rhea is in the middle. The first ring is everything she saved or made, each topic packed into its own island and joined to the three things most like it (links between islands appear on hover). Further out are the people and places that posted something about her, and beyond them, those posts. Each topic's name sits just inside the first ring. Hover a dot to see its title, topic and neighbours; click to open it; drag to move around; scroll, pinch or use + and − to zoom. Search and filters dim everything else.</AIText></p>
 		<LibraryMap {items} {colors} highlight={inFilter} on:open={(e) => e.detail.url ? window.open(e.detail.url, '_blank', 'noopener') : window.open('https://duckduckgo.com/?q=' + encodeURIComponent(e.detail.title), '_blank', 'noopener')} />
 	{:else}
 	{#each groups as [t, list] (t)}

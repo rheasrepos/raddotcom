@@ -18,7 +18,7 @@
 	const PALETTE = ['#e6194b', '#3cb44b', '#4363d8', '#f58231', '#911eb4', '#42d4f4', '#f032e6', '#9a6324', '#469990', '#800000', '#808000', '#000075', '#e6a800', '#7a7a7a', '#bfef45', '#dcbeff', '#aaffc3', '#ffd8b1', '#fabed4'];
 	let canvas, wrap, ctx, raf;
 	let nodes = [], edges = [], spokes = [], hovered = null, center = null;
-	const R1 = 420, R2 = 640, R3 = 780; // ring radii
+	let R1 = 420, R2 = 640, R3 = 780; // ring radii, sized in build() to fit the islands
 	let view = { x: 0, y: 0, k: 0.42 }, panning = null, alpha = 1;
 
 	$: topicList = [...new Set(items.map((i) => i.topic))].sort((a, b) => (a === 'Wild card' ? -1 : b === 'Wild card' ? 1 : 0));
@@ -33,25 +33,53 @@
 		return (darkCache[hex] = `rgb(${Math.round((v >> 16) * f)},${Math.round(((v >> 8) & 255) * f)},${Math.round((v & 255) * f)})`);
 	}
 
+	// Layout (modelled on Nature's 150-years citation map: each field is its own
+	// tight island). Every topic gets a wedge of ring 1 sized to how many items it
+	// has, and its items are packed into a round island at that spot (sunflower
+	// packing, then a light collision pass). Similarity links are drawn, not
+	// simulated, so they can't drag items out of their island.
+	let centers = {}; // topic → { x, y, b (island radius) }
 	function build() {
-		// seed each topic in its own sector of ring 1 so groups start apart
-		const sector = (t) => (topicList.indexOf(t) / topicList.length) * Math.PI * 2;
-		nodes = items.map((it, i) => {
-			const a = sector(it.topic) + (Math.random() - 0.5) * 0.6;
-			const ring = it.via ? R3 : R1, r = ring + (Math.random() - 0.5) * 60;
-			return { i, it, x: Math.cos(a) * r, y: Math.sin(a) * r, vx: 0, vy: 0, deg: 0, ring };
-		});
-		center = { center: true, x: 0, y: 0, vx: 0, vy: 0, r: 14, ring: 0, label: 'Rhea' };
-		// one hub per publisher, on ring 2, placed at the average angle of its items
+		const own = items.map((it, i) => ({ it, i })).filter((o) => !o.it.via);
+		const byTopic = {};
+		for (const o of own) (byTopic[o.it.topic] ||= []).push(o);
+		// biggest topics opposite each other so the ring looks balanced
+		const order = topicList.filter((t) => byTopic[t]);
+		const SP = 11; // spacing between dots
+		const isl = Object.fromEntries(order.map((t) => [t, SP * Math.sqrt(byTopic[t].length) * 0.62 + 10]));
+		const perim = order.reduce((s, t) => s + 2 * isl[t] + 40, 0);
+		R1 = Math.max(280, perim / (2 * Math.PI));
+		const maxB = Math.max(...order.map((t) => isl[t]));
+		R2 = R1 + maxB + 130; R3 = R2 + 120;
+		centers = {};
+		let acc = 0;
+		for (const t of order) {
+			const w = (2 * isl[t] + 40) / perim, a = (acc + w / 2) * Math.PI * 2 - Math.PI / 2;
+			acc += w;
+			centers[t] = { x: Math.cos(a) * R1, y: Math.sin(a) * R1, b: isl[t], a };
+		}
+		nodes = items.map((it, i) => ({ i, it, x: 0, y: 0, vx: 0, vy: 0, deg: 0 }));
+		for (const t of order) {
+			// sunflower packing; items listed next to their nearest neighbours sit together
+			const list = byTopic[t], c = centers[t];
+			list.forEach((o, k) => {
+				const r = SP * 0.62 * Math.sqrt(k + 0.5), th = k * 2.39996;
+				Object.assign(nodes[o.i], { x: c.x + Math.cos(th) * r, y: c.y + Math.sin(th) * r, home: c });
+			});
+		}
+		center = { center: true, x: 0, y: 0, r: 14, label: 'Rhea' };
+		// one hub per publisher on ring 2, beside the "Me online" island; its posts on ring 3
 		const hubs = {};
 		for (const n of nodes) if (n.it.via) (hubs[n.it.via] ||= []).push(n);
 		spokes = [];
-		const hubNodes = Object.entries(hubs).map(([label, kids]) => {
-			const a = Math.atan2(kids.reduce((s, k) => s + k.y, 0), kids.reduce((s, k) => s + k.x, 0));
-			const h = { hub: true, label, x: Math.cos(a) * R2, y: Math.sin(a) * R2, vx: 0, vy: 0, r: 7, ring: R2, kids };
-			spokes.push([center, h]);
-			for (const k of kids) spokes.push([h, k]);
-			return h;
+		const me = centers['Me online'], base = me ? me.a : 0, H = Object.keys(hubs).length;
+		const hubNodes = Object.entries(hubs).map(([label, kids], h) => {
+			const a = base + (h - (H - 1) / 2) * 0.16;
+			const hub = { hub: true, label, x: Math.cos(a) * R2, y: Math.sin(a) * R2, r: 7, kids };
+			kids.forEach((k, j) => { const ka = a + (j - (kids.length - 1) / 2) * 0.03; Object.assign(k, { x: Math.cos(ka) * R3, y: Math.sin(ka) * R3, home: { x: Math.cos(ka) * R3, y: Math.sin(ka) * R3 } }); });
+			spokes.push([center, hub]);
+			for (const k of kids) spokes.push([hub, k]);
+			return hub;
 		});
 		for (const n of nodes) if (!n.it.via) spokes.push([center, n]);
 		nodes = [...nodes, ...hubNodes];
@@ -60,41 +88,30 @@
 		for (const n of nodes) if (n.it) for (const j of n.it.near || []) { // hubs have no item
 			const key = n.i < j ? `${n.i}-${j}` : `${j}-${n.i}`;
 			if (seen.has(key) || !nodes[j]) continue;
-			seen.add(key); edges.push([n, nodes[j]]); n.deg++; nodes[j].deg++;
+			seen.add(key); edges.push([n, nodes[j], n.it.topic === nodes[j].it.topic]); n.deg++; nodes[j].deg++;
 		}
-		for (const n of nodes) if (!n.hub) n.r = 2.5 + Math.sqrt(n.deg) * 0.9;
+		for (const n of nodes) if (!n.hub) n.r = 2.5 + Math.sqrt(n.deg) * 0.7;
 		alpha = 1;
 	}
 
+	// a short collision pass: dots push apart only when overlapping, and each is
+	// pulled back to its island's centre, so islands stay round and separate
 	function tick() {
-		if (alpha < 0.03) return;
-		const REPEL = 260, LINK = 28;
-		// grid-bucketed repulsion so 700 nodes stay fast
-		const cell = 60, grid = new Map();
-		for (const n of nodes) { const k = `${Math.floor(n.x / cell)},${Math.floor(n.y / cell)}`; (grid.get(k) || grid.set(k, []).get(k)).push(n); }
+		if (alpha < 0.02) return;
+		const cell = 14, grid = new Map();
+		for (const n of nodes) if (n.it) { const k = `${Math.floor(n.x / cell)},${Math.floor(n.y / cell)}`; (grid.get(k) || grid.set(k, []).get(k)).push(n); }
 		for (const a of nodes) {
-			// pull each dot onto its ring (radial spring) instead of to the centre
-			const rr = Math.hypot(a.x, a.y) + 0.01, pull = ((a.ring - rr) / rr) * 0.05;
-			a.vx += a.x * pull; a.vy += a.y * pull;
+			if (!a.it) continue;
+			a.vx += (a.home.x - a.x) * 0.01; a.vy += (a.home.y - a.y) * 0.01;
 			const cx = Math.floor(a.x / cell), cy = Math.floor(a.y / cell);
-			for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) {
-				for (const b of grid.get(`${cx + dx},${cy + dy}`) || []) {
-					if (b === a) continue;
-					let x = a.x - b.x, y = a.y - b.y, d2 = x * x + y * y + 0.01;
-					const f = REPEL / d2; a.vx += x * f * 0.5; a.vy += y * f * 0.5;
-				}
+			for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) for (const b of grid.get(`${cx + dx},${cy + dy}`) || []) {
+				if (b === a) continue;
+				const x = a.x - b.x, y = a.y - b.y, d = Math.hypot(x, y) + 0.01, min = a.r + b.r + 2.5;
+				if (d < min) { const f = ((min - d) / d) * 0.25; a.vx += x * f; a.vy += y * f; }
 			}
 		}
-		for (const [a, b] of edges) {
-			const x = b.x - a.x, y = b.y - a.y, d = Math.sqrt(x * x + y * y) + 0.01, f = ((d - LINK) / d) * 0.04;
-			a.vx += x * f; a.vy += y * f; b.vx -= x * f; b.vy -= y * f;
-		}
-		// degree-2 items stay near their publisher's angle
-		for (const n of nodes) if (n.hub) for (const k of n.kids) {
-			const x = n.x - k.x, y = n.y - k.y; k.vx += x * 0.01; k.vy += y * 0.01;
-		}
-		for (const n of nodes) { n.vx *= 0.82; n.vy *= 0.82; n.x += n.vx * alpha; n.y += n.vy * alpha; }
-		alpha *= 0.992;
+		for (const n of nodes) if (n.it) { n.vx *= 0.7; n.vy *= 0.7; n.x += n.vx * alpha; n.y += n.vy * alpha; }
+		alpha *= 0.985;
 	}
 
 	function draw() {
@@ -116,9 +133,10 @@
 			ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
 		}
 		ctx.lineWidth = 0.6 / view.k;
-		for (const [a, b] of edges) {
+		for (const [a, b, same] of edges) {
 			const lit = near && (a === hovered || b === hovered);
-			ctx.strokeStyle = lit ? '#000' : 'rgba(0,0,0,0.09)';
+			if (!lit && !same) continue; // links between islands only show on hover
+			ctx.strokeStyle = lit ? '#000' : 'rgba(0,0,0,0.12)';
 			ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
 		}
 		for (const n of nodes) {
@@ -136,13 +154,11 @@
 			ctx.beginPath(); ctx.arc(n.x, n.y, n === hovered ? n.r + 3 : n.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 		}
 		ctx.globalAlpha = 1;
-		// each topic's name, just inside ring 1 at the topic's average angle.
+		// each topic's name, just inside its island (towards Rhea).
 		// Machine-made names get the dashed AI underline, as in the sidebar.
-		const acc = {};
-		for (const n of nodes) if (n.it && !n.it.via) { const a = (acc[n.it.topic] ||= { x: 0, y: 0, c: 0 }); a.x += n.x; a.y += n.y; a.c++; }
 		ctx.font = `bold ${11 / view.k}px sans-serif`; ctx.textAlign = 'center';
-		for (const [t, a] of Object.entries(acc)) {
-			const ang = Math.atan2(a.y, a.x), lx = Math.cos(ang) * (R1 - 90), ly = Math.sin(ang) * (R1 - 90);
+		for (const [t, c] of Object.entries(centers)) {
+			const rr = R1 - c.b - 12 / view.k, lx = Math.cos(c.a) * rr, ly = Math.sin(c.a) * rr;
 			const dim = highlight && !nodes.some((n) => n.it && n.it.topic === t && highlight(n.it));
 			ctx.globalAlpha = dim ? 0.25 : 1; ctx.fillStyle = darker(colorOf(t));
 			ctx.fillText(t, lx, ly);
