@@ -19,6 +19,10 @@
 	let q = '';
 	let topic = 'all';
 	let kind = 'all';
+	let sort = 'topic'; // 'topic' | 'az' | 'za' | 'kind'
+
+	// one colour per topic, shared by the sidebar and the map
+	const PALETTE = ['#e6194b', '#3cb44b', '#4363d8', '#f58231', '#911eb4', '#42d4f4', '#f032e6', '#9a6324', '#469990', '#800000', '#808000', '#000075', '#e6a800', '#7a7a7a', '#bfef45', '#dcbeff', '#aaffc3', '#ffd8b1', '#fabed4'];
 
 	const domain = (u) => (u ? u.replace(/^https?:\/\/(www\.)?/, '').split('/')[0] : '');
 
@@ -37,10 +41,15 @@
 		return q.toLowerCase().split(/\s+/).filter(Boolean).every((w) => hay.includes(w));
 	});
 
-	// grouped for display when no single topic is selected
-	$: groups = topics
-		.map(([t]) => [t, shown.filter((it) => it.topic === t)])
-		.filter(([, list]) => list.length);
+	$: colors = Object.fromEntries(topics.map(([t], i) => [t, t === 'Wild card' ? '#000' : PALETTE[i % PALETTE.length]]));
+
+	const byTitle = (a, b) => a.title.localeCompare(b.title, undefined, { sensitivity: 'base' });
+	// grouped by topic (default) or by kind; or one flat A–Z / Z–A list
+	$: groups = sort === 'topic'
+		? topics.map(([t]) => [t, shown.filter((it) => it.topic === t)]).filter(([, l]) => l.length)
+		: sort === 'kind'
+			? KINDS.map((k) => [k + 's', shown.filter((it) => it.kind === k).sort(byTitle)]).filter(([, l]) => l.length)
+			: [[sort === 'az' ? 'A–Z' : 'Z–A', [...shown].sort(sort === 'az' ? byTitle : (a, b) => byTitle(b, a))]];
 </script>
 
 <PageLayout title="Library - Rhea Madhogarhia">
@@ -51,33 +60,45 @@
 		<p class="note"><AIText>Topics are found automatically by clustering the items and are named by the words most typical of each group, except Wild card, which is hand-picked. Names were transcribed from saved screenshots and bookmarks.</AIText></p>
 	</header>
 
-	<div class="views">
-		<button class:on={view === 'list'} on:click={() => (view = 'list')}>list</button>
-		<button class:on={view === 'map'} on:click={() => (view = 'map')}>map</button>
-	</div>
-
-	<div class="controls">
+	<div class="layout">
+	<aside class="side">
+		<div class="views">
+			<button class:on={view === 'list'} on:click={() => (view = 'list')}>list</button>
+			<button class:on={view === 'map'} on:click={() => (view = 'map')}>map</button>
+		</div>
 		<input class="search" type="search" placeholder="search the library…" bind:value={q} />
-		<select bind:value={kind} aria-label="Kind">
-			<option value="all">all kinds</option>
-			{#each KINDS as k}<option value={k}>{k}s</option>{/each}
-		</select>
-	</div>
-
-	<div class="chips">
-		<button class:on={topic === 'all'} on:click={() => (topic = 'all')}>all</button>
-		{#each topics as [t, n]}
-			<button class:on={topic === t} class:wild={t === 'Wild card'} class:machine={t !== 'Wild card'}
-				title={t === 'Wild card' ? "Rhea's own picks" : 'Machine-made topic name'}
-				on:click={() => (topic = topic === t ? 'all' : t)}>{t} <span class="n">{n}</span></button>
-		{/each}
-	</div>
-
+		<label class="lbl">kind
+			<select bind:value={kind}>
+				<option value="all">all kinds</option>
+				{#each KINDS as k}<option value={k}>{k}s</option>{/each}
+			</select>
+		</label>
+		{#if view === 'list'}
+			<label class="lbl">sort
+				<select bind:value={sort}>
+					<option value="topic">by topic</option>
+					<option value="az">A–Z</option>
+					<option value="za">Z–A</option>
+					<option value="kind">by kind</option>
+				</select>
+			</label>
+		{/if}
+		<div class="topics">
+			<button class="t" class:on={topic === 'all'} on:click={() => (topic = 'all')}>all topics <span class="n">{items.length}</span></button>
+			{#each topics as [t, n]}
+				<button class="t" class:on={topic === t} on:click={() => (topic = topic === t ? 'all' : t)}
+					title={t === 'Wild card' ? "Rhea's own picks" : 'Machine-made topic name'}>
+					<i style="background:{colors[t]}"></i><span class:machine={t !== 'Wild card'}>{t}</span> <span class="n">{n}</span>
+				</button>
+			{/each}
+		</div>
+	</aside>
+	<main class="main">
 	<p class="count">{shown.length} shown</p>
 
 	{#if view === 'map'}
 		<p class="note"><AIText>Each dot is one saved thing, joined to the three things most like it. Colours are topics. Hover to see a dot and its neighbours, click to open it, drag and scroll to move around. Search and filters above dim everything else.</AIText></p>
-		<LibraryMap {items} highlight={inFilter} on:open={(e) => e.detail.url ? window.open(e.detail.url, '_blank', 'noopener') : window.open('https://duckduckgo.com/?q=' + encodeURIComponent(e.detail.title), '_blank', 'noopener')} />
+		<LibraryMap {items} {colors} highlight={inFilter} on:open={(e) => e.detail.url ? window.open(e.detail.url, '_blank', 'noopener') : window.open('https://duckduckgo.com/?q=' + encodeURIComponent(e.detail.title), '_blank', 'noopener')} />
 	{:else}
 	{#each groups as [t, list] (t)}
 		<section>
@@ -100,24 +121,33 @@
 	{/each}
 	{/if}
 	{#if !shown.length}<p class="count" data-no-reveal><AIText>nothing matches.</AIText></p>{/if}
+	</main>
+	</div>
 </div>
 </PageLayout>
 
 <style>
-	.lib { padding: 4px 0 30px; max-width: 920px; }
+	.lib { padding: 4px 0 30px; max-width: 1180px; }
+	.layout { display: grid; grid-template-columns: 230px 1fr; gap: 18px; align-items: start; }
+	.side { position: sticky; top: 8px; display: flex; flex-direction: column; gap: 8px; max-height: calc(100vh - 140px); overflow: auto; padding-right: 4px; }
+	.main { min-width: 0; }
+	.lbl { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 0.8rem; }
+	.topics { display: flex; flex-direction: column; gap: 2px; margin-top: 4px; }
+	.t { display: flex; align-items: center; gap: 6px; text-align: left; font: inherit; font-size: 0.78rem; padding: 3px 6px; border: 1px solid transparent; background: none; cursor: pointer; }
+	.t:hover { border-color: #000; }
+	.t.on { background: #000; color: #fff; }
+	.t i { flex: none; width: 9px; height: 9px; display: inline-block; }
+	.t .n { margin-left: auto; }
+	@media (max-width: 760px) { .layout { grid-template-columns: 1fr; } .side { position: static; max-height: none; } }
 	h1 { margin: 0 0 4px; }
 	.meta { margin: 0; opacity: 0.75; font-size: 0.9rem; }
 	.note { margin: 8px 0 14px; max-width: 70ch; font-size: 0.85rem; opacity: 0.85; }
-	.controls { display: flex; gap: 8px; margin-bottom: 10px; }
-	.views { display: inline-flex; margin-bottom: 10px; border: 1px solid #000; }
+	.views { display: flex; border: 1px solid #000; }
+	.views button { flex: 1; }
 	.views button { font: inherit; font-size: 0.85rem; padding: 3px 12px; border: none; background: #c0c0c0; cursor: pointer; }
 	.views button.on { background: #000; color: #fff; }
-	.search { flex: 1; padding: 6px 10px; border: 1px solid #000; background: #f7f7f7; font: inherit; }
+	.search { width: 100%; box-sizing: border-box; padding: 6px 10px; border: 1px solid #000; background: #f7f7f7; font: inherit; }
 	select { font: inherit; border: 1px solid #000; background: #f7f7f7; padding: 4px 6px; }
-	.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-	.chips button { font: inherit; font-size: 0.78rem; padding: 3px 9px; border: 1px solid #000; background: #c0c0c0; cursor: pointer; }
-	.chips button.on { background: #000; color: #fff; }
-	.chips button.wild { border-style: double; border-width: 3px; }
 	.n { opacity: 0.6; }
 	/* machine-made topic names carry the AI dashed underline */
 	.machine { text-decoration: underline dashed; text-decoration-thickness: 1px; text-underline-offset: 3px; }

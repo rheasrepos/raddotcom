@@ -7,6 +7,7 @@
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	export let items = [];
 	export let highlight = null; // optional predicate: item → bool (search / topic filter)
+	export let colors = null;    // topic → colour, from the page (its sidebar shows the key)
 	const dispatch = createEventDispatcher();
 
 	const PALETTE = ['#e6194b', '#3cb44b', '#4363d8', '#f58231', '#911eb4', '#42d4f4', '#f032e6', '#9a6324', '#469990', '#800000', '#808000', '#000075', '#e6a800', '#7a7a7a', '#bfef45', '#dcbeff', '#aaffc3', '#ffd8b1', '#fabed4'];
@@ -15,7 +16,7 @@
 	let view = { x: 0, y: 0, k: 0.55 }, panning = null, alpha = 1;
 
 	$: topicList = [...new Set(items.map((i) => i.topic))].sort((a, b) => (a === 'Wild card' ? -1 : b === 'Wild card' ? 1 : 0));
-	$: colorOf = (t) => (t === 'Wild card' ? '#000' : PALETTE[topicList.indexOf(t) % PALETTE.length]);
+	$: colorOf = (t) => (colors && colors[t]) || (t === 'Wild card' ? '#000' : PALETTE[topicList.indexOf(t) % PALETTE.length]);
 
 	function build() {
 		// seed each topic in its own sector so groups start apart
@@ -125,9 +126,6 @@
 	{#if hovered}
 		<div class="tip"><b>{hovered.it.title}</b><span>{hovered.it.topic} · {hovered.it.kind}</span></div>
 	{/if}
-	<div class="legend">
-		{#each topicList as t}<span class:machine={t !== 'Wild card'}><i style="background:{colorOf(t)}"></i>{t}</span>{/each}
-	</div>
 </div>
 
 <style>
@@ -135,8 +133,4 @@
 	canvas { display: block; touch-action: none; cursor: grab; }
 	.tip { position: absolute; left: 10px; bottom: 10px; background: #000; color: #fff; padding: 6px 9px; font-size: 0.8rem; max-width: 60%; display: flex; flex-direction: column; gap: 2px; pointer-events: none; }
 	.tip span { opacity: 0.7; font-size: 0.72rem; }
-	.legend { position: absolute; right: 8px; top: 8px; max-width: 42%; max-height: 60%; overflow: auto; background: rgba(255, 255, 255, 0.9); border: 1px solid #000; padding: 6px 8px; font-size: 0.68rem; display: flex; flex-direction: column; gap: 2px; }
-	/* machine-made topic names carry the AI dashed underline; Wild card is Rhea's */
-	.legend .machine { text-decoration: underline dashed; text-underline-offset: 2px; }
-	.legend i { display: inline-block; width: 8px; height: 8px; margin-right: 5px; vertical-align: 0; }
 </style>
