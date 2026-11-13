@@ -9,7 +9,6 @@
 		// Changed path to /blog and label to Blog
 		{ path: '/blog', label: 'Blog' },
 		{ path: '/network', label: 'Obsidian' },
-		{ path: '/resume', label: 'Resume' },
 		{ path: '/about', label: 'About' },
 		{ path: '/library', label: 'Library' },
 		{ path: '/wpm', label: 'WPM' }

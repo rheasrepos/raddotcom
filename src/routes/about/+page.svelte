@@ -70,6 +70,7 @@
             <div class="hero-text">
                 <h1>Hiii, I'm Rhea Madhogarhia (currently a Master's student at NYU Courant studying Computer Science)</h1>
                 <p class="hero-bio">{aboutText}</p>
+                <a class="resume-link" href="/resume.pdf" download="Rhea Madhogarhia Resume.pdf">download resume</a>
             </div>
         </div>
     </section>
@@ -120,6 +121,9 @@
 </PageLayout>
 
 <style>
+    .resume-link { display: inline-block; margin-top: 14px; color: #000; text-decoration: underline; font-size: 1rem; }
+    .resume-link:hover { text-decoration-thickness: 2px; }
+
     .hero-bio {
         max-width: 720px;
         margin: 22px auto 0;
