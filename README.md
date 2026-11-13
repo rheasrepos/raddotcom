@@ -30,10 +30,9 @@ A fun, eclectic personal website built with SvelteKit featuring a desktop-like i
 
 ### Creating Posts
 
-1. **Go to Admin Panel**: `http://localhost:5178/admin`
-2. **Enter Code**: `rad2024`
-3. **Fill Form**: Title, description, content, type, image URL, and date
-4. **Submit**: Post is automatically committed to Git and appears on your site
+1. **Go to Admin Panel** (local only, under `npm run dev`): `http://localhost:5178/admin`
+2. **Fill Form**: Title, description, content, type, image URL, and date
+3. **Submit**: Post is automatically committed to Git and appears on your site
 
 ### How It Works
 

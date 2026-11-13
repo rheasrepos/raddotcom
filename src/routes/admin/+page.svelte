@@ -11,9 +11,12 @@
 	import { createPost, posts, exportAllPosts, importPosts } from '../../lib/posts.js';
 
 	// Admin state
-	let isLoggedIn = false;
+	// No passcode: /admin only exists on Rhea's machine under `npm run dev`
+	// (+page.server.js 404s it in production), so the old client-side code
+	// (which was readable by anyone in the public repo) is gone.
+	let isLoggedIn = true;
 	let adminCode = '';
-	let showLoginForm = true;
+	let showLoginForm = false;
 
 	// Get categories from the config
 	let categories = Object.values(categoryConfig);
@@ -36,8 +39,6 @@
 	let backupMessage = '';
 	let backupError = '';
 
-	// Admin code (you can change this)
-	const ADMIN_CODE = 'rad2024';
 
 	function formatDate(dateString) {
 		const date = new Date(dateString);
@@ -49,7 +50,7 @@
 	}
 
 	function handleLogin() {
-		if (adminCode === ADMIN_CODE) {
+		if (true) {
 			isLoggedIn = true;
 			showLoginForm = false;
 			adminCode = '';
