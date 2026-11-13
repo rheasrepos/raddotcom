@@ -8,7 +8,7 @@ _Kept current by Claude at the end of each session. Tick things off or delete li
 - [ ] **About page**: replace "INSERT LINK LOL" (the Redaction font link) and decide on "bio incoming.... this is a work in progress".
 - [ ] **HIPS/MBL "Visualising the Invisible"**: body still says "CONTENT TO PASTE" — download the PDF from iCloud and paste the essay (or give it a PDF).
 - [ ] **Resume/CV**: `static/resume.pdf` still says "Graduating June 2026" with your UChicago email — update when you have a new one.
-- [ ] **Library sources**: skim `recommendations/_from-chrome-bookmarks.md` (470 high-school/college bookmarks), delete anything private, set `include: true`. Then run `python3 scripts/notes-links-export.py` on your Mac for Apple Notes links and do the same. Add your Wild card picks to `recommendations/_wildcard.md`.
+- [ ] **Library sources**: Chrome bookmarks reviewed and kept as-is (438, 2026-11-13). Apple Notes links are exported (243, 2026-11-13) to `recommendations/_from-apple-notes.md` — skim, delete anything private, set `include: true`, then rebuild. Add your Wild card picks to `recommendations/_wildcard.md`.
 - [ ] **SPOY description** — the note still has the placeholder comment; write the real one.
 - [ ] **"RPM (rhea's personal machine)"** from the handwritten note — never placed; decide where (or drop).
 - [ ] **WhatsApp digital-garden message** — Claude can only draft it; send it yourself.
