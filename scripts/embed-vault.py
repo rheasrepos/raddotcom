@@ -58,6 +58,7 @@ def tags_of(v):
     return [x.strip().strip('"\'') for x in v.strip("[]").split(",") if x.strip()]
 
 notes = []
+ai_skipped = []
 for root, dirs, files in os.walk(VAULT):
     dirs[:] = [d for d in dirs if not d.startswith(".")]
     for f in sorted(files):
@@ -65,6 +66,9 @@ for root, dirs, files in os.walk(VAULT):
         raw = open(os.path.join(root, f), encoding="utf-8", errors="ignore").read()
         fm, body = frontmatter(raw)
         if fm.get("published", "").lower() != "true": continue
+        # measure AI-written text BEFORE the cleanup below strips the tags
+        ai_words = sum(len(x.split()) for x in re.findall(r"<ai>(.*?)</ai>", body, re.S))
+        body = re.sub(r"<ai>.*?</ai>", " ", body, flags=re.S)   # AI stubs never feed the embedding
         body = re.sub(r"\[\[Topic - [^\]]*\]\]", " ", body)
         body = re.sub(r"</?ai>", " ", body)                                 # AI-drafted markers are not words          # topic backlinks are bookkeeping, not content
         body = re.sub(r"[#>*_`\[\]\(\)\-]|https?://\S+", " ", body)
@@ -72,6 +76,13 @@ for root, dirs, files in os.walk(VAULT):
         pdf = fm.get("pdf") or ""
         pdf_path = os.path.join(ROOT, "static", pdf.lstrip("/")) if pdf else os.path.join(DOCS, slugify(f[:-3]) + ".pdf")
         doc = pdf_text(pdf_path)
+        # Rhea (2026-11-13): AI-generated documents don't belong on the Obsidian
+        # map. A note is left out when AI-written text (ai_body: true, or <ai>…</ai>
+        # blocks) is most of its TOTAL content — its own words plus any attached
+        # PDF, which is hers. AI stubs on her real documents are just stripped.
+        own_words = len(body.split()) + len(doc.split())
+        if fm.get("ai_body", "").lower() == "true" or ai_words > own_words:
+            ai_skipped.append(f[:-3]); continue
         # [[wikilinks]] — what the Obsidian-style graph view draws. Kept raw
         # (target text only, no alias/heading); resolved against note names
         # below. "Topic - x" targets are the vault's topic hub notes.
@@ -98,6 +109,7 @@ notes = [n for n in notes if n["_words"] >= 25]
 if len(notes) < 4:
     sys.exit(f"only {len(notes)} published notes with text in {VAULT}; need a few more to make a space")
 print(f"{len(notes)} notes with text in the space ({len(skipped)} image-only notes left out)")
+print(f"{len(ai_skipped)} AI-generated notes left out: " + ", ".join(ai_skipped))
 
 # ---------------------------------------------------------------- embed
 if model_name:
@@ -153,5 +165,5 @@ for n, p in zip(notes, xyz):                       # xyz rows are in read order,
     n["links"] = sorted(set(out))
     del n["_text"], n["_links"], n["_name"], n["_words"]
 notes.sort(key=lambda n: (n["date"] == "", n["date"]))   # dated notes chronologically, undated last
-json.dump({"model": label, "variance": var, "count": len(notes), "left_out": len(skipped), "notes": notes}, open(OUT, "w"))
+json.dump({"model": label, "variance": var, "count": len(notes), "left_out": len(skipped), "ai_left_out": len(ai_skipped), "notes": notes}, open(OUT, "w"))
 print(f"wrote {os.path.relpath(OUT, ROOT)}")
