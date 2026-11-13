@@ -19,7 +19,7 @@
 	let canvas, wrap, ctx, raf;
 	let nodes = [], edges = [], spokes = [], hovered = null, center = null;
 	let R1 = 420, R2 = 640, R3 = 780; // ring radii, sized in build() to fit the islands
-	let view = { x: 0, y: 0, k: 0.42 }, panning = null, alpha = 1;
+	let view = { x: 0, y: 0, k: 0.5 }, panning = null, alpha = 1;
 
 	$: topicList = [...new Set(items.map((i) => i.topic))].sort((a, b) => (a === 'Wild card' ? -1 : b === 'Wild card' ? 1 : 0));
 	$: colorOf = (t) => (colors && colors[t]) || (t === 'Wild card' ? '#000' : PALETTE[topicList.indexOf(t) % PALETTE.length]);
@@ -33,46 +33,32 @@
 		return (darkCache[hex] = `rgb(${Math.round((v >> 16) * f)},${Math.round(((v >> 8) & 255) * f)},${Math.round((v & 255) * f)})`);
 	}
 
-	// Layout (modelled on Nature's 150-years citation map: each field is its own
-	// tight island). Every topic gets a wedge of ring 1 sized to how many items it
-	// has, and its items are packed into a round island at that spot (sunflower
-	// packing, then a light collision pass). Similarity links are drawn, not
-	// simulated, so they can't drag items out of their island.
-	let centers = {}; // topic → { x, y, b (island radius) }
+	// Layout: an embedding map. Each item's text is turned into a vector (by
+	// scripts/build-library.py) and squeezed to 2-D with t-SNE, the way word
+	// embeddings are plotted, so distance on screen = how similar two items are.
+	// Topics are k-means clusters of the same vectors, so each colour is a group of
+	// nearby points. All of that sits inside ring 1; the publisher ring and the
+	// posts about Rhea sit outside it. A light collision pass keeps dots from
+	// stacking exactly on top of each other.
+	let centers = {}; // topic → { x, y } (median of its points), for the labels
+	const S = 560;    // world units for the unit circle of the embedding
 	function build() {
-		const own = items.map((it, i) => ({ it, i })).filter((o) => !o.it.via);
-		const byTopic = {};
-		for (const o of own) (byTopic[o.it.topic] ||= []).push(o);
-		// biggest topics opposite each other so the ring looks balanced
-		const order = topicList.filter((t) => byTopic[t]);
-		const SP = 11; // spacing between dots
-		const isl = Object.fromEntries(order.map((t) => [t, SP * Math.sqrt(byTopic[t].length) * 0.62 + 10]));
-		const perim = order.reduce((s, t) => s + 2 * isl[t] + 40, 0);
-		R1 = Math.max(280, perim / (2 * Math.PI));
-		const maxB = Math.max(...order.map((t) => isl[t]));
-		R2 = R1 + maxB + 130; R3 = R2 + 120;
+		R1 = S * 1.08; R2 = R1 + 150; R3 = R2 + 120;
+		nodes = items.map((it, i) => {
+			const [x, y] = it.xy || [0, 0];
+			return { i, it, x: x * S, y: y * S, vx: 0, vy: 0, deg: 0, home: { x: x * S, y: y * S } };
+		});
 		centers = {};
-		let acc = 0;
-		for (const t of order) {
-			const w = (2 * isl[t] + 40) / perim, a = (acc + w / 2) * Math.PI * 2 - Math.PI / 2;
-			acc += w;
-			centers[t] = { x: Math.cos(a) * R1, y: Math.sin(a) * R1, b: isl[t], a };
-		}
-		nodes = items.map((it, i) => ({ i, it, x: 0, y: 0, vx: 0, vy: 0, deg: 0 }));
-		for (const t of order) {
-			// sunflower packing; items listed next to their nearest neighbours sit together
-			const list = byTopic[t], c = centers[t];
-			list.forEach((o, k) => {
-				const r = SP * 0.62 * Math.sqrt(k + 0.5), th = k * 2.39996;
-				Object.assign(nodes[o.i], { x: c.x + Math.cos(th) * r, y: c.y + Math.sin(th) * r, home: c });
-			});
-		}
+		const groups = {};
+		for (const n of nodes) if (!n.it.via) (groups[n.it.topic] ||= []).push(n);
+		const med = (v) => { const s = [...v].sort((a, b) => a - b); return s[Math.floor(s.length / 2)]; };
+		for (const [t, list] of Object.entries(groups)) centers[t] = { x: med(list.map((n) => n.x)), y: med(list.map((n) => n.y)) };
 		center = { center: true, x: 0, y: 0, r: 14, label: 'Rhea' };
 		// one hub per publisher on ring 2, beside the "Me online" island; its posts on ring 3
 		const hubs = {};
 		for (const n of nodes) if (n.it.via) (hubs[n.it.via] ||= []).push(n);
 		spokes = [];
-		const me = centers['Me online'], base = me ? me.a : 0, H = Object.keys(hubs).length;
+		const me = centers['Me online'], base = me ? Math.atan2(me.y, me.x) : 0, H = Object.keys(hubs).length;
 		const hubNodes = Object.entries(hubs).map(([label, kids], h) => {
 			const a = base + (h - (H - 1) / 2) * 0.16;
 			const hub = { hub: true, label, x: Math.cos(a) * R2, y: Math.sin(a) * R2, r: 7, kids };
@@ -154,11 +140,11 @@
 			ctx.beginPath(); ctx.arc(n.x, n.y, n === hovered ? n.r + 3 : n.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 		}
 		ctx.globalAlpha = 1;
-		// each topic's name, just inside its island (towards Rhea).
+		// each topic's name at the middle of its points.
 		// Machine-made names get the dashed AI underline, as in the sidebar.
 		ctx.font = `bold ${11 / view.k}px sans-serif`; ctx.textAlign = 'center';
 		for (const [t, c] of Object.entries(centers)) {
-			const rr = R1 - c.b - 12 / view.k, lx = Math.cos(c.a) * rr, ly = Math.sin(c.a) * rr;
+			const lx = c.x, ly = c.y - 10 / view.k;
 			const dim = highlight && !nodes.some((n) => n.it && n.it.topic === t && highlight(n.it));
 			ctx.globalAlpha = dim ? 0.25 : 1; ctx.fillStyle = darker(colorOf(t));
 			ctx.fillText(t, lx, ly);
@@ -170,8 +156,8 @@
 		}
 		ctx.globalAlpha = 1;
 		// Rhea, in the middle
-		ctx.fillStyle = '#ff8c42'; ctx.strokeStyle = '#000'; ctx.lineWidth = 2 / view.k;
-		ctx.beginPath(); ctx.arc(0, 0, center.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+		ctx.strokeStyle = '#000'; ctx.lineWidth = 2 / view.k;
+		ctx.beginPath(); ctx.arc(0, 0, center.r, 0, Math.PI * 2); ctx.stroke(); // hollow: dots under it stay visible
 		ctx.fillStyle = '#000'; ctx.font = `bold ${13 / view.k}px sans-serif`; ctx.textAlign = 'center';
 		ctx.fillText('Rhea', 0, center.r + 15 / view.k);
 		if (near) {
@@ -223,7 +209,7 @@
 	<div class="zoom">
 		<button on:click={() => zoomAt(view.k * 1.4)} aria-label="zoom in">+</button>
 		<button on:click={() => zoomAt(view.k / 1.4)} aria-label="zoom out">−</button>
-		<button on:click={() => { view = { x: 0, y: 0, k: 0.42 }; }}>reset</button>
+		<button on:click={() => { view = { x: 0, y: 0, k: 0.5 }; }}>reset</button>
 	</div>
 	{#if hovered && hovered.it}
 		<div class="tip" data-no-reveal><b>{#if hovered.it.ai_title}<AIText>{hovered.it.title}</AIText>{:else}{hovered.it.title}{/if}</b><span>{hovered.it.topic} · {hovered.it.kind}{#if hovered.it.via} · <AIText>posted by {hovered.it.via}</AIText>{/if}</span></div>

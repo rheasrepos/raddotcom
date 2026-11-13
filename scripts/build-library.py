@@ -243,6 +243,43 @@ for i in range(len(items)):
     top = [int(j) for j in np.argsort(-sim[i])[:3] if sim[i, j] >= 0.35]
     nbrs.append(top)
 
+# ------------------------------------------------------------------ 2-D map (t-SNE, numpy only)
+# Like plotting word embeddings: each item's vector (above) is squeezed to 2-D so
+# that items with similar text land near each other. Deterministic (fixed seed).
+def tsne(Z, perplexity=30, iters=750, seed=0):
+    n = len(Z)
+    D = np.maximum(((Z[:, None, :] - Z[None]) ** 2).sum(-1), 0)
+    P = np.zeros((n, n)); target = np.log(perplexity)
+    for i in range(n):
+        lo, hi, beta = 0.0, np.inf, 1.0
+        d = np.delete(D[i], i)
+        for _ in range(60):
+            p = np.exp(-d * beta); s = p.sum() + 1e-12; p /= s
+            H = -(p * np.log(p + 1e-12)).sum()
+            if abs(H - target) < 1e-4: break
+            if H > target: lo = beta; beta = beta * 2 if hi == np.inf else (beta + hi) / 2
+            else: hi = beta; beta = (beta + lo) / 2
+        P[i, np.arange(n) != i] = p
+    P = (P + P.T) / (2 * n); P = np.maximum(P, 1e-12)
+    rng = np.random.default_rng(seed)
+    Y = rng.normal(0, 1e-4, (n, 2)); V = np.zeros_like(Y); G = np.ones_like(Y)
+    for t in range(iters):
+        ex = 12.0 if t < 250 else 1.0
+        sq = (Y ** 2).sum(1); num = 1 / (1 + sq[:, None] + sq[None] - 2 * Y @ Y.T)
+        np.fill_diagonal(num, 0); Q = np.maximum(num / num.sum(), 1e-12)
+        PQ = (ex * P - Q) * num
+        grad = 4 * ((np.diag(PQ.sum(1)) - PQ) @ Y)
+        G = np.where(np.sign(grad) != np.sign(V), G + 0.2, G * 0.8).clip(0.01)
+        V = (0.5 if t < 250 else 0.8) * V - 200 * G * grad
+        Y += V; Y -= Y.mean(0)
+    return Y
+own_idx = [i for i, it in enumerate(items) if not it.get("_via")]
+XY = np.zeros((len(items), 2))
+if len(own_idx) > 5:
+    Y = tsne(Z[own_idx])
+    r = np.sqrt((Y ** 2).sum(1)); Y /= np.percentile(r, 98)   # most points inside the unit circle
+    XY[own_idx] = Y
+
 # ------------------------------------------------------------------ write
 out = []
 for i, (it, lab) in enumerate(zip(items, labels)):
@@ -250,6 +287,7 @@ for i, (it, lab) in enumerate(zip(items, labels)):
     topic = "Me online" if it.get("_me") else ("Wild card" if wild else names[int(lab)])
     out.append({"title": it["title"], "url": it["url"], "kind": it["kind"],
                 "topic": topic, "wild": wild or bool(it.get("_me")), "near": nbrs[i],
+                "xy": [round(float(XY[i, 0]), 4), round(float(XY[i, 1]), 4)],
                 **({"via": it["_via"]} if it.get("_via") else {}),
                 **({"added": it["_added"]} if it.get("_added") else {}),
                 **({"ai_title": True} if it.get("_ai") else {}),
