@@ -43,7 +43,7 @@
 <div class="lib">
 	<header>
 		<h1>Library</h1>
-		<p class="meta">{items.length} things saved from around the internet</p>
+		<p class="meta" data-no-reveal>{items.length} <AIText>things saved from around the internet</AIText></p>
 		<p class="note"><AIText>Topics are found automatically by clustering the items and are named by the words most typical of each group, except Wild card, which is hand-picked. Names were transcribed from saved screenshots and bookmarks.</AIText></p>
 	</header>
 
@@ -85,7 +85,7 @@
 			</ul>
 		</section>
 	{/each}
-	{#if !shown.length}<p class="count">nothing matches.</p>{/if}
+	{#if !shown.length}<p class="count" data-no-reveal><AIText>nothing matches.</AIText></p>{/if}
 </div>
 </PageLayout>
 
