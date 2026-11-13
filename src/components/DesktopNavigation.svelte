@@ -11,6 +11,7 @@
 		{ path: '/network', label: 'Obsidian' },
 		{ path: '/resume', label: 'Resume' },
 		{ path: '/about', label: 'About' },
+		{ path: '/library', label: 'Library' },
 		{ path: '/wpm', label: 'WPM' }
 	];
 

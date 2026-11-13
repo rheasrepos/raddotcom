@@ -1,0 +1,1889 @@
+{
+ "count": 269,
+ "k": 18,
+ "items": [
+  {
+   "title": "Si Tú Me Quisieras",
+   "url": null,
+   "kind": "thing",
+   "topic": "latin · sessions · vein",
+   "wild": false
+  },
+  {
+   "title": "Ojos de Girasol",
+   "url": null,
+   "kind": "thing",
+   "topic": "above · suggested · queue",
+   "wild": false
+  },
+  {
+   "title": "¿Qué Se Siente Que Me Gustes Tanto?",
+   "url": null,
+   "kind": "thing",
+   "topic": "above · suggested · queue",
+   "wild": false
+  },
+  {
+   "title": "No Te Preocupes Si Me Ves Llorando",
+   "url": null,
+   "kind": "thing",
+   "topic": "above · suggested · queue",
+   "wild": false
+  },
+  {
+   "title": "Mi Querer",
+   "url": null,
+   "kind": "thing",
+   "topic": "above · suggested · queue",
+   "wild": false
+  },
+  {
+   "title": "De Haber Sabido (feat. Diego Lorenzini)",
+   "url": null,
+   "kind": "thing",
+   "topic": "above · suggested · queue",
+   "wild": false
+  },
+  {
+   "title": "Perdido de Amor [Lost in Love]",
+   "url": null,
+   "kind": "thing",
+   "topic": "above · suggested · queue",
+   "wild": false
+  },
+  {
+   "title": "Brisa",
+   "url": null,
+   "kind": "thing",
+   "topic": "above · suggested · queue",
+   "wild": false
+  },
+  {
+   "title": "me olvidarás (como lo haces ya)",
+   "url": null,
+   "kind": "thing",
+   "topic": "above · suggested · queue",
+   "wild": false
+  },
+  {
+   "title": "Bésame (Cnt. 1:1)",
+   "url": null,
+   "kind": "thing",
+   "topic": "latin · sessions · vein",
+   "wild": false
+  },
+  {
+   "title": "Algo contigo",
+   "url": null,
+   "kind": "thing",
+   "topic": "latin · sessions · vein",
+   "wild": false
+  },
+  {
+   "title": "Quien lo diría",
+   "url": null,
+   "kind": "thing",
+   "topic": "latin · sessions · vein",
+   "wild": false
+  },
+  {
+   "title": "Nunca vas a comprender",
+   "url": null,
+   "kind": "thing",
+   "topic": "latin · sessions · vein",
+   "wild": false
+  },
+  {
+   "title": "Bésame Mucho",
+   "url": null,
+   "kind": "thing",
+   "topic": "latin · sessions · vein",
+   "wild": false
+  },
+  {
+   "title": "Soledad y el Mar (feat. Los Macorinos)",
+   "url": null,
+   "kind": "thing",
+   "topic": "latin · sessions · vein",
+   "wild": false
+  },
+  {
+   "title": "Gregory Porter",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "Nardwuar",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "\"Slipping Through My Fingers\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "\"Chestnuts Roasting\" (The Christmas Song)",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "BEMO song · \"color song\" (your own drafts/notes)",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "Yebba — Dawn",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "\"From Entropy to Epiplexity: Rethinking Information for Computationally Bounded Intelligence\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Adam Brown",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "\"The Imitation Reversal\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "\"LLM-morphism\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "CEBRA paper",
+   "url": null,
+   "kind": "paper",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "\"Topology & AI: ANN inspired by human brain topology\"",
+   "url": "https://youtu.be/y8Xrb2AAzU8",
+   "kind": "video",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Mechanistic-interpretability reels",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "\"On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "\"Gender Shades\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "\"Model Cards for Model Reporting\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "\"Datasheets for Datasets\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "\"The Values Encoded in Machine Learning Research\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "@cahdoria",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "5 books on AI's impact",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "\"AI and Epistemology\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "Nvidia–OpenAI 10 GW data-center campus",
+   "url": null,
+   "kind": "thing",
+   "topic": "nyc · inspo · instasaved",
+   "wild": false
+  },
+  {
+   "title": "OpenAI influencer \"luxury brand trip\" critique",
+   "url": null,
+   "kind": "thing",
+   "topic": "nyc · inspo · instasaved",
+   "wild": false
+  },
+  {
+   "title": "@okaashish repo roundup",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "@kalypsodesigns open-source roundup",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Tip",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "AI text-to-hardware generator",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Telegram-connected AI agent \"team\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Epiplexity",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "The Door",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "\"There Will Come Soft Rains\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "Transcription",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "Ursula K. Le Guin as literature's \"greatest hater\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "Gardens of the Moon",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "Helen of Nowhere",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "Tent of Miracles",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "Books under 200 pages",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "Ryan Holiday's \"books you can read in a single sitting\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "Solarpunk/regenerative book+film community database",
+   "url": null,
+   "kind": "book",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "Ironic \"3 books you should never read\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "I Am Not a Robot: My Year Using AI to Do (Almost) Everything",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "CS/math books",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "Topic map for four of these as theory-of-computation companion reading",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "time & space studio \"Book Corner\"",
+   "url": null,
+   "kind": "book",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "Der Nadler wimmelbild artwork",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "Claude Corps Fellow",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Rithm Project fellowship",
+   "url": "https://www.therithmproject.org/rithm-fellow",
+   "kind": "website",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "MIT Catalyst Fellowship",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Rishub Jain",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Simile",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Clair Health",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Scott Elmegreen",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "PhD statement-of-purpose advice",
+   "url": "https://open.substack.com/pub/bivi/p/why-your-statement-of-purpose-isnt",
+   "kind": "website",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Peer LinkedIn reference",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "NYU Courant MS orientation",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "The Penny Hoarder",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "\"Create one PDF, sell it 1000 times\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "@vro.sews",
+   "url": null,
+   "kind": "thing",
+   "topic": "crafts · making · textile",
+   "wild": false
+  },
+  {
+   "title": "Joomchi",
+   "url": null,
+   "kind": "thing",
+   "topic": "crafts · making · textile",
+   "wild": false
+  },
+  {
+   "title": "A6 journal cover",
+   "url": null,
+   "kind": "thing",
+   "topic": "crafts · making · textile",
+   "wild": false
+  },
+  {
+   "title": "Embroidered-newspaper wearable art",
+   "url": null,
+   "kind": "thing",
+   "topic": "crafts · making · textile",
+   "wild": false
+  },
+  {
+   "title": "@limepokes",
+   "url": null,
+   "kind": "thing",
+   "topic": "crafts · making · textile",
+   "wild": false
+  },
+  {
+   "title": "Tattoo flash wishlist",
+   "url": null,
+   "kind": "thing",
+   "topic": "crafts · making · textile",
+   "wild": false
+  },
+  {
+   "title": "Nishorama",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "Etica Denim",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "@oliviadaytonn outfit sources",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "Gossard black corset top",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "Temu",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "Jeans-that-are-sweatpants",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "Aritzia Super Puff tag refs",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "Cream wide-leg cargo pants that fit curvy sizes",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "Comfortable shoes",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "Summer 2026 pedicure shades",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "WellNature \"Cyperus Rotundus Follicle Reduction Oil\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "Zahler ParaGuard",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "@graceburton's semester film list",
+   "url": null,
+   "kind": "thing",
+   "topic": "film · podcasts · long",
+   "wild": false
+  },
+  {
+   "title": "\"2022–23 Favorite Shows\" classroom poster",
+   "url": null,
+   "kind": "thing",
+   "topic": "film · podcasts · long",
+   "wild": false
+  },
+  {
+   "title": "The Rock",
+   "url": null,
+   "kind": "thing",
+   "topic": "film · podcasts · long",
+   "wild": false
+  },
+  {
+   "title": "\"What the Bleep Do We Know!?\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "film · podcasts · long",
+   "wild": false
+  },
+  {
+   "title": "The Color of Friendship",
+   "url": null,
+   "kind": "thing",
+   "topic": "film · podcasts · long",
+   "wild": false
+  },
+  {
+   "title": "Movies",
+   "url": null,
+   "kind": "thing",
+   "topic": "film · podcasts · long",
+   "wild": false
+  },
+  {
+   "title": "Shows",
+   "url": null,
+   "kind": "thing",
+   "topic": "film · podcasts · long",
+   "wild": false
+  },
+  {
+   "title": "\"Conversations Worth Your Time\" list",
+   "url": null,
+   "kind": "thing",
+   "topic": "film · podcasts · long",
+   "wild": false
+  },
+  {
+   "title": "David Senra's YouTube channel",
+   "url": null,
+   "kind": "thing",
+   "topic": "film · podcasts · long",
+   "wild": false
+  },
+  {
+   "title": "\"Psychic Militancy\"",
+   "url": "https://youtu.be/uv9EPy0Qi74",
+   "kind": "video",
+   "topic": "film · podcasts · long",
+   "wild": false
+  },
+  {
+   "title": "The Minimalists ep. 419",
+   "url": null,
+   "kind": "thing",
+   "topic": "film · podcasts · long",
+   "wild": false
+  },
+  {
+   "title": "Flavor combo to steal",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "Spudsy Sweet Potato Puffs",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "Tocaya",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "Crispy chili-oil garlic tofu stir-fry",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "One-pan roasted Mediterranean chickpeas & feta",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "Whipped ricotta & honey toast",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "Ceremonial iced matcha latte protocol",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "Cold brew extraction ratio",
+   "url": null,
+   "kind": "thing",
+   "topic": "fashion · shopping · restaurants",
+   "wild": false
+  },
+  {
+   "title": "Thuma",
+   "url": null,
+   "kind": "thing",
+   "topic": "bed · home · furniture",
+   "wild": false
+  },
+  {
+   "title": "Aardhen Minimal Bed Frame",
+   "url": null,
+   "kind": "thing",
+   "topic": "bed · home · furniture",
+   "wild": false
+  },
+  {
+   "title": "IKEA Malm",
+   "url": null,
+   "kind": "thing",
+   "topic": "bed · home · furniture",
+   "wild": false
+  },
+  {
+   "title": "\"Marshmallow\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "bed · home · furniture",
+   "wild": false
+  },
+  {
+   "title": "Comment wisdom",
+   "url": null,
+   "kind": "thing",
+   "topic": "bed · home · furniture",
+   "wild": false
+  },
+  {
+   "title": "Vintage mid-century bed with ledge headboard",
+   "url": null,
+   "kind": "thing",
+   "topic": "bed · home · furniture",
+   "wild": false
+  },
+  {
+   "title": "Yechen Home",
+   "url": null,
+   "kind": "thing",
+   "topic": "bed · home · furniture",
+   "wild": false
+  },
+  {
+   "title": "Koala",
+   "url": null,
+   "kind": "thing",
+   "topic": "bed · home · furniture",
+   "wild": false
+  },
+  {
+   "title": "Zonli floor futon/mattress",
+   "url": null,
+   "kind": "thing",
+   "topic": "bed · home · furniture",
+   "wild": false
+  },
+  {
+   "title": "Evidence-based revision blueprint",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "\"Marginalia\" 1x1x1 reading-retention method",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "Cambridge 3-step study method",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "Study-resource tier ranking",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "Academic-writing pattern",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "Prof. Pete Carr (U. Minnesota) — \"How to Write a Paper in a Weekend\"",
+   "url": null,
+   "kind": "paper",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "Free-sites roundup",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "\"Hot Girls do Research\" free resources",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "watch.plex.tv",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "Comprehensible-input language learning",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "10 hobbies to get smart again",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "Craftsy/Creativebug-style on-demand craft course platform",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "Ray Bradbury's nightly routine",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "Hand-built Obsidian knowledge graph of all of medicine",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "AI second-brain stack",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "Claude-maintained Obsidian wiki setup",
+   "url": null,
+   "kind": "thing",
+   "topic": "obsidian · tips · claude",
+   "wild": false
+  },
+  {
+   "title": "Why saved content never gets used",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "PKM / digital-minimalism reel batch",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "Dazed",
+   "url": null,
+   "kind": "thing",
+   "topic": "study · learning · ethics",
+   "wild": false
+  },
+  {
+   "title": "Neural correlates of consciousness",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "\"Psychologymaxxing\" niche concepts",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "Institute of Art and Ideas",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "Ulcca Hansen",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "BirdsEyes",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "Panpsychism & psychedelics series, Part 2",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "Cleve Backster \"primary perception\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "\"Consistency of Regions of Interest as Nodes of Functional Brain Networks\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "fMRI connectivity reels",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "inter-subject correlation / neural synchrony during movie watching",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "\"Philosophymaxxing\" niche concepts",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "History-of-philosophy starter books",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "Think/write/argue clearly book list",
+   "url": null,
+   "kind": "book",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "Sabine Hossenfelder IAI reel",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "John Conway(?) free-will lecture clip",
+   "url": null,
+   "kind": "video",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "Stephen Wolfram, A New Kind of Science",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "Iain McGilchrist(?) lecture at Ralston College",
+   "url": null,
+   "kind": "video",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "Kant quote for openers",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "The Minimalists podcast ep. 419 clip",
+   "url": null,
+   "kind": "podcast",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "\"Ancients knew the necessity of masks\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "Vault Empowers interview clip",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "Philosophy-of-technology links",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "Strange-attractor animation formula",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "Random walks & the Brownian frontier",
+   "url": null,
+   "kind": "thing",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Math of Origami, Day 7",
+   "url": null,
+   "kind": "thing",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Recamán's sequence arc visualization",
+   "url": null,
+   "kind": "thing",
+   "topic": "ideas · mind · philosophy",
+   "wild": false
+  },
+  {
+   "title": "Privacy habits from an ex-Reddit employee",
+   "url": null,
+   "kind": "thing",
+   "topic": "nyc · inspo · instasaved",
+   "wild": false
+  },
+  {
+   "title": "3 OSINT tools",
+   "url": null,
+   "kind": "thing",
+   "topic": "nyc · inspo · instasaved",
+   "wild": false
+  },
+  {
+   "title": "Vibe-coded app security checks + Strix",
+   "url": null,
+   "kind": "thing",
+   "topic": "nyc · inspo · instasaved",
+   "wild": false
+  },
+  {
+   "title": "NFC tag stickers",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Mac apps",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "\"Cheat Code to the Universe\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "books · reading · fiction",
+   "wild": false
+  },
+  {
+   "title": "Quantum-leap manifestation quote",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Washington Post",
+   "url": null,
+   "kind": "thing",
+   "topic": "nyc · inspo · instasaved",
+   "wild": false
+  },
+  {
+   "title": "Quora explainer of the Hindi slang \"bhosdike\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "\"I'm gonna take all my online finals at a restaurant because the customer is always right\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "English teacher's delighted reaction",
+   "url": null,
+   "kind": "thing",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Ethel Cain",
+   "url": null,
+   "kind": "thing",
+   "topic": "artists · check · songs",
+   "wild": false
+  },
+  {
+   "title": "Local Natives",
+   "url": null,
+   "kind": "thing",
+   "topic": "artists · check · songs",
+   "wild": false
+  },
+  {
+   "title": "Chloe Frances",
+   "url": null,
+   "kind": "thing",
+   "topic": "artists · check · songs",
+   "wild": false
+  },
+  {
+   "title": "Mary in the Junkyard",
+   "url": null,
+   "kind": "thing",
+   "topic": "artists · check · songs",
+   "wild": false
+  },
+  {
+   "title": "\"Musta Been a Ghost\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "artists · check · songs",
+   "wild": false
+  },
+  {
+   "title": "\"Lonely One\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "artists · check · songs",
+   "wild": false
+  },
+  {
+   "title": "Shazam/scan song IDs",
+   "url": null,
+   "kind": "thing",
+   "topic": "artists · check · songs",
+   "wild": false
+  },
+  {
+   "title": "\"In My Head\" lyric hunt",
+   "url": null,
+   "kind": "thing",
+   "topic": "artists · check · songs",
+   "wild": false
+  },
+  {
+   "title": "\"Solidaritätslied\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "artists · check · songs",
+   "wild": false
+  },
+  {
+   "title": "@icxn",
+   "url": null,
+   "kind": "thing",
+   "topic": "artists · check · songs",
+   "wild": false
+  },
+  {
+   "title": "Favorite albums of 2022 list",
+   "url": null,
+   "kind": "thing",
+   "topic": "artists · check · songs",
+   "wild": false
+  },
+  {
+   "title": "Kid Cudi \"Man on the Moon II\" tracklist poster",
+   "url": null,
+   "kind": "thing",
+   "topic": "artists · check · songs",
+   "wild": false
+  },
+  {
+   "title": "Discover Weekly oddities",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "Recently-played captures",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "Daily Mix 1 scroll (indie core)",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "Car now-playing captures",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "\"the perfect pair\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "musical · theatre · covers",
+   "wild": false
+  },
+  {
+   "title": "\"A Change Is Gonna Come\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "musical · theatre · covers",
+   "wild": false
+  },
+  {
+   "title": "\"She Used to Be Mine\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "musical · theatre · covers",
+   "wild": false
+  },
+  {
+   "title": "\"In Pieces\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "musical · theatre · covers",
+   "wild": false
+  },
+  {
+   "title": "Cabaret solo performance clip",
+   "url": null,
+   "kind": "thing",
+   "topic": "musical · theatre · covers",
+   "wild": false
+  },
+  {
+   "title": "Amy Winehouse \"Back to Black\"",
+   "url": null,
+   "kind": "thing",
+   "topic": "musical · theatre · covers",
+   "wild": false
+  },
+  {
+   "title": "flowkey",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "Karaoke YouTube channels worth keeping",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "WNYU (wnyu.org) management contacts",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "Sluggers World Class Sports Bar",
+   "url": null,
+   "kind": "thing",
+   "topic": "travel · places · angeles",
+   "wild": false
+  },
+  {
+   "title": "Freestyle Ceramics / Freestyle Tufting",
+   "url": null,
+   "kind": "thing",
+   "topic": "travel · places · angeles",
+   "wild": false
+  },
+  {
+   "title": "Thrifting guide",
+   "url": null,
+   "kind": "thing",
+   "topic": "travel · places · angeles",
+   "wild": false
+  },
+  {
+   "title": "Hospital of Emotions",
+   "url": null,
+   "kind": "thing",
+   "topic": "travel · places · angeles",
+   "wild": false
+  },
+  {
+   "title": "Octavia Lab",
+   "url": null,
+   "kind": "thing",
+   "topic": "travel · places · angeles",
+   "wild": false
+  },
+  {
+   "title": "Road to Hana (Maui)",
+   "url": null,
+   "kind": "thing",
+   "topic": "travel · places · angeles",
+   "wild": false
+  },
+  {
+   "title": "Souvenir shopping finds",
+   "url": null,
+   "kind": "thing",
+   "topic": "travel · places · angeles",
+   "wild": false
+  },
+  {
+   "title": "Broadway open call",
+   "url": null,
+   "kind": "thing",
+   "topic": "nyc · inspo · instasaved",
+   "wild": false
+  },
+  {
+   "title": "Researching NYC landlords",
+   "url": null,
+   "kind": "thing",
+   "topic": "nyc · inspo · instasaved",
+   "wild": false
+  },
+  {
+   "title": "McNally Jackson bookstore",
+   "url": null,
+   "kind": "thing",
+   "topic": "nyc · inspo · instasaved",
+   "wild": false
+  },
+  {
+   "title": "Brooklyn Public Library reading lawns",
+   "url": null,
+   "kind": "thing",
+   "topic": "nyc · inspo · instasaved",
+   "wild": false
+  },
+  {
+   "title": "Erowid Experience Vaults",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "Instafest",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "@rj.bernaldo interactive-site roundup, the rest of it",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "The Pudding",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "Taxiway",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "Five free design archives",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "Stripe Press",
+   "url": null,
+   "kind": "thing",
+   "topic": "nyc · inspo · instasaved",
+   "wild": false
+  },
+  {
+   "title": "elimarigodesign.com",
+   "url": null,
+   "kind": "thing",
+   "topic": "nyc · inspo · instasaved",
+   "wild": false
+  },
+  {
+   "title": "WebGL / TouchDesigner link batch",
+   "url": null,
+   "kind": "thing",
+   "topic": "down · chase · web",
+   "wild": false
+  },
+  {
+   "title": "MIT Press Network Neuroscience Paper",
+   "url": "https://direct.mit.edu/netn/article/1/3/254/2197/Consistency-of-Regions-of-Interest-as-nodes-of",
+   "kind": "paper",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Transformer Circuits Workspace",
+   "url": "https://transformer-circuits.pub/2026/workspace/index.html#intro",
+   "kind": "website",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "ARENA Chapter 1",
+   "url": "https://arena-chapter1-transformer-interp.streamlit.app/",
+   "kind": "website",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Consciousness Atlas",
+   "url": "https://www.consciousnessatlas.com/",
+   "kind": "website",
+   "topic": "fellowships · career · research",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DbNrDy_TGWk/",
+   "kind": "video",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DXMsbDPxHmq/",
+   "kind": "video",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DYnr4evNfjE/",
+   "kind": "video",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DbMuDRYsv3X/",
+   "kind": "video",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DbJlJyIBx2k/",
+   "kind": "video",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DVYvXAaDRui/",
+   "kind": "video",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DawhhrtNg4W/",
+   "kind": "video",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DYkUEUWEdhx/",
+   "kind": "video",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DXhdG1oDsmD/",
+   "kind": "video",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DVeH5E9FKP4/",
+   "kind": "video",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/Da1FndIBXfc/",
+   "kind": "video",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DW4dgg3jJ6e/",
+   "kind": "video",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DauzoEdoYSP/",
+   "kind": "video",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DVjA3CQDl2t/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/p/DZMu4pigI4B/",
+   "kind": "post",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/p/DXthI2WgNl-/",
+   "kind": "post",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DWr26xmiL9u/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DZ56Pa5q9TK/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DXmZKB2DrvT/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DWdGNIFDmIh/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DX4nX7gNk_S/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DZCJN3Au4EL/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DbBQvkjPboq/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DW1BfmDkrNZ/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DVJflbHCOxM/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DWjKdZltUfu/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DVrkzHdCmlR/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DbI1FggPPRJ/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/Da1DrJjIBm1/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DacRP3vhC41/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DbA2Bfuhe1G/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DXsqbZckbq-/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/Da00EqczVGE/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DaLR-ofqRtm/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DUI8WIAiBM2/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DWVWWdpiOeL/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DbHEhTsSGAd/",
+   "kind": "video",
+   "topic": "website · inspiration · cool",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DbPGE1JMuGO/",
+   "kind": "video",
+   "topic": "obsidian · tips · claude",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DX67nJggULH/",
+   "kind": "video",
+   "topic": "obsidian · tips · claude",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DXrU-lsjGfO/",
+   "kind": "video",
+   "topic": "obsidian · tips · claude",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/p/DZvR_JRlMFy/?img_index=6",
+   "kind": "post",
+   "topic": "obsidian · tips · claude",
+   "wild": false
+  },
+  {
+   "title": "Stop Overthinking Obsidian (Medium)",
+   "url": "https://medium.com/@andremonthy/stop-overthinking-obsidian-a-beginners-guide-that-actually-works-c46ae9953ac7",
+   "kind": "website",
+   "topic": "obsidian · tips · claude",
+   "wild": false
+  },
+  {
+   "title": "Digital Gardening (Medium)",
+   "url": "https://medium.com/the-mycelium/digital-gardening-6100d678bd3a",
+   "kind": "website",
+   "topic": "obsidian · tips · claude",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DZrm8hYTU0e/",
+   "kind": "video",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DaeeojNCCaX/",
+   "kind": "video",
+   "topic": "tech · math · science",
+   "wild": false
+  },
+  {
+   "title": "Instagram post",
+   "url": "https://www.instagram.com/reels/DYlP7w2RmHy/",
+   "kind": "video",
+   "topic": "tech · math · science",
+   "wild": false
+  }
+ ]
+}

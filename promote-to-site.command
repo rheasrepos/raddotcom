@@ -71,6 +71,9 @@ else:
     print("\nNo notes marked published:true yet. In Obsidian, set published: true on the ones you want live, then re-run this.")
 PY
 
+# Rebuild the Library (rhea.com/library) from recommendations/ (src/data/library.json).
+python3 scripts/build-library.py || echo "(build-library.py failed — the Library will show the previous list)"
+
 # Rebuild the Obsidian page's 3-D map from the published notes (static/vault-space.json).
 python3 scripts/embed-vault.py || echo "(embed-vault.py failed — the Obsidian page will show the previous map)"
 echo ""
