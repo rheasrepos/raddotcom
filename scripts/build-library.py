@@ -112,8 +112,10 @@ for fname in sorted(os.listdir(SRC)):
         seen.add(key)
         src_topic = re.sub(r"^\d{4}-\d{2} (Instasaved|Recommendations) - _?|\.md$|^_from-", "", fname)
         context = " ".join([title, heading, src_topic, IDS.sub("", MDLINK.sub(lambda x: x.group(1), raw))])
+        via = re.search(r"@via\s+(.+?)\s*$", raw)
         items.append({"title": title[:160], "url": url, "kind": kind_of(title, url), "_ctx": context, "_key": key,
-                      "_me": fname == "_me-online.md"})   # fixed topic "Me online" (not clustered)
+                      "_me": fname == "_me-online.md",   # fixed topic "Me online" (not clustered)
+                      "_via": via.group(1) if via else None})   # posted ABOUT Rhea by someone else
 
 # ------------------------------------------------------------------ embed (TF-IDF, numpy only)
 STOP = set("""the a an and or of to in on for with is are was were be been it its this that these those you your
@@ -206,7 +208,8 @@ for i, (it, lab) in enumerate(zip(items, labels)):
     wild = it["_key"] in wild_keys or it["title"].lower() in wild_keys
     topic = "Me online" if it.get("_me") else ("Wild card" if wild else names[int(lab)])
     out.append({"title": it["title"], "url": it["url"], "kind": it["kind"],
-                "topic": topic, "wild": wild or bool(it.get("_me")), "near": nbrs[i]})
+                "topic": topic, "wild": wild or bool(it.get("_me")), "near": nbrs[i],
+                **({"via": it["_via"]} if it.get("_via") else {})})
 json.dump({"count": len(out), "k": chosen, "items": out}, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
 counts = {}

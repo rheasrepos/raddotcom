@@ -98,7 +98,7 @@
 	<p class="count">{shown.length} shown</p>
 
 	{#if view === 'map'}
-		<p class="note"><AIText>Each dot is one saved thing, joined to the three things most like it. Colours are topics. Hover to see a dot and its neighbours, click to open it, drag and scroll to move around. Search and filters above dim everything else.</AIText></p>
+		<p class="note"><AIText>Rhea is in the middle. The first ring is everything she saved or made, grouped by topic and joined to the three things most like it. Further out are the people and places that posted something about her, and beyond them, those posts. Hover to see a dot and its neighbours, click to open it, drag and scroll to move around. Search and filters dim everything else.</AIText></p>
 		<LibraryMap {items} {colors} highlight={inFilter} on:open={(e) => e.detail.url ? window.open(e.detail.url, '_blank', 'noopener') : window.open('https://duckduckgo.com/?q=' + encodeURIComponent(e.detail.title), '_blank', 'noopener')} />
 	{:else}
 	{#each groups as [t, list] (t)}
