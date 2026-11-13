@@ -24,6 +24,15 @@
 	$: topicList = [...new Set(items.map((i) => i.topic))].sort((a, b) => (a === 'Wild card' ? -1 : b === 'Wild card' ? 1 : 0));
 	$: colorOf = (t) => (colors && colors[t]) || (t === 'Wild card' ? '#000' : PALETTE[topicList.indexOf(t) % PALETTE.length]);
 
+	// each node's border: its own colour, a little darker
+	const darkCache = {};
+	function darker(hex) {
+		if (darkCache[hex]) return darkCache[hex];
+		let h = hex.replace('#', ''); if (h.length === 3) h = [...h].map((c) => c + c).join('');
+		const v = parseInt(h, 16), f = 0.65;
+		return (darkCache[hex] = `rgb(${Math.round((v >> 16) * f)},${Math.round(((v >> 8) & 255) * f)},${Math.round((v & 255) * f)})`);
+	}
+
 	function build() {
 		// seed each topic in its own sector of ring 1 so groups start apart
 		const sector = (t) => (topicList.indexOf(t) / topicList.length) * Math.PI * 2;
@@ -91,7 +100,7 @@
 	function draw() {
 		const W = canvas.width / devicePixelRatio, H = canvas.height / devicePixelRatio;
 		ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-		ctx.fillStyle = '#fafafa'; ctx.fillRect(0, 0, W, H);
+		ctx.clearRect(0, 0, W, H); // transparent: the page shows through
 		ctx.translate(W / 2 + view.x, H / 2 + view.y); ctx.scale(view.k, view.k);
 		const near = hovered ? new Set([hovered, ...(hovered.hub ? hovered.kids : (hovered.it.near || []).map((j) => nodes[j]))]) : null;
 		// the rings themselves
@@ -122,8 +131,9 @@
 			}
 			const dim = (near && !near.has(n)) || (highlight && !highlight(n.it));
 			ctx.globalAlpha = dim ? 0.15 : 1;
-			ctx.fillStyle = colorOf(n.it.topic);
-			ctx.beginPath(); ctx.arc(n.x, n.y, n === hovered ? n.r + 3 : n.r, 0, Math.PI * 2); ctx.fill();
+			const col = colorOf(n.it.topic);
+			ctx.fillStyle = col; ctx.strokeStyle = darker(col); ctx.lineWidth = 1 / view.k;
+			ctx.beginPath(); ctx.arc(n.x, n.y, n === hovered ? n.r + 3 : n.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 		}
 		ctx.globalAlpha = 1;
 		// Rhea, in the middle
@@ -182,7 +192,7 @@
 </div>
 
 <style>
-	.map { position: relative; width: 100%; height: min(72vh, 720px); border: 1px solid #000; background: #fafafa; }
+	.map { position: relative; width: 100%; height: min(72vh, 720px); border: 1px solid #000; background: transparent; }
 	canvas { display: block; touch-action: none; cursor: grab; }
 	.tip { position: absolute; left: 10px; bottom: 10px; background: #000; color: #fff; padding: 6px 9px; font-size: 0.8rem; max-width: 60%; display: flex; flex-direction: column; gap: 2px; pointer-events: none; }
 	.tip span { opacity: 0.7; font-size: 0.72rem; }
