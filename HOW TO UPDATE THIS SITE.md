@@ -199,6 +199,29 @@ If you ever rotate the anon key in Supabase, update the Vercel variable and rede
 
 ---
 
+## 5g. The complexity survey (rhea.com/complexity)
+Your "what is complexity to you" questions, open to anyone, anonymous (no names stored). Each question has a live chart beside it (averages, histograms, recent answers), refreshed every 20 s, and a "charts show answers from" picker splits them by what people wrote for work. Code: `src/routes/complexity/+page.svelte`, `src/lib/complexity.js`, pictures drawn in `src/components/ComplexityStimulus.svelte`. Uses the same Supabase project/keys as WPM — just add the table once (SQL Editor → New query → Run):
+```sql
+create table complexity (
+  id uuid primary key default gen_random_uuid(),
+  complexity text check (char_length(complexity) <= 1000),
+  work text check (char_length(work) <= 200),
+  fun text check (char_length(fun) <= 200),
+  ranking text[] check (array_length(ranking, 1) <= 10),
+  difficult_easy smallint check (difficult_easy between 1 and 7),
+  difficult_beautiful smallint check (difficult_beautiful between 1 and 7),
+  good_bad smallint check (good_bad between 1 and 7),
+  needed_wanted smallint check (needed_wanted between 1 and 7),
+  created_at timestamptz default now()
+);
+alter table complexity enable row level security;
+create policy "anyone can read"  on complexity for select using (true);
+create policy "anyone can answer" on complexity for insert with check (true);
+```
+Moderate by deleting rows in Table Editor → complexity.
+
+---
+
 ## 5e. The video gallery (About → YouTube)
 The YouTube tile on the About page is a thumbnail gallery: every upload on @rheamad (read live from the channel's public feed — no API key, newest 15) **plus any video you list in the vault's `_videos.md`** — one YouTube link per line, optionally ` — a caption`. Those show with a "not on my channel" tag. `promote-to-site.command` copies `_videos.md` to `src/data/videos.md`; commit and push as usual. Click a thumbnail and it plays in place.
 
