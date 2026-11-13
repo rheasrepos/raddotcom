@@ -48,7 +48,7 @@
 		nodes = [...nodes, ...hubNodes];
 		const seen = new Set();
 		edges = [];
-		for (const n of nodes) for (const j of n.it.near || []) {
+		for (const n of nodes) if (n.it) for (const j of n.it.near || []) { // hubs have no item
 			const key = n.i < j ? `${n.i}-${j}` : `${j}-${n.i}`;
 			if (seen.has(key) || !nodes[j]) continue;
 			seen.add(key); edges.push([n, nodes[j]]); n.deg++; nodes[j].deg++;
