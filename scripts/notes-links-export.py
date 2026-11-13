@@ -33,7 +33,7 @@ SEP = "␞"
 folders = [f for f in osa('tell application "Notes" to get name of every folder').split(", ") if f]
 lines = ["---", 'title: "From Apple Notes (links only)"', "published: false",
          "include: false   # ← flip to true after skimming; the Library only uses this list when true", "---", "",
-         "Links pulled from Apple Notes by scripts/notes-links-export.py — note text is not copied.", ""]
+         "<ai>", "Links pulled from Apple Notes by scripts/notes-links-export.py — note text is not copied.", "</ai>", ""]
 total = 0
 for folder in folders:
     if (ONLY and folder != ONLY) or SKIP.search(folder):
