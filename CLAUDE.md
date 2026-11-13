@@ -16,6 +16,7 @@ Any text an AI writes that a visitor can see **must be marked as AI-drafted, in 
 - Don't make design choices on your own — ask, or mirror an existing pattern and say so.
 - No emoji / pictographic glyphs on buttons or labels (⌨ ✎ ♪ etc.).
 - Don't publish anything Rhea hasn't marked `published: true`; never republish `Artifact myart02b (PRIVATE - license collage)`.
+- `research/ai-wiki/` (AI-compiled from Rhea's private chats) and `_sources/ai-chats/` (the raw transcripts) are private: never set `published: true` on them or copy them into `src/vault/`. See the vault's `_meta/2026-11 AI WIKI merged in (how it works).md`.
 - Finish and commit work fully; the repo is pushed by Rhea from GitHub Desktop.
 - The repo lives in iCloud Desktop: if git reports a missing branch or `*.lock` files, restore `refs/heads/main` from `main.lock` (check it points at a real commit) rather than re-initialising anything.
 - Svelte treats undeclared names as globals, so `vite build` will NOT catch a deleted variable. After removing code, check every removed `let`/`function` name is no longer referenced.
