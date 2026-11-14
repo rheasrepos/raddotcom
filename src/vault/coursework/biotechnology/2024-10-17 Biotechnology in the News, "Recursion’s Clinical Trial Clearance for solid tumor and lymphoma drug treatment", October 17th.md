@@ -6,6 +6,7 @@ type: coursework
 academic: true
 course: Biotechnology
 published: true
+pdf: /docs/2024-10-17-biotech-in-the-news-recursion-clinical-trial.pdf
 source: raddotcom Vault/2024-10-17 Rhea Madhogarhia Biotech In the News Oct 17.pdf
 tags:
   - academic/biology/biotech

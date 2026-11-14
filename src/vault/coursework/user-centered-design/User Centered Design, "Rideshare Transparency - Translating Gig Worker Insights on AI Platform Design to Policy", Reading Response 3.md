@@ -6,6 +6,7 @@ type: coursework
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/user-centered-design-reading-response-rideshare-transparency-nagaraj-et-al.pdf
 source: raddotcom Vault/2026-01-15 reading response
 tags: [academic/hci/user-centered-design]
 form: [reading-response]

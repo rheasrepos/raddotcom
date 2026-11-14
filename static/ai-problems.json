@@ -1356,6 +1356,19 @@
         "contributor": "claude-draft",
         "date_added": "2026-11-14",
         "role": "Test whether safety holds outside English."
+      },
+      {
+        "dataset_id": "ai-progress-open-dataset",
+        "name": "AI Progress Open Dataset (Rhea's companion dataset)",
+        "url": "https://github.com/rheasrepos/ai-progress-open-dataset",
+        "access": "open",
+        "license": "CC BY 4.0 data (Epoch AI rows derived from Epoch, CC BY)",
+        "size": "3,616 models, 4,203 benchmark scores",
+        "modality": "tabular",
+        "description": "AI models with training compute, release dates, benchmark scores and Epoch Capabilities Index; open to contributions.",
+        "contributor": "rhea",
+        "date_added": "2026-11-14",
+        "role": "Track how fast AI capabilities and compute are growing, and how uncertain the compute estimates are."
       }
     ],
     "existing_work": [

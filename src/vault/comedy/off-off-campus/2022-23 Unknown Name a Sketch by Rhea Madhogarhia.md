@@ -6,6 +6,7 @@ date_approx: true
 type: comedy
 academic: false
 published: true
+pdf: /docs/2022-23-unknown-name-a-sketch-by-rhea-madhogarhia.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/Unknown Name, a Sketch by Rhea Madhogarhia.docx
 tags: [creative/comedy/sketch, creative/screenwriting]
 affiliation: uchicago

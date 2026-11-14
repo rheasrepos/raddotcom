@@ -6,6 +6,7 @@ type: coursework
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/user-centered-design-reading-response-famidata-smart-home-datafication-wang-et-al.pdf
 source: raddotcom Vault/2026-02-18 Reading Response UCD Wang famidata.pdf
 tags: [academic/hci/user-centered-design, privacy]
 form: [reading-response]

@@ -7,6 +7,7 @@ type: thesis
 academic: true
 course: Cog Sci Thesis
 published: true
+pdf: /docs/2025-10-rhea-madhogarhia-thesis-proposal.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/THESIS/Rhea Madhogarhia THESIS PROPOSAL.docx
 tags:
   - academic/cognitive-science

@@ -6,6 +6,7 @@ type: coursework
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/user-centered-design-reading-response-blackpeopletwitter-governance-smith-et-al.pdf
 source: raddotcom Vault/2026-02-18 Reading Response Smith et al.pdf
 tags: [academic/hci/user-centered-design]
 form: [reading-response]

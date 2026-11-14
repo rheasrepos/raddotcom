@@ -6,6 +6,7 @@ type: coursework
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/user-centered-design-reading-response-project-sidewalk-li-et-al.pdf
 source: raddotcom Vault/2026-01-25 Reading Response Project Sidewalk UCD Submission.pdf
 tags: [academic/hci/user-centered-design, accessibility]
 form: [reading-response]

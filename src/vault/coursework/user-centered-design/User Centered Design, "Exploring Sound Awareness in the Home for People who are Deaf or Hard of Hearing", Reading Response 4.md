@@ -6,6 +6,7 @@ type: coursework
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/user-centered-design-reading-response-sound-awareness-for-dhh-jain-et-al.pdf
 source: raddotcom Vault/2026-01-20 Reading Response
 tags: [academic/hci/user-centered-design, accessibility]
 form: [reading-response]

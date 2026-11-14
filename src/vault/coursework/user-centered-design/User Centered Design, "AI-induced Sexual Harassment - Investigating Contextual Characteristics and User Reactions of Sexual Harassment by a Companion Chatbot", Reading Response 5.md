@@ -6,6 +6,7 @@ type: coursework
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/user-centered-design-reading-response-companion-chatbot-harassment-namvarpour-et-al.pdf
 source: raddotcom Vault/2026-01-22 Namvarpour Reading Response UCD (1).pdf
 tags: [academic/hci/user-centered-design, ai/ai-ethics]
 form: [reading-response]
