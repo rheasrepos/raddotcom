@@ -5,7 +5,6 @@ added: 2026-10-12
 type: essays
 published: true
 featured: true
-pdf: /docs/2025-12-limits-of-matter-and-manner-phil-of-ai-final-paper.pdf
 recovered_from: Desktop/University of Chicago/Year 4/Recovered Writing/All Writing/2025-12-15 PHIL OF AI MIND AND MATTER FINAL PAPER.md
 tags:
   - academic/philosophy/philosophy-of-ai

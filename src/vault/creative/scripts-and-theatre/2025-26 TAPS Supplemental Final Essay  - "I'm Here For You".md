@@ -6,7 +6,6 @@ type: creative
 academic: false
 course: TAPS Theatre
 published: true
-pdf: /docs/2025-26-taps-supplemental-final-essay-im-here-for-you.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Fourth Year/y4q2/TAPS Supplemental Final Essay _Im Here For You_.docx
 tags: [academic, creative/theatre/playwriting, performance]
 form: [reflection]

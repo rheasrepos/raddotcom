@@ -6,7 +6,6 @@ added: 2026-07-30
 date_approx: true
 type: creative
 published: true
-pdf: /docs/2017-madhogarhia-rhea-7-flowers-project.pdf
 source: /Users/rheamadhogarhia/Desktop/oldmacdesktop/ALL BEFORE COLLEGE/HARVARD WESTLAKE G DRIVE/HW GOOGLE DRIVE FILES/HARVARD WESTLAKE GOOGLE DRIVE 4/HW/7th Grade/Academics/7 Madhogarhia, Rhea English to Share/Flowers/Madhogarhia, Rhea 7 Flowers Project.docx
 tags: [creative/poetry/found-poetry]
 era: before-college

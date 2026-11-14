@@ -7,7 +7,6 @@ also_in: [programming]
 academic: true
 course: HIPS Science/Culture/Society
 published: true
-pdf: /docs/2025-08-visualising-the-invisible-mbl-hips.pdf
 source: "Offloaded PDF: Year 4/grad school app stuff/past work/mbl hips final research project _ 3.pdf (Drive also has the slide deck)"
 tags: [academic/history-of-science/science-and-art]
 form: [lab-research]

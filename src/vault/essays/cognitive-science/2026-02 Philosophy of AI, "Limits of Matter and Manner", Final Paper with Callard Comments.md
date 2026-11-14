@@ -5,7 +5,6 @@ type: essays
 academic: true
 course: Cog Sci Thesis
 published: true
-pdf: /docs/2026-02-philofaifinalcallardcomments.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/THESIS??/potentially contnet for thesis/philofaifinalcallardcomments.docx
 tags:
   - academic/philosophy/philosophy-of-ai
