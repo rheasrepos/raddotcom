@@ -371,13 +371,29 @@ def rhea_vector():
 rz = rhea_vector()
 rnear = [int(j) for j in np.argsort(-(Z @ rz))[:6] if not items[int(j)].get("_via")]
 
-own_idx = [i for i, it in enumerate(items) if not it.get("_via")]
-XY = np.zeros((len(items), 2)); RXY = [0.0, 0.0]
+# Instagram saves are hidden by default on the site, so the map and its topics are
+# built WITHOUT them (otherwise hidden dots shape the layout and name the topics).
+# Each Instagram save is then placed beside its most similar non-Instagram item.
+is_ig = lambda it: bool(it["url"]) and "instagram.com" in it["url"] and not it.get("_me")
+ig_idx = [i for i, it in enumerate(items) if is_ig(it) and not it.get("_via")]
+own_idx = [i for i, it in enumerate(items) if not it.get("_via") and not is_ig(it)]
+XY = np.zeros((len(items), 2)); RXY = [0.0, 0.0]; KEEP = None
 if len(own_idx) > 5:
     Y = tsne(np.vstack([Z[own_idx], rz[None, :]]))
     RXY = [round(float(v), 4) for v in Y[-1]]; Y = Y[:-1]
     r = np.sqrt((Y ** 2).sum(1)); sc = np.percentile(r, 98); Y /= sc; RXY = [round(v / float(sc), 4) for v in RXY]   # most points inside the unit circle
     XY[own_idx] = Y
+    # how faithful is the flat map? share of each item's 10 nearest neighbours (by
+    # content) that are still among its 10 nearest on the map
+    Zo = Z[own_idx]; S = Zo @ Zo.T; np.fill_diagonal(S, -9)
+    D2 = ((Y[:, None, :] - Y[None]) ** 2).sum(-1); np.fill_diagonal(D2, 9e9)
+    hi = np.argsort(-S, 1)[:, :10]; lo = np.argsort(D2, 1)[:, :10]
+    KEEP = float(np.mean([len(set(hi[i]) & set(lo[i])) / 10 for i in range(len(own_idx))]))
+    print(f"map faithfulness: {KEEP:.0%} of each item's 10 nearest neighbours stay nearest on the map")
+    rng = np.random.default_rng(7)
+    for i in ig_idx:
+        j = own_idx[int(np.argmax(Z[own_idx] @ Z[i]))]
+        XY[i] = XY[j] + rng.normal(0, 0.012, 2)
 
 # ------------------------------------------------------------------ topics that match the map
 # Colours and names come from grouping the dots WHERE THEY SIT ON THE MAP (k-means
@@ -398,6 +414,8 @@ for seed in range(8):
     if best is None or inertia < best[0]: best = (inertia, lab2)
 labels = np.array(labels).copy()
 labels[own] = best[1]
+for i in ig_idx:
+    labels[i] = labels[own_idx[int(np.argmax(Z[own_idx] @ Z[i]))]]
 names = {}
 for j in sorted(set(labels[own])):
     m = np.zeros(len(items), bool); m[own[labels[own] == j]] = True
@@ -417,7 +435,7 @@ for i, (it, lab) in enumerate(zip(items, labels)):
                 **({"added": it["_added"]} if it.get("_added") else {}),
                 **({"ai_title": True} if it.get("_ai") else {}),
                 **({"published": it["_published"]} if it.get("_published") else {})})
-json.dump({"count": len(out), "k": chosen, "rhea": {"xy": RXY, "near": rnear}, "items": out}, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+json.dump({"count": len(out), "k": chosen, "faithfulness": round(KEEP, 3) if len(own_idx) > 5 else None, "rhea": {"xy": RXY, "near": rnear}, "items": out}, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
 counts = {}
 for o in out: counts[o["topic"]] = counts.get(o["topic"], 0) + 1

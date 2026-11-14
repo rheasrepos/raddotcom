@@ -81,7 +81,7 @@
 			if (seen.has(key) || !nodes[j]) continue;
 			seen.add(key); edges.push([n, nodes[j], n.it.topic === nodes[j].it.topic]); n.deg++; nodes[j].deg++;
 		}
-		for (const n of nodes) if (!n.hub) n.r = 2.5 + Math.sqrt(n.deg) * 0.7;
+		for (const n of nodes) if (!n.hub) n.r = 4.5 + Math.sqrt(n.deg) * 0.9;
 		alpha = 1;
 	}
 
@@ -142,8 +142,9 @@
 		for (const [a, b, same] of edges) {
 			if (gone(a) || gone(b)) continue;
 			const lit = near && (a === hovered || b === hovered);
-			if (!lit && !same) continue; // links between islands only show on hover
-			ctx.strokeStyle = lit ? '#000' : 'rgba(0,0,0,0.18)';
+			// every item is joined to its 3 most similar items (by content); links inside a
+			// topic are darker, links between topics fainter, the hovered dot's links black
+			ctx.strokeStyle = lit ? '#000' : same ? 'rgba(0,0,0,0.28)' : 'rgba(0,0,0,0.12)';
 			ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
 		}
 		for (const n of nodes) {
