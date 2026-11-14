@@ -37,7 +37,10 @@ for root,dirs,files in os.walk(src):
     for f in sorted(files):
         if not f.endswith(".md") or f.startswith("_"): continue
         # skip iCloud/Obsidian sync-conflict copies like "Foo 2.md", "Foo 3.md"
-        if re.search(r" \d+\.md$", f): continue
+        # skip iCloud/Obsidian sync-conflict copies ("Foo 2.md" next to "Foo.md") —
+        # but keep real titles that end in a number ("Short Paper 1.md")
+        cm=re.match(r"(.*) \d+\.md$", f)
+        if cm and os.path.exists(os.path.join(root, cm.group(1)+".md")): continue
         t=open(os.path.join(root,f),encoding="utf-8",errors="ignore").read()
         m=re.search(r"^published:\s*(true|false)\s*$",t,re.M)
         if m and m.group(1)=="true":

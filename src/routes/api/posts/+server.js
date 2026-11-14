@@ -156,7 +156,9 @@ export async function GET() {
 			if (file === 'README.md') continue;
 			// Skip iCloud/Obsidian sync-conflict copies ("Foo 2.md") — they'd
 			// otherwise show up as duplicate posts.
-			if (/ \d+\.md$/.test(file)) continue;
+			// Only when the un-numbered original sits beside it — real titles can end
+			// in a number ("Short Paper 1.md").
+			if (/ \d+\.md$/.test(file) && path.replace(/ \d+\.md$/, '.md') in vaultRaw) continue;
 			// /src/vault/<top>/<sub>/file.md → subfolder "sub" (shown as a
 			// folder inside the category folder on the desktop)
 			const rel = path.replace('/src/vault/', '').split('/');

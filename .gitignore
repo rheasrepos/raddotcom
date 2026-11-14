@@ -11,13 +11,8 @@ node_modules/
 .DS_Store
 .svelte-kit/
 
-# iCloud sync-conflict copies (repo lives in iCloud Desktop) — never commit these
-* [0-9].md
-* [0-9].pdf
-* [0-9].png
-
-# iCloud sync-conflict copies — directories too
-*[0-9]/
+# (iCloud conflict patterns removed 2026-11-13: the repo is out of iCloud, and they
+#  were hiding real files whose names end in a number, e.g. "Short Paper 1.md")
 scripts/.pdf-text-cache.json
 .env
 .env.*

@@ -44,7 +44,7 @@ changed = []
 for root, dirs, files in os.walk(vault):
     dirs[:] = [d for d in dirs if not d.startswith(".") and d not in SKIP_DIRS]
     for f in sorted(files):
-        if not f.endswith(".md") or re.search(r" \d+\.md$", f):
+        if not f.endswith(".md") or (re.search(r" \d+\.md$", f) and os.path.exists(os.path.join(root, re.sub(r" \d+\.md$", ".md", f)))):
             continue
         rel = os.path.relpath(os.path.join(root, f), vault)
         if rel in HELD:
