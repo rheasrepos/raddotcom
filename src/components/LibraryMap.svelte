@@ -21,7 +21,8 @@
 	let canvas, wrap, ctx, raf;
 	let nodes = [], edges = [], spokes = [], hovered = null, center = null;
 	let R1 = 420, R2 = 640, R3 = 780; // ring radii, sized in build() to fit the islands
-	let view = { x: 0, y: 0, k: 0.5 }, panning = null, alpha = 1;
+	const HOME = { x: 0, y: 0, k: 0.16 };  // starting zoom: the whole map; zoom in to read the titles inside the dots
+	let view = { ...HOME }, panning = null, alpha = 1;
 
 	$: topicList = [...new Set(items.map((i) => i.topic))].sort((a, b) => (a === 'Wild card' ? -1 : b === 'Wild card' ? 1 : 0));
 	$: colorOf = (t) => (colors && colors[t]) || (t === 'Wild card' ? '#000' : PALETTE[topicList.indexOf(t) % PALETTE.length]);
@@ -43,9 +44,9 @@
 	// posts about Rhea sit outside it. A light collision pass keeps dots from
 	// stacking exactly on top of each other.
 	let centers = {}; // topic → { x, y } (median of its points), for the labels
-	const S = 560;    // world units for the unit circle of the embedding
+	const S = 2400;   // world units for the unit circle of the embedding (big, so the dots have room for their titles)
 	function build() {
-		R1 = S * 1.08; R2 = R1 + 150; R3 = R2 + 120;
+		R1 = S * 1.08; R2 = R1 + 500; R3 = R2 + 400;
 		nodes = items.map((it, i) => {
 			const x = (it.xy || [0, 0])[0] * S, y = (it.xy || [0, 0])[1] * S;
 			return { i, it, x, y, vx: 0, vy: 0, deg: 0, home: { x, y } };
@@ -58,7 +59,7 @@
 		// Rhea is a node too: placed in the same space by her own writing, joined
 		// to the items most like what she writes
 		const rx = ((rhea && rhea.xy) || [0, 0])[0] * S, ry = ((rhea && rhea.xy) || [0, 0])[1] * S;
-		center = { center: true, x: rx, y: ry, r: 12, label: 'Rhea', near: (rhea && rhea.near) || [] };
+		center = { center: true, x: rx, y: ry, r: 46, label: 'Rhea', near: (rhea && rhea.near) || [] };
 		// one hub per publisher on ring 2, beside the "Me online" island; its posts on ring 3
 		const hubs = {};
 		for (const n of nodes) if (n.it.via) (hubs[n.it.via] ||= []).push(n);
@@ -66,7 +67,7 @@
 		const me = centers['Me online'], base = me ? Math.atan2(me.y, me.x) : 0, H = Object.keys(hubs).length;
 		const hubNodes = Object.entries(hubs).map(([label, kids], h) => {
 			const a = base + (h - (H - 1) / 2) * 0.16;
-			const hub = { hub: true, label, x: Math.cos(a) * R2, y: Math.sin(a) * R2, r: 7, kids };
+			const hub = { hub: true, label, x: Math.cos(a) * R2, y: Math.sin(a) * R2, r: 26, kids };
 			kids.forEach((k, j) => { const ka = a + (j - (kids.length - 1) / 2) * 0.03; Object.assign(k, { x: Math.cos(ka) * R3, y: Math.sin(ka) * R3, home: { x: Math.cos(ka) * R3, y: Math.sin(ka) * R3 } }); });
 			spokes.push([center, hub]);
 			for (const k of kids) spokes.push([hub, k]);
@@ -81,7 +82,7 @@
 			if (seen.has(key) || !nodes[j]) continue;
 			seen.add(key); edges.push([n, nodes[j], n.it.topic === nodes[j].it.topic]); n.deg++; nodes[j].deg++;
 		}
-		for (const n of nodes) if (!n.hub) n.r = 4.5 + Math.sqrt(n.deg) * 0.9;
+		for (const n of nodes) if (!n.hub) n.r = 22 + Math.sqrt(n.deg) * 3;
 		alpha = 1;
 	}
 
@@ -89,10 +90,11 @@
 	// pulled back to its island's centre, so islands stay round and separate
 	function tick() {
 		if (alpha < 0.02) return;
-		const cell = 14, grid = new Map();
-		for (const n of nodes) if (n.it) { const k = `${Math.floor(n.x / cell)},${Math.floor(n.y / cell)}`; (grid.get(k) || grid.set(k, []).get(k)).push(n); }
+		const cell = 64, grid = new Map();
+		const off = (n) => !n.it || (hide && hide(n.it));   // hidden dots don't push anything
+		for (const n of nodes) if (!off(n)) { const k = `${Math.floor(n.x / cell)},${Math.floor(n.y / cell)}`; (grid.get(k) || grid.set(k, []).get(k)).push(n); }
 		for (const a of nodes) {
-			if (!a.it) continue;
+			if (off(a)) continue;
 			a.vx += (a.home.x - a.x) * 0.01; a.vy += (a.home.y - a.y) * 0.01;
 			const cx = Math.floor(a.x / cell), cy = Math.floor(a.y / cell);
 			for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) for (const b of grid.get(`${cx + dx},${cy + dy}`) || []) {
@@ -102,7 +104,7 @@
 			}
 		}
 		for (const n of nodes) if (n.it) { n.vx *= 0.7; n.vy *= 0.7; n.x += n.vx * alpha; n.y += n.vy * alpha; }
-		alpha *= 0.985;
+		alpha *= 0.995;
 	}
 
 	function draw() {
@@ -186,19 +188,38 @@
 		ctx.beginPath(); ctx.arc(center.x, center.y, center.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 		ctx.fillStyle = '#000'; ctx.font = `bold ${13 / view.k}px sans-serif`; ctx.textAlign = 'center';
 		ctx.fillText('Rhea', center.x, center.y + center.r + 15 / view.k);
-		// zoomed in: every dot on screen shows its title, so you can read the map
-		if (view.k >= 1.3) {
-			ctx.fillStyle = 'rgba(0,0,0,0.8)'; ctx.font = `${10 / view.k}px sans-serif`; ctx.textAlign = 'left';
-			const W2 = W / 2 / view.k, H2 = H / 2 / view.k, cx = -view.x / view.k, cy = -view.y / view.k;
-			for (const n of nodes) {
-				if (!n.it || gone(n) || Math.abs(n.x - cx) > W2 || Math.abs(n.y - cy) > H2) continue;
-				ctx.fillText(n.it.title.slice(0, 34), n.x + n.r + 2 / view.k, n.y + 3 / view.k);
-			}
+		// titles INSIDE the dots, wrapped to fit, once a dot is big enough on screen
+		if (center.r * view.k >= 18) {
+			ctx.font = `bold ${12 / view.k}px sans-serif`; ctx.textAlign = 'center';
+			ctx.fillText('Rhea', center.x, center.y + 4 / view.k);
+		}
+		const W2 = W / 2 / view.k, H2 = H / 2 / view.k, cx = -view.x / view.k, cy = -view.y / view.k;
+		const fs = 10.5 / view.k;
+		ctx.font = `${fs}px sans-serif`; ctx.textAlign = 'center';
+		for (const n of nodes) {
+			if (!n.it || gone(n) || n.r * view.k < 26) continue;
+			if (Math.abs(n.x - cx) > W2 + n.r || Math.abs(n.y - cy) > H2 + n.r) continue;
+			const lines = wrapText(n.it.title, n.r * 1.6, Math.max(1, Math.floor((n.r * 1.5) / (fs * 1.15))));
+			const top = n.y - ((lines.length - 1) * fs * 1.15) / 2 + fs * 0.35;
+			ctx.lineWidth = 3 / view.k; ctx.strokeStyle = 'rgba(255,255,255,0.85)'; ctx.fillStyle = '#000';
+			lines.forEach((l, k) => { ctx.strokeText(l, n.x, top + k * fs * 1.15); ctx.fillText(l, n.x, top + k * fs * 1.15); });
 		}
 		if (near) {
 			ctx.fillStyle = '#000'; ctx.font = `bold ${13 / view.k}px sans-serif`; ctx.textAlign = 'center';
 			for (const n of near) if (n.it && !gone(n)) ctx.fillText(n.it.title.slice(0, 48), n.x, n.y - n.r - 4 / view.k);
 		}
+	}
+	// break a title into lines that fit a width (ctx.font must already be set)
+	function wrapText(text, width, maxLines) {
+		const words = String(text).split(/\s+/), lines = []; let cur = '';
+		for (const w of words) {
+			const t = cur ? cur + ' ' + w : w;
+			if (ctx.measureText(t).width <= width || !cur) cur = t; else { lines.push(cur); cur = w; }
+			if (lines.length === maxLines) break;
+		}
+		if (lines.length < maxLines && cur) lines.push(cur);
+		if (lines.length === maxLines && words.join(' ').length > lines.join(' ').length) lines[maxLines - 1] = lines[maxLines - 1].replace(/\s*\S*$/, '') + '…';
+		return lines;
 	}
 	function loop() { tick(); draw(); raf = requestAnimationFrame(loop); }
 
@@ -223,7 +244,7 @@
 	}
 	// zoom about a screen point (mx, my measured from the canvas centre)
 	function zoomAt(k, mx = 0, my = 0) {
-		k = Math.max(0.15, Math.min(8, k));
+		k = Math.max(0.05, Math.min(8, k));
 		view.x = mx - (mx - view.x) * (k / view.k); view.y = my - (my - view.y) * (k / view.k); view.k = k;
 	}
 	function wheel(e) {
@@ -235,7 +256,7 @@
 		canvas.width = wrap.clientWidth * devicePixelRatio; canvas.height = wrap.clientHeight * devicePixelRatio;
 		canvas.style.width = wrap.clientWidth + 'px'; canvas.style.height = wrap.clientHeight + 'px';
 	}
-	onMount(() => { ctx = canvas.getContext('2d'); resize(); build(); loop(); window.addEventListener('resize', resize); canvas.addEventListener('wheel', wheel, { passive: false }); });
+	onMount(() => { ctx = canvas.getContext('2d'); resize(); build(); for (let i = 0; i < 500 && alpha >= 0.02; i++) tick(); /* spread the dots apart before the first frame */ loop(); window.addEventListener('resize', resize); canvas.addEventListener('wheel', wheel, { passive: false }); });
 	onDestroy(() => { if (typeof window !== 'undefined') { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); } });
 </script>
 
@@ -244,7 +265,7 @@
 	<div class="zoom">
 		<button on:click={() => zoomAt(view.k * 1.4)} aria-label="zoom in">+</button>
 		<button on:click={() => zoomAt(view.k / 1.4)} aria-label="zoom out">−</button>
-		<button on:click={() => { view = { x: 0, y: 0, k: 0.5 }; }}>reset</button>
+		<button on:click={() => { view = { ...HOME }; }}>reset</button>
 	</div>
 	{#if hovered && hovered.it}
 		<div class="tip" data-no-reveal><b>{#if hovered.it.ai_title}<AIText>{hovered.it.title}</AIText>{:else}{hovered.it.title}{/if}</b><span>{hovered.it.topic} · {hovered.it.kind}{#if hovered.it.via} · <AIText>posted by {hovered.it.via}</AIText>{/if}</span></div>
