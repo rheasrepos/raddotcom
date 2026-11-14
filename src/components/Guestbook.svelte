@@ -10,7 +10,8 @@
 	// opening the visitor's email app. Setup: HOW TO §5c.
 	import { env } from '$env/dynamic/public';
 	const FORMSPREE_ID = env.PUBLIC_FORMSPREE_ID || ''; // empty = mailto fallback
-	const FALLBACK_EMAIL = 'rhea0866@gmail.com';
+	import { email } from '$lib/contact.js';
+	const FALLBACK_EMAIL = email();
 
 	import { onMount } from 'svelte';
 	let open = false;
