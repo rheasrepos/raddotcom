@@ -39,6 +39,7 @@
 		problems: problems.map((p) => ({ ...p, _p: p, n_solutions: (p.interventions || []).length, n_datasets: (p.datasets || []).length })),
 		solutions: problems.flatMap((p) => (p.interventions || []).map((/** @type {any} */ x) => withP(p, x))),
 		datasets: problems.flatMap((p) => (p.datasets || []).map((/** @type {any} */ x) => withP(p, x))),
+		research: problems.flatMap((p) => (p.existing_work || []).map((/** @type {any} */ x) => withP(p, x))),
 		gaps: problems.flatMap((p) => (p.data_gaps || []).map((/** @type {any} */ x) => withP(p, x))),
 		risks: problems.map((p) => withP(p, p.risks || {}))
 	};
@@ -56,13 +57,14 @@
 			['_problem', 'Problem'], ['name', 'Dataset'], ['access', 'Access'], ['license', 'License'],
 			['size', 'Size'], ['modality', 'Modality'], ['role', 'How it helps']
 		],
+		research: [['_problem', 'Problem'], ['title', 'Research / project'], ['kind', 'Type'], ['year', 'Year'], ['maturity', 'Stage'], ['notes', 'Finding']],
 		gaps: [['_problem', 'Problem'], ['gap', 'Missing data'], ['why_it_matters', 'Why it matters'], ['how_to_close', 'How to close it']],
 		risks: [
 			['_problem', 'Problem'], ['who_could_be_harmed', 'Who could be harmed'], ['dual_use', 'Dual use'],
 			['bias_and_representation', 'Bias'], ['ethics', 'Ethics'], ['morality', 'Morality'], ['devils_advocate', "Devil's advocate"]
 		]
 	};
-	const TABS = [['solutions', 'Solutions tried'], ['problems', 'Problems'], ['datasets', 'Datasets'], ['gaps', 'Data gaps'], ['risks', 'Risks']];
+	const TABS = [['solutions', 'Solutions tried'], ['problems', 'Problems'], ['research', 'Research'], ['datasets', 'Datasets'], ['gaps', 'Data gaps'], ['risks', 'Risks']];
 
 	const val = (/** @type {any} */ r, /** @type {string} */ k) => (k === '_problem' ? r._p.name : r[k] ?? '');
 	const text = (/** @type {any} */ r) => Object.values(r).filter((v) => typeof v === 'string').join(' ').toLowerCase() + ' ' + r._p.name.toLowerCase();
@@ -156,8 +158,8 @@
 									<td class="c-{k}">
 										{#if k === '_problem'}
 											<button class="link" on:click={() => pick(r._p)}>{r._p.name}</button>
-										{:else if k === 'name' && r.url}
-											<a href={r.url} target="_blank" rel="noopener">{r.name}</a>
+										{:else if (k === 'name' || k === 'title') && r.url}
+											<a href={r.url} target="_blank" rel="noopener">{r[k]}</a>
 										{:else if k === 'name' && tab === 'problems'}
 											<button class="link" on:click={() => { pick(r); setTab('solutions'); }}>{r.name}</button>
 										{:else if k === 'kind' && tab === 'solutions'}
@@ -254,7 +256,7 @@
 	.grid tr.featured td.c-name { font-weight: bold; }
 	.grid .idx { width: 2.5rem; min-width: 0; text-align: right; color: #404040; }
 	.grid td { min-width: 7rem; max-width: 26rem; }
-	td.c-sdg_goal, td.c-year_started, td.c-n_solutions, td.c-n_datasets { min-width: 3rem; }
+	td.c-sdg_goal, td.c-year_started, td.c-year, td.c-n_solutions, td.c-n_datasets { min-width: 3rem; }
 	.link { background: none; border: none; padding: 0; font: inherit; cursor: pointer; text-align: left; }
 	.pill { display: inline-block; padding: 0 4px; font-size: 11px; white-space: nowrap; color: #fff; }
 	.k-ai { background: #008080; } .k-policy { background: #808000; } .k-market { background: #000080; }
