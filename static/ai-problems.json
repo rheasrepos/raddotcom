@@ -27,6 +27,53 @@
       }
     ],
     "existing_work": [],
+    "interventions": [
+      {
+        "intervention_id": "too-good-to-go",
+        "problem_id": "food-waste",
+        "name": "Too Good To Go surplus-food app",
+        "organization": "Too Good To Go",
+        "kind": "market",
+        "year_started": "2016",
+        "url": "https://www.toogoodtogo.com/",
+        "scale": "120M+ registered users, 200,000+ partner businesses, 20 countries",
+        "effect": "157M meals saved in 2025; 600M+ since 2016",
+        "evidence": "self_reported",
+        "effect_source": "https://www.toogoodtogo.com/nl/press/too-good-to-go-redt-in-2025-meer-dan-157-miljoen-maaltijden-van-verspilling",
+        "featured": "true",
+        "notes": "App, not AI: sells surplus food at a discount."
+      },
+      {
+        "intervention_id": "winnow",
+        "problem_id": "food-waste",
+        "name": "Winnow Vision",
+        "organization": "Winnow",
+        "kind": "ai",
+        "year_started": "2013",
+        "url": "https://www.ellenmacarthurfoundation.org/circular-examples/winnow",
+        "scale": "1,400+ businesses",
+        "effect": "Typical 40–70% kitchen waste reduction, average about 50%",
+        "evidence": "self_reported",
+        "effect_source": "https://www.ellenmacarthurfoundation.org/circular-examples/winnow",
+        "featured": "true",
+        "notes": "Camera over the bin identifies discarded food; Winnow Track is the non-AI touchscreen version."
+      },
+      {
+        "intervention_id": "france-garot-law",
+        "problem_id": "food-waste",
+        "name": "French law against food waste (Garot law)",
+        "organization": "French Parliament",
+        "kind": "policy",
+        "year_started": "2016",
+        "url": "https://interregeurope.eu/good-practices/french-law-against-food-waste",
+        "scale": "Food stores over 400 m², nationwide",
+        "effect": "Bans destroying edible unsold food; encourages donation contracts. No measured results found yet.",
+        "evidence": "none",
+        "effect_source": "",
+        "featured": "true",
+        "notes": "First national ban of its kind."
+      }
+    ],
     "data_gaps": [
       {
         "problem_id": "food-waste",
@@ -79,6 +126,38 @@
       }
     ],
     "existing_work": [],
+    "interventions": [
+      {
+        "intervention_id": "ahmedabad-heat-action-plan",
+        "problem_id": "dangerous-climate-conditions",
+        "name": "Ahmedabad Heat Action Plan",
+        "organization": "City of Ahmedabad, with NRDC and the Indian Institute of Public Health",
+        "kind": "policy",
+        "year_started": "2013",
+        "url": "https://www.nrdc.org/stories/temperatures-soar-india-one-citys-efforts-are-saving-lives",
+        "scale": "One city; updated yearly; a model for other Indian city heat plans",
+        "effect": "About 1,100 deaths avoided per year (Journal of Environmental and Public Health, as reported by NRDC)",
+        "evidence": "quasi_experimental",
+        "effect_source": "https://www.nrdc.org/stories/temperatures-soar-india-one-citys-efforts-are-saving-lives",
+        "featured": "true",
+        "notes": "Early warnings, health-worker training, cooling centers, water and shade. Evidence type from the before/after mortality study; check the paper."
+      },
+      {
+        "intervention_id": "google-flood-hub",
+        "problem_id": "dangerous-climate-conditions",
+        "name": "Flood Hub",
+        "organization": "Google",
+        "kind": "ai",
+        "year_started": "",
+        "url": "https://sites.research.google/floodforecasting",
+        "scale": "100+ countries, 700M people (Nov 2024)",
+        "effect": "Riverine flood forecasts accurate at a 7-day lead time",
+        "evidence": "self_reported",
+        "effect_source": "https://blog.google/technology/ai/expanding-flood-forecasting-coverage-helping-partners/",
+        "featured": "true",
+        "notes": "Historical outputs open as the GRRR dataset (1981–); model not open source."
+      }
+    ],
     "data_gaps": [
       {
         "problem_id": "dangerous-climate-conditions",
@@ -138,6 +217,38 @@
       }
     ],
     "existing_work": [],
+    "interventions": [
+      {
+        "intervention_id": "housing-first-at-home",
+        "problem_id": "shelter-scarcity",
+        "name": "Housing First (At Home/Chez Soi trial)",
+        "organization": "Mental Health Commission of Canada",
+        "kind": "policy",
+        "year_started": "2009",
+        "url": "https://mentalhealthcommission.ca/wp-content/uploads/2021/09/At2520Home2520Final2520Report2520-2520Exec2520Summary2520-2520ENG_0.pdf",
+        "scale": "2,148 participants, 5 Canadian cities",
+        "effect": "Housed all of the last 6 months: 62% vs 31% with usual care",
+        "evidence": "rct",
+        "effect_source": "https://mentalhealthcommission.ca/wp-content/uploads/2021/09/At2520Home2520Final2520Report2520-2520Exec2520Summary2520-2520ENG_0.pdf",
+        "featured": "true",
+        "notes": "Housing without preconditions; participants had serious mental illness."
+      },
+      {
+        "intervention_id": "la-homelessness-prevention-unit",
+        "problem_id": "shelter-scarcity",
+        "name": "Homelessness Prevention Unit (predictive model)",
+        "organization": "LA County Dept. of Health Services, California Policy Lab",
+        "kind": "ai",
+        "year_started": "2021",
+        "url": "https://capolicylab.org/news/new-report-early-signs-of-success-from-la-countys-homelessness-prevention-pilot/",
+        "scale": "1,498 people served",
+        "effect": "86% kept housing; 71% less likely to enter shelter or outreach within 18 months than similar non-enrolled people",
+        "evidence": "quasi_experimental",
+        "effect_source": "https://capolicylab.org/news/new-report-early-signs-of-success-from-la-countys-homelessness-prevention-pilot/",
+        "featured": "true",
+        "notes": "Model ranks who's most at risk; RCT results expected 2027. Evaluator also built the model."
+      }
+    ],
     "data_gaps": [
       {
         "problem_id": "shelter-scarcity",
@@ -203,6 +314,23 @@
       }
     ],
     "existing_work": [],
+    "interventions": [
+      {
+        "intervention_id": "living-wage-foundation",
+        "problem_id": "living-wage-gap",
+        "name": "Real Living Wage accreditation",
+        "organization": "Living Wage Foundation (UK)",
+        "kind": "community",
+        "year_started": "",
+        "url": "https://www.livingwage.org.uk/news/16000-employers-now-paying-real-living-wage",
+        "scale": "16,000+ accredited UK employers (May 2025)",
+        "effect": "500,000+ workers got pay rises (Cardiff Business School study)",
+        "evidence": "self_reported",
+        "effect_source": "https://www.livingwage.org.uk/news/16000-employers-now-paying-real-living-wage",
+        "featured": "true",
+        "notes": "Voluntary employer accreditation driven by a campaign. The 500,000 figure is a count from a study the Foundation cites, not a causal effect."
+      }
+    ],
     "data_gaps": [
       {
         "problem_id": "living-wage-gap",
