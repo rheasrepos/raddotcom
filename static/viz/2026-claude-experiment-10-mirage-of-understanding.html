@@ -1,0 +1,116 @@
+<!doctype html><meta charset="utf-8"><title>rating study</title>
+<style>
+body{font-family:Georgia,serif;max-width:640px;margin:40px auto;line-height:1.5}
+.item{border:1px solid #ccc;border-radius:8px;padding:16px;margin:18px 0}
+.badge{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-bottom:8px}
+.badge.human{background:#dcf0dc}.badge.ai{background:#dce4f0}
+label{display:block;margin:8px 0;font-size:14px}
+button{font-size:16px;padding:8px 20px}
+</style>
+<h2>Rate these answers</h2>
+<p>For each passage, rate your trust and the author's understanding. There are 10 items.</p>
+
+<div class="item" data-id="1" data-label="none">
+  
+  <p class="passage">Mitochondria convert nutrients into ATP through oxidative phosphorylation, which is why cells with high energy demands, like muscle cells, contain thousands of them.</p>
+  <label>Trust in this answer (1=none, 7=complete):
+    <select class="trust"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>How well does the author understand the topic? (1–7):
+    <select class="underst"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>Anything seem wrong? <input class="err" type="text" placeholder="leave blank if not"></label>
+</div>
+<div class="item" data-id="2" data-label="human">
+  <div class="badge human">Written by a person</div>
+  <p class="passage">The printing press spread through Europe within fifty years of Gutenberg's first Bible, and literacy rates began climbing a generation later.</p>
+  <label>Trust in this answer (1=none, 7=complete):
+    <select class="trust"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>How well does the author understand the topic? (1–7):
+    <select class="underst"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>Anything seem wrong? <input class="err" type="text" placeholder="leave blank if not"></label>
+</div>
+<div class="item" data-id="3" data-label="none">
+  
+  <p class="passage">Objects in orbit are in continuous free fall; astronauts float not because gravity is absent but because they and their ship fall at the same rate.</p>
+  <label>Trust in this answer (1=none, 7=complete):
+    <select class="trust"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>How well does the author understand the topic? (1–7):
+    <select class="underst"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>Anything seem wrong? <input class="err" type="text" placeholder="leave blank if not"></label>
+</div>
+<div class="item" data-id="4" data-label="ai">
+  <div class="badge ai">Written by AI</div>
+  <p class="passage">Inflation erodes the real value of fixed debts, which is why unexpected inflation transfers wealth from lenders to borrowers.</p>
+  <label>Trust in this answer (1=none, 7=complete):
+    <select class="trust"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>How well does the author understand the topic? (1–7):
+    <select class="underst"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>Anything seem wrong? <input class="err" type="text" placeholder="leave blank if not"></label>
+</div>
+<div class="item" data-id="5" data-label="ai">
+  <div class="badge ai">Written by AI</div>
+  <p class="passage">The spacing effect shows that studying material across separated sessions produces more durable memory than the same total time spent in one sitting.</p>
+  <label>Trust in this answer (1=none, 7=complete):
+    <select class="trust"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>How well does the author understand the topic? (1–7):
+    <select class="underst"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>Anything seem wrong? <input class="err" type="text" placeholder="leave blank if not"></label>
+</div>
+<div class="item" data-id="6" data-label="human">
+  <div class="badge human">Written by a person</div>
+  <p class="passage">Earthquakes along the San Andreas fault occur because the Pacific and North American plates slide past each other, storing elastic strain that releases suddenly.</p>
+  <label>Trust in this answer (1=none, 7=complete):
+    <select class="trust"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>How well does the author understand the topic? (1–7):
+    <select class="underst"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>Anything seem wrong? <input class="err" type="text" placeholder="leave blank if not"></label>
+</div>
+<div class="item" data-id="7" data-label="human">
+  <div class="badge human">Written by a person</div>
+  <p class="passage">Vitamin C is water-soluble, so the body excretes excess amounts rather than storing them, which is why megadoses have limited effect.</p>
+  <label>Trust in this answer (1=none, 7=complete):
+    <select class="trust"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>How well does the author understand the topic? (1–7):
+    <select class="underst"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>Anything seem wrong? <input class="err" type="text" placeholder="leave blank if not"></label>
+</div>
+<div class="item" data-id="8" data-label="none">
+  
+  <p class="passage">Betelgeuse is far enough away that when it eventually goes supernova, the light will take about 550 years to reach Earth.</p>
+  <label>Trust in this answer (1=none, 7=complete):
+    <select class="trust"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>How well does the author understand the topic? (1–7):
+    <select class="underst"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>Anything seem wrong? <input class="err" type="text" placeholder="leave blank if not"></label>
+</div>
+<div class="item" data-id="9" data-label="ai">
+  <div class="badge ai">Written by AI</div>
+  <p class="passage">Hash tables achieve average constant-time lookup by converting keys into array indices, at the cost of occasional collisions that must be resolved.</p>
+  <label>Trust in this answer (1=none, 7=complete):
+    <select class="trust"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>How well does the author understand the topic? (1–7):
+    <select class="underst"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>Anything seem wrong? <input class="err" type="text" placeholder="leave blank if not"></label>
+</div>
+<div class="item" data-id="10" data-label="human">
+  <div class="badge human">Written by a person</div>
+  <p class="passage">Antibiotics target bacterial structures like cell walls that human cells lack, which is why they are useless against viral infections.</p>
+  <label>Trust in this answer (1=none, 7=complete):
+    <select class="trust"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>How well does the author understand the topic? (1–7):
+    <select class="underst"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select></label>
+  <label>Anything seem wrong? <input class="err" type="text" placeholder="leave blank if not"></label>
+</div>
+<button onclick="save()">Finish & download responses.csv</button>
+<script>
+function save(){
+  let rows=[["item_id","label","trust","understanding","error_note"]];
+  document.querySelectorAll(".item").forEach(d=>{
+    rows.push([d.dataset.id,d.dataset.label,
+      d.querySelector(".trust").value,d.querySelector(".underst").value,
+      '"'+d.querySelector(".err").value.replace(/"/g,"'")+'"']);
+  });
+  let blob=new Blob([rows.map(r=>r.join(",")).join("\n")],{type:"text/csv"});
+  let a=document.createElement("a");a.href=URL.createObjectURL(blob);
+  a.download="responses.csv";a.click();
+}
+</script>

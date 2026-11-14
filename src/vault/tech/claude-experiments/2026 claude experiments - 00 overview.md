@@ -26,6 +26,12 @@ Each folder is self-contained: a README turning the note entry into a concrete e
 | `06-query-circuits` | SQL query trees rotated = neural nets with specialized nodes; supervising circuits; AI training AI as giving it a body | Mar 9 2026 | numpy |
 | `07-threebody-evo` | the three-body-problem evolutionary algorithm | Mar 14 2026 | numpy |
 | `08-concurrency-time` | can truly concurrent processes happen to computers? | Mar 9 2026 | stdlib |
+| `09-worldcup-network-art` | Spain's players as a node network, overlaid across the World Cup final | Jul 19 2026 | numpy, YOLO |
+| `10-mirage-of-understanding` | does an "AI-written" label change trust and error-spotting? (rating study page) | Oct 2025 thesis | HTML |
+| `11-yc-ai-saturation` | how much of each YC batch is AI, 2021 → 2026 | machine fiddling note | stdlib |
+| `12-liking-vs-learning` | does liking a character stop you updating your impression of them? (draft, lab data) | cog neuro note | numpy |
+| `13-data-provenance` | every datapoint through every transformation over training: Points In Space, All The Math, Every Computation, Vectors Left To Right | Oct 5 2026 | HTML |
+| `14-book-trajectories` | a whole book as a path through GPT-2's space | Oct 14 2026 | torch, HTML |
 
 ## Conventions
 
