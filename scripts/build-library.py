@@ -396,28 +396,48 @@ if len(own_idx) > 5:
         XY[i] = XY[j] + rng.normal(0, 0.012, 2)
 
 # ------------------------------------------------------------------ topics that match the map
-# Colours and names come from grouping the dots WHERE THEY SIT ON THE MAP (k-means
-# on the 2-D positions, same k), so one topic is one visible region instead of a
-# group from the 40-D space that the flattening scattered into far-apart islands.
+# "Natural" clusters: DBSCAN on the map positions. No number of topics is forced —
+# a topic is any region where dots sit densely together (each dot has at least
+# MINPTS neighbours within EPS). Dots in sparse areas belong to no topic ("unsorted").
 own = np.array(own_idx)
 P = XY[own]
+D = np.sqrt(((P[:, None, :] - P[None]) ** 2).sum(-1))
+MINPTS = 6
+kth = np.sort(D, 1)[:, MINPTS]
 best = None
-for seed in range(8):
-    rng = np.random.default_rng(100 + seed)
-    C = P[rng.choice(len(P), chosen, replace=False)]
-    for _ in range(100):
-        lab2 = np.argmin(((P[:, None, :] - C[None]) ** 2).sum(-1), axis=1)
-        newC = np.array([P[lab2 == j].mean(0) if (lab2 == j).any() else C[j] for j in range(chosen)])
-        if np.allclose(newC, C): break
-        C = newC
-    inertia = ((P - C[lab2]) ** 2).sum()
-    if best is None or inertia < best[0]: best = (inertia, lab2)
+for q in np.linspace(40, 80, 21):            # try several densities, keep the one that
+    EPS = np.percentile(kth, q)              # clusters the most dots into 10-30 topics
+    core = (D <= EPS).sum(1) > MINPTS
+    lab2 = -np.ones(len(P), int); c = 0
+    for s0 in np.where(core)[0]:
+        if lab2[s0] != -1: continue
+        stack = [s0]; lab2[s0] = c
+        while stack:
+            u = stack.pop()
+            if not core[u]: continue
+            for v in np.where(D[u] <= EPS)[0]:
+                if lab2[v] == -1: lab2[v] = c; stack.append(v)
+        c += 1
+    sizes = np.bincount(lab2[lab2 >= 0]) if c else np.array([])
+    big = int((sizes >= 8).sum())
+    covered = float((lab2 >= 0).mean())
+    score = covered if 10 <= big <= 30 else covered - 1
+    if best is None or score > best[0]: best = (score, lab2.copy(), EPS, big)
+lab2 = best[1]
+sizes = np.bincount(lab2[lab2 >= 0])
+lab2 = np.where((lab2 >= 0) & (sizes[np.maximum(lab2, 0)] >= 8), lab2, -1)   # tiny groups → unsorted
+UNSORTED = 10_000
+lab2 = np.where(lab2 < 0, UNSORTED, lab2)
+chosen = int(len(set(lab2) - {UNSORTED}))
+print(f"natural clusters: {chosen} topics, {np.mean(lab2 == UNSORTED):.0%} of dots unsorted")
+best = (None, lab2)
 labels = np.array(labels).copy()
 labels[own] = best[1]
 for i in ig_idx:
     labels[i] = labels[own_idx[int(np.argmax(Z[own_idx] @ Z[i]))]]
 names = {}
 for j in sorted(set(labels[own])):
+    if j == UNSORTED: names[j] = "unsorted"; continue
     m = np.zeros(len(items), bool); m[own[labels[own] == j]] = True
     score = X[m].mean(0) - X[~m].mean(0)
     top = [vocab[i] for i in np.argsort(-score)[:3] if score[i] > 0]

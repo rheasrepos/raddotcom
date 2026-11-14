@@ -10,7 +10,7 @@
 	let loaded = false;
 	let error = '';
 
-	let tab = 'solutions';
+	let tab = 'datasets';
 	let q = '';
 	let sdg = 'all';
 	let problem = 'all';
@@ -37,7 +37,10 @@
 	const withP = (/** @type {any} */ p, /** @type {any} */ x) => ({ ...x, _p: p });
 	$: rows = {
 		problems: problems.map((p) => ({ ...p, _p: p, n_solutions: (p.interventions || []).length, n_datasets: (p.datasets || []).length })),
-		solutions: problems.flatMap((p) => (p.interventions || []).map((/** @type {any} */ x) => withP(p, x))),
+		solutions: problems.flatMap((p) => [
+			...(p.interventions || []).map((/** @type {any} */ x) => withP(p, { ...x, _type: KIND[x.kind] || x.kind })),
+			...(p.existing_work || []).map((/** @type {any} */ x) => withP(p, { name: x.title, url: x.url, _type: 'Research', featured: 'false' }))
+		]),
 		datasets: problems.flatMap((p) => (p.datasets || []).map((/** @type {any} */ x) => withP(p, x))),
 		research: problems.flatMap((p) => (p.existing_work || []).map((/** @type {any} */ x) => withP(p, x))),
 		gaps: problems.flatMap((p) => (p.data_gaps || []).map((/** @type {any} */ x) => withP(p, x))),
@@ -45,26 +48,15 @@
 	};
 
 	const COLS = {
-		problems: [
-			['name', 'Problem'], ['sdg_goal', 'SDG'], ['sdg_name', 'Goal'], ['solution_kind', 'Kind'],
-			['maturity', 'Maturity'], ['n_solutions', 'Solutions'], ['n_datasets', 'Datasets'], ['description', 'Description']
-		],
-		solutions: [
-			['_problem', 'Problem'], ['name', 'Solution'], ['kind', 'Type'], ['organization', 'Organization'],
-			['year_started', 'Since'], ['scale', 'Scale'], ['effect', 'Measured effect'], ['evidence', 'Evidence']
-		],
 		datasets: [
-			['_problem', 'Problem'], ['name', 'Dataset'], ['access', 'Access'], ['license', 'License'],
-			['size', 'Size'], ['modality', 'Modality'], ['role', 'How it helps']
+			['name', 'Dataset'], ['_problem', 'Problem'], ['role', 'What you could study'], ['access', 'Access'], ['license', 'License']
 		],
-		research: [['_problem', 'Problem'], ['title', 'Research / project'], ['kind', 'Type'], ['year', 'Year'], ['maturity', 'Stage'], ['notes', 'Finding']],
-		gaps: [['_problem', 'Problem'], ['gap', 'Missing data'], ['why_it_matters', 'Why it matters'], ['how_to_close', 'How to close it']],
-		risks: [
-			['_problem', 'Problem'], ['who_could_be_harmed', 'Who could be harmed'], ['dual_use', 'Dual use'],
-			['bias_and_representation', 'Bias'], ['ethics', 'Ethics'], ['morality', 'Morality'], ['devils_advocate', "Devil's advocate"]
-		]
+		solutions: [['name', 'Name'], ['_problem', 'Problem'], ['_type', 'Type']],
+		problems: [['name', 'Problem'], ['sdg_name', 'UN goal'], ['n_datasets', 'Datasets'], ['description', 'Description']],
+		gaps: [['_problem', 'Problem'], ['gap', 'Missing data'], ['why_it_matters', 'Why it matters']],
+		risks: [['_problem', 'Problem'], ['ethics', 'Ethics'], ['morality', 'Morality'], ['devils_advocate', "Devil's advocate"]]
 	};
-	const TABS = [['solutions', 'Solutions tried'], ['problems', 'Problems'], ['research', 'Research'], ['datasets', 'Datasets'], ['gaps', 'Data gaps'], ['risks', 'Risks']];
+	const TABS = [['datasets', 'Open datasets'], ['problems', 'Problems'], ['gaps', 'Missing data'], ['solutions', "Who's working on it"], ['risks', 'Risks']];
 
 	const val = (/** @type {any} */ r, /** @type {string} */ k) => (k === '_problem' ? r._p.name : r[k] ?? '');
 	const text = (/** @type {any} */ r) => Object.values(r).filter((v) => typeof v === 'string').join(' ').toLowerCase() + ' ' + r._p.name.toLowerCase();
@@ -79,6 +71,7 @@
 		.sort((/** @type {any} */ a, /** @type {any} */ b) => {
 			if (!sortKey) {
 				// default for solutions: well-known first, then strongest evidence
+				if (tab === 'datasets') return a._p.name.localeCompare(b._p.name);
 				if (tab !== 'solutions') return 0;
 				return Number(a.featured !== 'true') - Number(b.featured !== 'true') || (EV_RANK[a.evidence] ?? 9) - (EV_RANK[b.evidence] ?? 9);
 			}
@@ -98,16 +91,15 @@
 <PageLayout title="AI-Fixable Problems — Rhea Madhogarhia">
 	<section class="sheet">
 		<div class="titlebar">
-			<span class="title">AI-Fixable Problems — {TABS.find((t) => t[0] === tab)?.[1]}</span>
+			<span class="title">Open Data — {TABS.find((t) => t[0] === tab)?.[1]}</span>
 			<span class="winbtns" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span>
 		</div>
 		<div class="body">
 		<header class="head">
-			<h1>AI-Fixable Problems</h1>
+			<h1>Open data for the world's biggest problems</h1>
 			<p>
-				Problems in the world, what's been tried against them (AI and everything else), the data that exists,
-				what's missing, and the case against. Organized by UN Sustainable Development Goal.
-				<a href="https://github.com/rheasrepos/ai-fixable-problems-db">Data + contributing on GitHub</a>.
+				Open datasets you can download and study yourself, organized by the world problem they help with.
+				Almost all are free to download; each row says how to get it and what you can do with it. <a href="https://github.com/rheasrepos/ai-fixable-problems-db">Suggest a dataset on GitHub</a>.
 			</p>
 		</header>
 
@@ -162,8 +154,8 @@
 											<a href={r.url} target="_blank" rel="noopener">{r[k]}</a>
 										{:else if k === 'name' && tab === 'problems'}
 											<button class="link" on:click={() => { pick(r); setTab('solutions'); }}>{r.name}</button>
-										{:else if k === 'kind' && tab === 'solutions'}
-											<span class="pill k-{r.kind}">{KIND[r.kind] || r.kind}</span>
+										{:else if k === '_type'}
+											<span class="pill k-{r.kind || 'research'}">{r._type}</span>
 										{:else if k === 'evidence'}
 											{#if r.effect_source}<a href={r.effect_source} target="_blank" rel="noopener">{EVIDENCE[r.evidence]}</a>{:else}{EVIDENCE[r.evidence] || ''}{/if}
 										{:else}
@@ -184,7 +176,7 @@
 				<span>{sortKey ? `Sorted by ${COLS[tab].find((c) => c[0] === sortKey)?.[1]}` : tab === 'solutions' ? 'Well-known first' : 'Unsorted'}</span>
 			</div>
 			<p class="foot">
-				{#if tab === 'solutions'}Bold rows are well-known solutions, shown first; then sorted by strength of evidence. Click a column to sort.{:else}Click a column header to sort; click a problem to filter to it.{/if}
+				Click a column header to sort; click a problem to filter to it.
 				{#if problem !== 'all'} <button class="link" on:click={() => (problem = 'all')}>Show all problems</button>{/if}
 			</p>
 		{/if}
@@ -260,7 +252,7 @@
 	.link { background: none; border: none; padding: 0; font: inherit; cursor: pointer; text-align: left; }
 	.pill { display: inline-block; padding: 0 4px; font-size: 11px; white-space: nowrap; color: #fff; }
 	.k-ai { background: #008080; } .k-policy { background: #808000; } .k-market { background: #000080; }
-	.k-community, .k-human_connection { background: #800080; } .k-funding { background: #008000; } .k-open_data { background: #008080; outline: 1px dashed #fff; } .k-other_tech { background: #800000; }
+	.k-community, .k-human_connection { background: #800080; } .k-funding { background: #008000; } .k-research { background: #404040; } .k-open_data { background: #008080; outline: 1px dashed #fff; } .k-other_tech { background: #800000; }
 	.empty, .status { padding: 10px; }
 
 	.statusbar { display: flex; gap: 2px; margin-top: 4px; }
