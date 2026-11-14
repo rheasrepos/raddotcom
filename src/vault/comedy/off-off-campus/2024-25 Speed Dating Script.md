@@ -6,7 +6,6 @@ date_approx: true
 type: comedy
 academic: false
 published: true
-pdf: /docs/2024-25-speed-dating-script.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Third Year/Speed Dating Script.docx
 tags: [creative/comedy, creative/screenwriting/character-design]
 affiliation: uchicago

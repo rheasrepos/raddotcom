@@ -6,7 +6,6 @@ date_approx: true
 type: creative
 academic: true
 published: true
-pdf: /docs/2025-26-im-here-for-you-script.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/Fourth Year/y4q2/IM HERE FOR YOU SCRIPT.docx
 tags:
   - creative/theatre/playwriting

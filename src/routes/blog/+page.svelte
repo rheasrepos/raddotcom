@@ -123,7 +123,13 @@
 	}
 
 	// Newest first, minus hidden categories, minus anything not matching search
+	// A video only belongs on the blog once Rhea has written something with it
+	// (Rhea, 2026-11-13): video posts need 40+ words of her own (AI-marked text
+	// and link lines don't count). They still live on the desktop and About page.
+	const ownWords = (p) => String(p.content || '').replace(/<ai>[\s\S]*?<\/ai>/g, ' ').replace(/https?:\/\/\S+/g, ' ').replace(/[#>*_\[\]()`-]/g, ' ').split(/\s+/).filter((w) => /\w/.test(w)).length;
+	const isBareVideo = (p) => (p.video || (p.videos && p.videos.length)) && ownWords(p) < 40;
 	$: sorted = [...posts]
+		.filter((p) => !isBareVideo(p))
 		.filter((p) => catsOf(p).some((c) => !hidden.has(c)) && matches(p, query))
 		.sort((a, b) => new Date(b.date) - new Date(a.date));
 

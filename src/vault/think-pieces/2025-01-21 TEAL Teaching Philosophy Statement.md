@@ -7,7 +7,6 @@ type: writing
 academic: true
 course: TEAL
 published: true
-pdf: /docs/2025-01-21-teal-teaching-philosophy-statement.pdf
 source: raddotcom Vault/2025-01-21 Rhea Madhogarhia TEAL Intro Teaching Philosophy.docx
 tags:
   - education
