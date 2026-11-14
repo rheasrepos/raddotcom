@@ -1,4 +1,5 @@
 <script>
+	import AIText from '../../../components/AIText.svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import PageLayout from '$components/PageLayout.svelte';
@@ -230,7 +231,7 @@
 			<!-- Post Not Found -->
 			<div class="not-found">
 				<h1>Post Not Found</h1>
-				<p>The post you're looking for doesn't exist.</p>
+				<p><AIText>The post you're looking for doesn't exist.</AIText></p>
 				<div class="not-found-links">
 					<!-- Updated link to /blog -->
 					<a href="/blog" class="btn">Browse All Posts</a>
@@ -241,7 +242,7 @@
 			<!-- Loading -->
 			<div class="not-found">
 				<h1>Loading...</h1>
-				<p>Please wait while we load the post.</p>
+				<p><AIText>Please wait while we load the post.</AIText></p>
 			</div>
 		{/if}
 	</div>

@@ -1,4 +1,5 @@
 <script>
+	import AIText from './AIText.svelte';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 
@@ -81,7 +82,7 @@
 				{/each}
 			</ul>
 		{:else if q}
-			<div class="spot-empty">No matches for “{query}”.</div>
+			<div class="spot-empty" data-no-reveal><AIText>No matches for “{query}”.</AIText></div>
 		{/if}
 	</div>
 </div>

@@ -112,7 +112,7 @@
 			{#each topics as [t, n]}
 				<button class="t" class:on={topic === t} on:click={() => (topic = topic === t ? 'all' : t)}
 					title={t === 'Wild card' ? "Rhea's own picks" : t === 'Me online' ? 'Pages by or about Rhea' : t === 'Influential minds' ? 'People whose teaching or work shaped Rhea' : 'Machine-made topic name'}>
-					<i style="background:{colors[t]}"></i><span class:machine={!HAND.includes(t)}>{t}</span> <span class="n">{n}</span>
+					<i style="background:{colors[t]}"></i>{#if HAND.includes(t)}<span>{t}</span>{:else}<AIText>{t}</AIText>{/if} <span class="n">{n}</span>
 				</button>
 			{/each}
 		</div>
@@ -126,7 +126,7 @@
 	{:else}
 	{#each groups as [t, list] (t)}
 		<section>
-			<h2 class:machine={!HAND.includes(t)}>{t}</h2>
+			<h2>{#if HAND.includes(t) || sort === 'kind' || sort === 'az' || sort === 'za' || sort === 'added' || sort === 'published'}{t}{:else}<AIText>{t}</AIText>{/if}</h2>
 			<ul>
 				{#each list as it}
 					<li>

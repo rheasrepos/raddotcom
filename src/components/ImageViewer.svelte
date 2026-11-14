@@ -1,4 +1,5 @@
 <script>
+	import AIText from './AIText.svelte';
 	// Full-screen image viewer (lightbox): click any image on the site to open,
 	// click the image to zoom in/out, drag or scroll to pan while zoomed,
 	// Esc / × / backdrop click to close.
@@ -47,7 +48,7 @@
 				draggable="false"
 			/>
 		</div>
-		<div class="iv-hint">click image to {zoomed ? 'zoom out' : 'zoom in'} · esc to close</div>
+		<div class="iv-hint" data-no-reveal><AIText>click image to {zoomed ? 'zoom out' : 'zoom in'} · esc to close</AIText></div>
 	</div>
 {/if}
 

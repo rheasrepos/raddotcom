@@ -1,4 +1,5 @@
 <script>
+	import AIText from '../../components/AIText.svelte';
 	import { formatDate } from '$lib/posts.js';
 	import PageLayout from '../../components/PageLayout.svelte';
 	import PostPreview from '../../components/PostPreview.svelte';
@@ -192,7 +193,7 @@
 	<section class="archive">
 		<header class="arch-head">
 			<h1 class="arch-title">{SITE_NAME}</h1>
-			<p class="arch-sub">A public personal archive — {posts.length} entries.</p>
+			<p class="arch-sub" data-no-reveal><AIText>A public personal archive — {posts.length} entries.</AIText></p>
 		</header>
 
 		<nav class="view-switch" aria-label="Group posts by">

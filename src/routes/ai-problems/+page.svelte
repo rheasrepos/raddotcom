@@ -1,4 +1,6 @@
 <script>
+	import AIText from '../../components/AIText.svelte';
+	const PROSE = ['description', 'role', 'solution_summary', 'summary', 'notes', 'how_to_use', 'what_you_can_do'];
 	// AI-Fixable Problems DB, shown as linked data tables (one tab per table).
 	// Data: /ai-problems.json, built by `scripts/export_json.py` in the
 	// ai-fixable-problems-db repo and copied here by its sync script.
@@ -136,26 +138,23 @@
 		</div>
 		<div class="body">
 		<header class="head">
-			<h1>Open data for the world's biggest problems</h1>
-			<p>
-				Open datasets you can download and study yourself, organized by the world problem they help with.
-				Almost all are free to download; each row says how to get it and what you can do with it. <a href="https://github.com/rheasrepos/ai-fixable-problems-db">Suggest a dataset on GitHub</a>.
+			<h1><AIText>Open data for the world's biggest problems</AIText></h1>
+			<p><AIText>Open datasets you can download and study yourself, organized by the world problem they help with.
+				Almost all are free to download; each row says how to get it and what you can do with it.</AIText> <a href="https://github.com/rheasrepos/ai-fixable-problems-db">Suggest a dataset on GitHub</a>.
 			</p>
 		</header>
 
-		<p class="disclaimer">
-			These are quite obviously simplifications of the "world's biggest problems" and we hope that the users of this
+		<p class="disclaimer"><AIText>These are quite obviously simplifications of the "world's biggest problems" and we hope that the users of this
 			application can provide more nuance by contributing! You can answer this short anonymous survey or recommend a
-			dataset or problem on <a href="https://github.com/rheasrepos/ai-fixable-problems-db">GitHub</a>!
+			dataset or problem on</AIText> <a href="https://github.com/rheasrepos/ai-fixable-problems-db">GitHub</a>!
 		</p>
 
 		<fieldset class="poll">
-			<legend>Contribute your opinion: what are the world's biggest problems?</legend>
+			<legend><AIText>Contribute your opinion: what are the world's biggest problems?</AIText></legend>
 			{#if !votesConfigured}
-				<p class="muted">The poll isn't open yet.</p>
+				<p class="muted"><AIText>The poll isn't open yet.</AIText></p>
 			{:else if vDone}
-				<p>Thanks! Your answer is counted. Written answers show up after a quick review.
-					<button class="link" on:click={() => { vDone = false; }}>Answer again</button> ·
+				<p><AIText>Thanks! Your answer is counted. Written answers show up after a quick review.</AIText><button class="link" on:click={() => { vDone = false; }}>Answer again</button> ·
 					<button class="link" on:click={() => setTab('votes')}>See what others said</button></p>
 			{:else}
 				<div class="poll-row">
@@ -176,7 +175,7 @@
 				<input class="trap" tabindex="-1" autocomplete="off" aria-hidden="true" bind:value={vTrap} />
 				<div class="poll-row">
 					<button class="btn" on:click={sendVote} disabled={vSending}>{vSending ? 'Sending…' : 'Submit'}</button>
-					<span class="muted">Anonymous. Don't include names or personal details.</span>
+					<span class="muted"><AIText>Anonymous. Don't include names or personal details.</AIText></span>
 					{#if vError}<span class="err">{vError}</span>{/if}
 				</div>
 			{/if}
@@ -217,13 +216,13 @@
 								<td class="c-bar"><span class="vbar" style="width: {vTotal ? (100 * r.votes) / vTotal : 0}%"></span> {vTotal ? Math.round((100 * r.votes) / vTotal) : 0}%</td>
 							</tr>
 						{:else}
-							<tr><td class="empty" colspan="4">{!votesConfigured ? "The poll isn't open yet." : vLoaded ? 'No answers yet. Be the first.' : 'Loading…'}</td></tr>
+							<tr><td class="empty" colspan="4" data-no-reveal><AIText>{!votesConfigured ? "The poll isn't open yet." : vLoaded ? 'No answers yet. Be the first.' : 'Loading…'}</AIText></td></tr>
 						{/each}
 					</tbody>
 				</table>
 			</div>
 			{#if vWriteins.length}
-				<h3 class="sub">In visitors' own words (reviewed)</h3>
+				<h3 class="sub"><AIText>In visitors' own words (reviewed)</AIText></h3>
 				<div class="grid-wrap">
 					<table class="grid">
 						<thead><tr><th class="idx"><span class="sort">#</span></th><th><span class="sort">Problem</span></th><th><span class="sort">Mentions</span></th></tr></thead>
@@ -235,7 +234,7 @@
 					</table>
 				</div>
 			{/if}
-			<div class="statusbar"><span>{vTotal} answers</span><span>Counts include unreviewed answers; written answers appear after review.</span></div>
+			<div class="statusbar"><span>{vTotal} answers</span><span><AIText>Counts include unreviewed answers; written answers appear after review.</AIText></span></div>
 		{:else if !loaded}
 			<p class="status">Loading…</p>
 		{:else if error}
@@ -271,6 +270,9 @@
 											<span class="pill k-{r.kind || 'research'}">{r._type}</span>
 										{:else if k === 'evidence'}
 											{#if r.effect_source}<a href={r.effect_source} target="_blank" rel="noopener">{EVIDENCE[r.evidence]}</a>{:else}{EVIDENCE[r.evidence] || ''}{/if}
+										{:else if PROSE.includes(k) && !String(r.contributor || '').startsWith('rhea')}
+											<!-- free-text written by Claude (contributor "claude-draft"): marked as AI; names, links, licences are data -->
+											<AIText>{val(r, k)}</AIText>
 										{:else}
 											{val(r, k)}
 										{/if}
@@ -278,7 +280,7 @@
 								{/each}
 							</tr>
 						{:else}
-							<tr><td class="empty" colspan={COLS[tab].length + 1}>No rows match.</td></tr>
+							<tr><td class="empty" colspan={COLS[tab].length + 1}><AIText>No rows match.</AIText></td></tr>
 						{/each}
 					</tbody>
 				</table>
@@ -288,8 +290,7 @@
 				<span>{problem === 'all' ? 'All problems' : problems.find((p) => p.problem_id === problem)?.name}</span>
 				<span>{sortKey ? `Sorted by ${COLS[tab].find((c) => c[0] === sortKey)?.[1]}` : tab === 'solutions' ? 'Well-known first' : 'Unsorted'}</span>
 			</div>
-			<p class="foot">
-				Click a column header to sort; click a problem to filter to it.
+			<p class="foot"><AIText>Click a column header to sort; click a problem to filter to it.</AIText>
 				{#if problem !== 'all'} <button class="link" on:click={() => (problem = 'all')}>Show all problems</button>{/if}
 			</p>
 		{/if}

@@ -1,4 +1,5 @@
 <script>
+	import AIText from './AIText.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { fade, scale } from 'svelte/transition';
 	import { redactionClass } from '$lib/redaction.js';
@@ -67,7 +68,7 @@
 							{/each}
 						</ul>
 					{:else}
-						<p class="ql-empty">This folder is empty.</p>
+						<p class="ql-empty"><AIText>This folder is empty.</AIText></p>
 					{/if}
 				</div>
 			{:else if item.kind === 'file'}
