@@ -34,7 +34,7 @@
         }
     ];
     // YouTube is the one big tile (a video gallery); CAB Lab, Voices and Off-Off
-    // Campus are small buttons in a row under it. LinkedIn lives in the bottom toolbar and GitHub projects on the
+    // Campus are plain text links in a row under it. LinkedIn lives in the bottom toolbar and GitHub projects on the
     // desktop, so neither is repeated here (Rhea, 2026-11-13).
     import VideoGallery from '../../components/VideoGallery.svelte';
 </script>
@@ -74,21 +74,19 @@
                 </div>
             {/each}
         </div>
-        <!-- the rest are small buttons in a row (Rhea, 2026-11-13) -->
+        <!-- the rest are plain underlined text links in a row (Rhea, 2026-11-14) -->
         <div class="link-buttons">
             {#each links.filter((l) => l.kind !== 'youtube') as link}
-                <a class="link-button" href={link.url} target="_blank" rel="noopener noreferrer"><span class="lb-icon">{@html link.icon}</span>{link.label}</a>
+                <a class="link-text" href={link.url} target="_blank" rel="noopener noreferrer">{link.label}</a>
             {/each}
         </div>
     </section>
 </PageLayout>
 
 <style>
-    .link-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
-    .link-button { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border: 1px solid #000; background: #c0c0c0; color: #000; text-decoration: none; font-size: 0.85rem; }
-    .link-button:hover { background: #000; color: #fff; }
-    .lb-icon { display: inline-flex; width: 14px; height: 14px; }
-    .lb-icon :global(svg) { width: 14px; height: 14px; }
+    .link-buttons { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px; }
+    .link-text { color: #000; text-decoration: underline; font-size: 1rem; }
+    .link-text:hover { text-decoration-thickness: 2px; }
     .resume-link { display: inline-block; margin-top: 14px; color: #000; text-decoration: underline; font-size: 1rem; }
     .resume-link:hover { text-decoration-thickness: 2px; }
 
