@@ -32,7 +32,7 @@ Open the vault in Obsidian: **Open folder as vault** → pick `raddotcom Vault (
 | **Library** | `src/routes/library/+page.svelte` + `src/components/LibraryMap.svelte`; data `src/data/library.json`, built by `scripts/build-library.py` (§5f) |
 | **Questions** | `src/routes/questions/+page.svelte`; text from the vault's `_questions.md` (§5h) |
 | **WPM** | `src/routes/wpm/+page.svelte` (§5d) |
-| Not in the nav | `/complexity` (survey, §5g), `/ai-problems` (problems database), `/admin` (404 on the live site) |
+| Not in the nav | `/complexity` (survey, §5g), `/admin` (404 on the live site). `/ai-problems` is the **Progress?** tab |
 | A single post page | `src/routes/posts/[id]/+page.svelte` (one file renders every post) |
 | The site name, tagline | `src/lib/site.js` |
 | Your email on the site | `src/lib/contact.js` (shown as rm7722 [AT] nyu [DOT] edu; assembled only on click) |
@@ -394,6 +394,8 @@ grep -rl "ai_title: true" "raddotcom Vault (vault-drafts)"
 That prints every file with an AI-written title. Rewrite, delete the flag, promote, push.
 
 ## 5e. The "world's biggest problems" poll on /ai-problems
+
+**LLM-written cells:** every row in `static/ai-problems.json` has an `ai_written` list naming the fields Claude worded (descriptions, "what you could study", missing data, risks…). Those cells get the dashed LLM underline. When you rewrite a field yourself, delete its name from that row's `ai_written` and the mark disappears.
 
 Visitors answer in the form at the top of `/ai-problems`; answers go to a `problem_votes` table in the same Supabase project as the WPM wall.
 
