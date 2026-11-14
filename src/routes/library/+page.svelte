@@ -71,6 +71,7 @@
 	<header>
 		<h1>Library</h1>
 		<p class="meta" data-no-reveal>{items.length} <AIText>things saved from around the internet</AIText></p>
+		<p class="lede">“think of this like the search history i’m willing to show the web” — Rhea</p>
 		<p class="note"><AIText>Topics are found automatically by clustering the items and are named by the words most typical of each group, except Wild card, which is hand-picked. Names were transcribed from saved screenshots, bookmarks and PDFs. Where known, “saved” is when Rhea saved it (bookmark and file dates) and “published” is when it came out; many older items have neither.</AIText></p>
 	</header>
 
@@ -157,6 +158,7 @@
 	.t .n { margin-left: auto; }
 	@media (max-width: 760px) { .layout { grid-template-columns: 1fr; } .side { position: static; max-height: none; } }
 	h1 { margin: 0 0 4px; }
+	.lede { margin: 6px 0 0; font-size: 0.95rem; }
 	.meta { margin: 0; opacity: 0.75; font-size: 0.9rem; }
 	.note { margin: 8px 0 14px; max-width: 70ch; font-size: 0.85rem; opacity: 0.85; }
 	.views { display: flex; border: 1px solid #000; }
