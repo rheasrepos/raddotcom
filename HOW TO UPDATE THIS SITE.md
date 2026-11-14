@@ -13,6 +13,10 @@ The golden rule: **edit a file → save → run `promote-to-site.command` (doubl
 | `raddotcom Vault (vault-drafts)/` | **Your Obsidian vault.** Every post is a `.md` file here. Private — never goes online until you publish it. Edit here. |
 | `src/vault/` | The **published copy**. You never touch this by hand — `promote-to-site.command` fills it from the vault. |
 
+**One content folder:** a note's files live **right beside it in the vault** — `essays/Foo.md` + `essays/Foo.pdf`, `artifacts/Artifact img01.md` + `artifacts/img01.jpg`. Promote copies them to `static/docs/` and `static/artifacts/` (the only places a website can serve files from). Treat `static/docs`, `static/artifacts` and `src/vault` as output — and the old `Analog Archive/` folder is just a backup now; delete it once you've checked the vault has everything.
+
+**Things the vault keeps out of the site no matter what:** `research/ai-wiki/` and `_sources/` (private AI chats), `scraps/`, and anything not marked `published: true`.
+
 Open the vault in Obsidian: **Open folder as vault** → pick `raddotcom Vault (vault-drafts)`.
 
 ---
@@ -24,11 +28,15 @@ Open the vault in Obsidian: **Open folder as vault** → pick `raddotcom Vault (
 | **Desktop** (the home screen, icons, zoom, search, View modes) | `src/routes/+page.svelte` — the frame + icons only; the pieces are split out: `src/components/desktop/IntroOverlay.svelte` (typewriter landing), `ProjectModal.svelte` (the grey file dialog), `DesktopWindows.svelte` (Finder windows + minimized dock), `WallpaperToolbar.svelte` (colour picker + social links); and the logic in `src/lib/desktop/layout.js` (where icons sit), `content.js` (what's in which folder, previews, search), `windows.js` (open/close/navigate windows) |
 | **Blog** (the list of posts) | `src/routes/blog/+page.svelte` |
 | **Obsidian** (the 3-D map of notes) | `src/routes/network/+page.svelte` — the dots come from `static/vault-space.json`, which `promote-to-site.command` rebuilds via `scripts/embed-vault.py` |
-| **Resume** | `src/routes/resume/+page.svelte` (the PDF it shows is `static/resume.pdf`) |
-| **About** | `src/routes/about/+page.svelte` |
-| **Admin** | `src/routes/admin/+page.svelte` (local-only draft tool; ignore it) |
+| **About** | `src/routes/about/+page.svelte` — bio, the "download resume" link (`static/resume.pdf`; `/resume` redirects to it), the YouTube gallery, and the small CAB Lab / Voices / Off-Off Campus buttons |
+| **Library** | `src/routes/library/+page.svelte` + `src/components/LibraryMap.svelte`; data `src/data/library.json`, built by `scripts/build-library.py` (§5f) |
+| **Questions** | `src/routes/questions/+page.svelte`; text from the vault's `_questions.md` (§5h) |
+| **WPM** | `src/routes/wpm/+page.svelte` (§5d) |
+| Not in the nav | `/complexity` (survey, §5g), `/ai-problems` (problems database), `/admin` (404 on the live site) |
 | A single post page | `src/routes/posts/[id]/+page.svelte` (one file renders every post) |
 | The site name, tagline | `src/lib/site.js` |
+| Your email on the site | `src/lib/contact.js` (shown as rm7722 [AT] nyu [DOT] edu; assembled only on click) |
+| How dates look (10.2.26) | `formatDate` in `src/lib/posts.js` |
 | The category list + colors | `src/lib/categories.js` |
 | Fonts, colors, spacing (whole site) | `src/app.css` |
 
@@ -119,7 +127,9 @@ A post and its PDF are now bound by the post's **slug** (its filename, lowercase
 
 - **The slug** of a post is its `.md` filename → lowercase, spaces/punctuation → dashes. Example: `2023-24 SHORT PAPER 1 - Mind, Brain, and Meaning.md` → slug `2023-24-short-paper-1-mind-brain-and-meaning`, so its PDF is `static/docs/2023-24-short-paper-1-mind-brain-and-meaning.pdf`.
 
-**To attach or replace a PDF:** name the file `<slug>.pdf`, drop it in `static/docs/` (overwrite to replace), then run `python3 scripts/sync-pdfs.py --apply` (regenerates the cover + manifest), then `promote-to-site.command`, commit + push.
+**To attach or replace a PDF:** put it **next to the note in the vault with the same name** (`essays/Foo.md` → `essays/Foo.pdf`; overwrite to replace — a graded copy with comments works the same way). Run `promote-to-site.command`: it copies the PDF to `static/docs/<slug>.pdf` whenever the vault copy differs. Then `python3 scripts/sync-pdfs.py --apply` (covers + manifest), commit + push.
+
+**Naming pattern you use for papers:** `2023-24 Course Name, "Title from the paper", Assignment.md` (e.g. `Mind, Brain, and Meaning, "Landing on Marr's", Short Paper 1`), with the same text as the `title:`. Names may end in a number ("Short Paper 1") — only a copy like `Foo 2.md` sitting next to `Foo.md` is treated as a duplicate.
 
 **If you rename a post:** its slug changes, so run `python3 scripts/sync-pdfs.py --apply` — it renames the matching PDF to the new slug so the two stay in lock-step. That's the whole point: the PDF and the post can't drift apart anymore.
 
@@ -129,14 +139,14 @@ A post and its PDF are now bound by the post's **slug** (its filename, lowercase
 
 ## 5. Artifacts (the analog archive) — adding, captioning, splitting
 
-Each artifact is one `.md` note in `artifacts/` plus one or more image files in `static/artifacts/`. On the desktop, pieces whose image name contains **`myart`** or **`tools`** float loose; everything else (the `img*` scans) lives in the **hoard** stack.
+Each artifact is one `.md` note in the vault's `artifacts/` with its image file(s) right beside it (promote copies them to `static/artifacts/`). Artifacts are titled by their file name (`img01`, `myart22.4`). On the desktop, pieces whose image name contains **`myart`** or **`tools`** float loose; everything else (the `img*` scans) lives in the **hoard** stack.
 
 **Add a new artifact:**
-1. Put the scan in `static/artifacts/` — name it `myart99.jpg` (your art/tools, floats loose) or `img99.jpg` (belongings, goes in the hoard).
-2. Make a note `artifacts/Artifact 99.md` with:
+1. Put the scan in the vault's `artifacts/` folder — name it `myart99.jpg` (your art/tools, floats loose) or `img99.jpg` (belongings, goes in the hoard).
+2. Make a note `artifacts/Artifact myart99.md` next to it with:
    ```
    ---
-   title: "Artifact 99"
+   title: "myart99"
    date: 2026-08-06
    type: artifacts
    published: true
@@ -237,7 +247,11 @@ Everything you've saved from around the internet, searchable, grouped into topic
 - **Dates:** end any line with `@added 2026-11-04` (when you saved it) and/or `@published 2017-03` (when it came out; year, year-month or full date). The list shows them and can sort by either. Chrome-bookmark lines got their dates from the Takeout; `_from-cool-papers.md` (the Desktop coolpaperstoread folder) from the PDFs.
 - **Grouping by what pages actually say:** `python3 scripts/fetch-library-text.py` (on your Mac, needs internet; first run is slow) caches the text behind every link, then `python3 scripts/build-library.py` uses it. Optional local model instead of word counts: `pip3 install sentence-transformers` then `LIB_EMBED=1 python3 scripts/build-library.py`. All of this happens before publishing — the live site only serves the finished positions and never calls an AI.
 - **Wild card** is yours alone: put URLs or exact item names (one per line) in `recommendations/_wildcard.md`.
-- **New sources wait for you**: `_from-chrome-bookmarks.md` (470 links from the two Chrome Takeouts on the Desktop, school/login/Docs links already removed) and `_from-apple-notes.md` (run `python3 scripts/notes-links-export.py` on your Mac — links only, read-only) are ignored until you skim them, delete what you don't want public, and set `include: true`.
+- **Sources (all in `recommendations/`):** the Instasaved lists, Recommendations notes, `TO DO links`; and the `_from-*.md` lists, used only when their frontmatter says `include: true` — `_from-chrome-bookmarks`, `_from-instagram-saves` (1,531 saves), `_from-cool-papers`, `_from-senior-year-readings`, `_from-ai-chats` (links from your AI chats), `_from-journal-club`, `_influential-minds`, `_me-online`; `_from-apple-notes` is still waiting (`include: false`).
+- **Topics follow the map:** each colour is one region of the map (grouped from where dots sit), named by its most typical words. Rhea is a dot too, placed by her own published writing.
+- **Links that don't open** (dead or login-only): list them in `recommendations/_link-fixes.txt` — a bare host/URL piece drops the item, `piece => new link` replaces it.
+- **AI marks:** a line ending in `@ai` means Claude wrote or trimmed that title; titles copied exactly (page titles, captions) carry no mark.
+- **Visitors can tick "hide Instagram"**; "search ↗" only appears for named works (papers, books, people, authored readings).
 
 ## 6. Categories & the desktop folders — add, rename, recolor, regroup
 

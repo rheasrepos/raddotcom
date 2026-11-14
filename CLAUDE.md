@@ -1,6 +1,6 @@
 # CLAUDE.md — rules for any AI agent working on raddotcom
 
-Rhea's personal site (www.rhea.com). Full how-to for humans: `HOW TO UPDATE THIS SITE.md`. Outstanding items: `TODO.md`.
+Rhea's personal site (www.rhea.com). Full how-to for humans: `HOW TO UPDATE THIS SITE.md`. Outstanding items: `TODO.md`. What's custom vs off-the-shelf: `WHAT'S NEW HERE.md`.
 
 ## Rule 1 — label every word you write (non-negotiable)
 Any text an AI writes that a visitor can see **must be marked as AI-drafted, in the same change that adds it.** No exceptions, no "I'll label it later."
