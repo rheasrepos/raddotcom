@@ -130,7 +130,10 @@ for fname in sorted(os.listdir(SRC)):
             continue
         seen.add(key)
         src_topic = re.sub(r"^\d{4}-\d{2} (Instasaved|Recommendations) - _?|\.md$|^_from-", "", fname)
-        context = " ".join([title, heading, IDS.sub("", MDLINK.sub(lambda x: x.group(1), raw))])  # (source file name left out: it grouped items by where they were saved, not what they are)
+        # an Instagram title starts with the account name, which would group posts by who
+        # posted rather than what they're about — left out of what items are compared on
+        ctx_title = re.sub(r"^[\w.]+: ", "", title) if url and "instagram.com" in url else title
+        context = " ".join([ctx_title, heading, IDS.sub("", MDLINK.sub(lambda x: re.sub(r"^[\w.]+: ", "", x.group(1)) if "instagram.com" in (url or "") else x.group(1), raw))])  # (source file name left out: it grouped items by where they were saved, not what they are)
         via = re.search(r"@via\s+(.+?)\s*$", raw)
         items.append({"title": title[:160], "url": url, "kind": "person" if fname == "_influential-minds.md" else kind_of(title, url), "_ctx": context, "_key": key,
                       "_me": fname == "_me-online.md",   # fixed topic "Me online" (not clustered)
@@ -209,7 +212,9 @@ was were been being have has had having does did doing because while until again
 when where why how all any both each few nor not off over under above below between into through during
 before after again first last year years day days way ways make made thing things know see said says say
 well back still something really want need going get got let us around per via rhea bookmark bookmarks
-chrome bar folder from recommendations instasaved misc inbox from""".split())
+chrome bar folder from recommendations instasaved misc inbox from comment comments follow followed link bio
+send love best free actually worth nice amazing fun don dont friend friends literally obsessed tag save
+saved part ever every thank thanks guys girl girls today tonight wait omg lol""".split())
 def toks(s):
     s = s.lower()
     s = re.sub(r"https?://\S+", lambda m: " ".join(re.findall(r"[a-z]{3,}", m.group(0).split("/", 3)[-1])), s)
@@ -373,6 +378,32 @@ if len(own_idx) > 5:
     RXY = [round(float(v), 4) for v in Y[-1]]; Y = Y[:-1]
     r = np.sqrt((Y ** 2).sum(1)); sc = np.percentile(r, 98); Y /= sc; RXY = [round(v / float(sc), 4) for v in RXY]   # most points inside the unit circle
     XY[own_idx] = Y
+
+# ------------------------------------------------------------------ topics that match the map
+# Colours and names come from grouping the dots WHERE THEY SIT ON THE MAP (k-means
+# on the 2-D positions, same k), so one topic is one visible region instead of a
+# group from the 40-D space that the flattening scattered into far-apart islands.
+own = np.array(own_idx)
+P = XY[own]
+best = None
+for seed in range(8):
+    rng = np.random.default_rng(100 + seed)
+    C = P[rng.choice(len(P), chosen, replace=False)]
+    for _ in range(100):
+        lab2 = np.argmin(((P[:, None, :] - C[None]) ** 2).sum(-1), axis=1)
+        newC = np.array([P[lab2 == j].mean(0) if (lab2 == j).any() else C[j] for j in range(chosen)])
+        if np.allclose(newC, C): break
+        C = newC
+    inertia = ((P - C[lab2]) ** 2).sum()
+    if best is None or inertia < best[0]: best = (inertia, lab2)
+labels = np.array(labels).copy()
+labels[own] = best[1]
+names = {}
+for j in sorted(set(labels[own])):
+    m = np.zeros(len(items), bool); m[own[labels[own] == j]] = True
+    score = X[m].mean(0) - X[~m].mean(0)
+    top = [vocab[i] for i in np.argsort(-score)[:3] if score[i] > 0]
+    names[j] = " · ".join(top) if top else "assorted"
 
 # ------------------------------------------------------------------ write
 out = []
