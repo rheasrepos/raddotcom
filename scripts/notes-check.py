@@ -20,13 +20,17 @@ def norm(x):
 
 # the vault notes that say "source: Apple Notes, exact copy"
 want = []
+bodies = {}
 for d, _, fs in os.walk(VAULT):
     for f in fs:
         if f.endswith(".md"):
             t = open(os.path.join(d, f), encoding="utf-8", errors="ignore").read(3000)
             if "source: Apple Notes, exact copy" in t:
                 m = re.search(r'^title:\s*"?(.*?)"?\s*$', t, re.M)
-                if m: want.append(m.group(1))
+                if m:
+                    want.append(m.group(1))
+                    full = open(os.path.join(d, f), encoding="utf-8", errors="ignore").read()
+                    bodies[m.group(1)] = re.sub(r"^---\n.*?\n---\n", "", full, flags=re.S)
 print(f"{len(want)} vault copies to check")
 
 def osa(js, *args):
@@ -38,6 +42,10 @@ def osa(js, *args):
 allnotes = osa('''function run(){ const N=Application("Notes").notes; return JSON.stringify({id:N.id(), name:N.name()}); }''')
 names = [norm(n) for n in allnotes["name"]]
 print(f"{len(names)} notes in Notes")
+
+# 1b) every note's text too, so a copy can be found INSIDE a longer note
+alltext = osa('''function run(){ return JSON.stringify(Application("Notes").notes.plaintext()); }''')
+texts = [norm(t) for t in alltext]
 
 # 2) match each vault title to the closest note name (fuzzy, so trailing spaces,
 #    curly quotes or a longer first line don't hide it)
@@ -51,6 +59,13 @@ for t in want:
         else:
             continue
         if s > score: best, score = i, s
+    # short names ("so", "m") match too loosely — require real overlap
+    if best is not None and len(names[best]) < 8 and names[best] != nt: best = None
+    if best is None:
+        # look for the note's opening words inside any note's text
+        key = norm(bodies.get(t, t))[:60]
+        hits = [i for i, tx in enumerate(texts) if key and key in tx]
+        if hits: best = hits[0]
     pick[t] = allnotes["id"][best] if best is not None else None
 
 # 3) details for the matched notes
