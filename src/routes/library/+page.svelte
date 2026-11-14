@@ -38,7 +38,7 @@
 	// topics, Wild card first, then by size
 	// 'hide Instagram' takes out the saved Instagram posts (Rhea's own pages under
 	// Me online stay); on the map they're dimmed like any other filter
-	let hideIG = false;
+	let hideIG = true; // on by default (Rhea, 2026-11-13)
 	const isIG = (it) => it.topic !== 'Me online' && /instagram\.com\/(p|reels?)\//.test(it.url || '');
 	$: pool = hideIG ? items.filter((it) => !isIG(it)) : items;
 
