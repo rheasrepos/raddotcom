@@ -69,7 +69,15 @@
 	let nextPost = null;
 	let previousPost = null;
 	
+	// nearest neighbours in the notes space (static/vault-space.json, built by
+	// scripts/embed-vault.py): wiki-style links to the closest posts by content
+	let nearMap = {};
+	$: nearby = post ? (nearMap[post.id] || []).map(([id, s]) => ({ p: allPosts.find((x) => String(x.id) === String(id)), s })).filter((x) => x.p) : [];
+
 	onMount(async () => {
+		fetch('/vault-space.json').then((r) => r.json()).then((d) => {
+			nearMap = Object.fromEntries((d.notes || []).map((n) => [n.id, n.near || []]));
+		}).catch(() => {});
 		// Load all posts from the Git-based API
 		allPosts = await loadPosts();
 		// Note: allPosts is already sorted by date (newest first) by loadPosts()
@@ -216,6 +224,18 @@
 					<div class="content-body prose {APPLY_TO_BODY ? redactionClass(post.date) : ''}" class:ai-generated={post.aiBody} title={post.aiBody ? 'This text was drafted with AI assistance' : undefined}>{@html renderedContent}</div>
 				{/if}
 
+				{#if nearby.length}
+					<nav class="nearby" aria-label="Nearby posts">
+						<h2>Nearby</h2>
+						<p class="nearby-note"><AIText>The posts closest to this one by the words they use (TF-IDF similarity, the same space as the Blog map; no AI involved).</AIText></p>
+						<ul>
+							{#each nearby as n}
+								<li><a href="/posts/{n.p.id}">{n.p.title}</a> <span class="nearby-meta">{n.p.date ? formatDate(n.p.date) : ''}</span></li>
+							{/each}
+						</ul>
+					</nav>
+				{/if}
+
 				{#if nextPost || previousPost}
 					<div class="reader-steps">
 						{#if nextPost}
@@ -251,6 +271,13 @@
 <ImageViewer src={viewerSrc} alt={post ? post.title : ''} on:close={() => (viewerSrc = null)} />
 
 <style>
+	.nearby { margin: 28px 0 8px; border-top: 1px solid #000; padding-top: 10px; }
+	.nearby h2 { font-size: 1rem; margin: 0 0 4px; }
+	.nearby-note { font-size: 0.75rem; opacity: 0.7; margin: 0 0 6px; }
+	.nearby ul { margin: 0; padding-left: 1.2em; }
+	.nearby li { margin: 3px 0; }
+	.nearby a { color: #000; text-decoration: underline; }
+	.nearby-meta { font-size: 0.72rem; opacity: 0.6; }
 	/* Browser-style bar at the top of a post */
 	.reader-bar {
 		display: flex;

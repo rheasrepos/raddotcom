@@ -151,6 +151,15 @@ xyz = np.clip(xyz / scale, -1, 1)
 var = (S[:3] ** 2 / (S ** 2).sum()).tolist()
 print(f"3 components keep {sum(var):.1%} of the variance")
 
+# ---------------------------------------------------------------- nearest neighbours (wiki-style "nearby" links)
+# cosine similarity in the full embedding (not the 3-D squeeze), top 5 per note
+Mn = M / (np.linalg.norm(M, axis=1, keepdims=True) + 1e-9)
+SIM = Mn @ Mn.T
+np.fill_diagonal(SIM, -1)
+for r, n in enumerate(notes):
+    order = np.argsort(-SIM[r])[:5]
+    n["near"] = [[notes[j]["id"], round(float(SIM[r, j]), 3)] for j in order if SIM[r, j] > 0.05]
+
 # ---------------------------------------------------------------- attach coordinates, order by date, write
 by_name = {n["_name"].lower(): n["id"] for n in notes}
 for n, p in zip(notes, xyz):                       # xyz rows are in read order, same as `notes`
