@@ -155,12 +155,12 @@
 	header p { margin: 0 0 6px; max-width: 70ch; opacity: 0.85; }
 	.count { font-size: 0.85rem; }
 	.domain { font-size: 0.85rem; display: flex; gap: 8px; align-items: center; position: sticky; top: 0; background: #fff; padding: 4px 0; z-index: 1; }
-	.domain select { font: inherit; border: 1px solid #000; }
+	.domain select { font: inherit; padding: 1px 3px; background: #fff; color: #000; border: 2px solid; border-color: #808080 #fff #fff #808080; box-shadow: inset 1px 1px #000; border-radius: 0; }
 	.q { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 18px; border-top: 1px solid #000; padding: 14px 0; }
 	.q h2, .lead { font-size: 1rem; margin: 0 0 8px; }
 	.lead { margin-top: 18px; }
 	.q h3 { font-size: 0.75rem; margin: 0 0 6px; font-weight: normal; opacity: 0.7; }
-	textarea, input:not([type]) { width: 100%; box-sizing: border-box; font: inherit; border: 1px solid #000; padding: 6px; margin-bottom: 10px; background: #fff; }
+	textarea, input:not([type]) { width: 100%; box-sizing: border-box; font: inherit; padding: 4px 6px; margin-bottom: 10px; background: #fff; color: #000; border: 2px solid; border-color: #808080 #fff #fff #808080; box-shadow: inset 1px 1px #000; border-radius: 0; }
 	.hint { font-size: 0.8rem; margin: 0 0 8px; opacity: 0.8; }
 	.stims { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 	.stim { position: relative; padding: 0; border: 2px solid transparent; background: none; cursor: pointer; }
@@ -184,7 +184,8 @@
 	.ends { display: flex; justify-content: space-between; font-size: 0.75rem; margin-top: 3px; }
 	.mean { margin: 6px 0 0; }
 	.send { border-top: 1px solid #000; padding-top: 14px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-	.send button { font: inherit; padding: 6px 18px; border: 2px solid #000; background: #c0c0c0; cursor: pointer; }
+	.send button { padding: 4px 18px; cursor: pointer; background: #c0c0c0; color: #000; border: 2px solid; border-color: #fff #000 #000 #fff; box-shadow: inset -1px -1px #808080; border-radius: 0; font-family: Tahoma, 'MS Sans Serif', 'Segoe UI', Geneva, sans-serif; }
+	.send button:active:not(:disabled) { border-color: #000 #fff #fff #000; box-shadow: inset 1px 1px #808080; }
 	.send button:disabled { opacity: 0.5; cursor: default; }
 	@media (max-width: 700px) { .q { grid-template-columns: 1fr; } }
 </style>

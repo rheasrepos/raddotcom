@@ -84,16 +84,17 @@
 	h1 { margin: 0 0 6px; }
 	.note { margin: 6px 0; max-width: 70ch; font-size: 0.85rem; opacity: 0.85; }
 	.note a { color: #000; }
-	.search { width: 100%; max-width: 420px; box-sizing: border-box; margin: 10px 0 4px; padding: 6px 10px; border: 1px solid #000; background: #f7f7f7; font: inherit; }
+	.search { width: 100%; max-width: 420px; box-sizing: border-box; margin: 10px 0 4px; padding: 4px 6px; font: inherit; background: #fff; color: #000; border: 2px solid; border-color: #808080 #fff #fff #808080; box-shadow: inset 1px 1px #000; border-radius: 0; }
 	section { margin: 22px 0; }
 	h2 { font-size: 1rem; margin: 0 0 8px; border-bottom: 1px solid #000; padding-bottom: 4px; }
 	ol { margin: 0; padding-left: 1.4em; }
 	li { padding: 8px 0; border-bottom: 1px dotted rgba(0, 0, 0, 0.25); }
 	blockquote { margin: 0; font-size: 1rem; line-height: 1.45; }
 	.qa { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 16px; align-items: start; }
-	.answer textarea { width: 100%; box-sizing: border-box; font: inherit; font-size: 0.85rem; border: 1px solid #000; padding: 5px; background: #fff; resize: vertical; }
+	.answer textarea { width: 100%; box-sizing: border-box; font: inherit; font-size: 0.85rem; padding: 4px 5px; resize: vertical; background: #fff; color: #000; border: 2px solid; border-color: #808080 #fff #fff #808080; box-shadow: inset 1px 1px #000; border-radius: 0; }
 	.arow { display: flex; gap: 8px; align-items: center; margin-top: 3px; }
-	.arow button, .seeall { font: inherit; font-size: 0.78rem; padding: 2px 10px; border: 1px solid #000; background: #c0c0c0; cursor: pointer; }
+	.arow button, .seeall { font-size: 0.78rem; padding: 2px 12px; cursor: pointer; background: #c0c0c0; color: #000; border: 2px solid; border-color: #fff #000 #000 #fff; box-shadow: inset -1px -1px #808080; border-radius: 0; font-family: Tahoma, 'MS Sans Serif', 'Segoe UI', Geneva, sans-serif; }
+	.arow button:active:not(:disabled), .seeall:active { border-color: #000 #fff #fff #000; box-shadow: inset 1px 1px #808080; }
 	.arow button:disabled { opacity: 0.5; cursor: default; }
 	.seeall { margin-top: 6px; }
 	.ok { font-size: 0.75rem; }

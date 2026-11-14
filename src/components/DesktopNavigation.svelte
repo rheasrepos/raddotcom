@@ -11,6 +11,7 @@
 		{ path: '/about', label: 'About' },
 		{ path: '/library', label: 'Library' },
 		{ path: '/questions', label: 'Questions' },
+		{ path: '/ai-problems', label: 'Problems' },
 		{ path: '/wpm', label: 'WPM' }
 	];
 
