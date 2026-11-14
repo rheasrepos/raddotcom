@@ -31,6 +31,19 @@ for d, _, fs in os.walk(VAULT):
                     want.append(m.group(1))
                     full = open(os.path.join(d, f), encoding="utf-8", errors="ignore").read()
                     bodies[m.group(1)] = re.sub(r"^---\n.*?\n---\n", "", full, flags=re.S)
+import sys
+if "--all" in sys.argv:
+    # dump EVERY note (name, dates, folder, text, attachments) for a duplicate check
+    allnotes = None
+    js = '''function run(){ const N=Application("Notes").notes;
+      const ids=N.id(), names=N.name(), cr=N.creationDate(), md=N.modificationDate(), tx=N.plaintext();
+      const out=[]; for (let i=0;i<ids.length;i++){ let folder=""; try{ folder=Application("Notes").notes.byId(ids[i]).container().name(); }catch(e){}
+        out.push({id:ids[i], name:names[i], created:cr[i].toISOString(), modified:md[i].toISOString(), folder:folder, text:tx[i]}); }
+      return JSON.stringify(out); }'''
+    r = subprocess.run(["osascript", "-l", "JavaScript", "-e", js], capture_output=True, text=True)
+    if r.returncode: raise SystemExit("osascript failed: " + r.stderr)
+    path = os.path.join(ROOT, "notes-all.json"); open(path, "w").write(r.stdout)
+    print(f"wrote every note to {path} — tell Claude it's there"); raise SystemExit
 print(f"{len(want)} vault copies to check")
 
 def osa(js, *args):
