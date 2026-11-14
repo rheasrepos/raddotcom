@@ -109,8 +109,8 @@
 	<p class="count">{shown.length} shown</p>
 
 	{#if view === 'map'}
-		<p class="note"><AIText>Inside the first ring is everything Rhea saved or made, plotted like word embeddings: each item's text becomes a vector, and the vectors are flattened to 2-D so similar things land close together. Topics are clusters of those same vectors, so each colour is a group of nearby dots. Further out are the people and places that posted something about her, and beyond them, those posts. Each topic's name sits just inside the first ring. Hover a dot to see its title, topic and neighbours; click to open it; drag to move around; scroll, pinch or use + and − to zoom. Search and filters dim everything else.</AIText></p>
-		<LibraryMap {items} {colors} highlight={inFilter} on:open={(e) => e.detail.url ? window.open(e.detail.url, '_blank', 'noopener') : window.open('https://duckduckgo.com/?q=' + encodeURIComponent(e.detail.title), '_blank', 'noopener')} />
+		<p class="note"><AIText>Inside the first ring is everything Rhea saved or made, plotted like word embeddings (Rhea herself is a point too, placed by her own published writing and joined to the six things most like it): each item's text becomes a vector, and the vectors are flattened to 2-D so similar things land close together. The axes (t-SNE 1 and 2) have no units or meaning of their own: only how close neighbouring dots are counts, not how far apart distant groups are. Topics are clusters of those same vectors, so each colour is a group of nearby dots. Further out are the people and places that posted something about her, and beyond them, those posts. Each topic's name sits just inside the first ring. Hover a dot to see its title, topic and neighbours; click to open it; drag to move around; scroll, pinch or use + and − to zoom. Search and filters dim everything else.</AIText></p>
+		<LibraryMap {items} {colors} rhea={lib.rhea} highlight={inFilter} on:open={(e) => e.detail.url ? window.open(e.detail.url, '_blank', 'noopener') : window.open('https://duckduckgo.com/?q=' + encodeURIComponent(e.detail.title), '_blank', 'noopener')} />
 	{:else}
 	{#each groups as [t, list] (t)}
 		<section>

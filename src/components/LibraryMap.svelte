@@ -13,6 +13,7 @@
 	export let items = [];
 	export let highlight = null; // optional predicate: item → bool (search / topic filter)
 	export let colors = null;    // topic → colour, from the page (its sidebar shows the key)
+	export let rhea = null;      // { xy, near }: Rhea as a point, placed by her own writing (build-library.py)
 	const dispatch = createEventDispatcher();
 
 	const PALETTE = ['#e6194b', '#3cb44b', '#4363d8', '#f58231', '#911eb4', '#42d4f4', '#f032e6', '#9a6324', '#469990', '#800000', '#808000', '#000075', '#e6a800', '#7a7a7a', '#bfef45', '#dcbeff', '#aaffc3', '#ffd8b1', '#fabed4'];
@@ -45,12 +46,7 @@
 	function build() {
 		R1 = S * 1.08; R2 = R1 + 150; R3 = R2 + 120;
 		nodes = items.map((it, i) => {
-			// keep a clear circle in the middle for Rhea: every point is pushed out by
-			// HOLE along its own direction (angles and neighbours are kept; only the
-			// very centre of the plot is squeezed), so no topic sits on her name
-			let [x, y] = it.xy || [0, 0];
-			const r = Math.hypot(x, y) || 1e-6, HOLE = 0.18, k = (HOLE + r * (1 - HOLE)) / r;
-			x *= k * S; y *= k * S;
+			const x = (it.xy || [0, 0])[0] * S, y = (it.xy || [0, 0])[1] * S;
 			return { i, it, x, y, vx: 0, vy: 0, deg: 0, home: { x, y } };
 		});
 		centers = {};
@@ -58,7 +54,10 @@
 		for (const n of nodes) if (!n.it.via) (groups[n.it.topic] ||= []).push(n);
 		const med = (v) => { const s = [...v].sort((a, b) => a - b); return s[Math.floor(s.length / 2)]; };
 		for (const [t, list] of Object.entries(groups)) centers[t] = { x: med(list.map((n) => n.x)), y: med(list.map((n) => n.y)) };
-		center = { center: true, x: 0, y: 0, r: 14, label: 'Rhea' };
+		// Rhea is a node too: placed in the same space by her own writing, joined
+		// to the items most like what she writes
+		const rx = ((rhea && rhea.xy) || [0, 0])[0] * S, ry = ((rhea && rhea.xy) || [0, 0])[1] * S;
+		center = { center: true, x: rx, y: ry, r: 12, label: 'Rhea', near: (rhea && rhea.near) || [] };
 		// one hub per publisher on ring 2, beside the "Me online" island; its posts on ring 3
 		const hubs = {};
 		for (const n of nodes) if (n.it.via) (hubs[n.it.via] ||= []).push(n);
@@ -111,6 +110,19 @@
 		ctx.clearRect(0, 0, W, H); // transparent: the page shows through
 		ctx.translate(W / 2 + view.x, H / 2 + view.y); ctx.scale(view.k, view.k);
 		const near = hovered ? new Set([hovered, ...(hovered.hub ? hovered.kids : (hovered.it.near || []).map((j) => nodes[j]))]) : null;
+		// faint grid + axes through the origin. t-SNE axes have no units: only
+		// distances between nearby dots mean anything (see the note above the map)
+		ctx.lineWidth = 0.6 / view.k; ctx.setLineDash([]);
+		const G = S * 0.25, E = S * 1.5;
+		for (let v = -E; v <= E + 1; v += G) {
+			ctx.strokeStyle = Math.abs(v) < 1 ? 'rgba(0,0,0,0.35)' : 'rgba(0,0,0,0.06)';
+			ctx.beginPath(); ctx.moveTo(v, -E); ctx.lineTo(v, E); ctx.stroke();
+			ctx.beginPath(); ctx.moveTo(-E, v); ctx.lineTo(E, v); ctx.stroke();
+		}
+		ctx.fillStyle = 'rgba(0,0,0,0.55)'; ctx.font = `${10 / view.k}px sans-serif`;
+		ctx.textAlign = 'right'; ctx.fillText('t-SNE 1 →', E, -6 / view.k);
+		ctx.textAlign = 'left'; ctx.fillText('↑ t-SNE 2', 6 / view.k, -E + 12 / view.k);
+		ctx.fillText('origin (0, 0)', 6 / view.k, 14 / view.k);
 		// the rings themselves
 		ctx.lineWidth = 1 / view.k; ctx.strokeStyle = 'rgba(0,0,0,0.07)'; ctx.setLineDash([4 / view.k, 6 / view.k]);
 		for (const r of [R1, R2, R3]) { ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.stroke(); }
@@ -160,11 +172,14 @@
 			}
 		}
 		ctx.globalAlpha = 1;
-		// Rhea, in the middle
+		// Rhea, where her own writing puts her
 		ctx.strokeStyle = '#000'; ctx.lineWidth = 2 / view.k;
-		ctx.beginPath(); ctx.arc(0, 0, center.r, 0, Math.PI * 2); ctx.stroke(); // hollow: dots under it stay visible
+		ctx.lineWidth = 1.2 / view.k; ctx.strokeStyle = 'rgba(0,0,0,0.6)';
+		for (const j of center.near) if (nodes[j]) { ctx.beginPath(); ctx.moveTo(center.x, center.y); ctx.lineTo(nodes[j].x, nodes[j].y); ctx.stroke(); }
+		ctx.fillStyle = '#fff'; ctx.strokeStyle = '#000'; ctx.lineWidth = 2 / view.k;
+		ctx.beginPath(); ctx.arc(center.x, center.y, center.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 		ctx.fillStyle = '#000'; ctx.font = `bold ${13 / view.k}px sans-serif`; ctx.textAlign = 'center';
-		ctx.fillText('Rhea', 0, center.r + 15 / view.k);
+		ctx.fillText('Rhea', center.x, center.y + center.r + 15 / view.k);
 		if (near) {
 			ctx.fillStyle = '#000'; ctx.font = `${11 / view.k}px sans-serif`; ctx.textAlign = 'center';
 			for (const n of near) if (n.it) ctx.fillText(n.it.title.slice(0, 48), n.x, n.y - n.r - 4 / view.k);

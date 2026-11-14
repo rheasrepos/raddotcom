@@ -300,11 +300,40 @@ def tsne(Z, perplexity=30, iters=750, seed=0):
         V = (0.5 if t < 250 else 0.8) * V - 200 * G * grad
         Y += V; Y -= Y.mean(0)
     return Y
+# Rhea herself as a point: her own published writing (essays, research,
+# coursework, think-pieces — AI-marked text removed) is turned into a vector the
+# same way as every item, so she lands among the things most like what she writes.
+def rhea_vector():
+    vault = os.path.join(ROOT, "src", "vault"); words = []
+    for top in ("essays", "research", "coursework", "think-pieces", "creative", "comedy"):
+        for d, _, fs in os.walk(os.path.join(vault, top)):
+            for f in fs:
+                if f.endswith(".md"):
+                    t = open(os.path.join(d, f), encoding="utf-8", errors="ignore").read()
+                    t = re.sub(r"^---\n.*?\n---\n", "", t, flags=re.S); t = re.sub(r"<ai>.*?</ai>", " ", t, flags=re.S)
+                    words.append(t)
+    doc = toks(" ".join(words))
+    x = np.zeros(len(vocab))
+    for w in doc:
+        if w in idx: x[idx[w]] += 1
+    x = np.log1p(x) * idf; x /= np.linalg.norm(x) + 1e-9
+    if os.environ.get("LIB_EMBED"):
+        try:
+            from sentence_transformers import SentenceTransformer
+            z = SentenceTransformer("all-MiniLM-L6-v2").encode([" ".join(" ".join(words).split()[:400])], normalize_embeddings=True)[0]
+            return np.asarray(z, dtype=float)
+        except Exception: pass
+    z = (x - X.mean(0)) @ Vt[:dims].T
+    return z / (np.linalg.norm(z) + 1e-9)
+rz = rhea_vector()
+rnear = [int(j) for j in np.argsort(-(Z @ rz))[:6] if not items[int(j)].get("_via")]
+
 own_idx = [i for i, it in enumerate(items) if not it.get("_via")]
-XY = np.zeros((len(items), 2))
+XY = np.zeros((len(items), 2)); RXY = [0.0, 0.0]
 if len(own_idx) > 5:
-    Y = tsne(Z[own_idx])
-    r = np.sqrt((Y ** 2).sum(1)); Y /= np.percentile(r, 98)   # most points inside the unit circle
+    Y = tsne(np.vstack([Z[own_idx], rz[None, :]]))
+    RXY = [round(float(v), 4) for v in Y[-1]]; Y = Y[:-1]
+    r = np.sqrt((Y ** 2).sum(1)); sc = np.percentile(r, 98); Y /= sc; RXY = [round(v / float(sc), 4) for v in RXY]   # most points inside the unit circle
     XY[own_idx] = Y
 
 # ------------------------------------------------------------------ write
@@ -319,7 +348,7 @@ for i, (it, lab) in enumerate(zip(items, labels)):
                 **({"added": it["_added"]} if it.get("_added") else {}),
                 **({"ai_title": True} if it.get("_ai") else {}),
                 **({"published": it["_published"]} if it.get("_published") else {})})
-json.dump({"count": len(out), "k": chosen, "items": out}, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+json.dump({"count": len(out), "k": chosen, "rhea": {"xy": RXY, "near": rnear}, "items": out}, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
 counts = {}
 for o in out: counts[o["topic"]] = counts.get(o["topic"], 0) + 1

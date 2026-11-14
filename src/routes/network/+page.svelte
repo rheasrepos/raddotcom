@@ -75,6 +75,7 @@
 	let drag = null, moved = false;
 	const target = { x: 0, y: 0, z: 0 };
 	let pts = [];         // [{note, v: THREE.Vector3, color: THREE.Color}]
+	let deco = null;      // grid + axis labels, built once
 
 	// resolve `var(--color-x)` category colors to real hex for the GPU
 	function cssColor(c) {
@@ -150,7 +151,22 @@
 			const g = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...v.map((x) => -x * 1.3)), new THREE.Vector3(...v.map((x) => x * 1.3))]);
 			dyn.add(new THREE.Line(g, new THREE.LineBasicMaterial({ color: c, transparent: true, opacity: 0.6 })));
 		}
+		// faint grid on the axis-1/axis-2 plane, and labels for the axes + origin
+		if (!deco) {
+			const grid = new THREE.GridHelper(2.6, 13, 0x888888, 0x888888);
+			grid.rotation.x = Math.PI / 2; grid.material.transparent = true; grid.material.opacity = 0.12;
+			deco = [grid, ...[['axis 1', [1.38, 0, 0]], ['axis 2', [0, 1.38, 0]], ['axis 3', [0, 0, 1.38]], ['origin', [0.05, -0.07, 0]]].map(([t, p]) => textSprite(t, p))];
+		}
+		for (const d of deco) dyn.add(d); // made once, re-added each redraw
 		renderer.render(scene, camera);
+	}
+
+	// a small always-facing text label (canvas texture on a sprite)
+	function textSprite(txt, [x, y, z]) {
+		const c = document.createElement('canvas'); c.width = 256; c.height = 64;
+		const g = c.getContext('2d'); g.font = '28px sans-serif'; g.fillStyle = 'rgba(120,120,120,0.9)'; g.fillText(txt, 4, 40);
+		const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthWrite: false }));
+		sp.position.set(x, y, z); sp.scale.set(0.32, 0.08, 1); return sp;
 	}
 
 	// pointer → which note
