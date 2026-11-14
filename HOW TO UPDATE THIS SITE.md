@@ -234,6 +234,19 @@ Moderate by deleting rows in Table Editor → complexity.
 
 ## 5h. Questions (rhea.com/questions) and GitHub links
 **Questions tab:** edit `_questions.md` at the top of the draft vault. `## Section` lines, then `- your exact words | where it came from`. Promote copies it to `src/data/questions.md`. Quotes show in quotation marks (yours, no AI mark); section names and the "where it came from" line show with the AI underline until you rewrite them.
+**Visitor answers:** each question has an answer box beside it (anonymous; others' answers show under "see answers"). They're stored in Supabase — run this once in the SQL Editor (same project as WPM):
+```sql
+create table question_answers (
+  id uuid primary key default gen_random_uuid(),
+  question text not null check (char_length(question) <= 400),
+  answer text not null check (char_length(answer) between 1 and 1000),
+  created_at timestamptz default now()
+);
+alter table question_answers enable row level security;
+create policy "anyone can read"   on question_answers for select using (true);
+create policy "anyone can answer" on question_answers for insert with check (true);
+```
+Delete unwanted answers in Table Editor → question_answers. Until the table exists, answers only stay in the visitor's own browser.
 **GitHub on a post:** add `code: https://github.com/rheasrepos/<repo>` to the post's frontmatter → a "Code on GitHub ↗" link under it (alongside `link:` for the live site). Only link PUBLIC repos — a private one 404s for visitors.
 
 ---
