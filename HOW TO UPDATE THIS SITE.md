@@ -13,7 +13,7 @@ The golden rule: **edit a file → save → run `promote-to-site.command` (doubl
 | `raddotcom Vault (vault-drafts)/` | **Your Obsidian vault.** Every post is a `.md` file here. Private — never goes online until you publish it. Edit here. |
 | `src/vault/` | The **published copy**. You never touch this by hand — `promote-to-site.command` fills it from the vault. |
 
-**One content folder:** a note's files live **right beside it in the vault** — `essays/Foo.md` + `essays/Foo.pdf`, `artifacts/Artifact img01.md` + `artifacts/img01.jpg`. Promote copies them to `static/docs/` and `static/artifacts/` (the only places a website can serve files from). Treat `static/docs`, `static/artifacts` and `src/vault` as output — and the old `Analog Archive/` folder is just a backup now; delete it once you've checked the vault has everything.
+**One content folder:** a note's files live **right beside it in the vault** — `essays/Foo.md` + `essays/Foo.pdf`, `artifacts/Artifact img01.md` + `artifacts/img01.jpg`. Promote copies them to `static/docs/` and `static/artifacts/` (the only places a website can serve files from). Treat `static/docs`, `static/artifacts` and `src/vault` as output. (The old `Analog Archive/` folder was deleted 11.14.26 — every scan had an identical copy in the vault.)
 
 **Things the vault keeps out of the site no matter what:** `research/ai-wiki/` and `_sources/` (private AI chats), `scraps/`, and anything not marked `published: true`.
 
