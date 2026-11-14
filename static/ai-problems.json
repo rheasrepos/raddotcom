@@ -1,1629 +1,2155 @@
 [
-  {
+ {
+  "problem_id": "food-waste",
+  "name": "Food waste",
+  "description": "Edible food is lost or thrown away across retail, food service and households while people go hungry.",
+  "sdg_goal": "12",
+  "sdg_targets": "12.3;2.1",
+  "solution_kind": "hybrid",
+  "solution_summary": "Forecast demand and spoilage to cut over-ordering, and match surplus food to food banks and people in real time.",
+  "maturity": "idea",
+  "contributor": "rhea",
+  "date_added": "2026-11-14",
+  "sdg_name": "Responsible Consumption and Production",
+  "datasets": [
+   {
+    "dataset_id": "unep-food-waste-index-2024",
+    "name": "UNEP Food Waste Index Report 2024",
+    "url": "https://unep.org/resources/publication/food-waste-index-report-2024",
+    "access": "open",
+    "license": "",
+    "size": "",
+    "modality": "report;tabular",
+    "description": "Country estimates of household, food-service and retail food waste.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Baseline: how much is wasted, where, and at which stage.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "voxel51-food-waste",
+    "name": "Voxel51 food waste images",
+    "url": "https://huggingface.co/datasets/Voxel51/food-waste-dataset",
+    "access": "open",
+    "license": "MIT",
+    "size": "",
+    "modality": "images",
+    "description": "Images of discarded food.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Train vision models that identify wasted food (the Winnow approach).",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "worldcereal",
+    "name": "ESA WorldCereal 10 m",
+    "url": "https://developers.google.com/earth-engine/datasets/catalog/ESA_WorldCereal_2021_MODELS_v100",
+    "access": "open",
+    "license": "CC-BY-4.0",
+    "size": "global, 2021",
+    "modality": "raster",
+    "description": "Global cropland and crop-type maps.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Where food is grown, upstream of loss and waste.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "faostat-food-loss",
+    "name": "FAOSTAT and the FAO Food Loss and Waste database",
+    "url": "https://www.fao.org/food-loss-and-food-waste/flw-data/en",
+    "access": "open",
+    "license": "not stated",
+    "size": "global",
+    "modality": "tabular",
+    "description": "FAO statistics on food production, food balances and food loss; API launched April 2026.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Compare food loss across countries and supply-chain stages.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   }
+  ],
+  "existing_work": [],
+  "interventions": [
+   {
+    "intervention_id": "too-good-to-go",
     "problem_id": "food-waste",
-    "name": "Food waste",
-    "description": "Edible food is lost or thrown away across retail, food service and households while people go hungry.",
-    "sdg_goal": "12",
-    "sdg_targets": "12.3;2.1",
-    "solution_kind": "hybrid",
-    "solution_summary": "Forecast demand and spoilage to cut over-ordering, and match surplus food to food banks and people in real time.",
-    "maturity": "idea",
-    "contributor": "rhea",
-    "date_added": "2026-11-14",
-    "sdg_name": "Responsible Consumption and Production",
-    "datasets": [
-      {
-        "dataset_id": "unep-food-waste-index-2024",
-        "name": "UNEP Food Waste Index Report 2024",
-        "url": "https://unep.org/resources/publication/food-waste-index-report-2024",
-        "access": "open",
-        "license": "",
-        "size": "",
-        "modality": "report;tabular",
-        "description": "Country estimates of household, food-service and retail food waste.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Baseline: how much is wasted, where, and at which stage."
-      },
-      {
-        "dataset_id": "voxel51-food-waste",
-        "name": "Voxel51 food waste images",
-        "url": "https://huggingface.co/datasets/Voxel51/food-waste-dataset",
-        "access": "open",
-        "license": "MIT",
-        "size": "",
-        "modality": "images",
-        "description": "Images of discarded food.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Train vision models that identify wasted food (the Winnow approach)."
-      },
-      {
-        "dataset_id": "worldcereal",
-        "name": "ESA WorldCereal 10 m",
-        "url": "https://developers.google.com/earth-engine/datasets/catalog/ESA_WorldCereal_2021_MODELS_v100",
-        "access": "open",
-        "license": "CC-BY-4.0",
-        "size": "global, 2021",
-        "modality": "raster",
-        "description": "Global cropland and crop-type maps.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Where food is grown, upstream of loss and waste."
-      },
-      {
-        "dataset_id": "faostat-food-loss",
-        "name": "FAOSTAT and the FAO Food Loss and Waste database",
-        "url": "https://www.fao.org/food-loss-and-food-waste/flw-data/en",
-        "access": "open",
-        "license": "not stated",
-        "size": "global",
-        "modality": "tabular",
-        "description": "FAO statistics on food production, food balances and food loss; API launched April 2026.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Compare food loss across countries and supply-chain stages."
-      }
-    ],
-    "existing_work": [],
-    "interventions": [
-      {
-        "intervention_id": "too-good-to-go",
-        "problem_id": "food-waste",
-        "name": "Too Good To Go surplus-food app",
-        "organization": "Too Good To Go",
-        "kind": "market",
-        "year_started": "2016",
-        "url": "https://www.toogoodtogo.com/",
-        "scale": "120M+ registered users, 200,000+ partner businesses, 20 countries",
-        "effect": "157M meals saved in 2025; 600M+ since 2016",
-        "evidence": "self_reported",
-        "effect_source": "https://www.toogoodtogo.com/nl/press/too-good-to-go-redt-in-2025-meer-dan-157-miljoen-maaltijden-van-verspilling",
-        "featured": "true",
-        "notes": "App, not AI: sells surplus food at a discount."
-      },
-      {
-        "intervention_id": "winnow",
-        "problem_id": "food-waste",
-        "name": "Winnow Vision",
-        "organization": "Winnow",
-        "kind": "ai",
-        "year_started": "2013",
-        "url": "https://www.ellenmacarthurfoundation.org/circular-examples/winnow",
-        "scale": "1,400+ businesses",
-        "effect": "Typical 40–70% kitchen waste reduction, average about 50%",
-        "evidence": "self_reported",
-        "effect_source": "https://www.ellenmacarthurfoundation.org/circular-examples/winnow",
-        "featured": "true",
-        "notes": "Camera over the bin identifies discarded food; Winnow Track is the non-AI touchscreen version."
-      },
-      {
-        "intervention_id": "france-garot-law",
-        "problem_id": "food-waste",
-        "name": "French law against food waste (Garot law)",
-        "organization": "French Parliament",
-        "kind": "policy",
-        "year_started": "2016",
-        "url": "https://interregeurope.eu/good-practices/french-law-against-food-waste",
-        "scale": "Food stores over 400 m², nationwide",
-        "effect": "Bans destroying edible unsold food; encourages donation contracts. No measured results found yet.",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "true",
-        "notes": "First national ban of its kind."
-      }
-    ],
-    "data_gaps": [
-      {
-        "problem_id": "food-waste",
-        "gap": "Measured (not modeled) household waste for most countries",
-        "why_it_matters": "Estimates for countries without studies are extrapolated, so models learn from guesses.",
-        "how_to_close": "Standardized household waste audits; smart-bin data"
-      },
-      {
-        "problem_id": "food-waste",
-        "gap": "Store-level surplus data",
-        "why_it_matters": "Retail surplus is private, so matching it to food banks can't be trained or evaluated.",
-        "how_to_close": "Partnerships with grocers; anonymized POS + markdown data"
-      }
-    ],
-    "risks": {
-      "problem_id": "food-waste",
-      "who_could_be_harmed": "Small farmers and food banks if forecasting shifts surplus away from donation; low-income shoppers if waste cuts come through price.",
-      "dual_use": "Demand forecasting also optimizes pricing power.",
-      "bias_and_representation": "Waste data mostly from rich countries; models may not transfer.",
-      "ethics": "Who owns retailer data shared with charities, and who is accountable when a predicted surplus doesn't arrive.",
-      "morality": "Is it right to treat hunger as a logistics problem when food is wasted because the hungry can't pay for it?",
-      "devils_advocate": "Waste is a price and distribution problem, not a prediction problem. Better forecasts mainly save retailers money, and could mean less surplus is donated."
-    }
+    "name": "Too Good To Go surplus-food app",
+    "organization": "Too Good To Go",
+    "kind": "market",
+    "year_started": "2016",
+    "url": "https://www.toogoodtogo.com/",
+    "scale": "120M+ registered users, 200,000+ partner businesses, 20 countries",
+    "effect": "157M meals saved in 2025; 600M+ since 2016",
+    "evidence": "self_reported",
+    "effect_source": "https://www.toogoodtogo.com/nl/press/too-good-to-go-redt-in-2025-meer-dan-157-miljoen-maaltijden-van-verspilling",
+    "featured": "true",
+    "notes": "App, not AI: sells surplus food at a discount.",
+    "ai_written": [
+     "effect",
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "winnow",
+    "problem_id": "food-waste",
+    "name": "Winnow Vision",
+    "organization": "Winnow",
+    "kind": "ai",
+    "year_started": "2013",
+    "url": "https://www.ellenmacarthurfoundation.org/circular-examples/winnow",
+    "scale": "1,400+ businesses",
+    "effect": "Typical 40–70% kitchen waste reduction, average about 50%",
+    "evidence": "self_reported",
+    "effect_source": "https://www.ellenmacarthurfoundation.org/circular-examples/winnow",
+    "featured": "true",
+    "notes": "Camera over the bin identifies discarded food; Winnow Track is the non-AI touchscreen version.",
+    "ai_written": [
+     "effect",
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "france-garot-law",
+    "problem_id": "food-waste",
+    "name": "French law against food waste (Garot law)",
+    "organization": "French Parliament",
+    "kind": "policy",
+    "year_started": "2016",
+    "url": "https://interregeurope.eu/good-practices/french-law-against-food-waste",
+    "scale": "Food stores over 400 m², nationwide",
+    "effect": "Bans destroying edible unsold food; encourages donation contracts. No measured results found yet.",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "true",
+    "notes": "First national ban of its kind.",
+    "ai_written": [
+     "effect",
+     "notes"
+    ]
+   }
+  ],
+  "data_gaps": [
+   {
+    "problem_id": "food-waste",
+    "gap": "Measured (not modeled) household waste for most countries",
+    "why_it_matters": "Estimates for countries without studies are extrapolated, so models learn from guesses.",
+    "how_to_close": "Standardized household waste audits; smart-bin data",
+    "ai_written": [
+     "gap",
+     "how_to_close",
+     "why_it_matters"
+    ]
+   },
+   {
+    "problem_id": "food-waste",
+    "gap": "Store-level surplus data",
+    "why_it_matters": "Retail surplus is private, so matching it to food banks can't be trained or evaluated.",
+    "how_to_close": "Partnerships with grocers; anonymized POS + markdown data",
+    "ai_written": [
+     "gap",
+     "how_to_close",
+     "why_it_matters"
+    ]
+   }
+  ],
+  "risks": {
+   "problem_id": "food-waste",
+   "who_could_be_harmed": "Small farmers and food banks if forecasting shifts surplus away from donation; low-income shoppers if waste cuts come through price.",
+   "dual_use": "Demand forecasting also optimizes pricing power.",
+   "bias_and_representation": "Waste data mostly from rich countries; models may not transfer.",
+   "ethics": "Who owns retailer data shared with charities, and who is accountable when a predicted surplus doesn't arrive.",
+   "morality": "Is it right to treat hunger as a logistics problem when food is wasted because the hungry can't pay for it?",
+   "devils_advocate": "Waste is a price and distribution problem, not a prediction problem. Better forecasts mainly save retailers money, and could mean less surplus is donated.",
+   "ai_written": [
+    "bias_and_representation",
+    "devils_advocate",
+    "dual_use",
+    "ethics",
+    "morality",
+    "who_could_be_harmed"
+   ]
   },
-  {
+  "ai_written": [
+   "description",
+   "solution_summary"
+  ]
+ },
+ {
+  "problem_id": "dangerous-climate-conditions",
+  "name": "Dangerous climate conditions",
+  "description": "Heat waves, floods and storms are becoming more frequent and severe, and warnings rarely reach people at the neighborhood scale where harm happens.",
+  "sdg_goal": "13",
+  "sdg_targets": "13.1;11.5",
+  "solution_kind": "hybrid",
+  "solution_summary": "Downscale reanalysis and forecast data into street-level heat and flood risk, to drive early warnings and adaptation planning.",
+  "maturity": "idea",
+  "contributor": "rhea",
+  "date_added": "2026-11-14",
+  "sdg_name": "Climate Action",
+  "datasets": [
+   {
+    "dataset_id": "era5",
+    "name": "Copernicus ERA5 reanalysis",
+    "url": "https://cds.climate.copernicus.eu/datasets?q=ERA5",
+    "access": "open",
+    "license": "Copernicus licence",
+    "size": "",
+    "modality": "gridded climate",
+    "description": "Hourly global reanalysis of weather and climate variables, 1940 to present.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Historical heat and precipitation fields to train and validate downscaling.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "ai4g-flood",
+    "name": "AI for Good Lab flood dataset (Microsoft)",
+    "url": "https://huggingface.co/datasets/ai-for-good-lab/ai4g-flood-dataset",
+    "access": "open",
+    "license": "MIT",
+    "size": "",
+    "modality": "satellite imagery",
+    "description": "Flood mapping data from Microsoft's AI for Good Lab.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Train flood-extent detection.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "impactmesh-flood",
+    "name": "ImpactMesh-Flood (IBM, ESA)",
+    "url": "https://huggingface.co/datasets/ibm-esa-geospatial/ImpactMesh-Flood",
+    "access": "open",
+    "license": "CC-BY-4.0",
+    "size": "",
+    "modality": "satellite imagery",
+    "description": "Flood impact dataset from IBM and ESA geospatial.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Train and benchmark flood-impact models.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "glofas-flood-hazard",
+    "name": "JRC Global River Flood Hazard Maps v2.1",
+    "url": "https://developers.google.com/earth-engine/datasets/catalog/JRC_CEMS_GLOFAS_FloodHazard_v2_1",
+    "access": "open",
+    "license": "CC-BY-4.0",
+    "size": "global",
+    "modality": "raster",
+    "description": "Flood hazard maps for river floods.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Where river floods are likely, for warning and planning.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "yale-urban-heat-islands",
+    "name": "Yale YCEO Surface Urban Heat Islands v4",
+    "url": "https://developers.google.com/earth-engine/datasets/catalog/YALE_YCEO_UHI_UHI_yearly_pixel_v4",
+    "access": "open",
+    "license": "CC-BY-4.0",
+    "size": "global cities",
+    "modality": "raster",
+    "description": "Day and night surface urban heat island intensity.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Which neighborhoods run hottest; closes part of the street-level gap.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "terraclimate",
+    "name": "TerraClimate",
+    "url": "https://developers.google.com/earth-engine/datasets/catalog/IDAHO_EPSCOR_TERRACLIMATE",
+    "access": "open",
+    "license": "CC0-1.0",
+    "size": "global, monthly",
+    "modality": "raster",
+    "description": "Monthly climate and water balance for global land.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Long-run climate baselines and drought.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "speibase",
+    "name": "SPEIbase drought index v2.11",
+    "url": "https://developers.google.com/earth-engine/datasets/catalog/CSIC_SPEI_2_11",
+    "access": "open",
+    "license": "CC-BY-4.0",
+    "size": "global",
+    "modality": "raster",
+    "description": "Standardised Precipitation-Evapotranspiration Index.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Drought monitoring and history.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "cdc-heat-health-tracker",
+    "name": "CDC Heat & Health Tracker",
+    "url": "https://www.cdc.gov/nssp/php/partnerships/cdc-heat-health-tracker-uses-nssp-data.html",
+    "access": "open",
+    "license": "US public data",
+    "size": "US communities",
+    "modality": "tabular",
+    "description": "Heat-related emergency department visits by community.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Ground truth for heat harm.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "gdelt",
+    "name": "GDELT Project",
+    "url": "https://www.gdeltproject.org/about.html",
+    "access": "open",
+    "license": "Free for any use with citation and link",
+    "size": "1979–present, 100+ languages of news, daily updates",
+    "modality": "events;text",
+    "description": "Events and themes extracted from world news coverage.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Track where disasters and displacement are reported, and how fast; compare with official data.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   }
+  ],
+  "existing_work": [],
+  "interventions": [
+   {
+    "intervention_id": "ahmedabad-heat-action-plan",
     "problem_id": "dangerous-climate-conditions",
-    "name": "Dangerous climate conditions",
-    "description": "Heat waves, floods and storms are becoming more frequent and severe, and warnings rarely reach people at the neighborhood scale where harm happens.",
-    "sdg_goal": "13",
-    "sdg_targets": "13.1;11.5",
-    "solution_kind": "hybrid",
-    "solution_summary": "Downscale reanalysis and forecast data into street-level heat and flood risk, to drive early warnings and adaptation planning.",
-    "maturity": "idea",
-    "contributor": "rhea",
-    "date_added": "2026-11-14",
-    "sdg_name": "Climate Action",
-    "datasets": [
-      {
-        "dataset_id": "era5",
-        "name": "Copernicus ERA5 reanalysis",
-        "url": "https://cds.climate.copernicus.eu/datasets?q=ERA5",
-        "access": "open",
-        "license": "Copernicus licence",
-        "size": "",
-        "modality": "gridded climate",
-        "description": "Hourly global reanalysis of weather and climate variables, 1940 to present.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Historical heat and precipitation fields to train and validate downscaling."
-      },
-      {
-        "dataset_id": "ai4g-flood",
-        "name": "AI for Good Lab flood dataset (Microsoft)",
-        "url": "https://huggingface.co/datasets/ai-for-good-lab/ai4g-flood-dataset",
-        "access": "open",
-        "license": "MIT",
-        "size": "",
-        "modality": "satellite imagery",
-        "description": "Flood mapping data from Microsoft's AI for Good Lab.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Train flood-extent detection."
-      },
-      {
-        "dataset_id": "impactmesh-flood",
-        "name": "ImpactMesh-Flood (IBM, ESA)",
-        "url": "https://huggingface.co/datasets/ibm-esa-geospatial/ImpactMesh-Flood",
-        "access": "open",
-        "license": "CC-BY-4.0",
-        "size": "",
-        "modality": "satellite imagery",
-        "description": "Flood impact dataset from IBM and ESA geospatial.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Train and benchmark flood-impact models."
-      },
-      {
-        "dataset_id": "glofas-flood-hazard",
-        "name": "JRC Global River Flood Hazard Maps v2.1",
-        "url": "https://developers.google.com/earth-engine/datasets/catalog/JRC_CEMS_GLOFAS_FloodHazard_v2_1",
-        "access": "open",
-        "license": "CC-BY-4.0",
-        "size": "global",
-        "modality": "raster",
-        "description": "Flood hazard maps for river floods.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Where river floods are likely, for warning and planning."
-      },
-      {
-        "dataset_id": "yale-urban-heat-islands",
-        "name": "Yale YCEO Surface Urban Heat Islands v4",
-        "url": "https://developers.google.com/earth-engine/datasets/catalog/YALE_YCEO_UHI_UHI_yearly_pixel_v4",
-        "access": "open",
-        "license": "CC-BY-4.0",
-        "size": "global cities",
-        "modality": "raster",
-        "description": "Day and night surface urban heat island intensity.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Which neighborhoods run hottest; closes part of the street-level gap."
-      },
-      {
-        "dataset_id": "terraclimate",
-        "name": "TerraClimate",
-        "url": "https://developers.google.com/earth-engine/datasets/catalog/IDAHO_EPSCOR_TERRACLIMATE",
-        "access": "open",
-        "license": "CC0-1.0",
-        "size": "global, monthly",
-        "modality": "raster",
-        "description": "Monthly climate and water balance for global land.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Long-run climate baselines and drought."
-      },
-      {
-        "dataset_id": "speibase",
-        "name": "SPEIbase drought index v2.11",
-        "url": "https://developers.google.com/earth-engine/datasets/catalog/CSIC_SPEI_2_11",
-        "access": "open",
-        "license": "CC-BY-4.0",
-        "size": "global",
-        "modality": "raster",
-        "description": "Standardised Precipitation-Evapotranspiration Index.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Drought monitoring and history."
-      },
-      {
-        "dataset_id": "cdc-heat-health-tracker",
-        "name": "CDC Heat & Health Tracker",
-        "url": "https://www.cdc.gov/nssp/php/partnerships/cdc-heat-health-tracker-uses-nssp-data.html",
-        "access": "open",
-        "license": "US public data",
-        "size": "US communities",
-        "modality": "tabular",
-        "description": "Heat-related emergency department visits by community.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Ground truth for heat harm."
-      },
-      {
-        "dataset_id": "gdelt",
-        "name": "GDELT Project",
-        "url": "https://www.gdeltproject.org/about.html",
-        "access": "open",
-        "license": "Free for any use with citation and link",
-        "size": "1979–present, 100+ languages of news, daily updates",
-        "modality": "events;text",
-        "description": "Events and themes extracted from world news coverage.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Track where disasters and displacement are reported, and how fast; compare with official data."
-      }
-    ],
-    "existing_work": [],
-    "interventions": [
-      {
-        "intervention_id": "ahmedabad-heat-action-plan",
-        "problem_id": "dangerous-climate-conditions",
-        "name": "Ahmedabad Heat Action Plan",
-        "organization": "City of Ahmedabad, with NRDC and the Indian Institute of Public Health",
-        "kind": "policy",
-        "year_started": "2013",
-        "url": "https://www.nrdc.org/stories/temperatures-soar-india-one-citys-efforts-are-saving-lives",
-        "scale": "One city; updated yearly; a model for other Indian city heat plans",
-        "effect": "About 1,100 deaths avoided per year (Journal of Environmental and Public Health, as reported by NRDC)",
-        "evidence": "quasi_experimental",
-        "effect_source": "https://www.nrdc.org/stories/temperatures-soar-india-one-citys-efforts-are-saving-lives",
-        "featured": "true",
-        "notes": "Early warnings, health-worker training, cooling centers, water and shade. Evidence type from the before/after mortality study; check the paper."
-      },
-      {
-        "intervention_id": "google-flood-hub",
-        "problem_id": "dangerous-climate-conditions",
-        "name": "Flood Hub",
-        "organization": "Google",
-        "kind": "ai",
-        "year_started": "",
-        "url": "https://sites.research.google/floodforecasting",
-        "scale": "100+ countries, 700M people (Nov 2024)",
-        "effect": "Riverine flood forecasts accurate at a 7-day lead time",
-        "evidence": "self_reported",
-        "effect_source": "https://blog.google/technology/ai/expanding-flood-forecasting-coverage-helping-partners/",
-        "featured": "true",
-        "notes": "Historical outputs open as the GRRR dataset (1981–); model not open source."
-      }
-    ],
-    "data_gaps": [
-      {
-        "problem_id": "dangerous-climate-conditions",
-        "gap": "Street-level outcomes (heat illness, flooded addresses)",
-        "why_it_matters": "Reanalysis is about 30 km resolution; harm is measured at the block.",
-        "how_to_close": "Hospital heat-illness records; insurance and 311 flood reports"
-      }
-    ],
-    "risks": {
-      "problem_id": "dangerous-climate-conditions",
-      "who_could_be_harmed": "People in under-sensored neighborhoods if models are confident where data is thin.",
-      "dual_use": "Hyperlocal risk maps can feed insurance redlining.",
-      "bias_and_representation": "Sensor and report density tracks wealth, so poorer areas look safer than they are.",
-      "ethics": "Who is accountable for a missed warning; consent for using health records.",
-      "morality": "Is it right to put effort into adapting to harm rather than stopping emissions?",
-      "devils_advocate": "Adaptation tools can make climate change feel manageable and lower pressure to cut emissions. And warnings don't help people who have nowhere cooler or drier to go."
-    }
+    "name": "Ahmedabad Heat Action Plan",
+    "organization": "City of Ahmedabad, with NRDC and the Indian Institute of Public Health",
+    "kind": "policy",
+    "year_started": "2013",
+    "url": "https://www.nrdc.org/stories/temperatures-soar-india-one-citys-efforts-are-saving-lives",
+    "scale": "One city; updated yearly; a model for other Indian city heat plans",
+    "effect": "About 1,100 deaths avoided per year (Journal of Environmental and Public Health, as reported by NRDC)",
+    "evidence": "quasi_experimental",
+    "effect_source": "https://www.nrdc.org/stories/temperatures-soar-india-one-citys-efforts-are-saving-lives",
+    "featured": "true",
+    "notes": "Early warnings, health-worker training, cooling centers, water and shade. Evidence type from the before/after mortality study; check the paper.",
+    "ai_written": [
+     "effect",
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "google-flood-hub",
+    "problem_id": "dangerous-climate-conditions",
+    "name": "Flood Hub",
+    "organization": "Google",
+    "kind": "ai",
+    "year_started": "",
+    "url": "https://sites.research.google/floodforecasting",
+    "scale": "100+ countries, 700M people (Nov 2024)",
+    "effect": "Riverine flood forecasts accurate at a 7-day lead time",
+    "evidence": "self_reported",
+    "effect_source": "https://blog.google/technology/ai/expanding-flood-forecasting-coverage-helping-partners/",
+    "featured": "true",
+    "notes": "Historical outputs open as the GRRR dataset (1981–); model not open source.",
+    "ai_written": [
+     "effect",
+     "notes"
+    ]
+   }
+  ],
+  "data_gaps": [
+   {
+    "problem_id": "dangerous-climate-conditions",
+    "gap": "Street-level outcomes (heat illness, flooded addresses)",
+    "why_it_matters": "Reanalysis is about 30 km resolution; harm is measured at the block.",
+    "how_to_close": "Hospital heat-illness records; insurance and 311 flood reports",
+    "ai_written": [
+     "gap",
+     "how_to_close",
+     "why_it_matters"
+    ]
+   }
+  ],
+  "risks": {
+   "problem_id": "dangerous-climate-conditions",
+   "who_could_be_harmed": "People in under-sensored neighborhoods if models are confident where data is thin.",
+   "dual_use": "Hyperlocal risk maps can feed insurance redlining.",
+   "bias_and_representation": "Sensor and report density tracks wealth, so poorer areas look safer than they are.",
+   "ethics": "Who is accountable for a missed warning; consent for using health records.",
+   "morality": "Is it right to put effort into adapting to harm rather than stopping emissions?",
+   "devils_advocate": "Adaptation tools can make climate change feel manageable and lower pressure to cut emissions. And warnings don't help people who have nowhere cooler or drier to go.",
+   "ai_written": [
+    "bias_and_representation",
+    "devils_advocate",
+    "dual_use",
+    "ethics",
+    "morality",
+    "who_could_be_harmed"
+   ]
   },
-  {
+  "ai_written": [
+   "description",
+   "solution_summary"
+  ]
+ },
+ {
+  "problem_id": "shelter-scarcity",
+  "name": "Shelter scarcity",
+  "description": "Not enough safe, affordable housing: people live in slums, overcrowded homes, or on the street.",
+  "sdg_goal": "11",
+  "sdg_targets": "11.1",
+  "solution_kind": "hybrid",
+  "solution_summary": "Predict where housing shortfalls and evictions are coming, to target prevention, vacant-unit matching and zoning decisions.",
+  "maturity": "idea",
+  "contributor": "rhea",
+  "date_added": "2026-11-14",
+  "sdg_name": "Sustainable Cities and Communities",
+  "datasets": [
+   {
+    "dataset_id": "un-habitat-slum-population",
+    "name": "Population living in slums (% of urban), UN-Habitat via World Bank WDI",
+    "url": "https://databank.worldbank.org/metadataglossary/world-development-indicators/series/EN.POP.SLUM.UR.ZS",
+    "access": "open",
+    "license": "CC-BY-4.0",
+    "size": "2000-2022 annual",
+    "modality": "tabular",
+    "description": "Share of urban residents in slum households (SDG 11.1.1 predecessor).",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Global picture of inadequate housing by country over time.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "hud-ahar-pit",
+    "name": "HUD AHAR Point-in-Time homelessness counts",
+    "url": "https://catalog-beta.data.gov/dataset/annual-homeless-assessment-report-ahar-part-1-point-in-time-pit-estimates-of-homelessness",
+    "access": "open",
+    "license": "US public data",
+    "size": "",
+    "modality": "tabular",
+    "description": "One-night counts of people experiencing homelessness by US Continuum of Care.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "US ground truth for homelessness by locality.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "google-open-buildings",
+    "name": "Google Open Buildings v3",
+    "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_Research_open-buildings_v3_polygons",
+    "access": "open",
+    "license": "CC-BY-4.0",
+    "size": "Africa, South and Southeast Asia, Latin America",
+    "modality": "building polygons",
+    "description": "AI-detected building footprints from satellite imagery.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Map housing stock and informal settlements.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "google-open-buildings-temporal",
+    "name": "Google Open Buildings Temporal v1",
+    "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_Research_open-buildings-temporal_v1",
+    "access": "open",
+    "license": "CC-BY-4.0",
+    "size": "",
+    "modality": "raster",
+    "description": "Building presence and height over time.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Track how settlements grow.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "world-settlement-footprint",
+    "name": "World Settlement Footprint 2015 (DLR)",
+    "url": "https://developers.google.com/earth-engine/datasets/catalog/DLR_WSF_WSF2015_v1",
+    "access": "open",
+    "license": "CC0-1.0",
+    "size": "global",
+    "modality": "raster",
+    "description": "Global map of human settlements.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Where people live, at 10 m.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "gpw-population",
+    "name": "Gridded Population of the World v4.11 (CIESIN)",
+    "url": "https://developers.google.com/earth-engine/datasets/catalog/CIESIN_GPWv411_GPW_Population_Count",
+    "access": "open",
+    "license": "CC-BY-4.0",
+    "size": "global",
+    "modality": "raster",
+    "description": "Population counts on a global grid.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Population denominators for housing need.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "hot-osm-hdx",
+    "name": "Humanitarian OpenStreetMap exports on HDX",
+    "url": "https://centre.humdata.org/humanitarian-openstreetmap-on-hdx/",
+    "access": "open",
+    "license": "check each dataset (OSM data is usually ODbL)",
+    "size": "4,000+ datasets, 249 countries and territories",
+    "modality": "vector",
+    "description": "Roads, places, facilities and (for some disasters) damaged buildings from OpenStreetMap.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Map infrastructure around housing; disaster damage.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "eviction-lab-ets",
+    "name": "Eviction Lab Eviction Tracking System",
+    "url": "https://evictionlab.org/eviction-tracking/",
+    "access": "open",
+    "license": "not stated",
+    "size": "11 states, 43 cities, monthly",
+    "modality": "tabular",
+    "description": "Eviction filings tracked over time.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Leading signal for housing loss.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "gdelt",
+    "name": "GDELT Project",
+    "url": "https://www.gdeltproject.org/about.html",
+    "access": "open",
+    "license": "Free for any use with citation and link",
+    "size": "1979–present, 100+ languages of news, daily updates",
+    "modality": "events;text",
+    "description": "Events and themes extracted from world news coverage.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Track news of evictions, displacement and refugee movements.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   }
+  ],
+  "existing_work": [],
+  "interventions": [
+   {
+    "intervention_id": "housing-first-at-home",
     "problem_id": "shelter-scarcity",
-    "name": "Shelter scarcity",
-    "description": "Not enough safe, affordable housing: people live in slums, overcrowded homes, or on the street.",
-    "sdg_goal": "11",
-    "sdg_targets": "11.1",
-    "solution_kind": "hybrid",
-    "solution_summary": "Predict where housing shortfalls and evictions are coming, to target prevention, vacant-unit matching and zoning decisions.",
-    "maturity": "idea",
-    "contributor": "rhea",
-    "date_added": "2026-11-14",
-    "sdg_name": "Sustainable Cities and Communities",
-    "datasets": [
-      {
-        "dataset_id": "un-habitat-slum-population",
-        "name": "Population living in slums (% of urban), UN-Habitat via World Bank WDI",
-        "url": "https://databank.worldbank.org/metadataglossary/world-development-indicators/series/EN.POP.SLUM.UR.ZS",
-        "access": "open",
-        "license": "CC-BY-4.0",
-        "size": "2000-2022 annual",
-        "modality": "tabular",
-        "description": "Share of urban residents in slum households (SDG 11.1.1 predecessor).",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Global picture of inadequate housing by country over time."
-      },
-      {
-        "dataset_id": "hud-ahar-pit",
-        "name": "HUD AHAR Point-in-Time homelessness counts",
-        "url": "https://catalog-beta.data.gov/dataset/annual-homeless-assessment-report-ahar-part-1-point-in-time-pit-estimates-of-homelessness",
-        "access": "open",
-        "license": "US public data",
-        "size": "",
-        "modality": "tabular",
-        "description": "One-night counts of people experiencing homelessness by US Continuum of Care.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "US ground truth for homelessness by locality."
-      },
-      {
-        "dataset_id": "google-open-buildings",
-        "name": "Google Open Buildings v3",
-        "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_Research_open-buildings_v3_polygons",
-        "access": "open",
-        "license": "CC-BY-4.0",
-        "size": "Africa, South and Southeast Asia, Latin America",
-        "modality": "building polygons",
-        "description": "AI-detected building footprints from satellite imagery.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Map housing stock and informal settlements."
-      },
-      {
-        "dataset_id": "google-open-buildings-temporal",
-        "name": "Google Open Buildings Temporal v1",
-        "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_Research_open-buildings-temporal_v1",
-        "access": "open",
-        "license": "CC-BY-4.0",
-        "size": "",
-        "modality": "raster",
-        "description": "Building presence and height over time.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Track how settlements grow."
-      },
-      {
-        "dataset_id": "world-settlement-footprint",
-        "name": "World Settlement Footprint 2015 (DLR)",
-        "url": "https://developers.google.com/earth-engine/datasets/catalog/DLR_WSF_WSF2015_v1",
-        "access": "open",
-        "license": "CC0-1.0",
-        "size": "global",
-        "modality": "raster",
-        "description": "Global map of human settlements.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Where people live, at 10 m."
-      },
-      {
-        "dataset_id": "gpw-population",
-        "name": "Gridded Population of the World v4.11 (CIESIN)",
-        "url": "https://developers.google.com/earth-engine/datasets/catalog/CIESIN_GPWv411_GPW_Population_Count",
-        "access": "open",
-        "license": "CC-BY-4.0",
-        "size": "global",
-        "modality": "raster",
-        "description": "Population counts on a global grid.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Population denominators for housing need."
-      },
-      {
-        "dataset_id": "hot-osm-hdx",
-        "name": "Humanitarian OpenStreetMap exports on HDX",
-        "url": "https://centre.humdata.org/humanitarian-openstreetmap-on-hdx/",
-        "access": "open",
-        "license": "check each dataset (OSM data is usually ODbL)",
-        "size": "4,000+ datasets, 249 countries and territories",
-        "modality": "vector",
-        "description": "Roads, places, facilities and (for some disasters) damaged buildings from OpenStreetMap.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Map infrastructure around housing; disaster damage."
-      },
-      {
-        "dataset_id": "eviction-lab-ets",
-        "name": "Eviction Lab Eviction Tracking System",
-        "url": "https://evictionlab.org/eviction-tracking/",
-        "access": "open",
-        "license": "not stated",
-        "size": "11 states, 43 cities, monthly",
-        "modality": "tabular",
-        "description": "Eviction filings tracked over time.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Leading signal for housing loss."
-      },
-      {
-        "dataset_id": "gdelt",
-        "name": "GDELT Project",
-        "url": "https://www.gdeltproject.org/about.html",
-        "access": "open",
-        "license": "Free for any use with citation and link",
-        "size": "1979–present, 100+ languages of news, daily updates",
-        "modality": "events;text",
-        "description": "Events and themes extracted from world news coverage.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Track news of evictions, displacement and refugee movements."
-      }
-    ],
-    "existing_work": [],
-    "interventions": [
-      {
-        "intervention_id": "housing-first-at-home",
-        "problem_id": "shelter-scarcity",
-        "name": "Housing First (At Home/Chez Soi trial)",
-        "organization": "Mental Health Commission of Canada",
-        "kind": "policy",
-        "year_started": "2009",
-        "url": "https://mentalhealthcommission.ca/wp-content/uploads/2021/09/At2520Home2520Final2520Report2520-2520Exec2520Summary2520-2520ENG_0.pdf",
-        "scale": "2,148 participants, 5 Canadian cities",
-        "effect": "Housed all of the last 6 months: 62% vs 31% with usual care",
-        "evidence": "rct",
-        "effect_source": "https://mentalhealthcommission.ca/wp-content/uploads/2021/09/At2520Home2520Final2520Report2520-2520Exec2520Summary2520-2520ENG_0.pdf",
-        "featured": "true",
-        "notes": "Housing without preconditions; participants had serious mental illness."
-      },
-      {
-        "intervention_id": "la-homelessness-prevention-unit",
-        "problem_id": "shelter-scarcity",
-        "name": "Homelessness Prevention Unit (predictive model)",
-        "organization": "LA County Dept. of Health Services, California Policy Lab",
-        "kind": "ai",
-        "year_started": "2021",
-        "url": "https://capolicylab.org/news/new-report-early-signs-of-success-from-la-countys-homelessness-prevention-pilot/",
-        "scale": "1,498 people served",
-        "effect": "86% kept housing; 71% less likely to enter shelter or outreach within 18 months than similar non-enrolled people",
-        "evidence": "quasi_experimental",
-        "effect_source": "https://capolicylab.org/news/new-report-early-signs-of-success-from-la-countys-homelessness-prevention-pilot/",
-        "featured": "true",
-        "notes": "Model ranks who's most at risk; RCT results expected 2027. Evaluator also built the model."
-      },
-      {
-        "intervention_id": "hot-osm",
-        "problem_id": "shelter-scarcity",
-        "name": "Humanitarian OpenStreetMap Team",
-        "organization": "Humanitarian OpenStreetMap Team",
-        "kind": "open_data",
-        "year_started": "",
-        "url": "https://centre.humdata.org/humanitarian-openstreetmap-on-hdx/",
-        "scale": "4,000+ datasets on HDX covering 249 countries and territories",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "true",
-        "notes": "Volunteer mapping for disaster response and development."
-      },
-      {
-        "intervention_id": "google-open-buildings-project",
-        "problem_id": "shelter-scarcity",
-        "name": "Open Buildings",
-        "organization": "Google Research",
-        "kind": "open_data",
-        "year_started": "",
-        "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_Research_open-buildings_v3_polygons",
-        "scale": "Building footprints across Africa, South and Southeast Asia, Latin America",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "true",
-        "notes": "AI-detected footprints released openly (CC BY 4.0)."
-      }
-    ],
-    "data_gaps": [
-      {
-        "problem_id": "shelter-scarcity",
-        "gap": "Continuous homelessness data",
-        "why_it_matters": "Point-in-Time counts are a single night a year and undercount hidden homelessness.",
-        "how_to_close": "Linked shelter, school and health records with consent"
-      },
-      {
-        "problem_id": "shelter-scarcity",
-        "gap": "Eviction filings",
-        "why_it_matters": "Not in either dataset, but the most direct leading signal.",
-        "how_to_close": "Court records (e.g. Eviction Lab)"
-      }
-    ],
-    "risks": {
-      "problem_id": "shelter-scarcity",
-      "who_could_be_harmed": "Tenants flagged as high risk; people whose records are linked without consent.",
-      "dual_use": "An eviction-risk score is also a tenant-screening tool for landlords.",
-      "bias_and_representation": "Homelessness data undercounts youth, women and people avoiding shelters.",
-      "ethics": "Consent and privacy for linked records; who sees risk scores.",
-      "morality": "Is it right to predict someone's housing loss rather than guarantee housing?",
-      "devils_advocate": "The shortage is a supply problem. A model doesn't build homes; it can only ration scarce ones, and may become a way to screen people out."
-    }
+    "name": "Housing First (At Home/Chez Soi trial)",
+    "organization": "Mental Health Commission of Canada",
+    "kind": "policy",
+    "year_started": "2009",
+    "url": "https://mentalhealthcommission.ca/wp-content/uploads/2021/09/At2520Home2520Final2520Report2520-2520Exec2520Summary2520-2520ENG_0.pdf",
+    "scale": "2,148 participants, 5 Canadian cities",
+    "effect": "Housed all of the last 6 months: 62% vs 31% with usual care",
+    "evidence": "rct",
+    "effect_source": "https://mentalhealthcommission.ca/wp-content/uploads/2021/09/At2520Home2520Final2520Report2520-2520Exec2520Summary2520-2520ENG_0.pdf",
+    "featured": "true",
+    "notes": "Housing without preconditions; participants had serious mental illness.",
+    "ai_written": [
+     "effect",
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "la-homelessness-prevention-unit",
+    "problem_id": "shelter-scarcity",
+    "name": "Homelessness Prevention Unit (predictive model)",
+    "organization": "LA County Dept. of Health Services, California Policy Lab",
+    "kind": "ai",
+    "year_started": "2021",
+    "url": "https://capolicylab.org/news/new-report-early-signs-of-success-from-la-countys-homelessness-prevention-pilot/",
+    "scale": "1,498 people served",
+    "effect": "86% kept housing; 71% less likely to enter shelter or outreach within 18 months than similar non-enrolled people",
+    "evidence": "quasi_experimental",
+    "effect_source": "https://capolicylab.org/news/new-report-early-signs-of-success-from-la-countys-homelessness-prevention-pilot/",
+    "featured": "true",
+    "notes": "Model ranks who's most at risk; RCT results expected 2027. Evaluator also built the model.",
+    "ai_written": [
+     "effect",
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "hot-osm",
+    "problem_id": "shelter-scarcity",
+    "name": "Humanitarian OpenStreetMap Team",
+    "organization": "Humanitarian OpenStreetMap Team",
+    "kind": "open_data",
+    "year_started": "",
+    "url": "https://centre.humdata.org/humanitarian-openstreetmap-on-hdx/",
+    "scale": "4,000+ datasets on HDX covering 249 countries and territories",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "true",
+    "notes": "Volunteer mapping for disaster response and development.",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "google-open-buildings-project",
+    "problem_id": "shelter-scarcity",
+    "name": "Open Buildings",
+    "organization": "Google Research",
+    "kind": "open_data",
+    "year_started": "",
+    "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_Research_open-buildings_v3_polygons",
+    "scale": "Building footprints across Africa, South and Southeast Asia, Latin America",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "true",
+    "notes": "AI-detected footprints released openly (CC BY 4.0).",
+    "ai_written": [
+     "notes"
+    ]
+   }
+  ],
+  "data_gaps": [
+   {
+    "problem_id": "shelter-scarcity",
+    "gap": "Continuous homelessness data",
+    "why_it_matters": "Point-in-Time counts are a single night a year and undercount hidden homelessness.",
+    "how_to_close": "Linked shelter, school and health records with consent",
+    "ai_written": [
+     "gap",
+     "how_to_close",
+     "why_it_matters"
+    ]
+   },
+   {
+    "problem_id": "shelter-scarcity",
+    "gap": "Eviction filings",
+    "why_it_matters": "Not in either dataset, but the most direct leading signal.",
+    "how_to_close": "Court records (e.g. Eviction Lab)",
+    "ai_written": [
+     "gap",
+     "how_to_close",
+     "why_it_matters"
+    ]
+   }
+  ],
+  "risks": {
+   "problem_id": "shelter-scarcity",
+   "who_could_be_harmed": "Tenants flagged as high risk; people whose records are linked without consent.",
+   "dual_use": "An eviction-risk score is also a tenant-screening tool for landlords.",
+   "bias_and_representation": "Homelessness data undercounts youth, women and people avoiding shelters.",
+   "ethics": "Consent and privacy for linked records; who sees risk scores.",
+   "morality": "Is it right to predict someone's housing loss rather than guarantee housing?",
+   "devils_advocate": "The shortage is a supply problem. A model doesn't build homes; it can only ration scarce ones, and may become a way to screen people out.",
+   "ai_written": [
+    "bias_and_representation",
+    "devils_advocate",
+    "dual_use",
+    "ethics",
+    "morality",
+    "who_could_be_harmed"
+   ]
   },
-  {
+  "ai_written": [
+   "description",
+   "solution_summary"
+  ]
+ },
+ {
+  "problem_id": "living-wage-gap",
+  "name": "Lack of a living wage",
+  "description": "Many full-time jobs pay less than what it costs to live where the worker lives.",
+  "sdg_goal": "8",
+  "sdg_targets": "8.5;10.4",
+  "solution_kind": "digital",
+  "solution_summary": "Estimate local living-wage gaps by joining cost-of-living and wage data, and show which places, sectors and jobs fall short.",
+  "maturity": "idea",
+  "contributor": "rhea",
+  "date_added": "2026-11-14",
+  "sdg_name": "Decent Work and Economic Growth",
+  "datasets": [
+   {
+    "dataset_id": "mit-living-wage",
+    "name": "MIT Living Wage Calculator",
+    "url": "https://livingwage.mit.edu/pages/faqs",
+    "access": "gated",
+    "license": "license required for more than 10 locations",
+    "size": "US counties, metros, states",
+    "modality": "tabular",
+    "description": "Living wage by family type and location in the US.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "US cost-of-living side of the gap.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "ilostat-wages",
+    "name": "ILOSTAT wages",
+    "url": "https://ilostat.ilo.org/fr/topics/wages",
+    "access": "open",
+    "license": "",
+    "size": "",
+    "modality": "tabular",
+    "description": "International wage statistics by country, sex and sector.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Wage side of the gap, internationally comparable.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "indeed-hiring-lab",
+    "name": "Indeed Hiring Lab job postings data",
+    "url": "https://github.com/hiring-lab/data",
+    "access": "open",
+    "license": "CC-BY-4.0",
+    "size": "11 countries, daily",
+    "modality": "tabular",
+    "description": "Job postings indexes by country, sector and region (no wages).",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Labor demand context for wage gaps.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "wageindicator-living-wage",
+    "name": "WageIndicator living wage estimates",
+    "url": "https://wageindicator.org/work/living-wages/open-access",
+    "access": "gated",
+    "license": "10 regions free (email required); full data for ~4,000 regions in 186 countries is paid",
+    "size": "186 countries",
+    "modality": "tabular",
+    "description": "Living wage estimates by country and region; minimum wage database also published.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Cross-country living wage comparison; the free sample is enough to prototype.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   }
+  ],
+  "existing_work": [],
+  "interventions": [
+   {
+    "intervention_id": "living-wage-foundation",
     "problem_id": "living-wage-gap",
-    "name": "Lack of a living wage",
-    "description": "Many full-time jobs pay less than what it costs to live where the worker lives.",
-    "sdg_goal": "8",
-    "sdg_targets": "8.5;10.4",
-    "solution_kind": "digital",
-    "solution_summary": "Estimate local living-wage gaps by joining cost-of-living and wage data, and show which places, sectors and jobs fall short.",
-    "maturity": "idea",
-    "contributor": "rhea",
-    "date_added": "2026-11-14",
-    "sdg_name": "Decent Work and Economic Growth",
-    "datasets": [
-      {
-        "dataset_id": "mit-living-wage",
-        "name": "MIT Living Wage Calculator",
-        "url": "https://livingwage.mit.edu/pages/faqs",
-        "access": "gated",
-        "license": "license required for more than 10 locations",
-        "size": "US counties, metros, states",
-        "modality": "tabular",
-        "description": "Living wage by family type and location in the US.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "US cost-of-living side of the gap."
-      },
-      {
-        "dataset_id": "ilostat-wages",
-        "name": "ILOSTAT wages",
-        "url": "https://ilostat.ilo.org/fr/topics/wages",
-        "access": "open",
-        "license": "",
-        "size": "",
-        "modality": "tabular",
-        "description": "International wage statistics by country, sex and sector.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Wage side of the gap, internationally comparable."
-      },
-      {
-        "dataset_id": "indeed-hiring-lab",
-        "name": "Indeed Hiring Lab job postings data",
-        "url": "https://github.com/hiring-lab/data",
-        "access": "open",
-        "license": "CC-BY-4.0",
-        "size": "11 countries, daily",
-        "modality": "tabular",
-        "description": "Job postings indexes by country, sector and region (no wages).",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Labor demand context for wage gaps."
-      },
-      {
-        "dataset_id": "wageindicator-living-wage",
-        "name": "WageIndicator living wage estimates",
-        "url": "https://wageindicator.org/work/living-wages/open-access",
-        "access": "gated",
-        "license": "10 regions free (email required); full data for ~4,000 regions in 186 countries is paid",
-        "size": "186 countries",
-        "modality": "tabular",
-        "description": "Living wage estimates by country and region; minimum wage database also published.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Cross-country living wage comparison; the free sample is enough to prototype."
-      }
-    ],
-    "existing_work": [],
-    "interventions": [
-      {
-        "intervention_id": "living-wage-foundation",
-        "problem_id": "living-wage-gap",
-        "name": "Real Living Wage accreditation",
-        "organization": "Living Wage Foundation (UK)",
-        "kind": "community",
-        "year_started": "",
-        "url": "https://www.livingwage.org.uk/news/16000-employers-now-paying-real-living-wage",
-        "scale": "16,000+ accredited UK employers (May 2025)",
-        "effect": "500,000+ workers got pay rises (Cardiff Business School study)",
-        "evidence": "self_reported",
-        "effect_source": "https://www.livingwage.org.uk/news/16000-employers-now-paying-real-living-wage",
-        "featured": "true",
-        "notes": "Voluntary employer accreditation driven by a campaign. The 500,000 figure is a count from a study the Foundation cites, not a causal effect."
-      }
-    ],
-    "data_gaps": [
-      {
-        "problem_id": "living-wage-gap",
-        "gap": "Open bulk living-wage data",
-        "why_it_matters": "MIT's data requires a license beyond 10 locations, so a free tool can't redistribute it.",
-        "how_to_close": "License request; or build an open cost-of-living estimate"
-      },
-      {
-        "problem_id": "living-wage-gap",
-        "gap": "Wages by employer",
-        "why_it_matters": "Public wage data is by sector and region, not by employer.",
-        "how_to_close": "Job-posting pay ranges (pay transparency laws)"
-      }
-    ],
-    "risks": {
-      "problem_id": "living-wage-gap",
-      "who_could_be_harmed": "Workers in flagged sectors if employers respond with automation or cuts.",
-      "dual_use": "Employers could use the same data to pay exactly the local minimum.",
-      "bias_and_representation": "Informal work is missing from wage data, so the worst gaps are invisible.",
-      "ethics": "Licensing and attribution for proprietary wage data; accuracy of public claims about employers.",
-      "morality": "Whose definition of a decent life sets the living wage?",
-      "devils_advocate": "Living-wage gaps are well documented already. The bottleneck is political will and bargaining power, which a dashboard doesn't change."
-    }
+    "name": "Real Living Wage accreditation",
+    "organization": "Living Wage Foundation (UK)",
+    "kind": "community",
+    "year_started": "",
+    "url": "https://www.livingwage.org.uk/news/16000-employers-now-paying-real-living-wage",
+    "scale": "16,000+ accredited UK employers (May 2025)",
+    "effect": "500,000+ workers got pay rises (Cardiff Business School study)",
+    "evidence": "self_reported",
+    "effect_source": "https://www.livingwage.org.uk/news/16000-employers-now-paying-real-living-wage",
+    "featured": "true",
+    "notes": "Voluntary employer accreditation driven by a campaign. The 500,000 figure is a count from a study the Foundation cites, not a causal effect.",
+    "ai_written": [
+     "effect",
+     "notes"
+    ]
+   }
+  ],
+  "data_gaps": [
+   {
+    "problem_id": "living-wage-gap",
+    "gap": "Open bulk living-wage data",
+    "why_it_matters": "MIT's data requires a license beyond 10 locations, so a free tool can't redistribute it.",
+    "how_to_close": "License request; or build an open cost-of-living estimate",
+    "ai_written": [
+     "gap",
+     "how_to_close",
+     "why_it_matters"
+    ]
+   },
+   {
+    "problem_id": "living-wage-gap",
+    "gap": "Wages by employer",
+    "why_it_matters": "Public wage data is by sector and region, not by employer.",
+    "how_to_close": "Job-posting pay ranges (pay transparency laws)",
+    "ai_written": [
+     "gap",
+     "how_to_close",
+     "why_it_matters"
+    ]
+   }
+  ],
+  "risks": {
+   "problem_id": "living-wage-gap",
+   "who_could_be_harmed": "Workers in flagged sectors if employers respond with automation or cuts.",
+   "dual_use": "Employers could use the same data to pay exactly the local minimum.",
+   "bias_and_representation": "Informal work is missing from wage data, so the worst gaps are invisible.",
+   "ethics": "Licensing and attribution for proprietary wage data; accuracy of public claims about employers.",
+   "morality": "Whose definition of a decent life sets the living wage?",
+   "devils_advocate": "Living-wage gaps are well documented already. The bottleneck is political will and bargaining power, which a dashboard doesn't change.",
+   "ai_written": [
+    "bias_and_representation",
+    "devils_advocate",
+    "dual_use",
+    "ethics",
+    "morality",
+    "who_could_be_harmed"
+   ]
   },
-  {
+  "ai_written": [
+   "description",
+   "solution_summary"
+  ]
+ },
+ {
+  "problem_id": "raising-kids-in-a-digital-world",
+  "name": "Raising children in a digital world",
+  "description": "Young people grow up with social media and AI companions: they need protection from digital harm (bullying, exploitation, manipulative design) and room for real human connection, and the adults around them need guidance.",
+  "sdg_goal": "3",
+  "sdg_targets": "3.4;16.2;4.7",
+  "solution_kind": "digital",
+  "solution_summary": "Help youth and caregivers spot harmful patterns early and build healthy habits, with tools co-designed with young people rather than built for them.",
+  "maturity": "idea",
+  "contributor": "rhea",
+  "date_added": "2026-11-14",
+  "sdg_name": "Good Health and Well-being",
+  "datasets": [
+   {
+    "dataset_id": "cdc-yrbs",
+    "name": "CDC Youth Risk Behavior Survey (YRBS)",
+    "url": "https://www.cdc.gov/yrbs/data/index.html",
+    "access": "open",
+    "license": "US public data",
+    "size": "10,710 students (2025 national); 1991–2025",
+    "modality": "survey microdata",
+    "description": "National and local survey of high-school students, incl. social media use and persistent sadness.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Track youth mental health alongside social media use.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   }
+  ],
+  "existing_work": [
+   {
+    "work_id": "csm-ai-companions-2025",
     "problem_id": "raising-kids-in-a-digital-world",
-    "name": "Raising children in a digital world",
-    "description": "Young people grow up with social media and AI companions: they need protection from digital harm (bullying, exploitation, manipulative design) and room for real human connection, and the adults around them need guidance.",
-    "sdg_goal": "3",
-    "sdg_targets": "3.4;16.2;4.7",
-    "solution_kind": "digital",
-    "solution_summary": "Help youth and caregivers spot harmful patterns early and build healthy habits, with tools co-designed with young people rather than built for them.",
-    "maturity": "idea",
-    "contributor": "rhea",
-    "date_added": "2026-11-14",
-    "sdg_name": "Good Health and Well-being",
-    "datasets": [
-      {
-        "dataset_id": "cdc-yrbs",
-        "name": "CDC Youth Risk Behavior Survey (YRBS)",
-        "url": "https://www.cdc.gov/yrbs/data/index.html",
-        "access": "open",
-        "license": "US public data",
-        "size": "10,710 students (2025 national); 1991–2025",
-        "modality": "survey microdata",
-        "description": "National and local survey of high-school students, incl. social media use and persistent sadness.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Track youth mental health alongside social media use."
-      }
-    ],
-    "existing_work": [
-      {
-        "work_id": "csm-ai-companions-2025",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "title": "Talk, Trust, and Trade-Offs: How and Why Teens Use AI Companions (Common Sense Media)",
-        "url": "https://commonsensemedia.org/press-releases/nearly-3-in-4-teens-have-used-ai-companions-new-national-survey-finds",
-        "kind": "paper",
-        "year": "2025",
-        "maturity": "research",
-        "notes": "National survey: 72% of teens have used AI companions. Linked from Rhea's Rithm Changemaker Network map."
-      },
-      {
-        "work_id": "csm-teens-trust-2025",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "title": "Teens, Trust, and Technology in the Age of AI (Common Sense Media)",
-        "url": "https://www.commonsensemedia.org/press-releases/research-reveals-teens-distrust-in-tech-companies-and-ai-generated-content",
-        "kind": "paper",
-        "year": "2025",
-        "maturity": "research",
-        "notes": "Survey of 1,045 teens: 64% say tech companies can't be trusted to care about their well-being. Linked from Rhea's Rithm Changemaker Network map."
-      },
-      {
-        "work_id": "csm-kids-online-ai-2026",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "title": "Protecting Kids Online in the AI Era: The Path Forward (Common Sense Media)",
-        "url": "https://www.commonsensemedia.org/sites/default/files/featured-content/files/common-sense-media-protecting-kids-online-in-the-ai-era-the-path-forward.pdf",
-        "kind": "policy",
-        "year": "2026",
-        "maturity": "research",
-        "notes": "Policy paper: data minimization, no training on kids' inputs, COPPA updates. Linked from Rhea's Rithm Changemaker Network map."
-      },
-      {
-        "work_id": "hopelab-cdt-genai-2024",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "title": "Teen and Young Adult Perspectives on Generative AI (Hopelab, Common Sense, Center for Digital Thriving)",
-        "url": "https://digitalthriving.gse.harvard.edu/wp-content/uploads/2024/06/Teen-and-Young-Adult-Perspectives-on-Generative-AI.pdf",
-        "kind": "paper",
-        "year": "2024",
-        "maturity": "research",
-        "notes": "National survey of 1,274 youth, incl. use for emotional support and companionship. Linked from Rhea's Rithm Changemaker Network map."
-      },
-      {
-        "work_id": "hopelab-ai-support-risks-2026",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "title": "Four Risks of Using AI for Emotional Support (Hopelab)",
-        "url": "https://hopelab.org/stories/risks-using-ai-for-emotional-support",
-        "kind": "paper",
-        "year": "2026",
-        "maturity": "research",
-        "notes": "Teen-identified risks: dependency, harmful advice, relationship effects, sycophancy, privacy; linked JMIR preprint. Linked from Rhea's Rithm Changemaker Network map."
-      },
-      {
-        "work_id": "search-dev-relationships",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "title": "Developmental Relationships Framework (Search Institute)",
-        "url": "https://searchinstitute.org/resources-hub/developmental-relationships-framework",
-        "kind": "project",
-        "year": "2014",
-        "maturity": "research",
-        "notes": "Framework and survey on youth relationships; 1 in 5 students report no strong relationships. Linked from Rhea's Rithm Changemaker Network map."
-      },
-      {
-        "work_id": "integrity-ai-systems-2024",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "title": "Building Integrity into AI Systems (Integrity Institute)",
-        "url": "https://www.integrityinstitute.org/research/building-integrity-into-ai-systems",
-        "kind": "paper",
-        "year": "2024",
-        "maturity": "research",
-        "notes": "Argues AI is repeating social media's trust-and-safety failures. Linked from Rhea's Rithm Changemaker Network map."
-      },
-      {
-        "work_id": "cdt-thinking-traps-2024",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "title": "Thinking Traps (Center for Digital Thriving, Common Sense Education, KQED)",
-        "url": "https://digitalthriving.gse.harvard.edu/resources/thinking-traps/",
-        "kind": "project",
-        "year": "2024",
-        "maturity": "deployed",
-        "notes": "Lessons on how tech intensifies anxious self-talk. Linked from Rhea's Rithm Changemaker Network map."
-      }
-    ],
-    "interventions": [
-      {
-        "intervention_id": "common-sense-ai-companions",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "AI companion research and kids' online safety advocacy",
-        "organization": "Common Sense Media",
-        "kind": "policy",
-        "year_started": "2025",
-        "url": "https://www.commonsensemedia.org",
-        "scale": "National surveys of teens",
-        "effect": "Found 72% of teens have used AI companions; recommends no one under 18 use them and backs bans for minors.",
-        "evidence": "none",
-        "effect_source": "https://commonsensemedia.org/press-releases/nearly-3-in-4-teens-have-used-ai-companions-new-national-survey-finds",
-        "featured": "true",
-        "notes": "From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20."
-      },
-      {
-        "intervention_id": "surgeon-general-advisories",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "Surgeon General advisories on social media and youth mental health, and on loneliness",
-        "organization": "Office of the U.S. Surgeon General",
-        "kind": "policy",
-        "year_started": "2023",
-        "url": "https://www.hhs.gov/surgeongeneral",
-        "scale": "National",
-        "effect": "Calls on policymakers to set youth safety standards and on tech companies to redesign for well-being; declares loneliness a public health crisis.",
-        "evidence": "none",
-        "effect_source": "https://hhs.gov/about/news/2023/05/23/surgeon-general-issues-new-advisory-about-effects-social-media-use-has-youth-mental-health.html",
-        "featured": "true",
-        "notes": "From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20."
-      },
-      {
-        "intervention_id": "take-it-down-act",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "TAKE IT DOWN Act campaign (non-consensual deepfakes)",
-        "organization": "Encode and Americans for Responsible Innovation",
-        "kind": "policy",
-        "year_started": "2025",
-        "url": "https://ari.us/president-signs-the-take-it-down-act/",
-        "scale": "Federal law",
-        "effect": "Petition and coalition campaign preceded the federal law criminalizing non-consensual AI deepfake imagery.",
-        "evidence": "none",
-        "effect_source": "https://ari.us/president-signs-the-take-it-down-act/",
-        "featured": "true",
-        "notes": "From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20."
-      },
-      {
-        "intervention_id": "rithm-project",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "The Rithm Project",
-        "organization": "The Rithm Project",
-        "kind": "human_connection",
-        "year_started": "",
-        "url": "https://www.therithmproject.org/",
-        "scale": "Surveyed 2,000+ young people aged 13–24 on AI use and relationships",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "https://pasesetter.org/news/network/youth-ai-and-the-relationships-that-shape-them-from-the-rithm-project",
-        "featured": "true",
-        "notes": "Helps young people rebuild and evolve human connection in the age of AI. Funded by Omidyar Network and Young Futures."
-      },
-      {
-        "intervention_id": "young-futures",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "Young Futures funding challenges",
-        "organization": "Young Futures",
-        "kind": "funding",
-        "year_started": "2024",
-        "url": "https://www.businesswire.com/news/home/20260325664715/en/Young-Futures-Awards-%241.4M-to-16-Nonprofits-Helping-Young-People-Navigate-AI-with-Agency",
-        "scale": "$1M Lonely Hearts Club challenge (2024, 10 nonprofits); $1.4M to 16 nonprofits on youth and AI (2026)",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "true",
-        "notes": "Funders include Pivotal, Susan Crown Exchange, Omidyar Network, Hopelab, Bezos Family Foundation."
-      },
-      {
-        "intervention_id": "jed-campus",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "JED Campus",
-        "organization": "The Jed Foundation",
-        "kind": "community",
-        "year_started": "",
-        "url": "https://jedfoundation.org",
-        "scale": "440+ campuses in a 4-year mental-health systems program",
-        "effect": "",
-        "evidence": "self_reported",
-        "effect_source": "https://jedfoundation.org/jed-campus-impact-report-2024/",
-        "featured": "false",
-        "notes": "From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20."
-      },
-      {
-        "intervention_id": "rethink-keyboard",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "ReThink anti-cyberbullying keyboard",
-        "organization": "ReThink",
-        "kind": "ai",
-        "year_started": "",
-        "url": "https://www.rethinkwords.com",
-        "scale": "About 5M users (per MIT Solve profile)",
-        "effect": "In studies with 300+ adolescents, willingness to post offensive messages fell from 71% to 4%.",
-        "evidence": "self_reported",
-        "effect_source": "https://solve.mit.edu/solutions/30289",
-        "featured": "false",
-        "notes": "ML flags offensive messages before sending. From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20."
-      },
-      {
-        "intervention_id": "3g-mentoring",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "3G intergenerational mentoring",
-        "organization": "3G",
-        "kind": "community",
-        "year_started": "",
-        "url": "https://www.businesswire.com/news/home/20240605016207/en/Young-Futures-Announces-Winners-of-The-Lonely-Hearts-Club-Funding-Challenge",
-        "scale": "",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "false",
-        "notes": "Links preschoolers, teens and older adults through social-emotional learning."
-      },
-      {
-        "intervention_id": "agapi-kids",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "Agapi.kids",
-        "organization": "Agapi.kids",
-        "kind": "ai",
-        "year_started": "",
-        "url": "https://www.businesswire.com/news/home/20240605016207/en/Young-Futures-Announces-Winners-of-The-Lonely-Hearts-Club-Funding-Challenge",
-        "scale": "",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "false",
-        "notes": "AI tool co-designed with 10- to 19-year-olds to build skills for human connection."
-      },
-      {
-        "intervention_id": "design-it-for-us",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "Design It For Us",
-        "organization": "Design It For Us",
-        "kind": "policy",
-        "year_started": "",
-        "url": "https://designitforus.org/",
-        "scale": "",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "false",
-        "notes": "Youth-led advocacy for safer social media and online platforms."
-      },
-      {
-        "intervention_id": "hopelab",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "Hopelab youth mental health research and funding",
-        "organization": "Hopelab",
-        "kind": "funding",
-        "year_started": "",
-        "url": "https://hopelab.org",
-        "scale": "",
-        "effect": "Research on why youth turn to AI chatbots for emotional support and the risks (dependency, sycophancy, privacy).",
-        "evidence": "none",
-        "effect_source": "https://hopelab.org/stories/risks-using-ai-for-emotional-support",
-        "featured": "false",
-        "notes": "From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20."
-      },
-      {
-        "intervention_id": "troomi",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "Kid-safe smartphone OS",
-        "organization": "Troomi",
-        "kind": "other_tech",
-        "year_started": "",
-        "url": "https://troomi.com",
-        "scale": "",
-        "effect": "No social media or open app store; AI filtering of inappropriate texts and images; features expand as the child grows.",
-        "evidence": "none",
-        "effect_source": "https://www.businesswire.com/news/home/20260212256924/en/Troomi-Brings-Its-Child-Safe-Smartphone-Experience-to-Samsung-Galaxy-XCover7",
-        "featured": "false",
-        "notes": "From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20."
-      },
-      {
-        "intervention_id": "letters-to-strangers",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "Letters to Strangers",
-        "organization": "Letters to Strangers",
-        "kind": "human_connection",
-        "year_started": "",
-        "url": "https://letterstostrangers.org/",
-        "scale": "",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "false",
-        "notes": "Youth mental health nonprofit; Young Futures grantee for AI's effects on relationships."
-      },
-      {
-        "intervention_id": "ypa-ny-chatbot-bill",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "New York chatbot kids-safety bill (S.9051/A.10379)",
-        "organization": "Young People's Alliance",
-        "kind": "policy",
-        "year_started": "2026",
-        "url": "https://www.youngpeoplesalliance.org",
-        "scale": "New York State",
-        "effect": "Passed unanimously: limits chatbots' emotional-bond features for minors, with age assurance and a private right of action.",
-        "evidence": "none",
-        "effect_source": "https://www.youngpeoplesalliance.org/press-releases/ny-s9051-passage",
-        "featured": "false",
-        "notes": "From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20."
-      },
-      {
-        "intervention_id": "noso-november",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "NoSo November detox challenge",
-        "organization": "NoSo",
-        "kind": "community",
-        "year_started": "",
-        "url": "https://www.nosonovember.org",
-        "scale": "28,000+ students; curriculum in 40+ schools",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "https://www.colorado.edu/coloradan/2025/07/07/maddie-freemans-digital-detox",
-        "featured": "false",
-        "notes": "Youth-led; Young Futures grantee. From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20."
-      },
-      {
-        "intervention_id": "only7seconds",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "Only7Seconds",
-        "organization": "Only7Seconds",
-        "kind": "human_connection",
-        "year_started": "",
-        "url": "https://www.businesswire.com/news/home/20240605016207/en/Young-Futures-Announces-Winners-of-The-Lonely-Hearts-Club-Funding-Challenge",
-        "scale": "",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "false",
-        "notes": "Reduces youth loneliness through awareness, education and empowerment programs."
-      },
-      {
-        "intervention_id": "relational-tech-project",
-        "problem_id": "raising-kids-in-a-digital-world",
-        "name": "Relational Tech Project neighborhood tools",
-        "organization": "Relational Tech Project",
-        "kind": "human_connection",
-        "year_started": "2025",
-        "url": "https://relationaltechproject.org",
-        "scale": "Community Supplies used in 200+ neighborhoods",
-        "effect": "Tools built so online actions end in in-person contact.",
-        "evidence": "none",
-        "effect_source": "https://www.aspeninstitute.org/blog-posts/tech-can-be-an-invitation-to-knock-on-your-neighbors-door/",
-        "featured": "false",
-        "notes": "From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20."
-      }
-    ],
-    "data_gaps": [
-      {
-        "problem_id": "raising-kids-in-a-digital-world",
-        "gap": "How young people actually use AI companions",
-        "why_it_matters": "Usage data sits with companies; surveys rely on self-report.",
-        "how_to_close": "Privacy-preserving data donation by teens and families; researcher access to platform data"
-      },
-      {
-        "problem_id": "raising-kids-in-a-digital-world",
-        "gap": "Outcomes of youth programs",
-        "why_it_matters": "Most youth-connection nonprofits don't publish measured outcomes, so effects can't be compared.",
-        "how_to_close": "Shared outcome measures across grantees (loneliness and belonging scales)"
-      }
-    ],
-    "risks": {
-      "problem_id": "raising-kids-in-a-digital-world",
-      "who_could_be_harmed": "Teens whose online activity is monitored; families with less time or tech access, who get blamed for harm.",
-      "dual_use": "Child-safety monitoring tools are also surveillance tools, for parents, schools or states.",
-      "bias_and_representation": "Research and programs skew to US and English-speaking youth.",
-      "ethics": "Consent and privacy for minors; who sees a young person's data and what happens when a tool flags them.",
-      "morality": "Is it right to design childhood around protection from technology instead of designing technology that's safe for children?",
-      "devils_advocate": "Panics about new media are old; heavy protection can cut youth off from community and information, especially LGBTQ+ and isolated kids who find support online."
-    }
+    "title": "Talk, Trust, and Trade-Offs: How and Why Teens Use AI Companions (Common Sense Media)",
+    "url": "https://commonsensemedia.org/press-releases/nearly-3-in-4-teens-have-used-ai-companions-new-national-survey-finds",
+    "kind": "paper",
+    "year": "2025",
+    "maturity": "research",
+    "notes": "National survey: 72% of teens have used AI companions. Linked from Rhea's Rithm Changemaker Network map.",
+    "ai_written": [
+     "notes",
+     "work_id"
+    ]
+   },
+   {
+    "work_id": "csm-teens-trust-2025",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "title": "Teens, Trust, and Technology in the Age of AI (Common Sense Media)",
+    "url": "https://www.commonsensemedia.org/press-releases/research-reveals-teens-distrust-in-tech-companies-and-ai-generated-content",
+    "kind": "paper",
+    "year": "2025",
+    "maturity": "research",
+    "notes": "Survey of 1,045 teens: 64% say tech companies can't be trusted to care about their well-being. Linked from Rhea's Rithm Changemaker Network map.",
+    "ai_written": [
+     "notes",
+     "work_id"
+    ]
+   },
+   {
+    "work_id": "csm-kids-online-ai-2026",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "title": "Protecting Kids Online in the AI Era: The Path Forward (Common Sense Media)",
+    "url": "https://www.commonsensemedia.org/sites/default/files/featured-content/files/common-sense-media-protecting-kids-online-in-the-ai-era-the-path-forward.pdf",
+    "kind": "policy",
+    "year": "2026",
+    "maturity": "research",
+    "notes": "Policy paper: data minimization, no training on kids' inputs, COPPA updates. Linked from Rhea's Rithm Changemaker Network map.",
+    "ai_written": [
+     "notes",
+     "work_id"
+    ]
+   },
+   {
+    "work_id": "hopelab-cdt-genai-2024",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "title": "Teen and Young Adult Perspectives on Generative AI (Hopelab, Common Sense, Center for Digital Thriving)",
+    "url": "https://digitalthriving.gse.harvard.edu/wp-content/uploads/2024/06/Teen-and-Young-Adult-Perspectives-on-Generative-AI.pdf",
+    "kind": "paper",
+    "year": "2024",
+    "maturity": "research",
+    "notes": "National survey of 1,274 youth, incl. use for emotional support and companionship. Linked from Rhea's Rithm Changemaker Network map.",
+    "ai_written": [
+     "notes",
+     "work_id"
+    ]
+   },
+   {
+    "work_id": "hopelab-ai-support-risks-2026",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "title": "Four Risks of Using AI for Emotional Support (Hopelab)",
+    "url": "https://hopelab.org/stories/risks-using-ai-for-emotional-support",
+    "kind": "paper",
+    "year": "2026",
+    "maturity": "research",
+    "notes": "Teen-identified risks: dependency, harmful advice, relationship effects, sycophancy, privacy; linked JMIR preprint. Linked from Rhea's Rithm Changemaker Network map.",
+    "ai_written": [
+     "notes",
+     "work_id"
+    ]
+   },
+   {
+    "work_id": "search-dev-relationships",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "title": "Developmental Relationships Framework (Search Institute)",
+    "url": "https://searchinstitute.org/resources-hub/developmental-relationships-framework",
+    "kind": "project",
+    "year": "2014",
+    "maturity": "research",
+    "notes": "Framework and survey on youth relationships; 1 in 5 students report no strong relationships. Linked from Rhea's Rithm Changemaker Network map.",
+    "ai_written": [
+     "notes",
+     "work_id"
+    ]
+   },
+   {
+    "work_id": "integrity-ai-systems-2024",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "title": "Building Integrity into AI Systems (Integrity Institute)",
+    "url": "https://www.integrityinstitute.org/research/building-integrity-into-ai-systems",
+    "kind": "paper",
+    "year": "2024",
+    "maturity": "research",
+    "notes": "Argues AI is repeating social media's trust-and-safety failures. Linked from Rhea's Rithm Changemaker Network map.",
+    "ai_written": [
+     "notes",
+     "work_id"
+    ]
+   },
+   {
+    "work_id": "cdt-thinking-traps-2024",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "title": "Thinking Traps (Center for Digital Thriving, Common Sense Education, KQED)",
+    "url": "https://digitalthriving.gse.harvard.edu/resources/thinking-traps/",
+    "kind": "project",
+    "year": "2024",
+    "maturity": "deployed",
+    "notes": "Lessons on how tech intensifies anxious self-talk. Linked from Rhea's Rithm Changemaker Network map.",
+    "ai_written": [
+     "notes",
+     "work_id"
+    ]
+   }
+  ],
+  "interventions": [
+   {
+    "intervention_id": "common-sense-ai-companions",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "AI companion research and kids' online safety advocacy",
+    "organization": "Common Sense Media",
+    "kind": "policy",
+    "year_started": "2025",
+    "url": "https://www.commonsensemedia.org",
+    "scale": "National surveys of teens",
+    "effect": "Found 72% of teens have used AI companions; recommends no one under 18 use them and backs bans for minors.",
+    "evidence": "none",
+    "effect_source": "https://commonsensemedia.org/press-releases/nearly-3-in-4-teens-have-used-ai-companions-new-national-survey-finds",
+    "featured": "true",
+    "notes": "From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20.",
+    "ai_written": [
+     "effect",
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "surgeon-general-advisories",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "Surgeon General advisories on social media and youth mental health, and on loneliness",
+    "organization": "Office of the U.S. Surgeon General",
+    "kind": "policy",
+    "year_started": "2023",
+    "url": "https://www.hhs.gov/surgeongeneral",
+    "scale": "National",
+    "effect": "Calls on policymakers to set youth safety standards and on tech companies to redesign for well-being; declares loneliness a public health crisis.",
+    "evidence": "none",
+    "effect_source": "https://hhs.gov/about/news/2023/05/23/surgeon-general-issues-new-advisory-about-effects-social-media-use-has-youth-mental-health.html",
+    "featured": "true",
+    "notes": "From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20.",
+    "ai_written": [
+     "effect",
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "take-it-down-act",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "TAKE IT DOWN Act campaign (non-consensual deepfakes)",
+    "organization": "Encode and Americans for Responsible Innovation",
+    "kind": "policy",
+    "year_started": "2025",
+    "url": "https://ari.us/president-signs-the-take-it-down-act/",
+    "scale": "Federal law",
+    "effect": "Petition and coalition campaign preceded the federal law criminalizing non-consensual AI deepfake imagery.",
+    "evidence": "none",
+    "effect_source": "https://ari.us/president-signs-the-take-it-down-act/",
+    "featured": "true",
+    "notes": "From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20.",
+    "ai_written": [
+     "effect",
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "rithm-project",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "The Rithm Project",
+    "organization": "The Rithm Project",
+    "kind": "human_connection",
+    "year_started": "",
+    "url": "https://www.therithmproject.org/",
+    "scale": "Surveyed 2,000+ young people aged 13–24 on AI use and relationships",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "https://pasesetter.org/news/network/youth-ai-and-the-relationships-that-shape-them-from-the-rithm-project",
+    "featured": "true",
+    "notes": "Helps young people rebuild and evolve human connection in the age of AI. Funded by Omidyar Network and Young Futures.",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "young-futures",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "Young Futures funding challenges",
+    "organization": "Young Futures",
+    "kind": "funding",
+    "year_started": "2024",
+    "url": "https://www.businesswire.com/news/home/20260325664715/en/Young-Futures-Awards-%241.4M-to-16-Nonprofits-Helping-Young-People-Navigate-AI-with-Agency",
+    "scale": "$1M Lonely Hearts Club challenge (2024, 10 nonprofits); $1.4M to 16 nonprofits on youth and AI (2026)",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "true",
+    "notes": "Funders include Pivotal, Susan Crown Exchange, Omidyar Network, Hopelab, Bezos Family Foundation.",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "jed-campus",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "JED Campus",
+    "organization": "The Jed Foundation",
+    "kind": "community",
+    "year_started": "",
+    "url": "https://jedfoundation.org",
+    "scale": "440+ campuses in a 4-year mental-health systems program",
+    "effect": "",
+    "evidence": "self_reported",
+    "effect_source": "https://jedfoundation.org/jed-campus-impact-report-2024/",
+    "featured": "false",
+    "notes": "From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20.",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "rethink-keyboard",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "ReThink anti-cyberbullying keyboard",
+    "organization": "ReThink",
+    "kind": "ai",
+    "year_started": "",
+    "url": "https://www.rethinkwords.com",
+    "scale": "About 5M users (per MIT Solve profile)",
+    "effect": "In studies with 300+ adolescents, willingness to post offensive messages fell from 71% to 4%.",
+    "evidence": "self_reported",
+    "effect_source": "https://solve.mit.edu/solutions/30289",
+    "featured": "false",
+    "notes": "ML flags offensive messages before sending. From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20.",
+    "ai_written": [
+     "effect",
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "3g-mentoring",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "3G intergenerational mentoring",
+    "organization": "3G",
+    "kind": "community",
+    "year_started": "",
+    "url": "https://www.businesswire.com/news/home/20240605016207/en/Young-Futures-Announces-Winners-of-The-Lonely-Hearts-Club-Funding-Challenge",
+    "scale": "",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "false",
+    "notes": "Links preschoolers, teens and older adults through social-emotional learning.",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "agapi-kids",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "Agapi.kids",
+    "organization": "Agapi.kids",
+    "kind": "ai",
+    "year_started": "",
+    "url": "https://www.businesswire.com/news/home/20240605016207/en/Young-Futures-Announces-Winners-of-The-Lonely-Hearts-Club-Funding-Challenge",
+    "scale": "",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "false",
+    "notes": "AI tool co-designed with 10- to 19-year-olds to build skills for human connection.",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "design-it-for-us",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "Design It For Us",
+    "organization": "Design It For Us",
+    "kind": "policy",
+    "year_started": "",
+    "url": "https://designitforus.org/",
+    "scale": "",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "false",
+    "notes": "Youth-led advocacy for safer social media and online platforms.",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "hopelab",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "Hopelab youth mental health research and funding",
+    "organization": "Hopelab",
+    "kind": "funding",
+    "year_started": "",
+    "url": "https://hopelab.org",
+    "scale": "",
+    "effect": "Research on why youth turn to AI chatbots for emotional support and the risks (dependency, sycophancy, privacy).",
+    "evidence": "none",
+    "effect_source": "https://hopelab.org/stories/risks-using-ai-for-emotional-support",
+    "featured": "false",
+    "notes": "From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20.",
+    "ai_written": [
+     "effect",
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "troomi",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "Kid-safe smartphone OS",
+    "organization": "Troomi",
+    "kind": "other_tech",
+    "year_started": "",
+    "url": "https://troomi.com",
+    "scale": "",
+    "effect": "No social media or open app store; AI filtering of inappropriate texts and images; features expand as the child grows.",
+    "evidence": "none",
+    "effect_source": "https://www.businesswire.com/news/home/20260212256924/en/Troomi-Brings-Its-Child-Safe-Smartphone-Experience-to-Samsung-Galaxy-XCover7",
+    "featured": "false",
+    "notes": "From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20.",
+    "ai_written": [
+     "effect",
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "letters-to-strangers",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "Letters to Strangers",
+    "organization": "Letters to Strangers",
+    "kind": "human_connection",
+    "year_started": "",
+    "url": "https://letterstostrangers.org/",
+    "scale": "",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "false",
+    "notes": "Youth mental health nonprofit; Young Futures grantee for AI's effects on relationships.",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "ypa-ny-chatbot-bill",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "New York chatbot kids-safety bill (S.9051/A.10379)",
+    "organization": "Young People's Alliance",
+    "kind": "policy",
+    "year_started": "2026",
+    "url": "https://www.youngpeoplesalliance.org",
+    "scale": "New York State",
+    "effect": "Passed unanimously: limits chatbots' emotional-bond features for minors, with age assurance and a private right of action.",
+    "evidence": "none",
+    "effect_source": "https://www.youngpeoplesalliance.org/press-releases/ny-s9051-passage",
+    "featured": "false",
+    "notes": "From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20.",
+    "ai_written": [
+     "effect",
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "noso-november",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "NoSo November detox challenge",
+    "organization": "NoSo",
+    "kind": "community",
+    "year_started": "",
+    "url": "https://www.nosonovember.org",
+    "scale": "28,000+ students; curriculum in 40+ schools",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "https://www.colorado.edu/coloradan/2025/07/07/maddie-freemans-digital-detox",
+    "featured": "false",
+    "notes": "Youth-led; Young Futures grantee. From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20.",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "only7seconds",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "Only7Seconds",
+    "organization": "Only7Seconds",
+    "kind": "human_connection",
+    "year_started": "",
+    "url": "https://www.businesswire.com/news/home/20240605016207/en/Young-Futures-Announces-Winners-of-The-Lonely-Hearts-Club-Funding-Challenge",
+    "scale": "",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "false",
+    "notes": "Reduces youth loneliness through awareness, education and empowerment programs.",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "relational-tech-project",
+    "problem_id": "raising-kids-in-a-digital-world",
+    "name": "Relational Tech Project neighborhood tools",
+    "organization": "Relational Tech Project",
+    "kind": "human_connection",
+    "year_started": "2025",
+    "url": "https://relationaltechproject.org",
+    "scale": "Community Supplies used in 200+ neighborhoods",
+    "effect": "Tools built so online actions end in in-person contact.",
+    "evidence": "none",
+    "effect_source": "https://www.aspeninstitute.org/blog-posts/tech-can-be-an-invitation-to-knock-on-your-neighbors-door/",
+    "featured": "false",
+    "notes": "From Rhea's Rithm Changemaker Network map; evidence checked 2026-10-20.",
+    "ai_written": [
+     "effect",
+     "notes"
+    ]
+   }
+  ],
+  "data_gaps": [
+   {
+    "problem_id": "raising-kids-in-a-digital-world",
+    "gap": "How young people actually use AI companions",
+    "why_it_matters": "Usage data sits with companies; surveys rely on self-report.",
+    "how_to_close": "Privacy-preserving data donation by teens and families; researcher access to platform data",
+    "ai_written": [
+     "gap",
+     "how_to_close",
+     "why_it_matters"
+    ]
+   },
+   {
+    "problem_id": "raising-kids-in-a-digital-world",
+    "gap": "Outcomes of youth programs",
+    "why_it_matters": "Most youth-connection nonprofits don't publish measured outcomes, so effects can't be compared.",
+    "how_to_close": "Shared outcome measures across grantees (loneliness and belonging scales)",
+    "ai_written": [
+     "gap",
+     "how_to_close",
+     "why_it_matters"
+    ]
+   }
+  ],
+  "risks": {
+   "problem_id": "raising-kids-in-a-digital-world",
+   "who_could_be_harmed": "Teens whose online activity is monitored; families with less time or tech access, who get blamed for harm.",
+   "dual_use": "Child-safety monitoring tools are also surveillance tools, for parents, schools or states.",
+   "bias_and_representation": "Research and programs skew to US and English-speaking youth.",
+   "ethics": "Consent and privacy for minors; who sees a young person's data and what happens when a tool flags them.",
+   "morality": "Is it right to design childhood around protection from technology instead of designing technology that's safe for children?",
+   "devils_advocate": "Panics about new media are old; heavy protection can cut youth off from community and information, especially LGBTQ+ and isolated kids who find support online.",
+   "ai_written": [
+    "bias_and_representation",
+    "devils_advocate",
+    "dual_use",
+    "ethics",
+    "morality",
+    "who_could_be_harmed"
+   ]
   },
-  {
+  "ai_written": [
+   "description",
+   "solution_summary"
+  ]
+ },
+ {
+  "problem_id": "culture-and-language-preservation",
+  "name": "Disappearing languages and cultural knowledge",
+  "description": "Thousands of languages, and the oral histories and practices carried in them, are losing their last speakers; most have little written or recorded material, so they're also left out of AI.",
+  "sdg_goal": "11",
+  "sdg_targets": "11.4;4.7",
+  "solution_kind": "digital",
+  "solution_summary": "Help communities record, transcribe and translate their own languages, and make tools (speech, translation, search) work for languages with little data.",
+  "maturity": "research",
+  "contributor": "rhea",
+  "date_added": "2026-11-14",
+  "sdg_name": "Sustainable Cities and Communities",
+  "datasets": [
+   {
+    "dataset_id": "flores-plus",
+    "name": "FLORES+ multilingual benchmark (Open Language Data Initiative)",
+    "url": "https://huggingface.co/datasets/openlanguagedata/flores_plus",
+    "access": "open",
+    "license": "CC-BY-SA-4.0",
+    "size": "200+ language varieties",
+    "modality": "parallel text",
+    "description": "Professional translations of the same sentences across many languages; successor to Meta's FLORES-200 used to evaluate NLLB.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Evaluate translation for low-resource languages.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "flores-asl",
+    "name": "2M-Flores-ASL (Meta)",
+    "url": "https://huggingface.co/datasets/facebook/2M-Flores-ASL",
+    "access": "open",
+    "license": "CC-BY-SA-4.0",
+    "size": "",
+    "modality": "sign-language video;text",
+    "description": "FLORES sentences in American Sign Language.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Benchmark for sign-language translation.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "common-voice",
+    "name": "Mozilla Common Voice 24.0",
+    "url": "https://discourse.mozilla.org/t/release-live-mcv-scripted-speech-24-0-and-spontaneous-speech-2-0/146740",
+    "access": "open",
+    "license": "per-language; check each (e.g. CC0)",
+    "size": "289 languages, 38,932 hours (Dec 2025)",
+    "modality": "speech",
+    "description": "Crowdsourced read speech with transcripts.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Train and test speech recognition for small languages.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "glottolog",
+    "name": "Glottolog",
+    "url": "https://glottolog.org/meta/downloads",
+    "access": "open",
+    "license": "CC-BY-4.0",
+    "size": "",
+    "modality": "tabular;geographic",
+    "description": "Catalog of the world's languages, families and locations.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Which languages exist, where, and how they relate.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "wikimedia-dumps",
+    "name": "Wikimedia dumps (Wikipedia, Wiktionary, Wikidata)",
+    "url": "https://dumps.wikimedia.org/",
+    "access": "open",
+    "license": "CC BY-SA for article text; Wikidata CC0 (not re-checked)",
+    "size": "300+ language editions",
+    "modality": "text;structured",
+    "description": "Full archives of Wikimedia projects in every language edition.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Build text corpora and dictionaries for small languages; see which languages have almost no written web presence.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "common-crawl",
+    "name": "Common Crawl",
+    "url": "https://commoncrawl.org/terms-of-use",
+    "access": "open",
+    "license": "Free under Common Crawl terms; underlying pages keep their own copyright",
+    "size": "whole-web snapshots",
+    "modality": "web text",
+    "description": "Open crawl of the public web.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Find and extract text in low-resource languages (respecting page owners' rights).",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "internet-archive",
+    "name": "Internet Archive collections",
+    "url": "https://archive.org/",
+    "access": "open",
+    "license": "varies by item",
+    "size": "books, audio, web history",
+    "modality": "text;audio;web",
+    "description": "Archived websites, books and recordings.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Find out-of-print texts and historical recordings in endangered languages; check each item's rights.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "aya-collection",
+    "name": "Aya Collection (Cohere Labs)",
+    "url": "https://huggingface.co/datasets/CohereLabs/aya_collection",
+    "access": "open",
+    "license": "Apache-2.0",
+    "size": "",
+    "modality": "multilingual instructions",
+    "description": "Large multilingual instruction dataset.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Instruction data across many languages for building tools in under-served languages.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   }
+  ],
+  "existing_work": [],
+  "interventions": [
+   {
+    "intervention_id": "common-voice-project",
     "problem_id": "culture-and-language-preservation",
-    "name": "Disappearing languages and cultural knowledge",
-    "description": "Thousands of languages, and the oral histories and practices carried in them, are losing their last speakers; most have little written or recorded material, so they're also left out of AI.",
-    "sdg_goal": "11",
-    "sdg_targets": "11.4;4.7",
-    "solution_kind": "digital",
-    "solution_summary": "Help communities record, transcribe and translate their own languages, and make tools (speech, translation, search) work for languages with little data.",
-    "maturity": "research",
+    "name": "Common Voice",
+    "organization": "Mozilla Foundation",
+    "kind": "open_data",
+    "year_started": "",
+    "url": "https://discourse.mozilla.org/t/release-live-mcv-scripted-speech-24-0-and-spontaneous-speech-2-0/146740",
+    "scale": "289 languages, 38,932 hours of speech (Dec 2025)",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "true",
+    "notes": "Crowdsourced, openly released speech data.",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "flores-plus-project",
+    "problem_id": "culture-and-language-preservation",
+    "name": "FLORES+ / Open Language Data Initiative",
+    "organization": "Open Language Data Initiative (from Meta's FLORES)",
+    "kind": "open_data",
+    "year_started": "",
+    "url": "https://huggingface.co/datasets/openlanguagedata/flores_plus",
+    "scale": "200+ language varieties",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "true",
+    "notes": "Community-maintained evaluation set for translation.",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "glottolog-project",
+    "problem_id": "culture-and-language-preservation",
+    "name": "Glottolog",
+    "organization": "Glottolog editors (Hammarström, Forkel, Haspelmath, Bank)",
+    "kind": "open_data",
+    "year_started": "",
+    "url": "https://glottolog.org/meta/downloads",
+    "scale": "",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "false",
+    "notes": "Open catalog of the world's languages (CC BY 4.0).",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "masakhane",
+    "problem_id": "culture-and-language-preservation",
+    "name": "Masakhane",
+    "organization": "Masakhane",
+    "kind": "community",
+    "year_started": "",
+    "url": "https://www.Github.com/masakhane-io/masakhane-community",
+    "scale": "",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "false",
+    "notes": "Grassroots research community for African-language NLP.",
+    "ai_written": [
+     "notes"
+    ]
+   }
+  ],
+  "data_gaps": [],
+  "risks": {
+   "problem_id": "culture-and-language-preservation",
+   "who_could_be_harmed": "Communities whose recordings are used without consent or who lose control of sacred or private knowledge.",
+   "dual_use": "Speech and translation data for small languages can also enable surveillance of those communities.",
+   "bias_and_representation": "Datasets favor languages with online text; oral-only languages and dialects are underrepresented or flattened into one 'standard'.",
+   "ethics": "Data sovereignty: who owns recordings, who can license them, and whether communities can withdraw them.",
+   "morality": "Is it right for outsiders, or AI companies, to decide which languages are worth saving and in what form?",
+   "devils_advocate": "A language lives in its speakers, not in a dataset. Money spent on AI tools could go to speakers, teachers and immersion schools instead, and an AI that 'speaks' a language may reduce the felt need to learn it.",
+   "ai_written": [
+    "bias_and_representation",
+    "devils_advocate",
+    "dual_use",
+    "ethics",
+    "morality",
+    "who_could_be_harmed"
+   ]
+  },
+  "ai_written": [
+   "description",
+   "solution_summary"
+  ]
+ },
+ {
+  "problem_id": "ai-black-box",
+  "name": "AI as a black box",
+  "description": "AI systems now shape decisions everywhere, but even their builders can't fully explain how they reach answers, when they'll deceive or misbehave, or what in their training made them that way.",
+  "sdg_goal": "16",
+  "sdg_targets": "16.10;9.5",
+  "solution_kind": "digital",
+  "solution_summary": "Open the model up: map its internal features, red-team its behavior, and trace behaviors back to training data, using open models and open data.",
+  "maturity": "research",
+  "contributor": "rhea",
+  "date_added": "2026-11-14",
+  "sdg_name": "Peace, Justice and Strong Institutions",
+  "datasets": [
+   {
+    "dataset_id": "hh-rlhf",
+    "name": "Anthropic HH-RLHF",
+    "url": "https://huggingface.co/datasets/Anthropic/hh-rlhf",
+    "access": "open",
+    "license": "MIT",
+    "size": "",
+    "modality": "preference pairs",
+    "description": "Human preference data for helpful and harmless assistant responses, plus red-teaming transcripts.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Study how preference training shapes refusals and harm.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "pku-saferlhf",
+    "name": "PKU-SafeRLHF (Peking University)",
+    "url": "https://huggingface.co/datasets/PKU-Alignment/PKU-SafeRLHF",
+    "access": "open",
+    "license": "CC-BY-NC-4.0",
+    "size": "",
+    "modality": "preference pairs",
+    "description": "Preference data that rates helpfulness and safety separately.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Study the trade-off between being helpful and being safe.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "real-toxicity-prompts",
+    "name": "RealToxicityPrompts (AI2)",
+    "url": "https://huggingface.co/datasets/allenai/real-toxicity-prompts",
+    "access": "open",
+    "license": "Apache-2.0",
+    "size": "100k prompts",
+    "modality": "text",
+    "description": "Sentence starts used to test how easily models produce toxic text.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Measure toxic degeneration across models.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "decodingtrust",
+    "name": "DecodingTrust",
+    "url": "https://huggingface.co/datasets/AI-Secure/DecodingTrust",
+    "access": "open",
+    "license": "CC-BY-SA-4.0",
+    "size": "",
+    "modality": "prompts",
+    "description": "Tests for toxicity, stereotypes, adversarial robustness, privacy, machine ethics and fairness.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Compare models' trustworthiness across eight areas.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "machiavelli",
+    "name": "MACHIAVELLI benchmark (UC Berkeley, Center for AI Safety)",
+    "url": "https://aypan17.github.io/machiavelli",
+    "access": "open",
+    "license": "open-access labels; license not named",
+    "size": "134 games, 572,322 scenarios, 2.86M annotations",
+    "modality": "text games",
+    "description": "Choose-your-own-adventure games annotated for deception, power-seeking and ethical violations.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Test whether AI agents trade ethics for reward.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "saebench",
+    "name": "SAEBench",
+    "url": "https://arxiv.org/html/2503.09532v3",
+    "access": "open",
+    "license": "code on GitHub; license not stated",
+    "size": "8 metrics; 200+ SAEs",
+    "modality": "models;benchmark",
+    "description": "Benchmark for sparse autoencoders, the main tool for splitting model activations into human-readable features.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Compare interpretability methods on a common footing.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "dolma",
+    "name": "Dolma (AI2)",
+    "url": "https://huggingface.co/datasets/allenai/dolma",
+    "access": "open",
+    "license": "ODC-BY",
+    "size": "about 3T tokens",
+    "modality": "web text",
+    "description": "The fully open pretraining corpus behind AI2's OLMo models.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Trace a model's behaviors back to what it read.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "fineweb-edu",
+    "name": "FineWeb-Edu (Hugging Face)",
+    "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu",
+    "access": "open",
+    "license": "ODC-BY",
+    "size": "1.3T tokens",
+    "modality": "web text",
+    "description": "Web text filtered for educational quality.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Study how data filtering changes what models learn.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "aya-collection",
+    "name": "Aya Collection (Cohere Labs)",
+    "url": "https://huggingface.co/datasets/CohereLabs/aya_collection",
+    "access": "open",
+    "license": "Apache-2.0",
+    "size": "",
+    "modality": "multilingual instructions",
+    "description": "Large multilingual instruction dataset.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Test whether safety holds outside English.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "ai-progress-open-dataset",
+    "name": "AI Progress Open Dataset (Rhea's companion dataset)",
+    "url": "https://github.com/rheasrepos/ai-progress-open-dataset",
+    "access": "open",
+    "license": "CC BY 4.0 data (Epoch AI rows derived from Epoch, CC BY)",
+    "size": "3,616 models, 4,203 benchmark scores",
+    "modality": "tabular",
+    "description": "AI models with training compute, release dates, benchmark scores and Epoch Capabilities Index; open to contributions.",
     "contributor": "rhea",
     "date_added": "2026-11-14",
-    "sdg_name": "Sustainable Cities and Communities",
-    "datasets": [
-      {
-        "dataset_id": "flores-plus",
-        "name": "FLORES+ multilingual benchmark (Open Language Data Initiative)",
-        "url": "https://huggingface.co/datasets/openlanguagedata/flores_plus",
-        "access": "open",
-        "license": "CC-BY-SA-4.0",
-        "size": "200+ language varieties",
-        "modality": "parallel text",
-        "description": "Professional translations of the same sentences across many languages; successor to Meta's FLORES-200 used to evaluate NLLB.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Evaluate translation for low-resource languages."
-      },
-      {
-        "dataset_id": "flores-asl",
-        "name": "2M-Flores-ASL (Meta)",
-        "url": "https://huggingface.co/datasets/facebook/2M-Flores-ASL",
-        "access": "open",
-        "license": "CC-BY-SA-4.0",
-        "size": "",
-        "modality": "sign-language video;text",
-        "description": "FLORES sentences in American Sign Language.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Benchmark for sign-language translation."
-      },
-      {
-        "dataset_id": "common-voice",
-        "name": "Mozilla Common Voice 24.0",
-        "url": "https://discourse.mozilla.org/t/release-live-mcv-scripted-speech-24-0-and-spontaneous-speech-2-0/146740",
-        "access": "open",
-        "license": "per-language; check each (e.g. CC0)",
-        "size": "289 languages, 38,932 hours (Dec 2025)",
-        "modality": "speech",
-        "description": "Crowdsourced read speech with transcripts.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Train and test speech recognition for small languages."
-      },
-      {
-        "dataset_id": "glottolog",
-        "name": "Glottolog",
-        "url": "https://glottolog.org/meta/downloads",
-        "access": "open",
-        "license": "CC-BY-4.0",
-        "size": "",
-        "modality": "tabular;geographic",
-        "description": "Catalog of the world's languages, families and locations.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Which languages exist, where, and how they relate."
-      },
-      {
-        "dataset_id": "wikimedia-dumps",
-        "name": "Wikimedia dumps (Wikipedia, Wiktionary, Wikidata)",
-        "url": "https://dumps.wikimedia.org/",
-        "access": "open",
-        "license": "CC BY-SA for article text; Wikidata CC0 (not re-checked)",
-        "size": "300+ language editions",
-        "modality": "text;structured",
-        "description": "Full archives of Wikimedia projects in every language edition.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Build text corpora and dictionaries for small languages; see which languages have almost no written web presence."
-      },
-      {
-        "dataset_id": "common-crawl",
-        "name": "Common Crawl",
-        "url": "https://commoncrawl.org/terms-of-use",
-        "access": "open",
-        "license": "Free under Common Crawl terms; underlying pages keep their own copyright",
-        "size": "whole-web snapshots",
-        "modality": "web text",
-        "description": "Open crawl of the public web.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Find and extract text in low-resource languages (respecting page owners' rights)."
-      },
-      {
-        "dataset_id": "internet-archive",
-        "name": "Internet Archive collections",
-        "url": "https://archive.org/",
-        "access": "open",
-        "license": "varies by item",
-        "size": "books, audio, web history",
-        "modality": "text;audio;web",
-        "description": "Archived websites, books and recordings.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Find out-of-print texts and historical recordings in endangered languages; check each item's rights."
-      },
-      {
-        "dataset_id": "aya-collection",
-        "name": "Aya Collection (Cohere Labs)",
-        "url": "https://huggingface.co/datasets/CohereLabs/aya_collection",
-        "access": "open",
-        "license": "Apache-2.0",
-        "size": "",
-        "modality": "multilingual instructions",
-        "description": "Large multilingual instruction dataset.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Instruction data across many languages for building tools in under-served languages."
-      }
-    ],
-    "existing_work": [],
-    "interventions": [
-      {
-        "intervention_id": "common-voice-project",
-        "problem_id": "culture-and-language-preservation",
-        "name": "Common Voice",
-        "organization": "Mozilla Foundation",
-        "kind": "open_data",
-        "year_started": "",
-        "url": "https://discourse.mozilla.org/t/release-live-mcv-scripted-speech-24-0-and-spontaneous-speech-2-0/146740",
-        "scale": "289 languages, 38,932 hours of speech (Dec 2025)",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "true",
-        "notes": "Crowdsourced, openly released speech data."
-      },
-      {
-        "intervention_id": "flores-plus-project",
-        "problem_id": "culture-and-language-preservation",
-        "name": "FLORES+ / Open Language Data Initiative",
-        "organization": "Open Language Data Initiative (from Meta's FLORES)",
-        "kind": "open_data",
-        "year_started": "",
-        "url": "https://huggingface.co/datasets/openlanguagedata/flores_plus",
-        "scale": "200+ language varieties",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "true",
-        "notes": "Community-maintained evaluation set for translation."
-      },
-      {
-        "intervention_id": "glottolog-project",
-        "problem_id": "culture-and-language-preservation",
-        "name": "Glottolog",
-        "organization": "Glottolog editors (Hammarström, Forkel, Haspelmath, Bank)",
-        "kind": "open_data",
-        "year_started": "",
-        "url": "https://glottolog.org/meta/downloads",
-        "scale": "",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "false",
-        "notes": "Open catalog of the world's languages (CC BY 4.0)."
-      },
-      {
-        "intervention_id": "masakhane",
-        "problem_id": "culture-and-language-preservation",
-        "name": "Masakhane",
-        "organization": "Masakhane",
-        "kind": "community",
-        "year_started": "",
-        "url": "https://www.Github.com/masakhane-io/masakhane-community",
-        "scale": "",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "false",
-        "notes": "Grassroots research community for African-language NLP."
-      }
-    ],
-    "data_gaps": [],
-    "risks": {
-      "problem_id": "culture-and-language-preservation",
-      "who_could_be_harmed": "Communities whose recordings are used without consent or who lose control of sacred or private knowledge.",
-      "dual_use": "Speech and translation data for small languages can also enable surveillance of those communities.",
-      "bias_and_representation": "Datasets favor languages with online text; oral-only languages and dialects are underrepresented or flattened into one 'standard'.",
-      "ethics": "Data sovereignty: who owns recordings, who can license them, and whether communities can withdraw them.",
-      "morality": "Is it right for outsiders, or AI companies, to decide which languages are worth saving and in what form?",
-      "devils_advocate": "A language lives in its speakers, not in a dataset. Money spent on AI tools could go to speakers, teachers and immersion schools instead, and an AI that 'speaks' a language may reduce the felt need to learn it."
-    }
-  },
-  {
+    "role": "Track how fast AI capabilities and compute are growing, and how uncertain the compute estimates are.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   }
+  ],
+  "existing_work": [
+   {
+    "work_id": "iea-energy-and-ai",
     "problem_id": "ai-black-box",
-    "name": "AI as a black box",
-    "description": "AI systems now shape decisions everywhere, but even their builders can't fully explain how they reach answers, when they'll deceive or misbehave, or what in their training made them that way.",
-    "sdg_goal": "16",
-    "sdg_targets": "16.10;9.5",
-    "solution_kind": "digital",
-    "solution_summary": "Open the model up: map its internal features, red-team its behavior, and trace behaviors back to training data, using open models and open data.",
+    "title": "Energy and AI (International Energy Agency)",
+    "url": "https://datacenterdynamics.com/en/news/iea-data-center-energy-consumption-set-to-double-by-2030-to-945twh",
+    "kind": "policy",
+    "year": "2025",
     "maturity": "research",
-    "contributor": "rhea",
-    "date_added": "2026-11-14",
-    "sdg_name": "Peace, Justice and Strong Institutions",
-    "datasets": [
-      {
-        "dataset_id": "hh-rlhf",
-        "name": "Anthropic HH-RLHF",
-        "url": "https://huggingface.co/datasets/Anthropic/hh-rlhf",
-        "access": "open",
-        "license": "MIT",
-        "size": "",
-        "modality": "preference pairs",
-        "description": "Human preference data for helpful and harmless assistant responses, plus red-teaming transcripts.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Study how preference training shapes refusals and harm."
-      },
-      {
-        "dataset_id": "pku-saferlhf",
-        "name": "PKU-SafeRLHF (Peking University)",
-        "url": "https://huggingface.co/datasets/PKU-Alignment/PKU-SafeRLHF",
-        "access": "open",
-        "license": "CC-BY-NC-4.0",
-        "size": "",
-        "modality": "preference pairs",
-        "description": "Preference data that rates helpfulness and safety separately.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Study the trade-off between being helpful and being safe."
-      },
-      {
-        "dataset_id": "real-toxicity-prompts",
-        "name": "RealToxicityPrompts (AI2)",
-        "url": "https://huggingface.co/datasets/allenai/real-toxicity-prompts",
-        "access": "open",
-        "license": "Apache-2.0",
-        "size": "100k prompts",
-        "modality": "text",
-        "description": "Sentence starts used to test how easily models produce toxic text.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Measure toxic degeneration across models."
-      },
-      {
-        "dataset_id": "decodingtrust",
-        "name": "DecodingTrust",
-        "url": "https://huggingface.co/datasets/AI-Secure/DecodingTrust",
-        "access": "open",
-        "license": "CC-BY-SA-4.0",
-        "size": "",
-        "modality": "prompts",
-        "description": "Tests for toxicity, stereotypes, adversarial robustness, privacy, machine ethics and fairness.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Compare models' trustworthiness across eight areas."
-      },
-      {
-        "dataset_id": "machiavelli",
-        "name": "MACHIAVELLI benchmark (UC Berkeley, Center for AI Safety)",
-        "url": "https://aypan17.github.io/machiavelli",
-        "access": "open",
-        "license": "open-access labels; license not named",
-        "size": "134 games, 572,322 scenarios, 2.86M annotations",
-        "modality": "text games",
-        "description": "Choose-your-own-adventure games annotated for deception, power-seeking and ethical violations.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Test whether AI agents trade ethics for reward."
-      },
-      {
-        "dataset_id": "saebench",
-        "name": "SAEBench",
-        "url": "https://arxiv.org/html/2503.09532v3",
-        "access": "open",
-        "license": "code on GitHub; license not stated",
-        "size": "8 metrics; 200+ SAEs",
-        "modality": "models;benchmark",
-        "description": "Benchmark for sparse autoencoders, the main tool for splitting model activations into human-readable features.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Compare interpretability methods on a common footing."
-      },
-      {
-        "dataset_id": "dolma",
-        "name": "Dolma (AI2)",
-        "url": "https://huggingface.co/datasets/allenai/dolma",
-        "access": "open",
-        "license": "ODC-BY",
-        "size": "about 3T tokens",
-        "modality": "web text",
-        "description": "The fully open pretraining corpus behind AI2's OLMo models.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Trace a model's behaviors back to what it read."
-      },
-      {
-        "dataset_id": "fineweb-edu",
-        "name": "FineWeb-Edu (Hugging Face)",
-        "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu",
-        "access": "open",
-        "license": "ODC-BY",
-        "size": "1.3T tokens",
-        "modality": "web text",
-        "description": "Web text filtered for educational quality.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Study how data filtering changes what models learn."
-      },
-      {
-        "dataset_id": "aya-collection",
-        "name": "Aya Collection (Cohere Labs)",
-        "url": "https://huggingface.co/datasets/CohereLabs/aya_collection",
-        "access": "open",
-        "license": "Apache-2.0",
-        "size": "",
-        "modality": "multilingual instructions",
-        "description": "Large multilingual instruction dataset.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Test whether safety holds outside English."
-      },
-      {
-        "dataset_id": "ai-progress-open-dataset",
-        "name": "AI Progress Open Dataset (Rhea's companion dataset)",
-        "url": "https://github.com/rheasrepos/ai-progress-open-dataset",
-        "access": "open",
-        "license": "CC BY 4.0 data (Epoch AI rows derived from Epoch, CC BY)",
-        "size": "3,616 models, 4,203 benchmark scores",
-        "modality": "tabular",
-        "description": "AI models with training compute, release dates, benchmark scores and Epoch Capabilities Index; open to contributions.",
-        "contributor": "rhea",
-        "date_added": "2026-11-14",
-        "role": "Track how fast AI capabilities and compute are growing, and how uncertain the compute estimates are."
-      }
-    ],
-    "existing_work": [
-      {
-        "work_id": "iea-energy-and-ai",
-        "problem_id": "ai-black-box",
-        "title": "Energy and AI (International Energy Agency)",
-        "url": "https://datacenterdynamics.com/en/news/iea-data-center-energy-consumption-set-to-double-by-2030-to-945twh",
-        "kind": "policy",
-        "year": "2025",
-        "maturity": "research",
-        "notes": "Data centers used about 415 TWh in 2024; projected about 945 TWh by 2030, with AI the main driver."
-      }
-    ],
-    "interventions": [
-      {
-        "intervention_id": "gemma-scope-2",
-        "problem_id": "ai-black-box",
-        "name": "Gemma Scope 2",
-        "organization": "Google DeepMind",
-        "kind": "open_data",
-        "year_started": "",
-        "url": "https://huggingface.co/google/gemma-scope-2-12b-it",
-        "scale": "Sparse autoencoders and transcoders for every Gemma 3 size (270M–27B)",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "true",
-        "notes": "Ready-made SAEs, CC BY 4.0, so you can study features without training your own."
-      },
-      {
-        "intervention_id": "olmo-3",
-        "problem_id": "ai-black-box",
-        "name": "OLMo 3",
-        "organization": "Allen Institute for AI (AI2)",
-        "kind": "open_data",
-        "year_started": "2025",
-        "url": "https://www.interconnects.ai/p/olmo-3-americas-truly-open-reasoning",
-        "scale": "7B and 32B models",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "true",
-        "notes": "Fully open: weights, training data, code, intermediate checkpoints and training logs (Nov 2025)."
-      },
-      {
-        "intervention_id": "pythia",
-        "problem_id": "ai-black-box",
-        "name": "Pythia model suite",
-        "organization": "EleutherAI",
-        "kind": "open_data",
-        "year_started": "",
-        "url": "https://github.com/EleutherAI/pythia",
-        "scale": "Models from 70M to 12B parameters with many saved training checkpoints",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "true",
-        "notes": "All models trained on the same data in the same order, so you can study how behaviors form during training. (Details from background knowledge; not re-checked.)"
-      },
-      {
-        "intervention_id": "ollama",
-        "problem_id": "ai-black-box",
-        "name": "Ollama",
-        "organization": "Ollama",
-        "kind": "other_tech",
-        "year_started": "",
-        "url": "https://ollama.com/",
-        "scale": "",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "false",
-        "notes": "Runs open models locally for chat and testing; no access to internals. Local use reduces reliance on data centers for everyday queries but not training energy."
-      },
-      {
-        "intervention_id": "saelens-neuronpedia",
-        "problem_id": "ai-black-box",
-        "name": "SAELens and Neuronpedia",
-        "organization": "Decode Research",
-        "kind": "other_tech",
-        "year_started": "",
-        "url": "https://www.neuronpedia.org/",
-        "scale": "",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "false",
-        "notes": "Load sparse autoencoders and browse what each feature responds to."
-      },
-      {
-        "intervention_id": "transformerlens",
-        "problem_id": "ai-black-box",
-        "name": "TransformerLens",
-        "organization": "TransformerLens open-source project",
-        "kind": "other_tech",
-        "year_started": "",
-        "url": "https://github.com/TransformerLensOrg/TransformerLens",
-        "scale": "",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "false",
-        "notes": "Library for hooking into and editing small and mid-size models' internals."
-      },
-      {
-        "intervention_id": "nnsight-ndif",
-        "problem_id": "ai-black-box",
-        "name": "nnsight and NDIF (National Deep Inference Fabric)",
-        "organization": "NDIF / Bau Lab, Northeastern",
-        "kind": "other_tech",
-        "year_started": "",
-        "url": "https://ndif.baulab.info/",
-        "scale": "Hosts very large open models such as Llama 3.1 405B",
-        "effect": "",
-        "evidence": "none",
-        "effect_source": "",
-        "featured": "false",
-        "notes": "Run interpretability experiments remotely on models too big for your own machine."
-      }
-    ],
-    "data_gaps": [
-      {
-        "problem_id": "ai-black-box",
-        "gap": "Frontier model internals",
-        "why_it_matters": "Interpretability work mostly runs on small open models; frontier weights and training data are closed.",
-        "how_to_close": "Researcher access programs; open-weight frontier releases"
-      },
-      {
-        "problem_id": "ai-black-box",
-        "gap": "Energy per answer: local vs. data center",
-        "why_it_matters": "No good open comparison of how much energy a query costs on a laptop vs. in a data center, so the case for local AI is unproven.",
-        "how_to_close": "Measure it: open benchmarks of energy per token across hardware"
-      }
-    ],
-    "risks": {
-      "problem_id": "ai-black-box",
-      "who_could_be_harmed": "People affected by AI decisions they can't question; researchers exposed to harmful red-team content.",
-      "dual_use": "Red-teaming datasets and jailbreak prompts also teach people how to break safeguards; interpretability tools can help steer models toward harm.",
-      "bias_and_representation": "Safety data is mostly English and US-centered, so models 'safe' in English may not be safe in other languages.",
-      "ethics": "Who gets access to frontier model internals, and who is accountable when a known failure ships anyway.",
-      "morality": "Is it right to deploy systems whose reasoning we can't inspect, and does studying them legitimize deploying them?",
-      "devils_advocate": "Interpretability on small open models may not transfer to frontier systems, and safety benchmarks get gamed; the work can provide reassurance without real control."
-    }
+    "notes": "Data centers used about 415 TWh in 2024; projected about 945 TWh by 2030, with AI the main driver.",
+    "ai_written": [
+     "notes",
+     "work_id"
+    ]
+   }
+  ],
+  "interventions": [
+   {
+    "intervention_id": "gemma-scope-2",
+    "problem_id": "ai-black-box",
+    "name": "Gemma Scope 2",
+    "organization": "Google DeepMind",
+    "kind": "open_data",
+    "year_started": "",
+    "url": "https://huggingface.co/google/gemma-scope-2-12b-it",
+    "scale": "Sparse autoencoders and transcoders for every Gemma 3 size (270M–27B)",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "true",
+    "notes": "Ready-made SAEs, CC BY 4.0, so you can study features without training your own.",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "olmo-3",
+    "problem_id": "ai-black-box",
+    "name": "OLMo 3",
+    "organization": "Allen Institute for AI (AI2)",
+    "kind": "open_data",
+    "year_started": "2025",
+    "url": "https://www.interconnects.ai/p/olmo-3-americas-truly-open-reasoning",
+    "scale": "7B and 32B models",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "true",
+    "notes": "Fully open: weights, training data, code, intermediate checkpoints and training logs (Nov 2025).",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "pythia",
+    "problem_id": "ai-black-box",
+    "name": "Pythia model suite",
+    "organization": "EleutherAI",
+    "kind": "open_data",
+    "year_started": "",
+    "url": "https://github.com/EleutherAI/pythia",
+    "scale": "Models from 70M to 12B parameters with many saved training checkpoints",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "true",
+    "notes": "All models trained on the same data in the same order, so you can study how behaviors form during training. (Details from background knowledge; not re-checked.)",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "ollama",
+    "problem_id": "ai-black-box",
+    "name": "Ollama",
+    "organization": "Ollama",
+    "kind": "other_tech",
+    "year_started": "",
+    "url": "https://ollama.com/",
+    "scale": "",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "false",
+    "notes": "Runs open models locally for chat and testing; no access to internals. Local use reduces reliance on data centers for everyday queries but not training energy.",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "saelens-neuronpedia",
+    "problem_id": "ai-black-box",
+    "name": "SAELens and Neuronpedia",
+    "organization": "Decode Research",
+    "kind": "other_tech",
+    "year_started": "",
+    "url": "https://www.neuronpedia.org/",
+    "scale": "",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "false",
+    "notes": "Load sparse autoencoders and browse what each feature responds to.",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "transformerlens",
+    "problem_id": "ai-black-box",
+    "name": "TransformerLens",
+    "organization": "TransformerLens open-source project",
+    "kind": "other_tech",
+    "year_started": "",
+    "url": "https://github.com/TransformerLensOrg/TransformerLens",
+    "scale": "",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "false",
+    "notes": "Library for hooking into and editing small and mid-size models' internals.",
+    "ai_written": [
+     "notes"
+    ]
+   },
+   {
+    "intervention_id": "nnsight-ndif",
+    "problem_id": "ai-black-box",
+    "name": "nnsight and NDIF (National Deep Inference Fabric)",
+    "organization": "NDIF / Bau Lab, Northeastern",
+    "kind": "other_tech",
+    "year_started": "",
+    "url": "https://ndif.baulab.info/",
+    "scale": "Hosts very large open models such as Llama 3.1 405B",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "false",
+    "notes": "Run interpretability experiments remotely on models too big for your own machine.",
+    "ai_written": [
+     "notes"
+    ]
+   }
+  ],
+  "data_gaps": [
+   {
+    "problem_id": "ai-black-box",
+    "gap": "Frontier model internals",
+    "why_it_matters": "Interpretability work mostly runs on small open models; frontier weights and training data are closed.",
+    "how_to_close": "Researcher access programs; open-weight frontier releases",
+    "ai_written": [
+     "gap",
+     "how_to_close",
+     "why_it_matters"
+    ]
+   },
+   {
+    "problem_id": "ai-black-box",
+    "gap": "Energy per answer: local vs. data center",
+    "why_it_matters": "No good open comparison of how much energy a query costs on a laptop vs. in a data center, so the case for local AI is unproven.",
+    "how_to_close": "Measure it: open benchmarks of energy per token across hardware",
+    "ai_written": [
+     "gap",
+     "how_to_close",
+     "why_it_matters"
+    ]
+   }
+  ],
+  "risks": {
+   "problem_id": "ai-black-box",
+   "who_could_be_harmed": "People affected by AI decisions they can't question; researchers exposed to harmful red-team content.",
+   "dual_use": "Red-teaming datasets and jailbreak prompts also teach people how to break safeguards; interpretability tools can help steer models toward harm.",
+   "bias_and_representation": "Safety data is mostly English and US-centered, so models 'safe' in English may not be safe in other languages.",
+   "ethics": "Who gets access to frontier model internals, and who is accountable when a known failure ships anyway.",
+   "morality": "Is it right to deploy systems whose reasoning we can't inspect, and does studying them legitimize deploying them?",
+   "devils_advocate": "Interpretability on small open models may not transfer to frontier systems, and safety benchmarks get gamed; the work can provide reassurance without real control.",
+   "ai_written": [
+    "bias_and_representation",
+    "devils_advocate",
+    "dual_use",
+    "ethics",
+    "morality",
+    "who_could_be_harmed"
+   ]
   },
-  {
-    "problem_id": "overconsumption",
-    "name": "Overconsumption",
-    "description": "People buy, use and scroll far more than they need or want, pushed by products and platforms designed to keep them consuming, at a cost to their wellbeing and the planet.",
-    "sdg_goal": "12",
-    "sdg_targets": "12.2;12.5;12.8",
-    "solution_kind": "digital",
-    "solution_summary": "Measure consumption and compulsive use honestly, and help people and policymakers see where design is driving it.",
-    "maturity": "idea",
-    "contributor": "rhea",
+  "ai_written": [
+   "description",
+   "solution_summary"
+  ]
+ },
+ {
+  "problem_id": "overconsumption",
+  "name": "Overconsumption",
+  "description": "People buy, use and scroll far more than they need or want, pushed by products and platforms designed to keep them consuming, at a cost to their wellbeing and the planet.",
+  "sdg_goal": "12",
+  "sdg_targets": "12.2;12.5;12.8",
+  "solution_kind": "digital",
+  "solution_summary": "Measure consumption and compulsive use honestly, and help people and policymakers see where design is driving it.",
+  "maturity": "idea",
+  "contributor": "rhea",
+  "date_added": "2026-11-14",
+  "sdg_name": "Responsible Consumption and Production",
+  "datasets": [
+   {
+    "dataset_id": "unep-irp-material-flows",
+    "name": "UNEP IRP Global Material Flows Database",
+    "url": "https://resourcepanel.org/global-material-flows-database",
+    "access": "unknown",
+    "license": "not stated",
+    "size": "200+ countries and regions, 1970–2024",
+    "modality": "tabular",
+    "description": "Raw material extraction, trade and material footprints by country (the official data behind SDG 12.2).",
+    "contributor": "claude-draft",
     "date_added": "2026-11-14",
-    "sdg_name": "Responsible Consumption and Production",
-    "datasets": [
-      {
-        "dataset_id": "unep-irp-material-flows",
-        "name": "UNEP IRP Global Material Flows Database",
-        "url": "https://resourcepanel.org/global-material-flows-database",
-        "access": "unknown",
-        "license": "not stated",
-        "size": "200+ countries and regions, 1970–2024",
-        "modality": "tabular",
-        "description": "Raw material extraction, trade and material footprints by country (the official data behind SDG 12.2).",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Compare how much material each country's consumption uses, including what it imports."
-      },
-      {
-        "dataset_id": "footprint-network-nfa",
-        "name": "Global Footprint Network National Footprint and Biocapacity Accounts",
-        "url": "https://www.footprintnetwork.org/public",
-        "access": "open",
-        "license": "CC BY-SA 4.0 (free registration)",
-        "size": "all countries, 1961–2025",
-        "modality": "tabular",
-        "description": "Ecological Footprint and biocapacity by country.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Study ecological overshoot and how it tracks with income and human development."
-      },
-      {
-        "dataset_id": "exiobase-3",
-        "name": "EXIOBASE 3 (v3.10.1)",
-        "url": "https://zenodo.org/records/18937492",
-        "access": "gated",
-        "license": "Free for non-commercial research at universities and nonprofits (custom CC-BY-SA-NC derivative); commercial license on request",
-        "size": "44 countries + 5 regions, 1995–2024",
-        "modality": "input-output tables",
-        "description": "Multi-regional input-output tables with emissions, energy, land, water, materials and employment.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Trace the environmental cost of consumption back through global supply chains."
-      },
-      {
-        "dataset_id": "owid-consumption-co2",
-        "name": "Our World in Data CO2 dataset (consumption-based emissions)",
-        "url": "https://catalog.ourworldindata.org/emissions/owid_co2/",
-        "access": "open",
-        "license": "not confirmed on page; source is the Global Carbon Project",
-        "size": "countries, 1990 onward",
-        "modality": "tabular",
-        "description": "Consumption-based CO2 per country and per person, from the Global Carbon Budget.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Compare emissions caused by what people consume vs. what is produced locally."
-      },
-      {
-        "dataset_id": "global-ewaste-monitor",
-        "name": "Global E-waste Monitor 2024 (ITU, UNITAR)",
-        "url": "https://globalewaste.org/",
-        "access": "open",
-        "license": "no license stated; cite the report",
-        "size": "country pages; 62 Mt generated globally in 2022",
-        "modality": "tabular",
-        "description": "E-waste generated, put on market and collected, per country and per person.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Study how fast electronics are bought and thrown away, and recycling gaps."
-      },
-      {
-        "dataset_id": "iphone-screen-time-addiction",
-        "name": "Objective and Subjective iPhone Use, Risk of Addiction (Szabo, 2026)",
-        "url": "https://data.mendeley.com/datasets/kgccp7548m/1",
-        "access": "open",
-        "license": "CC BY 4.0",
-        "size": "100 adults, 8 days",
-        "modality": "usage logs;survey",
-        "description": "iOS Screen Time logs in 12 app categories plus smartphone addiction and deprivation scales.",
-        "contributor": "claude-draft",
-        "date_added": "2026-11-14",
-        "role": "Compare measured vs. self-reported phone use and how each relates to addiction scores."
-      }
-    ],
-    "existing_work": [],
-    "interventions": [],
-    "data_gaps": [
-      {
-        "problem_id": "overconsumption",
-        "gap": "Individual-level consumption and screen-time data",
-        "why_it_matters": "Purchase and usage data sits with retailers and platforms, not researchers.",
-        "how_to_close": "Data donation by consenting users; platform transparency rules"
-      }
-    ],
-    "risks": {
-      "problem_id": "overconsumption",
-      "who_could_be_harmed": "Workers in industries that depend on consumer demand; people shamed for spending they can't easily change.",
-      "dual_use": "Tools that model why people over-consume are the same tools that sell to them more effectively.",
-      "bias_and_representation": "Research centers rich countries; much of the world consumes too little, not too much.",
-      "ethics": "Who decides what counts as 'too much', and whose purchase and usage data gets collected to find out.",
-      "morality": "Is it right to treat other people's wants as a problem to fix?",
-      "devils_advocate": "Consumption is how most people meet needs and find joy; framing it as a problem can moralize individual choices while the real drivers are prices, wages and business models."
-    }
-  }
+    "role": "Compare how much material each country's consumption uses, including what it imports.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "footprint-network-nfa",
+    "name": "Global Footprint Network National Footprint and Biocapacity Accounts",
+    "url": "https://www.footprintnetwork.org/public",
+    "access": "open",
+    "license": "CC BY-SA 4.0 (free registration)",
+    "size": "all countries, 1961–2025",
+    "modality": "tabular",
+    "description": "Ecological Footprint and biocapacity by country.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Study ecological overshoot and how it tracks with income and human development.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "exiobase-3",
+    "name": "EXIOBASE 3 (v3.10.1)",
+    "url": "https://zenodo.org/records/18937492",
+    "access": "gated",
+    "license": "Free for non-commercial research at universities and nonprofits (custom CC-BY-SA-NC derivative); commercial license on request",
+    "size": "44 countries + 5 regions, 1995–2024",
+    "modality": "input-output tables",
+    "description": "Multi-regional input-output tables with emissions, energy, land, water, materials and employment.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Trace the environmental cost of consumption back through global supply chains.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "owid-consumption-co2",
+    "name": "Our World in Data CO2 dataset (consumption-based emissions)",
+    "url": "https://catalog.ourworldindata.org/emissions/owid_co2/",
+    "access": "open",
+    "license": "not confirmed on page; source is the Global Carbon Project",
+    "size": "countries, 1990 onward",
+    "modality": "tabular",
+    "description": "Consumption-based CO2 per country and per person, from the Global Carbon Budget.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Compare emissions caused by what people consume vs. what is produced locally.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "global-ewaste-monitor",
+    "name": "Global E-waste Monitor 2024 (ITU, UNITAR)",
+    "url": "https://globalewaste.org/",
+    "access": "open",
+    "license": "no license stated; cite the report",
+    "size": "country pages; 62 Mt generated globally in 2022",
+    "modality": "tabular",
+    "description": "E-waste generated, put on market and collected, per country and per person.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Study how fast electronics are bought and thrown away, and recycling gaps.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   },
+   {
+    "dataset_id": "iphone-screen-time-addiction",
+    "name": "Objective and Subjective iPhone Use, Risk of Addiction (Szabo, 2026)",
+    "url": "https://data.mendeley.com/datasets/kgccp7548m/1",
+    "access": "open",
+    "license": "CC BY 4.0",
+    "size": "100 adults, 8 days",
+    "modality": "usage logs;survey",
+    "description": "iOS Screen Time logs in 12 app categories plus smartphone addiction and deprivation scales.",
+    "contributor": "claude-draft",
+    "date_added": "2026-11-14",
+    "role": "Compare measured vs. self-reported phone use and how each relates to addiction scores.",
+    "ai_written": [
+     "description",
+     "role"
+    ]
+   }
+  ],
+  "existing_work": [],
+  "interventions": [],
+  "data_gaps": [
+   {
+    "problem_id": "overconsumption",
+    "gap": "Individual-level consumption and screen-time data",
+    "why_it_matters": "Purchase and usage data sits with retailers and platforms, not researchers.",
+    "how_to_close": "Data donation by consenting users; platform transparency rules",
+    "ai_written": [
+     "gap",
+     "how_to_close",
+     "why_it_matters"
+    ]
+   }
+  ],
+  "risks": {
+   "problem_id": "overconsumption",
+   "who_could_be_harmed": "Workers in industries that depend on consumer demand; people shamed for spending they can't easily change.",
+   "dual_use": "Tools that model why people over-consume are the same tools that sell to them more effectively.",
+   "bias_and_representation": "Research centers rich countries; much of the world consumes too little, not too much.",
+   "ethics": "Who decides what counts as 'too much', and whose purchase and usage data gets collected to find out.",
+   "morality": "Is it right to treat other people's wants as a problem to fix?",
+   "devils_advocate": "Consumption is how most people meet needs and find joy; framing it as a problem can moralize individual choices while the real drivers are prices, wages and business models.",
+   "ai_written": [
+    "bias_and_representation",
+    "devils_advocate",
+    "dual_use",
+    "ethics",
+    "morality",
+    "who_could_be_harmed"
+   ]
+  },
+  "ai_written": [
+   "description",
+   "solution_summary"
+  ]
+ }
 ]
