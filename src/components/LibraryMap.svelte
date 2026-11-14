@@ -45,8 +45,13 @@
 	function build() {
 		R1 = S * 1.08; R2 = R1 + 150; R3 = R2 + 120;
 		nodes = items.map((it, i) => {
-			const [x, y] = it.xy || [0, 0];
-			return { i, it, x: x * S, y: y * S, vx: 0, vy: 0, deg: 0, home: { x: x * S, y: y * S } };
+			// keep a clear circle in the middle for Rhea: every point is pushed out by
+			// HOLE along its own direction (angles and neighbours are kept; only the
+			// very centre of the plot is squeezed), so no topic sits on her name
+			let [x, y] = it.xy || [0, 0];
+			const r = Math.hypot(x, y) || 1e-6, HOLE = 0.18, k = (HOLE + r * (1 - HOLE)) / r;
+			x *= k * S; y *= k * S;
+			return { i, it, x, y, vx: 0, vy: 0, deg: 0, home: { x, y } };
 		});
 		centers = {};
 		const groups = {};
