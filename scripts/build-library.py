@@ -159,6 +159,19 @@ for it in items:
 print(f"link fixes: {len(items) - len(kept)} dropped, {sum(1 for it in kept if it['url'] in FIX.values())} replaced")
 items = kept
 
+# ------------------------------------------------------------------ page text (optional)
+# scripts/fetch-library-text.py caches the actual text behind each link. When
+# present, it's added to what each item is compared on, so items group by what
+# they SAY, not just by their titles. (Cache is private; never published.)
+TEXTF = os.path.join(ROOT, "scripts", ".library-text-cache.json")
+PAGE = json.load(open(TEXTF)) if os.path.exists(TEXTF) else {}
+with_text = 0
+for it in items:
+    t = PAGE.get(it["url"] or "", "")
+    if t:
+        it["_ctx"] += " " + t; with_text += 1
+if PAGE: print(f"page text used for {with_text} of {len(items)} items")
+
 # ------------------------------------------------------------------ embed (TF-IDF, numpy only)
 STOP = set("""the a an and or of to in on for with is are was were be been it its this that these those you your
 your i we they he she my our as at by from not but have has had do does did so if than then there here which who what
@@ -186,6 +199,19 @@ U, S, Vt = np.linalg.svd(X - X.mean(0), full_matrices=False)
 dims = min(40, len(S))
 Z = (X - X.mean(0)) @ Vt[:dims].T
 Z /= np.linalg.norm(Z, axis=1, keepdims=True) + 1e-9   # cosine geometry
+
+# Optional: a local sentence-embedding model instead of TF-IDF (runs on your
+# Mac at build time only — the site never calls a model). Turn on with
+#   pip3 install sentence-transformers && LIB_EMBED=1 python3 scripts/build-library.py
+if os.environ.get("LIB_EMBED"):
+    try:
+        from sentence_transformers import SentenceTransformer
+        model = SentenceTransformer("all-MiniLM-L6-v2")
+        Z = model.encode([" ".join(it["_ctx"].split()[:400]) for it in items], normalize_embeddings=True, show_progress_bar=True)
+        Z = np.asarray(Z, dtype=float)
+        print("similarity: sentence-transformers all-MiniLM-L6-v2")
+    except Exception as e:
+        print("(LIB_EMBED: sentence-transformers not available, using TF-IDF)", e)
 
 def kmeans(Z, k, seed):
     rng = np.random.default_rng(seed)

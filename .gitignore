@@ -29,3 +29,4 @@ src/vault/**/*.pdf
 src/vault/**/*.jpg
 src/vault/**/*.jpeg
 src/vault/**/*.png
+scripts/.library-text-cache.json

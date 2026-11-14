@@ -16,6 +16,8 @@ _Kept current by Claude at the end of each session. Tick things off or delete li
 - [ ] **Retitle AI-drafted titles** (24 notes with `ai_title: true`). When you rewrite one, delete the `ai_title: true` line. List at the bottom of this file.
 
 ## Setup on your Mac / accounts
+- [ ] **Library by content:** `python3 scripts/fetch-library-text.py` then `python3 scripts/build-library.py` (optionally `pip3 install sentence-transformers` and prefix `LIB_EMBED=1`), then promote + push.
+- [ ] **Unpublished Y3/Y4 drafts to review** (`published: false`): UCD GP1 proposal + GP1–GP4 reflections, System Design Crit, BPRO proposal, ML4CS proposal.
 - [x] ~~Move the repo out of iCloud~~ — done (now `~/Code/raddotcom`).
 - [x] ~~Supabase keys for the shared WPM wall~~ — done 2026-10-23 (project `rhea-com`, table `notes`; moderate in Supabase → Table Editor → notes). Delete the "setup test" row whenever.
 - [x] ~~Formspree for the guestbook~~ — done 2026-10-23 (form `rhea.com guestbook`). **Click the confirmation link in the first Formspree email** or later notes won't arrive.
