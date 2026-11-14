@@ -50,6 +50,19 @@
         "contributor": "claude-draft",
         "date_added": "2026-11-14",
         "role": "Where food is grown, upstream of loss and waste."
+      },
+      {
+        "dataset_id": "faostat-food-loss",
+        "name": "FAOSTAT and the FAO Food Loss and Waste database",
+        "url": "https://www.fao.org/food-loss-and-food-waste/flw-data/en",
+        "access": "open",
+        "license": "not stated",
+        "size": "global",
+        "modality": "tabular",
+        "description": "FAO statistics on food production, food balances and food loss; API launched April 2026.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Compare food loss across countries and supply-chain stages."
       }
     ],
     "existing_work": [],
@@ -240,6 +253,19 @@
         "contributor": "claude-draft",
         "date_added": "2026-11-14",
         "role": "Ground truth for heat harm."
+      },
+      {
+        "dataset_id": "gdelt",
+        "name": "GDELT Project",
+        "url": "https://www.gdeltproject.org/about.html",
+        "access": "open",
+        "license": "Free for any use with citation and link",
+        "size": "1979–present, 100+ languages of news, daily updates",
+        "modality": "events;text",
+        "description": "Events and themes extracted from world news coverage.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Track where disasters and displacement are reported, and how fast; compare with official data."
       }
     ],
     "existing_work": [],
@@ -409,6 +435,19 @@
         "contributor": "claude-draft",
         "date_added": "2026-11-14",
         "role": "Leading signal for housing loss."
+      },
+      {
+        "dataset_id": "gdelt",
+        "name": "GDELT Project",
+        "url": "https://www.gdeltproject.org/about.html",
+        "access": "open",
+        "license": "Free for any use with citation and link",
+        "size": "1979–present, 100+ languages of news, daily updates",
+        "modality": "events;text",
+        "description": "Events and themes extracted from world news coverage.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Track news of evictions, displacement and refugee movements."
       }
     ],
     "existing_work": [],
@@ -549,6 +588,19 @@
         "contributor": "claude-draft",
         "date_added": "2026-11-14",
         "role": "Labor demand context for wage gaps."
+      },
+      {
+        "dataset_id": "wageindicator-living-wage",
+        "name": "WageIndicator living wage estimates",
+        "url": "https://wageindicator.org/work/living-wages/open-access",
+        "access": "gated",
+        "license": "10 regions free (email required); full data for ~4,000 regions in 186 countries is paid",
+        "size": "186 countries",
+        "modality": "tabular",
+        "description": "Living wage estimates by country and region; minimum wage database also published.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Cross-country living wage comparison; the free sample is enough to prototype."
       }
     ],
     "existing_work": [],
@@ -1047,6 +1099,58 @@
         "contributor": "claude-draft",
         "date_added": "2026-11-14",
         "role": "Which languages exist, where, and how they relate."
+      },
+      {
+        "dataset_id": "wikimedia-dumps",
+        "name": "Wikimedia dumps (Wikipedia, Wiktionary, Wikidata)",
+        "url": "https://dumps.wikimedia.org/",
+        "access": "open",
+        "license": "CC BY-SA for article text; Wikidata CC0 (not re-checked)",
+        "size": "300+ language editions",
+        "modality": "text;structured",
+        "description": "Full archives of Wikimedia projects in every language edition.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Build text corpora and dictionaries for small languages; see which languages have almost no written web presence."
+      },
+      {
+        "dataset_id": "common-crawl",
+        "name": "Common Crawl",
+        "url": "https://commoncrawl.org/terms-of-use",
+        "access": "open",
+        "license": "Free under Common Crawl terms; underlying pages keep their own copyright",
+        "size": "whole-web snapshots",
+        "modality": "web text",
+        "description": "Open crawl of the public web.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Find and extract text in low-resource languages (respecting page owners' rights)."
+      },
+      {
+        "dataset_id": "internet-archive",
+        "name": "Internet Archive collections",
+        "url": "https://archive.org/",
+        "access": "open",
+        "license": "varies by item",
+        "size": "books, audio, web history",
+        "modality": "text;audio;web",
+        "description": "Archived websites, books and recordings.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Find out-of-print texts and historical recordings in endangered languages; check each item's rights."
+      },
+      {
+        "dataset_id": "aya-collection",
+        "name": "Aya Collection (Cohere Labs)",
+        "url": "https://huggingface.co/datasets/CohereLabs/aya_collection",
+        "access": "open",
+        "license": "Apache-2.0",
+        "size": "",
+        "modality": "multilingual instructions",
+        "description": "Large multilingual instruction dataset.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Instruction data across many languages for building tools in under-served languages."
       }
     ],
     "existing_work": [],
@@ -1121,6 +1225,157 @@
       "ethics": "Data sovereignty: who owns recordings, who can license them, and whether communities can withdraw them.",
       "morality": "Is it right for outsiders, or AI companies, to decide which languages are worth saving and in what form?",
       "devils_advocate": "A language lives in its speakers, not in a dataset. Money spent on AI tools could go to speakers, teachers and immersion schools instead, and an AI that 'speaks' a language may reduce the felt need to learn it."
+    }
+  },
+  {
+    "problem_id": "ai-black-box",
+    "name": "AI as a black box",
+    "description": "AI systems now shape decisions everywhere, but even their builders can't fully explain how they reach answers, when they'll deceive or misbehave, or what in their training made them that way.",
+    "sdg_goal": "16",
+    "sdg_targets": "16.10;9.5",
+    "solution_kind": "digital",
+    "solution_summary": "Open the model up: map its internal features, red-team its behavior, and trace behaviors back to training data, using open models and open data.",
+    "maturity": "research",
+    "contributor": "rhea",
+    "date_added": "2026-11-14",
+    "sdg_name": "Peace, Justice and Strong Institutions",
+    "datasets": [
+      {
+        "dataset_id": "hh-rlhf",
+        "name": "Anthropic HH-RLHF",
+        "url": "https://huggingface.co/datasets/Anthropic/hh-rlhf",
+        "access": "open",
+        "license": "MIT",
+        "size": "",
+        "modality": "preference pairs",
+        "description": "Human preference data for helpful and harmless assistant responses, plus red-teaming transcripts.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Study how preference training shapes refusals and harm."
+      },
+      {
+        "dataset_id": "pku-saferlhf",
+        "name": "PKU-SafeRLHF (Peking University)",
+        "url": "https://huggingface.co/datasets/PKU-Alignment/PKU-SafeRLHF",
+        "access": "open",
+        "license": "CC-BY-NC-4.0",
+        "size": "",
+        "modality": "preference pairs",
+        "description": "Preference data that rates helpfulness and safety separately.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Study the trade-off between being helpful and being safe."
+      },
+      {
+        "dataset_id": "real-toxicity-prompts",
+        "name": "RealToxicityPrompts (AI2)",
+        "url": "https://huggingface.co/datasets/allenai/real-toxicity-prompts",
+        "access": "open",
+        "license": "Apache-2.0",
+        "size": "100k prompts",
+        "modality": "text",
+        "description": "Sentence starts used to test how easily models produce toxic text.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Measure toxic degeneration across models."
+      },
+      {
+        "dataset_id": "decodingtrust",
+        "name": "DecodingTrust",
+        "url": "https://huggingface.co/datasets/AI-Secure/DecodingTrust",
+        "access": "open",
+        "license": "CC-BY-SA-4.0",
+        "size": "",
+        "modality": "prompts",
+        "description": "Tests for toxicity, stereotypes, adversarial robustness, privacy, machine ethics and fairness.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Compare models' trustworthiness across eight areas."
+      },
+      {
+        "dataset_id": "machiavelli",
+        "name": "MACHIAVELLI benchmark (UC Berkeley, Center for AI Safety)",
+        "url": "https://aypan17.github.io/machiavelli",
+        "access": "open",
+        "license": "open-access labels; license not named",
+        "size": "134 games, 572,322 scenarios, 2.86M annotations",
+        "modality": "text games",
+        "description": "Choose-your-own-adventure games annotated for deception, power-seeking and ethical violations.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Test whether AI agents trade ethics for reward."
+      },
+      {
+        "dataset_id": "saebench",
+        "name": "SAEBench",
+        "url": "https://arxiv.org/html/2503.09532v3",
+        "access": "open",
+        "license": "code on GitHub; license not stated",
+        "size": "8 metrics; 200+ SAEs",
+        "modality": "models;benchmark",
+        "description": "Benchmark for sparse autoencoders, the main tool for splitting model activations into human-readable features.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Compare interpretability methods on a common footing."
+      },
+      {
+        "dataset_id": "dolma",
+        "name": "Dolma (AI2)",
+        "url": "https://huggingface.co/datasets/allenai/dolma",
+        "access": "open",
+        "license": "ODC-BY",
+        "size": "about 3T tokens",
+        "modality": "web text",
+        "description": "The fully open pretraining corpus behind AI2's OLMo models.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Trace a model's behaviors back to what it read."
+      },
+      {
+        "dataset_id": "fineweb-edu",
+        "name": "FineWeb-Edu (Hugging Face)",
+        "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu",
+        "access": "open",
+        "license": "ODC-BY",
+        "size": "1.3T tokens",
+        "modality": "web text",
+        "description": "Web text filtered for educational quality.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Study how data filtering changes what models learn."
+      },
+      {
+        "dataset_id": "aya-collection",
+        "name": "Aya Collection (Cohere Labs)",
+        "url": "https://huggingface.co/datasets/CohereLabs/aya_collection",
+        "access": "open",
+        "license": "Apache-2.0",
+        "size": "",
+        "modality": "multilingual instructions",
+        "description": "Large multilingual instruction dataset.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Test whether safety holds outside English."
+      }
+    ],
+    "existing_work": [],
+    "interventions": [],
+    "data_gaps": [
+      {
+        "problem_id": "ai-black-box",
+        "gap": "Frontier model internals",
+        "why_it_matters": "Interpretability work mostly runs on small open models; frontier weights and training data are closed.",
+        "how_to_close": "Researcher access programs; open-weight frontier releases"
+      }
+    ],
+    "risks": {
+      "problem_id": "ai-black-box",
+      "who_could_be_harmed": "People affected by AI decisions they can't question; researchers exposed to harmful red-team content.",
+      "dual_use": "Red-teaming datasets and jailbreak prompts also teach people how to break safeguards; interpretability tools can help steer models toward harm.",
+      "bias_and_representation": "Safety data is mostly English and US-centered, so models 'safe' in English may not be safe in other languages.",
+      "ethics": "Who gets access to frontier model internals, and who is accountable when a known failure ships anyway.",
+      "morality": "Is it right to deploy systems whose reasoning we can't inspect, and does studying them legitimize deploying them?",
+      "devils_advocate": "Interpretability on small open models may not transfer to frontier systems, and safety benchmarks get gamed; the work can provide reassurance without real control."
     }
   }
 ]
