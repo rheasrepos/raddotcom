@@ -1358,14 +1358,137 @@
         "role": "Test whether safety holds outside English."
       }
     ],
-    "existing_work": [],
-    "interventions": [],
+    "existing_work": [
+      {
+        "work_id": "iea-energy-and-ai",
+        "problem_id": "ai-black-box",
+        "title": "Energy and AI (International Energy Agency)",
+        "url": "https://datacenterdynamics.com/en/news/iea-data-center-energy-consumption-set-to-double-by-2030-to-945twh",
+        "kind": "policy",
+        "year": "2025",
+        "maturity": "research",
+        "notes": "Data centers used about 415 TWh in 2024; projected about 945 TWh by 2030, with AI the main driver."
+      }
+    ],
+    "interventions": [
+      {
+        "intervention_id": "gemma-scope-2",
+        "problem_id": "ai-black-box",
+        "name": "Gemma Scope 2",
+        "organization": "Google DeepMind",
+        "kind": "open_data",
+        "year_started": "",
+        "url": "https://huggingface.co/google/gemma-scope-2-12b-it",
+        "scale": "Sparse autoencoders and transcoders for every Gemma 3 size (270M–27B)",
+        "effect": "",
+        "evidence": "none",
+        "effect_source": "",
+        "featured": "true",
+        "notes": "Ready-made SAEs, CC BY 4.0, so you can study features without training your own."
+      },
+      {
+        "intervention_id": "olmo-3",
+        "problem_id": "ai-black-box",
+        "name": "OLMo 3",
+        "organization": "Allen Institute for AI (AI2)",
+        "kind": "open_data",
+        "year_started": "2025",
+        "url": "https://www.interconnects.ai/p/olmo-3-americas-truly-open-reasoning",
+        "scale": "7B and 32B models",
+        "effect": "",
+        "evidence": "none",
+        "effect_source": "",
+        "featured": "true",
+        "notes": "Fully open: weights, training data, code, intermediate checkpoints and training logs (Nov 2025)."
+      },
+      {
+        "intervention_id": "pythia",
+        "problem_id": "ai-black-box",
+        "name": "Pythia model suite",
+        "organization": "EleutherAI",
+        "kind": "open_data",
+        "year_started": "",
+        "url": "https://github.com/EleutherAI/pythia",
+        "scale": "Models from 70M to 12B parameters with many saved training checkpoints",
+        "effect": "",
+        "evidence": "none",
+        "effect_source": "",
+        "featured": "true",
+        "notes": "All models trained on the same data in the same order, so you can study how behaviors form during training. (Details from background knowledge; not re-checked.)"
+      },
+      {
+        "intervention_id": "ollama",
+        "problem_id": "ai-black-box",
+        "name": "Ollama",
+        "organization": "Ollama",
+        "kind": "other_tech",
+        "year_started": "",
+        "url": "https://ollama.com/",
+        "scale": "",
+        "effect": "",
+        "evidence": "none",
+        "effect_source": "",
+        "featured": "false",
+        "notes": "Runs open models locally for chat and testing; no access to internals. Local use reduces reliance on data centers for everyday queries but not training energy."
+      },
+      {
+        "intervention_id": "saelens-neuronpedia",
+        "problem_id": "ai-black-box",
+        "name": "SAELens and Neuronpedia",
+        "organization": "Decode Research",
+        "kind": "other_tech",
+        "year_started": "",
+        "url": "https://www.neuronpedia.org/",
+        "scale": "",
+        "effect": "",
+        "evidence": "none",
+        "effect_source": "",
+        "featured": "false",
+        "notes": "Load sparse autoencoders and browse what each feature responds to."
+      },
+      {
+        "intervention_id": "transformerlens",
+        "problem_id": "ai-black-box",
+        "name": "TransformerLens",
+        "organization": "TransformerLens open-source project",
+        "kind": "other_tech",
+        "year_started": "",
+        "url": "https://github.com/TransformerLensOrg/TransformerLens",
+        "scale": "",
+        "effect": "",
+        "evidence": "none",
+        "effect_source": "",
+        "featured": "false",
+        "notes": "Library for hooking into and editing small and mid-size models' internals."
+      },
+      {
+        "intervention_id": "nnsight-ndif",
+        "problem_id": "ai-black-box",
+        "name": "nnsight and NDIF (National Deep Inference Fabric)",
+        "organization": "NDIF / Bau Lab, Northeastern",
+        "kind": "other_tech",
+        "year_started": "",
+        "url": "https://ndif.baulab.info/",
+        "scale": "Hosts very large open models such as Llama 3.1 405B",
+        "effect": "",
+        "evidence": "none",
+        "effect_source": "",
+        "featured": "false",
+        "notes": "Run interpretability experiments remotely on models too big for your own machine."
+      }
+    ],
     "data_gaps": [
       {
         "problem_id": "ai-black-box",
         "gap": "Frontier model internals",
         "why_it_matters": "Interpretability work mostly runs on small open models; frontier weights and training data are closed.",
         "how_to_close": "Researcher access programs; open-weight frontier releases"
+      },
+      {
+        "problem_id": "ai-black-box",
+        "gap": "Energy per answer: local vs. data center",
+        "why_it_matters": "No good open comparison of how much energy a query costs on a laptop vs. in a data center, so the case for local AI is unproven.",
+        "how_to_close": "Measure it: open benchmarks of energy per token across hardware"
       }
     ],
     "risks": {
