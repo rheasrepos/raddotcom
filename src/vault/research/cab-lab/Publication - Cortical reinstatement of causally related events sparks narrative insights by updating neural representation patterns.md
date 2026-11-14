@@ -1,9 +1,6 @@
 ---
-title: "Song, H., Ke, J., Madhogarhia, R., et al. (2025) - Cortical Reinstatement Preprint"
-ai_title: true
-ai_description: true
-description: "Cortical reinstatement of causally related events sparks narrative insights by updating neural representation patterns."
-date: 2025-03-12
+title: "Cortical reinstatement of causally related events sparks narrative insights by updating neural representation patterns"
+date: 2025-03-13
 added: 2026-07-21
 type: research
 published: true
@@ -13,15 +10,13 @@ form: [publication]
 affiliation: uchicago
 ---
 
+Hayoung Song, Jin Ke, Rhea Madhogarhia, Yuan Chang Leong, Monica D. Rosenberg (2025). Cortical reinstatement of causally related events sparks narrative insights by updating neural representation patterns. *bioRxiv.* doi: [10.1101/2025.03.12.642853](https://doi.org/10.1101/2025.03.12.642853)
+
 <ai>
-
-**Song, H., Ke, J., Madhogarhia, R., Leong, Y. C., & Rosenberg, M. D. (2025).** Cortical reinstatement of causally related events sparks narrative insights by updating neural representation patterns. *bioRxiv.*
-
-doi: [10.1101/2025.03.12.642853](https://doi.org/10.1101/2025.03.12.642853)
+Research from the [CAB Lab, University of Chicago](https://cablab.uchicago.edu).
+</ai>
 
 ## Topics
 - [[Topic - academic]]
 - [[Topic - academic · neuroscience]]
 - [[Topic - fmri]]
-
-</ai>

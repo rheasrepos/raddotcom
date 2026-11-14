@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocal Choreography Analyzer</title>
+<style>
+:root {
+  --bg:#ffffff; --surf:#f8f8f8; --surf2:#f0f0f0; --bdr:#d0d0d0;
+  --txt:#111111; --dim:#888888; --acc:#4a7fd4;
+  --shared:#2266cc; --easy:#1a8a4a; --med:#b06000; --hard:#cc2222;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--txt);font-family:Arial,Helvetica,sans-serif;font-size:14px;min-height:100vh}
+.wrap{max-width:1200px;margin:0 auto;padding:1.5rem 2rem}
+
+/* ── header ── */
+header{border-bottom:1px solid var(--bdr);padding-bottom:1rem;margin-bottom:1.25rem;display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+header h1{font-size:1rem;font-weight:500}
+.legend{display:flex;gap:1rem;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:.3rem;font-size:.67rem;font-family:Arial,sans-serif;color:#555}
+.ldot{width:8px;height:8px;border-radius:1px;flex-shrink:0}
+
+/* ── tabs ── */
+.tabs{display:flex;border-bottom:1px solid var(--bdr);margin-bottom:1.25rem}
+.tab{padding:.5rem 1.1rem;border:none;background:none;color:var(--dim);font-family:Arial,sans-serif;font-size:.73rem;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s}
+.tab.active{color:var(--txt);border-bottom-color:var(--acc)}
+.panel{display:none}.panel.active{display:block}
+
+/* ── input panel ── */
+.tip{border:1px solid var(--bdr);border-radius:4px;padding:.7rem .9rem;margin-bottom:1rem;font-size:.75rem;color:var(--dim);line-height:1.75}
+.tip strong{color:var(--txt);font-weight:500}
+.tip code{background:var(--surf2);border-radius:3px;padding:.02rem .3rem;font-family:Arial,sans-serif;font-size:.7rem;color:var(--acc)}
+.dz{border:1px dashed var(--bdr);border-radius:4px;padding:2rem 1.5rem;text-align:center;cursor:pointer;position:relative;background:var(--surf);margin-bottom:1rem;transition:border-color .15s}
+.dz:hover,.dz.over{border-color:var(--acc)}
+.dz input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.dz-title{font-size:.88rem;font-weight:500;margin-bottom:.3rem}
+.dz-sub{color:var(--dim);font-size:.73rem;font-family:Arial,sans-serif}
+.dz-sub code{background:var(--surf2);border-radius:3px;padding:.02rem .28rem;font-family:Arial,sans-serif;font-size:.68rem;color:var(--acc)}
+.istat{display:none;border:1px solid var(--bdr);border-radius:4px;padding:.8rem .9rem;margin-bottom:1rem;font-size:.75rem}
+.istat.ok{border-color:#4ec99a55}.istat.err{border-color:#e05c5c55}
+.ititle{font-weight:500;margin-bottom:.2rem}
+.ichips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem}
+.ichip{background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:.15rem .5rem;font-family:Arial,sans-serif;font-size:.66rem;display:flex;align-items:center;gap:.3rem}
+.idot{width:5px;height:5px;border-radius:50%}
+.divider{display:flex;align-items:center;gap:.75rem;margin:1rem 0;color:var(--dim);font-family:Arial,sans-serif;font-size:.67rem;text-transform:uppercase;letter-spacing:.07em}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--bdr)}
+.row{display:flex;gap:.75rem;align-items:flex-end;margin-bottom:1rem;flex-wrap:wrap}
+.fg{display:flex;flex-direction:column;gap:.3rem}
+.lbl{font-size:.65rem;font-family:Arial,sans-serif;color:var(--dim);text-transform:uppercase;letter-spacing:.07em}
+.inp{background:var(--surf);border:1px solid var(--bdr);border-radius:3px;padding:.38rem .6rem;color:var(--txt);font-family:Arial,sans-serif;font-size:.82rem;outline:none;width:88px;transition:border-color .15s}
+.inp:focus{border-color:var(--acc)}
+.nref{background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:.75rem .9rem;margin-bottom:1rem}
+.nref-lbl{font-size:.65rem;font-family:Arial,sans-serif;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.4rem}
+.chips{display:flex;gap:.3rem;flex-wrap:wrap}
+.chip{background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:.18rem .45rem;font-family:Arial,sans-serif;font-size:.68rem;color:var(--txt)}
+.chip span{color:var(--dim);margin-left:.2rem}
+.slbl{font-size:.65rem;font-family:Arial,sans-serif;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.3rem}
+.presets{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.9rem}
+.prebtn{background:var(--surf);border:1px solid var(--bdr);border-radius:3px;padding:.25rem .6rem;color:var(--dim);font-family:Arial,sans-serif;font-size:.67rem;cursor:pointer;transition:color .12s,border-color .12s}
+.prebtn:hover{color:var(--txt);border-color:var(--acc)}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.6rem}
+@media(max-width:600px){.pgrid{grid-template-columns:1fr}}
+.pc{background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:.75rem}
+.phd{display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem}
+.pnm{background:none;border:none;font-size:.88rem;font-weight:500;color:var(--txt);width:140px;outline:none;border-bottom:1px solid transparent;transition:border-color .15s}
+.pnm:focus{border-bottom-color:var(--acc)}
+.bdel{background:none;border:1px solid var(--bdr);color:var(--dim);font-size:.65rem;padding:.18rem .4rem;border-radius:3px;cursor:pointer;font-family:Arial,sans-serif;transition:color .12s,border-color .12s}
+.bdel:hover{color:var(--hard);border-color:var(--hard)}
+.rta{width:100%;background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:.4rem .55rem;color:var(--txt);font-family:Arial,sans-serif;font-size:.74rem;outline:none;resize:vertical;min-height:48px;transition:border-color .15s}
+.rta:focus{border-color:var(--acc)}
+.hint{margin-top:.25rem;font-size:.62rem;color:var(--dim);font-family:Arial,sans-serif}
+.addbtn{width:100%;border:1px dashed var(--bdr);background:none;border-radius:4px;padding:.65rem;color:var(--dim);font-family:Arial,sans-serif;font-size:.73rem;cursor:pointer;transition:color .12s,border-color .12s}
+.addbtn:hover{color:var(--acc);border-color:var(--acc)}
+.arow{display:flex;gap:.5rem;align-items:center;margin-top:.75rem}
+.btn{padding:.42rem 1rem;border-radius:3px;border:none;font-family:Arial,sans-serif;font-size:.73rem;cursor:pointer;transition:opacity .12s}
+.bp{background:var(--acc);color:#0f0f11;font-weight:500}.bp:hover{opacity:.85}
+.bg{background:var(--surf);border:1px solid var(--bdr);color:var(--dim)}.bg:hover{color:var(--txt);border-color:var(--dim)}
+
+/* ── analyze panel ── */
+.viz-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem}
+.viz-ttl{font-size:.88rem;font-weight:500}
+.meta-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
+.mtag{background:var(--surf);border:1px solid var(--bdr);border-radius:3px;padding:.18rem .5rem;font-family:Arial,sans-serif;font-size:.67rem;color:var(--dim)}
+.mtag.warn{border-color:var(--med);color:var(--med)}
+
+.unlock-banner{border:1px solid var(--bdr);border-radius:4px;padding:.6rem .9rem;margin-bottom:1rem;font-family:Arial,sans-serif;font-size:.73rem;color:var(--dim);display:flex;align-items:center;gap:.6rem}
+.unlock-banner button{background:var(--acc);border:none;border-radius:3px;padding:.25rem .7rem;color:#0f0f11;font-family:Arial,sans-serif;font-size:.7rem;font-weight:500;cursor:pointer}
+
+/* ── transport ── */
+.transport{background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:.75rem 1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:.9rem;flex-wrap:wrap}
+.play-btn{width:34px;height:34px;border-radius:3px;border:1px solid var(--bdr);background:var(--surf2);color:var(--txt);font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .12s;flex-shrink:0}
+.play-btn:hover{border-color:var(--acc)}
+.stop-btn{width:28px;height:28px;border-radius:3px;border:1px solid var(--bdr);background:none;color:var(--dim);font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color .12s,border-color .12s;flex-shrink:0}
+.stop-btn:hover{color:var(--txt);border-color:var(--dim)}
+.t-info{flex:1;min-width:110px}
+.t-pos{font-family:Arial,sans-serif;font-size:.8rem;color:var(--txt)}
+.t-sub{font-family:Arial,sans-serif;font-size:.62rem;color:var(--dim);margin-top:.1rem}
+.prog-wrap{flex:2;min-width:140px}
+.prog-track{height:4px;background:var(--surf2);border-radius:2px;position:relative;cursor:pointer;border:1px solid var(--bdr)}
+.prog-fill{height:100%;background:var(--acc);border-radius:2px;width:0%;pointer-events:none}
+.prog-head{width:10px;height:10px;border-radius:50%;background:var(--txt);position:absolute;top:50%;transform:translate(-50%,-50%);left:0%;pointer-events:none;transition:left .08s linear}
+.tempo-wrap{display:flex;align-items:center;gap:.4rem;flex-shrink:0}
+.tdisplay{font-family:Arial,sans-serif;font-size:.78rem;color:var(--txt);min-width:32px;text-align:center}
+.tnudge{background:none;border:1px solid var(--bdr);border-radius:3px;padding:.12rem .38rem;color:var(--dim);cursor:pointer;font-family:Arial,sans-serif;font-size:.75rem;transition:color .12s,border-color .12s}
+.tnudge:hover{color:var(--txt);border-color:var(--dim)}
+.vol-wrap{display:flex;align-items:center;gap:.4rem;flex-shrink:0}
+.vol-lbl{font-family:Arial,sans-serif;font-size:.62rem;color:var(--dim);text-transform:uppercase}
+input[type=range].vol{width:64px;accent-color:var(--acc);cursor:pointer}
+.mbtn,.sbtn{font-family:Arial,sans-serif;font-size:.52rem;padding:.1rem .27rem;border-radius:2px;border:1px solid var(--bdr);background:none;cursor:pointer;color:var(--dim);transition:all .1s;text-transform:uppercase}
+.mbtn.on{border-color:var(--hard);color:var(--hard)}
+.sbtn.on{border-color:var(--med);color:var(--med)}
+
+/* ── SCORE — absolute-position canvas layout ── */
+.score-wrap{background:#fff;border:1px solid var(--bdr);border-radius:4px;overflow-x:auto;margin-bottom:1.5rem;padding:1rem 1rem .75rem}
+.system{margin-bottom:2.5rem}
+.system:last-child{margin-bottom:.5rem}
+
+/* measure number row */
+.sys-mbar{display:flex;margin-bottom:.4rem}
+.sys-mbar-offset{flex-shrink:0}
+.mnum{flex-shrink:0;font-family:Arial,sans-serif;font-size:.58rem;color:var(--dim);box-sizing:border-box;padding-left:3px;border-left:1px solid #00000015}
+.mnum.first{border-left:none}
+.mnum.sig-change{color:var(--med)}
+
+/* part row */
+.part-block{display:flex;align-items:flex-start;margin-bottom:0}
+.pb-label{flex-shrink:0;display:flex;flex-direction:column;justify-content:flex-end;padding-right:.7rem;padding-bottom:6px}
+.pb-lname{font-size:.78rem;font-weight:500;white-space:nowrap}
+.pb-btns{display:flex;gap:.2rem;margin-top:.25rem}
+
+/* The canvas — everything absolutely positioned inside */
+.pb-canvas{position:relative;flex-shrink:0}
+
+/* Staff line — single continuous horizontal rule at vertical midpoint */
+.staff-line{position:absolute;left:0;right:0;height:1px;background:#cccccc;pointer-events:none;z-index:1}
+
+/* Barlines */
+.barline{position:absolute;top:0;bottom:0;width:1px;background:#bbbbbb;pointer-events:none;z-index:2}
+.barline.thick{background:#555;width:2px}
+
+/* Note block — absolutely positioned by onset beat, width = duration */
+.nb{position:absolute;top:0;bottom:0;cursor:pointer;box-sizing:border-box;z-index:3}
+.nb.nb-ds  {background:rgba(34,102,204,.08);border-left:3px solid var(--shared)}
+.nb.nb-solo{background:rgba(26,138,74,.06);border-left:2px solid var(--easy)}
+.nb.nb-off {background:rgba(176,96,0,.05);border-left:2px solid rgba(176,96,0,.5)}
+.nb.nb-syn {background:rgba(204,34,34,.06);border-left:3px solid var(--hard)}
+.nb.nb-shared{background:transparent;border-left:3px solid transparent}
+/* duration underline at bottom of note */
+.nb-fill{position:absolute;bottom:0;left:0;height:3px;border-radius:0 1px 1px 0;opacity:.5}
+/* pitch label */
+.nb-pitch{position:absolute;top:4px;left:5px;font-family:Arial,sans-serif;font-size:.55rem;pointer-events:none;white-space:nowrap;line-height:1}
+/* playhead highlight */
+.nb.playing{filter:brightness(.8);z-index:5;outline:2px solid #333}
+
+/* Lyric text — absolutely positioned at note onset x, below staff */
+.lyric-layer{position:absolute;left:0;right:0;pointer-events:none;z-index:3}
+.lw{position:absolute;font-size:.65rem;font-family:Arial,sans-serif;color:var(--txt);white-space:nowrap;line-height:1}
+.lw.mid{color:var(--dim)}
+
+/* Phrase arc SVG layer — drawn above staff, position:absolute */
+.phrase-svg{position:absolute;top:0;left:0;pointer-events:none;z-index:6;overflow:visible}
+
+/* Part separator */
+.part-sep{height:1px;background:#ccc;margin:2px 0}
+
+/* Playhead line */
+.playhead-line{position:absolute;top:0;bottom:0;width:2px;background:rgba(0,0,0,.4);pointer-events:none;z-index:10;display:none}
+
+/* shared analysis table */
+.shared-analysis{margin-bottom:1.5rem}
+.sa-hd{font-size:.75rem;font-weight:bold;text-transform:uppercase;letter-spacing:.07em;color:#555;margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:2px solid #ddd}
+.sa-table{width:100%;border-collapse:collapse;font-size:.72rem}
+.sa-table th{text-align:left;padding:.35rem .5rem;border-bottom:2px solid #ccc;font-weight:bold;color:#333;background:#f5f5f5;white-space:nowrap}
+.sa-table th.measures-col{width:80px;color:#555}
+.sa-table td{padding:.3rem .5rem;border-bottom:1px solid #e8e8e8;vertical-align:top;line-height:1.4}
+.sa-table tr:hover td{background:#fafafa}
+.sa-table td.measures-col{font-weight:bold;color:#555;white-space:nowrap;font-size:.68rem}
+.pc-shared{display:inline-block;border-radius:3px;padding:1px 6px;font-size:.68rem;font-weight:bold;margin:1px 0;white-space:nowrap}
+.pc-unique{display:inline-block;color:#888;font-size:.68rem;font-style:italic;margin:1px 0}
+.pc-rest{display:inline-block;color:#aaa;font-size:.68rem;margin:1px 0}
+.sg-legend{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:.75rem;font-size:.7rem;align-items:center}
+.sg-swatch{display:flex;align-items:center;gap:.3rem;font-weight:bold}
+.sg-dot{width:12px;height:12px;border-radius:2px;flex-shrink:0}
+
+.tooltip{position:fixed;background:var(--surf2);border:1px solid var(--bdr);border-radius:4px;padding:.35rem .6rem;font-family:Arial,sans-serif;font-size:.66rem;color:var(--txt);pointer-events:none;z-index:200;display:none;max-width:220px;line-height:1.6;white-space:pre}
+</style>
+</head>
+<body>
+<div class="tooltip" id="tt"></div>
+<div class="wrap">
+
+<header>
+  <div>
+    <h1>Vocal Choreography Analyzer</h1>
+    <p style="font-size:.72rem;color:#666;font-family:Arial,sans-serif;margin-top:.2rem">annotated score + movement phrase guide</p>
+  </div>
+  <div class="legend">
+    <div class="leg"><div class="ldot" style="background:var(--shared)"></div>shared downbeat</div>
+    <div class="leg"><div class="ldot" style="background:var(--easy)"></div>downbeat</div>
+    <div class="leg"><div class="ldot" style="background:var(--med)"></div>off-beat</div>
+    <div class="leg"><div class="ldot" style="background:var(--hard)"></div>syncopated</div>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('input')">Import / Enter</button>
+  <button class="tab" onclick="switchTab('analyze')">Score &amp; Analysis</button>
+</div>
+
+<!-- INPUT -->
+<div class="panel active" id="panel-input">
+  <div class="tip">
+    <strong>Sibelius:</strong> <code>File &rarr; Export &rarr; MusicXML</code> (v7+) or use the free <strong>Dolet</strong> plugin. Also accepts MuseScore, Finale, Dorico. Lyrics in the score will appear in the annotated view.
+  </div>
+  <div class="dz" id="dz">
+    <input type="file" accept=".xml,.musicxml,.mxl" onchange="onFileSelect(event)">
+    <div class="dz-title">Drop MusicXML / MXL here</div>
+    <div class="dz-sub" style="margin-top:.3rem">Accepts <code>.musicxml</code> &nbsp;<code>.xml</code> &nbsp;<code>.mxl</code></div>
+  </div>
+  <div id="istat" class="istat"></div>
+  <div class="divider">or enter rhythms manually</div>
+  <div class="row">
+    <div class="fg"><div class="lbl">Time Sig</div><input type="text" class="inp" id="timesig" value="4/4"></div>
+    <div class="fg"><div class="lbl">Measures</div><input type="number" class="inp" id="measures" value="8" min="1" max="64"></div>
+    <div class="fg"><div class="lbl">BPM</div><input type="number" class="inp" id="bpm" value="120" min="40" max="300"></div>
+  </div>
+  <div class="nref">
+    <div class="nref-lbl">Notation</div>
+    <div class="chips">
+      <div class="chip">W<span>whole</span></div><div class="chip">H<span>half</span></div>
+      <div class="chip">Q<span>quarter</span></div><div class="chip">E<span>eighth</span></div>
+      <div class="chip">S<span>16th</span></div><div class="chip">.<span>dotted</span></div>
+      <div class="chip">R<span>rest</span></div><div class="chip">^<span>accent</span></div>
+      <div class="chip">|<span>barline</span></div>
+    </div>
+  </div>
+  <div class="slbl">Presets</div>
+  <div class="presets">
+    <button class="prebtn" onclick="loadPreset('gospel')">Gospel Choir</button>
+    <button class="prebtn" onclick="loadPreset('pop')">Pop Vocal</button>
+    <button class="prebtn" onclick="loadPreset('jazz')">Jazz Ensemble</button>
+    <button class="prebtn" onclick="loadPreset('acappella')">A Cappella</button>
+  </div>
+  <div class="pgrid" id="pgrid"></div>
+  <button class="addbtn" onclick="addPart()">+ Add Vocal Part</button>
+  <div class="arow">
+    <button class="btn bp" onclick="analyze()">Build Score &amp; Analyze</button>
+    <button class="btn bg" onclick="clearAll()">Clear All</button>
+  </div>
+</div>
+
+<!-- ANALYZE -->
+<div class="panel" id="panel-analyze">
+<div id="viz" style="display:none">
+
+  <div class="viz-hd">
+    <div class="viz-ttl">Annotated Score</div>
+    <button class="btn bg" onclick="switchTab('input')">Edit Parts</button>
+  </div>
+
+  <div class="meta-row" id="metarow"></div>
+
+  <div class="unlock-banner" id="unlock-banner" style="display:none">
+    Browser blocked audio autoplay. <button onclick="unlockAudio()">Enable sound</button>
+  </div>
+
+  <div class="transport">
+    <button class="play-btn" id="playBtn" onclick="handlePlay()">&#9654;</button>
+    <button class="stop-btn" onclick="handleStop()">&#9632;</button>
+    <div class="t-info">
+      <div class="t-pos" id="tpos">M1 &middot; Beat 1.0</div>
+      <div class="t-sub" id="tsub">Ready</div>
+    </div>
+    <div class="prog-wrap">
+      <div class="prog-track" id="ptrack" onclick="seekClick(event)">
+        <div class="prog-fill" id="pfill"></div>
+        <div class="prog-head" id="phead"></div>
+      </div>
+    </div>
+    <div class="tempo-wrap">
+      <div class="lbl" style="text-align:center">BPM</div>
+      <button class="tnudge" onclick="nudgeTempo(-5)">-</button>
+      <div class="tdisplay" id="tdisplay">120</div>
+      <button class="tnudge" onclick="nudgeTempo(5)">+</button>
+    </div>
+    <div class="vol-wrap">
+      <div class="vol-lbl">Vol</div>
+      <input type="range" class="vol" id="vol" min="0" max="1" step="0.05" value="0.75" oninput="setVol(this.value)">
+    </div>
+  </div>
+
+  <div class="score-wrap" id="score-wrap"></div>
+
+  <div class="shared-analysis" id="shared-analysis"></div>
+
+</div>
+</div>
+</div><!-- .wrap -->
+
+<script>
+'use strict';
+
+// ─── Pitch helpers ─────────────────────────────────────────────────────────────
+const STEP_SEMI={C:0,D:2,E:4,F:5,G:7,A:9,B:11};
+function stepOctaveToHz(step,octave,alter){
+  const midi=(octave+1)*12+(STEP_SEMI[step.toUpperCase()]||0)+(alter||0);
+  return 440*Math.pow(2,(midi-69)/12);
+}
+const NOTE_NAMES=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+function freqToName(hz){
+  if(!hz||hz<=0)return'?';
+  const midi=Math.round(12*Math.log2(hz/440)+69);
+  return NOTE_NAMES[midi%12]+(Math.floor(midi/12)-1);
+}
+
+// ─── MusicXML parser ───────────────────────────────────────────────────────────
+function parseMusicXML(xmlStr){
+  const doc=new DOMParser().parseFromString(xmlStr,'application/xml');
+  if(doc.querySelector('parsererror'))throw new Error('XML parse error');
+  const isPartwise=!!doc.querySelector('score-partwise');
+  const meta={};
+  doc.querySelectorAll('part-list > score-part').forEach(sp=>{
+    meta[sp.getAttribute('id')]=(sp.querySelector('part-name')?.textContent||sp.querySelector('instrument-name')?.textContent||sp.getAttribute('id')).trim();
+  });
+  let tempo=120;
+  const snd=doc.querySelector('sound[tempo]');if(snd)tempo=parseFloat(snd.getAttribute('tempo'))||120;
+  const parts=[];let globalMeasureMap=null;
+  doc.querySelectorAll(isPartwise?'score-partwise > part':'part').forEach((partEl,partIdx)=>{
+    const id=partEl.getAttribute('id');
+    let bpmSig=4,btSig=4,divs=1;
+    const beats=[],measureMap=[];let cursor=0;
+    partEl.querySelectorAll('measure').forEach((meas,mIdx)=>{
+      const att=meas.querySelector('attributes');
+      if(att){
+        const d=att.querySelector('divisions');if(d)divs=parseInt(d.textContent)||1;
+        const b=att.querySelector('beats');if(b)bpmSig=parseInt(b.textContent)||4;
+        const t=att.querySelector('beat-type');if(t)btSig=parseInt(t.textContent)||4;
+      }
+      const qb=bpmSig*(4/btSig);
+      measureMap.push({index:mIdx,startBeat:cursor,quarterBeats:qb,timeSig:`${bpmSig}/${btSig}`});
+      let lc=0;
+      meas.querySelectorAll('note,backup,forward').forEach(el=>{
+        if(el.tagName==='backup'){lc-=(parseInt(el.querySelector('duration')?.textContent)||0)/divs;return;}
+        if(el.tagName==='forward'){lc+=(parseInt(el.querySelector('duration')?.textContent)||0)/divs;return;}
+        if(el.querySelector('chord'))return;
+        const isRest=!!el.querySelector('rest');
+        const dur=(parseInt(el.querySelector('duration')?.textContent)||0)/divs;
+        const acc=!!(el.querySelector('notations > articulations > accent')||el.querySelector('notations > articulations > strong-accent'));
+        let freq=null;
+        if(!isRest){const pe=el.querySelector('pitch');if(pe){const step=pe.querySelector('step')?.textContent?.trim();const oct=parseInt(pe.querySelector('octave')?.textContent)||4;const alt=parseFloat(pe.querySelector('alter')?.textContent)||0;if(step)freq=stepOctaveToHz(step,oct,alt);}}
+        // Lyric
+        let lyric=null;
+        const le=el.querySelector('lyric');
+        if(le){const syl=le.querySelector('syllabic')?.textContent?.trim()||'single';const txt=le.querySelector('text')?.textContent?.trim()||'';if(txt)lyric={text:txt,syllabic:syl};}
+        beats.push({beat:cursor+lc,duration:dur||1,type:isRest?'rest':'note',accented:acc,raw:el.querySelector('type')?.textContent||'quarter',freq,measureIndex:mIdx,lyric});
+        lc+=dur;
+      });
+      cursor+=qb;
+    });
+    if(partIdx===0)globalMeasureMap=measureMap;
+    parts.push({id,name:meta[id]||id,beats,measureMap,totalBeats:cursor});
+  });
+  return{parts,tempo,measureMap:globalMeasureMap};
+}
+
+async function parseMXL(buf){
+  if(!window.JSZip)await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s);});
+  const zip=await JSZip.loadAsync(buf);let xml=null;
+  const con=zip.file('META-INF/container.xml');
+  if(con){const cd=new DOMParser().parseFromString(await con.async('string'),'application/xml');const path=cd.querySelector('rootfile')?.getAttribute('full-path');if(path){const f=zip.file(path);if(f)xml=await f.async('string');}}
+  if(!xml)for(const[n,f]of Object.entries(zip.files)){if(n.endsWith('.xml')&&!n.startsWith('META')){xml=await f.async('string');break;}}
+  if(!xml)throw new Error('No MusicXML inside .mxl');
+  return xml;
+}
+
+// ─── File drop ─────────────────────────────────────────────────────────────────
+const dz=document.getElementById('dz');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('over');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('over'));
+dz.addEventListener('drop',async e=>{e.preventDefault();dz.classList.remove('over');if(e.dataTransfer.files[0])await loadFile(e.dataTransfer.files[0]);});
+async function onFileSelect(e){if(e.target.files[0])await loadFile(e.target.files[0]);}
+async function loadFile(file){
+  const st=document.getElementById('istat');
+  st.style.display='block';st.className='istat';
+  st.innerHTML='<div class="ititle">Parsing...</div>';
+  try{
+    let xml=file.name.endsWith('.mxl')?await parseMXL(await file.arrayBuffer()):await file.text();
+    const res=parseMusicXML(xml);
+    if(!res.parts.length)throw new Error('No parts found.');
+    clearAll(true);
+    document.getElementById('bpm').value=res.tempo;
+    const firstSig=res.measureMap?.[0]?.timeSig||'4/4';
+    document.getElementById('timesig').value=firstSig;
+    document.getElementById('measures').value=res.measureMap?.length||Math.max(1,Math.round(res.parts[0].totalBeats/4));
+    const dm={4:'W',2:'H',1:'Q',0.5:'E',0.25:'S'};
+    res.parts.forEach((p,i)=>{
+      const r=p.beats.map(b=>{let s=b.type==='rest'?'R':(dm[Math.round(b.duration*4)/4]||'Q');if(b.accented)s='^'+s;return s;}).join(' ');
+      addPart(p.name,r,(colorForName(p.name)||COLORS_FALLBACK[i%COLORS_FALLBACK.length]),p.beats,p.measureMap);
+    });
+    importedMeasureMap=res.measureMap;
+    st.className='istat ok';
+    const pitchCount=res.parts.reduce((n,p)=>n+p.beats.filter(b=>b.freq!=null).length,0);
+    const lyricCount=res.parts.reduce((n,p)=>n+p.beats.filter(b=>b.lyric).length,0);
+    const sigs=[...new Set((res.measureMap||[]).map(m=>m.timeSig))];
+    st.innerHTML=`<div class="ititle">${file.name}</div>
+      <div style="color:var(--dim);font-size:.7rem;margin-top:.15rem;font-family:Arial,sans-serif">${res.parts.length} parts &middot; ${res.measureMap?.length||'?'} bars &middot; ${res.tempo} BPM &middot; ${sigs.join('/')}${lyricCount>0?` &middot; ${lyricCount} lyrics`:''}${pitchCount>0?` &middot; ${pitchCount} pitches`:''}</div>
+      <div class="ichips">${res.parts.map((p,i)=>`<div class="ichip"><div class="idot" style="background:${(colorForName(p.name)||COLORS_FALLBACK[i%COLORS_FALLBACK.length])}"></div>${p.name}</div>`).join('')}</div>`;
+    analyze();
+  }catch(e){st.className='istat err';st.innerHTML=`<div class="ititle" style="color:var(--hard)">${e.message}</div>`;}
+}
+
+// ─── Parts state ───────────────────────────────────────────────────────────────
+// Group member colors — keyed by any name fragment (case-insensitive)
+const MEMBER_COLORS = {
+  // Green: RM/Rhea, Adoni/AS
+  'rm':    '#2a8a3a', 'rhea':  '#2a8a3a',
+  'adoni': '#2a8a3a', 'as':    '#2a8a3a',
+  // Purple: Cilcan/CP, Vanessa/VV
+  'cilcan':'#7b3fb5', 'cp':    '#7b3fb5',
+  'vanessa':'#7b3fb5','vv':    '#7b3fb5',
+  // Teal: Prithi/PS
+  'prithi':'#0e8080', 'ps':    '#0e8080',
+  // Blue: Michelle/MJ
+  'michelle':'#2255cc','mj':   '#2255cc',
+  // Pink: Millie/MW
+  'millie':'#cc3a8a', 'mw':    '#cc3a8a',
+  // Orange: Billy/BJ, Maddy/MH
+  'billy': '#d06010', 'bj':    '#d06010',
+  'maddy': '#d06010', 'mh':    '#d06010',
+  // Yellow: Hannah/HC
+  'hannah':'#b08800', 'hc':    '#b08800',
+  // Red: Ash/AK
+  'ash':   '#bb2222', 'ak':    '#bb2222',
+};
+const COLORS_FALLBACK=['#2255cc','#2a8a3a','#7b3fb5','#0e8080','#cc3a8a','#d06010','#b08800','#bb2222'];
+
+function colorForName(name) {
+  if (!name) return null;
+  const lower = name.toLowerCase();
+  for (const [key, color] of Object.entries(MEMBER_COLORS)) {
+    if (lower.includes(key)) return color;
+  }
+  return null;
+}
+
+let parts=[],pid=0,importedMeasureMap=null;
+function addPart(name='',rhythm='',color=null,parsedBeats=null,measureMap=null){
+  const id=pid++;
+  const resolvedColor = color || colorForName(name) || COLORS_FALLBACK[parts.length % COLORS_FALLBACK.length];
+  parts.push({id,name:name||`Part ${parts.length+1}`,rhythm,color:resolvedColor,parsedBeats,measureMap,muted:false,soloed:false});
+  renderParts();
+}
+function removePart(id){parts=parts.filter(p=>p.id!==id);renderParts();}
+function updatePart(id,field,val){const p=parts.find(p=>p.id===id);if(p){p[field]=val;if(field==='rhythm')p.parsedBeats=null;}}
+function clearAll(silent=false){parts=[];pid=0;importedMeasureMap=null;renderParts();if(!silent)document.getElementById('istat').style.display='none';stopPlayback();}
+function renderParts(){
+  document.getElementById('pgrid').innerHTML='';
+  parts.forEach(p=>{
+    const d=document.createElement('div');d.className='pc';
+    d.innerHTML=`<div class="phd"><input class="pnm" value="${p.name}" onchange="updatePart(${p.id},'name',this.value)">
+      <div style="display:flex;align-items:center;gap:.3rem"><div style="width:9px;height:9px;border-radius:50%;background:${p.color}"></div>
+      <button class="bdel" onclick="removePart(${p.id})">remove</button></div></div>
+      <textarea class="rta" placeholder="Q Q E E Q | H Q R" onchange="updatePart(${p.id},'rhythm',this.value)">${p.rhythm}</textarea>
+      <div class="hint">W=whole H=half Q=quarter E=eighth S=16th R=rest ^=accent .=dotted |=barline</div>`;
+    document.getElementById('pgrid').appendChild(d);
+  });
+}
+
+const DM={W:4,H:2,Q:1,E:0.5,S:0.25};
+function parseRhythm(input){
+  const tokens=input.trim().toUpperCase().replace(/\|/g,' ').split(/\s+/).filter(Boolean);
+  const beats=[];let cur=0;
+  for(const tok of tokens){
+    const isRest=tok.includes('R'),acc=tok.includes('^'),dot=tok.includes('.');
+    let dc=null;for(const c of['W','H','Q','E','S'])if(tok.includes(c)){dc=c;break;}
+    let dur=dc?DM[dc]:1;if(dot)dur*=1.5;
+    beats.push({beat:cur,duration:dur,type:isRest?'rest':'note',accented:acc,raw:tok});
+    cur+=dur;
+  }
+  return beats;
+}
+
+// ─── Measure map helpers ───────────────────────────────────────────────────────
+function getMeasureInfo(beatPos,measureMap){
+  if(!measureMap||!measureMap.length)return{measureNum:1,beatInMeasure:beatPos,quarterBeats:4,timeSig:'4/4',startBeat:0};
+  let info=measureMap[0];
+  for(const m of measureMap){if(beatPos>=m.startBeat)info=m;else break;}
+  return{measureNum:info.index+1,beatInMeasure:beatPos-info.startBeat,quarterBeats:info.quarterBeats,timeSig:info.timeSig,startBeat:info.startBeat};
+}
+function isDownbeat(bp,mm){return getMeasureInfo(bp,mm).beatInMeasure<0.07;}
+function isOnbeat(bp,mm){const i=getMeasureInfo(bp,mm);return Math.abs(i.beatInMeasure-Math.round(i.beatInMeasure))<0.1;}
+function buildManualMeasureMap(bpm,nMeas){const map=[];for(let i=0;i<nMeas;i++)map.push({index:i,startBeat:i*bpm,quarterBeats:bpm,timeSig:`${bpm}/4`});return map;}
+
+// ─── Beat classification ───────────────────────────────────────────────────────
+// Returns 'ds' | 'solo' | 'off' | 'syn' | 'rest'
+function classifyBeat(b,mm,shared){
+  if(b.type==='rest')return'rest';
+  const onDown=isDownbeat(b.beat,mm),onBeat=isOnbeat(b.beat,mm);
+  const isSh=shared.has(Math.round(b.beat*4)/4);
+  if(isSh&&onDown)return'ds';
+  if(onDown)return'solo';
+  if(!onBeat||(b.accented||b.duration<=0.25))return'syn';
+  return'off';
+}
+function findShared(allBeats,total){
+  const res=0.25,slots=Math.ceil(total/res)+2,pres=new Array(slots).fill(0);
+  for(const pb of allBeats){const seen=new Set();for(const b of pb){if(b.type==='rest')continue;const sl=Math.round(b.beat/res);if(sl<slots&&!seen.has(sl)){pres[sl]++;seen.add(sl);}}}
+  const s=new Set();for(let i=0;i<slots;i++)if(pres[i]>=2)s.add(i*res);return s;
+}
+
+// ─── Phrase detection ──────────────────────────────────────────────────────────
+function scoreBeats(beats,mm){
+  let syn=0,off=0,down=0,rests=0,notes=0;
+  for(const b of beats){
+    if(b.type==='rest'){rests++;continue;}notes++;
+    const onDown=isDownbeat(b.beat,mm),onBeat=isOnbeat(b.beat,mm);
+    if(onDown)down++;
+    else if(!onBeat){if(b.accented||b.duration<=0.25)syn++;else off++;}
+    else off++;
+  }
+  const t=notes||1,sc=(syn/t)*3+(off/t)*1.2;
+  let label,color;
+  if(sc<0.6){label='Easy';color='var(--easy)';}else if(sc<1.8){label='Medium';color='var(--med)';}else{label='Hard';color='var(--hard)';}
+  return{score:sc,label,color,syn,off,down,rests,notes};
+}
+
+function detectPhrases(beats,measureMap){
+  if(!beats.length||!measureMap.length)return[];
+  const nMeas=measureMap.length;
+  const S=measureMap.map(m=>{
+    const mb=beats.filter(b=>b.beat>=m.startBeat&&b.beat<m.startBeat+m.quarterBeats+0.01);
+    const notes=mb.filter(b=>b.type==='note');
+    const allRest=notes.length===0;
+    const startsOnDown=notes.length>0&&isDownbeat(notes[0].beat,measureMap);
+    const endsHeld=notes.length>0&&notes[notes.length-1].duration>=2;
+    const synCount=notes.filter(b=>{const od=isDownbeat(b.beat,measureMap),ob=isOnbeat(b.beat,measureMap);return!od&&(!ob||b.accented||b.duration<=0.25);}).length;
+    return{m,notes,allRest,startsOnDown,endsHeld,synRatio:notes.length?synCount/notes.length:0};
+  });
+
+  const phrases=[];let phraseStart=0,i=0;
+  while(i<nMeas){
+    const s=S[i];
+    if(s.allRest){
+      if(i>phraseStart){
+        const prev=S[i-1];
+        phrases.push({startMeasure:phraseStart+1,endMeasure:i,type:'active',
+          endsClean:prev.endsHeld||prev.synRatio<0.3,startsClean:S[phraseStart].startsOnDown,
+          synRatio:avgSyn(S,phraseStart,i-1)});
+      }
+      const rs=i;while(i<nMeas&&S[i].allRest)i++;
+      phrases.push({startMeasure:rs+1,endMeasure:i,type:'rest',endsClean:true,startsClean:true,synRatio:0});
+      phraseStart=i;continue;
+    }
+    if(s.endsHeld&&i>phraseStart){
+      phrases.push({startMeasure:phraseStart+1,endMeasure:i+1,type:'active',
+        endsClean:true,startsClean:S[phraseStart].startsOnDown,synRatio:avgSyn(S,phraseStart,i)});
+      phraseStart=i+1;
+    }
+    i++;
+  }
+  if(phraseStart<nMeas){
+    const last=S[nMeas-1];
+    phrases.push({startMeasure:phraseStart+1,endMeasure:nMeas,type:'active',
+      endsClean:last.endsHeld||last.allRest,startsClean:S[phraseStart]?.startsOnDown||false,
+      synRatio:avgSyn(S,phraseStart,nMeas-1)});
+  }
+  return phrases.map(ph=>{
+    const warn=[];
+    if(ph.type==='active'){
+      if(!ph.startsClean)warn.push('entry off the downbeat');
+      if(!ph.endsClean)warn.push('ends mid-rhythm');
+      if(ph.synRatio>0.5)warn.push(`${Math.round(ph.synRatio*100)}% syncopated`);
+    }
+    return{...ph,warn};
+  });
+}
+function avgSyn(S,from,to){
+  const sl=S.slice(from,to+1);
+  const tot=sl.reduce((a,s)=>a+s.notes.length,0);
+  if(!tot)return 0;
+  return sl.reduce((a,s)=>a+Math.round(s.synRatio*s.notes.length),0)/tot;
+}
+
+// ─── Audio engine ──────────────────────────────────────────────────────────────
+let AC=null,masterGain=null,isPlaying=false,playStartAC=0;
+let currentBeatOffset=0,activeNodes=[],rafId=null;
+let currentTempo=120,totalQBeats=0,pState=null;
+// Maps absolute beat position (string key) → array of DOM note-cell elements
+let beatCellMap={};
+
+function spb(t){return 60/t;}
+function ensureAC(){
+  if(!AC){AC=new(window.AudioContext||window.webkitAudioContext)();masterGain=AC.createGain();masterGain.gain.value=parseFloat(document.getElementById('vol').value);masterGain.connect(AC.destination);}
+  if(AC.state==='suspended')return AC.resume();
+  return Promise.resolve();
+}
+function unlockAudio(){ensureAC().then(()=>{document.getElementById('unlock-banner').style.display='none';document.getElementById('tsub').textContent='Ready';});}
+function playNote(freq,startSec,durSec,vel,wave='sine'){
+  if(!AC||!masterGain)return;durSec=Math.max(0.025,durSec);
+  const osc=AC.createOscillator();osc.type=wave;osc.frequency.value=freq;
+  const env=AC.createGain();const atk=0.008,rel=Math.min(durSec*0.35,0.1);
+  env.gain.setValueAtTime(0,startSec);env.gain.linearRampToValueAtTime(vel,startSec+atk);
+  if(durSec-atk-rel>0)env.gain.setValueAtTime(vel*0.72,startSec+atk+(durSec-atk-rel));
+  env.gain.linearRampToValueAtTime(0.0001,startSec+durSec);
+  osc.connect(env);env.connect(masterGain);osc.start(startSec);osc.stop(startSec+durSec+0.01);activeNodes.push(osc);
+}
+const FALLBACK=[261.63,329.63,392.00,493.88,523.25,587.33,659.25,783.99];
+function scheduleAll(fromBeat){
+  if(!AC||!pState)return;
+  clearNodes();
+  const{parsed,measureMap}=pState;
+  const t0=AC.currentTime+0.04;
+  playStartAC=t0-fromBeat*spb(currentTempo);
+  currentBeatOffset=fromBeat;
+  const anySoloed=parsed.some(p=>p.soloed);
+  parsed.forEach((p,pi)=>{
+    const active=p.muted?false:(anySoloed?p.soloed:true);
+    if(!active)return;
+    const hasPitch=p.beats.some(b=>b.type==='note'&&b.freq!=null);
+    const fallback=FALLBACK[pi%FALLBACK.length];
+    const mm=p.measureMap||measureMap;
+    for(const b of p.beats){
+      if(b.type==='rest')continue;
+      if(b.beat+b.duration<=fromBeat)continue;
+      const ns=Math.max(b.beat,fromBeat),nd=b.duration-(ns-b.beat);
+      const startSec=t0+(ns-fromBeat)*spb(currentTempo),durSec=nd*spb(currentTempo);
+      const freq=(hasPitch&&b.freq!=null)?b.freq:fallback;
+      const onDown=isDownbeat(b.beat,mm),onBeat=isOnbeat(b.beat,mm);
+      const isSyn=!onDown&&(!onBeat||(b.accented||b.duration<=0.25));
+      playNote(freq,startSec,durSec,onDown?0.68:isSyn?0.55:0.45,onDown?'triangle':isSyn?'sawtooth':'sine');
+    }
+  });
+}
+function clearNodes(){activeNodes.forEach(n=>{try{n.stop(0);}catch(e){}});activeNodes=[];}
+function stopPlayback(reset=true){
+  isPlaying=false;clearNodes();
+  if(rafId){cancelAnimationFrame(rafId);rafId=null;}
+  document.getElementById('playBtn').innerHTML='&#9654;';
+  document.getElementById('tsub').textContent='Stopped';
+  if(reset){
+    currentBeatOffset=0;setProgress(0);
+    document.getElementById('tpos').textContent='M1 \xb7 Beat 1.0';
+    clearPlayingCells();
+  }
+}
+function clearPlayingCells(){document.querySelectorAll('.note-cell.playing').forEach(c=>c.classList.remove('playing'));}
+function handlePlay(){
+  if(!pState)return;
+  ensureAC().then(()=>{
+    document.getElementById('unlock-banner').style.display='none';
+    if(isPlaying){
+      const elapsed=AC.currentTime-playStartAC;
+      currentBeatOffset=elapsed/spb(currentTempo);
+      if(currentBeatOffset>=totalQBeats)currentBeatOffset=0;
+      stopPlayback(false);
+      document.getElementById('tsub').textContent='Paused';
+    }else{
+      if(currentBeatOffset>=totalQBeats)currentBeatOffset=0;
+      scheduleAll(currentBeatOffset);isPlaying=true;
+      document.getElementById('playBtn').innerHTML='&#9646;&#9646;';
+      document.getElementById('tsub').textContent='Playing';
+      startRAF();
+    }
+  }).catch(()=>{document.getElementById('unlock-banner').style.display='flex';});
+}
+function handleStop(){stopPlayback(true);}
+function seekClick(e){
+  if(!pState)return;
+  const track=document.getElementById('ptrack');
+  const rect=track.getBoundingClientRect();
+  const ratio=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
+  currentBeatOffset=ratio*totalQBeats;
+  if(isPlaying){scheduleAll(currentBeatOffset);startRAF();}
+  else{setProgress(ratio);updatePosDisplay(currentBeatOffset);}
+}
+function nudgeTempo(delta){
+  currentTempo=Math.max(40,Math.min(300,currentTempo+delta));
+  document.getElementById('tdisplay').textContent=currentTempo;
+  if(isPlaying){const e=AC.currentTime-playStartAC;currentBeatOffset=e/spb(currentTempo-delta);scheduleAll(currentBeatOffset);startRAF();}
+}
+function setVol(v){if(masterGain)masterGain.gain.value=parseFloat(v);}
+function getCurrentBeat(){if(!AC||!isPlaying)return currentBeatOffset;return Math.max(0,(AC.currentTime-playStartAC)/spb(currentTempo));}
+let lastLitBeat=-1;
+function startRAF(){
+  if(rafId)cancelAnimationFrame(rafId);
+  function frame(){
+    if(!isPlaying||!AC)return;
+    const beat=(AC.currentTime-playStartAC)/spb(currentTempo);
+    if(beat>=totalQBeats){stopPlayback(true);return;}
+    setProgress(beat/totalQBeats);
+    updatePosDisplay(beat);
+    // highlight cells at current beat — snap to nearest 0.25
+    const nearBeat=Math.round(beat*4)/4;
+    if(Math.abs(nearBeat-lastLitBeat)>=0.24){
+      clearPlayingCells();
+      const key=nearBeat.toFixed(2);
+      const cells=beatCellMap[key];
+      if(cells)cells.forEach(c=>c.classList.add('playing'));
+      lastLitBeat=nearBeat;
+    }
+    rafId=requestAnimationFrame(frame);
+  }
+  rafId=requestAnimationFrame(frame);
+}
+function setProgress(ratio){
+  const pct=(ratio*100).toFixed(2)+'%';
+  document.getElementById('pfill').style.width=pct;
+  document.getElementById('phead').style.left=pct;
+}
+function updatePosDisplay(beat){
+  if(!pState)return;
+  const info=getMeasureInfo(beat,pState.measureMap);
+  document.getElementById('tpos').textContent=`M${info.measureNum} \xb7 Beat ${(info.beatInMeasure+1).toFixed(1)} (${info.timeSig})`;
+}
+
+// ─── Main ──────────────────────────────────────────────────────────────────────
+function analyze(){
+  const ts=document.getElementById('timesig').value;
+  const[num,den]=(ts||'4/4').split('/').map(Number);
+  const manualBpm=(num&&den)?(num/den)*4:4;
+  const nMeas=parseInt(document.getElementById('measures').value)||8;
+  currentTempo=parseInt(document.getElementById('bpm').value)||120;
+  document.getElementById('tdisplay').textContent=currentTempo;
+
+  const measureMap=importedMeasureMap||buildManualMeasureMap(manualBpm,nMeas);
+  const total=measureMap.length>0?(measureMap[measureMap.length-1].startBeat+measureMap[measureMap.length-1].quarterBeats):manualBpm*nMeas;
+
+  const parsed=parts.map(p=>({
+    name:p.name,color:p.color,muted:p.muted,soloed:p.soloed,
+    beats:p.parsedBeats||parseRhythm(p.rhythm),
+    measureMap:p.measureMap||measureMap
+  })).filter(p=>p.beats.length);
+  if(!parsed.length){alert('Add at least one part.');return;}
+
+  const shared=findShared(parsed.map(p=>p.beats),total);
+  totalQBeats=total;
+  pState={parsed,measureMap,total,shared};
+  beatCellMap={};
+
+  stopPlayback(true);
+  switchTab('analyze');
+  document.getElementById('viz').style.display='block';
+
+  // Meta — simple
+  document.getElementById('metarow').innerHTML=
+    `<div class="mtag">${currentTempo} BPM</div>`+
+    `<div class="mtag">${measureMap.length} bars</div>`;
+
+  // Detect phrases per part
+  const allPhrases=parsed.map(p=>detectPhrases(p.beats,p.measureMap||measureMap));
+
+  renderScore(parsed,measureMap,shared,total,allPhrases);
+  renderSharedAnalysis(parsed,measureMap,allPhrases);
+}
+
+// ─── Score renderer ────────────────────────────────────────────────────────────
+const LABEL_W = 110;   // px for part name column
+const BEAT_PX = 52;    // px per quarter beat
+const STAFF_H = 24;    // px height of the note staff
+const ARC_H   = 28;    // px height of phrase arcs above staff (taller for bigger labels)
+const LYRIC_H = 16;    // px height of lyric row below staff
+const ROW_H   = ARC_H + STAFF_H; // canvas height (lyrics sit outside)
+const MEAS_PER_ROW = 8;
+
+// Bright sync-line colors — distinct from any member/part color
+const SYNC_COLORS = ['#e8000d','#ff7700','#009900','#cc00cc','#0088cc','#aa6600'];
+
+
+
+const PHRASE_COLORS = ['#555555','#777777','#999999','#aaaaaa','#666666','#888888']; // neutral fallback
+
+// Convert absolute beat → pixel x within a system
+function beatToPx(beat, sysStartBeat) {
+  return (beat - sysStartBeat) * BEAT_PX;
+}
+
+function renderScore(parsed, measureMap, shared, total, allPhrases) {
+  const wrap = document.getElementById('score-wrap');
+  wrap.innerHTML = '';
+  beatCellMap = {};
+
+  // ── Shared phrase grouping ──────────────────────────────────────────────────
+  const { groups: phraseGroups, assigned: phraseAssigned } = buildPhraseGroups(allPhrases, parsed);
+
+  // Build per-phrase color lookup: [partIdx][phraseIdx] → {color, isShared}
+  const phraseColorMap = allPhrases.map((phrases, pi) =>
+    phrases.map((ph, phi) => {
+      const k = `${pi}:${phi}`;
+      const gIdx = phraseAssigned.get(k);
+      if (gIdx !== undefined) return { color: phraseGroups[gIdx].color, isShared: true };
+      return { color: '#aaaaaa', isShared: false };
+    })
+  );
+
+  const nMeas = measureMap.length;
+  const systems = [];
+  for (let s = 0; s < nMeas; s += MEAS_PER_ROW)
+    systems.push(measureMap.slice(s, s + MEAS_PER_ROW));
+
+  systems.forEach((sysMeasures, sysIdx) => {
+    const firstMIdx    = sysMeasures[0].index;
+    const lastMIdx     = sysMeasures[sysMeasures.length - 1].index;
+    const sysStartBeat = sysMeasures[0].startBeat;
+    const sysEndBeat   = sysMeasures[sysMeasures.length - 1].startBeat
+                       + sysMeasures[sysMeasures.length - 1].quarterBeats;
+    const sysPxW = (sysEndBeat - sysStartBeat) * BEAT_PX;
+
+    const sysEl = document.createElement('div');
+    sysEl.className = 'system';
+    // We'll need a relative-positioned wrapper so sync lines can span all parts
+    sysEl.style.position = 'relative';
+
+    // ── Measure number bar ──────────────────────────────────────────────────
+    const mbar = document.createElement('div');
+    mbar.className = 'sys-mbar';
+    const mbarOff = document.createElement('div');
+    mbarOff.className = 'sys-mbar-offset';
+    mbarOff.style.width = LABEL_W + 'px';
+    mbar.appendChild(mbarOff);
+
+    sysMeasures.forEach((m, mi) => {
+      const mw = m.quarterBeats * BEAT_PX;
+      const prevSig = mi > 0 ? sysMeasures[mi-1].timeSig : (measureMap[m.index-1]?.timeSig || m.timeSig);
+      const sigChanged = m.index > 0 && m.timeSig !== prevSig;
+      const e = document.createElement('div');
+      e.className = 'mnum' + (mi === 0 ? ' first' : '') + (sigChanged ? ' sig-change' : '');
+      e.style.width = mw + 'px';
+      e.textContent = sigChanged ? `M${m.index+1} (${m.timeSig})` : `M${m.index+1}`;
+      mbar.appendChild(e);
+    });
+    sysEl.appendChild(mbar);
+
+    // ── Per-part rows ───────────────────────────────────────────────────────
+    // Track top offset of each part canvas for vertical sync lines
+    const partCanvasInfo = []; // {topPx, canvasH}
+    let runningTop = mbar.getBoundingClientRect ? 0 : 0; // will be set after layout
+
+    parsed.forEach((p, pi) => {
+      const mm        = p.measureMap || measureMap;
+      const phrases   = allPhrases[pi];
+      const hasLyrics = p.beats.some(b => b.lyric);
+      const canvasH   = ROW_H + (hasLyrics ? LYRIC_H : 0);
+
+      const sysBeats = p.beats.filter(b =>
+        b.beat >= sysStartBeat - 0.005 && b.beat < sysEndBeat - 0.005
+      );
+
+      // Build a set of beat ranges covered by each phrase for note tinting
+      // phraseColorMap[pi][phi] gives the color for that phrase
+      const phraseBeatRanges = phrases.map((ph, phi) => ({
+        startBeat: measureMap[ph.startMeasure - 1]?.startBeat ?? 0,
+        endBeat:   (measureMap[ph.endMeasure - 1]?.startBeat ?? 0)
+                 + (measureMap[ph.endMeasure - 1]?.quarterBeats ?? 4),
+        color:     phraseColorMap[pi][phi].color,
+        isShared:  phraseColorMap[pi][phi].isShared,
+        type:      ph.type,
+      }));
+
+      function getPhraseForBeat(beat) {
+        return phraseBeatRanges.find(r => beat >= r.startBeat - 0.005 && beat < r.endBeat - 0.005);
+      }
+
+      // ── part block wrapper ──
+      const partBlock = document.createElement('div');
+      partBlock.className = 'part-block';
+
+      // Label column
+      const labelEl = document.createElement('div');
+      labelEl.className = 'pb-label';
+      labelEl.style.width = LABEL_W + 'px';
+      labelEl.style.minWidth = LABEL_W + 'px';
+      labelEl.style.height = canvasH + 'px';
+
+      const nameEl = document.createElement('div');
+      nameEl.className = 'pb-lname';
+      nameEl.style.color = p.color;
+      nameEl.textContent = sysIdx === 0 ? p.name : '';
+
+      const btnsEl = document.createElement('div');
+      btnsEl.className = 'pb-btns';
+      if (sysIdx === 0) {
+        const mb = document.createElement('button');
+        mb.className = 'mbtn' + (p.muted ? ' on' : '');
+        mb.textContent = 'M'; mb.title = 'Mute';
+        mb.onclick = () => { p.muted = !p.muted; mb.classList.toggle('on', p.muted); if (isPlaying) scheduleAll(getCurrentBeat()); };
+        const sb = document.createElement('button');
+        sb.className = 'sbtn' + (p.soloed ? ' on' : '');
+        sb.textContent = 'S'; sb.title = 'Solo';
+        sb.onclick = () => { p.soloed = !p.soloed; sb.classList.toggle('on', p.soloed); if (isPlaying) scheduleAll(getCurrentBeat()); };
+        btnsEl.appendChild(mb); btnsEl.appendChild(sb);
+      }
+      labelEl.appendChild(nameEl);
+      labelEl.appendChild(btnsEl);
+      partBlock.appendChild(labelEl);
+
+      // Canvas
+      const canvas = document.createElement('div');
+      canvas.className = 'pb-canvas';
+      canvas.style.width  = sysPxW + 'px';
+      canvas.style.height = canvasH + 'px';
+      canvas.dataset.pi = pi; // for sync line positioning
+
+      // Staff line
+      const staffY = ARC_H + STAFF_H / 2;
+      const staffLine = document.createElement('div');
+      staffLine.className = 'staff-line';
+      staffLine.style.top = staffY + 'px';
+      canvas.appendChild(staffLine);
+
+      // Barlines
+      sysMeasures.forEach((m, mi) => {
+        const x = beatToPx(m.startBeat, sysStartBeat);
+        const bl = document.createElement('div');
+        bl.className = 'barline' + (mi === 0 ? ' thick' : '');
+        bl.style.left = x + 'px';
+        bl.style.top  = ARC_H + 'px';
+        bl.style.height = STAFF_H + 'px';
+        canvas.appendChild(bl);
+      });
+      const endBl = document.createElement('div');
+      endBl.className = 'barline';
+      endBl.style.left = sysPxW + 'px';
+      endBl.style.top  = ARC_H + 'px';
+      endBl.style.height = STAFF_H + 'px';
+      canvas.appendChild(endBl);
+
+      // ── Note blocks ──────────────────────────────────────────────────────
+      const noteTop = ARC_H;
+
+      sysBeats.filter(b => b.type === 'note').forEach(b => {
+        const x   = beatToPx(b.beat, sysStartBeat);
+        const durInSys = Math.min(b.duration, sysEndBeat - b.beat);
+        const rawW = durInSys * BEAT_PX;
+        const w    = Math.max(18, rawW);
+
+        const cls = classifyBeat(b, mm, shared);
+        // Rhythm classification colors — only used for the bottom fill bar and pitch label
+        const rhythmColorMap = { ds: 'var(--shared)', solo: 'var(--easy)', off: 'var(--med)', syn: 'var(--hard)' };
+        const rhythmColor = rhythmColorMap[cls] || 'var(--dim)';
+
+        // Phrase membership — determines block background and border
+        const phraseInfo = getPhraseForBeat(b.beat);
+        const isShared   = phraseInfo && phraseInfo.isShared;
+        const phraseColor = phraseInfo ? phraseInfo.color : null;
+
+        const nb = document.createElement('div');
+        // Only apply rhythm CSS class (and its border-left) when NOT in a shared phrase.
+        // In a shared phrase, the phrase color takes full control of background + border.
+        const clsMap = { ds: 'nb-ds', solo: 'nb-solo', off: 'nb-off', syn: 'nb-syn' };
+        nb.className = 'nb' + (isShared ? ' nb-shared' : ' ' + (clsMap[cls] || 'nb-off'));
+        nb.style.left   = x + 'px';
+        nb.style.width  = w + 'px';
+        nb.style.top    = noteTop + 'px';
+        nb.style.height = STAFF_H + 'px';
+        if (isShared && phraseColor) {
+          nb.style.background   = hexToRgba(phraseColor, 0.13);
+          nb.style.borderLeft   = `3px solid ${phraseColor}`;
+        }
+
+        // Duration underline — always shows rhythm classification color
+        const fill = document.createElement('div');
+        fill.className = 'nb-fill';
+        fill.style.width      = Math.max(2, rawW - 2) + 'px';
+        fill.style.background = rhythmColor;
+        nb.appendChild(fill);
+
+        // Pitch label — use phrase color if shared, rhythm color if not
+        if (b.freq != null && w >= 28) {
+          const lbl = document.createElement('div');
+          lbl.className = 'nb-pitch';
+          lbl.style.color = isShared ? phraseColor : rhythmColor;
+          lbl.textContent = freqToName(b.freq);
+          nb.appendChild(lbl);
+        }
+
+        // Tooltip
+        nb.addEventListener('mousemove', ev => {
+          const tt = document.getElementById('tt');
+          const mi = getMeasureInfo(b.beat, mm);
+          const desc = { ds: 'Shared downbeat', solo: 'Downbeat', off: 'Off-beat', syn: 'Syncopated' }[cls] || 'Note';
+          const pitch  = b.freq != null ? '\n' + freqToName(b.freq) : '';
+          const lyric  = b.lyric ? '\n"' + b.lyric.text + '"' : '';
+          const phrase = phraseInfo ? `\nPhrase (${phraseInfo.isShared ? 'shared' : 'solo'})` : '';
+          tt.textContent = `M${mi.measureNum} beat ${(mi.beatInMeasure+1).toFixed(1)} (${mi.timeSig})\n${desc} · ${b.duration} beats${pitch}${lyric}${phrase}`;
+          tt.style.display = 'block';
+          tt.style.left = (ev.clientX + 12) + 'px';
+          tt.style.top  = (ev.clientY - 40) + 'px';
+        });
+        nb.addEventListener('mouseleave', () => document.getElementById('tt').style.display = 'none');
+        nb.addEventListener('click', () => {
+          currentBeatOffset = b.beat;
+          if (isPlaying) { scheduleAll(b.beat); startRAF(); }
+          else { setProgress(b.beat / totalQBeats); updatePosDisplay(b.beat); }
+        });
+
+        // Playhead registration
+        for (let s = b.beat; s < b.beat + b.duration - 0.005; s += 0.25) {
+          const key = (Math.round(s * 4) / 4).toFixed(2);
+          if (!beatCellMap[key]) beatCellMap[key] = [];
+          beatCellMap[key].push(nb);
+        }
+
+        canvas.appendChild(nb);
+      });
+
+      // ── Lyric layer ───────────────────────────────────────────────────────
+      if (hasLyrics) {
+        const lyricTop = ARC_H + STAFF_H + 4;
+        sysBeats.filter(b => b.lyric && b.type === 'note').forEach(b => {
+          const x = beatToPx(b.beat, sysStartBeat);
+          let txt = b.lyric.text;
+          if (b.lyric.syllabic === 'begin' || b.lyric.syllabic === 'middle') txt += '-';
+          const lw = document.createElement('div');
+          lw.className = 'lw' + (b.lyric.syllabic === 'middle' ? ' mid' : '');
+          lw.style.left = x + 'px';
+          lw.style.top  = lyricTop + 'px';
+          lw.textContent = txt;
+          canvas.appendChild(lw);
+        });
+      }
+
+      // ── Phrase arcs (SVG) ─────────────────────────────────────────────────
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('class', 'phrase-svg');
+      svg.setAttribute('width', sysPxW);
+      svg.setAttribute('height', ARC_H + 2);
+      svg.style.top = '0px';
+
+      phrases.forEach((ph, phIdx) => {
+        const phStartMIdx = ph.startMeasure - 1;
+        const phEndMIdx   = ph.endMeasure - 1;
+        if (phEndMIdx < firstMIdx || phStartMIdx > lastMIdx) return;
+
+        const clippedStart = Math.max(phStartMIdx, firstMIdx);
+        const clippedEnd   = Math.min(phEndMIdx, lastMIdx);
+        const isClippedLeft  = clippedStart > phStartMIdx;
+        const isClippedRight = clippedEnd   < phEndMIdx;
+
+        const startM = measureMap[clippedStart];
+        const endM   = measureMap[clippedEnd];
+        const x1 = beatToPx(startM.startBeat, sysStartBeat) + (isClippedLeft ? 0 : 2);
+        const x2 = beatToPx(endM.startBeat + endM.quarterBeats, sysStartBeat) - (isClippedRight ? 0 : 2);
+        if (x2 <= x1) return;
+
+        const { color, isShared: isSharedPhrase } = phraseColorMap[pi][phIdx];
+        const arcY = ARC_H - 3;
+        const cpY  = ph.type === 'rest' ? arcY - 5 : arcY - 13;
+
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        const mx   = (x1 + x2) / 2;
+        path.setAttribute('d', `M${x1},${arcY} Q${mx},${cpY} ${x2},${arcY}`);
+        path.setAttribute('stroke', color);
+        path.setAttribute('stroke-width', isSharedPhrase ? '2.5' : '1.5');
+        path.setAttribute('stroke-dasharray', ph.type === 'rest' ? '4 3' : 'none');
+        path.setAttribute('fill', 'none');
+        path.setAttribute('opacity', isSharedPhrase ? '1' : '0.5');
+
+        if (!isClippedLeft) {
+          const t1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          t1.setAttribute('x1', x1); t1.setAttribute('y1', arcY);
+          t1.setAttribute('x2', x1); t1.setAttribute('y2', arcY + 6);
+          t1.setAttribute('stroke', color); t1.setAttribute('stroke-width', isSharedPhrase ? '2' : '1.5');
+          t1.setAttribute('opacity', isSharedPhrase ? '1' : '0.5');
+          svg.appendChild(t1);
+        }
+        if (!isClippedRight) {
+          const t2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          t2.setAttribute('x1', x2); t2.setAttribute('y1', arcY);
+          t2.setAttribute('x2', x2); t2.setAttribute('y2', arcY + 6);
+          t2.setAttribute('stroke', color); t2.setAttribute('stroke-width', isSharedPhrase ? '2' : '1.5');
+          t2.setAttribute('opacity', isSharedPhrase ? '1' : '0.5');
+          svg.appendChild(t2);
+        }
+        svg.appendChild(path);
+
+        // Label
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.setAttribute('x', mx);
+        label.setAttribute('y', cpY - 2);
+        label.setAttribute('text-anchor', 'middle');
+        label.setAttribute('font-family', 'Arial, sans-serif');
+        label.setAttribute('font-size', '11');
+        label.setAttribute('fill', color);
+        label.setAttribute('opacity', isSharedPhrase ? '1' : '0.6');
+        label.setAttribute('font-weight', 'bold');
+        label.textContent = ph.type === 'rest' ? 'rest'
+          : `P${phIdx + 1}${ph.warn?.length ? ' ⚠' : ''}`;
+        svg.appendChild(label);
+      });
+
+      canvas.appendChild(svg);
+      partBlock.appendChild(canvas);
+      sysEl.appendChild(partBlock);
+
+      if (pi < parsed.length - 1) {
+        const sep = document.createElement('div');
+        sep.className = 'part-sep';
+        sep.style.marginLeft = LABEL_W + 'px';
+        sysEl.appendChild(sep);
+      }
+    });
+
+    // ── Shared boundary vertical lines ────────────────────────────────────
+    (function drawSyncLines() {
+      // Draw sync lines at the start of each shared phrase group's range
+      // Use the earliest startMeasure across all members of the group
+      const bdMap = new Map(); // mIdx → color
+      phraseGroups.forEach(g => {
+        const starts = g.members.map(m => m.ph.startMeasure - 1);
+        const earliest = Math.min(...starts);
+        if (!bdMap.has(earliest)) bdMap.set(earliest, g.color);
+        // Also mark end
+        const ends = g.members.map(m => m.ph.endMeasure);
+        const latest = Math.max(...ends);
+        if (!bdMap.has(latest)) bdMap.set(latest, g.color);
+      });
+      const sysBoundaries = [];
+      bdMap.forEach((color, mIdx) => {
+        if (mIdx < firstMIdx || mIdx > lastMIdx + 1) return;
+        let beatPos;
+        if (mIdx <= lastMIdx) {
+          beatPos = measureMap[mIdx]?.startBeat;
+        } else {
+          beatPos = (measureMap[lastMIdx]?.startBeat ?? 0) + (measureMap[lastMIdx]?.quarterBeats ?? 4);
+        }
+        if (beatPos == null) return;
+        const x = beatToPx(beatPos, sysStartBeat);
+        if (x < 0 || x > sysPxW + 1) return;
+        sysBoundaries.push({ x, color, mIdx });
+      });
+
+      if (sysBoundaries.length === 0) return;
+
+      requestAnimationFrame(() => {
+        const sysRect = sysEl.getBoundingClientRect();
+        const mbarRect = mbar.getBoundingClientRect();
+        // Find all canvases in this system
+        const canvases = sysEl.querySelectorAll('.pb-canvas');
+        if (!canvases.length) return;
+        const firstCanvas = canvases[0];
+        const lastCanvas  = canvases[canvases.length - 1];
+        const firstRect   = firstCanvas.getBoundingClientRect();
+        const lastRect    = lastCanvas.getBoundingClientRect();
+        // Top = start of first canvas (ARC_H into it = top of staff)
+        // Bottom = bottom of last canvas
+        const topY  = firstRect.top  - sysRect.top  + ARC_H;
+        const botY  = lastRect.bottom - sysRect.top;
+        const totalH = botY - topY;
+        if (totalH <= 0) return;
+
+        const overlayLeft = LABEL_W + 8; // match pb-canvas margin-left
+
+        sysBoundaries.forEach(({ x, color }) => {
+          const line = document.createElement('div');
+          line.className = 'sync-line';
+          line.style.cssText = `
+            position:absolute;
+            left:${overlayLeft + x}px;
+            top:${topY}px;
+            width:2px;
+            height:${totalH}px;
+            background:${color};
+            pointer-events:none;
+            z-index:20;
+            opacity:0.85;
+          `;
+          sysEl.appendChild(line);
+        });
+      });
+    })();
+
+    wrap.appendChild(sysEl);
+  });
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+// ─── Shared phrase analysis ───────────────────────────────────────────────────
+// Groups phrases by shared boundaries, then renders a measure-range table
+// showing what each part is doing and which groups share the same phrase.
+
+// The 4 overlay/arc colors used for shared phrase groups (must differ from person colors)
+const SHARED_GROUP_COLORS = ['#e67e00','#0077bb','#cc1166','#008855'];
+
+function buildPhraseGroups(allPhrases, parsed) {
+  // Group phrases using union-find on shared barlines.
+  // Two phrases are related if they share ANY barline:
+  //   - same start measure (both enter at M11)
+  //   - same end barline  (both finish after M13)
+  //   - one ends where another starts (handoff at M11)
+  // This means "same start" AND "handoff" are treated identically —
+  // they're all just phrases that touch the same barline.
+
+  const items = []; // flat list of {pi, phIdx, ph, key}
+  allPhrases.forEach((phrases, pi) => {
+    phrases.forEach((ph, phIdx) => {
+      if (ph.type === 'rest') return;
+      items.push({ pi, phIdx, ph, key: `${pi}:${phIdx}` });
+    });
+  });
+
+  // Union-Find
+  const parent = new Map();
+  items.forEach(it => parent.set(it.key, it.key));
+  function find(k) {
+    if (parent.get(k) !== k) parent.set(k, find(parent.get(k)));
+    return parent.get(k);
+  }
+  function union(a, b) {
+    const ra = find(a), rb = find(b);
+    if (ra !== rb) parent.set(ra, rb);
+  }
+
+  // Two phrases are in the same group only if they are doing the same musical
+  // thing at the same time: their starts are within 1 measure of each other
+  // AND their ends are within 1 measure of each other.
+  // This prevents a long phrase (M1-M8) from grouping with a short phrase (M5-M8)
+  // just because they happen to overlap.
+  function sameWindow(phA, phB) {
+    return Math.abs(phA.startMeasure - phB.startMeasure) <= 1
+        && Math.abs(phA.endMeasure   - phB.endMeasure)   <= 1;
+  }
+
+  // Pairwise union of same-window phrases from different parts
+  for (let i = 0; i < items.length; i++) {
+    for (let j = i + 1; j < items.length; j++) {
+      if (items[i].pi === items[j].pi) continue;
+      if (sameWindow(items[i].ph, items[j].ph)) {
+        union(items[i].key, items[j].key);
+      }
+    }
+  }
+
+  // Collect into groups
+  const rootToGroup = new Map();
+  const groups = [];
+  const assigned = new Map(); // key → groupIdx
+
+  items.forEach(it => {
+    const root = find(it.key);
+    // Only assign to a group if this root represents ≥2 parts
+    // (check if there's more than one part under this root)
+    if (!rootToGroup.has(root)) {
+      // Count distinct parts under this root
+      const partsUnder = new Set(items.filter(i => find(i.key) === root).map(i => i.pi));
+      if (partsUnder.size < 2) return; // unique phrase — skip
+      const gIdx = groups.length;
+      groups.push({ color: SHARED_GROUP_COLORS[gIdx % SHARED_GROUP_COLORS.length], members: [] });
+      rootToGroup.set(root, gIdx);
+    }
+    const gIdx = rootToGroup.get(root);
+    assigned.set(it.key, gIdx);
+    groups[gIdx].members.push(it);
+  });
+
+  return { groups, assigned };
+}
+
+function renderSharedAnalysis(parsed, measureMap, allPhrases) {
+  const container = document.getElementById('shared-analysis');
+  container.innerHTML = '';
+
+  const { groups, assigned } = buildPhraseGroups(allPhrases, parsed);
+
+  // Build rows: one per phrase group (simultaneous window) + one per unique phrase
+  // Each row has a measure range = the union of all member phrase ranges in that group
+  const rows = []; // {startM, endM, groupIdx or null, members: [{pi, phIdx, ph}]}
+
+  // Group rows
+  groups.forEach((g, gi) => {
+    const startM = Math.min(...g.members.map(m => m.ph.startMeasure));
+    const endM   = Math.max(...g.members.map(m => m.ph.endMeasure));
+    rows.push({ startM, endM, groupIdx: gi, members: g.members });
+  });
+
+  // Unique phrase rows (not in any group)
+  allPhrases.forEach((phrases, pi) => {
+    phrases.forEach((ph, phIdx) => {
+      if (!assigned.has(`${pi}:${phIdx}`)) {
+        rows.push({ startM: ph.startMeasure, endM: ph.endMeasure, groupIdx: null, members: [{ pi, phIdx, ph }] });
+      }
+    });
+  });
+
+  rows.sort((a, b) => a.startM - b.startM || a.endM - b.endM);
+  if (!rows.length) return;
+
+  // Header
+  const hd = document.createElement('div');
+  hd.className = 'sa-hd';
+  hd.textContent = 'Phrase Analysis by Measure';
+  container.appendChild(hd);
+
+  // Color legend for shared groups
+  if (groups.length) {
+    const legend = document.createElement('div');
+    legend.className = 'sg-legend';
+    const lbl = document.createElement('span');
+    lbl.style.cssText = 'color:#555;font-size:.68rem;margin-right:.25rem';
+    lbl.textContent = 'Shared phrase groups:';
+    legend.appendChild(lbl);
+    groups.forEach((g, gi) => {
+      const sw = document.createElement('div');
+      sw.className = 'sg-swatch';
+      sw.style.color = g.color;
+      const dot = document.createElement('div');
+      dot.className = 'sg-dot';
+      dot.style.background = g.color;
+      // List part names in this group
+      const partNames = [...new Set(g.members.map(m => parsed[m.pi].name))].join(', ');
+      sw.appendChild(dot);
+      sw.appendChild(document.createTextNode(partNames));
+      legend.appendChild(sw);
+    });
+    container.appendChild(legend);
+  }
+
+  // Table
+  const table = document.createElement('table');
+  table.className = 'sa-table';
+
+  // Header row
+  const thead = document.createElement('thead');
+  const hr = document.createElement('tr');
+  const mhd = document.createElement('th');
+  mhd.className = 'measures-col';
+  mhd.textContent = 'Measures';
+  hr.appendChild(mhd);
+  parsed.forEach(p => {
+    const th = document.createElement('th');
+    th.textContent = p.name;
+    th.style.color = p.color;
+    hr.appendChild(th);
+  });
+  thead.appendChild(hr);
+  table.appendChild(thead);
+
+  // Body — one row per group or unique phrase
+  const tbody = document.createElement('tbody');
+  rows.forEach(({ startM, endM, groupIdx, members }) => {
+    const tr = document.createElement('tr');
+    const g = groupIdx !== null ? groups[groupIdx] : null;
+
+    // Measure label — highlight shared rows
+    const mc = document.createElement('td');
+    mc.className = 'measures-col';
+    mc.textContent = startM === endM ? `M${startM}` : `M${startM}–${endM}`;
+    if (g) mc.style.color = g.color;
+    tr.appendChild(mc);
+
+    // Per-part cell
+    parsed.forEach((p, pi) => {
+      const td = document.createElement('td');
+      // Find this part's phrase that overlaps the row window
+      const phrases = allPhrases[pi];
+      // Prefer a member phrase first, then any overlapping phrase
+      const memberEntry = members.find(m => m.pi === pi);
+      const ph = memberEntry ? memberEntry.ph
+        : phrases.find(ph =>
+            ph.startMeasure <= endM && ph.endMeasure >= startM &&
+            ph.startMeasure < endM  && ph.endMeasure > startM
+          );
+
+      if (!ph) { tr.appendChild(td); return; }
+
+      if (ph.type === 'rest') {
+        const span = document.createElement('span');
+        span.className = 'pc-rest';
+        span.textContent = 'rest';
+        td.appendChild(span);
+      } else if (g && memberEntry) {
+        // Shared phrase
+        const span = document.createElement('span');
+        span.className = 'pc-shared';
+        span.style.background = hexToRgba(g.color, 0.12);
+        span.style.color = g.color;
+        span.style.borderLeft = `3px solid ${g.color}`;
+        let desc = `M${ph.startMeasure}–${ph.endMeasure}`;
+        if (!ph.startsClean) desc += ', off-beat entry';
+        if (ph.synRatio > 0.5) desc += ', syncopated';
+        span.textContent = desc;
+        span.title = ph.warn?.length ? ph.warn.join('; ') : 'shared phrase';
+        td.appendChild(span);
+      } else {
+        // Unique or overlapping from another group
+        const span = document.createElement('span');
+        span.className = 'pc-unique';
+        let desc = `M${ph.startMeasure}–${ph.endMeasure}`;
+        if (!ph.startsClean) desc += ', off-beat';
+        span.textContent = desc;
+        span.title = 'Unique to this part';
+        td.appendChild(span);
+      }
+
+      tr.appendChild(td);
+    });
+
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  container.appendChild(table);
+}
+
+// ─── UI ────────────────────────────────────────────────────────────────────────
+function switchTab(n){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['input','analyze'][i]===n));
+  document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('active',['panel-input','panel-analyze'][i]===`panel-${n}`));
+}
+
+const PRESETS={
+  gospel:{ts:'4/4',m:8,b:96,parts:[
+    {n:'Soprano',r:'Q Q Q Q | E E Q Q E E | Q. E Q R | W | Q Q Q Q | E E Q Q E E | Q. E Q R | W'},
+    {n:'Alto',   r:'H H | Q Q E E Q | E ^E Q Q Q | H Q Q | H H | Q Q E E Q | E ^E Q Q Q | H Q Q'},
+    {n:'Tenor',  r:'Q R Q Q | ^E E Q H | Q Q Q Q | E E E E H | Q R Q Q | ^E E Q H | Q Q Q Q | E E E E H'},
+    {n:'Bass',   r:'Q Q H | Q Q Q Q | H E E Q | Q Q Q Q | Q Q H | Q Q Q Q | H E E Q | Q Q Q Q'}]},
+  pop:{ts:'4/4',m:8,b:120,parts:[
+    {n:'Lead',     r:'Q. E Q Q | E E E E Q Q | ^E E Q ^E E Q | H Q Q | Q. E Q Q | E E E E Q Q | ^E E Q ^E E Q | W'},
+    {n:'Harmony 1',r:'H Q Q | Q Q Q Q | E E Q Q E E | W | H Q Q | Q Q Q Q | E E Q Q E E | W'},
+    {n:'Harmony 2',r:'Q Q Q Q | H E E Q | Q. E E E Q | Q Q H | Q Q Q Q | H E E Q | Q. E E E Q | W'}]},
+  jazz:{ts:'4/4',m:8,b:140,parts:[
+    {n:'Melody',    r:'^E E ^E E Q | Q ^E E Q R | E E ^E ^E Q Q | ^E E Q H | ^E E ^E E Q | Q ^E E Q R | E E ^E ^E Q Q | W'},
+    {n:'Scat 1',    r:'E E E E E E E E | ^E ^E Q Q | E E Q ^E E | Q Q Q Q | E E E E E E E E | ^E ^E Q Q | E E Q ^E E | W'},
+    {n:'Bass Voice',r:'Q Q Q Q | Q Q Q Q | Q Q Q Q | Q Q Q Q | Q Q Q Q | Q Q Q Q | Q Q Q Q | W'}]},
+  acappella:{ts:'4/4',m:8,b:110,parts:[
+    {n:'Soprano', r:'Q. E H | Q Q Q Q | E E Q. E Q | H. Q | Q. E H | Q Q Q Q | E E Q. E Q | W'},
+    {n:'Mezzo',   r:'H Q Q | E E Q H | Q Q Q Q | E E E E Q Q | H Q Q | E E Q H | Q Q Q Q | W'},
+    {n:'Alto',    r:'Q Q Q Q | H. Q | Q. E Q Q | W | Q Q Q Q | H. Q | Q. E Q Q | W'},
+    {n:'Tenor',   r:'E E Q Q Q | Q Q E E Q | ^E E Q Q R | H Q Q | E E Q Q Q | Q Q E E Q | ^E E Q Q R | W'},
+    {n:'Baritone',r:'Q Q H | Q Q Q Q | E E E E Q Q | Q Q Q Q | Q Q H | Q Q Q Q | E E E E Q Q | W'}]}
+};
+function loadPreset(k){
+  const p=PRESETS[k];if(!p)return;clearAll(true);
+  document.getElementById('timesig').value=p.ts;
+  document.getElementById('measures').value=p.m;
+  document.getElementById('bpm').value=p.b;
+  p.parts.forEach((pt,i)=>addPart(pt.n,pt.r,(colorForName(p.name)||COLORS_FALLBACK[i%COLORS_FALLBACK.length])));
+}
+loadPreset('gospel');
+</script>
+</body>
+</html>
