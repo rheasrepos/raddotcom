@@ -1,6 +1,11 @@
 <script>
 	import AIText from '../../components/AIText.svelte';
-	const PROSE = ['description', 'role', 'solution_summary', 'summary', 'notes', 'how_to_use', 'what_you_can_do'];
+	// Which cells are LLM-written: each row in ai-problems.json lists them in
+	// `ai_written` (Claude drafted the wording, even where the idea is Rhea's).
+	// Rewrite a field yourself → remove its name from that list and the mark goes.
+	// Rows without the list fall back to: every free-text column counts as LLM-written.
+	const PROSE = ['description', 'role', 'solution_summary', 'summary', 'notes', 'how_to_use', 'what_you_can_do', 'gap', 'why_it_matters', 'how_to_close', 'ethics', 'morality', 'devils_advocate', 'who_could_be_harmed', 'dual_use', 'bias_and_representation', 'effect'];
+	const isAI = (/** @type {any} */ r, /** @type {string} */ k) => (Array.isArray(r.ai_written) ? r.ai_written.includes(k) : PROSE.includes(k));
 	// AI-Fixable Problems DB, shown as linked data tables (one tab per table).
 	// Data: /ai-problems.json, built by `scripts/export_json.py` in the
 	// ai-fixable-problems-db repo and copied here by its sync script.
@@ -270,8 +275,8 @@
 											<span class="pill k-{r.kind || 'research'}">{r._type}</span>
 										{:else if k === 'evidence'}
 											{#if r.effect_source}<a href={r.effect_source} target="_blank" rel="noopener">{EVIDENCE[r.evidence]}</a>{:else}{EVIDENCE[r.evidence] || ''}{/if}
-										{:else if PROSE.includes(k) && !String(r.contributor || '').startsWith('rhea')}
-											<!-- free-text written by Claude (contributor "claude-draft"): marked as AI; names, links, licences are data -->
+										{:else if isAI(r, k) && val(r, k) !== ''}
+											<!-- wording drafted by Claude (listed in the row's ai_written); names, links, licences are data -->
 											<AIText>{val(r, k)}</AIText>
 										{:else}
 											{val(r, k)}
