@@ -143,6 +143,11 @@
 			</p>
 		</header>
 
+		<p class="disclaimer">
+			These are, quite obviously, simplifications of "the world's biggest problems." We hope the people using
+			this page will add nuance by contributing: answer the question below, or suggest a dataset or problem on GitHub.
+		</p>
+
 		<fieldset class="poll">
 			<legend>Contribute your opinion: what are the world's biggest problems?</legend>
 			{#if !votesConfigured}
@@ -362,6 +367,7 @@
 	.k-community, .k-human_connection { background: #800080; } .k-funding { background: #008000; } .k-research { background: #404040; } .k-open_data { background: #008080; outline: 1px dashed #fff; } .k-other_tech { background: #800000; }
 	.empty, .status { padding: 10px; }
 
+	.disclaimer { margin: 0 0 10px; padding: 6px 8px; font-size: 12px; background: #ffffe1; border: 1px solid #000; max-width: 80ch; }
 	.poll { margin: 0 0 12px; padding: 8px 10px 10px; border: 2px groove var(--hi); }
 	.poll legend { font-weight: bold; padding: 0 4px; }
 	.poll label { display: flex; flex-direction: column; gap: 2px; margin-bottom: 6px; }
