@@ -10,6 +10,7 @@
 	import { categoryConfig, getCategoryColor, getCategoryLabel } from '$lib/categories.js';
 	import ObsidianGraph from './ObsidianGraph.svelte';
 	import AIText from './AIText.svelte';
+	import { notesSpace, activeSpace } from '$lib/notesSpace.js';
 
 	// Two ways to see the same notes:
 	//   'space' — the 3-D embedding (position = what the note is about)
@@ -23,6 +24,21 @@
 	let flat = '3d';      // '3d' | '12' | '13' | '23'
 	let query = '';
 	let upTo = 1;         // how many notes (in date order) are drawn
+
+	// Which space positions come from: TF-IDF (word overlap) or the embedding
+	// model. vault-space.json carries both; the choice is shared with the
+	// "Nearby" list on post pages.
+	$: active = activeSpace(data, $notesSpace);
+	$: spaceInfo = data ? ((data.spaces && data.spaces[active]) || { label: data.model, variance: data.variance }) : null;
+	$: if (data && pts.length && active) applySpace(active);
+	function applySpace(key) {
+		data.notes.forEach((n, i) => {
+			const sp = n.space && n.space[key];
+			if (sp) { n.xyz = sp.xyz; if (pts[i]) pts[i].v.set(...sp.xyz); }
+		});
+		kmeans();
+		if (renderer) draw();
+	}
 
 	// --- Clustering you can run yourself ---------------------------------
 	// k-means on the 3-D positions. There is no ground truth: k is a choice,
@@ -257,7 +273,7 @@
 		<p>
 			<AIText>Every published note is a point. Its position comes from the words in it, so notes that talk about the same things sit near each other.
 			The line joins the notes in the order I wrote them. Drag to turn it, scroll to zoom, click a point to read the note.</AIText>
-			{#if data}<span class="meta"><AIText>{data.count} notes with text (the words of an attached PDF count){data.left_out ? ` — ${data.left_out} image-only scans and artworks have no words to place, so they're only in the graph view` : ''}{data.ai_left_out ? `; ${data.ai_left_out} notes written mostly by AI are left off the map` : ''} · {data.model} · the 3 axes keep {Math.round(100 * data.variance.reduce((a, b) => a + b, 0))}% of the differences between notes; the rest is flattened out.</AIText></span>{/if}
+			{#if data}<span class="meta"><AIText>{data.count} notes with text (the words of an attached PDF count){data.left_out ? ` — ${data.left_out} image-only scans and artworks have no words to place, so they're only in the graph view` : ''}{data.ai_left_out ? `; ${data.ai_left_out} notes written mostly by AI are left off the map` : ''} · {spaceInfo.label} · the 3 axes keep {Math.round(100 * spaceInfo.variance.reduce((a, b) => a + b, 0))}% of the differences between notes; the rest is flattened out.</AIText></span>{/if}
 		</p>
 		{:else}
 		<p>
@@ -295,6 +311,13 @@
 		<label><input type="checkbox" bind:checked={showPath} /> path</label>
 		{/if}
 		<input class="find" type="text" placeholder="find: title, tag, or category" bind:value={query} />
+		{#if mode !== 'graph' && data && data.spaces && Object.keys(data.spaces).length > 1}
+		<span class="views" role="group" aria-label="Notes space">
+			{#each Object.entries(data.spaces) as [key, sp]}
+				<button class:on={active === key} on:click={() => notesSpace.set(key)} title={sp.label}>{sp.short}</button>
+			{/each}
+		</span>
+		{/if}
 		{#if mode !== 'graph'}
 		<span class="views">
 			{#each [['3d', '3D'], ['12', 'flat 1·2'], ['13', 'flat 1·3'], ['23', 'flat 2·3']] as [v, l]}

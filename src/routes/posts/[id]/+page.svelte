@@ -1,5 +1,6 @@
 <script>
 	import AIText from '../../../components/AIText.svelte';
+	import { notesSpace, activeSpace } from '$lib/notesSpace.js';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import PageLayout from '$components/PageLayout.svelte';
@@ -71,13 +72,13 @@
 	
 	// nearest neighbours in the notes space (static/vault-space.json, built by
 	// scripts/embed-vault.py): wiki-style links to the closest posts by content
-	let nearMap = {};
+	let spaceData = null;   // vault-space.json (both spaces)
+	$: nearSpace = activeSpace(spaceData, $notesSpace);
+	$: nearMap = spaceData ? Object.fromEntries((spaceData.notes || []).map((n) => [n.id, (n.space && n.space[nearSpace] ? n.space[nearSpace].near : n.near) || []])) : {};
 	$: nearby = post ? (nearMap[post.id] || []).map(([id, s]) => ({ p: allPosts.find((x) => String(x.id) === String(id)), s })).filter((x) => x.p) : [];
 
 	onMount(async () => {
-		fetch('/vault-space.json').then((r) => r.json()).then((d) => {
-			nearMap = Object.fromEntries((d.notes || []).map((n) => [n.id, n.near || []]));
-		}).catch(() => {});
+		fetch('/vault-space.json').then((r) => r.json()).then((d) => { spaceData = d; }).catch(() => {});
 		// Load all posts from the Git-based API
 		allPosts = await loadPosts();
 		// Note: allPosts is already sorted by date (newest first) by loadPosts()
@@ -227,7 +228,14 @@
 				{#if nearby.length}
 					<nav class="nearby" aria-label="Nearby posts">
 						<h2>Nearby</h2>
-						<p class="nearby-note"><AIText>The posts closest to this one by the words they use (TF-IDF similarity, the same space as the Blog map; no AI involved).</AIText></p>
+						{#if spaceData && spaceData.spaces && Object.keys(spaceData.spaces).length > 1}
+							<div class="view-toggle nearby-toggle" role="group" aria-label="Nearby by">
+								{#each Object.entries(spaceData.spaces) as [key, sp]}
+									<button class="view-toggle-btn {nearSpace === key ? 'active' : ''}" on:click={() => notesSpace.set(key)} title={sp.label}>{sp.short}</button>
+								{/each}
+							</div>
+						{/if}
+						<p class="nearby-note" data-no-reveal>{#if nearSpace === 'embed'}<AIText>The posts closest to this one in meaning, measured with {spaceData.spaces.embed.short}, a small embedding model run when the site is built (the same space as the Blog map; no LLM involved).</AIText>{:else}<AIText>The posts closest to this one by the words they use (TF-IDF similarity, the same space as the Blog map; no AI involved).</AIText>{/if}</p>
 						<ul>
 							{#each nearby as n}
 								<li><a href="/posts/{n.p.id}">{n.p.title}</a> <span class="nearby-meta">{n.p.date ? formatDate(n.p.date) : ''}</span></li>
@@ -274,6 +282,7 @@
 	.nearby { margin: 28px 0 8px; border-top: 1px solid #000; padding-top: 10px; }
 	.nearby h2 { font-size: 1rem; margin: 0 0 4px; }
 	.nearby-note { font-size: 0.75rem; opacity: 0.7; margin: 0 0 6px; }
+	.view-toggle.nearby-toggle { margin: 0 0 6px; }
 	.nearby ul { margin: 0; padding-left: 1.2em; }
 	.nearby li { margin: 3px 0; }
 	.nearby a { color: #000; text-decoration: underline; }

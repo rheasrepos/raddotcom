@@ -2,11 +2,15 @@
 """
 Turn the published vault (src/vault/**.md) into points in space for the Obsidian page.
 
-    python3 scripts/embed-vault.py                 # TF-IDF + SVD, pure numpy, no downloads
-    python3 scripts/embed-vault.py --model all-MiniLM-L6-v2   # sentence-transformers, if installed
+    python3 scripts/embed-vault.py                 # TF-IDF space + all-MiniLM-L6-v2 space (if sentence-transformers is installed)
+    python3 scripts/embed-vault.py --model NAME    # a different sentence-transformers model for the second space
+    python3 scripts/embed-vault.py --tfidf-only    # skip the model (pure numpy, no downloads)
 
 Writes static/vault-space.json:
-  { "model": ..., "variance": [v1,v2,v3], "notes": [ {id, title, date, type, tags, sub, xyz:[x,y,z], links:[ids / "topic:…"]} ... ] }
+  { "default": "embed"|"tfidf", "spaces": {key: {label, short, variance}},
+    "model"/"variance": the default space's, "notes": [ {id, title, date, type, tags, sub, terms,
+    space: {key: {xyz, near}}, xyz/near: the default space's, links:[ids / "topic:…"]} ... ] }
+  The site lets visitors switch between the spaces (Blog map and post "Nearby").
 Notes are sorted by `date` (undated last), so the order IS the path through time.
 `id` matches the site's post id (`vault-<filename>`), so a point can link to /posts/<id>.
 
@@ -41,7 +45,12 @@ def pdf_text(path):
             out = ""
         _cache[key] = re.sub(r"\s+", " ", out)[:20000]
     return _cache[key]
-model_name = sys.argv[sys.argv.index("--model") + 1] if "--model" in sys.argv else None
+# Two spaces are built every run so the site can offer both:
+#   "tfidf" — word overlap, pure numpy, always available
+#   "embed" — a sentence-transformers model (default all-MiniLM-L6-v2), only if
+#             the package is installed; --model NAME picks another, --tfidf-only skips it
+model_name = sys.argv[sys.argv.index("--model") + 1] if "--model" in sys.argv else "all-MiniLM-L6-v2"
+if "--tfidf-only" in sys.argv: model_name = None
 
 # ---------------------------------------------------------------- read notes
 def frontmatter(t):
@@ -112,13 +121,8 @@ print(f"{len(notes)} notes with text in the space ({len(skipped)} image-only not
 print(f"{len(ai_skipped)} AI-generated notes left out: " + ", ".join(ai_skipped))
 
 # ---------------------------------------------------------------- embed
-if model_name:
-    from sentence_transformers import SentenceTransformer
-    M = SentenceTransformer(model_name).encode([n["_text"][:4000] for n in notes], normalize_embeddings=True)
-    label = f"sentence-transformers/{model_name}"
-    for n in notes: n["terms"] = []
-else:
-    # TF-IDF, pure numpy. Each note = a bag of words weighted by how rare they are across the vault.
+def tfidf(notes):
+    # Each note = a bag of words weighted by how rare they are across the vault.
     STOP = set("the a an and or of to in on for with is are was were be been it its this that these those i you we they he she my your our as at by from not but have has had do does did so if than then there here which who what when where why how can could would should will just like also into over about more most some any all very".split())
     docs = [[w for w in re.findall(r"[a-z][a-z']+", n["_text"].lower()) if w not in STOP and len(w) > 2] for n in notes]
     df = {}
@@ -132,38 +136,64 @@ else:
             if w in idx: M[r, idx[w]] += 1
     M = np.log1p(M) * np.log(len(notes) / np.array([df[w] for w in vocab]))
     M /= np.linalg.norm(M, axis=1, keepdims=True) + 1e-9
-    label = f"tf-idf over {len(vocab)} words"
     # each note's 6 most distinctive words — lets the site name a cluster by
-    # what its notes actually talk about
+    # what its notes actually talk about (used in both spaces)
     for r, n in enumerate(notes):
         top = np.argsort(-M[r])[:6]
         n["terms"] = [vocab[i] for i in top if M[r, i] > 0]
-print(f"embedding: {label}  ->  {M.shape}")
+    return M, f"tf-idf over {len(vocab)} words"
 
-# ---------------------------------------------------------------- 3-D via SVD (PCA on the centered matrix)
-mu = M.mean(0)
-U, S, Vt = np.linalg.svd(M - mu, full_matrices=False)
-xyz = (M - mu) @ Vt[:3].T
-# Robust scaling per axis: a few outliers must not shrink everyone else into a
-# dot. Each axis is scaled by its 96th-percentile spread and clipped to ±1.
-scale = np.percentile(np.abs(xyz), 96, axis=0) + 1e-9
-xyz = np.clip(xyz / scale, -1, 1)
-var = (S[:3] ** 2 / (S ** 2).sum()).tolist()
-print(f"3 components keep {sum(var):.1%} of the variance")
+def project(M):
+    # 3-D via SVD (PCA on the centered matrix). Robust scaling per axis: a few
+    # outliers must not shrink everyone else into a dot. Each axis is scaled by
+    # its 96th-percentile spread and clipped to ±1.
+    mu = M.mean(0)
+    U, S, Vt = np.linalg.svd(M - mu, full_matrices=False)
+    xyz = (M - mu) @ Vt[:3].T
+    scale = np.percentile(np.abs(xyz), 96, axis=0) + 1e-9
+    xyz = np.clip(xyz / scale, -1, 1)
+    return xyz, (S[:3] ** 2 / (S ** 2).sum()).tolist()
 
-# ---------------------------------------------------------------- nearest neighbours (wiki-style "nearby" links)
-# cosine similarity in the full embedding (not the 3-D squeeze), top 5 per note
-Mn = M / (np.linalg.norm(M, axis=1, keepdims=True) + 1e-9)
-SIM = Mn @ Mn.T
-np.fill_diagonal(SIM, -1)
-for r, n in enumerate(notes):
-    order = np.argsort(-SIM[r])[:5]
-    n["near"] = [[notes[j]["id"], round(float(SIM[r, j]), 3)] for j in order if SIM[r, j] > 0.05]
+def neighbours(M):
+    # wiki-style "nearby" links: cosine similarity in the full embedding
+    # (not the 3-D squeeze), top 5 per note
+    Mn = M / (np.linalg.norm(M, axis=1, keepdims=True) + 1e-9)
+    SIM = Mn @ Mn.T
+    np.fill_diagonal(SIM, -1)
+    out = []
+    for r in range(len(M)):
+        order = np.argsort(-SIM[r])[:5]
+        out.append([[notes[j]["id"], round(float(SIM[r, j]), 3)] for j in order if SIM[r, j] > 0.05])
+    return out
+
+spaces = {}
+M, label = tfidf(notes)
+spaces["tfidf"] = {"label": label, "short": "TF-IDF", "M": M}
+if model_name:
+    try:
+        from sentence_transformers import SentenceTransformer
+        E = SentenceTransformer(model_name).encode([n["_text"][:4000] for n in notes], normalize_embeddings=True)
+        spaces["embed"] = {"label": f"sentence-transformers/{model_name}", "short": model_name.split("/")[-1], "M": np.asarray(E)}
+    except ImportError:
+        print("sentence-transformers not installed -> TF-IDF only (python3 -m pip install sentence-transformers)")
+default = "embed" if "embed" in spaces else "tfidf"   # what the site shows first
+
+for key, sp in spaces.items():
+    xyz, var = project(sp["M"])
+    near = neighbours(sp["M"])
+    sp["variance"] = var
+    for n, p, nb in zip(notes, xyz, near):
+        n.setdefault("space", {})[key] = {"xyz": [round(float(c), 4) for c in p], "near": nb}
+    print(f"{sp['label']}: {sp['M'].shape}, 3 components keep {sum(var):.1%} of the variance")
+    del sp["M"]
+# top-level xyz/near = the default space, so older readers keep working
+for n in notes:
+    n["xyz"] = n["space"][default]["xyz"]
+    n["near"] = n["space"][default]["near"]
 
 # ---------------------------------------------------------------- attach coordinates, order by date, write
 by_name = {n["_name"].lower(): n["id"] for n in notes}
-for n, p in zip(notes, xyz):                       # xyz rows are in read order, same as `notes`
-    n["xyz"] = [round(float(c), 4) for c in p]
+for n in notes:
     # links: to another published note → its id; to a "Topic - …" hub → "topic:<name>";
     # anything else (unpublished / missing note) is dropped, like Obsidian with
     # "existing files only" on.
@@ -174,5 +204,5 @@ for n, p in zip(notes, xyz):                       # xyz rows are in read order,
     n["links"] = sorted(set(out))
     del n["_text"], n["_links"], n["_name"], n["_words"]
 notes.sort(key=lambda n: (n["date"] == "", n["date"]))   # dated notes chronologically, undated last
-json.dump({"model": label, "variance": var, "count": len(notes), "left_out": len(skipped), "ai_left_out": len(ai_skipped), "notes": notes}, open(OUT, "w"))
+json.dump({"model": spaces[default]["label"], "variance": spaces[default]["variance"], "default": default, "spaces": spaces, "count": len(notes), "left_out": len(skipped), "ai_left_out": len(ai_skipped), "notes": notes}, open(OUT, "w"))
 print(f"wrote {os.path.relpath(OUT, ROOT)}")

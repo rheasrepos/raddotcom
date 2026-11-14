@@ -15,6 +15,16 @@ _Kept current by Claude at the end of each session. Tick things off or delete li
 - [ ] **WhatsApp digital-garden message** — Claude can only draft it; send it yourself.
 - [ ] **Retitle AI-drafted titles** (24 notes with `ai_title: true`). When you rewrite one, delete the `ai_title: true` line. List at the bottom of this file.
 
+## Vault connections (from 2026-11-14 review)
+- [ ] **Topic hubs**: 318 of 319 `[[wikilinks]]` point at "Topic - X" notes that don't exist (post pages strip them; the Blog map draws them as virtual topic nodes). Either create the hub notes in the draft vault so Obsidian resolves them, or drop the links — tags + the map already carry topics.
+- [ ] **Real note-to-note links**: none exist yet. Start with `claude experiments - 00 overview` → each experiment note; thesis proposal ↔ Phil of Mind final ↔ Phil of AI final; Turkopticon reading response ↔ AI policy proposal.
+- [ ] **Single-use tags**: 31 of 58 tags sit on one note and connect nothing — merge into a parent or cut (`scripts/prune_single_use_tags.py`).
+- [ ] **AI-flagged notes left off the map**: 28 notes are excluded as "mostly AI-written" (all claude experiments, This Website, Bibadee, Finders Keepers, Off-Off Campus sketches index, and — check these — both CAB Lab papers and the Kiarostami essay). Add your own words, unwrap `<ai>` where it isn't AI text, or loosen the rule in `scripts/embed-vault.py`.
+- [ ] **TF-IDF title weighting**: `embed-vault.py` repeats each title 3x, so course boilerplate ("User Centered Design … Reading Response") clusters notes by course. Compare TF-IDF vs MiniLM Nearby on the Turkopticon post before changing.
+- [ ] **AI wiki** (`research/ai-wiki/`, private): its connections were never reviewed.
+- [ ] **TF-IDF / MiniLM switch** (applied + staged 2026-11-14): on your Mac run `python3 scripts/embed-vault.py` (writes both spaces), check with `npm run dev`, then commit + push.
+- [ ] Optional: conda `base` now has transformers 5 (from sentence-transformers); `flair` needs <5 — reinstall `"transformers<5"` there or keep site scripts in their own env if you use flair again.
+
 ## Setup on your Mac / accounts
 - [ ] **Library by content:** `python3 scripts/fetch-library-text.py` then `python3 scripts/build-library.py` (optionally `pip3 install sentence-transformers` and prefix `LIB_EMBED=1`), then promote + push.
 - [ ] **Unpublished Y3/Y4 drafts to review** (`published: false`): UCD GP1 proposal + GP1–GP4 reflections, System Design Crit, BPRO proposal, ML4CS proposal.
