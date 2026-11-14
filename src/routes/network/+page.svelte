@@ -304,7 +304,7 @@
 		</span>
 		{#if mode === 'clusters'}
 			<span class="kctl">
-				k = <select bind:value={k}>{#each [2, 3, 4, 5, 6, 7, 8] as n}<option value={n}>{n}</option>{/each}</select>
+				k = <input class="kin" type="number" min="1" max={pts.length || 1} bind:value={k} /> <input type="range" min="1" max={pts.length || 1} bind:value={k} /> <span class="muted small">of {pts.length}</span>
 				<button class="rerun" on:click={() => (seed += 1)} title="Different random start">re-run</button>
 			</span>
 		{/if}
@@ -346,6 +346,7 @@
 	.space-tip .muted { opacity: 0.7; }
 	.dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
 	.space-controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin: 10px 0 8px; font-size: 0.9em; }
+	.space-controls .kin { width: 4.5em; font: inherit; }
 	.space-controls label { display: flex; align-items: center; gap: 8px; }
 	.space-controls .grow { flex: 1 1 260px; }
 	.space-controls .grow input[type='range'] { flex: 1 1 auto; min-width: 120px; }
