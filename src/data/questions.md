@@ -7,6 +7,7 @@
 # Add, cut or reorder freely.
 
 ## Surveys: answer in the box
+- what is complexity to you? | complexity survey (full version with image sorting and scales on its own page) | /complexity
 - does understanding a character correlate with liking or disliking them? | Goldwater research essay, 2024
 - Can science provide an objective definition of happiness or is it all subjective? | neurophilosophy debate notes
 - One very abstract, undefined idea I had is a "world-building" game that takes a tweet, a sentence, an opinion you overheard, etc, and hypothesizes how the world would have to look for that statement to be true. | Truth discussion post on a bullshit instrument, Oct 2025

@@ -32,7 +32,7 @@ Open the vault in Obsidian: **Open folder as vault** → pick `raddotcom Vault (
 | **Library** | `src/routes/library/+page.svelte` + `src/components/LibraryMap.svelte`; data `src/data/library.json`, built by `scripts/build-library.py` (§5f) |
 | **Questions** | `src/routes/questions/+page.svelte`; text from the vault's `_questions.md` (§5h) |
 | **WPM** | `src/routes/wpm/+page.svelte` (§5d) |
-| Not in the nav | `/complexity` (survey, §5g), `/admin` (404 on the live site). `/ai-problems` is the **Progress?** tab |
+| Not in the nav | `/complexity` (survey, §5g; linked from the Surveys section of Questions), `/admin` (404 on the live site). `/ai-problems` is the **Progress?** tab |
 | A single post page | `src/routes/posts/[id]/+page.svelte` (one file renders every post) |
 | The site name, tagline | `src/lib/site.js` |
 | Your email on the site | `src/lib/contact.js` (shown as rm7722 [AT] nyu [DOT] edu; assembled only on click) |
