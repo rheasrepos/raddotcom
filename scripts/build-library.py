@@ -404,25 +404,36 @@ P = XY[own]
 D = np.sqrt(((P[:, None, :] - P[None]) ** 2).sum(-1))
 MINPTS = 6
 kth = np.sort(D, 1)[:, MINPTS]
-best = None
-for q in np.linspace(40, 80, 21):            # try several densities, keep the one that
-    EPS = np.percentile(kth, q)              # clusters the most dots into 10-30 topics
+def dbscan(EPS):
     core = (D <= EPS).sum(1) > MINPTS
-    lab2 = -np.ones(len(P), int); c = 0
+    lab = -np.ones(len(P), int); c = 0
     for s0 in np.where(core)[0]:
-        if lab2[s0] != -1: continue
-        stack = [s0]; lab2[s0] = c
+        if lab[s0] != -1: continue
+        stack = [s0]; lab[s0] = c
         while stack:
             u = stack.pop()
             if not core[u]: continue
             for v in np.where(D[u] <= EPS)[0]:
-                if lab2[v] == -1: lab2[v] = c; stack.append(v)
+                if lab[v] == -1: lab[v] = c; stack.append(v)
         c += 1
-    sizes = np.bincount(lab2[lab2 >= 0]) if c else np.array([])
-    big = int((sizes >= 8).sum())
-    covered = float((lab2 >= 0).mean())
-    score = covered if 10 <= big <= 30 else covered - 1
-    if best is None or score > best[0]: best = (score, lab2.copy(), EPS, big)
+    sizes = np.bincount(lab[lab >= 0]) if c else np.zeros(0, int)
+    return lab, int((sizes >= 8).sum())
+# Sweep the closeness setting from tight to loose and stop where the answer stops
+# changing: the longest run of settings that all give the same number of topics
+# (a "plateau" — the most stable clustering). No limit on how many topics.
+qs = np.linspace(20, 95, 76)
+runs = [(q, *dbscan(np.percentile(kth, q))) for q in qs]
+counts = [r[2] for r in runs]
+# the number of topics wobbles a little from setting to setting, so "settled" =
+# the count that comes up most often across the sweep; of the settings giving
+# that count, use the loosest (it sorts the most dots into a topic)
+from collections import Counter as _C
+settled = _C(counts).most_common(1)[0][0]
+mid = max((r for r in runs if r[2] == settled), key=lambda r: r[0])
+bl = counts.count(settled)
+lo, hi = min(c for c in counts if c >= settled - 3), max(counts)
+best = (None, mid[1], np.percentile(kth, mid[0]), mid[2])
+print(f"settled: {settled} topics (the most common answer, {bl} of {len(qs)} closeness settings)")
 lab2 = best[1]
 sizes = np.bincount(lab2[lab2 >= 0])
 lab2 = np.where((lab2 >= 0) & (sizes[np.maximum(lab2, 0)] >= 8), lab2, -1)   # tiny groups → unsorted

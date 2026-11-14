@@ -1,6 +1,6 @@
 {
  "count": 2611,
- "k": 30,
+ "k": 32,
  "faithfulness": 0.633,
  "rhea": {
   "xy": [
@@ -597,7 +597,7 @@
    "title": "Nvidia–OpenAI 10 GW data-center campus",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     165,
@@ -613,7 +613,7 @@
    "title": "OpenAI influencer \"luxury brand trip\" critique",
    "url": null,
    "kind": "thing",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1285,
@@ -629,7 +629,7 @@
    "title": "@okaashish repo roundup",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     39,
@@ -645,7 +645,7 @@
    "title": "@kalypsodesigns open-source roundup",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     318,
@@ -661,7 +661,7 @@
    "title": "Tip",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     42,
@@ -677,7 +677,7 @@
    "title": "AI text-to-hardware generator",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     39,
@@ -693,7 +693,7 @@
    "title": "Telegram-connected AI agent \"team\"",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1852,
@@ -773,7 +773,7 @@
    "title": "Ursula K. Le Guin as literature's \"greatest hater\"",
    "url": null,
    "kind": "thing",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1145,
@@ -805,7 +805,7 @@
    "title": "Helen of Nowhere",
    "url": null,
    "kind": "thing",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     47,
@@ -1093,7 +1093,7 @@
    "title": "PhD statement-of-purpose advice",
    "url": "https://open.substack.com/pub/bivi/p/why-your-statement-of-purpose-isnt",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     663,
@@ -1141,7 +1141,7 @@
    "title": "The Penny Hoarder",
    "url": null,
    "kind": "thing",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2317,
@@ -1701,7 +1701,7 @@
    "title": "One-pan roasted Mediterranean chickpeas & feta",
    "url": null,
    "kind": "thing",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1683,
@@ -1893,7 +1893,7 @@
    "title": "Zonli floor futon/mattress",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1189,
@@ -1941,7 +1941,7 @@
    "title": "Cambridge 3-step study method",
    "url": null,
    "kind": "thing",
-   "topic": "philosophy · mind · matter",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     936,
@@ -1989,7 +1989,7 @@
    "title": "Prof. Pete Carr (U. Minnesota) — \"How to Write a Paper in a Weekend\"",
    "url": null,
    "kind": "paper",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     125,
@@ -2005,7 +2005,7 @@
    "title": "Free-sites roundup",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     125,
@@ -2021,7 +2021,7 @@
    "title": "\"Hot Girls do Research\" free resources",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     124,
@@ -2037,7 +2037,7 @@
    "title": "watch.plex.tv",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     212,
@@ -2053,7 +2053,7 @@
    "title": "Comprehensible-input language learning",
    "url": null,
    "kind": "thing",
-   "topic": "quizlet · flashcards · grade",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     437,
@@ -2069,7 +2069,7 @@
    "title": "10 hobbies to get smart again",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     129,
@@ -2085,7 +2085,7 @@
    "title": "Craftsy/Creativebug-style on-demand craft course platform",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     604,
@@ -2645,7 +2645,7 @@
    "title": "3 OSINT tools",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     213,
@@ -2661,7 +2661,7 @@
    "title": "Vibe-coded app security checks + Strix",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     36,
@@ -3381,7 +3381,7 @@
    "title": "Erowid Experience Vaults",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1231,
@@ -3397,7 +3397,7 @@
    "title": "Instafest",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1828,
@@ -3413,7 +3413,7 @@
    "title": "@rj.bernaldo interactive-site roundup, the rest of it",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     126,
@@ -3429,7 +3429,7 @@
    "title": "The Pudding",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     164,
@@ -3445,7 +3445,7 @@
    "title": "Taxiway",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     213,
@@ -3461,7 +3461,7 @@
    "title": "Five free design archives",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     698,
@@ -3477,7 +3477,7 @@
    "title": "Stripe Press",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     212,
@@ -3493,7 +3493,7 @@
    "title": "elimarigodesign.com",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     216,
@@ -3509,7 +3509,7 @@
    "title": "WebGL / TouchDesigner link batch",
    "url": null,
    "kind": "thing",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     337,
@@ -3541,7 +3541,7 @@
    "title": "Transformer Circuits Workspace",
    "url": "https://transformer-circuits.pub/2026/workspace/index.html#intro",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2411,
@@ -3557,7 +3557,7 @@
    "title": "ARENA Chapter 1: Transformer Interpretability Streamlit App",
    "url": "https://arena-chapter1-transformer-interp.streamlit.app/",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2571,
@@ -3573,7 +3573,7 @@
    "title": "Consciousness Atlas",
    "url": "https://www.consciousnessatlas.com/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2433,
@@ -3657,7 +3657,7 @@
    "title": "Matty McTech: a Duolingo-style app for learning to code",
    "url": "https://www.instagram.com/reels/DVYvXAaDRui/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     339,
@@ -3793,7 +3793,7 @@
    "title": "mori: how I made a personal website in the terminal",
    "url": "https://www.instagram.com/reels/DVjA3CQDl2t/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     244,
@@ -3810,7 +3810,7 @@
    "title": "Readymag: showcase your work",
    "url": "https://www.instagram.com/p/DZMu4pigI4B/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     237,
@@ -3827,7 +3827,7 @@
    "title": "Readymag: showcase your work (2)",
    "url": "https://www.instagram.com/p/DXthI2WgNl-/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     236,
@@ -3844,7 +3844,7 @@
    "title": "name.com: a website curating free creative tools",
    "url": "https://www.instagram.com/reels/DWr26xmiL9u/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     258,
@@ -3861,7 +3861,7 @@
    "title": "matilde: favourite websites to spend time on",
    "url": "https://www.instagram.com/reels/DZ56Pa5q9TK/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     255,
@@ -3878,7 +3878,7 @@
    "title": "Isabella: 3 really useful websites",
    "url": "https://www.instagram.com/reels/DXmZKB2DrvT/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     241,
@@ -3895,7 +3895,7 @@
    "title": "Lauren: some cool websites on the internet",
    "url": "https://www.instagram.com/reels/DWdGNIFDmIh/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     240,
@@ -3912,7 +3912,7 @@
    "title": "Sarah Li: my first speaking presentation",
    "url": "https://www.instagram.com/reels/DX4nX7gNk_S/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     247,
@@ -3929,7 +3929,7 @@
    "title": "Joseph Castillo: one URL, a full OSINT dashboard",
    "url": "https://www.instagram.com/reels/DZCJN3Au4EL/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     241,
@@ -3946,7 +3946,7 @@
    "title": "Rebekkah Kaur: Cool MacBook Apps, part 3",
    "url": "https://www.instagram.com/reels/DbBQvkjPboq/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     235,
@@ -3963,7 +3963,7 @@
    "title": "Tony Chen: powerful websites you should know",
    "url": "https://www.instagram.com/reels/DW1BfmDkrNZ/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     252,
@@ -3980,7 +3980,7 @@
    "title": "Julia (product designer): winter recap",
    "url": "https://www.instagram.com/reels/DVJflbHCOxM/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     256,
@@ -3997,7 +3997,7 @@
    "title": "matilde: weekly dose of cool websites",
    "url": "https://www.instagram.com/reels/DWjKdZltUfu/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     255,
@@ -4014,7 +4014,7 @@
    "title": "erin meryl mcgurk: websites that won't rot your brain",
    "url": "https://www.instagram.com/reels/DVrkzHdCmlR/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     250,
@@ -4031,7 +4031,7 @@
    "title": "Tricia Anne: an internet field trip (doomscroll detox)",
    "url": "https://www.instagram.com/reels/DbI1FggPPRJ/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     241,
@@ -4048,7 +4048,7 @@
    "title": "shout out to the humans who make these websites",
    "url": "https://www.instagram.com/reels/Da1DrJjIBm1/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     245,
@@ -4065,7 +4065,7 @@
    "title": "nayana: branch bending in TouchDesigner",
    "url": "https://www.instagram.com/reels/DacRP3vhC41/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     247,
@@ -4082,7 +4082,7 @@
    "title": "Tony Chen: powerful websites you should know (2)",
    "url": "https://www.instagram.com/reels/DbA2Bfuhe1G/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     245,
@@ -4099,7 +4099,7 @@
    "title": "Kira (ky-ruh): free Adobe alternatives",
    "url": "https://www.instagram.com/reels/DXsqbZckbq-/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     251,
@@ -4116,7 +4116,7 @@
    "title": "collette: inspired by elementary-school star charts",
    "url": "https://www.instagram.com/reels/Da00EqczVGE/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     242,
@@ -4133,7 +4133,7 @@
    "title": "matilde: this week's cool websites",
    "url": "https://www.instagram.com/reels/DaLR-ofqRtm/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     247,
@@ -4150,7 +4150,7 @@
    "title": "Ioana Teleanu: AI x product design",
    "url": "https://www.instagram.com/reels/DUI8WIAiBM2/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     258,
@@ -4167,7 +4167,7 @@
    "title": "komal yadav: turning journal entries into generative art (TouchDesigner)",
    "url": "https://www.instagram.com/reels/DWVWWdpiOeL/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     252,
@@ -4184,7 +4184,7 @@
    "title": "elly: three design websites",
    "url": "https://www.instagram.com/reels/DbHEhTsSGAd/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     256,
@@ -4269,7 +4269,7 @@
    "title": "Stop Overthinking Obsidian (Medium)",
    "url": "https://medium.com/@andremonthy/stop-overthinking-obsidian-a-beginners-guide-that-actually-works-c46ae9953ac7",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     663,
@@ -4285,7 +4285,7 @@
    "title": "Digital Gardening (Medium)",
    "url": "https://medium.com/the-mycelium/digital-gardening-6100d678bd3a",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     724,
@@ -4335,7 +4335,7 @@
    "title": "Kira (ky-ruh): free alternatives to paid apps",
    "url": "https://www.instagram.com/reels/DYlP7w2RmHy/",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1472,
@@ -4369,7 +4369,7 @@
    "title": "Mapping of Subjective Accounts into Interpreted Clusters (MOSAIC): Topic Modelling and LLM applied to Stroboscopic Phenomenology",
    "url": "https://arxiv.org/abs/2502.18318",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     2398,
@@ -4385,7 +4385,7 @@
    "title": "Exploring the Limits of Large Language Models as a Reflection of Human Cognition: An Illustration in the Context of Moral Judgement",
    "url": "https://arxiv.org/abs/2508.06950",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     2401,
@@ -4417,7 +4417,7 @@
    "title": "Fast Inference from Transformers via Speculative Decoding",
    "url": "https://arxiv.org/pdf/2211.17192",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     793,
@@ -4449,7 +4449,7 @@
    "title": "Linear socio-demographic representations emerge in Large Language Models from indirect cues",
    "url": "https://arxiv.org/pdf/2512.10065",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     791,
@@ -4497,7 +4497,7 @@
    "title": "DC86126073FDE96300B5FB5262CCC2CB — cambridge.org",
    "url": "https://www.cambridge.org/core/books/abs/cambridge-foucault-lexicon/biohistory/DC86126073FDE96300B5FB5262CCC2CB",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     534,
@@ -4581,7 +4581,7 @@
    "title": "ArXiv.2406.17826 — doi.org",
    "url": "https://doi.org/10.48550/arXiv.2406.17826",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     323,
@@ -4598,7 +4598,7 @@
    "title": "ESA Anomaly Dataset",
    "url": "https://doi.org/10.5281/zenodo.12528696",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     323,
@@ -4614,7 +4614,7 @@
    "title": "Tale of two computers — faithscience.org",
    "url": "https://faithscience.org/tale-of-two-computers/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2433,
@@ -4631,7 +4631,7 @@
    "title": "Minds, Brains, and Capacities: Situated Cognition and Neo-Aristotelianism",
    "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.566385/full",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2364,
@@ -4647,7 +4647,7 @@
    "title": "Consciousness science: where are we, where are we going, and what if we get there?",
    "url": "https://www.frontiersin.org/journals/science/articles/10.3389/fsci.2025.1546279/full",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2415,
@@ -4663,7 +4663,7 @@
    "title": "Cracow Circle and Its Philosophy of Logic and Mathematics",
    "url": "https://link.springer.com/article/10.1007/s10516-014-9256-5",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2417,
@@ -4696,7 +4696,7 @@
    "title": "S41598 023 33734 7 — nature.com",
    "url": "https://www.nature.com/articles/s41598-023-33734-7",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     784,
@@ -4713,7 +4713,7 @@
    "title": "D41586 019 03165 4 — nature.com",
    "url": "https://www.nature.com/immersive/d41586-019-03165-4/index.html",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     807,
@@ -4798,7 +4798,7 @@
    "title": "GEWTCC — philpapers.org",
    "url": "https://philpapers.org/rec/GEWTCC",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     287,
@@ -4883,7 +4883,7 @@
    "title": "Computational philosophy — plato.stanford.edu",
    "url": "https://plato.stanford.edu/entries/computational-philosophy/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2447,
@@ -4900,7 +4900,7 @@
    "title": "The End of Personification: The Mereological Fallacy in Science Communication on Brain Organoids",
    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10805020/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     286,
@@ -4916,7 +4916,7 @@
    "title": "Using imagination to understand the neural basis of episodic memory",
    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2571957/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     360,
@@ -4932,7 +4932,7 @@
    "title": "From the \"coding metaphor\" to a theory of representation",
    "url": "https://pubmed.ncbi.nlm.nih.gov/31775917/",
    "kind": "paper",
-   "topic": "data · tools · code",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     738,
@@ -5133,7 +5133,7 @@
    "title": "cecilialeiqi.github.io",
    "url": "https://cecilialeiqi.github.io/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     343,
@@ -5150,7 +5150,7 @@
    "title": "ICLR/Master-Template (GitHub)",
    "url": "https://github.com/ICLR/Master-Template/raw/master/iclr2026.zip",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2311,
@@ -5166,7 +5166,7 @@
    "title": "Priya22/EmotionDynamics (GitHub)",
    "url": "https://github.com/Priya22/EmotionDynamics",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     727,
@@ -5182,7 +5182,7 @@
    "title": "QwenLM/Qwen3Links (GitHub)",
    "url": "https://github.com/QwenLM/Qwen3Links",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     322,
@@ -5198,7 +5198,7 @@
    "title": "ankitapasad/layerwise-analysis (GitHub)",
    "url": "https://github.com/ankitapasad/layerwise-analysis/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     325,
@@ -5214,7 +5214,7 @@
    "title": "hyssong/fmripreprocessing (GitHub)",
    "url": "https://github.com/hyssong/fmripreprocessing",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     221,
@@ -5230,7 +5230,7 @@
    "title": "jinke828/socialaha (GitHub)",
    "url": "https://github.com/jinke828/socialaha",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     732,
@@ -5246,7 +5246,7 @@
    "title": "karpathy/nanoGPTLinks (GitHub)",
    "url": "https://github.com/karpathy/nanoGPTLinks",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     318,
@@ -5262,7 +5262,7 @@
    "title": "kplabs-pl/ESA-ADB (GitHub)",
    "url": "https://github.com/kplabs-pl/ESA-ADB",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     282,
@@ -5278,7 +5278,7 @@
    "title": "labmlai/annotated_deep_learning_paper_implementations (GitHub)",
    "url": "https://github.com/labmlai/annotated_deep_learning_paper_implementations",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     359,
@@ -5294,7 +5294,7 @@
    "title": "nyu-mll/crows-pairs (GitHub)",
    "url": "https://github.com/nyu-mll/crows-pairs",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     323,
@@ -5310,7 +5310,7 @@
    "title": "rheasrepos/raddotcom (GitHub)",
    "url": "https://github.com/rheasrepos/raddotcom/tree/main",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     734,
@@ -5326,7 +5326,7 @@
    "title": "Twitter roberta base sentiment latest — huggingface.co",
    "url": "https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment-latest",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     801,
@@ -5343,7 +5343,7 @@
    "title": "Main — huggingface.co",
    "url": "https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment-latest/tree/main",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     519,
@@ -5360,7 +5360,7 @@
    "title": "User install — ipywidgets.readthedocs.io",
    "url": "https://ipywidgets.readthedocs.io/en/stable/user_install.html",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     553,
@@ -5394,7 +5394,7 @@
    "title": "NNmodels — moj-analytical-services.github.io",
    "url": "https://moj-analytical-services.github.io/NLP-guidance/NNmodels.html",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     727,
@@ -5411,7 +5411,7 @@
    "title": "Onnx dynamo — pytorch.org",
    "url": "https://pytorch.org/docs/stable/onnx_dynamo.html",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     342,
@@ -5428,7 +5428,7 @@
    "title": "Export control flow model to onnx tutorial — pytorch.org",
    "url": "https://pytorch.org/tutorials/beginner/onnx/export_control_flow_model_to_onnx_tutorial.html",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     335,
@@ -5445,7 +5445,7 @@
    "title": "The scientific conception of the world the vienna circle — rreece.github.io",
    "url": "https://rreece.github.io/philosophy-reading-list/the-scientific-conception-of-the-world-the-vienna-circle.html",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     534,
@@ -5462,7 +5462,7 @@
    "title": "Sklearn.decomposition.TruncatedSVD — scikit-learn.org",
    "url": "http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     333,
@@ -5479,7 +5479,7 @@
    "title": "sleepinyourhat.github.io",
    "url": "https://sleepinyourhat.github.io/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     343,
@@ -5496,7 +5496,7 @@
    "title": "Pytorch when do i need to use todevice on a model or tensor — stackoverflow.com",
    "url": "https://stackoverflow.com/questions/63061779/pytorch-when-do-i-need-to-use-todevice-on-a-model-or-tensor",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     318,
@@ -5530,7 +5530,7 @@
    "title": "Computer history the evolution of computer graphics — unclesp1d3r.github.io",
    "url": "https://unclesp1d3r.github.io/posts/2023/03/computer-history-the-evolution-of-computer-graphics/",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     318,
@@ -5564,7 +5564,7 @@
    "title": "w3.org",
    "url": "http://www.w3.org/2000/svg",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     293,
@@ -5581,7 +5581,7 @@
    "title": "Svg&quot — w3.org",
    "url": "http://www.w3.org/2000/svg&quot",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     332,
@@ -5598,7 +5598,7 @@
    "title": "yanjunhan2021.github.io",
    "url": "https://yanjunhan2021.github.io/index.html",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     315,
@@ -5631,7 +5631,7 @@
    "title": "Daniel Dennett (Wikipedia)",
    "url": "https://en.wikipedia.org/wiki/Daniel_Dennett",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     350,
@@ -5647,7 +5647,7 @@
    "title": "David Chalmers (Wikipedia)",
    "url": "https://en.wikipedia.org/wiki/David_Chalmers",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     354,
@@ -5663,7 +5663,7 @@
    "title": "Department of Philosophy (Wikipedia)",
    "url": "https://en.wikipedia.org/wiki/Department_of_Philosophy",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2417,
@@ -5679,7 +5679,7 @@
    "title": "Leverhulme Centre for the Future of Intelligence (Wikipedia)",
    "url": "https://en.wikipedia.org/wiki/Leverhulme_Centre_for_the_Future_of_Intelligence",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     354,
@@ -5695,7 +5695,7 @@
    "title": "Luciano Floridi (Wikipedia)",
    "url": "https://en.wikipedia.org/wiki/Luciano_Floridi",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     287,
@@ -5711,7 +5711,7 @@
    "title": "Nick Bostrom (Wikipedia)",
    "url": "https://en.wikipedia.org/wiki/Nick_Bostrom",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     345,
@@ -5727,7 +5727,7 @@
    "title": "Paul G. Allen School of Computer Science and Engineering (Wikipedia)",
    "url": "https://en.wikipedia.org/wiki/Paul_G._Allen_School_of_Computer_Science_and_Engineering",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     430,
@@ -5743,7 +5743,7 @@
    "title": "Philosophy of artificial intelligence (Wikipedia)",
    "url": "https://en.wikipedia.org/wiki/Philosophy_of_artificial_intelligence",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2415,
@@ -5775,7 +5775,7 @@
    "title": "Susan Schneider (Wikipedia)",
    "url": "https://en.wikipedia.org/wiki/Susan_Schneider",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     346,
@@ -5808,7 +5808,7 @@
    "title": "David chalmers nature ethics consciousness — 80000hours.org",
    "url": "https://80000hours.org/podcast/episodes/david-chalmers-nature-ethics-consciousness/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     345,
@@ -5825,7 +5825,7 @@
    "title": "Failed academics schopenhauer peirce and the d evolution of university philosophy — bobhannahbob1.medium.com",
    "url": "https://bobhannahbob1.medium.com/failed-academics-schopenhauer-peirce-and-the-d-evolution-of-university-philosophy-70a105969ab0",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     362,
@@ -5842,7 +5842,7 @@
    "title": "Podcast — gayleallen.net",
    "url": "https://www.gayleallen.net/feed/podcast/",
    "kind": "podcast",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     536,
@@ -5859,7 +5859,7 @@
    "title": "Visualizing deep learning models using netron — medium.com",
    "url": "https://medium.com/@lahari.kethinedi/visualizing-deep-learning-models-using-netron-a034dfd72540",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     333,
@@ -5876,7 +5876,7 @@
    "title": "Responding to the godfather of ai geoffrey hinton — medium.com",
    "url": "https://medium.com/@socialscholarly/responding-to-the-godfather-of-ai-geoffrey-hinton-b15c71ec1f70",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2447,
@@ -5893,7 +5893,7 @@
    "title": "Openais chief scientist claimed ai may be conscious and kicked off a furious debate — medium.com",
    "url": "https://medium.com/data-science/openais-chief-scientist-claimed-ai-may-be-conscious-and-kicked-off-a-furious-debate-7338b95194e",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2433,
@@ -5910,7 +5910,7 @@
    "title": "Podcast — nobelprize.org",
    "url": "https://www.nobelprize.org/prizes/physics/2024/hinton/podcast/",
    "kind": "podcast",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     357,
@@ -6012,7 +6012,7 @@
    "title": "When ai becomes sentient human life becomes — reddit.com",
    "url": "https://www.reddit.com/r/ControlProblem/comments/1ohvgvm/when_ai_becomes_sentient_human_life_becomes/",
    "kind": "website",
-   "topic": "consciousness · reddit · neuroscience",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2375,
@@ -6097,7 +6097,7 @@
    "title": "How to play the musical notes on the arduino — samueladesola.medium.com",
    "url": "https://samueladesola.medium.com/how-to-play-the-musical-notes-on-the-arduino-1e9505d00c60",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     734,
@@ -6114,7 +6114,7 @@
    "title": "Why science needs art — smithsonianmag.com",
    "url": "https://www.smithsonianmag.com/blogs/national-museum-of-natural-history/2020/04/15/why-science-needs-art/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     376,
@@ -6148,7 +6148,7 @@
    "title": "Art illuminates the beauty of science and could inspire the next generation of scientists young and old 168925 — theconversation.com",
    "url": "https://theconversation.com/art-illuminates-the-beauty-of-science-and-could-inspire-the-next-generation-of-scientists-young-and-old-168925",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     377,
@@ -6165,7 +6165,7 @@
    "title": "Seeing what the naked eye cant 4 essential reads on how scientists bring the microscopic world into plain sight 211666 — theconversation.com",
    "url": "https://theconversation.com/seeing-what-the-naked-eye-cant-4-essential-reads-on-how-scientists-bring-the-microscopic-world-into-plain-sight-211666",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     376,
@@ -6692,7 +6692,7 @@
    "title": "No Joke, This 2017 Year-End Mashup Made Me Cry",
    "url": "https://www.buzzfeed.com/mjs538/chills-sweeties-chills?utm_term=.osedMz7pv#.vfxD8z5b4",
    "kind": "website",
-   "topic": "film · story · ray",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2229,
@@ -6726,7 +6726,7 @@
    "title": "Mixlr | Home",
    "url": "https://mixlr.com/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     613,
@@ -6760,7 +6760,7 @@
    "title": "English to French, Italian, German & Spanish Dictionary - WordReference.com",
    "url": "http://www.wordreference.com/",
    "kind": "website",
-   "topic": "quizlet · flashcards · grade",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     424,
@@ -6777,7 +6777,7 @@
    "title": "Negation",
    "url": "http://studyspanish.com/grammar/lessons/neg",
    "kind": "website",
-   "topic": "quizlet · flashcards · grade",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     424,
@@ -6964,7 +6964,7 @@
    "title": "Ser and Estar: Part Two",
    "url": "http://www.studyspanish.com/lessons/serest2.htm",
    "kind": "website",
-   "topic": "quizlet · flashcards · grade",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     425,
@@ -6981,7 +6981,7 @@
    "title": "Ser and Estar: Part Three",
    "url": "http://www.studyspanish.com/lessons/serest3.htm",
    "kind": "website",
-   "topic": "quizlet · flashcards · grade",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     424,
@@ -7015,7 +7015,7 @@
    "title": "https://www.theodysseyonline.com/6-reasons-drinking-age-lowered",
    "url": "https://www.theodysseyonline.com/6-reasons-drinking-age-lowered",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     631,
@@ -7032,7 +7032,7 @@
    "title": "Drining age Debate",
    "url": "https://www.huffingtonpost.com/thrillist/is-it-time-to-lower-the-d_b_9633254.html",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     429,
@@ -7049,7 +7049,7 @@
    "title": "Is It Time to Lower the Drinking Age to 18? - Thrillist",
    "url": "https://www.thrillist.com/drink/nation/is-it-time-to-lower-the-drinking-age-to-18",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     428,
@@ -7066,7 +7066,7 @@
    "title": "Why drinking age should be lowered: Dr. Ruth Engs",
    "url": "http://www.indiana.edu/~engs/articles/cqoped.html",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     351,
@@ -7083,7 +7083,7 @@
    "title": "Lowering the Drinking Age Has Serious Consequences - NYTimes.com",
    "url": "https://www.nytimes.com/roomfordebate/2015/02/10/you-must-be-21-to-drink/lowering-the-drinking-age-has-serious-consequences",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     623,
@@ -7117,7 +7117,7 @@
    "title": "Breezin' Thru Theory",
    "url": "http://breezinthrutheory.com/binder2016/index.php",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     567,
@@ -7134,7 +7134,7 @@
    "title": "Asaf Avidan - Gold Shadow Lyrics | Genius",
    "url": "https://genius.com/Asaf-avidan-gold-shadow-lyrics",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     770,
@@ -7185,7 +7185,7 @@
    "title": "Practice & Learn Vocabulary | SpanishDict",
    "url": "https://www.spanishdict.com/vocabulary?utm_medium=vocab_modal&amp;utm_campaign=back_to_escuela",
    "kind": "website",
-   "topic": "quizlet · flashcards · grade",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     127,
@@ -7236,7 +7236,7 @@
    "title": "What Holden Caulfield Could Teach Trump",
    "url": "https://www.thedailybeast.com/what-holden-caulfield-could-teach-trump",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     567,
@@ -7287,7 +7287,7 @@
    "title": "JTAppleCalendar Creating a Calendar from scratch #Important Warning in Description - YouTube",
    "url": "https://www.youtube.com/watch?v=zOphH-h-qCs",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1519,
@@ -7338,7 +7338,7 @@
    "title": "Learn Hindi online | Free Hindi lessons",
    "url": "https://www.loecsen.com/en/learn-hindi#/en/Essentials",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     590,
@@ -7389,7 +7389,7 @@
    "title": "BBC Radio 4 - In Our Time, Thucydides",
    "url": "https://www.bbc.co.uk/programmes/b050bcf1",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     349,
@@ -7678,7 +7678,7 @@
    "title": "New Podcast: Debating Racial Pessimism with John Turner | HS Impact",
    "url": "https://hsimpact.wordpress.com/2015/12/09/new-podcast-debating-racial-pessimism-with-john-turner/",
    "kind": "podcast",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     410,
@@ -7695,7 +7695,7 @@
    "title": "Finding and Cutting Evidence - the debate guru",
    "url": "https://thedebateguru.weebly.com/finding-and-cutting-evidence.html",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     67,
@@ -7712,7 +7712,7 @@
    "title": "CodingBat Java",
    "url": "https://codingbat.com/java",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     553,
@@ -7814,7 +7814,7 @@
    "title": "34 Products I Think Were Solely Designed To Make Your Life Easier",
    "url": "https://www.buzzfeed.com/samanthawieder/products-i-think-were-solely-designed-to-make-your-life?origin=bshp",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     689,
@@ -7831,7 +7831,7 @@
    "title": "Belin-Blank Center",
    "url": "https://belinblank.education.uiowa.edu/about/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     737,
@@ -7916,7 +7916,7 @@
    "title": "This Is The Kit – Bashed Out Lyrics | Genius Lyrics",
    "url": "https://genius.com/This-is-the-kit-bashed-out-lyrics",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     434,
@@ -7967,7 +7967,7 @@
    "title": "Why The Costumes of Little Women did NOT deserve an Oscar - YouTube",
    "url": "https://www.youtube.com/watch?v=_sBqqERMblo",
    "kind": "video",
-   "topic": "bloomingdale's · jeans · clothes",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1736,
@@ -7984,7 +7984,7 @@
    "title": "George Orwell - 1984 - Part 3, Chapter 1",
    "url": "http://www.george-orwell.org/1984/17.html",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     656,
@@ -8018,7 +8018,7 @@
    "title": "3rd grade Writing Worksheets: Punctuation practice | GreatSchools",
    "url": "https://www.greatschools.org/gk/worksheets/punctuation-practice/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     609,
@@ -8052,7 +8052,7 @@
    "title": "Repl.it - Online Java Editor and IDE - Fast, Powerful, Free",
    "url": "https://repl.it/languages/java10",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     613,
@@ -8086,7 +8086,7 @@
    "title": "Scratch - CS50x",
    "url": "https://cs50.harvard.edu/x/2020/psets/0/scratch/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     749,
@@ -8205,7 +8205,7 @@
    "title": "How To Slim Down Muscular Thighs - Toned Legs Without Bulking",
    "url": "https://www.rachaelattard.com/slim-muscular-thighs-skinny-legs/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     656,
@@ -8222,7 +8222,7 @@
    "title": "Spelling Rules That Every Child Should Know + Free Posters Archive - All About Learning Press",
    "url": "https://blog.allaboutlearningpress.com/category/spelling-rules/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     501,
@@ -8273,7 +8273,7 @@
    "title": "Basic Spelling Rules Explained - Everything After Z by Dictionary.com",
    "url": "https://www.dictionary.com/e/spelling-rules/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     498,
@@ -8307,7 +8307,7 @@
    "title": "Podcast Hosting, Distribution & Analytics - Simplecast",
    "url": "https://simplecast.com/#_r_podinsights",
    "kind": "podcast",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     752,
@@ -8562,7 +8562,7 @@
    "title": "iOS & Swift Tutorials | raywenderlich.com",
    "url": "https://www.raywenderlich.com/ios",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     742,
@@ -8579,7 +8579,7 @@
    "title": "A Swift Tour — The Swift Programming Language (Swift 5.1)",
    "url": "https://docs.swift.org/swift-book/GuidedTour/GuidedTour.html",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     328,
@@ -8596,7 +8596,7 @@
    "title": "If I have one month to learn iOS, how would I spend it?",
    "url": "https://android.jlelse.eu/if-i-have-one-month-to-learn-ios-how-would-i-spend-it-a5b2aba87cc2",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     554,
@@ -8613,7 +8613,7 @@
    "title": "GitHub - ochococo/Design-Patterns-In-Swift: 📖 Design Patterns implemented in Swift 5.0",
    "url": "https://github.com/ochococo/Design-Patterns-In-Swift",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     553,
@@ -8647,7 +8647,7 @@
    "title": "The sad but unexpectedly hopeful cancer saga of Cassandra Callender – Science-Based Medicine",
    "url": "https://sciencebasedmedicine.org/the-sad-but-unexpectedly-hopeful-cancer-saga-of-cassandra-callender/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     672,
@@ -8834,7 +8834,7 @@
    "title": "Totalitarianism | Internet Encyclopedia of Philosophy",
    "url": "https://www.iep.utm.edu/totalita/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     334,
@@ -8851,7 +8851,7 @@
    "title": "Speech to 20th Congress of the C.P.S.U.",
    "url": "https://www.marxists.org/archive/khrushchev/1956/02/24.htm",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     429,
@@ -8868,7 +8868,7 @@
    "title": "1924: Trotskyism or Leninism?",
    "url": "https://www.marxists.org/reference/archive/stalin/works/1924/11_19.htm#s3",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     523,
@@ -8953,7 +8953,7 @@
    "title": "Introducing SwiftUI: Building Your First App - WWDC 2019 - Videos - Apple Developer",
    "url": "https://developer.apple.com/videos/play/wwdc2019/204/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     551,
@@ -8970,7 +8970,7 @@
    "title": "Building Custom Views with SwiftUI - WWDC 2019 - Videos - Apple Developer",
    "url": "https://developer.apple.com/videos/play/wwdc2019/237/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     712,
@@ -8987,7 +8987,7 @@
    "title": "Mastering Xcode Previews - WWDC 2019 - Videos - Apple Developer",
    "url": "https://developer.apple.com/videos/play/wwdc2019/233/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     567,
@@ -9004,7 +9004,7 @@
    "title": "SwiftUI: Getting Started | raywenderlich.com",
    "url": "https://www.raywenderlich.com/3715234-swiftui-getting-started",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     749,
@@ -9021,7 +9021,7 @@
    "title": "Conway's Game of Life - Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     374,
@@ -9038,7 +9038,7 @@
    "title": "Harvard CSCI X-65G Class Materials",
    "url": "https://github.com/CSCIX65G",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     329,
@@ -9072,7 +9072,7 @@
    "title": "rvsrvs/learn-swift: Learn Apple's Swift programming language interactively through these playgrounds.",
    "url": "https://github.com/rvsrvs/learn-swift",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     670,
@@ -9106,7 +9106,7 @@
    "title": "Swift.org - API Design Guidelines",
    "url": "https://swift.org/documentation/api-design-guidelines/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     749,
@@ -9123,7 +9123,7 @@
    "title": "Swift Style Guide Updated for Swift 3 | raywenderlich.com",
    "url": "https://www.raywenderlich.com/809-swift-style-guide-updated-for-swift-3%29",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     548,
@@ -9140,7 +9140,7 @@
    "title": "apple/swift-format: Formatting technology for Swift source code",
    "url": "https://github.com/apple/swift-format",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     548,
@@ -9157,7 +9157,7 @@
    "title": "NoTests/RxFeedback.swift: The universal system operator and architecture for RxSwift",
    "url": "https://github.com/NoTests/RxFeedback.swift",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     552,
@@ -9174,7 +9174,7 @@
    "title": "Want To Learn How To Code? Get Our HTML & CSS Step-By-Step Guide Today »",
    "url": "https://html.com/#HTML_for_Absolute_Beginners",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     749,
@@ -9225,7 +9225,7 @@
    "title": "Wang Crunchy Math Calc BC Workbook",
    "url": "https://crunchymath.weebly.com/uploads/8/2/4/0/8240213/apcalcprobbook_mccaffrey_revised.pdf",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     648,
@@ -9242,7 +9242,7 @@
    "title": "Intermediate | Vocabulary Quizzes | SpanishDict",
    "url": "https://www.spanishdict.com/lists/506024/intermediate/quiz",
    "kind": "website",
-   "topic": "quizlet · flashcards · grade",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     412,
@@ -9344,7 +9344,7 @@
    "title": "Gladiator (2000 film) - Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Gladiator_%282000_film%29",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     692,
@@ -9395,7 +9395,7 @@
    "title": "hwquizbowl - Protobowl",
    "url": "https://protobowl.com/hwquizbowl",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     749,
@@ -9531,7 +9531,7 @@
    "title": "Sample6_ROUND6",
    "url": "https://science.osti.gov/-/media/wdts/nsb/pdf/HS-Sample-Questions/Sample-Set-6/Sample6_ROUND6",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     692,
@@ -9565,7 +9565,7 @@
    "title": "Where in the World? | Education World",
    "url": "https://www.educationworld.com/a_lesson/03/lp325-01.shtml",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     578,
@@ -9582,7 +9582,7 @@
    "title": "How These Teachers Used Kahoot! to Host a Geography Bee in Their Classrooms - WeAreTeachers",
    "url": "https://www.weareteachers.com/kahoot-geography/?utm_source=WeAreTeachers&amp;utm_medium=Article2&amp;utm_campaign=NatGeoArtSer&amp;utm_content=ArtOne",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     577,
@@ -9633,7 +9633,7 @@
    "title": "2020 Election Forecast | FiveThirtyEight",
    "url": "https://projects.fivethirtyeight.com/2020-election-forecast/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     636,
@@ -9701,7 +9701,7 @@
    "title": "Scilympiad - Boyceville Science Olympiad Invitational",
    "url": "https://scilympiad.com/boyceville",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     351,
@@ -9752,7 +9752,7 @@
    "title": "Hill Cipher - Decoder, Encoder, Solver - Online Calculator",
    "url": "https://www.dcode.fr/hill-cipher",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     670,
@@ -9786,7 +9786,7 @@
    "title": "Accelerating health equity: the key role of universal health coverage in the Sustainable Development Goals | BMC Medicine | Full Text",
    "url": "https://bmcmedicine.biomedcentral.com/articles/10.1186/s12916-015-0342-3",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     712,
@@ -9871,7 +9871,7 @@
    "title": "Mother Country by Richard Blanco - Poems | Academy of American Poets",
    "url": "https://poets.org/poem/mother-country",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     693,
@@ -9922,7 +9922,7 @@
    "title": "Plastic has a problem; is chemical recycling the solution?",
    "url": "https://cen.acs.org/environment/recycling/Plastic-problem-chemical-recycling-solution/97/i39",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     652,
@@ -10024,7 +10024,7 @@
    "title": "picoCTF - Educational Resources",
    "url": "https://picoctf.com/resources",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1288,
@@ -10075,7 +10075,7 @@
    "title": "YouTube",
    "url": "https://www.youtube.com/watch?v=glxrwC9zsHY",
    "kind": "video",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1426,
@@ -10092,7 +10092,7 @@
    "title": "Chloe Ting - 2 Weeks Shred Challenge - Free Workout Program",
    "url": "https://www.chloeting.com/program/2019/two-weeks-shred-challenge.html",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     634,
@@ -10109,7 +10109,7 @@
    "title": "Grammar Mechanics Worksheets",
    "url": "https://www.k12reader.com/subject/grammar/mechanics/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     750,
@@ -10126,7 +10126,7 @@
    "title": "Introducing a Topic: Giving Information",
    "url": "https://www.k12reader.com/writing-introductions/introducing_a_topic_giving_information.pdf",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     557,
@@ -10177,7 +10177,7 @@
    "title": "Repl.it - Online Python Editor and IDE - Fast, Powerful, Free",
    "url": "https://repl.it/languages/python3",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     488,
@@ -10194,7 +10194,7 @@
    "title": "200 Fun Facts That'll Actually Make Your Life Better | The Fact Site",
    "url": "https://www.thefactsite.com/top-100-random-funny-facts/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     672,
@@ -10228,7 +10228,7 @@
    "title": "Watch Free Movies and TV Shows Online | Free Streaming Video | Tubi",
    "url": "https://tubitv.com/",
    "kind": "video",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     614,
@@ -10347,7 +10347,7 @@
    "title": "Politics in the Gilded Age | Unit 6: 1865-1898 - AP US History | Fiveable",
    "url": "https://fiveable.me/apush/unit-6/politics-gilded-age/study-guide/8nIh2AsuMR3xXcKSZRaq",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     535,
@@ -10364,7 +10364,7 @@
    "title": "JAY-Z & Kanye West – No Church in the Wild Lyrics | Genius Lyrics",
    "url": "https://genius.com/314412",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     775,
@@ -10381,7 +10381,7 @@
    "title": "Pulling data from the Spotify API - #13 React JS prototyping - YouTube",
    "url": "https://www.youtube.com/watch?v=rzk8n-4gMWs",
    "kind": "video",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     863,
@@ -10432,7 +10432,7 @@
    "title": "Cyrano_de_Bergerac_eText.pdf",
    "url": "https://mseffie.com/assignments/cyrano/Cyrano_de_Bergerac_eText.pdf",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     638,
@@ -10449,7 +10449,7 @@
    "title": "Resurgent Communism in Latin America",
    "url": "https://www.thenewamerican.com/world-news/south-america/item/10497-resurgent-communism-in-latin-america",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     523,
@@ -10483,7 +10483,7 @@
    "title": "‘What Happens When Children Are Raised Without God Nor A Strong Father Figure:’ | by Annie Harrigan | Medium",
    "url": "https://annie-harrigan.medium.com/what-happens-when-children-are-raised-without-god-nor-a-strong-father-figure-aa106fecdbb7",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     427,
@@ -10500,7 +10500,7 @@
    "title": "Russia’s GMO debate looks a lot like America’s – with more geopolitics - CSMonitor.com",
    "url": "https://www.csmonitor.com/World/Europe/2019/0109/Russia-s-GMO-debate-looks-a-lot-like-America-s-with-more-geopolitics#:~:text=Russia%20has%20barred%20%E2%80%9Ccultivation%20of,big%20biotechnology%20firms%20like%20Monsanto.",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     523,
@@ -10534,7 +10534,7 @@
    "title": "53-Word Story Contest — Press 53",
    "url": "https://www.press53.com/53word-story-contest",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     608,
@@ -10551,7 +10551,7 @@
    "title": "Dispatch from the Floor of the Model Minority Factory | The Offing",
    "url": "https://theoffingmag.com/essay/dispatch-from-the-floor-of-the-model-minority-factory/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     623,
@@ -10568,7 +10568,7 @@
    "title": "Opinion | A Conversation With Asian-Americans on Race - The New York Times",
    "url": "https://www.nytimes.com/video/opinion/100000004308529/a-conversation-with-asians-on-race.html",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     656,
@@ -10602,7 +10602,7 @@
    "title": "Nature and Artifice - Galvanic Experiments",
    "url": "https://sites.google.com/view/nature-and-artifice-mechanism/4-romanticism/galvanic-experiments",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     523,
@@ -10670,7 +10670,7 @@
    "title": "Spotify NYC Tech Fellowship",
    "url": "https://fellowship.spotify.com/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     613,
@@ -10687,7 +10687,7 @@
    "title": "Women in Politics: 2021 | Inter-Parliamentary Union",
    "url": "https://www.ipu.org/women-in-politics-2021",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     351,
@@ -10704,7 +10704,7 @@
    "title": "More have lost their jobs in U.S. than in EU during COVID-19 downturn | Pew Research Center",
    "url": "https://www.pewresearch.org/fact-tank/2021/04/15/fewer-jobs-have-been-lost-in-the-eu-than-in-the-u-s-during-the-covid-19-downturn/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     712,
@@ -10772,7 +10772,7 @@
    "title": "Great Neck South High School",
    "url": "https://4.files.edl.io/e311/12/01/18/192538-f1cda721-6939-42a2-b2a1-a526bc897a16.pdf",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     711,
@@ -10823,7 +10823,7 @@
    "title": "A disorganized list of great classes at Stanford | by Stanford Guide | Stanford Guide",
    "url": "https://stanfordguide.org/the-best-classes-at-stanford-4467013ae936",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     357,
@@ -10840,7 +10840,7 @@
    "title": "Presidential Campaign on Social Media - Interactive Feature - NYTimes.com",
    "url": "http://archive.nytimes.com/www.nytimes.com/interactive/2012/10/08/technology/campaign-social-media.html?_r=0",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     598,
@@ -10857,7 +10857,7 @@
    "title": "decim",
    "url": "https://docs.microsoft.com/en-us/dotnet/visual-basic/programming-guide/language-features/data-types/numeric-data-types",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     670,
@@ -10908,7 +10908,7 @@
    "title": "Day of Rage: An In-Depth Look at How a Mob Stormed the Capitol - The New York Times",
    "url": "https://www.nytimes.com/video/us/politics/100000007606996/capitol-riot-trump-supporters.html",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     672,
@@ -10925,7 +10925,7 @@
    "title": "LZW (Lempel–Ziv–Welch) Compression technique - GeeksforGeeks",
    "url": "https://www.geeksforgeeks.org/lzw-lempel-ziv-welch-compression-technique/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     550,
@@ -10942,7 +10942,7 @@
    "title": "Physics for Scientists and Engineers, 10th Edition - Cengage",
    "url": "https://www.cengage.com/c/physics-for-scientists-and-engineers-10e-serway/9781337553278PF/?filterBy=Student",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     548,
@@ -10976,7 +10976,7 @@
    "title": "https://mhacks11.devpost.com/project-gallery",
    "url": "https://mhacks11.devpost.com/project-gallery",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1288,
@@ -11027,7 +11027,7 @@
    "title": "How to Write the MIT Supplemental Essay | College Essay Guy",
    "url": "https://www.collegeessayguy.com/blog/mit-supplemental-essay#C1",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     67,
@@ -11061,7 +11061,7 @@
    "title": "Footnotes/Endnotes - Chicago Style Guide, for 17th Edition - LibGuides at Western Oregon University",
    "url": "https://research.wou.edu/c.php?g=551307&amp;p=3785233",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     670,
@@ -11078,7 +11078,7 @@
    "title": "Aave - Open Source Liquidity Protocol",
    "url": "https://app.aave.com/markets",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     698,
@@ -11146,7 +11146,7 @@
    "title": "Learn LaTeX in 30 minutes - Overleaf, Online LaTeX Editor",
    "url": "https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes#Adding_math_to_LaTeX",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     548,
@@ -11180,7 +11180,7 @@
    "title": "Incarceration in Real Numbers",
    "url": "https://mkorostoff.github.io/incarceration-in-real-numbers/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     656,
@@ -11197,7 +11197,7 @@
    "title": "2021-22 Early Action and Early Decision Notification Dates | CEA",
    "url": "https://www.collegeessayadvisors.com/2021-22-early-decision-early-action-and-early-decision-ii-notification-dates-class-of-2026/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     351,
@@ -11265,7 +11265,7 @@
    "title": "changes made for localStorage · coliny125/colinwebsite@61d8210",
    "url": "https://github.com/coliny125/colinwebsite/commit/61d8210628a9c6cea5c07a8eba07ca73465a167b#diff-c3524598a7349c79336b2dab23f6ec71bca23b832f041bfff738044a00dfb303",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     521,
@@ -11282,7 +11282,7 @@
    "title": "Tux Paint",
    "url": "https://tuxpaint.org/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     520,
@@ -11384,7 +11384,7 @@
    "title": "SCHOOL NEWSPAPER LIBEL SUIT SETTLED - The New York Times",
    "url": "https://www.nytimes.com/1987/04/19/nyregion/school-newspaper-libel-suit-settled.html",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     623,
@@ -11401,7 +11401,7 @@
    "title": "Afresh - Fresh Operating System for Grocery Retailers",
    "url": "https://www.afresh.com/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     737,
@@ -11469,7 +11469,7 @@
    "title": "Frank Wedekind – Spring Awakening (Act 2) | Genius",
    "url": "https://genius.com/Frank-wedekind-spring-awakening-act-2-annotated",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     497,
@@ -11520,7 +11520,7 @@
    "title": "The Serpent and the Rainbow (film) - Wikipedia",
    "url": "https://en.wikipedia.org/wiki/The_Serpent_and_the_Rainbow_%28film%29",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     564,
@@ -11537,7 +11537,7 @@
    "title": "Jonestown Massacre: What You Should Know About Cult Murder-Suicide - Rolling Stone",
    "url": "https://www.rollingstone.com/feature/jonestown-13-things-you-should-know-about-cult-massacre-121974/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     672,
@@ -11622,7 +11622,7 @@
    "title": "Open Mics LA | UP(st)ART Creative",
    "url": "https://www.liveatupstart.com/open-mics-la",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     666,
@@ -11707,7 +11707,7 @@
    "title": "God Must Hate Me - Chords Easy - Catie Turner (Version 1) | Guitar Chords, Tabs",
    "url": "https://chordseasy.com/song/33888/god-must-hate-me",
    "kind": "website",
-   "topic": "music · download · official",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     576,
@@ -11741,7 +11741,7 @@
    "title": "Tor Project | Success",
    "url": "https://www.torproject.org/thank-you/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     613,
@@ -11758,7 +11758,7 @@
    "title": "Untitled",
    "url": "https://aplusphysics.com/courses/ap-c/tutorials/APC-Gravity.pdf",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     712,
@@ -11809,7 +11809,7 @@
    "title": "Nerdle - the daily numbers game",
    "url": "https://nerdlegame.com/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     264,
@@ -11843,7 +11843,7 @@
    "title": "Briefing_Memo_Debunking_Voter_Fraud_Myth.pdf",
    "url": "https://www.brennancenter.org/sites/default/files/analysis/Briefing_Memo_Debunking_Voter_Fraud_Myth.pdf",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     648,
@@ -11860,7 +11860,7 @@
    "title": "Social Credit System - Wikipedia",
    "url": "https://en.wikipedia.org/wiki/Social_Credit_System",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     590,
@@ -11877,7 +11877,7 @@
    "title": "Image histogram online",
    "url": "https://pinetools.com/image-histogram",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     329,
@@ -11961,7 +11961,7 @@
    "title": "Cognitive Science and Artificial Intelligence — Birkbeck, University of London",
    "url": "https://www.bbk.ac.uk/courses/postgraduate/cognitive-science-and-artificial-intelligence",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2447,
@@ -11977,7 +11977,7 @@
    "title": "Cognitive Science - Department of Psychology - Dietrich College of Humanities and Social Sciences - Carnegie Mellon University",
    "url": "https://www.cmu.edu/dietrich/psychology/graduate/research-training-areas/cognitive-science/index.html",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     784,
@@ -11993,7 +11993,7 @@
    "title": "Master of Engineering in Computation and Cognition | Brain and Cognitive Sciences",
    "url": "https://bcs.mit.edu/academic-program/course-6-9-computation-and-cognition/master-engineering-computation-and-cognition",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     718,
@@ -12009,7 +12009,7 @@
    "title": "Search - Our World in Data",
    "url": "https://ourworldindata.org/search",
    "kind": "website",
-   "topic": "data · tools · code",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     864,
@@ -12025,7 +12025,7 @@
    "title": "WALS Online - Feature 131A: Numeral Bases",
    "url": "https://wals.info/feature/131A?iconsize=20&amp;labels=0&amp;v1=c0000DD&amp;v2=c666bff&amp;v3=cDD0000&amp;v4=cCCCCCC&amp;v5=cFFFF00&amp;v6=cFFFFFF#map-container",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     789,
@@ -12057,7 +12057,7 @@
    "title": "Rare - Exploring Mayan Numerology: A Journey into Ancient Wisdom",
    "url": "https://www.rarelanguage.com/blog/exploring-mayan-numbers",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     377,
@@ -12073,7 +12073,7 @@
    "title": "Transformer Explainer: LLM Transformer Model Visually Explained",
    "url": "https://poloclub.github.io/transformer-explainer/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     727,
@@ -12105,7 +12105,7 @@
    "title": "Analyzing the Linguistic Differences Between Spoken and Written Text Using BERT · minalee-research/cs257-students Wiki",
    "url": "https://github.com/minalee-research/cs257-students/wiki/Analyzing-the-Linguistic-Differences-Between-Spoken-and-Written-Text-Using-BERT",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     725,
@@ -12137,7 +12137,7 @@
    "title": "The Shard Theory of Human Values",
    "url": "https://turntrout.com/shard-theory",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2447,
@@ -12169,7 +12169,7 @@
    "title": "memoryaha/README.md at main · hyssong/memoryaha · GitHub",
    "url": "https://github.com/hyssong/memoryaha/blob/main/README.md",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     732,
@@ -12185,7 +12185,7 @@
    "title": "GitHub - hyssong/memoryaha: Behavioral data and analysis codes: Cortical reinstatement of causally related events sparks narrative insights by updating neural r",
    "url": "https://github.com/hyssong/memoryaha",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     731,
@@ -12217,7 +12217,7 @@
    "title": "Algorithmic Music Online",
    "url": "https://algorithmicmusic.online/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     326,
@@ -12265,7 +12265,7 @@
    "title": "Programs | Astra Fellowship | Constellation Institute",
    "url": "https://constellation.org/programs/astra",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     446,
@@ -12281,7 +12281,7 @@
    "title": "Is coding a relevant metaphor for building AI? - PubMed",
    "url": "https://pubmed.ncbi.nlm.nih.gov/31775918/",
    "kind": "paper",
-   "topic": "data · tools · code",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     303,
@@ -12297,7 +12297,7 @@
    "title": "Chord progressions in major keys — Jeffrey Pepper Rodgers | Words and music",
    "url": "https://www.jeffreypepperrodgers.com/blog/songwriting-lesson-chord-progressions-in-major-keys",
    "kind": "website",
-   "topic": "music · download · official",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     576,
@@ -12313,7 +12313,7 @@
    "title": "WNYC | New York Public Radio, Podcasts, Live Streaming Radio, News",
    "url": "https://wnyc.org/home",
    "kind": "podcast",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     672,
@@ -12329,7 +12329,7 @@
    "title": "Oral History Project | Hamrah Arts Club",
    "url": "https://www.hamrahartsclub.com/oral-history-project",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     775,
@@ -12345,7 +12345,7 @@
    "title": "The Berkeley Artificial Intelligence Research Blog",
    "url": "https://bair.berkeley.edu/blog/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2411,
@@ -12377,7 +12377,7 @@
    "title": "CS50's Introduction to Artificial Intelligence with Python | Harvard University",
    "url": "https://online-learning.harvard.edu/course/cs50s-introduction-artificial-intelligence-python?delta=0",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     719,
@@ -12394,7 +12394,7 @@
    "title": "Data Science: Machine Learning | Harvard University",
    "url": "https://online-learning.harvard.edu/course/data-science-machine-learning?delta=0",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     289,
@@ -12411,7 +12411,7 @@
    "title": "Data Science: R Basics | Harvard University",
    "url": "https://online-learning.harvard.edu/course/data-science-r-basics?delta=0",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     325,
@@ -12428,7 +12428,7 @@
    "title": "Science & Cooking: From Haute Cuisine to Soft Matter Science (chemistry) | Harvard University",
    "url": "https://online-learning.harvard.edu/course/science-and-cooking?delta=0",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     1041,
@@ -12445,7 +12445,7 @@
    "title": "Hinduism Through Its Scriptures | Harvard University",
    "url": "https://online-learning.harvard.edu/course/hinduism-through-its-scriptures?delta=0",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     348,
@@ -12462,7 +12462,7 @@
    "title": "Lecture 1 - CS50x",
    "url": "https://cs50.harvard.edu/x/2020/notes/1/#string",
    "kind": "video",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     550,
@@ -12479,7 +12479,7 @@
    "title": "Writing Persuasive Essays | Ereading Worksheets",
    "url": "https://www.ereadingworksheets.com/writing/writing-persuasive-essays/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     609,
@@ -12513,7 +12513,7 @@
    "title": "Keeping college radio alive in a crisis : WMBR Blog",
    "url": "http://blog.wmbr.org/?p=548",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     642,
@@ -12564,7 +12564,7 @@
    "title": "Online Ear Training with Intervals, Melodies, Jazz Chord Progressions | IWasDoingAllRight",
    "url": "https://www.iwasdoingallright.com/tools/ear_training/online/",
    "kind": "website",
-   "topic": "music · download · official",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     739,
@@ -12581,7 +12581,7 @@
    "title": "How to Memorize Fast and Easily - YouTube",
    "url": "https://www.youtube.com/watch?v=0nFkQ4cQhME",
    "kind": "video",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2307,
@@ -12785,7 +12785,7 @@
    "title": "This Woman Did A Stunning Maternity Shoot After Going Through Six Miscarriages - BuzzFeed News",
    "url": "https://www.buzzfeed.com/kassycho/this-woman-did-a-stunning-maternity-shoot-after-going-throug?utm_term=.siBx7Q9A#.vxEb9lGN",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     775,
@@ -12819,7 +12819,7 @@
    "title": "16 Photos That Will Almost Definitely Make You Feel Happy",
    "url": "https://www.buzzfeed.com/andyneuenschwander/16-photos-that-will-almost-definitely-make-you-feel-happy?utm_term=.abGdJDno#.anxvjmbX",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     434,
@@ -12904,7 +12904,7 @@
    "title": "19 Kids and Counting Canceled After Josh Duggar Molestation Scandal",
    "url": "http://people.com/tv/19-kids-and-counting-canceled-after-josh-duggar-molestation-scandal/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     523,
@@ -13040,7 +13040,7 @@
    "title": "A Bitter Lesson for Data Filtering",
    "url": "https://arxiv.org/abs/2605.19407",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     807,
@@ -13059,7 +13059,7 @@
    "title": "A new era in cognitive neuroscience: the tidal wave of artificial intelligence (AI)",
    "url": "https://doi.org/10.1186/s12868-024-00869-w",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     719,
@@ -13078,7 +13078,7 @@
    "title": "Sharp Minima Can Generalize For Deep Nets",
    "url": "https://arxiv.org/abs/1703.04933",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     792,
@@ -13115,7 +13115,7 @@
    "title": "On Lazy Training in Differentiable Programming",
    "url": "https://arxiv.org/abs/1812.07956",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     790,
@@ -13134,7 +13134,7 @@
    "title": "A ConvNet for the 2020s",
    "url": "https://arxiv.org/abs/2201.03545",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     2557,
@@ -13153,7 +13153,7 @@
    "title": "Cramming: Training a Language Model on a Single GPU in One Day",
    "url": "https://arxiv.org/abs/2212.14034",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     327,
@@ -13172,7 +13172,7 @@
    "title": "Pythia: A Suite for Analyzing Large Language Models Across Training and Scaling",
    "url": "https://arxiv.org/abs/2304.01373",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     787,
@@ -13191,7 +13191,7 @@
    "title": "Language Models Use Trigonometry to Do Addition",
    "url": "https://arxiv.org/abs/2502.00873",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     2404,
@@ -13210,7 +13210,7 @@
    "title": "The Geometric Inductive Bias of Grokking: Bypassing Phase Transitions via Architectural Topology",
    "url": "https://arxiv.org/abs/2603.05228",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     785,
@@ -13229,7 +13229,7 @@
    "title": "Always Learning, Always Mixing: Efficient and Simple Data Mixing All The Time",
    "url": "https://arxiv.org/abs/2605.15220",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     325,
@@ -13248,7 +13248,7 @@
    "title": "Nobody Truly Agrees on Sentiment: Humans, Bespoke Tools, and LLMs Struggle with Social Media Texts",
    "url": "https://arxiv.org/abs/2610.10318",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     791,
@@ -13267,7 +13267,7 @@
    "title": "V3AST-Bench: Verifiable, Valid, and Versatile Safety Evaluation for Coding Agents",
    "url": "https://arxiv.org/abs/2610.35188",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     2398,
@@ -13381,7 +13381,7 @@
    "title": "Progress Measures for Grokking via Mechanistic Interpretability",
    "url": "https://mlanthology.org/iclr/2023/nanda2023iclr-progress/",
    "kind": "website",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     327,
@@ -13400,7 +13400,7 @@
    "title": "Everything and nothing is conscious: default assumptions in science and ethics",
    "url": "https://doi.org/10.3389/fpsyg.2025.1700354",
    "kind": "paper",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1753,
@@ -13456,7 +13456,7 @@
    "title": "Explaining in Style: Training a GAN to explain a classifier in StyleSpace",
    "url": "https://arxiv.org/abs/2104.13369",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     792,
@@ -13475,7 +13475,7 @@
    "title": "Interpreting the Second-Order Effects of Neurons in CLIP",
    "url": "https://arxiv.org/abs/2406.04341",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     805,
@@ -13494,7 +13494,7 @@
    "title": "AI models may be capable of self-replicating without access to a datacenter (Anthropic)",
    "url": null,
    "kind": "thing",
-   "topic": "university · models · large",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     783,
@@ -13645,7 +13645,7 @@
    "title": "Securing our frontier model training environment (OpenAI)",
    "url": null,
    "kind": "thing",
-   "topic": "university · models · large",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1669,
@@ -14084,7 +14084,7 @@
    "title": "urstudybff: MUST KNOW STUDY RESOURCES PT 2",
    "url": "https://www.instagram.com/p/DXbEL9-CIiI/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     855,
@@ -14339,7 +14339,7 @@
    "title": "kallaway: Google’s AI mapping project will change how we study the Earth",
    "url": "https://www.instagram.com/p/DbVlhQ8ut9k/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     840,
@@ -14390,7 +14390,7 @@
    "title": "carterperez.dev: Comment “OSINT” and I’ll send you the links to your DM!",
    "url": "https://www.instagram.com/p/DZup8iARBP-/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     625,
@@ -14441,7 +14441,7 @@
    "title": "stereo.drift: i made a website that turns your microphone into a paint brush",
    "url": "https://www.instagram.com/p/DZdIYhxxMtE/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     875,
@@ -14458,7 +14458,7 @@
    "title": "dovbenkodasha: Hi! You often ask how I create my work, so I decided to record this vi",
    "url": "https://www.instagram.com/p/DbYlwpVI4j3/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     497,
@@ -14475,7 +14475,7 @@
    "title": "softwarewithnick: Free NASA Data 😎",
    "url": "https://www.instagram.com/p/DWrQKaskWlZ/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     625,
@@ -14492,7 +14492,7 @@
    "title": "rndyrbrts: Built a system that turns taste into data and data back into art",
    "url": "https://www.instagram.com/p/DYeHzvgCURl/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     863,
@@ -14628,7 +14628,7 @@
    "title": "shaylee.southerland: ➡️ see the process and result at the end!",
    "url": "https://www.instagram.com/p/DblCEM-oztx/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     1779,
@@ -14679,7 +14679,7 @@
    "title": "5aitec: There’s a website that lists every document that ever moved a trillion dollars.",
    "url": "https://www.instagram.com/p/DbkET8uuQ5I/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     861,
@@ -14952,7 +14952,7 @@
    "title": "dj_dave____: Next to U — out 07_23",
    "url": "https://www.instagram.com/p/DbFQRJNNDrs/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2312,
@@ -15105,7 +15105,7 @@
    "title": "peterbooksnyc: Episode 60 with Eliza Mclamb!",
    "url": "https://www.instagram.com/p/Da3DSnLC0f3/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1388,
@@ -15139,7 +15139,7 @@
    "title": "shantayarc: Comment start to level up your calisthenic 💪🫶",
    "url": "https://www.instagram.com/p/DZ7Y44IvNTr/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     685,
@@ -15190,7 +15190,7 @@
    "title": "lizthedeveloper: You *can* learn to code by vibe coding a lot don’t let them tell u otherwise",
    "url": "https://www.instagram.com/p/DX-kEbxCdN1/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     322,
@@ -15309,7 +15309,7 @@
    "title": "playing.moss: We're all tired of reversing linked lists",
    "url": "https://www.instagram.com/p/DYu8vtBxKHf/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1595,
@@ -15377,7 +15377,7 @@
    "title": "anna.zhang: save these free resources if you’re interested in learning creative coding ✨…",
    "url": "https://www.instagram.com/p/DXskX1tinkh/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     40,
@@ -15462,7 +15462,7 @@
    "title": "heyzoeyhaven: What I sent to my bestie to show off my new project 🥰",
    "url": "https://www.instagram.com/p/DaJmR0HBMpo/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1490,
@@ -15956,7 +15956,7 @@
    "title": "writingheads: These are the kinds of questions strong essays are made of",
    "url": "https://www.instagram.com/p/DZh80_YuQbL/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1003,
@@ -16041,7 +16041,7 @@
    "title": "chefmarinie: Ep 99 of EAT LIKE A GREEK 🇬🇷✨follow @chefmarinie to see what’s next!",
    "url": "https://www.instagram.com/p/DXChsqviEs0/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     969,
@@ -16211,7 +16211,7 @@
    "title": "theatlantic: “I believe that the best way to find inspiration is to look to writers who…",
    "url": "https://www.instagram.com/p/DZhukTjOiVp/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1869,
@@ -16279,7 +16279,7 @@
    "title": "itsjustcinema: This is part 3 of my series “Love Takes Miles”, where over the next 10 days I’m…",
    "url": "https://www.instagram.com/p/DZa6b2vipAD/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     891,
@@ -16381,7 +16381,7 @@
    "title": "dough_and_behold: Last week’s incase you missed it",
    "url": "https://www.instagram.com/p/DYZeHaPuK0V/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2317,
@@ -16859,7 +16859,7 @@
    "title": "elizabeth.montrose: These are the best Substack essays that I read this week :)",
    "url": "https://www.instagram.com/p/DZDhZgCpRaF/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1167,
@@ -16893,7 +16893,7 @@
    "title": "tiffchat1: to use “reality based community” as an insult reminds me of that midwit meme,…",
    "url": "https://www.instagram.com/p/DY9pfUgu7Lt/",
    "kind": "post",
-   "topic": "philosophy · mind · matter",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1244,
@@ -17046,7 +17046,7 @@
    "title": "raaksbox: why did all of this take so long help",
    "url": "https://www.instagram.com/p/DXkYSC-Eu5G/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     1107,
@@ -17182,7 +17182,7 @@
    "title": "hahamckenna: Linked up with Girl Two Grades Below Me @itstinacolada for a fabulous and…",
    "url": "https://www.instagram.com/p/DZDPPbgRcS2/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1595,
@@ -17318,7 +17318,7 @@
    "title": "aikgul: Another trip down the fabric bin to make some Gindi embroidery beads.",
    "url": "https://www.instagram.com/p/DZIXZJgNOE5/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1285,
@@ -17335,7 +17335,7 @@
    "title": "delish: Real milk only, please",
    "url": "https://www.instagram.com/p/DZDrms4kdUP/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     2264,
@@ -17744,7 +17744,7 @@
    "title": "agirlaboutchicago: weekend upgrade | part 3✨",
    "url": "https://www.instagram.com/p/DXNY-1SAaX-/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2238,
@@ -17846,7 +17846,7 @@
    "title": "kellymediagroup: @eliseseats_ counter cakes have us obsessed!",
    "url": "https://www.instagram.com/p/DVOqQ5TDkYr/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1342,
@@ -17999,7 +17999,7 @@
    "title": "acozykitchen: strawberry brownies 🍓 a sweet punch 👊🏽 of strawberry 🍓 with the soft, supple,…",
    "url": "https://www.instagram.com/p/DYaCWsbSLfH/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1066,
@@ -18271,7 +18271,7 @@
    "title": "shewandersphotography: Trust I WILL be making these with some flowers soon.",
    "url": "https://www.instagram.com/p/DYSlxiixlHE/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1394,
@@ -18390,7 +18390,7 @@
    "title": "megriellamoose: UPDATE: making a substack on how to do this in the next few days!!!",
    "url": "https://www.instagram.com/p/DUEliYAkW8I/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     955,
@@ -19002,7 +19002,7 @@
    "title": "shivesh17: 30 days, 30 giveaways - Welcome to my virtual Birthday Party, where I’m…",
    "url": "https://www.instagram.com/p/DXJltbVE5bo/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2195,
@@ -19070,7 +19070,7 @@
    "title": "agentandreaaa: You don’t need a full weekend trip to get out of the city",
    "url": "https://www.instagram.com/p/DXNXwmNjryE/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2238,
@@ -19121,7 +19121,7 @@
    "title": "letsfamilystyle: Docs has been making real southern desserts for 13 years and it fr does remind…",
    "url": "https://www.instagram.com/p/DQb4GX5EZW4/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1394,
@@ -20022,7 +20022,7 @@
    "title": "tiat.place: join us, we’re doing the Nature of Code together Tuesdays at @tiat.place ⭐️",
    "url": "https://www.instagram.com/p/DUOUSybibMR/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     117,
@@ -20311,7 +20311,7 @@
    "title": "rollingstonein: Did we actually get a GTA-looking campaign before GTA VI?",
    "url": "https://www.instagram.com/p/DWRA6fpjOr3/",
    "kind": "post",
-   "topic": "philosophy · mind · matter",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1280,
@@ -20345,7 +20345,7 @@
    "title": "ojrgb: I just got married + had a very intense business trip so I haven’t been posting…",
    "url": "https://www.instagram.com/p/DVn2ryfkSOj/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1030,
@@ -20379,7 +20379,7 @@
    "title": "jackssingss: When Jackson told me he had a solo, this was not what I was expecting 😂 my…",
    "url": "https://www.instagram.com/p/DSJdtFSgcxP/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1570,
@@ -20618,7 +20618,7 @@
    "title": "kayleejochicago: If you’ve already done the Bean, the Riverwalk, and the architecture tour… this…",
    "url": "https://www.instagram.com/p/DVBkqrvDbhL/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2307,
@@ -20652,7 +20652,7 @@
    "title": "subwaytakes: Episode 562: If you plug your ears when a siren passes, you’re a big baby!!",
    "url": "https://www.instagram.com/p/DRfAgjjDjq0/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1388,
@@ -20737,7 +20737,7 @@
    "title": "cyberfixations: @laurenauder’s cyberfixation: 90’s era pseudoscientific websites",
    "url": "https://www.instagram.com/p/DUBydOFEdTv/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1828,
@@ -20993,7 +20993,7 @@
    "title": "prestonrack: “i remember” is more romantic than “i love you”",
    "url": "https://www.instagram.com/p/DSD1v0GFKqP/",
    "kind": "post",
-   "topic": "quizlet · flashcards · grade",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1716,
@@ -21095,7 +21095,7 @@
    "title": "gamechangershow: 🎬Here's how you hide a secret episode budget from your CEO",
    "url": "https://www.instagram.com/p/DOJo8p3Dbq0/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1388,
@@ -21572,7 +21572,7 @@
    "title": "therihannaroom: Personally I would’ve been just happy to have met Rihanna 🙂‍↔️",
    "url": "https://www.instagram.com/p/DIhJKClxTTU/",
    "kind": "post",
-   "topic": "philosophy · mind · matter",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1206,
@@ -21658,7 +21658,7 @@
    "title": "firstclassjerk: Sydney Sweeney just leveled-up the girls trip",
    "url": "https://www.instagram.com/p/DIRsd4uOTa9/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1030,
@@ -21709,7 +21709,7 @@
    "title": "carle100: ✨Reply with “PROKIT” for my free career resources to be DM’d to you where I…",
    "url": "https://www.instagram.com/p/DFHAqAmMdiv/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     604,
@@ -21845,7 +21845,7 @@
    "title": "jermarcusriggins: Here’s an exercise for faster/cleaner riffs and runs with a creative twist at…",
    "url": "https://www.instagram.com/p/DBaG2y5saGE/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     2213,
@@ -21982,7 +21982,7 @@
    "title": "sweetbaphomet: A much needed smoke break on @benjaminryanmoeller I don’t know about you but I…",
    "url": "https://www.instagram.com/p/DE70sqqS4Uh/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1494,
@@ -22101,7 +22101,7 @@
    "title": "sarvasvkulpati: I’m making a tamagotchi with tools that’s helping me reduce my phone addiction",
    "url": "https://www.instagram.com/p/DHrtql8y1Mv/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     40,
@@ -22220,7 +22220,7 @@
    "title": "cedrusk: On learning Spanish through",
    "url": "https://www.instagram.com/p/DHWrrONoFID/",
    "kind": "post",
-   "topic": "quizlet · flashcards · grade",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1682,
@@ -22390,7 +22390,7 @@
    "title": "ariathome: So many talented singers have been hopping on the mic this past week!",
    "url": "https://www.instagram.com/p/DHOXVpgxqjF/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     975,
@@ -22747,7 +22747,7 @@
    "title": "subwaytakes: Episode 291: 3D movies are trash and we don’t need any more of them!!",
    "url": "https://www.instagram.com/p/DGdcF-Nufap/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1388,
@@ -22935,7 +22935,7 @@
    "title": "subwaytakes: Episode 293: Dining out alone is extremely underrated!!",
    "url": "https://www.instagram.com/p/DGiocJ2uaqf/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1388,
@@ -23361,7 +23361,7 @@
    "title": "filmsyoushouldbewatching: This isn’t just a case, it’s personal",
    "url": "https://www.instagram.com/p/DFJovQzI6co/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     250,
@@ -23412,7 +23412,7 @@
    "title": "subwaytakes: New episode of @thelaststopshow is out now YA FREAKS!",
    "url": "https://www.instagram.com/p/DAEFI_POk6n/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     900,
@@ -23533,7 +23533,7 @@
    "title": "decolonizing.love: Another celebrity couple to add to those choosing the Living Apart Together…",
    "url": "https://www.instagram.com/p/DEqg4YavLCR/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     434,
@@ -23601,7 +23601,7 @@
    "title": "kathleenscravings: SINGLE SERVE EDIBLE COOKIE DOUGH 🍪 Follow @KathleensCravings for more single…",
    "url": "https://www.instagram.com/p/DEOGvzGRzGM/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1336,
@@ -23772,7 +23772,7 @@
    "title": "otherearthkidwonder: and now she’s turned her into a little indian burrito",
    "url": "https://www.instagram.com/p/DDKST4jRfBe/",
    "kind": "post",
-   "topic": "bloomingdale's · jeans · clothes",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2000,
@@ -23789,7 +23789,7 @@
    "title": "streethearts: “he’s giving a little old” 😂💝",
    "url": "https://www.instagram.com/p/DEnojruvmGw/",
    "kind": "post",
-   "topic": "bloomingdale's · jeans · clothes",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2298,
@@ -23874,7 +23874,7 @@
    "title": "playbill: Everything is both.",
    "url": "https://www.instagram.com/p/DElSMX5J9Bl/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1510,
@@ -24062,7 +24062,7 @@
    "title": "means_tv: The Second Mother (2015, 113min)",
    "url": "https://www.instagram.com/p/DEIbjQivTF3/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     607,
@@ -24198,7 +24198,7 @@
    "title": "shaylaquinn: 15.69 miles and 5 hours 52 minutes later we walked the entirety of from the…",
    "url": "https://www.instagram.com/p/DBjDSnkRyJF/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     897,
@@ -24556,7 +24556,7 @@
    "title": "subwaytakes: Episode 153: People who spell “crazy” with a “k” instead of a “c” ain’t really…",
    "url": "https://www.instagram.com/p/C9ulRHHOsgm/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1822,
@@ -24845,7 +24845,7 @@
    "title": "a_littlebitofmonica: @frostedjake internet sensation",
    "url": "https://www.instagram.com/p/DDeAk--RWOf/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1156,
@@ -25406,7 +25406,7 @@
    "title": "letterboxd: Four Favorites with Thelma star June Squibb, who celebrates her 95th birthday…",
    "url": "https://www.instagram.com/p/DCCsjk1pXG5/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2128,
@@ -25494,7 +25494,7 @@
    "title": "disruptions: this trio is everything @saynow",
    "url": "https://www.instagram.com/p/DBHaXkjSQHp/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1415,
@@ -25647,7 +25647,7 @@
    "title": "bigvicmedia: I love the creative choice to incorporate two different filming styles",
    "url": "https://www.instagram.com/p/C_vr0_bv6f0/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     2213,
@@ -26345,7 +26345,7 @@
    "title": "sabrinanicoli: The way you talk about yourself and your body in front of your kids can have a…",
    "url": "https://www.instagram.com/p/C_OTeuhILZ-/",
    "kind": "video",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     929,
@@ -26447,7 +26447,7 @@
    "title": "theimpr0vguy: Please hire us so we can go back!",
    "url": "https://www.instagram.com/p/C-77VGexwUP/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1979,
@@ -26687,7 +26687,7 @@
    "title": "rjgaurika: I can’t believe it we made it to episode 4 bhai what",
    "url": "https://www.instagram.com/p/C-Kl-AJAv9m/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1822,
@@ -26857,7 +26857,7 @@
    "title": "logansfewd: Sometimes you need to eat an entire cucumber",
    "url": "https://www.instagram.com/p/C-SpdsXxMnj/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1056,
@@ -26891,7 +26891,7 @@
    "title": "zaniesnashville: Nashville’s James Austin Johnson (@ShrimpJAJ) returns to Zanies this weekend,…",
    "url": "https://www.instagram.com/p/C-AmoQguKao/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1055,
@@ -26942,7 +26942,7 @@
    "title": "diaryofaurel: Canva template linked in bio 🤍",
    "url": "https://www.instagram.com/p/C9-DeYVz_Ae/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     912,
@@ -27232,7 +27232,7 @@
    "title": "danniesbrain: The subtle way in which climate might shape the sounds different languages use",
    "url": "https://www.instagram.com/p/C9SbFcou4co/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1543,
@@ -27317,7 +27317,7 @@
    "title": "instalorns: Can women throw or catch?",
    "url": "https://www.instagram.com/p/C9Xlg1Ss6ac/",
    "kind": "post",
-   "topic": "bloomingdale's · jeans · clothes",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1770,
@@ -27487,7 +27487,7 @@
    "title": "nicolasnuvan: Community on the Block",
    "url": "https://www.instagram.com/p/C9OfqVgNt7y/",
    "kind": "post",
-   "topic": "philosophy · mind · matter",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1244,
@@ -27930,7 +27930,7 @@
    "title": "soundslikesofia: I’m currently stuck at home sick (this video was filmed last week lol, I just…",
    "url": "https://www.instagram.com/p/C85YkhmSdwK/",
    "kind": "video",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2317,
@@ -28084,7 +28084,7 @@
    "title": "feleciaforthewin: We’ve got some truly 🔥 talks being added this week 😩🤓🙌 if this sounds like…",
    "url": "https://www.instagram.com/p/C8pt7ygvrQJ/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     975,
@@ -28152,7 +28152,7 @@
    "title": "itsangelicageorges: Someone took their time to make a website with all the free things you can get…",
    "url": "https://www.instagram.com/p/C8poGUFIAbR/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     236,
@@ -28186,7 +28186,7 @@
    "title": "monetmcmichael: cheers around france 🥂 you have to do this on your next trip IT’S SO CUTE omg…",
    "url": "https://www.instagram.com/p/C8lNCJ8tN1P/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2048,
@@ -28203,7 +28203,7 @@
    "title": "jessiekirk_: Hi, I’m Jessie and I’m not the model ✨",
    "url": "https://www.instagram.com/p/C8at__hS0A3/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     815,
@@ -28220,7 +28220,7 @@
    "title": "sunglsco: TAB doesn’t have any social media I can find, but genuinely this app is SO…",
    "url": "https://www.instagram.com/p/C5zNaLjANaC/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     1792,
@@ -28288,7 +28288,7 @@
    "title": "junecavlan: Have you presaved my debut single yet?",
    "url": "https://www.instagram.com/p/C7-XtZJvmGs/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1399,
@@ -28407,7 +28407,7 @@
    "title": "jaronmlegrair: @audramcdonald x Can’t Stop Talking About Him",
    "url": "https://www.instagram.com/p/C7QTH6ytVZT/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     907,
@@ -28424,7 +28424,7 @@
    "title": "theimpr0vguy: English/Spanish Freestyle | IMPROV RAP",
    "url": "https://www.instagram.com/p/C8cOcCjxWpq/",
    "kind": "post",
-   "topic": "quizlet · flashcards · grade",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     412,
@@ -28475,7 +28475,7 @@
    "title": "annaafrank: Had to try this vocal fitness program by @billieeilish.",
    "url": "https://www.instagram.com/p/C8aLivWNRXu/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1750,
@@ -28560,7 +28560,7 @@
    "title": "emotherfuckers: sza liked one of my posts a couple hours ago n i just saw a tiktok abt someone…",
    "url": "https://www.instagram.com/p/C7ILINWoQAs/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     1347,
@@ -28834,7 +28834,7 @@
    "title": "yolandainthecity: Ep:1 Why buy it when you can just make it?🖤⛓️tools linked in my Amazon…",
    "url": "https://www.instagram.com/p/C74hcVKPY7S/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1595,
@@ -28953,7 +28953,7 @@
    "title": "maggiefromladder_: 🖇️ in b!O to try a free week of the best workouts on me!",
    "url": "https://www.instagram.com/p/C77YM6bpp3S/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     975,
@@ -29004,7 +29004,7 @@
    "title": "finallypod: a night to remember",
    "url": "https://www.instagram.com/p/C76x01UuqOT/",
    "kind": "post",
-   "topic": "quizlet · flashcards · grade",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1246,
@@ -29123,7 +29123,7 @@
    "title": "hunnagbeats: Take a seat rap on the beat - 138 - @chlothegod",
    "url": "https://www.instagram.com/p/C5hDaNDJc-p/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     1887,
@@ -29346,7 +29346,7 @@
    "title": "trackstarshow: A little folk with @prateekkuhad !",
    "url": "https://www.instagram.com/p/C6J_X2euNSn/",
    "kind": "post",
-   "topic": "bloomingdale's · jeans · clothes",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2298,
@@ -29414,7 +29414,7 @@
    "title": "cherie.brooke: Students say it’s the most useful class at the GSB.",
    "url": "https://www.instagram.com/p/C7nVHl1pfSd/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     851,
@@ -29635,7 +29635,7 @@
    "title": "sq_film: when everything becomes a copy 😀",
    "url": "https://www.instagram.com/p/C7cKBd8vOQf/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1415,
@@ -29925,7 +29925,7 @@
    "title": "messynessychic: Women holding things 🏋️‍♀️ with love from 🤍 🔈Thank you for your inspiring words…",
    "url": "https://www.instagram.com/p/C4QlppzImKq/",
    "kind": "post",
-   "topic": "bloomingdale's · jeans · clothes",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1617,
@@ -30079,7 +30079,7 @@
    "title": "milad.on.the.run: I had to twerk at the end 🤭✌🏽",
    "url": "https://www.instagram.com/p/C32WnUbrHE2/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     872,
@@ -30113,7 +30113,7 @@
    "title": "facemelts: For Facemelts Women’s Week we will be putting the spotlight on 15 female…",
    "url": "https://www.instagram.com/p/C4Oy5IPhbWj/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     975,
@@ -30470,7 +30470,7 @@
    "title": "adrianam_crochetdesigns: It feels and looks like knitted but it's classic crochet, not tunisian",
    "url": "https://www.instagram.com/p/C2ZW_est9s7/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     2125,
@@ -30810,7 +30810,7 @@
    "title": "gladstonemedia: TYPEFACES OF TORONTO - EPISODE 4",
    "url": "https://www.instagram.com/p/C3sbtDdOYDb/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     900,
@@ -30912,7 +30912,7 @@
    "title": "forgoodcode: These websites should be bookmarked on every browser",
    "url": "https://www.instagram.com/p/C3Sd6MRxhGL/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1231,
@@ -31083,7 +31083,7 @@
    "title": "bumbahayvyer: I feel like the best duo in the show was whoever Spoon was currently…",
    "url": "https://www.instagram.com/p/C1VF4F6gU9S/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     2288,
@@ -31287,7 +31287,7 @@
    "title": "hoectory: had my first bonfire experience this weekend",
    "url": "https://www.instagram.com/p/C1kvEezNT9f/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2238,
@@ -31321,7 +31321,7 @@
    "title": "forgoodcode: Achieve your goals using the right tools",
    "url": "https://www.instagram.com/p/C1b6DZ6xaax/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     42,
@@ -31440,7 +31440,7 @@
    "title": "chappellroan: When i was 15 I was told it would take 10+ years to get where i wanted to be in…",
    "url": "https://www.instagram.com/p/C1U6y2kvSLm/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     1602,
@@ -31457,7 +31457,7 @@
    "title": "bryce_jv: Show: Electric Dreams, Episode 9 @primevideo",
    "url": "https://www.instagram.com/p/C1FYBBYgRCC/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1388,
@@ -32054,7 +32054,7 @@
    "title": "lindseylomis: let’s just say i’m here 4 the @tatemcrae world domination",
    "url": "https://www.instagram.com/p/C0dKuqnrBhz/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     2233,
@@ -32754,7 +32754,7 @@
    "title": "etymologynerd: This took me four hours to make",
    "url": "https://www.instagram.com/p/CzZD6r2guWo/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     1182,
@@ -33147,7 +33147,7 @@
    "title": "stoccafisso_design: I saw this work on the internet and loved it, so I decided to redo it in a…",
    "url": "https://www.instagram.com/p/CyBenajIOdt/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     2089,
@@ -33385,7 +33385,7 @@
    "title": "broskireport: Everything that needed to be said was said in this video.",
    "url": "https://www.instagram.com/p/CxbCeWJPfCu/",
    "kind": "video",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1415,
@@ -33453,7 +33453,7 @@
    "title": "vintagezac: Couldn’t get my money out fast enough when i saw this 😳 throwback to this super…",
    "url": "https://www.instagram.com/p/CvTa7AQgy1y/",
    "kind": "post",
-   "topic": "bloomingdale's · jeans · clothes",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1736,
@@ -33845,7 +33845,7 @@
    "title": "coiffeurstory: 🖼️ FACE FRAMING LOVE ✂️ @coiffeurstory a little face framing transformation…",
    "url": "https://www.instagram.com/p/Cu9hLjbNU2b/",
    "kind": "post",
-   "topic": "bloomingdale's · jeans · clothes",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1736,
@@ -34408,7 +34408,7 @@
    "title": "jun_yuh: i wish school taught you HOW to learn rather than just giving you things to…",
    "url": "https://www.instagram.com/p/CsxMKLpIj8L/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     609,
@@ -34663,7 +34663,7 @@
    "title": "alexkhachigian: ✈️ Save for your next trip 🔽",
    "url": "https://www.instagram.com/p/Cv6SKTPrMBA/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1668,
@@ -34936,7 +34936,7 @@
    "title": "andfriends.nyc: the story of south london rapper strandz",
    "url": "https://www.instagram.com/p/CvxREgftJJ3/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     49,
@@ -34970,7 +34970,7 @@
    "title": "cliffpierreceo: Follow @cliffpierreceo for more secret websites🤓",
    "url": "https://www.instagram.com/p/CtsrAQsqMYr/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1231,
@@ -35363,7 +35363,7 @@
    "title": "itsjudeyork: she saw her moment and she took it!",
    "url": "https://www.instagram.com/p/CvW7r-wNZ2N/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     1690,
@@ -35703,7 +35703,7 @@
    "title": "baldyloxvintage: some sauce you can look out for on your next thrift run 😽 ~",
    "url": "https://www.instagram.com/p/CuhzRRGPHzj/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     891,
@@ -36249,7 +36249,7 @@
    "title": "_siicksounds: cool cool cool ⭐️",
    "url": "https://www.instagram.com/p/CusQvb3MI76/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     253,
@@ -36334,7 +36334,7 @@
    "title": "thesundaysuggestion: Who's the elite here?",
    "url": "https://www.instagram.com/p/Ct3-t1suPG7/",
    "kind": "post",
-   "topic": "philosophy · mind · matter",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1005,
@@ -36385,7 +36385,7 @@
    "title": "scottlipps: A million views and going strong on social @realmichaelimperioli debates the in…",
    "url": "https://www.instagram.com/p/CuII3nGgXZF/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     1103,
@@ -36711,7 +36711,7 @@
    "title": "craftyproducts: Genuine GyroCut Pro Craft & Hobby Tool👀🙌",
    "url": "https://www.instagram.com/p/CuPTFYzqHqq/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     117,
@@ -37481,7 +37481,7 @@
    "title": "ryosatos: I love being a creative director and photographer at the same time",
    "url": "https://www.instagram.com/p/Cq34zaTLXeo/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1519,
@@ -37754,7 +37754,7 @@
    "title": "relaxmeyt: It's about that long term status 🙌 work on yourself until they work FOR YOU 🔥",
    "url": "https://www.instagram.com/p/CrveCYXLzKj/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     434,
@@ -37788,7 +37788,7 @@
    "title": "jenz_losangeles: This is suuuper LA but so cool 🤩 could literally spend half a day scoping…",
    "url": "https://www.instagram.com/p/CqnxRCKJw7V/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     239,
@@ -37907,7 +37907,7 @@
    "title": "chelsychristina: Currently wishing @downtownmodernism was every weekend!",
    "url": "https://www.instagram.com/p/CruLVdNJ6We/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1055,
@@ -38162,7 +38162,7 @@
    "title": "originalparadigms: Episode 1 | Everything is linked on my storefront💫",
    "url": "https://www.instagram.com/p/CrM97PyLocz/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1753,
@@ -38349,7 +38349,7 @@
    "title": "mw.luchi: Real",
    "url": "https://www.instagram.com/p/Cq1hfoAgUp4/",
    "kind": "post",
-   "topic": "data · tools · code",
+   "topic": "tools · data · code",
    "wild": false,
    "near": [
     1689,
@@ -38672,7 +38672,7 @@
    "title": "elisolanooo: France in California?",
    "url": "https://www.instagram.com/p/CqYKxGwJMFp/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1447,
@@ -38894,7 +38894,7 @@
    "title": "claireliz_: recent amazon swimwear, spring fashion, and workout finds 🌸🍋🤍 everything is on…",
    "url": "https://www.instagram.com/p/CqlEso7jPgF/",
    "kind": "post",
-   "topic": "papers · scholarship · researchgate",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1753,
@@ -38928,7 +38928,7 @@
    "title": "jonathanwordsofwisdom: Follow @Jonathanwordsofwisdom to know more about how you’ll go a little extra…",
    "url": "https://www.instagram.com/p/CqDiWukDJGB/",
    "kind": "post",
-   "topic": "bloomingdale's · jeans · clothes",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1736,
@@ -39081,7 +39081,7 @@
    "title": "internshipgirl: comment “done” once you’ve sent it to theinternshipgirl@gmail.com 🤍",
    "url": "https://www.instagram.com/p/CnyBEelAR5p/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1153,
@@ -39166,7 +39166,7 @@
    "title": "careercoachdarci: Save this video for your next interview!",
    "url": "https://www.instagram.com/p/CpN8T4cjuZ_/",
    "kind": "video",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     891,
@@ -39252,7 +39252,7 @@
    "title": "mayaraemusic: in honor of leaving for tour in a week, here’s some @gracieabrams 🧘‍♀️",
    "url": "https://www.instagram.com/p/CpGKnMGrhlQ/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     975,
@@ -39371,7 +39371,7 @@
    "title": "gotfunnymerch: As you can tell, I worked really hard on it…",
    "url": "https://www.instagram.com/p/CoGGTBbD9b4/",
    "kind": "post",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     1758,
@@ -39592,7 +39592,7 @@
    "title": "garrettsmithchoreography: This week we are flying.",
    "url": "https://www.instagram.com/p/CoIHr2yg9z-/",
    "kind": "post",
-   "topic": "rheamadhogarhia · kaggle · historia",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1328,
@@ -40053,7 +40053,7 @@
    "title": "Giotakos — Modeling intentionality in the human brain",
    "url": "https://doi.org/10.3389/fpsyt.2023.1163421",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2415,
@@ -40070,7 +40070,7 @@
    "title": "Turner — A Principle of Intentionality",
    "url": "https://doi.org/10.3389/fpsyg.2017.00137",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2364,
@@ -40196,7 +40196,7 @@
    "title": "Ross & Bassett — Causation in neuroscience: keeping mechanism meaningful",
    "url": "https://doi.org/10.1038/s41583-023-00778-7",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     784,
@@ -40249,7 +40249,7 @@
    "title": "Heinrichs — The duality of human cognition: operations and intentionality in mental life and illness",
    "url": "https://doi.org/10.1016/j.neubiorev.2019.11.002",
    "kind": "paper",
-   "topic": "consciousness · reddit · neuroscience",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     368,
@@ -40582,7 +40582,7 @@
    "title": "Large language models pass the Turing test",
    "url": "https://arxiv.org/abs/2503.23674",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     270,
@@ -40600,7 +40600,7 @@
    "title": "Causality can systematically address the monsters under the bench(marks)",
    "url": "https://arxiv.org/abs/2502.05085",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     792,
@@ -40675,7 +40675,7 @@
    "title": "Marks et al. — Auditing Language Models for Hidden Objectives",
    "url": "https://arxiv.org/abs/2503.10965",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     269,
@@ -40729,7 +40729,7 @@
    "title": "Tan — Prompting as Scientific Inquiry",
    "url": "https://arxiv.org/abs/2507.00163",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     269,
@@ -40747,7 +40747,7 @@
    "title": "OccamLLM: Fast and Exact Language Model Arithmetic in a Single Step",
    "url": "https://arxiv.org/abs/2406.06576",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     274,
@@ -40782,7 +40782,7 @@
    "title": "Persona Features Control Emergent Misalignment",
    "url": "https://arxiv.org/abs/2506.19823",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     791,
@@ -40855,7 +40855,7 @@
    "title": "Hadidi et al. — Illusions of Alignment Between Large Language Models and Brains Emerge From Fragile Methods and Overlooked Confounds",
    "url": "https://doi.org/10.1101/2025.03.09.642245",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     2409,
@@ -40873,7 +40873,7 @@
    "title": "Dujmović, Bowers et al. — Obstacles to inferring mechanistic similarity using Representational Similarity Analysis",
    "url": "https://doi.org/10.1101/2022.04.05.487135",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     270,
@@ -40908,7 +40908,7 @@
    "title": "Kiverstein, Kirchhoff & Froese — The Problem of Meaning: The Free Energy Principle and Artificial Agency",
    "url": "https://doi.org/10.3389/fnbot.2022.844773",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2447,
@@ -40979,7 +40979,7 @@
    "title": "Liljenström — Consciousness, decision making, and volition: freedom beyond chance and necessity",
    "url": "https://doi.org/10.1007/s12064-021-00346-6",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2364,
@@ -41015,7 +41015,7 @@
    "title": "Murawski — Cracow Circle and Its Philosophy of Logic and Mathematics",
    "url": "https://doi.org/10.1007/s10516-014-9256-5",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     287,
@@ -41312,7 +41312,7 @@
    "title": "Searle — Minds, Brains, and Programs",
    "url": "https://doi.org/10.1017/S0140525X00005756",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     222,
@@ -41460,7 +41460,7 @@
    "title": "Arkoudas — ChatGPT is no Stochastic Parrot. But it also Claims that 1 is Greater than 1",
    "url": "https://doi.org/10.1007/s13347-023-00619-6",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2447,
@@ -41478,7 +41478,7 @@
    "title": "Boden — Creativity and Computers",
    "url": "https://www.jstor.org/stable/24098877",
    "kind": "website",
-   "topic": "philosophy · mind · matter",
+   "topic": "unsorted",
    "wild": false,
    "near": [
     1627,
@@ -41496,7 +41496,7 @@
    "title": "Vaswani et al. — Attention Is All You Need",
    "url": "https://arxiv.org/abs/1706.03762",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     792,
@@ -41568,7 +41568,7 @@
    "title": "Battisti — Second-Person Authenticity and the Mediating Role of AI: A Moral Challenge for Human-to-Human Relationships?",
    "url": "https://doi.org/10.1007/s13347-025-00857-w",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2411,
@@ -41643,7 +41643,7 @@
    "title": "Hicks, Humphries & Slater — ChatGPT is bullshit",
    "url": "https://doi.org/10.1007/s10676-024-09775-5",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2468,
@@ -41958,7 +41958,7 @@
    "title": "Fisher — Large language models and their big bullshit potential",
    "url": "https://doi.org/10.1007/s10676-024-09802-5",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2451,
@@ -42350,7 +42350,7 @@
    "title": "Frank, Tarter & Wright — Frank Drake",
    "url": "https://doi.org/10.1063/PT.3.5276",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "center · work · students",
    "wild": false,
    "near": [
     724,
@@ -42477,7 +42477,7 @@
    "title": "Hao, Xu, Li & Evans — AI Tools Expand Scientists' Impact but Contract Science's Focus",
    "url": "https://arxiv.org/abs/2412.07727",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2512,
@@ -42513,7 +42513,7 @@
    "title": "Sourati & Evans — Accelerating science with human-aware artificial intelligence",
    "url": "https://doi.org/10.1038/s41562-023-01648-z",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     784,
@@ -42771,7 +42771,7 @@
    "title": "Luo — Transformation and diversification in early mammal evolution",
    "url": "https://doi.org/10.1038/nature06277",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "university · intelligence · artificial",
    "wild": false,
    "near": [
     2498,
@@ -43563,7 +43563,7 @@
    "title": "Kingma & Welling — Auto-Encoding Variational Bayes",
    "url": "https://arxiv.org/abs/1312.6114",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     790,
@@ -43581,7 +43581,7 @@
    "title": "Doersch — Tutorial on Variational Autoencoders",
    "url": "https://arxiv.org/abs/1606.05908",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     2561,
@@ -43656,7 +43656,7 @@
    "title": "von Luxburg — A Tutorial on Spectral Clustering",
    "url": "https://arxiv.org/abs/0711.0189",
    "kind": "paper",
-   "topic": "university · models · large",
+   "topic": "large · training · example",
    "wild": false,
    "near": [
     2557,

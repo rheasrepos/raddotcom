@@ -186,8 +186,17 @@
 		ctx.beginPath(); ctx.arc(center.x, center.y, center.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 		ctx.fillStyle = '#000'; ctx.font = `bold ${13 / view.k}px sans-serif`; ctx.textAlign = 'center';
 		ctx.fillText('Rhea', center.x, center.y + center.r + 15 / view.k);
+		// zoomed in: every dot on screen shows its title, so you can read the map
+		if (view.k >= 1.3) {
+			ctx.fillStyle = 'rgba(0,0,0,0.8)'; ctx.font = `${10 / view.k}px sans-serif`; ctx.textAlign = 'left';
+			const W2 = W / 2 / view.k, H2 = H / 2 / view.k, cx = -view.x / view.k, cy = -view.y / view.k;
+			for (const n of nodes) {
+				if (!n.it || gone(n) || Math.abs(n.x - cx) > W2 || Math.abs(n.y - cy) > H2) continue;
+				ctx.fillText(n.it.title.slice(0, 34), n.x + n.r + 2 / view.k, n.y + 3 / view.k);
+			}
+		}
 		if (near) {
-			ctx.fillStyle = '#000'; ctx.font = `${11 / view.k}px sans-serif`; ctx.textAlign = 'center';
+			ctx.fillStyle = '#000'; ctx.font = `bold ${13 / view.k}px sans-serif`; ctx.textAlign = 'center';
 			for (const n of near) if (n.it && !gone(n)) ctx.fillText(n.it.title.slice(0, 48), n.x, n.y - n.r - 4 / view.k);
 		}
 	}
@@ -247,8 +256,8 @@
 <style>
 	.map { position: relative; width: 100%; height: min(72vh, 720px); border: 1px solid #000; background: transparent; }
 	canvas { display: block; touch-action: none; cursor: grab; }
-	.tip { position: absolute; left: 10px; bottom: 10px; background: #000; color: #fff; padding: 6px 9px; font-size: 0.8rem; max-width: 60%; display: flex; flex-direction: column; gap: 2px; pointer-events: none; }
+	.tip { position: absolute; left: 10px; bottom: 10px; background: #000; color: #fff; padding: 8px 11px; font-size: 0.95rem; max-width: 70%; display: flex; flex-direction: column; gap: 2px; pointer-events: none; }
 	.zoom { position: absolute; top: 8px; right: 8px; display: flex; gap: 4px; }
 	.zoom button { font: inherit; font-size: 0.8rem; min-width: 26px; padding: 2px 8px; border: 1px solid #000; background: #c0c0c0; cursor: pointer; }
-	.tip span { opacity: 0.7; font-size: 0.72rem; }
+	.tip span { opacity: 0.75; font-size: 0.8rem; }
 </style>
