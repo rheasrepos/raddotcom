@@ -29,6 +29,10 @@
 	// AI-written titles can contain exact quotes from the source (a caption, a
 	// paper title). Those parts aren't AI, so they render without the AI mark.
 	const segs = (t) => t.split(/(“[^”]*”|"[^"]*")/).filter(Boolean).map((x) => ({ x, q: /^[“"]/.test(x) }));
+	// A search link only helps for named works (a paper, a book, a person, a
+	// reading with an author); for vague saves like "favourite playlist" a
+	// search lands nowhere useful, so those just show as text.
+	const searchable = (it) => !it.url && (['paper', 'book', 'person'].includes(it.kind) || / — /.test(it.title) || !!it.published);
 	const domain = (u) => (u ? u.replace(/^https?:\/\/(www\.)?/, '').split('/')[0] : '');
 
 	// topics, Wild card first, then by size
@@ -110,7 +114,7 @@
 
 	{#if view === 'map'}
 		<p class="note"><AIText>Inside the first ring is everything Rhea saved or made, plotted like word embeddings (Rhea herself is a point too, placed by her own published writing and joined to the six things most like it): each item's text becomes a vector, and the vectors are flattened to 2-D so similar things land close together. The axes (t-SNE 1 and 2) have no units or meaning of their own: only how close neighbouring dots are counts, not how far apart distant groups are. Topics are clusters of those same vectors, so each colour is a group of nearby dots. Further out are the people and places that posted something about her, and beyond them, those posts. Each topic's name sits just inside the first ring. Hover a dot to see its title, topic and neighbours; click to open it; drag to move around; scroll, pinch or use + and − to zoom. Search and filters dim everything else.</AIText></p>
-		<LibraryMap {items} {colors} rhea={lib.rhea} highlight={inFilter} on:open={(e) => e.detail.url ? window.open(e.detail.url, '_blank', 'noopener') : window.open('https://duckduckgo.com/?q=' + encodeURIComponent(e.detail.title), '_blank', 'noopener')} />
+		<LibraryMap {items} {colors} rhea={lib.rhea} highlight={inFilter} on:open={(e) => e.detail.url ? window.open(e.detail.url, '_blank', 'noopener') : searchable(e.detail) && window.open('https://duckduckgo.com/?q=' + encodeURIComponent(e.detail.title), '_blank', 'noopener')} />
 	{:else}
 	{#each groups as [t, list] (t)}
 		<section>
@@ -123,7 +127,7 @@
 							<span class="dom">{domain(it.url)}</span>
 						{:else}
 							<span class="plain">{#if it.ai_title}{#each segs(it.title) as g}{#if g.q}{g.x}{:else}<AIText>{g.x}</AIText>{/if}{/each}{:else}{it.title}{/if}</span>
-							<a class="dom" href="https://duckduckgo.com/?q={encodeURIComponent(it.title)}" target="_blank" rel="noopener noreferrer">search ↗</a>
+							{#if searchable(it)}<a class="dom" href="https://duckduckgo.com/?q={encodeURIComponent(it.title)}" target="_blank" rel="noopener noreferrer">search ↗</a>{/if}
 						{/if}
 						{#if it.added || it.published}<span class="when">{#if it.added}saved {formatDate(it.added)}{/if}{#if it.added && it.published} · {/if}{#if it.published}published {formatDate(it.published)}{/if}</span>{/if}
 							<span class="kind">{it.kind}</span>
