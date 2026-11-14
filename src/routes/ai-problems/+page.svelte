@@ -144,8 +144,9 @@
 		</header>
 
 		<p class="disclaimer">
-			These are, quite obviously, simplifications of "the world's biggest problems." We hope the people using
-			this page will add nuance by contributing: answer the question below, or suggest a dataset or problem on GitHub.
+			These are quite obviously simplifications of the "world's biggest problems" and we hope that the users of this
+			application can provide more nuance by contributing! You can answer this short anonymous survey or recommend a
+			dataset or problem on <a href="https://github.com/rheasrepos/ai-fixable-problems-db">GitHub</a>!
 		</p>
 
 		<fieldset class="poll">
