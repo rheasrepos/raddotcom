@@ -26,7 +26,7 @@
 <div class="qs">
 	<header>
 		<h1>Questions</h1>
-		<p class="note"><AIText>Questions for research and problems worth solving, copied word for word from Rhea's notes, lab notes and margins (spelling left as written). They're open: if you're working on one, or want to, tell her.</AIText></p>
+		<p class="note"><AIText>Questions for research and problems worth solving, copied from Rhea's notes, lab notes and margins, with only spelling typos fixed. They're open: if you're working on one, or want to, tell her.</AIText></p>
 		<p class="note"><a href="/ai-problems">AI-fixable problems database →</a></p>
 		<input class="search" type="search" placeholder="search {total} questions…" bind:value={query} />
 	</header>
