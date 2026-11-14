@@ -6,6 +6,7 @@ date_approx: true
 type: comedy
 academic: false
 published: true
+pdf: /docs/2022-23-i-definitely-didn-t-do-it-a-sketch-by-rhea-madhog.pdf
 source: /Users/rheamadhogarhia/Desktop/Year 4/UNZIPPED/GoogleTakeout/Takeout/Drive/UCHICAGO GDRIVE/First Year/I Definitely Didn_t Do It, a Sketch by Rhea Madhog.docx
 tags: [creative/comedy/sketch, creative/screenwriting]
 affiliation: uchicago
