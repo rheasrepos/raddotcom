@@ -22,6 +22,9 @@ for d, _, fs in os.walk(VAULT):
             if "source: Apple Notes, exact copy" in t:
                 m = re.search(r'^title:\s*"?(.*?)"?\s*$', t, re.M)
                 if m: titles.append(m.group(1))
+import sys
+if len(sys.argv) > 1:   # or: check specific notes by (part of) their name
+    titles = sys.argv[1:]
 print(f"{len(titles)} vault copies to check")
 
 JXA = r'''
@@ -32,6 +35,7 @@ function run(argv) {
     // slightly different ending in the name than the vault title
     let hits = Notes.notes.whose({ name: t })();
     if (!hits.length) hits = Notes.notes.whose({ name: { _beginsWith: t.slice(0, 24).trim() } })();
+    if (!hits.length) hits = Notes.notes.whose({ name: { _contains: t.slice(0, 24).trim() } })();
     for (const n of hits) out.push({ title: t, name: n.name(), created: n.creationDate().toISOString(),
       modified: n.modificationDate().toISOString(), folder: n.container().name(), text: n.plaintext(),
       attachments: n.attachments().length });
