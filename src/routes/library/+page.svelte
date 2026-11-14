@@ -36,14 +36,20 @@
 	const domain = (u) => (u ? u.replace(/^https?:\/\/(www\.)?/, '').split('/')[0] : '');
 
 	// topics, Wild card first, then by size
+	// 'hide Instagram' takes out the saved Instagram posts (Rhea's own pages under
+	// Me online stay); on the map they're dimmed like any other filter
+	let hideIG = false;
+	const isIG = (it) => it.topic !== 'Me online' && /instagram\.com\/(p|reels?)\//.test(it.url || '');
+	$: pool = hideIG ? items.filter((it) => !isIG(it)) : items;
+
 	$: topics = (() => {
 		const c = {};
-		for (const it of items) c[it.topic] = (c[it.topic] || 0) + 1;
+		for (const it of pool) c[it.topic] = (c[it.topic] || 0) + 1;
 		const pin = (t) => (t === 'Me online' ? 0 : t === 'Influential minds' ? 1 : t === 'Wild card' ? 2 : 3); // hand-made topics first
 		return Object.entries(c).sort((a, b) => pin(a[0]) - pin(b[0]) || b[1] - a[1]);
 	})();
 
-	$: shown = items.filter((it) => {
+	$: shown = pool.filter((it) => {
 		if (topic !== 'all' && it.topic !== topic) return false;
 		if (kind !== 'all' && it.kind !== kind) return false;
 		if (!q.trim()) return true;
@@ -82,6 +88,7 @@
 			<button class:on={view === 'map'} on:click={() => (view = 'map')}>map</button>
 		</div>
 		<input class="search" type="search" placeholder="search the library…" bind:value={q} />
+		<label class="lbl chk"><input type="checkbox" bind:checked={hideIG} /> hide Instagram</label>
 		<label class="lbl">kind
 			<select bind:value={kind}>
 				<option value="all">all kinds</option>
@@ -101,7 +108,7 @@
 			</label>
 		{/if}
 		<div class="topics">
-			<button class="t" class:on={topic === 'all'} on:click={() => (topic = 'all')}>all topics <span class="n">{items.length}</span></button>
+			<button class="t" class:on={topic === 'all'} on:click={() => (topic = 'all')}>all topics <span class="n">{pool.length}</span></button>
 			{#each topics as [t, n]}
 				<button class="t" class:on={topic === t} on:click={() => (topic = topic === t ? 'all' : t)}
 					title={t === 'Wild card' ? "Rhea's own picks" : t === 'Me online' ? 'Pages by or about Rhea' : t === 'Influential minds' ? 'People whose teaching or work shaped Rhea' : 'Machine-made topic name'}>
@@ -149,6 +156,7 @@
 	.layout { display: grid; grid-template-columns: 230px 1fr; gap: 18px; align-items: start; }
 	.side { position: sticky; top: 8px; display: flex; flex-direction: column; gap: 8px; max-height: calc(100vh - 140px); overflow: auto; padding-right: 4px; }
 	.main { min-width: 0; }
+	.lbl.chk { justify-content: flex-start; }
 	.lbl { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 0.8rem; }
 	.topics { display: flex; flex-direction: column; gap: 2px; margin-top: 4px; }
 	.t { display: flex; align-items: center; gap: 6px; text-align: left; font: inherit; font-size: 0.78rem; padding: 3px 6px; border: 1px solid transparent; background: none; cursor: pointer; }
