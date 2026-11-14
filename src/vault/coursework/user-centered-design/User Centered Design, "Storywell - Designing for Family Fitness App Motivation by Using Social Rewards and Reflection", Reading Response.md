@@ -6,6 +6,7 @@ type: coursework
 academic: true
 course: User-Centered Design
 published: true
+pdf: /docs/user-centered-design-reading-response-storywell-family-fitness-saksono-et-al.pdf
 source: raddotcom Vault/2026-02-17 Reading Response - Finding a champion - Saksono et al.pdf
 tags: [academic/hci/user-centered-design]
 form: [reading-response]

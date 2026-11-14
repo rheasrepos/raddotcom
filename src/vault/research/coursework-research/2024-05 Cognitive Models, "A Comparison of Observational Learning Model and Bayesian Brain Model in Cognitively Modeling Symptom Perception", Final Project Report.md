@@ -5,6 +5,7 @@ added: 2026-07-28
 type: research
 also_in: [programming]
 published: true
+pdf: /docs/2024-05-cog-models-final-report.pdf
 recovered_from: Desktop/University of Chicago/Year 4/Recovered Writing/Priority Classes/2024-05-18 cog models final report_.md
 tags:
   - academic/cognitive-science

@@ -3,6 +3,7 @@ title: "Psychology of Negotiation, \"What Have I Learned?\", Weekly Reflections"
 date: 2025-03-04
 added: 2026-07-19
 type: coursework
+pdf: /docs/2025-03-04-negotiation-weekly-reflections-what-have-i-learned.pdf
 academic: true
 course: Psychology of Negotiation
 published: true

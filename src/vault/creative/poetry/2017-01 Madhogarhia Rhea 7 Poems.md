@@ -6,6 +6,7 @@ added: 2026-07-30
 type: creative
 academic: true
 published: true
+pdf: /docs/2017-01-madhogarhia-rhea-7-poems.pdf
 source: /Users/rheamadhogarhia/Desktop/oldmacdesktop/ALL BEFORE COLLEGE/HARVARD WESTLAKE G DRIVE/HW GOOGLE DRIVE FILES/HARVARD WESTLAKE GOOGLE DRIVE/HW/7th Grade/Academics/7 Madhogarhia, Rhea English to Share/Poetry/Madhogarhia, Rhea 7 Poems.docx
 tags:
   - creative/poetry

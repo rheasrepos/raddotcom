@@ -16,6 +16,8 @@
 - Does wittgenstein think llms understand? | Phil of AI final paper ideas
 - Do we all think that perception is a two-dimensional term that describes something two-dimensional? | daily scraps
 
+- Can science provide an objective definition of happiness or is it all subjective? | neurophilosophy debate notes
+
 ## From my first months in the CAB Lab
 - what else can we track through computational modeling and what else did we have a good behavioral measure of for ground truth | CAB Lab sentiment-tracking notes
 - when we try to explain ourselves, is can language serve as a behavior indicator that we may be able to extract sentiment of the speaker? | CAB Lab sentiment-tracking notes
@@ -37,6 +39,11 @@
 - What is my problem with world models and simulations?? Ig its… why are we doing that / What are the ethical uses of that technology | a note title
 - so what is a positive future? | potential thesis dump, Oct 2025
 - Why do the people who work on AI don't care | potential thesis dump, Oct 2025
+
+## How we live
+- The villainization of questioning? Or exploitation of it? Is there a decrease in question asking and curiosity? | musical theatre writing brainstorm, Mar 2026
+- Do we question ourselves more than the world? | musical theatre writing brainstorm, Mar 2026
+- what about life is worth living when you fulfilled the purpose you thought you had? | musical theatre writing brainstorm, Mar 2026
 
 ## Problems we should solve
 - make a database of all the problems we can fix in the world using AI given the massive datasets we do have….. | margin note, NYU AI Safety reading, Oct 2026 (now the AI-fixable problems database)
