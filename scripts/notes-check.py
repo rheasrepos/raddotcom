@@ -28,7 +28,10 @@ JXA = r'''
 function run(argv) {
   const Notes = Application("Notes"); const want = JSON.parse(argv[0]); const out = [];
   for (const t of want) {
-    const hits = Notes.notes.whose({ name: t })();
+    // match on the first 24 characters: Notes often keeps trailing spaces or a
+    // slightly different ending in the name than the vault title
+    let hits = Notes.notes.whose({ name: t })();
+    if (!hits.length) hits = Notes.notes.whose({ name: { _beginsWith: t.slice(0, 24).trim() } })();
     for (const n of hits) out.push({ title: t, name: n.name(), created: n.creationDate().toISOString(),
       modified: n.modificationDate().toISOString(), folder: n.container().name(), text: n.plaintext(),
       attachments: n.attachments().length });
