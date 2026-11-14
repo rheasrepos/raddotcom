@@ -1,13 +1,17 @@
 ---
-title: "PHIL OF AI: Limits of Matter and Manner"
+title: "Philosophy Of AI: Limits of Matter and Manner"
 date: 2025-12-15
 added: 2026-10-12
 type: essays
 published: true
 featured: true
 recovered_from: Desktop/University of Chicago/Year 4/Recovered Writing/All Writing/2025-12-15 PHIL OF AI MIND AND MATTER FINAL PAPER.md
-tags: [academic/philosophy/philosophy-of-ai, ai/machine-learning/interpretability, consciousness]
-form: [essay]
+tags:
+  - academic/philosophy/philosophy-of-ai
+  - ai/machine-learning/interpretability
+  - consciousness
+form:
+  - essay
 affiliation: uchicago
 ---
 
