@@ -1,1 +1,230 @@
-[]
+[
+  {
+    "problem_id": "food-waste",
+    "name": "Food waste",
+    "description": "Edible food is lost or thrown away across retail, food service and households while people go hungry.",
+    "sdg_goal": "12",
+    "sdg_targets": "12.3;2.1",
+    "solution_kind": "hybrid",
+    "solution_summary": "Forecast demand and spoilage to cut over-ordering, and match surplus food to food banks and people in real time.",
+    "maturity": "idea",
+    "contributor": "rhea",
+    "date_added": "2026-11-14",
+    "sdg_name": "Responsible Consumption and Production",
+    "datasets": [
+      {
+        "dataset_id": "unep-food-waste-index-2024",
+        "name": "UNEP Food Waste Index Report 2024",
+        "url": "https://unep.org/resources/publication/food-waste-index-report-2024",
+        "access": "open",
+        "license": "",
+        "size": "",
+        "modality": "report;tabular",
+        "description": "Country estimates of household, food-service and retail food waste.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Baseline: how much is wasted, where, and at which stage."
+      }
+    ],
+    "existing_work": [],
+    "data_gaps": [
+      {
+        "problem_id": "food-waste",
+        "gap": "Measured (not modeled) household waste for most countries",
+        "why_it_matters": "Estimates for countries without studies are extrapolated, so models learn from guesses.",
+        "how_to_close": "Standardized household waste audits; smart-bin data"
+      },
+      {
+        "problem_id": "food-waste",
+        "gap": "Store-level surplus data",
+        "why_it_matters": "Retail surplus is private, so matching it to food banks can't be trained or evaluated.",
+        "how_to_close": "Partnerships with grocers; anonymized POS + markdown data"
+      }
+    ],
+    "risks": {
+      "problem_id": "food-waste",
+      "who_could_be_harmed": "Small farmers and food banks if forecasting shifts surplus away from donation; low-income shoppers if waste cuts come through price.",
+      "dual_use": "Demand forecasting also optimizes pricing power.",
+      "bias_and_representation": "Waste data mostly from rich countries; models may not transfer.",
+      "ethics": "Who owns retailer data shared with charities, and who is accountable when a predicted surplus doesn't arrive.",
+      "morality": "Is it right to treat hunger as a logistics problem when food is wasted because the hungry can't pay for it?",
+      "devils_advocate": "Waste is a price and distribution problem, not a prediction problem. Better forecasts mainly save retailers money, and could mean less surplus is donated."
+    }
+  },
+  {
+    "problem_id": "dangerous-climate-conditions",
+    "name": "Dangerous climate conditions",
+    "description": "Heat waves, floods and storms are becoming more frequent and severe, and warnings rarely reach people at the neighborhood scale where harm happens.",
+    "sdg_goal": "13",
+    "sdg_targets": "13.1;11.5",
+    "solution_kind": "hybrid",
+    "solution_summary": "Downscale reanalysis and forecast data into street-level heat and flood risk, to drive early warnings and adaptation planning.",
+    "maturity": "idea",
+    "contributor": "rhea",
+    "date_added": "2026-11-14",
+    "sdg_name": "Climate Action",
+    "datasets": [
+      {
+        "dataset_id": "era5",
+        "name": "Copernicus ERA5 reanalysis",
+        "url": "https://cds.climate.copernicus.eu/datasets?q=ERA5",
+        "access": "open",
+        "license": "Copernicus licence",
+        "size": "",
+        "modality": "gridded climate",
+        "description": "Hourly global reanalysis of weather and climate variables, 1940 to present.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Historical heat and precipitation fields to train and validate downscaling."
+      }
+    ],
+    "existing_work": [],
+    "data_gaps": [
+      {
+        "problem_id": "dangerous-climate-conditions",
+        "gap": "Street-level outcomes (heat illness, flooded addresses)",
+        "why_it_matters": "Reanalysis is about 30 km resolution; harm is measured at the block.",
+        "how_to_close": "Hospital heat-illness records; insurance and 311 flood reports"
+      }
+    ],
+    "risks": {
+      "problem_id": "dangerous-climate-conditions",
+      "who_could_be_harmed": "People in under-sensored neighborhoods if models are confident where data is thin.",
+      "dual_use": "Hyperlocal risk maps can feed insurance redlining.",
+      "bias_and_representation": "Sensor and report density tracks wealth, so poorer areas look safer than they are.",
+      "ethics": "Who is accountable for a missed warning; consent for using health records.",
+      "morality": "Is it right to put effort into adapting to harm rather than stopping emissions?",
+      "devils_advocate": "Adaptation tools can make climate change feel manageable and lower pressure to cut emissions. And warnings don't help people who have nowhere cooler or drier to go."
+    }
+  },
+  {
+    "problem_id": "shelter-scarcity",
+    "name": "Shelter scarcity",
+    "description": "Not enough safe, affordable housing: people live in slums, overcrowded homes, or on the street.",
+    "sdg_goal": "11",
+    "sdg_targets": "11.1",
+    "solution_kind": "hybrid",
+    "solution_summary": "Predict where housing shortfalls and evictions are coming, to target prevention, vacant-unit matching and zoning decisions.",
+    "maturity": "idea",
+    "contributor": "rhea",
+    "date_added": "2026-11-14",
+    "sdg_name": "Sustainable Cities and Communities",
+    "datasets": [
+      {
+        "dataset_id": "un-habitat-slum-population",
+        "name": "Population living in slums (% of urban), UN-Habitat via World Bank WDI",
+        "url": "https://databank.worldbank.org/metadataglossary/world-development-indicators/series/EN.POP.SLUM.UR.ZS",
+        "access": "open",
+        "license": "CC-BY-4.0",
+        "size": "2000-2022 annual",
+        "modality": "tabular",
+        "description": "Share of urban residents in slum households (SDG 11.1.1 predecessor).",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Global picture of inadequate housing by country over time."
+      },
+      {
+        "dataset_id": "hud-ahar-pit",
+        "name": "HUD AHAR Point-in-Time homelessness counts",
+        "url": "https://catalog-beta.data.gov/dataset/annual-homeless-assessment-report-ahar-part-1-point-in-time-pit-estimates-of-homelessness",
+        "access": "open",
+        "license": "US public data",
+        "size": "",
+        "modality": "tabular",
+        "description": "One-night counts of people experiencing homelessness by US Continuum of Care.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "US ground truth for homelessness by locality."
+      }
+    ],
+    "existing_work": [],
+    "data_gaps": [
+      {
+        "problem_id": "shelter-scarcity",
+        "gap": "Continuous homelessness data",
+        "why_it_matters": "Point-in-Time counts are a single night a year and undercount hidden homelessness.",
+        "how_to_close": "Linked shelter, school and health records with consent"
+      },
+      {
+        "problem_id": "shelter-scarcity",
+        "gap": "Eviction filings",
+        "why_it_matters": "Not in either dataset, but the most direct leading signal.",
+        "how_to_close": "Court records (e.g. Eviction Lab)"
+      }
+    ],
+    "risks": {
+      "problem_id": "shelter-scarcity",
+      "who_could_be_harmed": "Tenants flagged as high risk; people whose records are linked without consent.",
+      "dual_use": "An eviction-risk score is also a tenant-screening tool for landlords.",
+      "bias_and_representation": "Homelessness data undercounts youth, women and people avoiding shelters.",
+      "ethics": "Consent and privacy for linked records; who sees risk scores.",
+      "morality": "Is it right to predict someone's housing loss rather than guarantee housing?",
+      "devils_advocate": "The shortage is a supply problem. A model doesn't build homes; it can only ration scarce ones, and may become a way to screen people out."
+    }
+  },
+  {
+    "problem_id": "living-wage-gap",
+    "name": "Lack of a living wage",
+    "description": "Many full-time jobs pay less than what it costs to live where the worker lives.",
+    "sdg_goal": "8",
+    "sdg_targets": "8.5;10.4",
+    "solution_kind": "digital",
+    "solution_summary": "Estimate local living-wage gaps by joining cost-of-living and wage data, and show which places, sectors and jobs fall short.",
+    "maturity": "idea",
+    "contributor": "rhea",
+    "date_added": "2026-11-14",
+    "sdg_name": "Decent Work and Economic Growth",
+    "datasets": [
+      {
+        "dataset_id": "mit-living-wage",
+        "name": "MIT Living Wage Calculator",
+        "url": "https://livingwage.mit.edu/pages/faqs",
+        "access": "gated",
+        "license": "license required for more than 10 locations",
+        "size": "US counties, metros, states",
+        "modality": "tabular",
+        "description": "Living wage by family type and location in the US.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "US cost-of-living side of the gap."
+      },
+      {
+        "dataset_id": "ilostat-wages",
+        "name": "ILOSTAT wages",
+        "url": "https://ilostat.ilo.org/fr/topics/wages",
+        "access": "open",
+        "license": "",
+        "size": "",
+        "modality": "tabular",
+        "description": "International wage statistics by country, sex and sector.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Wage side of the gap, internationally comparable."
+      }
+    ],
+    "existing_work": [],
+    "data_gaps": [
+      {
+        "problem_id": "living-wage-gap",
+        "gap": "Open bulk living-wage data",
+        "why_it_matters": "MIT's data requires a license beyond 10 locations, so a free tool can't redistribute it.",
+        "how_to_close": "License request; or build an open cost-of-living estimate"
+      },
+      {
+        "problem_id": "living-wage-gap",
+        "gap": "Wages by employer",
+        "why_it_matters": "Public wage data is by sector and region, not by employer.",
+        "how_to_close": "Job-posting pay ranges (pay transparency laws)"
+      }
+    ],
+    "risks": {
+      "problem_id": "living-wage-gap",
+      "who_could_be_harmed": "Workers in flagged sectors if employers respond with automation or cuts.",
+      "dual_use": "Employers could use the same data to pay exactly the local minimum.",
+      "bias_and_representation": "Informal work is missing from wage data, so the worst gaps are invisible.",
+      "ethics": "Licensing and attribution for proprietary wage data; accuracy of public claims about employers.",
+      "morality": "Whose definition of a decent life sets the living wage?",
+      "devils_advocate": "Living-wage gaps are well documented already. The bottleneck is political will and bargaining power, which a dashboard doesn't change."
+    }
+  }
+]
