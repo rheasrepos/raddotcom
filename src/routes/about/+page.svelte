@@ -18,7 +18,6 @@
             label: 'CAB Lab',
             url: 'https://cablab.uchicago.edu',
             description: 'Cognition, Attention, and Brain Lab @ UChicago — where I do research',
-            kind: 'site', // the site allows embedding → live scrollable preview
             icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="15" r="3"/><circle cx="18" cy="15" r="3"/><path d="M10.5 15H13.5"/><path d="M8.3 13.5A6 6 0 0 1 12 9a6 6 0 0 1 3.7 4.5"/></svg>`
         },
         {
@@ -34,8 +33,8 @@
             icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13a6 6 0 0 1-6 5 6 6 0 0 1-6-5h12Z"/><path d="M6 8.8A8.5 8.5 0 0 1 12 5a8.5 8.5 0 0 1 6 3.8"/></svg>`
         }
     ];
-    // Instagram refuses to be embedded (X-Frame-Options / CSP), so those stay as
-    // cards. LinkedIn lives in the bottom toolbar and GitHub projects on the
+    // YouTube is the one big tile (a video gallery); CAB Lab, Voices and Off-Off
+    // Campus are small buttons in a row under it. LinkedIn lives in the bottom toolbar and GitHub projects on the
     // desktop, so neither is repeated here (Rhea, 2026-11-13).
     import VideoGallery from '../../components/VideoGallery.svelte';
 </script>
@@ -56,8 +55,8 @@
     <section class="links-section">
         <h2 class="links-title">Links</h2>
         <div class="links-grid">
-            {#each links as link}
-                <div class="link-tile" class:wide={link.kind === 'youtube' || link.kind === 'site'}>
+            {#each links.filter((l) => l.kind === 'youtube') as link}
+                <div class="link-tile wide">
                     <a href={link.url} target="_blank" rel="noopener noreferrer" class="link-card">
                         <div class="link-icon">
                             {@html link.icon}
@@ -71,17 +70,25 @@
                     {#if link.kind === 'youtube'}
                         <!-- gallery: channel uploads + the extras from the vault's _videos.md -->
                         <div class="link-embed gallery"><VideoGallery channelUrl={link.url} /></div>
-                    {:else if link.kind === 'site'}
-                        <!-- live site, scrollable inside the tile -->
-                        <div class="link-embed site"><iframe src={link.url} title="{link.label} — live site" loading="lazy"></iframe></div>
                     {/if}
                 </div>
+            {/each}
+        </div>
+        <!-- the rest are small buttons in a row (Rhea, 2026-11-13) -->
+        <div class="link-buttons">
+            {#each links.filter((l) => l.kind !== 'youtube') as link}
+                <a class="link-button" href={link.url} target="_blank" rel="noopener noreferrer"><span class="lb-icon">{@html link.icon}</span>{link.label}</a>
             {/each}
         </div>
     </section>
 </PageLayout>
 
 <style>
+    .link-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .link-button { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border: 1px solid #000; background: #c0c0c0; color: #000; text-decoration: none; font-size: 0.85rem; }
+    .link-button:hover { background: #000; color: #fff; }
+    .lb-icon { display: inline-flex; width: 14px; height: 14px; }
+    .lb-icon :global(svg) { width: 14px; height: 14px; }
     .resume-link { display: inline-block; margin-top: 14px; color: #000; text-decoration: underline; font-size: 1rem; }
     .resume-link:hover { text-decoration-thickness: 2px; }
 
