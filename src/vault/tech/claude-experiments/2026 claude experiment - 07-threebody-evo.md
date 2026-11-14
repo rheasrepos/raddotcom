@@ -36,7 +36,7 @@ Saves the champion's initial conditions to `out/best.json` and, if matplotlib is
 
 - Seed the population near the known figure-eight (x1=-x2=(0.970, -0.243), v3=-2v1, v1=(0.466, 0.432)) and measure the basin of stability by mutation radius.
 - Multi-objective: stability AND aesthetic symmetry of the orbit — plot the Pareto front.
-- The note pairs nicely with #06: this *is* "supervised search over a bounded body" — the GA is the wrapper, the physics is the specialized circuit.
+- The note pairs nicely with #06: this *is* supervised search over a bounded body — the GA is the wrapper, the physics is the specialized circuit.
 
 ## Topics
 - [[Topic - ai]]

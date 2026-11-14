@@ -17,19 +17,19 @@ published: true
 <ai>
 ## The question, sharpened
 
-"Truly concurrent" can mean three different things, and the answer differs for each:
+<src>"Truly concurrent"</src> can mean three different things, and the answer differs for each:
 
 1. **Simultaneous execution** — yes, physically: separate cores execute instructions in the same clock cycle. (Single core + threads is interleaving, not simultaneity — Python's GIL makes this vivid.)
-2. **Simultaneous *observation*** — murkier: there is no single global "now" inside a machine. Cores have their own caches and store buffers; two cores can disagree about the order of two writes (memory-model reordering). Lamport's "Time, Clocks, and the Ordering of Events" (1978) is the classic: in distributed systems, time is *partial order*, and "at the same time" is often undefined rather than true or false.
-3. **Metaphysically shared time** — the phil-of-AI version: relativity says spatially separated events have no absolute simultaneity anyway, so "truly concurrent" may not be a property the universe offers anything, computers included.
+2. **Simultaneous *observation*** — murkier: there is no single global "now" inside a machine. Cores have their own caches and store buffers; two cores can disagree about the order of two writes (memory-model reordering). Lamport's <src>"Time, Clocks, and the Ordering of Events"</src> (1978) is the classic: in distributed systems, time is *partial order*, and "at the same time" is often undefined rather than true or false.
+3. **Metaphysically shared time** — the phil-of-AI version: relativity says spatially separated events have no absolute simultaneity anyway, so <src>"truly concurrent"</src> may not be a property the universe offers anything, computers included.
 
 ## The starter demonstrates 1 and glances at 2
 
 `run.py` (stdlib only) runs the same CPU-bound work three ways — sequential, threads, processes — and timestamps fine-grained progress ticks from each worker:
 
 - Threads: no speedup (GIL) but *interleaved* ticks → concurrency without parallelism.
-- Processes: real speedup and ticks with overlapping timestamps from different PIDs → the closest a computer gets to "truly concurrent."
-- Then it measures the resolution floor: how close two timestamps from different processes can be before the clock itself can't order them — your "is simultaneity even observable" question, in microseconds.
+- Processes: real speedup and ticks with overlapping timestamps from different PIDs → the closest a computer gets to truly concurrent.
+- Then it measures the resolution floor: how close two timestamps from different processes can be before the clock itself can't order them — your is simultaneity even observable question, in microseconds.
 
 ## Run
 

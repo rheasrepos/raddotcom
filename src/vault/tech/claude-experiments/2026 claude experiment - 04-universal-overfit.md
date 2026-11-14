@@ -17,14 +17,14 @@ published: true
 <ai>
 ## The honest answer this experiment demonstrates
 
-Theory says *almost*: the **universal approximation theorem** (Cybenko 1989, Hornik 1991) guarantees a fixed-depth net can approximate any continuous function — but only if you're allowed to grow *width*. With architecture truly frozen (fixed width AND depth), capacity is finite, so there exist curves it cannot fit no matter how long you train. The philosophical bite: "train a lot" buys you optimization, not capacity.
+Theory says *almost*: the **universal approximation theorem** (Cybenko 1989, Hornik 1991) guarantees a fixed-depth net can approximate any continuous function — but only if you're allowed to grow *width*. With architecture truly frozen (fixed width AND depth), capacity is finite, so there exist curves it cannot fit no matter how long you train. The philosophical bite: train a lot buys you optimization, not capacity.
 
 The starter pins that down empirically with one frozen MLP (1 → 64 → 64 → 1) trained on progressively nastier 1-D targets:
 
 1. smooth sine — fits fast
 2. high-frequency sine — fits slowly (spectral bias: nets learn low frequencies first — Rahaman et al. 2019)
 3. discontinuous step — approximates but never nails the jump
-4. pure noise (n points) — *memorizes perfectly* once parameters ≫ n, which is the flip side: for finite datasets, "any curve" is true (Zhang et al. 2017, "Understanding deep learning requires rethinking generalization")
+4. pure noise (n points) — *memorizes perfectly* once parameters ≫ n, which is the flip side: for finite datasets, any curve is true (Zhang et al. 2017, <src>"Understanding deep learning requires rethinking generalization"</src>)
 
 So the answer splits: **any finite dataset — yes, eventually (memorization). Any underlying function — no, capacity and spectral bias are real walls.**
 

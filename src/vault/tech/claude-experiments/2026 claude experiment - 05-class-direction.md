@@ -17,14 +17,14 @@ published: true
 <ai>
 ## The experiment
 
-Classic embedding-arithmetic probing (Mikolov et al. 2013; Bolukbasi et al. 2016 did exactly this for gender bias — "Man is to Computer Programmer as Woman is to Homemaker"). Your question extends it to socioeconomic class, which is much less studied than gender/race directions — a real gap. Kozlowski, Taddy & Evans, "The Geometry of Culture" (American Sociological Review, 2019) built an "affluence" axis in word2vec and tracked it across a century of books; your version asks what *today's* embeddings carry, and the note's larger frame ("a pulse on humanity / extract our stereotypes") is exactly what this measures.
+Classic embedding-arithmetic probing (Mikolov et al. 2013; Bolukbasi et al. 2016 did exactly this for gender bias — <src>"Man is to Computer Programmer as Woman is to Homemaker"</src>). Your question extends it to socioeconomic class, which is much less studied than gender/race directions — a real gap. Kozlowski, Taddy & Evans, <src>"The Geometry of Culture"</src> (American Sociological Review, 2019) built an affluence axis in word2vec and tracked it across a century of books; your version asks what *today's* embeddings carry, and the note's larger frame (a pulse on humanity / extract our stereotypes) is exactly what this measures.
 
 Method in the starter:
 
 1. Build a class axis from anchor pairs (aristocrat−plebeian, rich−poor, mansion−slum, refined−common, ...) — averaging several pairs denoises the direction (Bolukbasi's method).
 2. Project a probe vocabulary onto the axis: occupations, foods, names, hobbies, adjectives.
 3. Report the most aristocrat-loaded and plebeian-loaded words per category — the stereotype extract.
-4. Sanity checks: axis coherence (held-out pairs project correctly), and comparison against the gender axis to see whether class is as linearly encoded as gender (the "to what degree" in your note — measured as held-out pair separation accuracy).
+4. Sanity checks: axis coherence (held-out pairs project correctly), and comparison against the gender axis to see whether class is as linearly encoded as gender (the <src>"to what degree"</src> in your note — measured as held-out pair separation accuracy).
 
 ## Run
 

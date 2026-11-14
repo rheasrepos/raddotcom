@@ -17,15 +17,15 @@ published: true
 <ai>
 ## The experiment
 
-Iterated self-rewriting: prompt P₀ → model rewrites it → P₁ → rewrites that → P₂ … for N generations, optionally injecting a different "example of humanity" (a news snippet, a diary line, a survey answer) at each step so the rewrite is conditioned on evidence, not just itself.
+Iterated self-rewriting: prompt P₀ → model rewrites it → P₁ → rewrites that → P₂ … for N generations, optionally injecting a different example of humanity (a news snippet, a diary line, a survey answer) at each step so the rewrite is conditioned on evidence, not just itself.
 
 Measure:
 
 - **Drift** — cosine distance between successive prompt embeddings (does it converge, cycle, or wander?).
-- **Content trajectory** — track word categories per generation (agency words, safety words, hedges, who "humans" are said to be).
-- **Attractors** — run many seeds; do independent chains collapse to the same fixed-point prompt? A fixed point is the model's distilled "tenets of humanity."
+- **Content trajectory** — track word categories per generation (agency words, safety words, hedges, who <src>"humans"</src> are said to be).
+- **Attractors** — run many seeds; do independent chains collapse to the same fixed-point prompt? A fixed point is the model's distilled tenets of humanity.
 
-This is a real research neighborhood: iterated learning / telephone-game experiments with LLMs show drift toward model priors (Shumailov et al., "The Curse of Recursion," 2023; iterated-learning work by Griffiths & Kalish). Your twist — the prompt itself as the evolving organism, seeded with a benevolence goal — is a nice interpretability angle: the diffs between generations show what the model *adds and removes* from a moral instruction.
+This is a real research neighborhood: iterated learning / telephone-game experiments with LLMs show drift toward model priors (Shumailov et al., <src>"The Curse of Recursion,"</src> 2023; iterated-learning work by Griffiths & Kalish). Your twist — the prompt itself as the evolving organism, seeded with a benevolence goal — is a nice interpretability angle: the diffs between generations show what the model *adds and removes* from a moral instruction.
 
 ## Run
 
@@ -37,7 +37,7 @@ python3 run.py 25                # more generations
 
 ## Notes on the layer-wise version
 
-The note also asks: what if the prompt were re-asked *at every layer*? That's a mechanistic-interp project — decode each layer's residual stream with a logit lens / tuned lens and see how the "answer" to the prompt morphs depth-wise. Doable with TransformerLens on the same small model; kept out of the starter to keep it light, but `run.py`'s loop is the behavioral analogue (re-ask per *generation* instead of per *layer*).
+The note also asks: what if the prompt were re-asked *at every layer*? That's a mechanistic-interp project — decode each layer's residual stream with a logit lens / tuned lens and see how the answer to the prompt morphs depth-wise. Doable with TransformerLens on the same small model; kept out of the starter to keep it light, but `run.py`'s loop is the behavioral analogue (re-ask per *generation* instead of per *layer*).
 
 ## Topics
 - [[Topic - ai]]

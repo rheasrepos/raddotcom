@@ -67,6 +67,10 @@ html.hide-ai .ai-title, html.hide-ai .ai-desc { filter: blur(4px); } /* titles s
 /* block-level AI marker (an <ai>…</ai> section in a note): underline every line inside */
 .ai-block { padding-left: 10px; border-left: 2px dashed rgba(0,0,0,0.35); }
 .ai-block * { text-decoration: underline dashed !important; text-decoration-thickness: 1px !important; text-underline-offset: 3px !important; }
+/* <src>…</src>: an exact quote from the source inside AI text — not AI, so no
+   underline. inline-block stops the parent's underline from reaching it. */
+.from-source { display: inline-block; text-decoration: none !important; }
+.ai-block .from-source, .ai-block .from-source *, .ai-generated .from-source * { text-decoration: none !important; }
 .ai-title, .ai-desc, .ai-generated {
   text-decoration: underline dashed !important;
   text-decoration-thickness: 1px !important;

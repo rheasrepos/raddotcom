@@ -26,6 +26,9 @@
 	const PALETTE = ['#e6194b', '#3cb44b', '#4363d8', '#f58231', '#911eb4', '#42d4f4', '#f032e6', '#9a6324', '#469990', '#800000', '#808000', '#000075', '#e6a800', '#7a7a7a', '#bfef45', '#dcbeff', '#aaffc3', '#ffd8b1', '#fabed4'];
 
 	const HAND = ['Wild card', 'Me online', 'Influential minds']; // topics Rhea made by hand (no AI underline)
+	// AI-written titles can contain exact quotes from the source (a caption, a
+	// paper title). Those parts aren't AI, so they render without the AI mark.
+	const segs = (t) => t.split(/(“[^”]*”|"[^"]*")/).filter(Boolean).map((x) => ({ x, q: /^[“"]/.test(x) }));
 	const domain = (u) => (u ? u.replace(/^https?:\/\/(www\.)?/, '').split('/')[0] : '');
 
 	// topics, Wild card first, then by size
@@ -116,10 +119,10 @@
 				{#each list as it}
 					<li>
 						{#if it.url}
-							<a href={it.url} target="_blank" rel="noopener noreferrer">{#if it.ai_title}<AIText>{it.title}</AIText>{:else}{it.title}{/if}</a>
+							<a href={it.url} target="_blank" rel="noopener noreferrer">{#if it.ai_title}{#each segs(it.title) as g}{#if g.q}{g.x}{:else}<AIText>{g.x}</AIText>{/if}{/each}{:else}{it.title}{/if}</a>
 							<span class="dom">{domain(it.url)}</span>
 						{:else}
-							<span class="plain">{#if it.ai_title}<AIText>{it.title}</AIText>{:else}{it.title}{/if}</span>
+							<span class="plain">{#if it.ai_title}{#each segs(it.title) as g}{#if g.q}{g.x}{:else}<AIText>{g.x}</AIText>{/if}{/each}{:else}{it.title}{/if}</span>
 							<a class="dom" href="https://duckduckgo.com/?q={encodeURIComponent(it.title)}" target="_blank" rel="noopener noreferrer">search ↗</a>
 						{/if}
 						{#if it.added || it.published}<span class="when">{#if it.added}saved {formatDate(it.added)}{/if}{#if it.added && it.published} · {/if}{#if it.published}published {formatDate(it.published)}{/if}</span>{/if}

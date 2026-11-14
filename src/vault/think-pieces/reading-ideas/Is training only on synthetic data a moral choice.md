@@ -17,6 +17,6 @@ Margin note (paraphrased; check against the PDF):
 
 > Is there a moral case for training only on synthetic data — or is that literally just accepting that models can be conscious?
 
-Source: Ho, Anson. "The Least Understood Driver of AI Progress." *Gradient Updates*, Epoch AI, p. 13.
+Source: Ho, Anson. <src>"The Least Understood Driver of AI Progress."</src> *Gradient Updates*, Epoch AI, p. 13.
 </ai>
 
