@@ -379,3 +379,12 @@ Every title/description I wrote is flagged in its file with `ai_title: true` or 
 grep -rl "ai_title: true" "raddotcom Vault (vault-drafts)"
 ```
 That prints every file with an AI-written title. Rewrite, delete the flag, promote, push.
+
+## 5e. The "world's biggest problems" poll on /ai-problems
+
+Visitors answer in the form at the top of `/ai-problems`; answers go to a `problem_votes` table in the same Supabase project as the WPM wall.
+
+1. **Set up once:** Supabase → SQL Editor → paste and run `supabase/problem_votes.sql`.
+2. **Review:** Supabase → Table Editor → `problem_votes`. New answers arrive as `pending`. Set `status` to `approved` or `rejected`.
+3. **What's public:** the "What visitors say" tab shows vote counts per problem (all non-rejected answers, numbers only) and approved written answers. Unreviewed text is never shown.
+4. **Add approved answers to the database:** in `ai-fixable-problems-db`, run `python3 scripts/import_visitor_answers.py`. They land in `data/candidate_issues.csv` with source "Visitors".

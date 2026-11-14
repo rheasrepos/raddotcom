@@ -4,6 +4,7 @@
 	// ai-fixable-problems-db repo and copied here by its sync script.
 	import PageLayout from '../../components/PageLayout.svelte';
 	import { onMount } from 'svelte';
+	import { votesConfigured, submitVote, loadVotes } from '$lib/problemVotes.js';
 
 	/** @type {any[]} */
 	let problems = [];
@@ -22,7 +23,45 @@
 	const EVIDENCE = { rct: 'RCT', quasi_experimental: 'Quasi-exp.', self_reported: 'Self-reported', none: 'None' };
 	const EV_RANK = { rct: 0, quasi_experimental: 1, self_reported: 2, none: 3 };
 
+	// --- visitor poll: "what are the world's biggest problems?" ---
+	let vCategory = '';
+	let vProblem = '';
+	let vWhy = '';
+	let vTrap = ''; // honeypot: humans never see or fill this
+	let vSending = false;
+	let vDone = false;
+	let vError = '';
+	/** @type {{category: string, votes: number}[]} */
+	let vStats = [];
+	/** @type {{problem: string, mentions: number}[]} */
+	let vWriteins = [];
+	let vLoaded = false;
+
+	async function refreshVotes() {
+		if (!votesConfigured) { vLoaded = true; return; }
+		try { const r = await loadVotes(); vStats = r.stats; vWriteins = r.writeins; } catch { /* leave empty */ }
+		vLoaded = true;
+	}
+	async function sendVote() {
+		vError = '';
+		if (vTrap) { vDone = true; return; }
+		if (!vCategory) { vError = 'Pick a problem, or choose "Something else".'; return; }
+		if (vCategory === 'other' && !vProblem.trim()) { vError = 'Tell us the problem in your own words.'; return; }
+		vSending = true;
+		try {
+			await submitVote({ category: vCategory, problem: vProblem, why: vWhy });
+			vDone = true; vCategory = ''; vProblem = ''; vWhy = '';
+			await refreshVotes();
+		} catch { vError = 'That didn’t send. Try again?'; }
+		vSending = false;
+	}
+	$: vTotal = vStats.reduce((n, r) => n + r.votes, 0);
+	$: vRows = vStats
+		.map((r) => ({ ...r, name: r.category === 'other' ? 'Something else (see write-ins)' : (problems.find((p) => p.problem_id === r.category)?.name || r.category) }))
+		.sort((a, b) => b.votes - a.votes);
+
 	onMount(async () => {
+		refreshVotes();
 		try {
 			const r = await fetch('/ai-problems.json');
 			if (!r.ok) throw new Error(String(r.status));
@@ -44,7 +83,8 @@
 		datasets: problems.flatMap((p) => (p.datasets || []).map((/** @type {any} */ x) => withP(p, x))),
 		research: problems.flatMap((p) => (p.existing_work || []).map((/** @type {any} */ x) => withP(p, x))),
 		gaps: problems.flatMap((p) => (p.data_gaps || []).map((/** @type {any} */ x) => withP(p, x))),
-		risks: problems.map((p) => withP(p, p.risks || {}))
+		risks: problems.map((p) => withP(p, p.risks || {})),
+		votes: []
 	};
 
 	const COLS = {
@@ -56,7 +96,7 @@
 		gaps: [['_problem', 'Problem'], ['gap', 'Missing data'], ['why_it_matters', 'Why it matters']],
 		risks: [['_problem', 'Problem'], ['ethics', 'Ethics'], ['morality', 'Morality'], ['devils_advocate', "Devil's advocate"]]
 	};
-	const TABS = [['datasets', 'Open datasets'], ['problems', 'Problems'], ['gaps', 'Missing data'], ['solutions', "Who's working on it"], ['risks', 'Risks']];
+	const TABS = [['datasets', 'Open datasets'], ['problems', 'Problems'], ['gaps', 'Missing data'], ['solutions', "Who's working on it"], ['risks', 'Risks'], ['votes', 'What visitors say']];
 
 	const val = (/** @type {any} */ r, /** @type {string} */ k) => (k === '_problem' ? r._p.name : r[k] ?? '');
 	const text = (/** @type {any} */ r) => Object.values(r).filter((v) => typeof v === 'string').join(' ').toLowerCase() + ' ' + r._p.name.toLowerCase();
@@ -103,14 +143,48 @@
 			</p>
 		</header>
 
+		<fieldset class="poll">
+			<legend>Contribute your opinion: what are the world's biggest problems?</legend>
+			{#if !votesConfigured}
+				<p class="muted">The poll isn't open yet.</p>
+			{:else if vDone}
+				<p>Thanks! Your answer is counted. Written answers show up after a quick review.
+					<button class="link" on:click={() => { vDone = false; }}>Answer again</button> ·
+					<button class="link" on:click={() => setTab('votes')}>See what others said</button></p>
+			{:else}
+				<div class="poll-row">
+					<label>Problem
+						<select bind:value={vCategory}>
+							<option value="" disabled>Choose one…</option>
+							{#each problems as p}<option value={p.problem_id}>{p.name}</option>{/each}
+							<option value="other">Something else</option>
+						</select>
+					</label>
+					<label class="grow">In your own words {vCategory === 'other' ? '' : '(optional)'}
+						<input maxlength="200" bind:value={vProblem} placeholder="e.g. loneliness, clean water, misinformation…" />
+					</label>
+				</div>
+				<label>Why? (optional)
+					<textarea rows="2" maxlength="500" bind:value={vWhy}></textarea>
+				</label>
+				<input class="trap" tabindex="-1" autocomplete="off" aria-hidden="true" bind:value={vTrap} />
+				<div class="poll-row">
+					<button class="btn" on:click={sendVote} disabled={vSending}>{vSending ? 'Sending…' : 'Submit'}</button>
+					<span class="muted">Anonymous. Don't include names or personal details.</span>
+					{#if vError}<span class="err">{vError}</span>{/if}
+				</div>
+			{/if}
+		</fieldset>
+
 		<nav class="tabs" role="tablist">
 			{#each TABS as [id, label]}
 				<button role="tab" aria-selected={tab === id} class:on={tab === id} on:click={() => setTab(id)}>
-					{label} <span class="n">{rows[id]?.length ?? 0}</span>
+					{label} <span class="n">{id === 'votes' ? vTotal : rows[id]?.length ?? 0}</span>
 				</button>
 			{/each}
 		</nav>
 
+		{#if tab !== 'votes'}
 		<div class="bar">
 			<input type="search" placeholder="Filter rows…" bind:value={q} />
 			<select bind:value={problem} aria-label="Problem">
@@ -122,8 +196,41 @@
 				{#each sdgs as [id, name]}<option value={id}>{id}. {name}</option>{/each}
 			</select>
 		</div>
+		{/if}
 
-		{#if !loaded}
+		{#if tab === 'votes'}
+			<div class="grid-wrap">
+				<table class="grid">
+					<thead><tr><th class="idx"><span class="sort">#</span></th><th><span class="sort">Problem</span></th><th><span class="sort">Votes</span></th><th><span class="sort">Share</span></th></tr></thead>
+					<tbody>
+						{#each vRows as r, i}
+							<tr>
+								<td class="idx">{i + 1}</td>
+								<td>{r.name}</td>
+								<td class="c-n_datasets">{r.votes}</td>
+								<td class="c-bar"><span class="vbar" style="width: {vTotal ? (100 * r.votes) / vTotal : 0}%"></span> {vTotal ? Math.round((100 * r.votes) / vTotal) : 0}%</td>
+							</tr>
+						{:else}
+							<tr><td class="empty" colspan="4">{!votesConfigured ? "The poll isn't open yet." : vLoaded ? 'No answers yet. Be the first.' : 'Loading…'}</td></tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
+			{#if vWriteins.length}
+				<h3 class="sub">In visitors' own words (reviewed)</h3>
+				<div class="grid-wrap">
+					<table class="grid">
+						<thead><tr><th class="idx"><span class="sort">#</span></th><th><span class="sort">Problem</span></th><th><span class="sort">Mentions</span></th></tr></thead>
+						<tbody>
+							{#each vWriteins as w, i}
+								<tr><td class="idx">{i + 1}</td><td>{w.problem}</td><td class="c-n_datasets">{w.mentions}</td></tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
+			{/if}
+			<div class="statusbar"><span>{vTotal} answers</span><span>Counts include unreviewed answers; written answers appear after review.</span></div>
+		{:else if !loaded}
 			<p class="status">Loading…</p>
 		{:else if error}
 			<p class="status">{error}</p>
@@ -255,6 +362,23 @@
 	.k-community, .k-human_connection { background: #800080; } .k-funding { background: #008000; } .k-research { background: #404040; } .k-open_data { background: #008080; outline: 1px dashed #fff; } .k-other_tech { background: #800000; }
 	.empty, .status { padding: 10px; }
 
+	.poll { margin: 0 0 12px; padding: 8px 10px 10px; border: 2px groove var(--hi); }
+	.poll legend { font-weight: bold; padding: 0 4px; }
+	.poll label { display: flex; flex-direction: column; gap: 2px; margin-bottom: 6px; }
+	.poll-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; }
+	.poll .grow { flex: 1 1 14rem; }
+	.poll input, .poll select, .poll textarea {
+		background: #fff; color: #000; font: inherit; padding: 2px 4px; max-width: 100%;
+		border: 2px solid; border-color: var(--lo) var(--hi) var(--hi) var(--lo); box-shadow: inset 1px 1px var(--dk);
+	}
+	.btn { background: var(--face); font: inherit; padding: 3px 14px; cursor: pointer; border: 2px solid; border-color: var(--hi) var(--dk) var(--dk) var(--hi); box-shadow: inset -1px -1px var(--lo); }
+	.btn:active { border-color: var(--dk) var(--hi) var(--hi) var(--dk); }
+	.trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+	.muted { color: #404040; font-size: 12px; }
+	.err { color: #800000; }
+	.sub { font-size: 13px; font-weight: bold; margin: 12px 0 0; }
+	td.c-bar { min-width: 12rem; white-space: nowrap; }
+	.vbar { display: inline-block; height: 10px; background: var(--navy); vertical-align: middle; margin-right: 6px; }
 	.statusbar { display: flex; gap: 2px; margin-top: 4px; }
 	.statusbar span {
 		flex: 1; padding: 2px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;

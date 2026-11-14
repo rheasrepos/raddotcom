@@ -1500,5 +1500,38 @@
       "morality": "Is it right to deploy systems whose reasoning we can't inspect, and does studying them legitimize deploying them?",
       "devils_advocate": "Interpretability on small open models may not transfer to frontier systems, and safety benchmarks get gamed; the work can provide reassurance without real control."
     }
+  },
+  {
+    "problem_id": "overconsumption",
+    "name": "Overconsumption",
+    "description": "People buy, use and scroll far more than they need or want, pushed by products and platforms designed to keep them consuming, at a cost to their wellbeing and the planet.",
+    "sdg_goal": "12",
+    "sdg_targets": "12.2;12.5;12.8",
+    "solution_kind": "digital",
+    "solution_summary": "Measure consumption and compulsive use honestly, and help people and policymakers see where design is driving it.",
+    "maturity": "idea",
+    "contributor": "rhea",
+    "date_added": "2026-11-14",
+    "sdg_name": "Responsible Consumption and Production",
+    "datasets": [],
+    "existing_work": [],
+    "interventions": [],
+    "data_gaps": [
+      {
+        "problem_id": "overconsumption",
+        "gap": "Individual-level consumption and screen-time data",
+        "why_it_matters": "Purchase and usage data sits with retailers and platforms, not researchers.",
+        "how_to_close": "Data donation by consenting users; platform transparency rules"
+      }
+    ],
+    "risks": {
+      "problem_id": "overconsumption",
+      "who_could_be_harmed": "Workers in industries that depend on consumer demand; people shamed for spending they can't easily change.",
+      "dual_use": "Tools that model why people over-consume are the same tools that sell to them more effectively.",
+      "bias_and_representation": "Research centers rich countries; much of the world consumes too little, not too much.",
+      "ethics": "Who decides what counts as 'too much', and whose purchase and usage data gets collected to find out.",
+      "morality": "Is it right to treat other people's wants as a problem to fix?",
+      "devils_advocate": "Consumption is how most people meet needs and find joy; framing it as a problem can moralize individual choices while the real drivers are prices, wages and business models."
+    }
   }
 ]
