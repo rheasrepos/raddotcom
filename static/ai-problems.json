@@ -24,6 +24,32 @@
         "contributor": "claude-draft",
         "date_added": "2026-11-14",
         "role": "Baseline: how much is wasted, where, and at which stage."
+      },
+      {
+        "dataset_id": "voxel51-food-waste",
+        "name": "Voxel51 food waste images",
+        "url": "https://huggingface.co/datasets/Voxel51/food-waste-dataset",
+        "access": "open",
+        "license": "MIT",
+        "size": "",
+        "modality": "images",
+        "description": "Images of discarded food.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Train vision models that identify wasted food (the Winnow approach)."
+      },
+      {
+        "dataset_id": "worldcereal",
+        "name": "ESA WorldCereal 10 m",
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/ESA_WorldCereal_2021_MODELS_v100",
+        "access": "open",
+        "license": "CC-BY-4.0",
+        "size": "global, 2021",
+        "modality": "raster",
+        "description": "Global cropland and crop-type maps.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Where food is grown, upstream of loss and waste."
       }
     ],
     "existing_work": [],
@@ -123,6 +149,97 @@
         "contributor": "claude-draft",
         "date_added": "2026-11-14",
         "role": "Historical heat and precipitation fields to train and validate downscaling."
+      },
+      {
+        "dataset_id": "ai4g-flood",
+        "name": "AI for Good Lab flood dataset (Microsoft)",
+        "url": "https://huggingface.co/datasets/ai-for-good-lab/ai4g-flood-dataset",
+        "access": "open",
+        "license": "MIT",
+        "size": "",
+        "modality": "satellite imagery",
+        "description": "Flood mapping data from Microsoft's AI for Good Lab.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Train flood-extent detection."
+      },
+      {
+        "dataset_id": "impactmesh-flood",
+        "name": "ImpactMesh-Flood (IBM, ESA)",
+        "url": "https://huggingface.co/datasets/ibm-esa-geospatial/ImpactMesh-Flood",
+        "access": "open",
+        "license": "CC-BY-4.0",
+        "size": "",
+        "modality": "satellite imagery",
+        "description": "Flood impact dataset from IBM and ESA geospatial.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Train and benchmark flood-impact models."
+      },
+      {
+        "dataset_id": "glofas-flood-hazard",
+        "name": "JRC Global River Flood Hazard Maps v2.1",
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/JRC_CEMS_GLOFAS_FloodHazard_v2_1",
+        "access": "open",
+        "license": "CC-BY-4.0",
+        "size": "global",
+        "modality": "raster",
+        "description": "Flood hazard maps for river floods.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Where river floods are likely, for warning and planning."
+      },
+      {
+        "dataset_id": "yale-urban-heat-islands",
+        "name": "Yale YCEO Surface Urban Heat Islands v4",
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/YALE_YCEO_UHI_UHI_yearly_pixel_v4",
+        "access": "open",
+        "license": "CC-BY-4.0",
+        "size": "global cities",
+        "modality": "raster",
+        "description": "Day and night surface urban heat island intensity.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Which neighborhoods run hottest; closes part of the street-level gap."
+      },
+      {
+        "dataset_id": "terraclimate",
+        "name": "TerraClimate",
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/IDAHO_EPSCOR_TERRACLIMATE",
+        "access": "open",
+        "license": "CC0-1.0",
+        "size": "global, monthly",
+        "modality": "raster",
+        "description": "Monthly climate and water balance for global land.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Long-run climate baselines and drought."
+      },
+      {
+        "dataset_id": "speibase",
+        "name": "SPEIbase drought index v2.11",
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/CSIC_SPEI_2_11",
+        "access": "open",
+        "license": "CC-BY-4.0",
+        "size": "global",
+        "modality": "raster",
+        "description": "Standardised Precipitation-Evapotranspiration Index.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Drought monitoring and history."
+      },
+      {
+        "dataset_id": "cdc-heat-health-tracker",
+        "name": "CDC Heat & Health Tracker",
+        "url": "https://www.cdc.gov/nssp/php/partnerships/cdc-heat-health-tracker-uses-nssp-data.html",
+        "access": "open",
+        "license": "US public data",
+        "size": "US communities",
+        "modality": "tabular",
+        "description": "Heat-related emergency department visits by community.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Ground truth for heat harm."
       }
     ],
     "existing_work": [],
@@ -214,6 +331,84 @@
         "contributor": "claude-draft",
         "date_added": "2026-11-14",
         "role": "US ground truth for homelessness by locality."
+      },
+      {
+        "dataset_id": "google-open-buildings",
+        "name": "Google Open Buildings v3",
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_Research_open-buildings_v3_polygons",
+        "access": "open",
+        "license": "CC-BY-4.0",
+        "size": "Africa, South and Southeast Asia, Latin America",
+        "modality": "building polygons",
+        "description": "AI-detected building footprints from satellite imagery.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Map housing stock and informal settlements."
+      },
+      {
+        "dataset_id": "google-open-buildings-temporal",
+        "name": "Google Open Buildings Temporal v1",
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_Research_open-buildings-temporal_v1",
+        "access": "open",
+        "license": "CC-BY-4.0",
+        "size": "",
+        "modality": "raster",
+        "description": "Building presence and height over time.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Track how settlements grow."
+      },
+      {
+        "dataset_id": "world-settlement-footprint",
+        "name": "World Settlement Footprint 2015 (DLR)",
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/DLR_WSF_WSF2015_v1",
+        "access": "open",
+        "license": "CC0-1.0",
+        "size": "global",
+        "modality": "raster",
+        "description": "Global map of human settlements.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Where people live, at 10 m."
+      },
+      {
+        "dataset_id": "gpw-population",
+        "name": "Gridded Population of the World v4.11 (CIESIN)",
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/CIESIN_GPWv411_GPW_Population_Count",
+        "access": "open",
+        "license": "CC-BY-4.0",
+        "size": "global",
+        "modality": "raster",
+        "description": "Population counts on a global grid.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Population denominators for housing need."
+      },
+      {
+        "dataset_id": "hot-osm-hdx",
+        "name": "Humanitarian OpenStreetMap exports on HDX",
+        "url": "https://centre.humdata.org/humanitarian-openstreetmap-on-hdx/",
+        "access": "open",
+        "license": "check each dataset (OSM data is usually ODbL)",
+        "size": "4,000+ datasets, 249 countries and territories",
+        "modality": "vector",
+        "description": "Roads, places, facilities and (for some disasters) damaged buildings from OpenStreetMap.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Map infrastructure around housing; disaster damage."
+      },
+      {
+        "dataset_id": "eviction-lab-ets",
+        "name": "Eviction Lab Eviction Tracking System",
+        "url": "https://evictionlab.org/eviction-tracking/",
+        "access": "open",
+        "license": "not stated",
+        "size": "11 states, 43 cities, monthly",
+        "modality": "tabular",
+        "description": "Eviction filings tracked over time.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Leading signal for housing loss."
       }
     ],
     "existing_work": [],
@@ -247,6 +442,36 @@
         "effect_source": "https://capolicylab.org/news/new-report-early-signs-of-success-from-la-countys-homelessness-prevention-pilot/",
         "featured": "true",
         "notes": "Model ranks who's most at risk; RCT results expected 2027. Evaluator also built the model."
+      },
+      {
+        "intervention_id": "hot-osm",
+        "problem_id": "shelter-scarcity",
+        "name": "Humanitarian OpenStreetMap Team",
+        "organization": "Humanitarian OpenStreetMap Team",
+        "kind": "open_data",
+        "year_started": "",
+        "url": "https://centre.humdata.org/humanitarian-openstreetmap-on-hdx/",
+        "scale": "4,000+ datasets on HDX covering 249 countries and territories",
+        "effect": "",
+        "evidence": "none",
+        "effect_source": "",
+        "featured": "true",
+        "notes": "Volunteer mapping for disaster response and development."
+      },
+      {
+        "intervention_id": "google-open-buildings-project",
+        "problem_id": "shelter-scarcity",
+        "name": "Open Buildings",
+        "organization": "Google Research",
+        "kind": "open_data",
+        "year_started": "",
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_Research_open-buildings_v3_polygons",
+        "scale": "Building footprints across Africa, South and Southeast Asia, Latin America",
+        "effect": "",
+        "evidence": "none",
+        "effect_source": "",
+        "featured": "true",
+        "notes": "AI-detected footprints released openly (CC BY 4.0)."
       }
     ],
     "data_gaps": [
@@ -311,6 +536,19 @@
         "contributor": "claude-draft",
         "date_added": "2026-11-14",
         "role": "Wage side of the gap, internationally comparable."
+      },
+      {
+        "dataset_id": "indeed-hiring-lab",
+        "name": "Indeed Hiring Lab job postings data",
+        "url": "https://github.com/hiring-lab/data",
+        "access": "open",
+        "license": "CC-BY-4.0",
+        "size": "11 countries, daily",
+        "modality": "tabular",
+        "description": "Job postings indexes by country, sector and region (no wages).",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Labor demand context for wage gaps."
       }
     ],
     "existing_work": [],
@@ -367,7 +605,21 @@
     "contributor": "rhea",
     "date_added": "2026-11-14",
     "sdg_name": "Good Health and Well-being",
-    "datasets": [],
+    "datasets": [
+      {
+        "dataset_id": "cdc-yrbs",
+        "name": "CDC Youth Risk Behavior Survey (YRBS)",
+        "url": "https://www.cdc.gov/yrbs/data/index.html",
+        "access": "open",
+        "license": "US public data",
+        "size": "10,710 students (2025 national); 1991–2025",
+        "modality": "survey microdata",
+        "description": "National and local survey of high-school students, incl. social media use and persistent sadness.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Track youth mental health alongside social media use."
+      }
+    ],
     "existing_work": [
       {
         "work_id": "csm-ai-companions-2025",
@@ -729,6 +981,146 @@
       "ethics": "Consent and privacy for minors; who sees a young person's data and what happens when a tool flags them.",
       "morality": "Is it right to design childhood around protection from technology instead of designing technology that's safe for children?",
       "devils_advocate": "Panics about new media are old; heavy protection can cut youth off from community and information, especially LGBTQ+ and isolated kids who find support online."
+    }
+  },
+  {
+    "problem_id": "culture-and-language-preservation",
+    "name": "Disappearing languages and cultural knowledge",
+    "description": "Thousands of languages, and the oral histories and practices carried in them, are losing their last speakers; most have little written or recorded material, so they're also left out of AI.",
+    "sdg_goal": "11",
+    "sdg_targets": "11.4;4.7",
+    "solution_kind": "digital",
+    "solution_summary": "Help communities record, transcribe and translate their own languages, and make tools (speech, translation, search) work for languages with little data.",
+    "maturity": "research",
+    "contributor": "rhea",
+    "date_added": "2026-11-14",
+    "sdg_name": "Sustainable Cities and Communities",
+    "datasets": [
+      {
+        "dataset_id": "flores-plus",
+        "name": "FLORES+ multilingual benchmark (Open Language Data Initiative)",
+        "url": "https://huggingface.co/datasets/openlanguagedata/flores_plus",
+        "access": "open",
+        "license": "CC-BY-SA-4.0",
+        "size": "200+ language varieties",
+        "modality": "parallel text",
+        "description": "Professional translations of the same sentences across many languages; successor to Meta's FLORES-200 used to evaluate NLLB.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Evaluate translation for low-resource languages."
+      },
+      {
+        "dataset_id": "flores-asl",
+        "name": "2M-Flores-ASL (Meta)",
+        "url": "https://huggingface.co/datasets/facebook/2M-Flores-ASL",
+        "access": "open",
+        "license": "CC-BY-SA-4.0",
+        "size": "",
+        "modality": "sign-language video;text",
+        "description": "FLORES sentences in American Sign Language.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Benchmark for sign-language translation."
+      },
+      {
+        "dataset_id": "common-voice",
+        "name": "Mozilla Common Voice 24.0",
+        "url": "https://discourse.mozilla.org/t/release-live-mcv-scripted-speech-24-0-and-spontaneous-speech-2-0/146740",
+        "access": "open",
+        "license": "per-language; check each (e.g. CC0)",
+        "size": "289 languages, 38,932 hours (Dec 2025)",
+        "modality": "speech",
+        "description": "Crowdsourced read speech with transcripts.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Train and test speech recognition for small languages."
+      },
+      {
+        "dataset_id": "glottolog",
+        "name": "Glottolog",
+        "url": "https://glottolog.org/meta/downloads",
+        "access": "open",
+        "license": "CC-BY-4.0",
+        "size": "",
+        "modality": "tabular;geographic",
+        "description": "Catalog of the world's languages, families and locations.",
+        "contributor": "claude-draft",
+        "date_added": "2026-11-14",
+        "role": "Which languages exist, where, and how they relate."
+      }
+    ],
+    "existing_work": [],
+    "interventions": [
+      {
+        "intervention_id": "common-voice-project",
+        "problem_id": "culture-and-language-preservation",
+        "name": "Common Voice",
+        "organization": "Mozilla Foundation",
+        "kind": "open_data",
+        "year_started": "",
+        "url": "https://discourse.mozilla.org/t/release-live-mcv-scripted-speech-24-0-and-spontaneous-speech-2-0/146740",
+        "scale": "289 languages, 38,932 hours of speech (Dec 2025)",
+        "effect": "",
+        "evidence": "none",
+        "effect_source": "",
+        "featured": "true",
+        "notes": "Crowdsourced, openly released speech data."
+      },
+      {
+        "intervention_id": "flores-plus-project",
+        "problem_id": "culture-and-language-preservation",
+        "name": "FLORES+ / Open Language Data Initiative",
+        "organization": "Open Language Data Initiative (from Meta's FLORES)",
+        "kind": "open_data",
+        "year_started": "",
+        "url": "https://huggingface.co/datasets/openlanguagedata/flores_plus",
+        "scale": "200+ language varieties",
+        "effect": "",
+        "evidence": "none",
+        "effect_source": "",
+        "featured": "true",
+        "notes": "Community-maintained evaluation set for translation."
+      },
+      {
+        "intervention_id": "glottolog-project",
+        "problem_id": "culture-and-language-preservation",
+        "name": "Glottolog",
+        "organization": "Glottolog editors (Hammarström, Forkel, Haspelmath, Bank)",
+        "kind": "open_data",
+        "year_started": "",
+        "url": "https://glottolog.org/meta/downloads",
+        "scale": "",
+        "effect": "",
+        "evidence": "none",
+        "effect_source": "",
+        "featured": "false",
+        "notes": "Open catalog of the world's languages (CC BY 4.0)."
+      },
+      {
+        "intervention_id": "masakhane",
+        "problem_id": "culture-and-language-preservation",
+        "name": "Masakhane",
+        "organization": "Masakhane",
+        "kind": "community",
+        "year_started": "",
+        "url": "https://www.Github.com/masakhane-io/masakhane-community",
+        "scale": "",
+        "effect": "",
+        "evidence": "none",
+        "effect_source": "",
+        "featured": "false",
+        "notes": "Grassroots research community for African-language NLP."
+      }
+    ],
+    "data_gaps": [],
+    "risks": {
+      "problem_id": "culture-and-language-preservation",
+      "who_could_be_harmed": "Communities whose recordings are used without consent or who lose control of sacred or private knowledge.",
+      "dual_use": "Speech and translation data for small languages can also enable surveillance of those communities.",
+      "bias_and_representation": "Datasets favor languages with online text; oral-only languages and dialects are underrepresented or flattened into one 'standard'.",
+      "ethics": "Data sovereignty: who owns recordings, who can license them, and whether communities can withdraw them.",
+      "morality": "Is it right for outsiders, or AI companies, to decide which languages are worth saving and in what form?",
+      "devils_advocate": "A language lives in its speakers, not in a dataset. Money spent on AI tools could go to speakers, teachers and immersion schools instead, and an AI that 'speaks' a language may reduce the felt need to learn it."
     }
   }
 ]

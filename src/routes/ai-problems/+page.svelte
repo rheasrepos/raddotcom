@@ -18,7 +18,7 @@
 	let sortDir = 1;
 
 	const KIND = { ai: 'AI', other_tech: 'Other tech', policy: 'Policy', funding: 'Funding',
-		market: 'Market', community: 'Community', human_connection: 'Human connection' };
+		market: 'Market', community: 'Community', human_connection: 'Human connection', open_data: 'Open data' };
 	const EVIDENCE = { rct: 'RCT', quasi_experimental: 'Quasi-exp.', self_reported: 'Self-reported', none: 'None' };
 	const EV_RANK = { rct: 0, quasi_experimental: 1, self_reported: 2, none: 3 };
 
@@ -260,7 +260,7 @@
 	.link { background: none; border: none; padding: 0; font: inherit; cursor: pointer; text-align: left; }
 	.pill { display: inline-block; padding: 0 4px; font-size: 11px; white-space: nowrap; color: #fff; }
 	.k-ai { background: #008080; } .k-policy { background: #808000; } .k-market { background: #000080; }
-	.k-community, .k-human_connection { background: #800080; } .k-funding { background: #008000; } .k-other_tech { background: #800000; }
+	.k-community, .k-human_connection { background: #800080; } .k-funding { background: #008000; } .k-open_data { background: #008080; outline: 1px dashed #fff; } .k-other_tech { background: #800000; }
 	.empty, .status { padding: 10px; }
 
 	.statusbar { display: flex; gap: 2px; margin-top: 4px; }
