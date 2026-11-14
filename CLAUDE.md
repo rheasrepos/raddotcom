@@ -9,6 +9,7 @@ Any text an AI writes that a visitor can see **must be marked as AI-drafted, in 
 - **Titles / descriptions in frontmatter:** `ai_title: true` / `ai_description: true`.
 - **Live-updating text** (contains a `{variable}` that changes while shown): still wrap it, and add `data-no-reveal` to its container so the reveal animation doesn't freeze it.
 - **Exempt:** short control labels on buttons/menus ("send", "re-run", "do a new one →"). Anything that reads as a sentence is not exempt.
+- **Verbatim copies are not AI text:** a title copied exactly from its source (a web page's or paper's title, a caption, a quote) gets no AI mark — inside AI text, wrap an exact quote in `<src>…</src>`. Only text Claude wrote, paraphrased or trimmed into new wording is labelled.
 - **Never** wrap or "improve" Rhea's own words, and never retitle/rewrite her writing without asking.
 - Before finishing any change, re-scan the components you touched for unwrapped prose.
 
