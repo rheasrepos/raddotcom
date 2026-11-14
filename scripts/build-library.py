@@ -46,7 +46,7 @@ def frontmatter(text):
 def kind_of(title, url):
     u = (url or "").lower(); t = title.lower()
     if any(x in u for x in ("youtu", "vimeo", "/reel", "tiktok")) or re.search(r"\b(talk|video|lecture)\b", t): return "video"
-    if any(x in u for x in ("arxiv", "doi.org", "biorxiv", "nature.com", "pubmed")) or u.endswith(".pdf") or re.search(r"\bpaper\b", t): return "paper"
+    if any(x in u for x in ("arxiv", "doi.org", "biorxiv", "nature.com", "pubmed", "journalclub.io/episodes")) or u.endswith(".pdf") or re.search(r"\bpaper\b", t): return "paper"
     if "podcast" in t or "spotify.com/episode" in u or "podcasts.apple" in u: return "podcast"
     if re.search(r"\b(book|novel)\b", t) or "goodreads" in u: return "book"
     if "instagram.com" in u: return "post"
