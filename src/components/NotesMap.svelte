@@ -1,4 +1,6 @@
 <script>
+	// The notes map (was the Obsidian page, /network): shown as the 'Map' view of
+	// the Blog, since both show the same published notes (Rhea, 2026-11-14).
 	// Obsidian page: every published note is a point in a 3-D space built from
 	// the notes' own words (scripts/embed-vault.py → static/vault-space.json).
 	// Near points are notes that use the same vocabulary. The line joins them in
@@ -6,9 +8,8 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { categoryConfig, getCategoryColor, getCategoryLabel } from '$lib/categories.js';
-	import PageLayout from '../../components/PageLayout.svelte';
-	import ObsidianGraph from '../../components/ObsidianGraph.svelte';
-	import AIText from '../../components/AIText.svelte';
+	import ObsidianGraph from './ObsidianGraph.svelte';
+	import AIText from './AIText.svelte';
 
 	// Two ways to see the same notes:
 	//   'space' — the 3-D embedding (position = what the note is about)
@@ -241,10 +242,8 @@
 	$: usedTypes = data ? [...new Set(data.notes.map((n) => n.type))] : [];
 </script>
 
-<PageLayout title="Obsidian - Rhea Madhogarhia">
 <div class="space-page">
 	<header class="space-head">
-		<h1>Obsidian</h1>
 		<div class="mode">
 			<button class:on={mode === 'space'} on:click={() => (mode = 'space')}>space</button>
 			<button class:on={mode === 'graph'} on:click={() => (mode = 'graph')}>graph</button>
@@ -327,7 +326,6 @@
 		{/each}
 	</div>
 </div>
-</PageLayout>
 
 <style>
 	.space-page { padding: 4px 0 20px; }

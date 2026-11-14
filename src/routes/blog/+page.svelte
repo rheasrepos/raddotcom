@@ -2,6 +2,7 @@
 	import AIText from '../../components/AIText.svelte';
 	import { formatDate } from '$lib/posts.js';
 	import PageLayout from '../../components/PageLayout.svelte';
+	import NotesMap from '../../components/NotesMap.svelte';
 	import PostPreview from '../../components/PostPreview.svelte';
 	import { categoryConfig, getCategoryColor } from '../../lib/categories.js';
 	import { onMount, tick } from 'svelte';
@@ -13,7 +14,7 @@
 	export let data;
 	let posts = (data && data.posts) || [];
 	let grouping = 'date'; // 'date' | 'category' | 'month'
-	let layout = 'list';   // 'list' | 'grid' — grid shows content tiles
+	let layout = 'list';   // 'list' | 'grid' | 'map' — grid shows content tiles; map = the notes map (old Obsidian page)
 
 	// a short text preview for grid tiles that have no cover image
 	function excerpt(p) {
@@ -35,6 +36,7 @@
 	onMount(async () => {
 		const h = new URL(window.location.href).searchParams.get('hide');
 		if (h) hidden = new Set(h.split(',').filter(Boolean));
+		if (new URL(window.location.href).searchParams.get('view') === 'map') layout = 'map'; // old /network links land here
 		// Posts already arrived via load(); only fetch as a fallback.
 		if (!posts || posts.length === 0) {
 			try { posts = await loadPosts(); } catch (e) { posts = []; }
@@ -205,7 +207,13 @@
 			<span class="view-switch-label">View:</span>
 			<button class:active={layout === 'list'} on:click={() => (layout = 'list')}>List</button>
 			<button class:active={layout === 'grid'} on:click={() => (layout = 'grid')}>Grid</button>
+			<button class:active={layout === 'map'} on:click={() => (layout = 'map')}>Map</button>
 		</nav>
+
+		{#if layout === 'map'}
+			<!-- the same notes, as the map / graph / clusters (formerly the Obsidian page) -->
+			<NotesMap />
+		{:else}
 
 		<!-- Pinned post (featured: true), else the most recent -->
 		{#if sorted.length}
@@ -283,6 +291,7 @@
 					</section>
 				{/each}
 			</div>
+		{/if}
 		{/if}
 	</section>
 	</div>

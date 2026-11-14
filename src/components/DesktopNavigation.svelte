@@ -8,7 +8,6 @@
 		{ path: '/', label: 'Desktop' },
 		// Changed path to /blog and label to Blog
 		{ path: '/blog', label: 'Blog' },
-		{ path: '/network', label: 'Obsidian' },
 		{ path: '/about', label: 'About' },
 		{ path: '/library', label: 'Library' },
 		{ path: '/questions', label: 'Questions' },

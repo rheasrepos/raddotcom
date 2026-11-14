@@ -27,7 +27,7 @@ Open the vault in Obsidian: **Open folder as vault** → pick `raddotcom Vault (
 |---|---|
 | **Desktop** (the home screen, icons, zoom, search, View modes) | `src/routes/+page.svelte` — the frame + icons only; the pieces are split out: `src/components/desktop/IntroOverlay.svelte` (typewriter landing), `ProjectModal.svelte` (the grey file dialog), `DesktopWindows.svelte` (Finder windows + minimized dock), `WallpaperToolbar.svelte` (colour picker + social links); and the logic in `src/lib/desktop/layout.js` (where icons sit), `content.js` (what's in which folder, previews, search), `windows.js` (open/close/navigate windows) |
 | **Blog** (the list of posts) | `src/routes/blog/+page.svelte` |
-| **Obsidian** (the 3-D map of notes) | `src/routes/network/+page.svelte` — the dots come from `static/vault-space.json`, which `promote-to-site.command` rebuilds via `scripts/embed-vault.py` |
+| **Blog → Map view** (the 3-D map / graph / clusters of notes; was the Obsidian tab — `/network` now redirects here) | `src/components/NotesMap.svelte` — the dots come from `static/vault-space.json`, which `promote-to-site.command` rebuilds via `scripts/embed-vault.py` |
 | **About** | `src/routes/about/+page.svelte` — bio, the "download resume" link (`static/resume.pdf`; `/resume` redirects to it), the YouTube gallery, and the small CAB Lab / Voices / Off-Off Campus buttons |
 | **Library** | `src/routes/library/+page.svelte` + `src/components/LibraryMap.svelte`; data `src/data/library.json`, built by `scripts/build-library.py` (§5f) |
 | **Questions** | `src/routes/questions/+page.svelte`; text from the vault's `_questions.md` (§5h) |
