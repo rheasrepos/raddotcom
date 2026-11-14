@@ -10,7 +10,6 @@
 	// neighbours; click to open it; drag to pan; scroll to zoom.
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	import AIText from './AIText.svelte';
-	import { aiHidden } from '$lib/aiReveal.js';  // 'hide all synthetic text' also hides the machine-made topic names drawn on the map
 	export let items = [];
 	export let highlight = null; // optional predicate: item → bool (search / topic filter)
 	export let colors = null;    // topic → colour, from the page (its sidebar shows the key)
@@ -167,19 +166,13 @@
 		}
 		ctx.globalAlpha = 1;
 		// each topic's name at the middle of its points.
-		// Machine-made names get the dashed AI underline, as in the sidebar.
+		// (topic names are words from the items, chosen by a formula — no AI underline)
 		ctx.font = `bold ${11 / view.k}px sans-serif`; ctx.textAlign = 'center';
 		for (const [t, c] of Object.entries(centers)) {
-			if ($aiHidden && !['Wild card', 'Me online', 'Influential minds'].includes(t)) continue;
 			const lx = c.x, ly = c.y - 10 / view.k;
 			const dim = highlight && !nodes.some((n) => n.it && n.it.topic === t && highlight(n.it));
 			ctx.globalAlpha = dim ? 0.25 : 1; ctx.fillStyle = darker(colorOf(t));
 			ctx.fillText(t, lx, ly);
-			if (t !== 'Wild card' && t !== 'Me online' && t !== 'Influential minds') {
-				const w = ctx.measureText(t).width;
-				ctx.strokeStyle = ctx.fillStyle; ctx.lineWidth = 1 / view.k; ctx.setLineDash([3 / view.k, 2 / view.k]);
-				ctx.beginPath(); ctx.moveTo(lx - w / 2, ly + 3 / view.k); ctx.lineTo(lx + w / 2, ly + 3 / view.k); ctx.stroke(); ctx.setLineDash([]);
-			}
 		}
 		ctx.globalAlpha = 1;
 		// Rhea, where her own writing puts her
@@ -270,7 +263,7 @@
 		<button on:click={() => { view = { ...HOME }; }}>reset</button>
 	</div>
 	{#if hovered && hovered.it}
-		<div class="tip" data-no-reveal><b>{#if hovered.it.ai_title}<AIText>{hovered.it.title}</AIText>{:else}{hovered.it.title}{/if}</b><span>{#if ['Wild card', 'Me online', 'Influential minds'].includes(hovered.it.topic)}{hovered.it.topic}{:else}<AIText>{hovered.it.topic}</AIText>{/if} · {hovered.it.kind}{#if hovered.it.via} · <AIText>posted by {hovered.it.via}</AIText>{/if}</span></div>
+		<div class="tip" data-no-reveal><b>{#if hovered.it.ai_title}<AIText>{hovered.it.title}</AIText>{:else}{hovered.it.title}{/if}</b><span>{hovered.it.topic} · {hovered.it.kind}{#if hovered.it.via} · <AIText>posted by {hovered.it.via}</AIText>{/if}</span></div>
 	{:else if hovered && hovered.hub}
 		<div class="tip" data-no-reveal><b>{hovered.label}</b><span><AIText>{hovered.kids.length} posted about Rhea</AIText></span></div>
 	{/if}

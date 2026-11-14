@@ -1,12 +1,12 @@
 <script>
-	// Universal switch in the top bar: show or hide all synthetic (AI-drafted)
+	// Universal switch in the top bar: show or hide all LLM-written (AI-drafted)
 	// text on the site. Remembered per browser (src/lib/aiReveal.js).
 	import { aiHidden } from '$lib/aiReveal.js';
 </script>
 
 <button class="syn" class:off={$aiHidden} on:click={() => aiHidden.set(!$aiHidden)}
-	title={$aiHidden ? 'Synthetic (AI-drafted) text is hidden — click to show it' : 'Hide all synthetic (AI-drafted) text'}>
-	<span class="syn-dot"></span> synthetic text: {$aiHidden ? 'off' : 'on'}
+	title={$aiHidden ? 'LLM-written text is hidden — click to show it' : 'Hide all text written by an LLM (Claude)'}>
+	<span class="syn-dot"></span> LLM text: {$aiHidden ? 'off' : 'on'}
 </button>
 
 <style>

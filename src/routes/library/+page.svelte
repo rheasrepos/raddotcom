@@ -111,8 +111,8 @@
 			<button class="t" class:on={topic === 'all'} on:click={() => (topic = 'all')}>all topics <span class="n">{pool.length}</span></button>
 			{#each topics as [t, n]}
 				<button class="t" class:on={topic === t} on:click={() => (topic = topic === t ? 'all' : t)}
-					title={t === 'Wild card' ? "Rhea's own picks" : t === 'Me online' ? 'Pages by or about Rhea' : t === 'Influential minds' ? 'People whose teaching or work shaped Rhea' : 'Machine-made topic name'}>
-					<i style="background:{colors[t]}"></i>{#if HAND.includes(t)}<span>{t}</span>{:else}<AIText>{t}</AIText>{/if} <span class="n">{n}</span>
+					title={t === 'Wild card' ? "Rhea's own picks" : t === 'Me online' ? 'Pages by or about Rhea' : t === 'Influential minds' ? 'People whose teaching or work shaped Rhea' : 'Named by its three most distinctive words'}>
+					<i style="background:{colors[t]}"></i><span>{t}</span> <span class="n">{n}</span>
 				</button>
 			{/each}
 		</div>
@@ -121,12 +121,12 @@
 	<p class="count">{shown.length} shown</p>
 
 	{#if view === 'map'}
-		<p class="note"><AIText>Inside the first ring is everything Rhea saved or made, plotted like word embeddings (Rhea herself is a point too, placed by her own published writing and joined to the six things most like it): each item's text becomes a vector, and the vectors are flattened to 2-D so similar things land close together. The axes (t-SNE 1 and 2) have no units or meaning of their own: only how close neighbouring dots are counts, not how far apart distant groups are. Each line joins an item to one of its three most similar items. On this map, {lib.faithfulness ? Math.round(lib.faithfulness * 100) : '–'}% of each item's ten most similar items stay among its ten nearest dots. Topics are found, not forced: a topic is any place on the map where dots sit densely together, named by the words most typical of it; dots in sparse areas stay grey as unsorted. The number of topics is where the clustering settles: the answer that comes up most often across a sweep from tight to loose closeness settings. Zoom in with + and each dot's title appears inside it; drag to move around the map. Instagram saves are left out of the layout and the topics; when shown, each sits beside its most similar item. Further out are the people and places that posted something about her, and beyond them, those posts. Each topic's name sits in the middle of its dots. Hover a dot to see its title, topic and neighbours; click to open it; drag to move around; scroll, pinch or use + and − to zoom. Search and filters dim everything else; hide Instagram removes those dots.</AIText></p>
+		<p class="note"><AIText>Inside the first ring is everything Rhea saved or made, plotted like word embeddings (Rhea herself is a point too, placed by her own published writing and joined to the six things most like it): each item's text becomes a vector, and the vectors are flattened to 2-D so similar things land close together. The axes (t-SNE 1 and 2) have no units or meaning of their own: only how close neighbouring dots are counts, not how far apart distant groups are. Each line joins an item to one of its three most similar items. On this map, {lib.faithfulness ? Math.round(lib.faithfulness * 100) : '–'}% of each item's ten most similar items stay among its ten nearest dots. Topics are found, not forced: a topic is any place on the map where dots sit densely together, named by its three most distinctive words (the words its items use far more than the rest of the Library — picked by a formula, not written by an LLM); dots in sparse areas stay grey as unsorted. The number of topics is where the clustering settles: the answer that comes up most often across a sweep from tight to loose closeness settings. Zoom in with + and each dot's title appears inside it; drag to move around the map. Instagram saves are left out of the layout and the topics; when shown, each sits beside its most similar item. Further out are the people and places that posted something about her, and beyond them, those posts. Each topic's name sits in the middle of its dots. Hover a dot to see its title, topic and neighbours; click to open it; drag to move around; scroll, pinch or use + and − to zoom. Search and filters dim everything else; hide Instagram removes those dots.</AIText></p>
 		<LibraryMap {items} {colors} hide={hideIG ? isIG : null} rhea={lib.rhea} highlight={inFilter} on:open={(e) => e.detail.url ? window.open(e.detail.url, '_blank', 'noopener') : searchable(e.detail) && window.open('https://duckduckgo.com/?q=' + encodeURIComponent(e.detail.title), '_blank', 'noopener')} />
 	{:else}
 	{#each groups as [t, list] (t)}
 		<section>
-			<h2>{#if HAND.includes(t) || sort === 'kind' || sort === 'az' || sort === 'za' || sort === 'added' || sort === 'published'}{t}{:else}<AIText>{t}</AIText>{/if}</h2>
+			<h2>{t}</h2>
 			<ul>
 				{#each list as it}
 					<li>

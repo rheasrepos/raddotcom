@@ -3,13 +3,13 @@
 	// small hover/focus popup explaining it. Wrap any inline text:
 	//   <AIText>some copy</AIText>
 	//   <AIText note="Custom explanation.">some copy</AIText>
-	export let note = 'This text was drafted with AI assistance.';
+	export let note = 'This text was written by an LLM (Claude).';
 	import { aiHidden } from '$lib/aiReveal.js';
 </script>
 
 <span class="ai-text" tabindex="0" role="note" aria-label={note}>
 	<slot />
-	<span class="ai-pop">{note} <button class="ai-hide" on:click|stopPropagation={() => aiHidden.set(true)}>hide all synthetic text</button></span>
+	<span class="ai-pop">{note} <button class="ai-hide" on:click|stopPropagation={() => aiHidden.set(true)}>hide all LLM-written text</button></span>
 </span>
 
 <style>
