@@ -1,0 +1,114 @@
+<title>Book Trajectories</title>
+<style>
+/* one 3D scene: a book as the path its tokens trace through a model's residual stream (PCA to 3-D). Controls below. */
+:root{--bg:#0b0e14;--fg:#e9ecf1;--mute:#7f8795;--line:#273040;--gold:#f2c230;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--serif:Georgia,"Times New Roman",serif;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--mono);font-size:12px;margin:0;padding:0;display:flex;flex-direction:column}
+#scene{flex:1 1 auto;min-height:62vh;position:relative}
+#scene canvas{display:block;width:100%;height:100%}
+#hud{position:absolute;left:16px;top:14px;font-family:var(--serif);font-size:20px;pointer-events:none;max-width:60%}
+#hud small{display:block;font-family:var(--mono);font-size:11px;color:var(--mute);margin-top:2px}
+#ctx{position:absolute;right:16px;top:14px;max-width:38%;font-size:12px;color:var(--mute);text-align:right;pointer-events:none;line-height:1.5}
+#ctx b{color:var(--gold);font-weight:normal}
+.bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:8px 16px;border-top:1px solid var(--line)}
+.bar:last-child{padding-bottom:calc(8px + env(safe-area-inset-bottom,0px))}
+.bar label{color:var(--mute)}
+.bar button,.bar select,.bar input[type=text]{font-family:var(--mono);font-size:11px;background:transparent;color:var(--fg);border:1px solid var(--line);padding:4px 9px;cursor:pointer}
+.bar input[type=text]{cursor:text;width:150px}
+.bar button.on{border-color:var(--gold);color:var(--gold)}
+.bar input[type=range]{width:min(420px,50vw)}
+.bar .r{margin-left:auto;color:var(--mute)}
+.bar input[type=file]{font-size:11px;color:var(--mute)}
+</style>
+
+<div id="scene"><div id="hud">Book Trajectories<small id="hudsub"></small></div><div id="ctx"></div></div>
+<div class="bar">
+  <label for="pos">position</label><input id="pos" type="range" min="1" max="1" value="1"><span id="posn"></span>
+  <label for="layer">layer</label><select id="layer"></select>
+  <label for="color">color</label><select id="color"><option value="chapter">chapter</option><option value="position">position</option><option value="sentiment">sentiment</option></select>
+  <label><input type="checkbox" id="depth"> this token through all layers</label>
+  <label><input type="checkbox" id="trbins"> TR windows</label>
+</div>
+<div class="bar">
+  <label for="find">find</label><input id="find" type="text" placeholder="regex, e.g. Elizabeth|Darcy"><span id="findn" style="color:var(--mute)"></span>
+  <span style="color:var(--mute)">view</span><button class="vw on" data-v="3d">3D</button><button class="vw" data-v="12">PC1·PC2</button><button class="vw" data-v="13">PC1·PC3</button><button class="vw" data-v="23">PC2·PC3</button>
+  <label for="file">load</label><input id="file" type="file" accept=".json">
+  <span class="r">drag to orbit · wheel to zoom · ← → step tokens</span>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ------------------------------------------------------------- data
+let D=null;                                // the loaded JSON (see book_trajectory.py for the schema)
+const $=id=>document.getElementById(id);
+async function loadDefault(){try{const r=await fetch("demo.json");if(r.ok){setData(await r.json());return}}catch(e){} setData(null)}
+$("file").onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{setData(JSON.parse(rd.result))}catch(err){$("hudsub").textContent="could not parse that file: "+err.message}};rd.readAsText(f)};
+function setData(d){D=d;if(!D){$("hudsub").textContent="load a JSON made by book_trajectory.py";return}
+  const L=Object.keys(D.layers).map(Number).sort((a,b)=>a-b); $("layer").innerHTML=L.map(l=>`<option value="${l}" ${l===D.fit_layer?"selected":""}>${(D.layer_names&&D.layer_names[l])||l}</option>`).join("");
+  $("pos").max=D.tokens.length;$("pos").value=D.tokens.length; $("color").querySelector('[value=sentiment]').disabled=!D.sentiment; $("trbins").disabled=!D.tr;
+  fitCamera(); update()}
+
+// ------------------------------------------------------------- scene
+const COL=[0xf2c230,0x5fd1c0,0xf07a6a,0x8ab4ff,0xc89bff,0x9be37a,0xffb070,0xff8fd0,0x7ee0ff,0xd4c27a];
+const sceneEl=$("scene"), renderer=new THREE.WebGLRenderer({antialias:true}); renderer.setPixelRatio(Math.min(2,devicePixelRatio)); renderer.setClearColor(0x0b0e14,1); sceneEl.appendChild(renderer.domElement);
+const scene=new THREE.Scene(), persp=new THREE.PerspectiveCamera(40,1,0.01,500), ortho=new THREE.OrthographicCamera(-1,1,1,-1,0.01,500); let camera=persp;
+let theta=0.9,phi=1.1,dist=9; const target=new THREE.Vector3();
+function resize(){const w=sceneEl.clientWidth,h=sceneEl.clientHeight;renderer.setSize(w,h,false);persp.aspect=w/h;persp.updateProjectionMatrix();const a=w/h,z=dist*0.42;ortho.left=-z*a;ortho.right=z*a;ortho.top=z;ortho.bottom=-z;ortho.updateProjectionMatrix()}
+function placeCam(){resize();camera.position.set(target.x+dist*Math.sin(phi)*Math.cos(theta),target.y+dist*Math.cos(phi),target.z+dist*Math.sin(phi)*Math.sin(theta));camera.lookAt(target)}
+function fitCamera(){const P=D.layers[$("layer").value||Object.keys(D.layers)[0]];const m=Math.max(...P.flat().map(Math.abs));dist=m*3.2;placeCam()}
+addEventListener("resize",()=>{placeCam();draw()});
+let drag=null; renderer.domElement.addEventListener("pointerdown",e=>{drag=[e.clientX,e.clientY];renderer.domElement.setPointerCapture(e.pointerId)});
+renderer.domElement.addEventListener("pointermove",e=>{if(!drag)return;theta+=(e.clientX-drag[0])*0.008;phi=Math.max(0.15,Math.min(Math.PI-0.15,phi-(e.clientY-drag[1])*0.008));drag=[e.clientX,e.clientY];placeCam();draw()});
+renderer.domElement.addEventListener("pointerup",()=>drag=null);
+renderer.domElement.addEventListener("wheel",e=>{e.preventDefault();dist=Math.max(0.5,dist*(1+e.deltaY*0.001));placeCam();draw()},{passive:false});
+const fixed=new THREE.Group(), dyn=new THREE.Group(); scene.add(fixed,dyn);
+function lineSeg(pts,colors,opacity=1){const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.Float32BufferAttribute(pts.flat(),3));g.setAttribute("color",new THREE.Float32BufferAttribute(colors.flat(),3));return new THREE.Line(g,new THREE.LineBasicMaterial({vertexColors:true,transparent:opacity<1,opacity}))}
+function points(pts,colors,size){const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.Float32BufferAttribute(pts.flat(),3));g.setAttribute("color",new THREE.Float32BufferAttribute(colors.flat(),3));return new THREE.Points(g,new THREE.PointsMaterial({vertexColors:true,size,sizeAttenuation:true,transparent:true,opacity:.95}))}
+function sphere(p,c,r){const m=new THREE.Mesh(new THREE.SphereGeometry(r,14,14),new THREE.MeshBasicMaterial({color:c}));m.position.set(...p);return m}
+function label(text,pos,color="#e9ecf1"){const c=document.createElement("canvas");c.width=512;c.height=64;const x=c.getContext("2d");x.font="40px ui-monospace,Menlo,monospace";x.fillStyle=color;x.textBaseline="middle";x.fillText(text,8,32);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true,depthTest:false}));const s=dist*0.22;sp.scale.set(s,s/8,1);sp.position.set(pos[0],pos[1],pos[2]);sp.center.set(-0.08,0.5);return sp}
+(function axes(){for(const [v,c,n] of [[[1,0,0],0xff6b6b,"PC1"],[[0,1,0],0x7bd88f,"PC2"],[[0,0,1],0x6fa8ff,"PC3"]]){const g=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...v.map(x=>-x*100)),new THREE.Vector3(...v.map(x=>x*100))]);fixed.add(new THREE.Line(g,new THREE.LineBasicMaterial({color:c,transparent:true,opacity:.35})))}})();
+
+const hex=c=>[(c>>16&255)/255,(c>>8&255)/255,(c&255)/255];
+function colorOf(i,mode){
+  if(mode==="chapter"){let k=0;for(const c of D.chapters||[])if(i>=c)k++;return hex(COL[k%COL.length])}
+  if(mode==="position"){const t=i/Math.max(1,D.tokens.length-1);return [0.2+0.7*t,0.45,0.9-0.7*t]}
+  if(mode==="sentiment"&&D.sentiment){const s=Math.max(-1,Math.min(1,D.sentiment[i]*2));return s<0?[0.3,0.55+0.4*(-s),0.9]:[0.9,0.5-0.3*s,0.3]}
+  return [0.8,0.8,0.8]}
+
+let found=[];
+function draw(){
+  while(dyn.children.length)dyn.remove(dyn.children[0]);
+  if(!D){renderer.render(scene,camera);return}
+  const Lsel=$("layer").value, P=D.layers[Lsel], n=+$("pos").value, mode=$("color").value;
+  const pts=P.slice(0,n), cols=pts.map((_,i)=>colorOf(i,mode));
+  dyn.add(lineSeg(pts,cols,.75)); dyn.add(points(pts,cols,dist*0.012));
+  // the rest of the book, faintly, so the shape of the whole is visible while you scrub
+  if(n<P.length){const rest=P.slice(n-1);dyn.add(lineSeg(rest,rest.map(()=>[0.3,0.33,0.4]),.18))}
+  // current token
+  const cur=P[n-1]; dyn.add(sphere(cur,0xffffff,dist*0.012)); dyn.add(label(D.tokens[n-1].trim()||"␣",cur));
+  // chapter starts
+  (D.chapters||[]).forEach((c,k)=>{if(c<P.length){dyn.add(sphere(P[c],COL[(k+1)%COL.length],dist*0.009));dyn.add(label("ch "+(k+1),P[c],"#9aa3b2"))}});
+  // this token's point at every layer: the path through depth
+  if($("depth").checked){const Ls=Object.keys(D.layers).map(Number).sort((a,b)=>a-b);const dp=Ls.map(l=>D.layers[l][n-1]);dyn.add(lineSeg(dp,dp.map((_,k)=>[1,0.85-0.5*k/Ls.length,0.2]),.95));dp.forEach((p,k)=>{dyn.add(sphere(p,0xf2c230,dist*0.006));dyn.add(label((D.layer_names&&D.layer_names[Ls[k]])||("L"+Ls[k]),p,"#f2c230"))})}
+  // TR windows: one marker per bin boundary, so the brain's sampling grid sits on the model's path
+  if($("trbins").checked&&D.tr){D.tr.bins.forEach(b=>{if(b<n)dyn.add(sphere(P[b],0x8ab4ff,dist*0.004))})}
+  // search hits: bigger spheres + their own thread through the book
+  if(found.length){const fp=found.filter(i=>i<n).map(i=>P[i]);if(fp.length>1)dyn.add(lineSeg(fp,fp.map(()=>[1,0.55,0.85]),.9));fp.forEach(p=>dyn.add(sphere(p,0xff8fd0,dist*0.008)))}
+  renderer.render(scene,camera);
+  // text panels
+  const i=n-1, ctx=D.tokens.slice(Math.max(0,i-18),i).join("")+"⟦"+D.tokens[i]+"⟧"+D.tokens.slice(i+1,i+10).join("");
+  $("ctx").innerHTML=`<b>token ${D.index?D.index[i]:i}</b> of ${D.n_tokens_total||D.tokens.length}<br>${ctx.replace(/</g,"&lt;")}${D.sentiment?`<br>sentiment ${D.sentiment[i].toFixed(2)}`:""}`;
+  $("posn").textContent=`${n} / ${P.length}`;
+  $("hudsub").textContent=`${D.book} · ${D.model} · layer ${Lsel} · PCA fit on layer ${D.fit_layer}, 3 PCs = ${(100*D.pca.reduce((a,b)=>a+b,0)).toFixed(0)}% of variance`;
+}
+function update(){draw()}
+["pos","layer","color","depth","trbins"].forEach(id=>$(id).oninput=$(id).onchange=update);
+$("layer").addEventListener("change",()=>{fitCamera();draw()});
+$("find").oninput=()=>{const q=$("find").value;found=[];if(q){try{const re=new RegExp(q,"i");D.tokens.forEach((t,i)=>{if(re.test(t))found.push(i)})}catch(e){}}$("findn").textContent=q?`${found.length} hits`:"";draw()};
+document.querySelectorAll(".vw").forEach(b=>b.onclick=()=>{const v=b.dataset.v;if(v==="3d"){camera=persp;theta=0.9;phi=1.1}else{camera=ortho;if(v==="12"){theta=Math.PI/2;phi=Math.PI/2}if(v==="13"){theta=0;phi=1e-3}if(v==="23"){theta=0;phi=Math.PI/2}}
+  document.querySelectorAll(".vw").forEach(x=>x.classList.toggle("on",x===b));placeCam();draw()});
+addEventListener("keydown",e=>{if(e.target.tagName==="INPUT"&&e.target.type==="text")return;const p=$("pos");if(e.key==="ArrowRight"){p.value=Math.min(+p.max,+p.value+(e.shiftKey?25:1));draw()}if(e.key==="ArrowLeft"){p.value=Math.max(1,+p.value-(e.shiftKey?25:1));draw()}});
+placeCam(); loadDefault();
+</script>

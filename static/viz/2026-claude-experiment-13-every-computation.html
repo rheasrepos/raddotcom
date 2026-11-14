@@ -1,0 +1,171 @@
+<title>Every Computation</title>
+<style>
+/* single dark look, same as the manim render: matrices as colored squares with values, one row of matrices per equation */
+:root{--bg:#111111;--fg:#f0f0f0;--mute:#8a8a8a;--line:#3a3a3a;--gold:#f2c230;--neg:#2c8cb8;--pos:#e2574a;--mid:#ffffff;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--serif:Georgia,"Times New Roman",serif;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--mono);font-size:13px;padding-inline:16px;padding-block:28px 70px;max-width:1100px;margin:0 auto}
+.eq{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin:0 0 34px}
+.mat{display:flex;flex-direction:column;align-items:center;gap:8px}
+.mat .lbl{font-family:var(--serif);font-size:20px}
+.grid{display:grid;gap:0}
+.cell{width:46px;height:46px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);font-size:11.5px;color:#111;font-variant-numeric:tabular-nums;cursor:pointer}
+.cell.pad{background:transparent;border-style:dashed;cursor:default}
+.cell.hl{outline:2px solid var(--gold);outline-offset:-2px}
+.cell.cur{outline:3px solid var(--gold);outline-offset:-3px}
+.cell.dim{opacity:.3}
+.op{font-family:var(--serif);font-size:24px;padding-top:28px}
+.sum{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-14px 0 40px;min-height:52px}
+.sum .lbl{font-family:var(--serif);font-size:18px;margin-right:6px}
+.sum .cell{cursor:default}
+.sum .s{font-family:var(--serif);font-size:18px;color:var(--mute)}
+.sum .total{font-family:var(--serif);font-size:18px;margin-left:8px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--line);padding:8px 16px calc(8px + env(safe-area-inset-bottom,0px));display:flex;gap:8px;align-items:center}
+.bar button{font-family:var(--mono);font-size:12px;background:transparent;color:var(--fg);border:1px solid var(--line);padding:5px 10px;cursor:pointer}
+.bar button:focus-visible,.cell:focus-visible{outline:2px solid var(--gold)}
+.bar span{color:var(--mute);font-size:12px;margin-left:auto}
+.net{margin:0 0 30px}
+.net svg{width:100%;max-width:1000px;height:auto;display:block}
+.net text{font-family:var(--mono);fill:var(--fg)}
+.net .nl{font-family:var(--serif);font-size:18px}
+.net .node{cursor:pointer}
+.net .edge{cursor:pointer}
+body[data-view="network"] .eq,body[data-view="network"] .sum{display:none}
+body[data-view="matrix"] .net{display:none}
+@media (max-width:560px){.cell{width:36px;height:36px;font-size:9.5px}}
+</style>
+
+<div class="eq" id="eq1"></div>
+<div class="sum" id="sum1"></div>
+<div class="eq" id="eq2"></div>
+<div class="sum" id="sum2"></div>
+<div class="eq" id="eq3"></div>
+<div class="sum" id="sum3"></div>
+
+<div class="net" id="net"></div>
+
+<div class="bar"><button id="prev">◀</button><button id="next">▶</button><button id="view">network</button><span id="pos"></span></div>
+
+<script>
+// ---- model (seeded)
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const R=rng(7), g=()=>Math.sqrt(-2*Math.log(1-R()))*Math.cos(2*Math.PI*R());
+const N=5,D=6,H=3,len=[6,4,3,5,2];
+const X=[],M=[];for(let i=0;i<N;i++){X.push([]);M.push([]);for(let k=0;k<D;k++){const r=k<len[i];M[i].push(r);X[i].push(r?+g().toFixed(1):0)}}
+const W1=Array.from({length:D},()=>Array.from({length:H},()=>+(g()/Math.sqrt(D)).toFixed(2)));
+const b1=Array.from({length:H},()=>+(g()*.1).toFixed(2));
+const W2=Array.from({length:H},()=>[+(g()/Math.sqrt(H)).toFixed(2)]); const b2=[0.05];
+const mm=(A,B,b)=>A.map(r=>B[0].map((_,j)=>r.reduce((s,a,k)=>s+a*B[k][j],0)+b[j]));
+const Z1=mm(X,W1,b1), A1=Z1.map(r=>r.map(Math.tanh)), Z2=mm(A1,W2,b2);
+
+// ---- helpers
+const f=v=>(Math.abs(v)<5e-3?0:v).toFixed(2);
+const vmax=A=>Math.max(1e-9,...A.flat().map(Math.abs));
+const col=(v,vm)=>{const t=Math.max(-1,Math.min(1,v/vm));return `color-mix(in srgb,${t<0?"var(--neg)":"var(--pos)"} ${Math.round(Math.abs(t)*100)}%,var(--mid))`};
+const el=(c,h)=>{const d=document.createElement("div");d.className=c;if(h!==undefined)d.innerHTML=h;return d};
+
+// the three equations; each output cell knows how to expand itself
+const EQ=[
+ {out:"Z1",A:["X",X,M],B:["W1",W1],b:["b1",b1],Z:Z1},
+ {out:"A1",src:["Z1",Z1],Z:A1},
+ {out:"Z2",A:["A1",A1],B:["W2",W2],b:["b2",b2],Z:Z2},
+];
+const STEPS=[];EQ.forEach((e,q)=>e.Z.forEach((r,i)=>r.forEach((_,j)=>STEPS.push([q,i,j]))));
+let cur=-1; // index into STEPS
+
+function matrix(name,A,mask,vm,q,role,sel){
+  const m=el("mat"); m.appendChild(el("lbl",name));
+  const gr=el("grid"); gr.style.gridTemplateColumns=`repeat(${A[0].length},auto)`;
+  A.forEach((r,i)=>r.forEach((v,j)=>{
+    const c=el("cell"); c.tabIndex=0;
+    if(mask&&!mask[i][j]) c.classList.add("pad"); else {c.textContent=f(v); c.style.background=col(v,vm)}
+    if(sel){const [si,sj]=sel;
+      if(role==="A"&&i===si)c.classList.add("hl"); if(role==="A"&&i!==si)c.classList.add("dim");
+      if(role==="B"&&j===sj)c.classList.add("hl"); if(role==="B"&&j!==sj)c.classList.add("dim");
+      if(role==="S"&&i===si&&j===sj)c.classList.add("hl"); if(role==="S"&&!(i===si&&j===sj))c.classList.add("dim");
+      if(role==="Z"&&i===si&&j===sj)c.classList.add("cur"); if(role==="Z"&&!(i===si&&j===sj))c.classList.add("dim")}
+    if(role==="Z") c.onclick=()=>{cur=STEPS.findIndex(s=>s[0]===q&&s[1]===i&&s[2]===j);render()};
+    c.onkeydown=e=>{if(e.key==="Enter"&&c.onclick)c.onclick()};
+    gr.appendChild(c)}));
+  m.appendChild(gr); return m;
+}
+
+function render(){
+  const s=cur>=0?STEPS[cur]:null;
+  EQ.forEach((e,q)=>{
+    const sel=s&&s[0]===q?[s[1],s[2]]:null;
+    const box=document.getElementById("eq"+(q+1)); box.innerHTML="";
+    const sumbox=document.getElementById("sum"+(q+1)); sumbox.innerHTML="";
+    if(e.A){
+      box.append(matrix(e.A[0],e.A[1],e.A[2],vmax(e.A[1]),q,"A",sel), el("op","×"),
+                 matrix(e.B[0],e.B[1],null,vmax(e.B[1]),q,"B",sel), el("op",`+ ${e.b[0]} =`),
+                 matrix(e.out,e.Z,null,vmax(e.Z),q,"Z",sel));
+      if(sel){ // the weighted sum behind the selected cell
+        const [i,j]=sel, A=e.A[1], B=e.B[1], mask=e.A[2], vA=vmax(A), vB=vmax(B), vZ=vmax(e.Z); let tot=0;
+        sumbox.appendChild(el("lbl",`${e.out}[${i},${j}] =`));
+        A[i].forEach((a,k)=>{
+          const pad=mask&&!mask[i][k], p=a*B[k][j]; tot+=p;
+          if(k)sumbox.appendChild(el("s","+"));
+          const ca=el("cell"+(pad?" pad":""),pad?"":f(a)); if(!pad)ca.style.background=col(a,vA);
+          const cb=el("cell",f(B[k][j])); cb.style.background=col(B[k][j],vB);
+          const cp=el("cell"+(pad?" pad":""),pad?"0":f(p)); if(!pad)cp.style.background=col(p,vZ);
+          sumbox.append(ca,el("s","·"),cb,el("s","="),cp)});
+        sumbox.appendChild(el("total",`Σ = ${f(tot)}   + ${e.b[0]}[${j}] = ${f(e.b[1][j])}   →   ${f(e.Z[i][j])}`))}
+    } else {
+      box.append(matrix(e.src[0],e.src[1],null,vmax(e.src[1]),q,"S",sel), el("op","tanh →"),
+                 matrix(e.out,e.Z,null,1,q,"Z",sel));
+      if(sel){const [i,j]=sel, z=e.src[1][i][j];
+        sumbox.appendChild(el("lbl",`A1[${i},${j}] = tanh(${f(z)}) = ${f(e.Z[i][j])}`));
+        sumbox.appendChild(el("s",`   slope here 1 − tanh² = ${(1-e.Z[i][j]**2).toFixed(2)}`))}
+    }
+  });
+  renderNet();
+  document.getElementById("pos").textContent=cur<0?`${STEPS.length} cells computed in one forward pass · click any output cell`:`${cur+1} / ${STEPS.length}`;
+}
+// ---- the same numbers drawn as a network: one datapoint (row i) at a time.
+// node = a cell of that row; edge = a weight; edge label = x·w, the term in the sum.
+let row=0;
+function renderNet(){
+  const s=cur>=0?STEPS[cur]:null; if(s) row=s[1];
+  const i=row, W=1000,Hh=560, xs=[90,380,600,880], r=22;
+  const ys=n=>Array.from({length:n},(_,k)=>Hh/2+(k-(n-1)/2)*(n>4?78:120));
+  const yX=ys(D), yH=ys(H), yO=ys(1);
+  const vX=vmax(X), vZ1=vmax(Z1), vZ2=vmax(Z2), vW1=vmax(W1), vW2=vmax(W2);
+  // which hidden unit / output is selected (from the step), to highlight its incoming edges
+  const selH=s&&(s[0]===0||s[0]===1)?s[2]:null, selO=s&&s[0]===2?0:null;
+  let o=`<svg viewBox="0 0 ${W} ${Hh}">`;
+  const edge=(x1,y1,x2,y2,w,label,on,dead)=>{
+    const t=Math.max(-1,Math.min(1,w)); const c=t<0?"var(--neg)":"var(--pos)";
+    const sw=dead?1:1+6*Math.abs(t), op=on===null?0.75:on?1:0.12;
+    const mx=x1+(x2-x1)*0.62, my=y1+(y2-y1)*0.62;
+    return `<g class="edge" opacity="${op}"><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${dead?'var(--line)':c}" stroke-width="${sw}" ${dead?'stroke-dasharray="4 4"':''}/>`+
+      (on?`<rect x="${mx-30}" y="${my-9}" width="60" height="18" fill="var(--bg)" stroke="var(--gold)" stroke-width="1"/><text x="${mx}" y="${my+4}" text-anchor="middle" font-size="11" style="fill:var(--fg)">${label}</text>`:``)+`</g>`};
+  const node=(x,y,v,vm,on,pad,q,ii,jj)=>`<g class="node" data-q="${q}" data-i="${ii}" data-j="${jj}"><circle cx="${x}" cy="${y}" r="${r}" fill="${pad?'var(--bg)':col(v,vm)}" stroke="${on?'var(--gold)':pad?'var(--line)':'#111'}" stroke-width="${on?3:1}" ${pad?'stroke-dasharray="4 3"':''}/><text x="${x}" y="${y+4}" text-anchor="middle" font-size="11" style="fill:${pad?'var(--mute)':'#111'}">${pad?'':f(v)}</text></g>`;
+  // edges X -> Z1
+  for(let k=0;k<D;k++)for(let j=0;j<H;j++){const dead=!M[i][k];const on=selH===null?null:selH===j;
+    o+=edge(xs[0]+r,yX[k],xs[1]-r,yH[j],W1[k][j]/vW1,`${dead?0:f(X[i][k]*W1[k][j])}`,on,dead)}
+  // edges A1 -> Z2
+  for(let j=0;j<H;j++){const on=selO===null?null:true; o+=edge(xs[2]+r,yH[j],xs[3]-r,yO[0],W2[j][0]/vW2,f(A1[i][j]*W2[j][0]),on,false)}
+  // tanh links Z1 -> A1 (same unit, identity-shaped)
+  for(let j=0;j<H;j++)o+=`<line x1="${xs[1]+r}" y1="${yH[j]}" x2="${xs[2]-r}" y2="${yH[j]}" stroke="var(--line)" stroke-width="1"/>`;
+  // nodes
+  for(let k=0;k<D;k++)o+=node(xs[0],yX[k],X[i][k],vX,false,!M[i][k],-1,i,k);
+  for(let j=0;j<H;j++)o+=node(xs[1],yH[j],Z1[i][j],vZ1,s&&s[0]===0&&s[2]===j,false,0,i,j);
+  for(let j=0;j<H;j++)o+=node(xs[2],yH[j],A1[i][j],1,s&&s[0]===1&&s[2]===j,false,1,i,j);
+  o+=node(xs[3],yO[0],Z2[i][0],vZ2,s&&s[0]===2,false,2,i,0);
+  // layer labels + bias notes
+  const lab=(x,t,sub)=>`<text class="nl" x="${x}" y="34" text-anchor="middle">${t}</text><text x="${x}" y="52" text-anchor="middle" font-size="11" fill="var(--mute)">${sub}</text>`;
+  o+=lab(xs[0],`X[${i}]`,"input row")+lab(xs[1],"Z1","Σ edges + b1")+lab(xs[2],"A1","tanh")+lab(xs[3],"Z2","Σ edges + b2");
+  o+=`<text x="20" y="${Hh-14}" text-anchor="start" font-size="11" fill="var(--mute)">edge thickness = |weight|, blue −, red +, dashed = padded input · click a node</text>`;
+  o+=`<text x="${W-20}" y="${Hh-14}" text-anchor="end" font-size="11" fill="var(--mute)">row ${i} of ${N}  (↑ ↓)</text>`;
+  o+="</svg>";
+  const box=document.getElementById("net"); box.innerHTML=o;
+  box.querySelectorAll(".node").forEach(n=>n.onclick=()=>{const q=+n.dataset.q;if(q<0)return;cur=STEPS.findIndex(t=>t[0]===q&&t[1]===+n.dataset.i&&t[2]===+n.dataset.j);render()});
+}
+document.body.dataset.view="matrix";
+document.getElementById("view").onclick=()=>{const b=document.body;b.dataset.view=b.dataset.view==="matrix"?"network":"matrix";document.getElementById("view").textContent=b.dataset.view==="matrix"?"network":"matrix"};
+document.addEventListener("keydown",e=>{if(e.key==="ArrowDown"){row=Math.min(N-1,row+1);if(cur>=0){cur=STEPS.findIndex(t=>t[0]===STEPS[cur][0]&&t[1]===row&&t[2]===STEPS[cur][2])}render()}if(e.key==="ArrowUp"){row=Math.max(0,row-1);if(cur>=0){cur=STEPS.findIndex(t=>t[0]===STEPS[cur][0]&&t[1]===row&&t[2]===STEPS[cur][2])}render()}});
+document.getElementById("next").onclick=()=>{cur=Math.min(STEPS.length-1,cur+1);render()};
+document.getElementById("prev").onclick=()=>{cur=Math.max(-1,cur-1);render()};
+document.addEventListener("keydown",e=>{if(e.key==="ArrowRight")document.getElementById("next").click();if(e.key==="ArrowLeft")document.getElementById("prev").click();if(e.key==="Escape"){cur=-1;render()}});
+render();
+</script>

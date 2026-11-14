@@ -137,6 +137,10 @@ A post and its PDF are now bound by the post's **slug** (its filename, lowercase
 
 ---
 
+## 4c. Interactive visualizations as blog posts
+
+Put the page beside its note with the same name (`Foo.md` + `Foo.html`) and give the note `link: /viz/<slug of Foo>.html`. Promote copies the HTML to `static/viz/` (plus any `.json` the page `fetch()`es by name, if that file sits beside the note), and the post shows it live in a frame with an "Open live" button. Examples: the five `2026 claude experiment - 13/14 …` notes in `tech/claude-experiments/`.
+
 ## 5. Artifacts (the analog archive) — adding, captioning, splitting
 
 Each artifact is one `.md` note in the vault's `artifacts/` with its image file(s) right beside it (promote copies them to `static/artifacts/`). Artifacts are titled by their file name (`img01`, `myart22.4`). On the desktop, pieces whose image name contains **`myart`** or **`tools`** float loose; everything else (the `img*` scans) lives in the **hoard** stack.

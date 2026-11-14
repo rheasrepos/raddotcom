@@ -1,0 +1,173 @@
+<title>Points In Space</title>
+<style>
+/* one 3D scene: each token is a point in R^3; every computation moves it. Below, the numbers behind whichever stage is selected. */
+:root{--bg:#0b0e14;--fg:#e9ecf1;--mute:#7f8795;--line:#273040;--gold:#f2c230;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--serif:Georgia,"Times New Roman",serif;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--mono);font-size:12px;margin:0;padding-inline:0;padding-block:0 0;display:flex;flex-direction:column}
+#scene{flex:1 1 auto;min-height:60vh;position:relative}
+#scene canvas{display:block;width:100%;height:100%}
+#hud{position:absolute;left:16px;top:14px;font-family:var(--serif);font-size:20px;pointer-events:none}
+#hud small{display:block;font-family:var(--mono);font-size:11px;color:var(--mute);margin-top:2px}
+.stages{display:flex;gap:4px;flex-wrap:wrap;padding:8px 16px;border-top:1px solid var(--line)}
+.stages button,.bar button{font-family:var(--mono);font-size:11px;background:transparent;color:var(--fg);border:1px solid var(--line);padding:4px 9px;cursor:pointer}
+.stages button.on,.bar button.on{border-color:var(--gold);color:var(--gold)}
+.stages button.nd{color:var(--mute);border-style:dashed}
+.bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:8px 16px calc(8px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
+.bar input[type=text]{font-family:var(--mono);background:transparent;color:var(--fg);border:1px solid var(--line);padding:4px 8px;font-size:12px;width:190px}
+.bar label{color:var(--mute)}
+.bar .r{margin-left:auto;color:var(--mute)}
+#nums{padding:6px 16px 10px;display:flex;gap:14px;align-items:flex-start;overflow:auto;border-top:1px solid var(--line);max-height:22vh;flex:0 0 auto}
+.mat{display:flex;flex-direction:column;align-items:center;gap:4px}
+.mat .lbl{font-family:var(--serif);font-size:14px;white-space:nowrap}
+.grid{display:grid}
+.cell{width:36px;height:22px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);font-size:10px;color:#111;font-variant-numeric:tabular-nums}
+.cell.inf{color:var(--mute);background:transparent}
+.op{font-family:var(--serif);font-size:18px;padding-top:26px}
+.nt{color:var(--mute);font-size:11px;max-width:60ch;align-self:center}
+</style>
+
+<div id="scene"><div id="hud">Points In Space<small id="hudsub"></small></div></div>
+<div class="stages" id="stagebtns"></div>
+<div id="nums"></div>
+<div class="bar">
+  <label for="txt">text</label><input id="txt" type="text" value="the cat sat on">
+  <button id="train">train 10 epochs</button>
+  <label for="ep">epoch</label><input id="ep" type="range" min="0" max="0" value="0" style="width:140px"><span id="epn">0</span>
+  <label><input type="checkbox" id="trails" checked> path through the net</label>
+  <label><input type="checkbox" id="ttrail"> trail over training</label>
+  <label><input type="checkbox" id="lnplane" checked> layer-norm plane</label>
+  <span style="color:var(--mute)">view</span><button class="vw" data-v="3d">3D</button><button class="vw" data-v="12">x₁x₂ flat</button><button class="vw" data-v="13">x₁x₃ flat</button><button class="vw" data-v="23">x₂x₃ flat</button>
+  <span class="r">drag to orbit · wheel to zoom</span>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ============================================================ model, d = 3 (so every residual-stream vector is a point in R^3)
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const CORPUS="the cat sat on the mat. the cat ate the rat. the dog sat on the log.";
+function trainBPE(text,n){let words=text.split(" ").map(w=>[...w]);const merges=[];
+  for(let m=0;m<n;m++){const cnt={};for(const w of words)for(let i=0;i<w.length-1;i++){const k=w[i]+"\u0001"+w[i+1];cnt[k]=(cnt[k]||0)+1}
+    let best=null,bc=1;for(const k in cnt)if(cnt[k]>bc){bc=cnt[k];best=k} if(!best)break;const [a,b]=best.split("\u0001");merges.push([a,b]);
+    words=words.map(w=>{const o=[];for(let i=0;i<w.length;i++){if(i<w.length-1&&w[i]===a&&w[i+1]===b){o.push(a+b);i++}else o.push(w[i])}return o})}
+  return merges}
+function encode(text,merges){let words=text.split(" ").filter(Boolean).map(w=>[...w]);
+  for(const [a,b] of merges)words=words.map(w=>{const o=[];for(let i=0;i<w.length;i++){if(i<w.length-1&&w[i]===a&&w[i+1]===b){o.push(a+b);i++}else o.push(w[i])}return o});
+  return words.flat()}
+const MERGES=trainBPE(CORPUS,12), VOCAB=[...new Set([...new Set(CORPUS.replace(/ /g,""))].concat(MERGES.map(m=>m[0]+m[1])))], V=VOCAB.length, d=3, dff=4;
+const R=rng(3), g=()=>Math.sqrt(-2*Math.log(1-R()))*Math.cos(2*Math.PI*R());
+const mat=(r,c,s)=>Array.from({length:r},()=>Array.from({length:c},()=>+(g()*s).toFixed(2)));
+let E=mat(V,d,.8),Wq=mat(d,d,.7),Wk=mat(d,d,.7),Wv=mat(d,d,.7),Wo=mat(d,d,.7),W1=mat(d,dff,.8),b1=[0.1,-0.1,0.05,0],W2=mat(dff,d,.6),b2=[0,0,0];
+const PARAMS=()=>({E,Wq,Wk,Wv,Wo,W1,b1,W2,b2}), clone=o=>JSON.parse(JSON.stringify(o));
+function setParams(p){({E,Wq,Wk,Wv,Wo,W1,b1,W2,b2}=clone(p))}
+const SNAP=[clone(PARAMS())], LOSS=[];
+const mm=(A,B)=>A.map(r=>B[0].map((_,j)=>r.reduce((s,a,k)=>s+a*B[k][j],0)));
+const add=(A,B)=>A.map((r,i)=>r.map((v,j)=>v+B[i][j])), addb=(A,b)=>A.map(r=>r.map((v,j)=>v+b[j])), T_=A=>A[0].map((_,j)=>A.map(r=>r[j]));
+const smx=r=>{const m=Math.max(...r.filter(isFinite));const e=r.map(v=>isFinite(v)?Math.exp(v-m):0);const s=e.reduce((a,b)=>a+b,0);return e.map(v=>v/s)};
+const ln=r=>{const mu=r.reduce((a,b)=>a+b,0)/r.length;const va=r.reduce((a,b)=>a+(b-mu)**2,0)/r.length;return r.map(v=>(v-mu)/Math.sqrt(va+1e-5))};
+const P=t=>Array.from({length:t},(_,i)=>[Math.sin(i),Math.cos(i),Math.sin(i/2)]);
+function forward(text){
+  // drop tokens outside the tiny corpus vocabulary — an unknown id of −1
+  // would make the one-hot all-zero and the loss NaN, which kills training
+  let tokens=encode(text,MERGES).filter(t=>VOCAB.includes(t));
+  if(tokens.length===0)tokens=encode("the",MERGES);
+  const T=tokens.length,ids=tokens.map(t=>VOCAB.indexOf(t));
+  const OH=ids.map(id=>Array.from({length:V},(_,v)=>v===id?1:0));
+  const Xe=mm(OH,E),Pos=P(T),X=add(Xe,Pos),Q=mm(X,Wq),K=mm(X,Wk),Vv=mm(X,Wv);
+  const S=mm(Q,T_(K)).map(r=>r.map(v=>v/Math.sqrt(d))),Sm=S.map((r,i)=>r.map((v,j)=>j>i?-Infinity:v)),A=Sm.map(smx);
+  const H=mm(A,Vv),O=mm(H,Wo),X1=add(X,O),L1=X1.map(ln),F1=addb(mm(L1,W1),b1),F2=F1.map(r=>r.map(v=>Math.max(0,v))),F3=addb(mm(F2,W2),b2);
+  const X2=add(L1,F3),L2=X2.map(ln),Lg=mm(L2,T_(E)),Pr=Lg.map(smx),targets=ids.slice(1),loss=targets.map((t,i)=>-Math.log(Pr[i][t]));
+  return {tokens,T,ids,Xe,Pos,X,Q,K,Vv,S,Sm,A,H,O,X1,L1,F1,F2,F3,X2,L2,Lg,Pr,targets,loss}}
+const meanLoss=t=>{const r=forward(t);return r.loss.reduce((a,b)=>a+b,0)/Math.max(1,r.loss.length)};
+function trainEpoch(text,lr=0.12,h=1e-3){const p=PARAMS(),base=meanLoss(text),grad={};
+  for(const k in p){const A=p[k];const w=(get,set)=>{const v=get();set(v+h);const l=meanLoss(text);set(v);return (l-base)/h};
+    if(Array.isArray(A[0])){grad[k]=A.map((r,i)=>r.map((_,j)=>w(()=>A[i][j],x=>A[i][j]=x)))}else grad[k]=A.map((_,i)=>w(()=>A[i],x=>A[i]=x))}
+  for(const k in p){const A=p[k];if(Array.isArray(A[0]))A.forEach((r,i)=>r.forEach((_,j)=>A[i][j]-=lr*grad[k][i][j]));else A.forEach((_,i)=>A[i]-=lr*grad[k][i])}
+  LOSS.push(base);SNAP.push(clone(PARAMS()))}
+
+// the stages that live in R^3 (drawable) and the ones that don't
+const STAGES=[["Xe","embed",3],["X","+ position",3],["Q","queries",3],["K","keys",3],["V","values",3],["S","scores",0],["A","attention",0],["H","mix values",3],["O","out proj",3],["X1","residual",3],["L1","layer norm",3],["F1","MLP up",4],["F2","ReLU",4],["F3","MLP down",3],["X2","residual",3],["L2","layer norm",3],["Lg","logits",0],["Pr","probs",0]];
+const PATH=["Xe","X","X1","L1","X2","L2"];           // the residual stream: one point walking through the net
+const ATTN=["Q","K","V","H","O"];                   // side branches off X
+let cur="X", M, HIST=[];
+
+// ============================================================ three.js scene
+const COLORS=[0xf2c230,0x5fd1c0,0xf07a6a,0x8ab4ff,0xc89bff,0x9be37a,0xffb070];
+const sceneEl=document.getElementById("scene");
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false}); renderer.setPixelRatio(Math.min(2,window.devicePixelRatio)); renderer.setClearColor(0x0b0e14,1); sceneEl.appendChild(renderer.domElement);
+const scene=new THREE.Scene(); const persp=new THREE.PerspectiveCamera(40,1,0.1,100); const ortho=new THREE.OrthographicCamera(-1,1,1,-1,0.1,100); let camera=persp;
+let theta=0.9,phi=1.1,dist=7.5; const target=new THREE.Vector3(0,0,0);
+function placeCam(){resize();camera.position.set(target.x+dist*Math.sin(phi)*Math.cos(theta),target.y+dist*Math.cos(phi),target.z+dist*Math.sin(phi)*Math.sin(theta));camera.lookAt(target)}
+function resize(){const w=sceneEl.clientWidth,h=sceneEl.clientHeight;renderer.setSize(w,h,false);persp.aspect=w/h;persp.updateProjectionMatrix();const a=w/h,z=dist*0.42;ortho.left=-z*a;ortho.right=z*a;ortho.top=z;ortho.bottom=-z;ortho.updateProjectionMatrix()} window.addEventListener("resize",()=>{resize();draw()});
+// orbit by drag, zoom by wheel
+let drag=null; renderer.domElement.addEventListener("pointerdown",e=>{drag=[e.clientX,e.clientY];renderer.domElement.setPointerCapture(e.pointerId)});
+renderer.domElement.addEventListener("pointermove",e=>{if(!drag)return;theta+=(e.clientX-drag[0])*0.008;phi=Math.max(0.15,Math.min(Math.PI-0.15,phi-(e.clientY-drag[1])*0.008));drag=[e.clientX,e.clientY];placeCam();draw()});
+renderer.domElement.addEventListener("pointerup",()=>drag=null);
+renderer.domElement.addEventListener("wheel",e=>{e.preventDefault();dist=Math.max(2.5,Math.min(20,dist*(1+e.deltaY*0.001)));placeCam();draw()},{passive:false});
+
+const fixed=new THREE.Group(); scene.add(fixed);   // axes, grid, LN plane
+const dyn=new THREE.Group(); scene.add(dyn);       // everything that depends on data / epoch
+function line(pts,color,opacity=1,width=1){const geo=new THREE.BufferGeometry().setFromPoints(pts.map(p=>new THREE.Vector3(...p)));return new THREE.Line(geo,new THREE.LineBasicMaterial({color,transparent:opacity<1,opacity}))}
+function label(text,pos,color="#e9ecf1",size=11){const c=document.createElement("canvas");c.width=256;c.height=64;const x=c.getContext("2d");x.font=`${size*4}px ui-monospace,Menlo,monospace`;x.fillStyle=color;x.textBaseline="middle";x.fillText(text,8,32);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true,depthTest:false}));sp.scale.set(1.0,0.25,1);sp.position.set(pos[0]+0.3,pos[1]+0.08,pos[2]);sp.center.set(0,0.5);return sp}
+function sphere(pos,color,r=0.07,opacity=1){const m=new THREE.Mesh(new THREE.SphereGeometry(r,14,14),new THREE.MeshBasicMaterial({color,transparent:opacity<1,opacity}));m.position.set(...pos);return m}
+(function buildFixed(){
+  const L=2.6;
+  for(const [v,c,n] of [[[L,0,0],0xff6b6b,"x₁"],[[0,L,0],0x7bd88f,"x₂"],[[0,0,L],0x6fa8ff,"x₃"]]){fixed.add(line([[-L,-L,-L].map((_,i)=>-v[i]),v],c,0.9));fixed.add(label(n,v,"#aab3c2",12))}
+  const grid=new THREE.GridHelper(6,12,0x1d2432,0x161c27);grid.position.y=-2.2;fixed.add(grid);
+  // layer-norm manifold: after (x−μ)/σ with d=3, every vector has mean 0 and norm √3  → a circle of radius √3 in the plane x+y+z=0
+  const plane=new THREE.Group(); const n=new THREE.Vector3(1,1,1).normalize();
+  const pm=new THREE.Mesh(new THREE.PlaneGeometry(4.6,4.6),new THREE.MeshBasicMaterial({color:0x2a3550,transparent:true,opacity:0.18,side:THREE.DoubleSide,depthWrite:false}));pm.lookAt(n);plane.add(pm);
+  const ring=[];for(let k=0;k<=96;k++){const a=k/96*2*Math.PI;const u=new THREE.Vector3(1,-1,0).normalize(),w=new THREE.Vector3(1,1,-2).normalize();ring.push(u.clone().multiplyScalar(Math.cos(a)*Math.sqrt(3)).add(w.multiplyScalar(Math.sin(a)*Math.sqrt(3))).toArray())}
+  plane.add(line(ring,0x8ab4ff,0.6)); plane.add(label("layer norm: x₁+x₂+x₃ = 0, |x| = √3",[1.2,1.2,-2.4],"#8ab4ff",10));
+  plane.name="lnplane";fixed.add(plane);
+})();
+
+function draw(){
+  while(dyn.children.length)dyn.remove(dyn.children[0]);
+  const showPath=document.getElementById("trails").checked, showT=document.getElementById("ttrail").checked;
+  fixed.getObjectByName("lnplane").visible=document.getElementById("lnplane").checked;
+  M.tokens.forEach((tok,i)=>{const col=COLORS[i%COLORS.length];
+    if(showPath){const pts=PATH.map(s=>M[s][i]);dyn.add(line(pts,col,0.85));PATH.forEach((s,k)=>{if(s!==cur)dyn.add(sphere(M[s][i],col,0.035,0.7))})}
+    if(showT&&HIST.length>1&&M[cur]&&M[cur][0].length===3){const pts=HIST.map(h=>h[cur][i]);dyn.add(line(pts,col,0.5));pts.slice(0,-1).forEach((p,k)=>dyn.add(sphere(p,col,0.022,0.3+0.5*k/pts.length)))}
+    if(ATTN.includes(cur)&&M[cur]&&M[cur][0].length===3){ // side branch off the residual stream: arrow from this token's X to its branch point
+      dyn.add(line([M.X[i],M[cur][i]],col,0.9))}
+    if(M[cur]&&M[cur][0].length===3){dyn.add(sphere(M[cur][i],col,0.085));dyn.add(label(`${i}:${tok}`,M[cur][i],"#"+col.toString(16).padStart(6,"0")))}
+    else {dyn.add(sphere(M.X[i],col,0.05,0.35))}
+  });
+  renderer.render(scene,camera);
+}
+
+// ============================================================ numbers panel + controls
+const f=v=>!isFinite(v)?"−∞":(Math.abs(v)<5e-3?0:v).toFixed(2), vmax=A=>Math.max(1e-9,...A.flat().filter(isFinite).map(Math.abs));
+const colr=(v,vm)=>{if(!isFinite(v))return"";const t=Math.max(-1,Math.min(1,v/vm));return`color-mix(in srgb,${t<0?"#2c8cb8":"#e2574a"} ${Math.round(Math.abs(t)*100)}%,#fff)`};
+const el=(c,h)=>{const d=document.createElement("div");d.className=c;if(h!==undefined)d.innerHTML=h;return d};
+function matrix(name,A){const m=el("mat");m.appendChild(el("lbl",name+` <span style="color:var(--mute);font-size:10px">${A.length}×${A[0].length}</span>`));const gr=el("grid");gr.style.gridTemplateColumns=`repeat(${A[0].length},auto)`;const vm=vmax(A);
+  A.forEach(r=>r.forEach(v=>{const c=el("cell");if(!isFinite(v)){c.classList.add("inf");c.textContent="−∞"}else{c.textContent=f(v);c.style.background=colr(v,vm)}gr.appendChild(c)}));m.appendChild(gr);return m}
+const FORM={Xe:["onehot · E",["E"]],X:["Xe + P",["Xe","Pos"]],Q:["X · Wq",["X","Wq"]],K:["X · Wk",["X","Wk"]],V:["X · Wv",["X","Wv"]],S:["Q · Kᵀ / √3",["Q","K"]],A:["softmax(mask(S))",["Sm"]],H:["A · V",["A","Vv"]],O:["H · Wo",["H","Wo"]],X1:["X + O",["X","O"]],L1:["layernorm(X1)",["X1"]],F1:["L1 · W1 + b1",["L1","W1"]],F2:["relu(F1)",["F1"]],F3:["F2 · W2 + b2",["F2","W2"]],X2:["L1 + F3",["L1","F3"]],L2:["layernorm(X2)",["X2"]],Lg:["L2 · Eᵀ",["L2","E"]],Pr:["softmax(Lg)",["Lg"]]};
+function nums(){const n=document.getElementById("nums");n.innerHTML="";const [formula,ins]=FORM[cur];const W={E,Wq,Wk,Wv,Wo,W1,W2};
+  ins.forEach((k,i)=>{if(i)n.appendChild(el("op",["·","+"].includes(formula.split(" ")[1])?formula.split(" ")[1]:"→"));n.appendChild(matrix(k==="Vv"?"V":k,W[k]||M[k]))});
+  n.appendChild(el("op","=")); n.appendChild(matrix(cur,cur==="V"?M.Vv:M[cur]));
+  const dim=STAGES.find(s=>s[0]===cur)[2];
+  n.appendChild(el("nt",dim===3?`${cur} = ${formula}. Each row is one token's point in R³: that is what is drawn above.`:dim===4?`${cur} = ${formula}. Four numbers per token now, so there is nothing faithful to draw; the points above stay where X left them, dimmed.`:`${cur} = ${formula}. A token×token (or token×vocab) matrix, not a set of points: it describes how the points interact, not where they are.`))}
+function buttons(){const b=document.getElementById("stagebtns");b.innerHTML="";STAGES.forEach(([id,name,dim])=>{const x=document.createElement("button");x.textContent=`${id} ${name}`;x.className=(id===cur?"on ":"")+(dim!==3?"nd":"");x.onclick=()=>{cur=id;update()};b.appendChild(x)})}
+function update(){const text=document.getElementById("txt").value||"the",ep=+document.getElementById("ep").value;
+  HIST=[];for(let e=0;e<=ep;e++){setParams(SNAP[e]);HIST.push(forward(text))} setParams(SNAP[ep]);M=HIST[ep];
+  document.getElementById("epn").textContent=ep+(LOSS[ep]!==undefined?`  loss ${LOSS[ep].toFixed(3)}`:"");
+  document.getElementById("hudsub").textContent=`${M.T} tokens · d = 3 · stage ${cur} · epoch ${ep}`;
+  buttons();nums();draw()}
+document.getElementById("txt").oninput=update; document.getElementById("ep").oninput=update;
+["trails","ttrail","lnplane"].forEach(id=>document.getElementById(id).onchange=draw);
+document.getElementById("train").onclick=()=>{const t=document.getElementById("txt").value||"the";setParams(SNAP[SNAP.length-1]);for(let k=0;k<10;k++)trainEpoch(t);const r=document.getElementById("ep");r.max=SNAP.length-1;r.value=SNAP.length-1;update()};
+// view presets. flat = orthographic camera looking straight down one axis: a true 2-D projection, no perspective bend
+document.querySelectorAll(".vw").forEach(b=>b.onclick=()=>{const v=b.dataset.v;
+  persp.up.set(0,1,0); ortho.up.set(0,1,0);
+  if(v==="3d"){camera=persp;theta=0.9;phi=1.1}
+  else{camera=ortho; if(v==="12"){theta=Math.PI/2;phi=Math.PI/2}          // look along x₃ → see x₁ (right) and x₂ (up)
+       if(v==="13"){theta=0;phi=Math.PI-1e-3;ortho.up.set(0,0,1)}          // look along x₂ → see x₁ (right) and x₃ (up); up must leave the view axis or lookAt degenerates
+       if(v==="23"){theta=0;phi=Math.PI/2}}                                // look along x₁ → see x₃ (right) and x₂ (up)
+  document.querySelectorAll(".vw").forEach(x=>x.classList.toggle("on",x===b)); placeCam(); draw()});
+document.querySelector('.vw[data-v="3d"]').classList.add("on");
+document.addEventListener("keydown",e=>{const i=STAGES.findIndex(s=>s[0]===cur);if(e.key==="ArrowRight"&&i<STAGES.length-1){cur=STAGES[i+1][0];update()}if(e.key==="ArrowLeft"&&i>0){cur=STAGES[i-1][0];update()}});
+resize();placeCam();update();
+</script>

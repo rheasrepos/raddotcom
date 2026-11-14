@@ -80,7 +80,15 @@ for rel in promoted:
         if os.path.exists(f):
             out=os.path.join("static/artifacts",ref); os.makedirs(os.path.dirname(out),exist_ok=True)
             if _newer(f,out): shutil.copy2(f,out); imgs+=1
-if pdfs or imgs: print(f"Copied {pdfs} PDF(s) → static/docs/ and {imgs} image(s) → static/artifacts/ from beside their notes")
+    # interactive visualizations: Foo.md + Foo.html -> static/viz/<slug of Foo>.html (the note's link: points there),
+    # plus any JSON the page fetch()es by name, if it sits beside the note
+    htm=os.path.join(folder,stem+".html")
+    if os.path.exists(htm):
+        os.makedirs("static/viz",exist_ok=True); out=os.path.join("static/viz",_slug(stem)+".html")
+        if _newer(htm,out): shutil.copy2(htm,out); imgs+=1
+        for j in set(re.findall(r'fetch\(\s*["\']([\w.-]+\.json)["\']',open(htm,encoding="utf-8",errors="ignore").read())):
+            if os.path.exists(os.path.join(folder,j)) and _newer(os.path.join(folder,j),os.path.join("static/viz",j)): shutil.copy2(os.path.join(folder,j),os.path.join("static/viz",j))
+if pdfs or imgs: print(f"Copied {pdfs} PDF(s) → static/docs/ and {imgs} image(s)/page(s) → static/artifacts/ + static/viz/ from beside their notes")
 
 # Generate blog cover thumbnails (first PDF page) for any new documents.
 # Needs poppler: brew install poppler
