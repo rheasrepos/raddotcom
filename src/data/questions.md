@@ -1,6 +1,7 @@
 # Questions for research & problems we should solve
 # Feeds the "Questions" tab (rhea.com/questions); promote-to-site.command copies it to src/data/questions.md.
-# Format: "## Section" lines, then one "- quote | where it came from" per line.
+# Format: "## Section" lines, then one "- quote | where it came from" per line;
+# optional extra "| https://link" fields add small links (GitHub ↗, page ↗).
 # Quotes are copied from Rhea's notes, with spelling typos minimally fixed (at her request, 2026-11-13). Section names and the
 # "where it came from" text were written by Claude (shown with the AI underline).
 # Add, cut or reorder freely.
@@ -46,6 +47,6 @@
 - what about life is worth living when you fulfilled the purpose you thought you had? | musical theatre writing brainstorm, Mar 2026
 
 ## Problems we should solve
-- make a database of all the problems we can fix in the world using AI given the massive datasets we do have….. | margin note, NYU AI Safety reading, Oct 2026 (now the AI-fixable problems database)
+- make a database of all the problems we can fix in the world using AI given the massive datasets we do have….. | margin note, NYU AI Safety reading, Oct 2026 (now the AI-fixable problems database) | https://github.com/rheasrepos/ai-fixable-problems-db | /ai-problems
 - Every point in a 20 min walking radius for every establishment or building or home / And that map for each building overlayed on top of one another would show maybe an intuitive layout for subway stops etc ???? | Apple Notes, Oct 2026
 - Ask Ai to rate the usefulness and fit for AI integration for the last 5 years of YCombinator | machine fiddling idea

@@ -12,8 +12,11 @@
 	for (const line of raw.split('\n')) {
 		const h = line.match(/^##\s+(.+)/);
 		if (h) { sections.push({ name: h[1].trim(), items: [] }); continue; }
-		const m = line.match(/^-\s+(.+?)(?:\s+\|\s+(.+))?\s*$/);
-		if (m && sections.length) sections[sections.length - 1].items.push({ q: m[1], from: m[2] || '' });
+		const m = line.match(/^-\s+(.+)$/);
+		if (m && sections.length) {
+			const [q, from = '', ...links] = m[1].split(/\s+\|\s+/);
+			sections[sections.length - 1].items.push({ q, from, links: links.filter(Boolean) });
+		}
 	}
 	const total = sections.reduce((n, s) => n + s.items.length, 0);
 	let query = '';
@@ -39,6 +42,7 @@
 					<li>
 						<blockquote>“{it.q}”</blockquote>
 						{#if it.from}<span class="from"><AIText>{it.from}</AIText></span>{/if}
+						{#if it.links.length}<span class="qlinks">{#each it.links as l}<a href={l} target={l.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">{l.includes('github.com') ? 'GitHub ↗' : 'page ↗'}</a>{/each}</span>{/if}
 					</li>
 				{/each}
 			</ol>
@@ -59,5 +63,7 @@
 	ol { margin: 0; padding-left: 1.4em; }
 	li { padding: 8px 0; border-bottom: 1px dotted rgba(0, 0, 0, 0.25); }
 	blockquote { margin: 0; font-size: 1rem; line-height: 1.45; }
+	.qlinks { display: inline-flex; gap: 10px; margin-top: 3px; font-size: 0.75rem; }
+	.qlinks a { color: #000; }
 	.from { display: block; margin-top: 3px; font-size: 0.72rem; opacity: 0.65; }
 </style>
