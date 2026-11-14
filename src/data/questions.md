@@ -6,6 +6,16 @@
 # "where it came from" text were written by Claude (shown with the AI underline).
 # Add, cut or reorder freely.
 
+## Surveys: answer in the box
+- does understanding a character correlate with liking or disliking them? | Goldwater research essay, 2024
+- Can science provide an objective definition of happiness or is it all subjective? | neurophilosophy debate notes
+- One very abstract, undefined idea I had is a "world-building" game that takes a tweet, a sentence, an opinion you overheard, etc, and hypothesizes how the world would have to look for that statement to be true. | Truth discussion post on a bullshit instrument, Oct 2025
+- Does cognizance w/o direct attribution or action reduce bias | Apple Notes
+- What are all the things we think about when using ai? Data? When we use it, what concerns should we be thinking about | NOW note, Oct 2026
+- Do we question ourselves more than the world? | musical theatre writing brainstorm, Mar 2026
+- What is the hardest word or string of words for an llm to get or understand.. maybe too dense? Dense lines? | Apple Notes, Oct 2026
+- What if you just created a neural network or llm’s and it’s one prompt is to make people's lives better and surround them with universal happiness and fulfillment not out of ignorance | machine fiddling note, Aug 2025
+
 ## Minds, brains and machines
 - How do we explain the findings of a field like neuroscience while thinking that there is something like a human mind? | potential thesis dump, Oct 2025
 - Is language and data all a human has? | potential thesis dump, Oct 2025
