@@ -58,11 +58,12 @@ for f in promoted: print("  +",f)
 # can only serve files from static/, so copy them there on every promote:
 #   essays/Foo.md + essays/Foo.pdf          -> static/docs/<slug of Foo>.pdf
 #   artifacts/Artifact x.md + its images    -> static/artifacts/<image name>
-# Copies only (newer vault file wins); nothing in static/ is ever deleted here.
+# Copies only (the vault file wins whenever it differs); nothing in static/ is ever deleted here.
 def _slug(s):
     s=s.lower().replace("'","").replace("’","").replace('"',"")
     s=re.sub(r"[^a-z0-9]+","-",s); return re.sub(r"-+","-",s).strip("-")
-def _newer(a,b): return not os.path.exists(b) or os.path.getmtime(a)>os.path.getmtime(b)+1
+import filecmp
+def _newer(a,b): return not os.path.exists(b) or not filecmp.cmp(a,b,shallow=False)  # vault copy differs → it wins
 pdfs=imgs=0
 for rel in promoted:
     note=os.path.join(src,rel); folder=os.path.dirname(note); stem=os.path.basename(rel)[:-3]
