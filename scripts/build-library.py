@@ -130,7 +130,7 @@ for fname in sorted(os.listdir(SRC)):
             continue
         seen.add(key)
         src_topic = re.sub(r"^\d{4}-\d{2} (Instasaved|Recommendations) - _?|\.md$|^_from-", "", fname)
-        context = " ".join([title, heading, src_topic, IDS.sub("", MDLINK.sub(lambda x: x.group(1), raw))])
+        context = " ".join([title, heading, IDS.sub("", MDLINK.sub(lambda x: x.group(1), raw))])  # (source file name left out: it grouped items by where they were saved, not what they are)
         via = re.search(r"@via\s+(.+?)\s*$", raw)
         items.append({"title": title[:160], "url": url, "kind": "person" if fname == "_influential-minds.md" else kind_of(title, url), "_ctx": context, "_key": key,
                       "_me": fname == "_me-online.md",   # fixed topic "Me online" (not clustered)
@@ -165,18 +165,51 @@ items = kept
 # they SAY, not just by their titles. (Cache is private; never published.)
 TEXTF = os.path.join(ROOT, "scripts", ".library-text-cache.json")
 PAGE = json.load(open(TEXTF)) if os.path.exists(TEXTF) else {}
+# Web pages carry site furniture (menus, cookie banners, "arXivLabs", footers).
+# Per site, drop any word that shows up on most of that site's pages, plus a
+# list of web-chrome words, so pages group by their content, not their template.
+WEBJUNK = set("""cookie cookies privacy policy terms subscribe newsletter sign login log account menu
+navigation skip content footer header advertise advertisement advertising ads llc inc copyright rights reserved
+share facebook twitter instagram linkedin pinterest email print toggle search home contact help faq
+loading javascript enable browser update reload page click accept arxivlabs arxiv bibliographic
+explorer citations export bibtex code data media related papers connected litmaps scite smart
+recommender mendeley download pdf html submission history comments subjects cite view abstract
+nfl reddit posts comment upvote downvote member members community award join""".split())
+from collections import defaultdict
+def _dom(u): return re.sub(r"^www\.", "", (u or "").split("/")[2]) if u and "//" in u else ""
+by_dom = defaultdict(list)
+for it in items:
+    t = PAGE.get(it["url"] or "", "")
+    if t: by_dom[_dom(it["url"])].append(set(re.findall(r"[a-z][a-z'+#]{2,}", t.lower())))
+dom_common = {}
+for d, sets in by_dom.items():
+    if len(sets) >= 3:
+        cnt = defaultdict(int)
+        for st in sets:
+            for w in st: cnt[w] += 1
+        dom_common[d] = {w for w, c in cnt.items() if c >= 0.6 * len(sets)}
 with_text = 0
 for it in items:
     t = PAGE.get(it["url"] or "", "")
     if t:
-        it["_ctx"] += " " + t; with_text += 1
+        drop = WEBJUNK | dom_common.get(_dom(it["url"]), set())
+        words = [w for w in re.findall(r"[A-Za-z][A-Za-z'+#]{2,}", t) if w.lower() not in drop]
+        # the page's own words replace the folder/heading context, which otherwise dominates
+        it["_ctx"] = it["title"] + " " + it["title"] + " " + " ".join(words[:1500]); with_text += 1
 if PAGE: print(f"page text used for {with_text} of {len(items)} items")
 
 # ------------------------------------------------------------------ embed (TF-IDF, numpy only)
 STOP = set("""the a an and or of to in on for with is are was were be been it its this that these those you your
 your i we they he she my our as at by from not but have has had do does did so if than then there here which who what
 when where why how can could would should will just like also into over about more most some any all very via etc
-com www http https instagram reel reels post youtube video watch html amp one two new get use using vs""".split())
+com www http https instagram reel reels post youtube video watch html amp one two new get use using vs
+now their them they time his her him she people out up down just like than then also only even much many
+more most other some such own same very can will would could should may might must now our ours your yours
+was were been being have has had having does did doing because while until again further once here there
+when where why how all any both each few nor not off over under above below between into through during
+before after again first last year years day days way ways make made thing things know see said says say
+well back still something really want need going get got let us around per via rhea bookmark bookmarks
+chrome bar folder from recommendations instasaved misc inbox from""".split())
 def toks(s):
     s = s.lower()
     s = re.sub(r"https?://\S+", lambda m: " ".join(re.findall(r"[a-z]{3,}", m.group(0).split("/", 3)[-1])), s)
