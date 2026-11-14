@@ -27,3 +27,4 @@ src/vault/**/*.png
 scripts/.library-text-cache.json
 notes-check.json
 notes-all.json
+scripts/notes-safe-to-delete.json
