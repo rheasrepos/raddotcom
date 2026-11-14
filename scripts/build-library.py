@@ -250,26 +250,31 @@ def kmeans(Z, k, seed):
     rng = np.random.default_rng(seed)
     C = [Z[rng.integers(len(Z))]]
     for _ in range(1, k):                                   # k-means++
-        d2 = np.min(((Z[:, None, :] - np.array(C)[None]) ** 2).sum(-1), axis=1)
+        Cm = np.array(C); d2 = np.maximum(np.min((Z ** 2).sum(1)[:, None] + (Cm ** 2).sum(1)[None] - 2 * Z @ Cm.T, axis=1), 0)
         C.append(Z[rng.choice(len(Z), p=d2 / d2.sum())])
     C = np.array(C)
     for _ in range(100):
-        lab = np.argmin(((Z[:, None, :] - C[None]) ** 2).sum(-1), axis=1)
+        lab = np.argmin((C ** 2).sum(1)[None] - 2 * Z @ C.T, axis=1)
         newC = np.array([Z[lab == j].mean(0) if (lab == j).any() else C[j] for j in range(k)])
         if np.allclose(newC, C): break
         C = newC
     inertia = ((Z - C[lab]) ** 2).sum()
     return lab, inertia
 
+_D = None
+def pdist(Z):
+    sq = (Z ** 2).sum(1)
+    return np.sqrt(np.maximum(sq[:, None] + sq[None] - 2 * Z @ Z.T, 0))
 def silhouette(Z, lab):
-    D = np.sqrt(((Z[:, None, :] - Z[None]) ** 2).sum(-1))
-    s = []
-    for i in range(len(Z)):
-        same = lab == lab[i]
-        if same.sum() <= 1: s.append(0); continue
-        a = D[i, same].sum() / (same.sum() - 1)
-        b = min(D[i, lab == j].mean() for j in set(lab) if j != lab[i])
-        s.append((b - a) / max(a, b))
+    # vectorised: mean distance from every point to every cluster at once
+    global _D
+    if _D is None or _D.shape[0] != len(Z): _D = pdist(Z)
+    ks = np.unique(lab); onehot = (lab[:, None] == ks[None]).astype(float); cnt = onehot.sum(0)
+    M = _D @ onehot                                   # summed distance to each cluster
+    own = (lab[:, None] == ks[None])
+    a = (M * own).sum(1) / np.maximum((cnt[None] * own).sum(1) - 1, 1)
+    other = np.where(own, np.inf, M / cnt[None]); b = other.min(1)
+    s = np.where((cnt[None] * own).sum(1) > 1, (b - a) / np.maximum(a, b), 0)
     return float(np.mean(s))
 
 def best_run(k):
@@ -308,7 +313,7 @@ for i in range(len(items)):
 # that items with similar text land near each other. Deterministic (fixed seed).
 def tsne(Z, perplexity=30, iters=750, seed=0):
     n = len(Z)
-    D = np.maximum(((Z[:, None, :] - Z[None]) ** 2).sum(-1), 0)
+    sq = (Z ** 2).sum(1); D = np.maximum(sq[:, None] + sq[None] - 2 * Z @ Z.T, 0)  # squared distances, memory-light
     P = np.zeros((n, n)); target = np.log(perplexity)
     for i in range(n):
         lo, hi, beta = 0.0, np.inf, 1.0

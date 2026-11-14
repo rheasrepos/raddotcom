@@ -128,18 +128,18 @@
 		for (const r of [R1, R2, R3]) { ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.stroke(); }
 		ctx.setLineDash([]);
 		// spokes (Rhea → item, Rhea → publisher → item): faint, darker for the hovered dot's path
-		ctx.lineWidth = 0.5 / view.k;
+		ctx.lineWidth = 1 / view.k;
 		for (const [a, b] of spokes) {
 			const lit = hovered && (b === hovered || a === hovered || (hovered.it && hovered.it.via && a.hub && a.kids.includes(hovered) ) || (hovered.it && hovered.it.via && b.hub && b.kids.includes(hovered)));
 			if (!lit && !b.hub && !a.hub) continue; // the 700 plain spokes are implied by the ring
 			ctx.strokeStyle = lit ? 'rgba(0,0,0,0.7)' : 'rgba(0,0,0,0.18)';
 			ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
 		}
-		ctx.lineWidth = 0.6 / view.k;
+		ctx.lineWidth = 1.3 / view.k;
 		for (const [a, b, same] of edges) {
 			const lit = near && (a === hovered || b === hovered);
 			if (!lit && !same) continue; // links between islands only show on hover
-			ctx.strokeStyle = lit ? '#000' : 'rgba(0,0,0,0.12)';
+			ctx.strokeStyle = lit ? '#000' : 'rgba(0,0,0,0.18)';
 			ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
 		}
 		for (const n of nodes) {
@@ -174,7 +174,7 @@
 		ctx.globalAlpha = 1;
 		// Rhea, where her own writing puts her
 		ctx.strokeStyle = '#000'; ctx.lineWidth = 2 / view.k;
-		ctx.lineWidth = 1.2 / view.k; ctx.strokeStyle = 'rgba(0,0,0,0.6)';
+		ctx.lineWidth = 2 / view.k; ctx.strokeStyle = 'rgba(0,0,0,0.6)';
 		for (const j of center.near) if (nodes[j]) { ctx.beginPath(); ctx.moveTo(center.x, center.y); ctx.lineTo(nodes[j].x, nodes[j].y); ctx.stroke(); }
 		ctx.fillStyle = '#fff'; ctx.strokeStyle = '#000'; ctx.lineWidth = 2 / view.k;
 		ctx.beginPath(); ctx.arc(center.x, center.y, center.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
