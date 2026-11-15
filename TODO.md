@@ -15,6 +15,9 @@ _Kept current by Claude at the end of each session. Tick things off or delete li
 - [ ] **WhatsApp digital-garden message** — Claude can only draft it; send it yourself.
 - [ ] **Retitle AI-drafted titles** (24 notes with `ai_title: true`). When you rewrite one, delete the `ai_title: true` line. List at the bottom of this file.
 
+## Maybe later
+- [ ] **Substack**: not connected to the site. If you start one, Claude can show its posts on the site from its RSS feed; which essays to post first is ranked in the vault's `_meta/2026-07 Substack backlog triage.md`.
+
 ## Vault connections (from 2026-11-14 review)
 - [ ] **Topic hubs**: 318 of 319 `[[wikilinks]]` point at "Topic - X" notes that don't exist (post pages strip them; the Blog map draws them as virtual topic nodes). Either create the hub notes in the draft vault so Obsidian resolves them, or drop the links — tags + the map already carry topics.
 - [ ] **Real note-to-note links**: none exist yet. Start with `claude experiments - 00 overview` → each experiment note; thesis proposal ↔ Phil of Mind final ↔ Phil of AI final; Turkopticon reading response ↔ AI policy proposal.
