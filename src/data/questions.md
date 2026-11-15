@@ -54,6 +54,7 @@
 - Is it better to be smooth or monotonic for the activation or loss function ? | learning-rate notes, Oct 2026
 - How well can a classifier differentiate spoken from written language, and what linguistic features contribute most to this distinction? | NLP final project, 2025 (with Shivani)
 
+- TEMPORALITY AND VISUALIZATION =- SLIDES THINK ABOUT THE NON-ACTIVATED NODES | NOW note, daily list (CAB Lab research), to ask Karen Livescu
 - If you stack a bunch of classifiers together could you try and approximate the curve that comes at the end of It, idk like desmos…. | NOW note, Oct 2026
 
 ## AI and the rest of us
