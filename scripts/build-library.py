@@ -161,6 +161,12 @@ for it in items:
     kept.append(it)
 print(f"link fixes: {len(items) - len(kept)} dropped, {sum(1 for it in kept if it['url'] in FIX.values())} replaced")
 items = kept
+# Rhea (2026-11-15): Instagram saves of posts from before 2020 stay in the vault
+# (recommendations/_from-instagram-saves.md) but are not published.
+IG_FROM = "2020"
+_n = len(items)
+items = [it for it in items if not (it["url"] and "instagram.com" in it["url"] and (it.get("_published") or "0000") < IG_FROM)]
+print(f"Instagram saves posted before {IG_FROM}: {_n - len(items)} kept in the vault, not published")
 
 # ------------------------------------------------------------------ page text (optional)
 # scripts/fetch-library-text.py caches the actual text behind each link. When
