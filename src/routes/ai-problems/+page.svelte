@@ -149,6 +149,8 @@
 			</p>
 		</header>
 
+		<p class="foot"><a href="/ai-awareness">Cognitive awareness — a Screen Time for your AI use →</a></p>
+
 		<p class="disclaimer"><AIText>These are quite obviously simplifications of the "world's biggest problems" and we hope that the users of this
 			application can provide more nuance by contributing! You can answer this short anonymous survey or recommend a
 			dataset or problem on</AIText> <a href="https://github.com/rheasrepos/ai-fixable-problems-db">GitHub</a>!

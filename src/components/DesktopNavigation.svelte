@@ -12,6 +12,7 @@
 		{ path: '/library', label: 'Library' },
 		{ path: '/questions', label: 'Questions' },
 		{ path: '/ai-problems', label: 'Progress?' },
+		{ path: '/ai-awareness', label: 'AI use?' },
 		{ path: '/wpm', label: 'WPM' }
 	];
 
