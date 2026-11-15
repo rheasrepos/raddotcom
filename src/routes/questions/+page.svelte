@@ -42,6 +42,7 @@
 		<h1>Questions</h1>
 		<p class="note"><AIText>Questions for research and problems worth solving, copied from Rhea's notes, lab notes and margins, with only spelling typos fixed. They're open: answer any of them in the box beside it (anonymous; answers are shared on the page), or if you're working on one, tell her.</AIText></p>
 		<p class="note"><a href="/ai-problems">AI-fixable problems database →</a></p>
+			<p class="note"><a href="/ai-awareness">Cognitive awareness — a Screen Time for your AI use →</a></p>
 		<input class="search" type="search" placeholder="search {total} questions…" bind:value={query} />
 	</header>
 
