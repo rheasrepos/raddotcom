@@ -225,7 +225,7 @@ for d in docs:
     for w in set(d): df[w] = df.get(w, 0) + 1
 vocab = sorted(w for w, c in df.items() if 2 <= c <= 0.4 * len(docs))
 idx = {w: i for i, w in enumerate(vocab)}
-X = np.zeros((len(items), len(vocab)))
+X = np.zeros((len(items), len(vocab)), dtype=np.float32)
 for r, d in enumerate(docs):
     for w in d:
         if w in idx: X[r, idx[w]] += 1
@@ -233,9 +233,13 @@ idf = np.log(len(items) / np.array([df[w] for w in vocab]))
 X = np.log1p(X) * idf
 X /= np.linalg.norm(X, axis=1, keepdims=True) + 1e-9
 
-U, S, Vt = np.linalg.svd(X - X.mean(0), full_matrices=False)
+# the axes are fitted on the non-Instagram items (thousands of short captions would
+# otherwise dominate them and make this very slow); every item is then projected
+_fit = np.array([i for i, it in enumerate(items) if not (it["url"] and "instagram.com" in it["url"])] or list(range(len(items))))
+_mu = X[_fit].mean(0)
+U, S, Vt = np.linalg.svd(X[_fit] - _mu, full_matrices=False)
 dims = min(40, len(S))
-Z = (X - X.mean(0)) @ Vt[:dims].T
+Z = (X - _mu) @ Vt[:dims].T
 Z /= np.linalg.norm(Z, axis=1, keepdims=True) + 1e-9   # cosine geometry
 
 # Optional: a local sentence-embedding model instead of TF-IDF (runs on your
@@ -287,6 +291,8 @@ def best_run(k):
 
 if FORCE_K:
     labels, chosen = best_run(FORCE_K), FORCE_K
+elif True:   # topics come from DBSCAN on the map below; the old k-means pick was overwritten anyway
+    labels, chosen = np.zeros(len(items), int), 0
 else:
     scores = {}
     for k in range(8, 19):
@@ -306,12 +312,13 @@ for j in sorted(set(labels)):
 # ------------------------------------------------------------------ neighbours (for the map view)
 # each item links to its 3 most similar items (cosine in the reduced space),
 # like a connected-papers graph; weak links (< 0.35) are dropped
-sim = Z @ Z.T
-np.fill_diagonal(sim, -1)
 nbrs = []
-for i in range(len(items)):
-    top = [int(j) for j in np.argsort(-sim[i])[:3] if sim[i, j] >= 0.35]
-    nbrs.append(top)
+for a in range(0, len(items), 1000):          # in blocks, so 10k+ items fit in memory
+    sim = Z[a:a + 1000] @ Z.T
+    for r in range(sim.shape[0]):
+        sim[r, a + r] = -1
+        cand = np.argpartition(-sim[r], 3)[:3]
+        nbrs.append([int(j) for j in cand[np.argsort(-sim[r, cand])] if sim[r, j] >= 0.35])
 
 # ------------------------------------------------------------------ 2-D map (t-SNE, numpy only)
 # Like plotting word embeddings: each item's vector (above) is squeezed to 2-D so
@@ -366,7 +373,7 @@ def rhea_vector():
             z = SentenceTransformer("all-MiniLM-L6-v2").encode([" ".join(" ".join(words).split()[:400])], normalize_embeddings=True)[0]
             return np.asarray(z, dtype=float)
         except Exception: pass
-    z = (x - X.mean(0)) @ Vt[:dims].T
+    z = (x - _mu) @ Vt[:dims].T
     return z / (np.linalg.norm(z) + 1e-9)
 rz = rhea_vector()
 rnear = [int(j) for j in np.argsort(-(Z @ rz))[:6] if not items[int(j)].get("_via")]
@@ -391,9 +398,16 @@ if len(own_idx) > 5:
     KEEP = float(np.mean([len(set(hi[i]) & set(lo[i])) / 10 for i in range(len(own_idx))]))
     print(f"map faithfulness: {KEEP:.0%} of each item's 10 nearest neighbours stay nearest on the map")
     rng = np.random.default_rng(7)
-    for i in ig_idx:
-        j = own_idx[int(np.argmax(Z[own_idx] @ Z[i]))]
-        XY[i] = XY[j] + rng.normal(0, 0.012, 2)
+    # a save whose caption shares too few words with anything else (best similarity
+    # < 0.15) has no honest place on the map: it goes to a loose outer ring, "unsorted"
+    # (similarity on the raw word vectors, not the fitted axes: a caption whose words
+    # aren't on those axes would otherwise collapse onto one point)
+    _S = (X[ig_idx] @ X[own_idx].T) if ig_idx else np.zeros((0, len(own_idx)))
+    print(f"vocab {len(vocab)} words")
+    IGN = [own_idx[int(k)] if _S[r, k] >= 0.15 else None for r, k in enumerate(np.argmax(_S, 1))] if ig_idx else []
+    for i, j in zip(ig_idx, IGN):
+        if j is not None: XY[i] = XY[j] + rng.normal(0, 0.012, 2)
+        else: a_ = rng.uniform(0, 2 * np.pi); XY[i] = (1.15 + 0.25 * rng.random()) * np.array([np.cos(a_), np.sin(a_)])
 
 # ------------------------------------------------------------------ topics that match the map
 # "Natural" clusters: DBSCAN on the map positions. No number of topics is forced —
@@ -444,8 +458,8 @@ print(f"natural clusters: {chosen} topics, {np.mean(lab2 == UNSORTED):.0%} of do
 best = (None, lab2)
 labels = np.array(labels).copy()
 labels[own] = best[1]
-for i in ig_idx:
-    labels[i] = labels[own_idx[int(np.argmax(Z[own_idx] @ Z[i]))]]
+for i, j in zip(ig_idx, IGN):
+    labels[i] = labels[j] if j is not None else UNSORTED
 names = {}
 for j in sorted(set(labels[own])):
     if j == UNSORTED: names[j] = "unsorted"; continue
@@ -466,7 +480,7 @@ for i, (it, lab) in enumerate(zip(items, labels)):
                 **({"added": it["_added"]} if it.get("_added") else {}),
                 **({"ai_title": True} if it.get("_ai") else {}),
                 **({"published": it["_published"]} if it.get("_published") else {})})
-json.dump({"count": len(out), "k": chosen, "faithfulness": round(KEEP, 3) if len(own_idx) > 5 else None, "rhea": {"xy": RXY, "near": rnear}, "items": out}, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+json.dump({"count": len(out), "k": chosen, "faithfulness": round(KEEP, 3) if len(own_idx) > 5 else None, "rhea": {"xy": RXY, "near": rnear}, "items": out}, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 
 counts = {}
 for o in out: counts[o["topic"]] = counts.get(o["topic"], 0) + 1
