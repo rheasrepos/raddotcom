@@ -14,7 +14,7 @@ published: true
 **Note entry (Oct 5 2026):** "Why not make a visualization of all raw data points and every transformation or application to that datapoint graphically over time? I need that visualization."
 
 <ai>
-Every number in the same tiny model's forward pass, laid out as the actual matrices, with color showing how much each cell has changed since epoch 0. Click any output cell to see the arithmetic that made it. With d = 2, every vector is drawable.
+Every number in a tiny transformer (one layer, one head, 82 parameters, every vector 2-D so it can be drawn), in three tabs. Ask: type a prompt, watch it get split into tokens and the model write 8 more. Forward pass: about 20 stages, each one operation, shown as the actual matrices. Training step: the backward pass drawn the same way, then the weights updated and the loss before and after. Press train to step through learning.
 
 Built by Claude from this note; the live visualization is above (open it full-screen with "Open live").
 </ai>

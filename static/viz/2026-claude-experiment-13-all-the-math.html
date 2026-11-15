@@ -1,309 +1,375 @@
 <title>All The Math</title>
 <style>
-/* same look as Every Computation: black, matrices as colored squares with values; one stage per block, geometry beside it when d = 2 */
-:root{--bg:#111;--fg:#f0f0f0;--mute:#8a8a8a;--line:#3a3a3a;--gold:#f2c230;--neg:#2c8cb8;--pos:#e2574a;--mid:#fff;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--serif:Georgia,"Times New Roman",serif;color-scheme:dark}
+/* one operation at a time, left to right, 3b1b-style. Three tabs: ask (what happens to your prompt), forward pass, training step */
+:root{--bg:#000;--fg:#ece6e2;--mute:#7a7a7a;--line:#262626;--yellow:#F7D96F;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;color-scheme:dark}
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--fg);font-family:var(--mono);font-size:12px;padding-inline:16px;padding-block:24px 70px;max-width:1180px;margin:0 auto}
-.stage{border-top:1px solid var(--line);padding:18px 0 10px}
-.stage h2{font-family:var(--serif);font-weight:normal;font-size:20px;margin:0 0 2px}
-.stage .fl{color:var(--mute);margin:0 0 12px;font-size:11px}
-.eq{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;overflow-x:auto}
-.mat{display:flex;flex-direction:column;align-items:center;gap:6px}
-.mat .lbl{font-family:var(--serif);font-size:16px;white-space:nowrap}
-.grid{display:grid}
-.cell{width:42px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);font-size:10.5px;color:#111;font-variant-numeric:tabular-nums}
-.cell.k{cursor:pointer}
-.cell.tiny{width:16px;height:16px;font-size:8px}
-.cell.inf{color:var(--mute);background:transparent}
-.cell.hl{outline:2px solid var(--gold);outline-offset:-2px}
-.cell.cur{outline:3px solid var(--gold);outline-offset:-3px}
-.cell.dim{opacity:.3}
-.op{font-family:var(--serif);font-size:22px;padding-top:34px;color:var(--fg)}
-.op small{font-size:11px;font-family:var(--mono);color:var(--mute);display:block}
-.sum{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:12px 0 4px;min-height:40px;font-size:12px}
-.sum .cell{cursor:default}
-.sum .s{font-family:var(--serif);font-size:16px;color:var(--mute)}
-.sum .t{font-family:var(--serif);font-size:16px}
-.sum .fp{color:var(--gold);margin-left:10px}
-.tok{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:6px 0}
-.tok span{border:1px solid var(--line);padding:4px 7px;font-size:12px}
-.tok .id{color:var(--mute);font-size:10px;margin-left:4px}
-.merge{color:var(--mute);font-size:11px;margin:2px 0}
-.merge b{color:var(--fg);font-weight:normal}
-.plot svg{display:block}
-.plot text{font-family:var(--mono);font-size:12px;fill:var(--fg)}
-.plot .ax{stroke:var(--line)}
-.bar{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--line);padding:8px 16px calc(8px + env(safe-area-inset-bottom,0px));display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:12px}
-.bar b{color:var(--gold);font-weight:normal}
-.bar button{font-family:var(--mono);font-size:12px;background:transparent;color:var(--fg);border:1px solid var(--line);padding:4px 10px;cursor:pointer}
-.bar input{font-family:var(--mono);background:transparent;color:var(--fg);border:1px solid var(--line);padding:4px 8px;font-size:12px;width:200px}
-.bar input[type=range],.bar input[type=checkbox]{width:auto;border:0;padding:0}
-.bar span.r{margin-left:auto;color:var(--mute)}
-.note{color:var(--mute);font-size:11px;max-width:80ch;margin:6px 0 0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--mono);font-size:12px;margin:0;display:flex;flex-direction:column}
+.modes{display:flex;gap:6px;padding:12px 16px 0;flex-wrap:wrap}
+.modes button{font:inherit;font-size:13px;background:none;border:1px solid #333;color:var(--mute);padding:5px 12px;cursor:pointer}
+.modes button.on{color:var(--yellow);border-color:var(--yellow)}
+nav{display:flex;flex-wrap:wrap;gap:2px 0;padding:8px 16px 0}
+nav button{font:inherit;font-size:11px;background:none;border:0;color:var(--mute);padding:3px 7px;cursor:pointer}
+nav button.on{color:var(--yellow)}
+nav .sep{color:#333;padding:3px 0}
+button:focus-visible,input:focus-visible{outline:1px solid var(--yellow)}
+header{padding:12px 24px 0}
+header h1{font-family:var(--serif);font-weight:normal;font-size:30px;margin:0}
+header .eq{font-family:var(--serif);font-style:italic;font-size:19px;opacity:.85;margin-top:2px}
+header .fl{color:var(--mute);font-size:11px;margin-top:4px}
+#stage{flex:1 1 auto;min-height:0;padding:0 8px}
+#stage svg{width:100%;height:100%;display:block}
+.bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
+.bar button,.bar input[type=text]{font:inherit;font-size:12px;background:none;color:var(--fg);border:1px solid #333;padding:5px 11px;cursor:pointer}
+.bar input[type=text]{cursor:text;width:220px}
+.bar input[type=range]{accent-color:var(--yellow)}
+.bar label{color:var(--mute)}
+.bar .r{margin-left:auto;color:var(--mute)}
+#play{min-width:70px}
 </style>
 
-<div id="stages"></div>
-<div class="bar"><label for="txt">text</label><input id="txt" value="the cat sat on"><span id="tot"></span>
-<label for="ep">epoch</label><input id="ep" type="range" min="0" max="0" value="0" style="width:160px"><span id="epn">0</span>
-<button id="train">train 10 epochs</button>
-<label><input type="checkbox" id="delta"> color = change since epoch 0</label>
-<span class="r">click any output cell · d = 2 so every vector is drawable</span></div>
+<div class="modes" id="modes"></div>
+<nav id="nav"></nav>
+<header><h1 id="h1"></h1><div class="eq" id="eq"></div><div class="fl" id="fl"></div></header>
+<div id="stage"></div>
+<div class="bar">
+  <button id="prev" aria-label="previous step">◀</button>
+  <button id="play">play</button>
+  <button id="next" aria-label="next step">▶</button>
+  <input id="scrub" type="range" min="0" max="1" step="0.001" value="0" style="width:150px" aria-label="progress within this step">
+  <label for="txt" id="txtlbl">prompt</label><input id="txt" type="text" value="the cat sat on">
+  <button id="train">train 10 steps</button>
+  <label for="ep">step</label><input id="ep" type="range" min="0" max="0" value="0" style="width:100px"><span id="epn">0</span>
+  <span class="r" id="tot"></span>
+</div>
 
 <script>
-// ============================================================ 0. tiny byte-level BPE
+// ================================================================ the model: 1-layer, 1-head GPT-style transformer, d = 2, RMSNorm
 function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 const CORPUS="the cat sat on the mat. the cat ate the rat. the dog sat on the log.";
-function trainBPE(text,nMerges){
-  let words=text.split(" ").map(w=>[...w].map(ch=>ch)); // bytes = chars here (all ASCII)
-  const merges=[];
-  for(let m=0;m<nMerges;m++){
-    const cnt={};
-    for(const w of words)for(let i=0;i<w.length-1;i++){const k=w[i]+"\u0001"+w[i+1];cnt[k]=(cnt[k]||0)+1}
-    let best=null,bc=1;for(const k in cnt)if(cnt[k]>bc){bc=cnt[k];best=k}
-    if(!best)break; const [a,b]=best.split("\u0001"); merges.push([a,b]);
-    words=words.map(w=>{const o=[];for(let i=0;i<w.length;i++){if(i<w.length-1&&w[i]===a&&w[i+1]===b){o.push(a+b);i++}else o.push(w[i])}return o});
-  }
-  return merges;
-}
-function encode(text,merges){ // returns tokens and the merge trace
-  let words=text.split(" ").filter(Boolean).map(w=>[...w]); const trace=[];
-  for(const [a,b] of merges){
-    let used=false;
-    words=words.map(w=>{const o=[];for(let i=0;i<w.length;i++){if(i<w.length-1&&w[i]===a&&w[i+1]===b){o.push(a+b);i++;used=true}else o.push(w[i])}return o});
-    if(used)trace.push(`${a} + ${b} → ${a}${b}`);
-  }
-  return {tokens:words.flat(),trace};
-}
-const MERGES=trainBPE(CORPUS,12);
-const VOCAB=[...new Set([...new Set(CORPUS.replace(/ /g,""))].concat(MERGES.map(m=>m[0]+m[1])))];
-const V=VOCAB.length, d=2, dff=4;
-
-// ============================================================ 1. weights (seeded, tiny)
-const R=rng(3), g=()=>Math.sqrt(-2*Math.log(1-R()))*Math.cos(2*Math.PI*R());
+function mergeWord(w,a,b){const o=[];for(let i=0;i<w.length;i++){if(i<w.length-1&&w[i]===a&&w[i+1]===b){o.push(a+b);i++}else o.push(w[i])}return o}
+function trainBPE(text,n){let words=text.split(" ").map(w=>[...w]);const merges=[];for(let m=0;m<n;m++){const cnt={};for(const w of words)for(let i=0;i<w.length-1;i++){const k=w[i]+"\u0001"+w[i+1];cnt[k]=(cnt[k]||0)+1}let best=null,bc=1;for(const k in cnt)if(cnt[k]>bc){bc=cnt[k];best=k}if(!best)break;const [a,b]=best.split("\u0001");merges.push([a,b]);words=words.map(w=>mergeWord(w,a,b))}return merges}
+const MERGES=trainBPE(CORPUS,12),CHARS=[...new Set(CORPUS.replace(/ /g,""))],VOCAB=[...CHARS,...MERGES.map(m=>m[0]+m[1])].filter((v,i,a)=>a.indexOf(v)===i),V=VOCAB.length,d=2,dff=4,ETA=0.5;
+function bpeStates(text){let words=text.split(" ").filter(Boolean).map(w=>[...w]);const st=[{words:words.map(w=>w.slice()),merge:null}];
+  for(const [a,b] of MERGES){const nw=words.map(w=>mergeWord(w,a,b));if(nw.flat().length!==words.flat().length){st.push({words:nw,merge:[a,b]});words=nw}}return st}
+function tokenizeText(text){const known=new Set(CHARS),raw=text.toLowerCase();const dropped=[...new Set([...raw].filter(c=>c!==" "&&!known.has(c)))];
+  let clean=[...raw].filter(c=>c===" "||known.has(c)).join("").trim();if(!clean)clean="the";const st=bpeStates(clean);return {st,dropped,ids:st[st.length-1].words.flat().map(t=>VOCAB.indexOf(t))}}
+const R0=rng(3),g=()=>Math.sqrt(-2*Math.log(1-R0()))*Math.cos(2*Math.PI*R0());
 const mat=(r,c,s)=>Array.from({length:r},()=>Array.from({length:c},()=>+(g()*s).toFixed(2)));
-let E=mat(V,d,.8), Wq=mat(d,d,.9), Wk=mat(d,d,.9), Wv=mat(d,d,.9), Wo=mat(d,d,.9), W1=mat(d,dff,.9), b1=[0.1,-0.1,0.05,0], W2=mat(dff,d,.6), b2=[0,0];
-const PARAMS=()=>({E,Wq,Wk,Wv,Wo,W1,b1,W2,b2});
-const clone=o=>JSON.parse(JSON.stringify(o));
-const SNAP=[clone(PARAMS())];           // SNAP[e] = all weights at epoch e
-const LOSSHIST=[];
-function setParams(p){({E,Wq,Wk,Wv,Wo,W1,b1,W2,b2}=clone(p))}
-function meanLoss(text){const r=forward(text);return r.loss.reduce((a,b)=>a+b,0)/Math.max(1,r.loss.length)}
-// one epoch of gradient descent. Gradient by finite differences: nudge each number, re-run the forward pass, measure the loss change.
-// That is NOT how PyTorch does it (backprop), but it is the definition of the gradient and uses only the forward pass shown on this page.
-function trainEpoch(text,lr=0.15,h=1e-3){
-  const p=PARAMS(), base=meanLoss(text), grad={};
-  for(const k in p){const A=p[k]; grad[k]=Array.isArray(A[0])?A.map(r=>r.map(()=>0)):A.map(()=>0);
-    const walk=(get,set,g)=>{const v=get();set(v+h);const l=meanLoss(text);set(v);return (l-base)/h};
-    if(Array.isArray(A[0]))A.forEach((r,i)=>r.forEach((_,j)=>{grad[k][i][j]=walk(()=>A[i][j],x=>A[i][j]=x)}));
-    else A.forEach((_,i)=>{grad[k][i]=walk(()=>A[i],x=>A[i]=x)})}
-  for(const k in p){const A=p[k];if(Array.isArray(A[0]))A.forEach((r,i)=>r.forEach((_,j)=>A[i][j]-=lr*grad[k][i][j]));else A.forEach((_,i)=>A[i]-=lr*grad[k][i])}
-  LOSSHIST.push(base); SNAP.push(clone(PARAMS()));
-}
-const P=t=>Array.from({length:t},(_,i)=>[Math.sin(i),Math.cos(i)].map(v=>+v.toFixed(2)));
-
-// ============================================================ 2. linear algebra, every op explicit
+let E=mat(V,d,.8),Wq=mat(d,d,.9),Wk=mat(d,d,.9),Wv=mat(d,d,.9),Wo=mat(d,d,.9),W1=mat(d,dff,.9),b1=[0.1,-0.1,0.05,0],W2=mat(dff,d,.6),b2=[0,0];
+const PARAMS=()=>({E,Wq,Wk,Wv,Wo,W1,b1,W2,b2}),clone=o=>JSON.parse(JSON.stringify(o));function setParams(p){({E,Wq,Wk,Wv,Wo,W1,b1,W2,b2}=clone(p))}
+const SNAP=[clone(PARAMS())],LOSSES=[];
 const mm=(A,B)=>A.map(r=>B[0].map((_,j)=>r.reduce((s,a,k)=>s+a*B[k][j],0)));
-const add=(A,B)=>A.map((r,i)=>r.map((v,j)=>v+B[i][j]));
-const addb=(A,b)=>A.map(r=>r.map((v,j)=>v+b[j]));
-const T_=A=>A[0].map((_,j)=>A.map(r=>r[j]));
-const softmaxRow=r=>{const m=Math.max(...r.filter(isFinite));const e=r.map(v=>isFinite(v)?Math.exp(v-m):0);const s=e.reduce((a,b)=>a+b,0);return e.map(v=>v/s)};
-const lnRow=r=>{const mu=r.reduce((a,b)=>a+b,0)/r.length;const va=r.reduce((a,b)=>a+(b-mu)**2,0)/r.length;return r.map(v=>(v-mu)/Math.sqrt(va+1e-5))};
-const relu=v=>Math.max(0,v);
+const add=(A,B)=>A.map((r,i)=>r.map((v,j)=>v+B[i][j])),addb=(A,b)=>A.map(r=>r.map((v,j)=>v+b[j])),T_=A=>A[0].map((_,j)=>A.map(r=>r[j]));
+const colsum=A=>A[0].map((_,j)=>A.reduce((s,r)=>s+r[j],0)),scl=(A,c)=>A.map(r=>r.map(v=>v*c));
+const smx=r=>{const m=Math.max(...r.filter(isFinite));const e=r.map(v=>isFinite(v)?Math.exp(v-m):0);const s=e.reduce((a,b)=>a+b,0);return e.map(v=>v/s)};
+const rmsOf=r=>Math.sqrt(r.reduce((a,b)=>a+b*b,0)/r.length+1e-5),rmsn=r=>{const q=rmsOf(r);return r.map(v=>v/q)};
+const P=t=>Array.from({length:t},(_,i)=>[+Math.sin(i).toFixed(2),+Math.cos(i).toFixed(2)]);
+function forwardIds(ids){const tokens=ids.map(i=>VOCAB[i]),T=ids.length;
+  const Xe=ids.map(id=>E[id].slice()),Pos=P(T),X=add(Xe,Pos),Q=mm(X,Wq),K=mm(X,Wk),Vv=mm(X,Wv);
+  const S=scl(mm(Q,T_(K)),1/Math.sqrt(d)),Sm=S.map((r,i)=>r.map((v,j)=>j>i?-Infinity:v)),A=Sm.map(smx);
+  const H=mm(A,Vv),O=mm(H,Wo),X1=add(X,O),L1=X1.map(rmsn),F1=addb(mm(L1,W1),b1),F2=F1.map(r=>r.map(v=>Math.max(0,v))),F3=addb(mm(F2,W2),b2),X2=add(L1,F3),L2=X2.map(rmsn);
+  const Lg=mm(L2,T_(E)),Pr=Lg.map(smx),tg=ids.slice(1),loss=tg.map((t,i)=>-Math.log(Pr[i][t]));
+  return {tokens,T,ids,Xe,Pos,X,Q,K,Vv,S,Sm,A,H,O,X1,L1,F1,F2,F3,X2,L2,Lg,Pr,tg,loss}}
+function forward(text){const tk=tokenizeText(text),m=forwardIds(tk.ids);m.st=tk.st;m.dropped=tk.dropped;return m}
+const meanLoss=m=>m.loss.length?m.loss.reduce((a,b)=>a+b,0)/m.loss.length:0;
 
-function forward(text){
-  const {tokens,trace}=encode(text,MERGES); const T=tokens.length;
-  const ids=tokens.map(t=>VOCAB.indexOf(t));
-  const OH=ids.map(id=>Array.from({length:V},(_,v)=>v===id?1:0));
-  const Xe=mm(OH,E), Pos=P(T), X=add(Xe,Pos);
-  const Q=mm(X,Wq),K=mm(X,Wk),Vv=mm(X,Wv);
-  const S=mm(Q,T_(K)).map(r=>r.map(v=>v/Math.sqrt(d)));
-  const Sm=S.map((r,i)=>r.map((v,j)=>j>i?-Infinity:v));
-  const A=Sm.map(softmaxRow);
-  const H=mm(A,Vv), O=mm(H,Wo), X1=add(X,O), L1=X1.map(lnRow);
-  const F1=addb(mm(L1,W1),b1), F2=F1.map(r=>r.map(relu)), F3=addb(mm(F2,W2),b2);
-  const X2=add(L1,F3), L2=X2.map(lnRow);
-  const Lg=mm(L2,T_(E)), Pr=Lg.map(softmaxRow);
-  const targets=ids.slice(1), loss=targets.map((t,i)=>-Math.log(Pr[i][t]));
-  return {tokens,trace,T,ids,OH,Xe,Pos,X,Q,K,Vv,S,Sm,A,H,O,X1,L1,F1,F2,F3,X2,L2,Lg,Pr,targets,loss};
-}
+// ---- backprop, written out op by op (each line is the reverse of one forward line)
+function backward(M){const T=M.T,n=Math.max(1,T-1);
+  const rmsBack=(X,Y,dY)=>X.map((x,i)=>{const r=rmsOf(x),m=dY[i].reduce((a,b,k)=>a+b*Y[i][k],0)/x.length;return dY[i].map((dy,k)=>(dy-Y[i][k]*m)/r)});
+  const dLg=M.Pr.map((r,i)=>r.map((p,v)=>i<T-1?(p-(v===M.tg[i]?1:0))/n:0));
+  const dL2=mm(dLg,E),dEout=mm(T_(dLg),M.L2);
+  const dX2=rmsBack(M.X2,M.L2,dL2),dF3=dX2,dW2=mm(T_(M.F2),dF3),db2=colsum(dF3);
+  const dF2=mm(dF3,T_(W2)),dF1=dF2.map((r,i)=>r.map((v,k)=>M.F1[i][k]>0?v:0)),dW1=mm(T_(M.L1),dF1),db1=colsum(dF1);
+  const dL1mlp=mm(dF1,T_(W1)),dL1=add(dX2,dL1mlp),dX1=rmsBack(M.X1,M.L1,dL1),dO=dX1,dWo=mm(T_(M.H),dO),dH=mm(dO,T_(Wo));
+  const dA=mm(dH,T_(M.Vv)),dV=mm(T_(M.A),dH);
+  const dS=M.A.map((r,i)=>{const s=r.reduce((a,p,k)=>a+p*dA[i][k],0);return r.map((p,j)=>p*(dA[i][j]-s))});
+  const c=1/Math.sqrt(d),dQ=scl(mm(dS,M.K),c),dK=scl(mm(T_(dS),M.Q),c);
+  const dWq=mm(T_(M.X),dQ),dWk=mm(T_(M.X),dK),dWv=mm(T_(M.X),dV);
+  const dX=add(add(add(dX1,mm(dQ,T_(Wq))),mm(dK,T_(Wk))),mm(dV,T_(Wv)));
+  const dE=dEout.map(r=>r.slice());M.ids.forEach((id,t)=>{dE[id][0]+=dX[t][0];dE[id][1]+=dX[t][1]});
+  return {dLg,dL2,dEout,dX2,dF3,dW2,db2,dF2,dF1,dW1,db1,dL1mlp,dL1,dX1,dO,dWo,dH,dA,dV,dS,dQ,dK,dWq,dWk,dWv,dX,dE,grads:{E:dE,Wq:dWq,Wk:dWk,Wv:dWv,Wo:dWo,W1:dW1,b1:db1,W2:dW2,b2:db2}}}
+function stepParams(p,gr){const q=clone(p);for(const k in q){const A=q[k],G=gr[k];if(Array.isArray(A[0]))A.forEach((r,i)=>r.forEach((_,j)=>A[i][j]-=ETA*G[i][j]));else A.forEach((_,i)=>A[i]-=ETA*G[i])}return q}
 
-// ============================================================ 3. rendering
-const f=v=>!isFinite(v)?"−∞":(Math.abs(v)<5e-3?0:v).toFixed(2);
-const vmax=A=>Math.max(1e-9,...A.flat().filter(isFinite).map(Math.abs));
-const col=(v,vm)=>{if(!isFinite(v))return"";const t=Math.max(-1,Math.min(1,v/vm));return`color-mix(in srgb,${t<0?"var(--neg)":"var(--pos)"} ${Math.round(Math.abs(t)*100)}%,var(--mid))`};
-const el=(c,h)=>{const d=document.createElement("div");d.className=c;if(h!==undefined)d.innerHTML=h;return d};
-let sel=null; // {stage, i, j}
-let DELTA=false, REF=null; // REF = forward results at epoch 0, for change-coloring
-let M; // forward results
+// ---- answering: run the forward pass, take the most likely next token, append, repeat (weights never change)
+const NGEN=8;
+function generate(ids){const out=[];ids=ids.slice();for(let n=0;n<NGEN;n++){const m=forwardIds(ids),last=m.T-1,p=m.Pr[last];let nx=0;p.forEach((v,j)=>{if(v>p[nx])nx=j});out.push({ids:ids.slice(),p,attn:m.A[last],next:nx,T:m.T});ids.push(nx)}return out}
+function fwdFlops(T){return T*d+3*2*T*d*d+2*T*T*d+T*T+3*T*T+2*T*T*d+2*T*d*d+T*d+5*T*d+2*T*d*dff+T*dff+T*dff+2*T*dff*d+T*d+T*d+5*T*d+2*T*d*V+3*T*V}
+function cachedFlops(T){return d+3*2*d*d+2*T*d+T+3*T+2*T*d+2*d*d+d+5*d+2*d*dff+2*dff+2*dff*d+2*d+5*d+2*d*V+3*V}
 
-const REFLOOK={E:()=>REF.W.E,Wq:()=>REF.W.Wq,Wk:()=>REF.W.Wk,Wv:()=>REF.W.Wv,Wo:()=>REF.W.Wo,W1:()=>REF.W.W1,W2:()=>REF.W.W2,"Eᵀ":()=>T_(REF.W.E),"Kᵀ":()=>T_(REF.K),
-  Xe:()=>REF.Xe,X:()=>REF.X,Q:()=>REF.Q,K:()=>REF.K,V:()=>REF.Vv,S:()=>REF.S,Sm:()=>REF.Sm,A:()=>REF.A,H:()=>REF.H,O:()=>REF.O,X1:()=>REF.X1,L1:()=>REF.L1,F1:()=>REF.F1,F2:()=>REF.F2,F3:()=>REF.F3,X2:()=>REF.X2,L2:()=>REF.L2,Lg:()=>REF.Lg,Pr:()=>REF.Pr};
-function matrix(name,A,o={}){
-  if(DELTA&&REF&&REFLOOK[name]){o.ref=REFLOOK[name]();o.refvm=Math.max(1e-6,...A.flat().map((v,n)=>{const r=o.ref.flat()[n];return isFinite(v)&&isFinite(r)?Math.abs(v-r):0}))}
-  const m=el("mat"); m.appendChild(el("lbl",name+(o.shape!==false?` <span style="color:var(--mute);font-size:11px">${A.length}×${A[0].length}</span>`:"")));
-  const gr=el("grid"); gr.style.gridTemplateColumns=`repeat(${A[0].length},auto)`; const vm=o.vm||vmax(A);
-  A.forEach((r,i)=>r.forEach((v,j)=>{const c=el("cell"+(o.tiny?" tiny":"")+(o.click?" k":""));
-    if(!isFinite(v)){c.classList.add("inf");c.textContent="−∞"}else{c.textContent=o.tiny?(v?"1":""):f(v);
-      const ref=DELTA&&o.ref&&isFinite(o.ref[i]?.[j])?o.ref[i][j]:null;
-      c.style.background=o.tiny?(v?"var(--gold)":"transparent"):(ref===null?col(v,vm):col(v-ref,o.refvm||1))}
-    if(o.hl){const h=o.hl(i,j);if(h==="on")c.classList.add("hl");if(h==="cur")c.classList.add("cur");if(h==="dim")c.classList.add("dim")}
-    if(o.click)c.onclick=()=>{sel={stage:o.click,i,j};render()};
-    gr.appendChild(c)}));
-  m.appendChild(gr); if(o.rows){/* row labels */const L=el("lbl");L.style.fontSize="10px";L.style.color="var(--mute)";L.textContent=o.rows.join(" · ");m.appendChild(L)} return m;
-}
-const op=(s,sub)=>el("op",s+(sub?`<small>${sub}</small>`:""));
-const hlRow=(si,sj)=>(i,j)=>i===si?"on":"dim", hlCol=(si,sj)=>(i,j)=>j===sj?"on":"dim", hlCell=(si,sj)=>(i,j)=>(i===si&&j===sj)?"cur":"dim", hlOut=(si,sj)=>(i,j)=>(i===si&&j===sj)?"cur":"dim";
-const none=()=>undefined;
-const cellbox=(v,vm)=>`<div class="cell" style="background:${col(v,vm)}">${f(v)}</div>`;
+// ================================================================ drawing kit (SVG, 1200 × 560)
+const W=1200,Hh=560;
+const C={fg:"#ece6e2",mute:"#7a7a7a",dim:"#3a3a3a",grid:"#12303d",yellow:"#F7D96F",blue:"#58C4DD",teal:"#5CD0B3",green:"#83C167",red:"#FC6255",purple:"#B18CDB",orange:"#F0AC5F"};
+const TOKC=[C.blue,C.green,C.red,C.purple,C.orange,C.teal,"#E58FB3"];
+const MONO='ui-monospace,SF Mono,Menlo,Consolas,monospace',SERIF='Iowan Old Style,Palatino Linotype,Palatino,Georgia,serif';
+let S="",DEC=2;const out=s=>{S+=s};
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const f=v=>!isFinite(v)?"−∞":(Math.abs(v)<0.5*10**-DEC?(0).toFixed(DEC):v.toFixed(DEC)).replace("-","−");
+const vec=r=>`(${r.map(f).join(", ")})`;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),lerp=(a,b,t)=>a+(b-a)*t,ease=t=>t*t*(3-2*t);
+function txt(x,y,s,o={}){out(`<text x="${x}" y="${y}" fill="${o.c||C.fg}" font-size="${o.s||15}" text-anchor="${o.a||"middle"}" font-family="${o.serif?SERIF:MONO}" ${o.it?'font-style="italic"':""} opacity="${o.o??1}">${esc(s)}</text>`)}
+function line(x1,y1,x2,y2,c,w=1,o=1,dash){out(`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}" opacity="${o}" ${dash?`stroke-dasharray="${dash}"`:""}/>`)}
+function rect(x,y,w,h,c,o={}){out(`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${o.rx??4}" fill="${o.fill||"none"}" stroke="${c}" stroke-width="${o.w||1.5}" opacity="${o.o??1}" ${o.dash?`stroke-dasharray="${o.dash}"`:""}/>`)}
+function arrowPath(x1,y1,x2,y2,c,w=2.5,o=1,dash){const a=Math.atan2(y2-y1,x2-x1),L=Math.hypot(x2-x1,y2-y1),h=Math.min(12,L*0.35);if(L<1)return;const bx=x2-h*Math.cos(a)*0.8,by=y2-h*Math.sin(a)*0.8;
+  out(`<g opacity="${o}"><line x1="${x1}" y1="${y1}" x2="${bx}" y2="${by}" stroke="${c}" stroke-width="${w}" ${dash?`stroke-dasharray="${dash}"`:""}/><polygon points="${x2},${y2} ${x2-h*Math.cos(a-0.4)},${y2-h*Math.sin(a-0.4)} ${x2-h*Math.cos(a+0.4)},${y2-h*Math.sin(a+0.4)}" fill="${c}"/></g>`)}
+function curve(x1,y1,x2,y2,c,o=1){const mx=(x1+x2)/2,my=(y1+y2)/2;out(`<path d="M${x1} ${y1} Q${mx} ${my} ${x2} ${y2}" fill="none" stroke="${c}" stroke-width="1.5" opacity="${o}" stroke-dasharray="5 4"/>`)}
+function matrix(x,y,A,o={}){const cw=o.cw||64,rh=o.rh||32,fs=o.fs||15,R=A.length,Cn=A[0].length,w=Cn*cw,h=R*rh;
+  const br=(x0,dir)=>out(`<path d="M${x0+dir*9} ${y-5} L${x0} ${y-5} L${x0} ${y+h+5} L${x0+dir*9} ${y+h+5}" fill="none" stroke="${C.fg}" stroke-width="1.6" opacity=".9"/>`);br(x,1);br(x+w,-1);
+  if(o.label)txt(x+w/2,y-16,o.label,{serif:1,it:1,s:21});
+  const focus=o.row!=null||o.col!=null||o.cell;
+  for(let i=0;i<R;i++)for(let j=0;j<Cn;j++){const v=A[i][j],shown=!o.show||o.show(i,j);const on=(o.row===i&&o.col==null)||(o.col===j&&o.row==null)||(o.cell&&o.cell[0]===i&&o.cell[1]===j);
+    const cx=x+j*cw+cw/2,cy=y+i*rh+rh*0.66;if(!shown){txt(cx,cy,"·",{c:C.dim,s:fs});continue}
+    txt(cx,cy,f(v),{c:on?C.yellow:!isFinite(v)?C.mute:C.fg,s:fs,o:on?1:focus?0.38:0.9})}
+  if(o.rl)o.rl.forEach((l,i)=>txt(x-14,y+i*rh+rh*0.66,l,{a:"end",c:o.row===i?C.yellow:C.mute,s:Math.min(13,fs)}));
+  if(o.row!=null&&o.col==null)rect(x+3,y+o.row*rh+2,w-6,rh-4,C.yellow);
+  if(o.col!=null&&o.row==null)rect(x+o.col*cw+3,y+2,cw-6,h-4,C.yellow);
+  if(o.cell)rect(x+o.cell[1]*cw+3,y+o.cell[0]*rh+2,cw-6,rh-4,C.yellow,{w:2.2});
+  return {x,y,w,h,cx:j=>x+j*cw+cw/2,cy:i=>y+i*rh+rh/2,bot:y+h}}
+function op(x,y,s){txt(x,y,s,{serif:1,s:26,c:C.mute})}
+function plane(cx,cy,R,scale){const px=v=>cx+v/scale*R,py=v=>cy-v/scale*R,step=scale>2.4?1:0.5;
+  for(let v=-Math.floor(scale/step)*step;v<=scale+1e-9;v+=step){if(Math.abs(v)<1e-9)continue;line(px(v),cy-R,px(v),cy+R,C.grid,1);line(cx-R,py(v),cx+R,py(v),C.grid,1)}
+  line(cx-R,cy,cx+R,cy,"#5a6a72",1.2);line(cx,cy-R,cx,cy+R,"#5a6a72",1.2);txt(px(step),cy+16,step,{c:C.mute,s:11});
+  return {px,py,arrow(a,b,c,w=3,o=1,dash){arrowPath(px(a[0]),py(a[1]),px(b[0]),py(b[1]),c,w,o,dash)},dot(p,c,r=4,o=1){out(`<circle cx="${px(p[0])}" cy="${py(p[1])}" r="${r}" fill="${c}" opacity="${o}"/>`)},
+    label(p,s,c,dx=8,dy=-8,o=1){txt(px(p[0])+dx,py(p[1])+dy,s,{c,s:13,a:"start",o})},seg(a,b,c,w=1.5,o=1,dash){line(px(a[0]),py(a[1]),px(b[0]),py(b[1]),c,w,o,dash)},
+    circle(r,c,o=1,dash){out(`<circle cx="${cx}" cy="${cy}" r="${r/scale*R}" fill="none" stroke="${c}" stroke-width="1.2" opacity="${o}" ${dash?`stroke-dasharray="${dash}"`:""}/>`)},
+    poly(pts,c,w=1.5,o=1){out(`<path d="${pts.map((p,k)=>(k?"L":"M")+px(p[0]).toFixed(1)+" "+py(p[1]).toFixed(1)).join(" ")}Z" fill="none" stroke="${c}" stroke-width="${w}" opacity="${o}"/>`)}}}
+const vm=(...arrs)=>Math.max(0.6,...arrs.flat(2).filter(isFinite).map(Math.abs))*1.15;
+function bars(x,y,w,h,vals,labels,o={}){const n=vals.length,bw=Math.min(54,w/n*0.62),gap=w/n,fin=vals.filter(isFinite);
+  const top=o.vmax??Math.max(1e-9,...fin.map(Math.abs)),neg=fin.some(v=>v<0)||o.neg,base=neg?y+h/2:y+h,scale=(neg?h/2:h)/top;
+  line(x-6,base,x+w+6,base,"#5a6a72",1.2);
+  vals.forEach((v,j)=>{const cx=x+gap*j+gap/2,on=o.hl===j,col=on?C.yellow:(o.colors?o.colors[j]:(v<0?C.red:C.blue));
+    if(!isFinite(v)){rect(cx-bw/2,base-28,bw,28,C.dim,{dash:"3 3",rx:2});txt(cx,base-34,"−∞",{c:C.mute,s:12})}
+    else{const bh=Math.abs(v)*scale;out(`<rect x="${cx-bw/2}" y="${v>=0?base-bh:base}" width="${bw}" height="${Math.max(0.5,bh)}" fill="${col}" opacity="${on?1:0.85}" rx="2"/>`);if(!o.noval)txt(cx,v>=0?base-bh-7:base+bh+16,f(v),{s:12,c:on?C.yellow:C.fg})}
+    if(labels)txt(cx,y+h+(neg?20:22),labels[j],{s:o.ls||12,c:on?C.yellow:C.mute})});return {cx:j=>x+gap*j+gap/2,base}}
+// the convolution move: a row over a column, the column slides in, products appear, then they sum
+function dotStrip(cx,y,a,b,p,o={}){const K=a.length,gap=Math.min(120,860/K),fs=K>6?13:17,x0=cx-(K-1)*gap/2,slide=ease(clamp(p*2.5,0,1)),off=(1-slide)*-220;
+  txt(x0-gap*0.55-26,y,o.aName,{a:"end",c:C.yellow,s:13});txt(x0-gap*0.55-26,y+40,o.bName,{a:"end",c:C.teal,s:13,o:slide});
+  for(let n=0;n<K;n++){const X=x0+n*gap,q=clamp((p-0.4)*(K+1)/0.42-n,0,1);
+    txt(X,y,f(a[n]),{c:o.masked?C.mute:C.yellow,s:fs});txt(X,y+21,"×",{c:C.mute,s:12,o:slide});txt(X+off,y+42,f(b[n]),{c:o.masked?C.mute:C.teal,s:fs,o:slide});
+    if(q>0){txt(X,y+92,f(a[n]*b[n]),{s:fs,o:q*(o.masked?.4:1)});if(n>0)txt(X-gap/2,y+92,"+",{c:C.mute,s:14,o:q})}
+    if(o.colLabels)txt(X,y+118,o.colLabels[n],{c:C.mute,s:11,o:slide})}
+  line(x0-gap*0.45,y+60,x0+(K-1)*gap+gap*0.45,y+60,C.dim,1,slide);
+  const done=clamp((p-0.86)/0.12,0,1);if(done>0&&o.sumText)txt(cx,y+(o.colLabels?150:136),o.sumText,{serif:1,s:20,o:done,c:o.masked?C.mute:C.fg});return {done,topY:y-24}}
 
-// each stage: {id,title,formula,build(sel)->{eq:[...], sum:html, flops}}  flops = for the whole stage
-let FLOPS={};
-function stageMatmul(id,title,formula,Aname,A,Bname,B,Out,extra){
-  return {id,title,formula,flops:2*A.length*A[0].length*B[0].length,build(s){
-    const on=s&&s.stage===id; const i=on?s.i:null,j=on?s.j:null;
-    const eq=[matrix(Aname,A,{hl:on?hlRow(i,j):none}),op("×"),matrix(Bname,B,{hl:on?hlCol(i,j):none})];
-    if(extra)eq.push(op(extra));
-    eq.push(op("="),matrix(id,Out,{click:id,hl:on?hlOut(i,j):none}));
-    let sum="";
-    if(on){const K=A[0].length,vA=vmax(A),vB=vmax(B),vO=vmax(Out);let tot=0;
-      sum=`<span class="t">${id}[${i},${j}] =</span>`;
-      A[i].forEach((a,k)=>{const p=a*B[k][j];tot+=p;sum+=(k?'<span class="s">+</span>':'')+cellbox(a,vA)+'<span class="s">·</span>'+cellbox(B[k][j],vB)+'<span class="s">=</span>'+cellbox(p,vO)});
-      sum+=`<span class="t">&nbsp;Σ = ${f(tot)}${extra?" "+extra+" → "+f(Out[i][j]):""}</span><span class="fp">${K} mul + ${K} add = ${2*K} FLOPs</span>`}
-    return {eq,sum}}};
-}
-function stageAdd(id,title,formula,Aname,A,Bname,B,Out,bias){
-  return {id,title,formula,flops:A.length*A[0].length,build(s){
-    const on=s&&s.stage===id; const i=on?s.i:null,j=on?s.j:null;
-    const eq=[matrix(Aname,A,{hl:on?hlCell(i,j):none}),op("+"),bias?matrix(Bname,[B],{hl:on?(a,b)=>b===j?"on":"dim":none}):matrix(Bname,B,{hl:on?hlCell(i,j):none}),op("="),matrix(id,Out,{click:id,hl:on?hlOut(i,j):none})];
-    const sum=on?`<span class="t">${id}[${i},${j}] = ${f(A[i][j])} + ${f(bias?B[j]:B[i][j])} = ${f(Out[i][j])}</span><span class="fp">1 FLOP</span>`:"";
-    return {eq,sum}}};
-}
-function stagePointwise(id,title,formula,Aname,A,Out,fn,fnName){
-  return {id,title,formula,flops:A.length*A[0].length,build(s){
-    const on=s&&s.stage===id; const i=on?s.i:null,j=on?s.j:null;
-    const eq=[matrix(Aname,A,{hl:on?hlCell(i,j):none}),op(fnName+" →"),matrix(id,Out,{click:id,hl:on?hlOut(i,j):none})];
-    const sum=on?`<span class="t">${id}[${i},${j}] = ${fnName}(${f(A[i][j])}) = ${f(Out[i][j])}</span><span class="fp">1 FLOP · depends on one cell only</span>`:"";
-    return {eq,sum}}};
-}
-function stageRowwise(id,title,formula,Aname,A,Out,kind){
-  const n=A[0].length, per=kind==="softmax"?3*n:5*n;
-  return {id,title,formula,flops:per*A.length,build(s){
-    const on=s&&s.stage===id; const i=on?s.i:null,j=on?s.j:null;
-    const eq=[matrix(Aname,A,{hl:on?hlRow(i,j):none}),op(kind+" →","per row"),matrix(id,Out,{click:id,hl:on?hlOut(i,j):none})];
-    let sum="";
-    if(on){const r=A[i];
-      if(kind==="softmax"){const fin=r.filter(isFinite),m=Math.max(...fin);const e=r.map(v=>isFinite(v)?Math.exp(v-m):0),Z=e.reduce((a,b)=>a+b,0);
-        sum=`<span class="t">row ${i}:</span> max = ${f(m)} &nbsp; e<sup>s−max</sup> = [${e.map(f).join(", ")}] &nbsp; Σ = ${f(Z)} &nbsp; <span class="t">${id}[${i},${j}] = ${f(e[j])} / ${f(Z)} = ${f(Out[i][j])}</span><span class="fp">${n} exp + ${n} add + ${n} div ≈ ${3*n} FLOPs for the row · every cell in the row depends on every other</span>`}
-      else{const mu=r.reduce((a,b)=>a+b,0)/n,va=r.reduce((a,b)=>a+(b-mu)**2,0)/n;
-        sum=`<span class="t">row ${i}:</span> μ = ${f(mu)} &nbsp; σ² = ${f(va)} &nbsp; <span class="t">${id}[${i},${j}] = (${f(r[j])} − ${f(mu)}) / √(${f(va)} + ε) = ${f(Out[i][j])}</span><span class="fp">≈ ${5*n} FLOPs for the row (γ = 1, β = 0 here)</span>`}}
-    return {eq,sum}}};
-}
+// ================================================================ stage builders
+let M,G,GEN,NEWP,NEWLOSS;
+const tl=()=>M.tokens.map((t,i)=>`${i}:${t}`);
+function MM(o){return {key:o.key,name:o.name,eq:o.eq,flops:()=>{const A=o.A(),B=o.B();return 2*A.length*A[0].length*B[0].length},frames:()=>o.out().length*o.out()[0].length,
+  draw(k,p){const A=o.A(),B=o.B(),O=o.out(),cols=O[0].length,i=Math.floor(k/cols),j=k%cols,cw=64;
+    let x=90;const ma=matrix(x,70,A,{label:o.aName,row:i,cw,rl:o.rl===true?tl():o.rl});x+=ma.w+46;op(x-23,70+Math.min(ma.h,150)/2+8,"×");
+    const mb=matrix(x,70,B,{label:o.bName,col:j,cw,rh:B.length>8?20:32,fs:B.length>8?12:15});x+=mb.w+46;
+    if(o.bias){op(x-23,86,"+");const mbi=matrix(x,70,[o.bias()],{label:o.biasName,col:j,cw});x+=mbi.w+46}
+    op(x-23,86,"=");const mo=matrix(x,70,O,{label:o.name,cell:[i,j],cw,show:(r,c)=>r*cols+c<k||(r*cols+c===k&&p>0.97)});
+    const a=A[i],b=B.map(r=>r[j]),s=a.reduce((t,v,n)=>t+v*b[n],0);
+    const ds=dotStrip(600,350,a,b,p,{aName:`${o.aName} row ${i}`,bName:`${o.bName} col ${j}`,colLabels:o.stripLabels?o.stripLabels():null,
+      sumText:`Σ = ${f(s)}${o.bias?`   + ${f(o.bias()[j])}`:""}${o.post?`   ${o.post}`:""}   =   ${f(O[i][j])}`});
+    if(ds.done>0)curve(600,ds.topY,mo.cx(j),mo.bot+8,C.yellow,ds.done);
+    if(o.note)txt(600,546,o.note,{c:C.mute,s:12})}}}
+function MAP(o){return {key:o.key,name:o.name,eq:o.eq,flops:o.flops||(()=>0),frames:()=>o.inp().length,
+  draw(k,p){const A=o.inp(),B=o.out(),rl=A.length===M.T?tl():null;const ma=matrix(110,80,A,{label:o.inName,row:k,rl});
+    op(ma.x+ma.w+60,80+Math.min(ma.h,160)/2+8,"→");if(o.opName)txt(ma.x+ma.w+60,80+Math.min(ma.h,160)/2+32,o.opName,{c:C.mute,s:12});
+    matrix(ma.x+ma.w+120,80,B,{label:o.outName,row:k,show:r=>r<k||(r===k&&p>0.6)});
+    if(o.rowText)txt(600,420,o.rowText(k),{serif:1,s:19,o:ease(clamp(p*2,0,1))});if(o.note)txt(600,520,o.note,{c:C.mute,s:12})}}}
+function RESID(key,name,eqn,getA,aName,getB,bName,getOut){return {key,name,eq:eqn,flops:()=>getA().length*d,frames:()=>getA().length,
+  draw(k,p){const A=getA(),B=getB(),O=getOut();txt(260,90,`${aName}[${k}]  +  ${bName}[${k}]  =  ${name}[${k}]`,{serif:1,it:1,s:20});
+    matrix(80,130,[A[k]],{label:aName});op(232,155,"+");matrix(262,130,[B[k]],{label:bName});op(414,155,"=");matrix(444,130,[O[k]],{label:name,show:()=>p>0.75,cell:[0,0]});
+    txt(260,230,"adding is placing one arrow on the tip of the other",{c:C.mute,s:12});
+    const pl=plane(860,290,230,vm(A,O,B));O.forEach((r,j)=>{if(j<k)pl.arrow([0,0],r,TOKC[j%TOKC.length],2,.45)});
+    const s1=ease(clamp(p*2,0,1)),s2=ease(clamp(p*2-1,0,1));pl.arrow([0,0],A[k],C.blue,3);pl.label(A[k],aName,C.blue);
+    if(s1>0){const tip=[A[k][0]+B[k][0]*s1,A[k][1]+B[k][1]*s1];pl.arrow(A[k],tip,C.green,3,1,"6 4");if(s1>0.6)pl.label(tip,bName,C.green,8,14)}
+    if(s2>0){pl.arrow([0,0],[O[k][0]*s2,O[k][1]*s2],C.yellow,3.5);if(s2>0.9)pl.label(O[k],`${name}[${k}] ${M.tokens[k]}`,C.yellow)}}}}
+function NORM(key,name,getA,aName,getOut){return {key,name,eq:`${name}[i] = ${aName}[i] / √( mean(${aName}[i]²) )`,flops:()=>4*getA().length*d,frames:()=>getA().length,
+  draw(k,p){const A=getA(),O=getOut(),r=A[k],q=rmsOf(r),s=ease(p),cur=r.map((v,n)=>lerp(v,O[k][n],s));
+    txt(300,82,`token ${k}: ${M.tokens[k]}`,{c:C.yellow,s:14});
+    bars(110,120,380,260,cur,["x₀","x₁"],{vmax:Math.max(...r.map(Math.abs),1.5),colors:[C.blue,C.teal]});
+    txt(300,450,`√( mean(x²) ) = ${f(q)}`,{serif:1,s:19});txt(300,485,"divide both numbers by it: the arrow keeps its direction, its length becomes √2",{c:C.mute,s:12});
+    const pl=plane(860,290,230,vm(A,O));pl.circle(Math.SQRT2,C.purple,.7,"6 5");pl.label([1,1.05],"radius √2",C.purple,6,-6,.8);
+    O.forEach((o2,j)=>{if(j<k)pl.arrow([0,0],o2,TOKC[j%TOKC.length],2,.45)});pl.arrow([0,0],r,C.blue,2,.5);pl.arrow([0,0],cur,C.yellow,3.5);pl.label(cur,vec(cur),C.yellow)}}}
 
-function plot2d(title,sets,size=440){
-  // sets: [{M, labels, arrows:bool, color, trail:[M_epoch0, M_epoch1, ...]}]  trail = where each point was at earlier epochs
-  const all=sets.flatMap(s=>s.M.flat().concat((s.trail||[]).flat(2))), m=Math.max(1,...all.filter(isFinite).map(Math.abs))*1.15, c=size/2, sc=v=>v/m*(c-16);
-  let o=`<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><line class="ax" x1="0" y1="${c}" x2="${size}" y2="${c}"/><line class="ax" x1="${c}" y1="0" x2="${c}" y2="${size}"/>`;
-  for(const s of sets)if(s.trail&&s.trail.length>1)s.M.forEach((_,i)=>{
-    const pts=s.trail.map(Mt=>Mt[i]); let d="";pts.forEach((q,k)=>{d+=(k?"L":"M")+(c+sc(q[0])).toFixed(1)+" "+(c-sc(q[1])).toFixed(1)+" "});
-    o+=`<path d="${d}" fill="none" stroke="${s.color}" stroke-width="1" opacity=".55"/>`;
-    pts.slice(0,-1).forEach((q,k)=>o+=`<circle cx="${c+sc(q[0])}" cy="${c-sc(q[1])}" r="1.6" fill="${s.color}" opacity="${0.25+0.5*k/pts.length}"/>`)});
-  for(const s of sets)s.M.forEach((p,i)=>{const x=c+sc(p[0]),y=c-sc(p[1]);
-    if(s.arrows)o+=`<line x1="${c}" y1="${c}" x2="${x}" y2="${y}" stroke="${s.color}" stroke-width="1.5"/>`;
-    o+=`<circle cx="${x}" cy="${y}" r="6" fill="${s.color}"/><text x="${x+6}" y="${y-4}">${s.labels[i]}</text>`});
-  o+=`</svg>`; const p=el("plot"); p.innerHTML=`<div class="lbl" style="font-family:var(--serif);font-size:14px;margin-bottom:4px">${title}</div>`+o; return p;
-}
+// ================================================================ forward-pass stages
+const tokenizeStage={key:"tok",name:"tokenize",eq:"characters → merges → tokens → ids",flops:()=>0,frames:()=>Math.max(1,M.st.length-1),
+  draw(k,p){const st=M.st,A=st[k],B=st[Math.min(k+1,st.length-1)],mg=B.merge;
+   const rowXs=words=>{const items=[];let w=0;words.forEach((wd,wi)=>{wd.forEach(t=>{const bw=26+12*t.length;items.push({t,bw,wi});w+=bw+6});w+=24});let x=W/2-w/2;return items.map((it,n)=>{const r={...it,x};x+=it.bw+6+((items[n+1]&&items[n+1].wi!==it.wi)?24:0);return r})};
+   const draw=(words,y,o,hl)=>{const its=rowXs(words);its.forEach((it,n)=>{const on=hl&&hl.has(n);rect(it.x,y,it.bw,40,on?C.yellow:C.fg,{o,w:on?2.2:1.2});txt(it.x+it.bw/2,y+26,it.t,{s:17,c:on?C.yellow:C.fg,o})});return its};
+   txt(W/2,92,"characters",{c:C.mute,s:12});draw(st[0].words,104,.35);
+   if(mg){txt(W/2,210,`merge  ${mg[0]} + ${mg[1]}  →  ${mg[0]+mg[1]}`,{serif:1,s:24,c:C.yellow});
+     const flat=A.words.flatMap(w=>w.map((t,i)=>({t,last:i===w.length-1})));const hl=new Set();for(let n=0;n<flat.length-1;n++){if(!flat[n].last&&flat[n].t===mg[0]&&flat[n+1].t===mg[1]){hl.add(n);hl.add(n+1);n++}}
+     draw(A.words,250,1-0.5*ease(p),hl);arrowPath(W/2,302,W/2,332,C.mute,1.5,ease(p));const its=draw(B.words,350,ease(p));
+     if(k===st.length-2&&p>0.97)its.forEach((it,n)=>txt(it.x+it.bw/2,412,`id ${M.ids[n]}`,{c:C.teal,s:12}))}
+   else{const its=draw(A.words,250,1);its.forEach((it,n)=>txt(it.x+it.bw/2,312,`id ${M.ids[n]}`,{c:C.teal,s:12}));txt(W/2,210,"no learned merge applies",{c:C.mute,s:14})}
+   if(M.dropped.length)txt(W/2,470,`not in this tiny vocabulary, so dropped: ${M.dropped.join(" ")}   (a real byte-level tokenizer never drops anything)`,{c:C.red,s:12});
+   txt(W/2,510,`${MERGES.length} merges learned from: "${CORPUS}"`,{c:C.mute,s:12})}};
+const lossStage={key:"loss",name:"loss",eq:"loss = mean over t of −log Pr[t, next token]",flops:()=>2*Math.max(1,M.T-1),frames:()=>Math.max(1,M.T-1),
+  draw(k,p){const pl={x:120,y:90,w:460,h:360},X=v=>pl.x+v*pl.w,Y=v=>pl.y+pl.h-v/5*pl.h;
+   line(pl.x,pl.y+pl.h,pl.x+pl.w,pl.y+pl.h,"#5a6a72",1.2);line(pl.x,pl.y,pl.x,pl.y+pl.h,"#5a6a72",1.2);
+   let d0="";for(let q=0.007;q<=1.0001;q+=0.01)d0+=(d0?"L":"M")+X(q).toFixed(1)+" "+Y(Math.min(5,-Math.log(q))).toFixed(1)+" ";
+   out(`<path d="${d0}" fill="none" stroke="${C.blue}" stroke-width="2.5"/>`);txt(X(0.5),Y(0)+34,"p = probability given to the real next token",{c:C.mute,s:12});txt(pl.x-12,pl.y+8,"−log p",{c:C.mute,s:12,a:"end"});
+   [0,0.5,1].forEach(v=>txt(X(v),Y(0)+16,v,{c:C.mute,s:11}));[1,2,3,4,5].forEach(v=>txt(pl.x-8,Y(v)+4,v,{c:C.mute,s:11,a:"end"}));
+   const L=M.loss;if(!L.length){txt(W/2,300,"type at least two tokens",{c:C.mute});return}
+   L.forEach((l,i)=>{if(i>k||(i===k&&p<0.3))return;const pv=Math.exp(-l),on=i===k;out(`<circle cx="${X(pv)}" cy="${Y(Math.min(5,l))}" r="${on?7:5}" fill="${on?C.yellow:TOKC[i%TOKC.length]}" opacity="${on?1:.6}"/>`);
+     if(on){line(X(pv),Y(0),X(pv),Y(Math.min(5,l)),C.yellow,1,ease(clamp(p*2,0,1)),"4 3");line(pl.x,Y(Math.min(5,l)),X(pv),Y(Math.min(5,l)),C.yellow,1,ease(clamp(p*2-1,0,1)),"4 3")}});
+   L.forEach((l,i)=>{const on=i===k,vis=i<k||(i===k&&p>0.5);txt(700,130+i*40,`"${M.tokens[i]}" → "${VOCAB[M.tg[i]]}"`,{a:"start",s:15,c:on?C.yellow:C.fg,o:vis?1:.25});txt(1100,130+i*40,vis?`p = ${f(Math.exp(-l))}   −log p = ${f(l)}`:"",{a:"end",s:15,c:on?C.yellow:C.fg})});
+   if(k===L.length-1&&p>0.9)txt(900,150+L.length*40+20,`mean loss = ${f(meanLoss(M))}`,{serif:1,s:22,c:C.yellow})}};
+const FORWARD=[
+ tokenizeStage,
+ {key:"emb",name:"embed",eq:"Xe[t] = E[ id(t) ]",flops:()=>0,frames:()=>M.T,
+  draw(k,p){let x=70,cx0=0;M.tokens.forEach((t,n)=>{const bw=26+12*t.length,on=n===k;rect(x,70,bw,38,on?C.yellow:C.fg,{w:on?2.2:1.2,o:n<=k?1:.4});txt(x+bw/2,95,t,{c:on?C.yellow:C.fg,o:n<=k?1:.4});if(on)cx0=x+bw/2;x+=bw+8});
+   const me=matrix(440,60,E,{label:"E",row:M.ids[k],rh:20,fs:12,cw:58,rl:VOCAB});curve(cx0,112,me.x-40,me.cy(M.ids[k]),C.yellow,ease(clamp(p*2,0,1)));
+   txt(210,170,`id ${M.ids[k]}  →  row ${M.ids[k]} of E`,{c:C.yellow,s:14});txt(210,200,"a lookup: no arithmetic, just reading a row",{c:C.mute,s:12});
+   const pl=plane(900,300,210,vm(M.Xe));M.Xe.forEach((r,j)=>{if(j<k){pl.arrow([0,0],r,TOKC[j%TOKC.length],2.5,.6);pl.label(r,M.tokens[j],TOKC[j%TOKC.length],8,-8,.6)}});
+   const s=ease(clamp(p*2-0.6,0,1));if(s>0){pl.arrow([0,0],M.Xe[k].map(v=>v*s),C.yellow,3.5);if(s>0.9)pl.label(M.Xe[k],`${M.tokens[k]} ${vec(M.Xe[k])}`,C.yellow)}}},
+ RESID("pos","X","X[t] = Xe[t] + P[t],   P[t] = (sin t, cos t)",()=>M.Xe,"Xe",()=>M.Pos,"P",()=>M.X),
+ MM({key:"q",name:"Q",eq:"Q = X · Wq",A:()=>M.X,aName:"X",B:()=>Wq,bName:"Wq",out:()=>M.Q,rl:true}),
+ MM({key:"k",name:"K",eq:"K = X · Wk",A:()=>M.X,aName:"X",B:()=>Wk,bName:"Wk",out:()=>M.K,rl:true}),
+ MM({key:"v",name:"V",eq:"V = X · Wv",A:()=>M.X,aName:"X",B:()=>Wv,bName:"Wv",out:()=>M.Vv,rl:true}),
+ {key:"s",name:"scores",eq:"S[i, j] = q_i · k_j / √2,   and −∞ where j > i",flops:()=>2*M.T*M.T*d+M.T*M.T,frames:()=>M.T*M.T,
+  draw(k,p){const T=M.T,i=Math.floor(k/T),j=k%T,masked=j>i;
+   const mq=matrix(90,70,M.Q,{label:"Q",row:i,rl:tl()});op(mq.x+mq.w+24,70+Math.min(mq.h,150)/2+8,"·");
+   const mk=matrix(mq.x+mq.w+48,70,T_(M.K),{label:"Kᵀ",col:j,cw:60});op(mk.x+mk.w+26,86,"=");
+   const ms=matrix(mk.x+mk.w+52,70,M.Sm,{label:"S",cell:[i,j],cw:60,show:(r,c)=>r*T+c<k||(r*T+c===k&&p>0.97)});const s=M.S[i][j];
+   const ds=dotStrip(440,350,M.Q[i],M.K[j],p,{aName:`q${i}`,bName:`k${j}`,masked,sumText:masked?`token ${i} may not look at later token ${j}  →  −∞`:`Σ = ${f(s*Math.SQRT2)}    / √2  =  ${f(s)}`});
+   if(ds.done>0)curve(440,ds.topY,ms.cx(j),ms.bot+8,C.yellow,ds.done);
+   const pl=plane(1040,370,130,vm(M.Q,M.K));pl.arrow([0,0],M.K[j],masked?C.mute:C.teal,3);pl.label(M.K[j],`k${j}`,C.teal);pl.arrow([0,0],M.Q[i],C.yellow,3);pl.label(M.Q[i],`q${i}`,C.yellow);
+   const kk=M.K[j],t=(M.Q[i][0]*kk[0]+M.Q[i][1]*kk[1])/(kk[0]**2+kk[1]**2+1e-9);if(!masked&&p>0.4)pl.seg(M.Q[i],[kk[0]*t,kk[1]*t],C.mute,1.2,1,"4 3");
+   txt(1040,532,"dot product = how far q reaches along k, × |k|",{c:C.mute,s:11})}},
+ {key:"a",name:"softmax",eq:"A[i, j] = exp(S[i, j]) / Σ_j exp(S[i, j])",flops:()=>3*M.T*M.T,frames:()=>M.T,
+  draw(k,p){const row=M.Sm[k],mx=Math.max(...row.filter(isFinite)),ex=row.map(v=>isFinite(v)?Math.exp(v-mx):-Infinity),Z=ex.filter(isFinite).reduce((a,b)=>a+b,0),pr=M.A[k];
+   const ph1=ease(clamp(p*2,0,1)),ph2=ease(clamp(p*2-1,0,1)),cur=row.map((v,j)=>!isFinite(v)?(ph2>0.5?0:v):lerp(lerp(v,ex[j],ph1),pr[j],ph2));
+   txt(380,82,p<0.5?`row ${k} of S: the scores`:`exponentiate, then divide by Σ = ${f(Z)}`,{c:C.yellow,s:14});
+   bars(80,120,600,300,cur,tl(),{vmax:Math.max(1e-6,...cur.filter(isFinite).map(Math.abs)),neg:ph1<0.5});
+   txt(380,505,ph2>0.9?`the row sums to 1: the weights token ${k} gives each earlier token`:"masked entries become exp(−∞) = 0",{c:C.mute,s:12});
+   matrix(800,90,M.A,{label:"A",row:k,cw:62,show:r=>r<k||(r===k&&p>0.97)})}},
+ {key:"h",name:"mix values",eq:"H[i] = Σ_j A[i, j] · v_j",flops:()=>2*M.T*M.T*d,frames:()=>M.T,
+  draw(k,p){const w=M.A[k];bars(70,120,380,240,w,tl(),{vmax:1});txt(260,82,`weights for token ${k}: ${M.tokens[k]}`,{c:C.yellow,s:14});
+   txt(260,470,"each value arrow is scaled by its weight,",{c:C.mute,s:12});txt(260,490,"then they are added tip to tail",{c:C.mute,s:12});
+   const pl=plane(860,290,230,vm(M.Vv,M.H));M.Vv.forEach((v,j)=>{pl.arrow([0,0],v,TOKC[j%TOKC.length],2,w[j]>0.01?.75:.2);pl.label(v,`v${j}`,TOKC[j%TOKC.length],8,-8,w[j]>0.01?.9:.3)});
+   M.H.forEach((h,j)=>{if(j<k)pl.dot(h,TOKC[j%TOKC.length],5,.7)});
+   let tip=[0,0];w.forEach((wj,j)=>{const q=ease(clamp(p*(w.length+1)-j,0,1));if(q<=0||wj<0.003)return;const nx=[tip[0]+M.Vv[j][0]*wj*q,tip[1]+M.Vv[j][1]*wj*q];pl.arrow(tip,nx,TOKC[j%TOKC.length],3,1,"6 4");tip=nx});
+   if(p>0.9){pl.arrow([0,0],M.H[k],C.yellow,3.5);pl.label(M.H[k],`H[${k}]`,C.yellow)}}},
+ MM({key:"o",name:"O",eq:"O = H · Wo",A:()=>M.H,aName:"H",B:()=>Wo,bName:"Wo",out:()=>M.O,rl:true}),
+ RESID("x1","X1","X1 = X + O",()=>M.X,"X",()=>M.O,"O",()=>M.X1),
+ NORM("l1","L1",()=>M.X1,"X1",()=>M.L1),
+ MM({key:"f1",name:"F1",eq:"F1 = L1 · W1 + b1      (2 → 4 numbers per token)",A:()=>M.L1,aName:"L1",B:()=>W1,bName:"W1",bias:()=>b1,biasName:"b1",out:()=>M.F1,rl:true,note:"four numbers per token now: too many to draw as an arrow, so they stay numbers"}),
+ {key:"relu",name:"ReLU",eq:"F2 = max(0, F1)",flops:()=>M.T*dff,frames:()=>M.T,
+  draw(k,p){const r=M.F1[k],s=ease(p),cur=r.map(v=>v<0?v*(1-s):v);txt(W/2,82,`token ${k}: ${M.tokens[k]}`,{c:C.yellow,s:14});
+   bars(300,120,600,300,cur,["h₀","h₁","h₂","h₃"],{vmax:Math.max(...M.F1.flat().map(Math.abs)),neg:true,colors:r.map(v=>v<0?C.red:C.blue)});
+   txt(W/2,505,"negative numbers become 0; positive ones pass through. This is the only bend in the MLP.",{c:C.mute,s:12})}},
+ MM({key:"f3",name:"F3",eq:"F3 = F2 · W2 + b2      (4 → 2)",A:()=>M.F2,aName:"F2",B:()=>W2,bName:"W2",bias:()=>b2,biasName:"b2",out:()=>M.F3,rl:true}),
+ RESID("x2","X2","X2 = L1 + F3",()=>M.L1,"L1",()=>M.F3,"F3",()=>M.X2),
+ NORM("l2","L2",()=>M.X2,"X2",()=>M.L2),
+ {key:"lg",name:"logits",eq:"Lg[t, v] = L2[t] · E[v]      (score every vocab entry)",flops:()=>2*M.T*d*V,frames:()=>M.T,
+  draw(k,p){const r=M.Lg[k];txt(W/2,82,`after "${M.tokens[k]}": compare L2[${k}] = ${vec(M.L2[k])} with every row of E`,{c:C.yellow,s:14});
+   const cur=r.map((v,j)=>ease(clamp(p*(V/3+1)-j/3,0,1))*v);bars(60,130,1080,300,cur,VOCAB,{vmax:Math.max(...M.Lg.flat().map(Math.abs)),neg:true,noval:true,ls:11});
+   txt(W/2,520,"each bar is one dot product: how far this token's arrow points along that vocabulary entry's arrow",{c:C.mute,s:12})}},
+ {key:"pr",name:"probabilities",eq:"Pr[t] = softmax(Lg[t])",flops:()=>3*M.T*V,frames:()=>M.T,
+  draw(k,p){const r=M.Lg[k],pr=M.Pr[k],s=ease(p),cur=r.map((v,j)=>lerp(v,pr[j],s)),tgt=k<M.T-1?M.tg[k]:null;let am=0;pr.forEach((v,j)=>{if(v>pr[am])am=j});
+   txt(W/2,82,tgt!=null?`after "${M.tokens[k]}" the real next token is "${VOCAB[tgt]}"`:`after "${M.tokens[k]}" (last token: nothing to compare against)`,{c:C.yellow,s:14});
+   bars(60,130,1080,300,cur,VOCAB,{vmax:Math.max(1e-6,...cur.map(Math.abs)),neg:s<0.5,noval:true,ls:11,hl:tgt});
+   if(s>0.9)txt(W/2,520,`model's top guess: "${VOCAB[am]}" (${f(pr[am])})${tgt!=null?`      p(real next) = ${f(pr[tgt])}`:""}`,{s:13})}},
+ lossStage];
 
-function render(){
-  const text=document.getElementById("txt").value||"the", ep=+document.getElementById("ep").value;
-  setParams(SNAP[0]); REF=forward(text); REF.W=clone(SNAP[0]);
-  const HIST=[];for(let e=0;e<=ep;e++){setParams(SNAP[e]);HIST.push(forward(text))}   // the same text through the net at every epoch so far
-  const trail=key=>HIST.map(h=>h[key]);
-  setParams(SNAP[ep]); M=forward(text); DELTA=document.getElementById("delta").checked;
-  document.getElementById("epn").textContent=ep+(LOSSHIST[ep]!==undefined?`  loss ${LOSSHIST[ep].toFixed(3)}`:LOSSHIST.length&&ep===SNAP.length-1?`  loss ${meanLoss(text).toFixed(3)}`:"");
-  const {tokens,trace,T,ids,OH,Xe,Pos,X,Q,K,Vv,S,Sm,A,H,O,X1,L1,F1,F2,F3,X2,L2,Lg,Pr,targets,loss}=M;
-  const tl=tokens.map((t,i)=>`${i}:${t}`);
-  const root=document.getElementById("stages"); root.innerHTML="";
-  const block=(title,formula,eqNodes,sumHtml,flops,side,note)=>{
-    const b=el("stage"); b.innerHTML=`<h2>${title}</h2><div class="fl">${formula}${flops!==undefined?` &nbsp;·&nbsp; <span style="color:var(--gold)">${flops} FLOPs</span>`:""}</div>`;
-    const row=el("eq"); if(side){side.style.marginRight="18px";row.appendChild(side)} eqNodes.forEach(n=>row.appendChild(n)); b.appendChild(row);
-    if(sumHtml){const s=el("sum");s.innerHTML=sumHtml;b.appendChild(s)} if(note)b.appendChild(el("note",note)); root.appendChild(b)};
+// ================================================================ training-step stages (backward, then update)
+const hl4=["h₀","h₁","h₂","h₃"],x2l=["x₀","x₁"];
+const TRAIN=[
+ {...lossStage,name:"forward + loss",eq:"(the whole forward-pass tab, ending here)  loss = mean −log p"},
+ {key:"dlg",name:"∂ logits",eq:"∂loss/∂Lg[t] = (Pr[t] − one-hot(real next)) / n",flops:()=>M.T*V,frames:()=>Math.max(1,M.T-1),
+  draw(k,p){if(M.T<2){txt(W/2,300,"type at least two tokens",{c:C.mute});return}const pr=M.Pr[k],t=M.tg[k],n=M.T-1,s=ease(p),cur=pr.map((v,j)=>lerp(v,(v-(j===t?1:0))/n,s));
+   txt(W/2,82,s<0.5?`Pr[${k}]: what the model predicted after "${M.tokens[k]}"`:`subtract 1 at the real next token "${VOCAB[t]}", divide by n = ${n}`,{c:C.yellow,s:14});
+   bars(60,130,1080,300,cur,VOCAB,{vmax:Math.max(1e-6,...cur.map(Math.abs)),neg:true,noval:true,ls:11,hl:t});
+   txt(W/2,520,"this is the entire error signal: push the right answer up, push everything else down in proportion to how much it was believed",{c:C.mute,s:12})}},
+ MM({key:"dl2",name:"∂L2",eq:"∂L2 = ∂Lg · E      (back through the unembedding)",A:()=>G.dLg,aName:"∂Lg",B:()=>E,bName:"E",out:()=>G.dL2,rl:true,stripLabels:()=>VOCAB}),
+ MAP({key:"dx2",name:"∂X2",eq:"back through the norm:  ∂X2 = (∂L2 − L2 · mean(∂L2 ⊙ L2)) / rms",inp:()=>G.dL2,inName:"∂L2",out:()=>G.dX2,outName:"∂X2",opName:"norm, backward",
+   rowText:i=>{const y=M.L2[i],dy=G.dL2[i],m=(dy[0]*y[0]+dy[1]*y[1])/2;return `(${vec(dy)} − ${vec(y)} · ${f(m)}) / ${f(rmsOf(M.X2[i]))}  =  ${vec(G.dX2[i])}`},note:"the part of the gradient along the arrow (its length) is removed, because the norm throws length away"}),
+ MM({key:"dw2",name:"∂W2",eq:"∂W2 = F2ᵀ · ∂F3      (∂F3 = ∂X2, the residual passes it straight through)",A:()=>T_(M.F2),aName:"F2ᵀ",B:()=>G.dF3,bName:"∂F3",out:()=>G.dW2,rl:hl4,stripLabels:()=>tl(),note:"one product per token: each token's share of this weight's gradient, added together"}),
+ MM({key:"df2",name:"∂F2",eq:"∂F2 = ∂F3 · W2ᵀ",A:()=>G.dF3,aName:"∂F3",B:()=>T_(W2),bName:"W2ᵀ",out:()=>G.dF2,rl:true}),
+ {key:"drelu",name:"ReLU, backward",eq:"∂F1 = ∂F2 where F1 > 0, else 0",flops:()=>M.T*dff,frames:()=>M.T,
+  draw(k,p){const r=G.dF2[k],s=ease(p),cur=r.map((v,n)=>M.F1[k][n]>0?v:v*(1-s));txt(W/2,82,`token ${k}: ${M.tokens[k]}`,{c:C.yellow,s:14});
+   bars(300,120,600,300,cur,hl4,{vmax:Math.max(1e-9,...G.dF2.flat().map(Math.abs)),neg:true,colors:M.F1[k].map(v=>v>0?C.blue:C.red)});
+   txt(W/2,505,"a unit that was switched off (red) on the way forward passes no gradient back: it learns nothing from this token",{c:C.mute,s:12})}},
+ MM({key:"dw1",name:"∂W1",eq:"∂W1 = L1ᵀ · ∂F1",A:()=>T_(M.L1),aName:"L1ᵀ",B:()=>G.dF1,bName:"∂F1",out:()=>G.dW1,rl:x2l,stripLabels:()=>tl(),note:"again a sum over tokens"}),
+ MM({key:"dl1",name:"∂L1",eq:"∂L1 = ∂X2 + ∂F1 · W1ᵀ      (residual path + MLP path)",A:()=>G.dF1,aName:"∂F1",B:()=>T_(W1),bName:"W1ᵀ",out:()=>G.dL1,rl:true,post:"+ ∂X2"}),
+ MAP({key:"dx1",name:"∂X1",eq:"back through the first norm",inp:()=>G.dL1,inName:"∂L1",out:()=>G.dX1,outName:"∂X1",opName:"norm, backward",
+   rowText:i=>`∂X1[${i}] = ${vec(G.dX1[i])}      (∂O and ∂X both get this: X1 = X + O)`}),
+ MM({key:"dwo",name:"∂Wo",eq:"∂Wo = Hᵀ · ∂O",A:()=>T_(M.H),aName:"Hᵀ",B:()=>G.dO,bName:"∂O",out:()=>G.dWo,rl:x2l,stripLabels:()=>tl()}),
+ MM({key:"dh",name:"∂H",eq:"∂H = ∂O · Woᵀ",A:()=>G.dO,aName:"∂O",B:()=>T_(Wo),bName:"Woᵀ",out:()=>G.dH,rl:true}),
+ MM({key:"dv",name:"∂V",eq:"∂V = Aᵀ · ∂H      (how much each value should change, from everyone who attended to it)",A:()=>T_(M.A),aName:"Aᵀ",B:()=>G.dH,bName:"∂H",out:()=>G.dV,rl:true,stripLabels:()=>tl()}),
+ MM({key:"da",name:"∂A",eq:"∂A = ∂H · Vᵀ",A:()=>G.dH,aName:"∂H",B:()=>T_(M.Vv),bName:"Vᵀ",out:()=>G.dA,rl:true}),
+ MAP({key:"ds",name:"∂S",eq:"back through softmax:  ∂S[i, j] = A[i, j] · (∂A[i, j] − Σ_k A[i, k] ∂A[i, k])",inp:()=>G.dA,inName:"∂A",out:()=>G.dS,outName:"∂S",opName:"softmax, backward",
+   rowText:i=>`row ${i}:  Σ_k A·∂A = ${f(M.A[i].reduce((a,p,k)=>a+p*G.dA[i][k],0))}`,note:"masked pairs had A = 0, so they get no gradient: the future stays invisible on the way back too"}),
+ MM({key:"dq",name:"∂Q",eq:"∂Q = ∂S · K / √2",A:()=>G.dS,aName:"∂S",B:()=>M.K,bName:"K",out:()=>G.dQ,rl:true,post:"/ √2"}),
+ MM({key:"dk",name:"∂K",eq:"∂K = ∂Sᵀ · Q / √2",A:()=>T_(G.dS),aName:"∂Sᵀ",B:()=>M.Q,bName:"Q",out:()=>G.dK,rl:true,post:"/ √2"}),
+ MM({key:"dwq",name:"∂Wq",eq:"∂Wq = Xᵀ · ∂Q",A:()=>T_(M.X),aName:"Xᵀ",B:()=>G.dQ,bName:"∂Q",out:()=>G.dWq,rl:x2l,stripLabels:()=>tl()}),
+ MM({key:"dwk",name:"∂Wk",eq:"∂Wk = Xᵀ · ∂K",A:()=>T_(M.X),aName:"Xᵀ",B:()=>G.dK,bName:"∂K",out:()=>G.dWk,rl:x2l,stripLabels:()=>tl()}),
+ MM({key:"dwv",name:"∂Wv",eq:"∂Wv = Xᵀ · ∂V",A:()=>T_(M.X),aName:"Xᵀ",B:()=>G.dV,bName:"∂V",out:()=>G.dWv,rl:x2l,stripLabels:()=>tl()}),
+ {key:"upd",name:"update",eq:`W ← W − η · ∂W,   η = ${ETA}`,flops:()=>3*Object.values(G.grads).flat(2).length,frames:()=>7,
+  draw(k,p){const list=[["Wq",Wq,G.dWq,NEWP.Wq],["Wk",Wk,G.dWk,NEWP.Wk],["Wv",Wv,G.dWv,NEWP.Wv],["Wo",Wo,G.dWo,NEWP.Wo],["W1",W1,G.dW1,NEWP.W1],["W2",W2,G.dW2,NEWP.W2],["E",E,G.dE,NEWP.E]][k];
+   const [nm,Wm,dW,Wn]=list,big=Wm.length>8,o={rh:big?20:32,fs:big?12:15,cw:big?72:72};
+   let x=60;const a=matrix(x,70,Wm,{label:nm,...o});x+=a.w+70;op(x-35,90,`− ${ETA} ·`);const b=matrix(x,70,dW,{label:`∂${nm}`,...o});x+=b.w+50;op(x-25,90,"=");
+   matrix(x,70,Wn,{label:`new ${nm}`,...o,show:()=>p>0.5});
+   if(Wm[0].length===2&&Wm.length===2){const pl=plane(940,330,180,vm(Wm,Wn,[[1,1]]));const ell=A2=>{const pts=[];for(let q=0;q<=72;q++){const t=q/72*2*Math.PI,u=[Math.cos(t),Math.sin(t)];pts.push([u[0]*A2[0][0]+u[1]*A2[1][0],u[0]*A2[0][1]+u[1]*A2[1][1]])}return pts};
+     pl.circle(1,C.dim);pl.poly(ell(Wm),C.mute,1.5,.8);const s=ease(p),Wi=Wm.map((r,i)=>r.map((v,j)=>lerp(v,Wn[i][j],s)));pl.poly(ell(Wi),C.yellow,2);
+     Wm.forEach((r,i)=>{pl.arrow([0,0],r,C.mute,2,.6);pl.arrow([0,0],Wi[i],C.yellow,2.5);pl.label(Wi[i],`row ${i}`,C.yellow)});
+     txt(940,540,"where the unit circle lands under W: grey before, yellow after",{c:C.mute,s:11})}
+   else if(big){const pl=plane(960,320,190,vm(Wm,Wn));const s=ease(p);M.ids.forEach(id=>{});
+     Wm.forEach((r,i)=>{const used=Math.hypot(...dW[i])>1e-9,ni=[lerp(r[0],Wn[i][0],s),lerp(r[1],Wn[i][1],s)];pl.dot(ni,used?C.yellow:C.mute,used?4:3,used?1:.5);if(used){pl.seg(r,ni,C.yellow,1.5);pl.label(ni,VOCAB[i],C.yellow)}});
+     txt(960,540,"embedding points: only tokens that appeared (or were predicted) move",{c:C.mute,s:11})}
+   else txt(900,330,"4 numbers wide: no faithful picture, just the numbers",{c:C.mute,s:12});
+   txt(W/2,548,`loss before this step: ${meanLoss(M).toFixed(4)}      loss after (same text, new weights): ${NEWLOSS.toFixed(4)}`,{c:C.yellow,s:13})}}];
 
-  // ---- tokenizer
-  {const b=el("stage"); b.innerHTML=`<h2>tokenize</h2><div class="fl">byte-level BPE, ${MERGES.length} merges learned from a ${CORPUS.split(" ").length}-word corpus &nbsp;·&nbsp; <span style="color:var(--gold)">0 FLOPs</span> (string ops, not arithmetic)</div>`;
-    const t=el("tok"); t.innerHTML=`<span style="border:0;color:var(--mute)">chars</span>`+[...(document.getElementById("txt").value)].map(ch=>`<span>${ch===" "?"␣":ch}</span>`).join("");
-    b.appendChild(t);
-    trace.forEach(m=>b.appendChild(el("merge","merge <b>"+m+"</b>")));
-    const t2=el("tok"); t2.innerHTML=`<span style="border:0;color:var(--mute)">tokens</span>`+tokens.map((tk,i)=>`<span>${tk}<span class="id">id ${ids[i]}</span></span>`).join("");
-    b.appendChild(t2); b.appendChild(el("note",`vocab = ${V} entries: ${VOCAB.join(" ")}`)); root.appendChild(b)}
+// ================================================================ ask: what happens to your prompt
+const ASK=[
+ {...tokenizeStage,eq:"your prompt is cut into tokens the model knows"},
+ {key:"gen",name:"answer, token by token",eq:"run the forward pass → pick the most likely next token → append it → repeat",flops:()=>GEN.reduce((a,g)=>a+fwdFlops(g.T),0),frames:()=>NGEN,
+  draw(k,p){const Gk=GEN[k],toks=Gk.ids.map(i=>VOCAB[i]),nPrompt=GEN[0].ids.length;
+   const boxes=[];let x=50;toks.forEach((t,n)=>{const bw=24+11*t.length;boxes.push({x,bw,cx:x+bw/2});x+=bw+8});
+   const last=boxes[boxes.length-1];
+   // attention of the newest position over everything so far: arcs
+   Gk.attn.forEach((w,j)=>{if(w<0.01)return;const bj=boxes[j],h=24+Math.abs(last.cx-bj.cx)*0.25;out(`<path d="M${last.cx} 108 Q${(last.cx+bj.cx)/2} ${108-h} ${bj.cx} 108" fill="none" stroke="${C.yellow}" stroke-width="${0.6+5*w}" opacity="${0.25+0.7*w*ease(clamp(p*3,0,1))}"/>`)});
+   boxes.forEach((b,n)=>{const gen=n>=nPrompt;rect(b.x,110,b.bw,38,gen?C.teal:C.fg,{w:n===boxes.length-1?2.2:1.2});txt(b.cx,135,toks[n],{c:gen?C.teal:C.fg,s:16})});
+   txt(50,182,"your prompt",{a:"start",c:C.mute,s:11});if(k>0)txt(boxes[nPrompt].x,182,"generated",{a:"start",c:C.teal,s:11});
+   txt(W/2,230,`the whole forward pass runs on these ${Gk.T} tokens → probabilities for what comes after "${toks[toks.length-1]}"`,{c:C.mute,s:13});
+   const b=bars(60,260,1080,190,Gk.p,VOCAB,{vmax:Math.max(...Gk.p),noval:true,ls:11,hl:Gk.next});
+   const fly=ease(clamp((p-0.55)/0.4,0,1));if(fly>0){const nt=VOCAB[Gk.next],bw=24+11*nt.length,fx=lerp(b.cx(Gk.next)-bw/2,x,fly),fy=lerp(470,110,fly);rect(fx,fy,bw,38,C.yellow,{w:2.2});txt(fx+bw/2,fy+25,nt,{c:C.yellow,s:16})}
+   txt(W/2,520,`p("${VOCAB[Gk.next]}") = ${f(Gk.p[Gk.next])}  ·  ${fwdFlops(Gk.T)} FLOPs for this token, or ${cachedFlops(Gk.T)} with a KV cache (earlier tokens' keys and values are reused)  ·  weights unchanged`,{c:C.mute,s:12});
+   txt(W/2,546,"yellow arcs: how much the newest token attends to each earlier one",{c:C.mute,s:11})}},
+ {key:"done",name:"what just happened",eq:"no learning: the same frozen weights, run once per new token",flops:()=>0,frames:()=>1,
+  draw(k,p){const g=GEN[NGEN-1],toks=[...g.ids,g.next].map(i=>VOCAB[i]),nP=GEN[0].ids.length;
+   txt(W/2,120,toks.slice(0,nP).join(" "),{serif:1,s:26});txt(W/2,170,toks.slice(nP).join(" "),{serif:1,s:26,c:C.teal});
+   const lines=[`${NGEN} forward passes, one per generated token, ${GEN.reduce((a,x)=>a+fwdFlops(x.T),0)} FLOPs in total (${GEN.reduce((a,x)=>a+cachedFlops(x.T),0)} with a KV cache).`,
+     "Nothing in E, Wq, Wk, Wv, Wo, W1 or W2 changed. Answering is only the forward-pass tab, repeated.",
+     "A chat model does the same thing at far larger size, with your message wrapped in a template",
+     "(\"User: … Assistant:\") and a special end token that tells it when to stop.",
+     "This one learned from a single sentence, so with untrained weights it babbles; press train and ask again."];
+   lines.forEach((l,i)=>txt(W/2,260+i*34,l,{c:i<2?C.fg:C.mute,s:14}))}}];
 
-  // ---- embedding: one-hot × E
-  let st=stageMatmul("Xe","embed","Xe = onehot(ids) · E &nbsp; (a lookup written as a matmul: each row of onehot picks one row of E)","onehot",OH,"E",E,Xe);
-  { const r=st.build(sel); r.eq[0]=matrix("onehot",OH,{tiny:true,hl:sel&&sel.stage==="Xe"?hlRow(sel.i):none}); block("embed",st.formula,r.eq,r.sum,`${st.flops} as a matmul, 0 as a lookup —`,plot2d("token vectors E[id]",[{M:Xe,labels:tl,color:"var(--gold)",trail:trail("Xe")}])) }
-  st=stageAdd("X","+ position","X = Xe + P &nbsp; P[t] = [sin t, cos t]","Xe",Xe,"P",Pos,X);
-  { const r=st.build(sel); block("add position",st.formula,r.eq,r.sum,st.flops,plot2d("X: each token is now a point",[{M:X,labels:tl,color:"var(--gold)",trail:trail("X")}])) }
-
-  // ---- attention
-  for(const [id,Wn,W,Out,ttl] of [["Q","Wq",Wq,Q,"queries"],["K","Wk",Wk,K,"keys"],["V","Wv",Wv,Vv,"values"]]){
-    st=stageMatmul(id,ttl,`${id} = X · ${Wn}`,"X",X,Wn,W,Out); const r=st.build(sel);
-    block(ttl,st.formula,r.eq,r.sum,st.flops,id==="K"?plot2d("Q (red) and K (blue) as arrows",[{M:Q,labels:tl,arrows:true,color:"var(--pos)",trail:trail("Q")},{M:K,labels:tl,arrows:true,color:"var(--neg)",trail:trail("K")}]):null)}
-  st=stageMatmul("S","scores","S = Q · Kᵀ / √d &nbsp; data × data: the weights here are themselves computed from X","Q",Q,"Kᵀ",T_(K),S,"/ √2");
-  { const r=st.build(sel); block("scores",st.formula,r.eq,r.sum,st.flops,null,"S[i,j] is the dot product of query i with key j: how far q_i reaches along k_j in the plot above. Row i = how much token i wants to look at each token j.") }
-  { const on=sel&&sel.stage==="Sm"; const eq=[matrix("S",S,{hl:on?hlCell(sel.i,sel.j):none}),op("mask →","j > i → −∞"),matrix("Sm",Sm,{click:"Sm",hl:on?hlOut(sel.i,sel.j):none})];
-    block("causal mask","Sm[i,j] = S[i,j] if j ≤ i else −∞ &nbsp; (padding would be masked the same way)",eq,on?`<span class="t">Sm[${sel.i},${sel.j}] = ${sel.j>sel.i?"−∞ (token "+sel.i+" may not see token "+sel.j+", which comes later)":f(S[sel.i][sel.j])+" (unchanged)"}</span><span class="fp">0 FLOPs</span>`:"",0) }
-  st=stageRowwise("A","attention weights","A = softmax(Sm) row by row &nbsp; each row sums to 1","Sm",Sm,A,"softmax");
-  { const r=st.build(sel); block("softmax",st.formula,r.eq,r.sum,st.flops) }
-  st=stageMatmul("H","weighted values","H = A · V &nbsp; each row of H is a mix of the value vectors, mixed by that row of A","A",A,"V",Vv,H);
-  { const r=st.build(sel); block("mix values",st.formula,r.eq,r.sum,st.flops,plot2d("H: token i moved toward the values it attends to",[{M:Vv,labels:tl.map(l=>"v"+l),color:"var(--neg)"},{M:H,labels:tl,color:"var(--gold)",trail:trail("H")}])) }
-  st=stageMatmul("O","output projection","O = H · Wo","H",H,"Wo",Wo,O);
-  { const r=st.build(sel); block("output projection",st.formula,r.eq,r.sum,st.flops) }
-  st=stageAdd("X1","residual","X1 = X + O &nbsp; the token keeps itself and adds what attention brought","X",X,"O",O,X1);
-  { const r=st.build(sel); block("residual",st.formula,r.eq,r.sum,st.flops,plot2d("X (grey) → X1 (gold)",[{M:X,labels:tl,color:"var(--mute)"},{M:X1,labels:tl,color:"var(--gold)",trail:trail("X1")}])) }
-  st=stageRowwise("L1","layer norm","L1[i] = (X1[i] − μ_i) / √(σ_i² + ε)","X1",X1,L1,"layernorm");
-  { const r=st.build(sel); block("layer norm",st.formula,r.eq,r.sum,st.flops,plot2d("L1: rows rescaled",[{M:L1,labels:tl,color:"var(--gold)",trail:trail("L1")}]),"With d = 2, normalizing a row leaves only its sign pattern: every row lands at (±1, ∓1). That is a real artifact of tiny d, not a bug.") }
-
-  // ---- MLP
-  st=stageMatmul("F1","MLP up","F1 = L1 · W1 + b1 &nbsp; 2 → 4 dims: now too many to draw, so each is just a number","L1",L1,"W1",W1,addb(mm(L1,W1),[0,0,0,0]));
-  { const r=st.build(sel); block("MLP up",st.formula,r.eq,r.sum,st.flops) }
-  st=stageAdd("F1b","+ b1","","F1",mm(L1,W1),"b1",b1,F1,true);
-  { const r=st.build(sel); block("+ b1","F1 = F1 + b1",r.eq,r.sum,st.flops) }
-  st=stagePointwise("F2","ReLU","F2 = max(0, F1)","F1",F1,F2,relu,"relu");
-  { const r=st.build(sel); block("ReLU",st.formula,r.eq,r.sum,st.flops) }
-  st=stageMatmul("F3","MLP down","F3 = F2 · W2 + b2 &nbsp; 4 → 2 dims, drawable again","F2",F2,"W2",W2,F3);
-  { const r=st.build(sel); block("MLP down",st.formula,r.eq,r.sum,st.flops) }
-  st=stageAdd("X2","residual","X2 = L1 + F3","L1",L1,"F3",F3,X2);
-  { const r=st.build(sel); block("residual",st.formula,r.eq,r.sum,st.flops,plot2d("L1 (grey) → X2 (gold)",[{M:L1,labels:tl,color:"var(--mute)"},{M:X2,labels:tl,color:"var(--gold)",trail:trail("X2")}])) }
-  st=stageRowwise("L2","final layer norm","L2 = layernorm(X2)","X2",X2,L2,"layernorm");
-  { const r=st.build(sel); block("final layer norm",st.formula,r.eq,r.sum,st.flops) }
-
-  { const b=el("stage"); b.innerHTML=`<h2>the whole path</h2><div class="fl">each token traced through depth at epoch ${ep}: Xe → X → X1 → L1 → X2 → L2 &nbsp; (faint = earlier stage, solid = final)</div>`;
-    const row=el("eq"); const stages=[Xe,X,X1,L1,X2,L2];
-    row.appendChild(plot2d("through the network",[{M:L2,labels:tl,color:"var(--gold)",trail:stages}],520));
-    if(ep>0)row.appendChild(plot2d(`same, but the final L2 over training (epoch 0 → ${ep})`,[{M:L2,labels:tl,color:"var(--gold)",trail:trail("L2")}],520));
-    b.appendChild(row); b.appendChild(el("note","Two different clocks: left is one forward pass walked layer by layer; right is the end of the pass, re-run after each epoch of training. The fMRI analogue is a third clock, token order, which is the row index of every matrix on this page.")); root.appendChild(b)}
-
-  // ---- unembed, softmax, loss
-  st=stageMatmul("Lg","logits","Lg = L2 · Eᵀ &nbsp; score of every vocab entry at every position (tied to the embedding)","L2",L2,"Eᵀ",T_(E),Lg);
-  { const r=st.build(sel); block("logits",st.formula,r.eq,r.sum,st.flops) }
-  st=stageRowwise("Pr","next-token probabilities","Pr = softmax(Lg) per row","Lg",Lg,Pr,"softmax");
-  { const r=st.build(sel); const guess=Pr.map(r=>VOCAB[r.indexOf(Math.max(...r))]);
-    block("probabilities",st.formula,r.eq,r.sum,st.flops,null,"argmax per position: "+guess.map((g,i)=>`after "${tokens[i]}" → "${g}"`).join(" · ")+" (random weights, so nonsense)") }
-  { const b=el("stage"); const Lm=[loss]; b.innerHTML=`<h2>loss</h2><div class="fl">loss_t = −log Pr[t, id_{t+1}] &nbsp; mean = ${f(loss.reduce((a,b)=>a+b,0)/Math.max(1,loss.length))} &nbsp;·&nbsp; <span style="color:var(--gold)">${2*loss.length} FLOPs</span></div>`;
-    const t=el("tok"); t.innerHTML=targets.map((tg,i)=>`<span>pos ${i}: target "${VOCAB[tg]}" &nbsp; p = ${f(Pr[i][tg])} &nbsp; −log p = ${f(loss[i])}</span>`).join(""); b.appendChild(t);
-    if(LOSSHIST.length){const hist=el("tok");hist.innerHTML=`<span style="border:0;color:var(--mute)">loss by epoch</span>`+LOSSHIST.map((l,e)=>`<span style="${e===ep?'outline:2px solid var(--gold)':''}">${e}: ${l.toFixed(3)}</span>`).join("");b.appendChild(hist)}
-    b.appendChild(el("note","Everything above this line is the forward pass. Backward is the same graph walked in reverse, each matmul becoming two matmuls (grad w.r.t. input and w.r.t. weight), which is where the 6ND rule's 4ND comes from.")); root.appendChild(b)}
-
-  // ---- FLOP total
-  const matmulF=[["Xe",2*T*V*d],["Q",2*T*d*d],["K",2*T*d*d],["V",2*T*d*d],["S",2*T*T*d],["H",2*T*T*d],["O",2*T*d*d],["F1",2*T*d*dff],["F3",2*T*dff*d],["Lg",2*T*d*V]];
-  const other=T*d*2+3*T*T+5*T*d*2+T*dff*2+T*d+T*(3*V)+2*(T-1);
-  const mmTot=matmulF.reduce((a,b)=>a+b[1],0);
-  const params=V*d+4*d*d+d*dff+dff+dff*d+d;
-  document.getElementById("tot").innerHTML=`<b>${mmTot+other} FLOPs</b> this forward pass (${mmTot} in matmuls) · ${T} tokens · ${params} params · 2·params·T = ${2*params*T}`;
-}
-document.getElementById("txt").oninput=()=>{sel=null;render()};
-document.getElementById("ep").oninput=()=>render();
-document.getElementById("delta").onchange=()=>render();
-document.getElementById("train").onclick=()=>{const text=document.getElementById("txt").value||"the";setParams(SNAP[SNAP.length-1]);
-  for(let k=0;k<10;k++)trainEpoch(text);
-  const r=document.getElementById("ep");r.max=SNAP.length-1;r.value=SNAP.length-1;render()};
-render();
+// ================================================================ modes, playback
+const MODES={ask:{label:"ask: what happens to your prompt",stages:ASK,txt:"prompt"},fwd:{label:"forward pass",stages:FORWARD,txt:"text"},train:{label:"training step",stages:TRAIN,txt:"text"}};
+let mode="ask",si=0,t=0,playing=false,last=0;const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,$=id=>document.getElementById(id);
+const LIST=()=>MODES[mode].stages;
+function chrome(){const m=$("modes");m.innerHTML="";for(const k in MODES){const b=document.createElement("button");b.textContent=MODES[k].label;b.className=k===mode?"on":"";b.onclick=()=>{mode=k;si=0;t=0;recompute()};m.appendChild(b)}
+  const n=$("nav");n.innerHTML="";LIST().forEach((s,k)=>{if(k)n.insertAdjacentHTML("beforeend",'<span class="sep">→</span>');const b=document.createElement("button");b.textContent=s.name;b.className=k===si?"on":"";b.onclick=()=>{si=k;t=0;draw()};n.appendChild(b)});
+  $("txtlbl").textContent=MODES[mode].txt}
+function draw(){const st=LIST()[si],F=st.frames();t=clamp(t,0,F);const k=Math.min(Math.floor(t),F-1),p=t-k;DEC=mode==="train"&&si>0&&st.key!=="upd"?3:2;
+  S="";st.draw(k,clamp(p,0,1));$("stage").innerHTML=`<svg viewBox="0 0 ${W} ${Hh}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(st.name)}">${S}</svg>`;
+  $("h1").textContent=st.name;$("eq").textContent=st.eq;$("fl").textContent=`${st.flops()} FLOPs in this step · ${F} ${F===1?"computation":"computations"} · ${Math.min(F,Math.floor(t)+(t>=F?0:1))} of ${F}`;
+  $("scrub").value=t/F;chrome();
+  const tot=mode==="ask"?ASK[1].flops():LIST().reduce((a,s)=>a+s.flops(),0);$("tot").textContent=`${tot} FLOPs in this tab · ${M.T} tokens · 82 parameters`}
+function stepNext(){const F=LIST()[si].frames();if(t>=F){if(si<LIST().length-1){si++;t=0}}else t=Math.floor(t)+1;draw()}
+function stepPrev(){if(t<=0){if(si>0){si--;t=LIST()[si].frames()}}else t=Math.ceil(t)-1;draw()}
+function loop(ts){if(!playing)return;const dt=Math.min(100,ts-(last||ts));last=ts;
+  if(reduce){if(ts-(loop.acc||0)>1100){loop.acc=ts;stepNext()}}else{const F=LIST()[si].frames();t+=dt/1300;if(t>=F){t=F;if(si<LIST().length-1){if((loop.hold=(loop.hold||0)+dt)>700){loop.hold=0;si++;t=0}}else{playing=false;$("play").textContent="play"}}}
+  draw();if(playing)requestAnimationFrame(loop)}
+const stop=()=>{playing=false;$("play").textContent="play"};
+$("play").onclick=()=>{playing=!playing;$("play").textContent=playing?"pause":"play";last=0;if(playing)requestAnimationFrame(loop)};
+$("next").onclick=()=>{stop();stepNext()};$("prev").onclick=()=>{stop();stepPrev()};
+$("scrub").oninput=e=>{stop();t=+e.target.value*LIST()[si].frames();draw()};
+function recompute(){const text=$("txt").value||"the",ep=+$("ep").value;setParams(SNAP[ep]);M=forward(text);G=backward(M);
+  NEWP=stepParams(PARAMS(),G.grads);setParams(NEWP);NEWLOSS=meanLoss(forward(text));setParams(SNAP[ep]);GEN=generate(M.ids);
+  $("epn").textContent=ep+(LOSSES[ep]!==undefined?`  loss ${LOSSES[ep].toFixed(3)}`:"");draw()}
+$("txt").oninput=()=>{t=0;recompute()};$("ep").oninput=recompute;
+$("train").onclick=()=>{const text=$("txt").value||"the";setParams(SNAP[SNAP.length-1]);
+  for(let n=0;n<10;n++){const m=forward(text);LOSSES[SNAP.length-1]=meanLoss(m);setParams(stepParams(PARAMS(),backward(m).grads));SNAP.push(clone(PARAMS()))}
+  LOSSES[SNAP.length-1]=meanLoss(forward(text));const r=$("ep");r.max=SNAP.length-1;r.value=SNAP.length-1;recompute()};
+addEventListener("keydown",e=>{if(e.target.tagName==="INPUT"&&e.target.type==="text")return;if(e.key==="ArrowRight")$("next").click();if(e.key==="ArrowLeft")$("prev").click();if(e.key===" "){e.preventDefault();$("play").click()}});
+recompute();
 </script>

@@ -1,12 +1,12 @@
 ---
 date: 2026-11-15
 added: 2026-11-15
-title: "Claude experiment 15: Silent Nodes"
+title: "Claude experiment 16: Silent Nodes"
 ai_title: true
 tags: [ai/machine-learning/experiments, ai/machine-learning/interpretability, visualization]
 affiliation: independent
 type: programming
-link: /viz/2026-claude-experiment-15-silent-nodes.html
+link: /viz/2026-claude-experiment-16-silent-nodes.html
 published: true
 ---
 [machine fiddling]

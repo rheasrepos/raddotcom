@@ -14,7 +14,7 @@ published: true
 **Rhea (Oct 2026):** "can the objects be vectors visually represented rather than all of it being heatmaps, i really value the ability to see things from left to right"
 
 <ai>
-No heatmaps: every row of every matrix is an arrow, one panel per stage of the forward pass, scrolling left to right. A weight matrix shows where the unit circle lands under it (an ellipse along the direction it stretches most); a matmul is drawn tip to tail; attention scales each value arrow by its weight and adds them; layer norm snaps each arrow onto its line. Gold is the token being followed.
+No heatmaps: every row of every matrix is an arrow, one panel per stage of the forward pass, scrolling left to right. A weight matrix shows where the unit circle lands under it (an ellipse along the direction it stretches most); a matmul is drawn tip to tail; attention scales each value arrow by its weight and adds them; RMSNorm slides each arrow onto a circle of radius √2. Gold is the token being followed.
 
 Built by Claude from this note; the live visualization is above (open it full-screen with "Open live").
 </ai>

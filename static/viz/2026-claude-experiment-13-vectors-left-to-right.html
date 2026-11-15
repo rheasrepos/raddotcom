@@ -49,12 +49,9 @@ const SNAP=[clone(PARAMS())],LOSS=[];
 const mm=(A,B)=>A.map(r=>B[0].map((_,j)=>r.reduce((s,a,k)=>s+a*B[k][j],0)));
 const add=(A,B)=>A.map((r,i)=>r.map((v,j)=>v+B[i][j])),addb=(A,b)=>A.map(r=>r.map((v,j)=>v+b[j])),T_=A=>A[0].map((_,j)=>A.map(r=>r[j]));
 const smx=r=>{const m=Math.max(...r.filter(isFinite));const e=r.map(v=>isFinite(v)?Math.exp(v-m):0);const s=e.reduce((a,b)=>a+b,0);return e.map(v=>v/s)};
-const ln=r=>{const mu=r.reduce((a,b)=>a+b,0)/r.length;const va=r.reduce((a,b)=>a+(b-mu)**2,0)/r.length;return r.map(v=>(v-mu)/Math.sqrt(va+1e-5))};
+const ln=r=>{const q=Math.sqrt(r.reduce((a,b)=>a+b*b,0)/r.length+1e-5);return r.map(v=>v/q)}; // RMSNorm: same direction, length √d
 const P=t=>Array.from({length:t},(_,i)=>[+Math.sin(i).toFixed(2),+Math.cos(i).toFixed(2)]);
-// tokens outside the tiny corpus vocab (any letter not in "the cat sat on the mat...") have no embedding row:
-// drop them, and fall back to "the" if nothing is left (whitespace-only or all-unknown input used to crash here)
-function forward(text){let tokens=encode(text,MERGES).filter(t=>VOCAB.includes(t));if(!tokens.length)tokens=encode("the",MERGES);
-  const T=tokens.length,ids=tokens.map(t=>VOCAB.indexOf(t));
+function forward(text){const tokens=encode(text,MERGES),T=tokens.length,ids=tokens.map(t=>VOCAB.indexOf(t));
   const Xe=ids.map(id=>E[id].slice()),Pos=P(T),X=add(Xe,Pos),Q=mm(X,Wq),K=mm(X,Wk),Vv=mm(X,Wv);
   const S=mm(Q,T_(K)).map(r=>r.map(v=>v/Math.sqrt(d))),Sm=S.map((r,i)=>r.map((v,j)=>j>i?-Infinity:v)),A=Sm.map(smx);
   const H=mm(A,Vv),O=mm(H,Wo),X1=add(X,O),L1=X1.map(ln),F1=addb(mm(L1,W1),b1),F2=F1.map(r=>r.map(v=>Math.max(0,v))),F3=addb(mm(F2,W2),b2),X2=add(L1,F3),L2=X2.map(ln);
@@ -122,15 +119,12 @@ function scoresPanel(Q,K,S,A,tokens){ // dot products as projections: q_sel agai
   K.forEach((k,j)=>{const op=j<=sel?1:.25;pl.arrow([0,0],k,COL[j%COL.length],1.6,op);const qk=(q[0]*k[0]+q[1]*k[1])/(k[0]**2+k[1]**2+1e-9);const pr=[k[0]*qk,k[1]*qk];pl.arrow(q,pr,"#666",1,op*.8,"2 3");pl.label(k,`k${j}  s=${f(S[sel][j])}${j>sel?" masked":""}  a=${f(A[sel][j])}`,COL[j%COL.length])});
   pl.arrow([0,0],q,"#f2c230",2.5);pl.label(q,`q${sel}`,"#f2c230");
   return panel("scores → softmax",`S[${sel},j] = q${sel}·k_j / √2 ;  A = softmax over j ≤ ${sel}`,pl,`Each grey dashed line drops q${sel} onto k_j: the dot product is how far along k_j that landing is, times |k_j|. Softmax turns the row of scores into weights that sum to 1 — those weights are what the next panel uses.`)}
-function lnExtra(pl){const r=Math.SQRT2;pl.path([[-r/Math.SQRT2*1.5,r/Math.SQRT2*1.5],[r/Math.SQRT2*1.5,-r/Math.SQRT2*1.5]],"#8ab4ff",1,.5);pl.dot([1,-1],"#8ab4ff",3);pl.dot([-1,1],"#8ab4ff",3);pl.label([1,-1],"(1,−1)","#8ab4ff");pl.label([-1,1],"(−1,1)","#8ab4ff")}
+function lnExtra(pl){const r=Math.SQRT2,pts=[];for(let k=0;k<=72;k++){const a=k/72*2*Math.PI;pts.push([r*Math.cos(a),r*Math.sin(a)])}pl.path(pts,"#8ab4ff",1,.5,true);pl.label([1,1],"radius √2","#8ab4ff")}
 function tanhExtra(pl){pl.path([[-1,-1],[1,-1],[1,1],[-1,1]],"#8ab4ff",1,.5,true)}
 
 function render(){
   const text=document.getElementById("txt").value||"the",ep=+document.getElementById("ep").value;setParams(SNAP[ep]);M=forward(text);const tk=M.tokens;if(sel>=M.T)sel=0;
-  const curLoss=M.loss.length?M.loss.reduce((a,b)=>a+b,0)/M.loss.length:null;   // loss of THIS snapshot (LOSS[] lags one epoch)
-  document.getElementById("epn").textContent=ep+(curLoss!==null?`  loss ${curLoss.toFixed(3)}`:"");
-  const dropped=encode(text,MERGES).filter(t=>!VOCAB.includes(t));
-  document.getElementById("epn").textContent+=dropped.length?`  · skipped (not in vocab): ${[...new Set(dropped)].join(" ")}`:"";
+  document.getElementById("epn").textContent=ep+(LOSS[ep]!==undefined?`  loss ${LOSS[ep].toFixed(3)}`:"");
   document.getElementById("toks").innerHTML=tk.map((t,i)=>`<button class="${i===sel?"on":""}" data-i="${i}">${i}:${t.trim()}</button>`).join("");
   document.querySelectorAll("#toks button").forEach(b=>b.onclick=()=>{sel=+b.dataset.i;render()});
   const s=document.getElementById("strip");s.innerHTML="";
@@ -154,7 +148,7 @@ function render(){
     opEl("+"),
     addPanel("X1","X + O",M.X,M.O,M.X1,tokens,`Residual: the token keeps its own arrow and adds what attention brought (dashed green).`,"O"),
     opEl("→"),
-    mapPanel("L1","layernorm(X1)",M.X1,M.L1,tokens,`With d = 2, every normalized arrow lands on one of two points, (1,−1) or (−1,1): the line x₀ + x₁ = 0 at length √2. The dashed path shows each arrow jumping there. At d = 3 this becomes a circle.`,lnExtra),
+    mapPanel("L1","rmsnorm(X1)",M.X1,M.L1,tokens,`RMSNorm divides each arrow by √(mean(x²)): it keeps its direction and its length becomes √2, so every arrow lands on the circle. The dashed path shows each one sliding there along its own direction.`,lnExtra),
     opEl("×"),
     weightPanel("W1",W1,`2 → 4 dims. Its two rows are 4-vectors, so only their first two coordinates are drawn, and no ellipse: there is no faithful 2-D picture of a map into 4-D.`),
     opEl("→"),
@@ -162,7 +156,7 @@ function render(){
     opEl("+"),
     addPanel("X2","L1 + F3",M.L1,M.F3,M.X2,tokens,`Second residual: the MLP's contribution (dashed green) added to the normalized token.`,"F3"),
     opEl("→"),
-    mapPanel("L2","layernorm(X2)",M.X2,M.L2,tokens,`Final normalization: back onto the two points. From here the logits are L2 · Eᵀ, i.e. the dot product of this arrow with every embedding row in the first panel.`,lnExtra)
+    mapPanel("L2","rmsnorm(X2)",M.X2,M.L2,tokens,`Final normalization: back onto the circle. From here the logits are L2 · Eᵀ, i.e. the dot product of this arrow with every embedding row in the first panel.`,lnExtra)
   );
 }
 document.getElementById("txt").oninput=()=>{sel=0;render()};document.getElementById("ep").oninput=render;document.getElementById("circle").onchange=render;

@@ -32,7 +32,7 @@ Each folder is self-contained: a README turning the note entry into a concrete e
 | `12-liking-vs-learning` | does liking a character stop you updating your impression of them? (draft, lab data) | cog neuro note | numpy |
 | `13-data-provenance` | every datapoint through every transformation over training: Points In Space, All The Math, Every Computation, Vectors Left To Right | Oct 5 2026 | HTML |
 | `14-book-trajectories` | a whole book as a path through GPT-2's space | Oct 14 2026 | torch, HTML |
-| `15-silent-nodes` | temporality and the non-activated nodes: which relu units stay silent, over a sentence and over training | NOW note | HTML |
+| `16-silent-nodes` | temporality and the non-activated nodes: which relu units stay silent, over a sentence and over training | NOW note | HTML |
 
 ## Conventions
 
