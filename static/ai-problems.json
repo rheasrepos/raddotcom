@@ -2802,23 +2802,6 @@
      "description",
      "role"
     ]
-   },
-   {
-    "dataset_id": "americasnlp-2021",
-    "name": "AmericasNLP 2021",
-    "url": "https://github.com/AmericasNLP/americasnlp2021",
-    "access": "open",
-    "license": "None stated",
-    "size": "",
-    "modality": "parallel text",
-    "description": "Translation pairs for Indigenous languages of the Americas.",
-    "contributor": "claude-draft",
-    "date_added": "2026-11-16",
-    "role": "Test how well translation models handle Indigenous languages of the Americas.",
-    "ai_written": [
-     "description",
-     "role"
-    ]
    }
   ],
   "existing_work": [],
@@ -3120,7 +3103,7 @@
     "description": "Human preference data for helpful and harmless assistant responses, plus red-teaming transcripts.",
     "contributor": "claude-draft",
     "date_added": "2026-11-14",
-    "role": "Study how preference training shapes refusals and harm.",
+    "role": "Study how preference training shapes refusals and harm. Content note: includes harmful requests and offensive text.",
     "ai_written": [
      "description",
      "role"
@@ -3137,7 +3120,7 @@
     "description": "Preference data that rates helpfulness and safety separately.",
     "contributor": "claude-draft",
     "date_added": "2026-11-14",
-    "role": "Study the trade-off between being helpful and being safe.",
+    "role": "Study the trade-off between being helpful and being safe. Content note: includes unsafe and offensive text.",
     "ai_written": [
      "description",
      "role"
@@ -3154,7 +3137,7 @@
     "description": "Sentence starts used to test how easily models produce toxic text.",
     "contributor": "claude-draft",
     "date_added": "2026-11-14",
-    "role": "Measure toxic degeneration across models.",
+    "role": "Measure toxic degeneration across models. Content note: contains toxic and offensive text.",
     "ai_written": [
      "description",
      "role"
@@ -3171,7 +3154,7 @@
     "description": "Tests for toxicity, stereotypes, adversarial robustness, privacy, machine ethics and fairness.",
     "contributor": "claude-draft",
     "date_added": "2026-11-14",
-    "role": "Compare models' trustworthiness across eight areas.",
+    "role": "Compare models' trustworthiness across eight areas. Content note: includes toxic text and stereotypes.",
     "ai_written": [
      "description",
      "role"
@@ -3188,7 +3171,7 @@
     "description": "Choose-your-own-adventure games annotated for deception, power-seeking and ethical violations.",
     "contributor": "claude-draft",
     "date_added": "2026-11-14",
-    "role": "Test whether AI agents trade ethics for reward.",
+    "role": "Test whether AI agents trade ethics for reward. Content note: stories depict deception and ethical violations.",
     "ai_written": [
      "description",
      "role"
