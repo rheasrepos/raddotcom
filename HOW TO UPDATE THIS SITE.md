@@ -139,7 +139,7 @@ A post and its PDF are now bound by the post's **slug** (its filename, lowercase
 
 ## 4c. Interactive visualizations as blog posts
 
-Put the page beside its note with the same name (`Foo.md` + `Foo.html`) and give the note `link: /viz/<slug of Foo>.html`. Promote copies the HTML to `static/viz/` (plus any `.json` the page `fetch()`es by name, if that file sits beside the note), and the post shows it live in a frame with an "Open live" button. Examples: the five `2026 claude experiment - 13/14 …` notes in `tech/claude-experiments/`.
+Put the page beside its note with the same name (`Foo.md` + `Foo.html`) and give the note `link: /viz/<slug of Foo>.html`. Promote copies the HTML to `static/viz/` (plus any `.json` the page `fetch()`es by name and any other `.html` page it links to by name, if that file sits beside the note), and the post shows it live in a frame with an "Open live" button. Examples: the five `2026 claude experiment - 13/14 …` notes in `tech/claude-experiments/`.
 
 ## 5. Artifacts (the analog archive) — adding, captioning, splitting
 

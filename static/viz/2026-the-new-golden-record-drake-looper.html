@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drake Equation Looper — The New Golden Record</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C8A84B;
+            --gold-light: #E8C96A;
+            --gold-pale: rgba(200,168,75,0.08);
+            --gold-border: rgba(200,168,75,0.20);
+            --bg: #060605;
+            --bg-card: #0D0C0A;
+            --bg-raised: #121109;
+            --text: #FFFFFF;
+            --text-dim: #FFFFFF;
+            --text-bright: #FFFFFF;
+            --mono: 'Josefin Sans', 'Futura', 'Century Gothic', sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg); color: var(--text);
+            font-family: var(--mono); min-height: 100vh;
+            display: flex; flex-direction: column; overflow-x: hidden;
+        }
+
+        header {
+            padding: 24px 36px 18px;
+            border-bottom: 1px solid var(--gold-border);
+            display: flex; justify-content: space-between; align-items: flex-end;
+            flex-shrink: 0;
+        }
+        header h1 { font-family: var(--mono); font-size: clamp(1.4rem,3vw,2rem); font-weight:300; color:var(--text-bright); line-height:1.1; }
+        header h1 em { font-style:normal; color:var(--gold); }
+        header p { font-size:0.727rem; letter-spacing:0.22em; color:var(--text); margin-top:5px; }
+        
+        .header-controls { display: flex; align-items: center; gap: 20px; }
+        
+        .tuning-wrap {
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(200,168,75,0.05); border: 1px solid var(--gold-border);
+            padding: 5px 10px; border-radius: 4px;
+        }
+        .tuning-wrap label { font-size: 0.74rem; letter-spacing: 0.1em; color: var(--text-dim); text-transform: uppercase; }
+        .tuning-wrap input {
+            background: transparent; border: none; color: var(--gold);
+            font-family: var(--mono); font-size: 0.9rem; width: 65px; text-align: center;
+            border-bottom: 1px solid var(--gold-border);
+        }
+        .tuning-wrap input:focus { outline: none; border-bottom-color: var(--gold); }
+
+        .back-link { font-size:0.736rem; letter-spacing:0.16em; color:var(--text-dim); text-decoration:none; border:1px solid var(--gold-border); padding:7px 14px; transition:all 0.25s; }
+        .back-link:hover { color:var(--gold); border-color:var(--gold); }
+
+        /* LAYOUT */
+        main { display:grid; grid-template-columns:1fr 280px; flex:1; min-height:0; }
+
+        /* LEFT */
+        .left { padding:24px 28px; border-right:1px solid var(--gold-border); overflow-y:auto; display:flex; flex-direction:column; gap:0; }
+
+        .left-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+        .left-label { font-size:0.727rem; letter-spacing:0.26em; text-transform:uppercase; color:var(--text-dim); }
+        .play-btn { font-family:var(--mono); font-size:0.754rem; letter-spacing:0.16em; padding:9px 22px; border:1px solid var(--gold-border); background:transparent; color:var(--text-dim); cursor:pointer; transition:all 0.25s; }
+        .play-btn:hover { border-color:var(--gold); color:var(--gold); }
+        .play-btn.on { background:var(--gold); color:#060605; border-color:var(--gold); }
+
+        /* STRIP */
+        .strip {
+            display: grid;
+            grid-template-columns: 52px 160px 1fr;
+            border: 1px solid var(--gold-border);
+            background: var(--bg-card);
+            margin-bottom: 5px;
+            position: relative;
+            transition: background 0.25s, border-color 0.25s;
+            min-height: 80px;
+        }
+        .strip::before { content:''; position:absolute; left:0;top:0;bottom:0;width:3px; background:var(--gold); opacity:0; transition:opacity 0.25s; }
+        .strip.active { background:var(--bg-raised); border-color:rgba(200,168,75,0.36); }
+        .strip.active::before { opacity:1; }
+
+        .s-id {
+            display:flex; flex-direction:column; align-items:center; justify-content:center;
+            padding:14px 6px; border-right:1px solid var(--gold-border);
+            cursor:pointer; gap:7px; transition:background 0.2s;
+        }
+        .s-id:hover { background:var(--gold-pale); }
+        .s-sym { font-size:0.9rem; font-weight:700; color:var(--text); transition:color 0.25s; line-height:1; }
+        .strip.active .s-sym { color:var(--gold-light); }
+        .s-led { width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);transition:all 0.25s; }
+        .strip.active .s-led { background:var(--gold); box-shadow:0 0 7px var(--gold); }
+
+        .s-knob {
+            display:flex; flex-direction:column; align-items:center; justify-content:center;
+            padding:12px 16px; gap:6px; border-right:1px solid var(--gold-border);
+        }
+        .knob-role { font-size:0.69rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--text); text-align:center; line-height:1.4; }
+        .knob-wrap { width:52px;height:52px;cursor:ns-resize;touch-action:none;flex-shrink:0; }
+        .knob-svg { width:52px;height:52px;overflow:visible;display:block; }
+        .k-track { fill:none;stroke:rgba(200,168,75,0.1);stroke-width:4;stroke-linecap:round; }
+        .k-arc   { fill:none;stroke:rgba(255,255,255,0.4);stroke-width:4;stroke-linecap:round;transition:stroke 0.25s; }
+        .k-nub   { fill:rgba(255,255,255,0.6);transition:fill 0.25s; }
+        .strip.active .k-arc { stroke:var(--gold); }
+        .strip.active .k-nub { fill:var(--gold-light); }
+        .knob-val { font-size:0.736rem; color:var(--text); text-align:center; min-width:60px; transition:color 0.25s; }
+        .strip.active .knob-val { color:var(--gold); }
+
+        .s-info { display:flex; flex-direction:column; justify-content:center; padding:12px 14px; gap:4px; min-width:0; }
+        .s-name { font-family:var(--mono); font-size:0.854rem; font-style:normal; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; transition:color 0.25s; }
+        .strip.active .s-name { color:var(--text); }
+        .s-role-desc { font-size:0.69rem; color:var(--text); line-height:1.5; opacity:0.75; }
+        .strip.active .s-role-desc { opacity:1; color:var(--text); }
+        .s-live { font-size:0.699rem; color:var(--text); margin-top:3px; transition:color 0.25s; opacity:0.65; }
+        .strip.active .s-live { color:var(--gold-light); opacity:1; }
+
+        /* RIGHT */
+        .right { display:flex; flex-direction:column; overflow-y:auto; }
+        .rsec { padding:18px 20px; border-bottom:1px solid var(--gold-border); flex-shrink:0; }
+        .rlabel { font-size:0.708rem; letter-spacing:0.28em; text-transform:uppercase; color:var(--text); margin-bottom:12px; }
+
+        .n-box { text-align:center; padding:16px; background:var(--gold-pale); border:1px solid var(--gold-border); margin-bottom:14px; }
+        .n-label { font-size:0.69rem; letter-spacing:0.14em; color:var(--text); margin-bottom:7px; }
+        .n-num { font-family:var(--mono); font-size:2.8rem; font-weight:300; color:var(--gold); line-height:1; }
+        .n-unit { font-size:0.699rem; color:var(--text); margin-top:6px; letter-spacing:0.1em; line-height:1.7; }
+
+        #beatCanvas { width:100%; height:48px; display:block; }
+        #waveCanvas { width:100%; height:52px; display:block; }
+
+        .vi-panel { flex:1; padding:18px 20px; border-bottom:1px solid var(--gold-border); overflow-y:auto; }
+        .vi { display:none; }
+        .vi.on { display:block; }
+        .vi-sym { font-size:1.3rem; font-weight:700; color:var(--gold); margin-bottom:4px; }
+        .vi-name { font-family:var(--mono); font-size:0.891rem; font-style:normal; color:var(--text); margin-bottom:8px; }
+        .vi-role { font-size:0.745rem; color:var(--gold); opacity:0.8; font-weight:700; margin-bottom:8px; letter-spacing:0.05em; }
+        .vi-body { font-size:0.736rem; color:var(--text); line-height:1.85; }
+
+        .legend { padding:14px 20px; }
+        .lrow { display:flex; gap:8px; font-size:0.717rem; color:var(--text-dim); line-height:1.6; margin-bottom:7px; }
+        .ldot { width:5px;height:5px;border-radius:50%;background:var(--gold);margin-top:4px;flex-shrink:0; }
+
+        .bottom { padding:10px 28px; border-top:1px solid var(--gold-border); display:flex; justify-content:space-between; align-items:center; font-size:0.717rem; color:var(--text-dim); flex-shrink:0; }
+        .kb { display:flex; gap:14px; }
+        .kh { display:flex; align-items:center; gap:5px; }
+        .key { border:1px solid var(--gold-border); padding:2px 5px; font-size:0.69rem; }
+
+        /* VIDEO PLACEHOLDER */
+        .video-section {
+            padding: 20px 36px;
+            border-bottom: 1px solid var(--gold-border);
+            background: var(--bg-card);
+        }
+        .video-label { font-size: 0.717rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 10px; font-family: var(--mono); }
+        .video-placeholder {
+            width: 100%; max-width: 640px; aspect-ratio: 16/9;
+            background: rgba(200,168,75,0.04);
+            border: 1px dashed rgba(200,168,75,0.3);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 10px;
+            color: var(--text-dim);
+            font-size: 0.727rem; letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-family: var(--mono);
+            position: relative; overflow: hidden;
+        }
+        .video-placeholder iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+        .video-icon { font-size: 2.0rem; opacity: 0.4; }
+
+        /* ONBOARDING / INFO MODAL STYLES */
+        .info-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 36px; background: rgba(200,168,75,0.05);
+            border-bottom: 1px solid var(--gold-border);
+        }
+        .info-bar-text { font-size: 0.727rem; letter-spacing: 0.12em; color: var(--text-dim); text-transform: uppercase; font-family: var(--mono); }
+        .info-btn {
+            font-family: var(--mono); font-size: 0.727rem; letter-spacing: 0.14em;
+            padding: 7px 16px; border: 1px solid var(--gold-border);
+            background: transparent; color: var(--gold); cursor: pointer;
+            transition: all 0.25s; text-transform: uppercase;
+        }
+        .info-btn:hover { background: var(--gold-pale); border-color: var(--gold); }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.85); z-index: 100;
+            overflow-y: auto; padding: 40px 20px;
+        }
+        .modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+        .modal {
+            background: var(--bg-card); border: 1px solid rgba(200,168,75,0.35);
+            max-width: 760px; width: 100%; padding: 40px;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute; top: 16px; right: 20px;
+            background: transparent; border: none; color: var(--text-dim);
+            font-size: 0.727rem; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; font-family: var(--mono);
+            transition: color 0.2s;
+        }
+        .modal-close:hover { color: var(--gold); }
+        .modal h2 {
+            font-family: var(--mono); font-size: 1.6rem; font-weight: 500;
+            color: var(--gold); margin-bottom: 6px; line-height: 1.1;
+        }
+        .modal-subtitle {
+            font-size: 0.727rem; letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--text); margin-bottom: 28px; font-family: var(--mono);
+        }
+        .modal-blurb {
+            font-size: 0.832rem; line-height: 1.9; color: var(--text);
+            margin-bottom: 28px; font-family: var(--mono);
+        }
+        .modal-eq {
+            text-align: center; font-size: 1.15rem; font-family: var(--mono);
+            color: var(--gold-light); padding: 18px; background: var(--gold-pale);
+            border: 1px solid var(--gold-border); margin-bottom: 28px; letter-spacing: 0.05em;
+        }
+        .modal-vars { display: flex; flex-direction: column; gap: 0; }
+        .modal-var {
+            border-bottom: 1px solid var(--gold-border);
+            padding: 18px 0;
+        }
+        .modal-var:last-child { border-bottom: none; }
+        .mv-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 8px; }
+        .mv-sym { font-size: 1.1rem; font-weight: 700; color: var(--gold); font-family: var(--mono); min-width: 36px; }
+        .mv-name { font-family: var(--mono); font-style: normal; font-size: 0.95rem; color: var(--text-bright); }
+        .mv-range { font-size: 0.708rem; letter-spacing: 0.1em; color: var(--text); font-family: var(--mono); text-transform: uppercase; }
+        .mv-sci { font-size: 0.809rem; line-height: 1.8; color: var(--text); margin-bottom: 8px; font-family: var(--mono); }
+        .mv-music {
+            font-size: 0.772rem; line-height: 1.7; color: rgba(200,168,75,0.75);
+            padding: 8px 12px; background: var(--gold-pale);
+            border-left: 2px solid var(--gold-border); font-family: var(--mono);
+        }
+        .mv-music-label { font-size: 0.69rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+
+        .knob-wrap:focus-visible, .s-id:focus-visible, button:focus-visible, select:focus-visible { outline:2px solid var(--gold-light); outline-offset:2px; }
+        .knob-wrap:focus { outline:none; }
+        .knob-wrap:focus-visible { border-radius:50%; }
+        /* LLM-written text: same dashed underline the rest of the site uses */
+        .ai-text { text-decoration: underline dashed; text-decoration-thickness: 1px; text-underline-offset: 3px; cursor: help; }
+        .n-tone { display:flex; align-items:flex-start; gap:8px; font-size:0.69rem; line-height:1.5; color:var(--text); margin-bottom:14px; cursor:pointer; }
+        .n-tone input { accent-color:var(--gold); margin-top:2px; flex-shrink:0; }
+        #nTone { color:var(--gold-light); }
+
+        @media (max-width:820px) { main { grid-template-columns:1fr; } .right { border-top:1px solid var(--gold-border); } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>Drake Equation <em>Looper</em></h1>
+        <p>Each pad maps to a variable in the Drake Equation · Knobs set estimated values · Activate to hear</p>
+    </div>
+    <div class="header-controls">
+        <div class="tuning-wrap">
+            <label for="rootTuning">Root Hz</label>
+            <input type="number" id="rootTuning" value="432" step="0.1" min="10" max="2000">
+        </div>
+        <a href="2026-the-new-golden-record-drake-audio-looper.html" class="back-link">← Back to Record</a>
+    </div>
+</header>
+
+<!-- Demo-video placeholder, switched off until there is a video. Remove this comment's first and last lines to bring it back.
+<div class="video-section">
+    <div class="video-label">Live Demo — Drake Equation Looper</div>
+    <div class="video-placeholder" id="videoContainer">
+        <div>Demo video coming soon</div>
+        <div style="font-size:0.69rem;opacity:0.6;">Replace this placeholder with your YouTube embed link</div>
+    </div>
+</div>
+-->
+
+<div class="info-bar">
+    <div class="info-bar-text">N = R★ · fₚ · nₑ · fₗ · fᵢ · fᶜ · L &nbsp;·&nbsp; The Drake Equation</div>
+    <button class="info-btn" onclick="document.getElementById('infoModal').classList.add('open')">
+        About This Instrument
+    </button>
+</div>
+
+<!-- INFO MODAL -->
+<div class="modal-overlay" id="infoModal">
+    <div class="modal">
+        <button class="modal-close" onclick="document.getElementById('infoModal').classList.remove('open')">Close</button>
+        <h2>Drake Equation Looper</h2>
+        <div class="modal-subtitle">The New Golden Record · Course Final Project · BPRO28800 / BIOS13142 / ASTR18700</div>
+        <div class="modal-blurb">
+            The Drake Equation, proposed by Frank Drake in 1961, estimates N: the number of communicating civilizations in the Milky Way. It is a product of seven variables spanning astrophysics, planetary science, biology, and sociology. The equation was never intended to produce a definitive answer — its purpose is to structure scientific uncertainty and identify which variables most constrain N (Drake et al., as discussed in Lecture 1, Sereno). In this instrument, each variable is assigned a synthesizer voice. The knob sets the estimated value for that variable; activating the pad incorporates it into the running product. The sound properties of each voice — its timing, density, pitch, and behavior — are designed to reflect the scientific character of the variable it represents. Relevant readings from the course syllabus are cited for each variable below.
+        </div>
+        <div class="modal-eq">N = R★ · fₚ · nₑ · fₗ · fᵢ · fᶜ · L</div>
+
+        <div class="modal-var" style="padding-top:0;margin-bottom:18px;">
+            <div class="mv-head"><div class="mv-sym" style="font-size:0.854rem;">Modulation</div></div>
+            <div class="mv-sci">The modulation section sweeps a selected variable's value automatically over time using a low-frequency oscillator (LFO). Scientific justification: several Drake Equation parameters are not static — they vary over cosmic timescales. R★ has declined since the peak of cosmic star formation (~10 billion years ago). fₗ and fᵢ may be time-dependent if life and intelligence take billions of years to emerge. L is particularly dynamic if civilizations undergo boom-collapse cycles. The modulation feature allows the listener to hear how a continuously varying parameter changes both the N estimate and the resulting sound texture, modeling the non-stationarity of these variables. LFO shapes (sine, triangle, sawtooth) represent different drift behaviors: gradual oscillation, linear ramp, or asymmetric change.</div>
+        </div>
+
+        <div class="modal-var" style="padding-top:0;margin-bottom:18px;">
+            <div class="mv-head"><div class="mv-sym" style="font-size:0.854rem;">N</div><div class="mv-name"><span class="ai-text" title="This text was written by an LLM (Claude).">The product itself</span></div></div>
+            <div class="mv-sci"><span class="ai-text" title="This text was written by an LLM (Claude).">The seven voices each follow one term. N is heard through a single low-pass filter over the whole mix, whose cutoff follows log₁₀ of the running product: 300 Hz when the product is 10⁻⁶ or smaller, fully open at 100 or larger. When N is small, the melody and the pings fade and only the R★ pulse and the L sub-bass remain: the physics goes on with no one to hear. The filter uses the logarithm because N spans many orders of magnitude. It can be switched off under the N display.</span></div>
+        </div>
+
+        <div class="modal-vars" id="modalVars">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</div>
+
+<main>
+    <div class="left">
+        <div class="left-header">
+            <span class="left-label">Variables // Click symbol to activate · drag knob to tune</span>
+            <button class="play-btn" id="playBtn" onclick="toggleMaster()">Begin</button>
+        </div>
+        <div id="strips"></div>
+    </div>
+
+    <div class="right">
+        <div class="rsec">
+            <div class="rlabel">N — Estimated Civilizations</div>
+            <div class="n-box">
+                <div class="n-label" id="nLabel">Communicating civilizations in the Milky Way</div>
+                <div class="n-num" id="nNum">—</div>
+                <div class="n-unit" id="nUnit">activate a variable to begin</div>
+            </div>
+            <label class="n-tone">
+                <input type="checkbox" id="nShapes" checked onchange="setNShapesMix(this.checked)">
+                <span><span class="ai-text" title="This text was written by an LLM (Claude).">N shapes the mix · brightness follows log N</span> · <span id="nTone">—</span></span>
+            </label>
+            <div class="rlabel" style="margin-bottom:8px;">16-Step Grid Activity</div>
+            <canvas id="beatCanvas"></canvas>
+        </div>
+
+        <div class="rsec" style="padding:12px 20px;">
+            <div class="rlabel">Waveform</div>
+            <canvas id="waveCanvas"></canvas>
+        </div>
+
+        <div class="vi-panel">
+            <div class="rlabel">Variable Role</div>
+            <div id="viDefault" style="font-size:0.736rem;color:var(--text);font-style:normal;line-height:1.9;">
+                Hover a variable to see its role.
+            </div>
+        </div>
+
+        <div class="rsec">
+            <div class="rlabel">Modulation — Automate a Knob Over Time</div>
+            <div style="font-size:0.717rem;color:var(--text);line-height:1.8;margin-bottom:10px;">
+                Slowly sweeps one variable's value over time using a low-frequency oscillator (LFO). Useful for exploring how gradual changes in a parameter affect both the Drake Equation result and the sound output. See scientific justification in the About panel.
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                    <label style="font-size:0.699rem;letter-spacing:0.12em;color:var(--text-dim);text-transform:uppercase;min-width:52px;">Target</label>
+                    <select id="modTarget" style="background:var(--bg);border:1px solid var(--gold-border);color:var(--gold);font-family:var(--mono);font-size:0.727rem;padding:4px 8px;flex:1;">
+                        <option value="">— select variable —</option>
+                    </select>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                    <label style="font-size:0.699rem;letter-spacing:0.12em;color:var(--text-dim);text-transform:uppercase;min-width:52px;">Period</label>
+                    <select id="modPeriod" style="background:var(--bg);border:1px solid var(--gold-border);color:var(--gold);font-family:var(--mono);font-size:0.727rem;padding:4px 8px;flex:1;">
+                        <option value="4">4 s — rapid drift</option>
+                        <option value="10">10 s — slow sweep</option>
+                        <option value="20" selected>20 s — geological</option>
+                        <option value="60">60 s — deep time</option>
+                    </select>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                    <label style="font-size:0.699rem;letter-spacing:0.12em;color:var(--text-dim);text-transform:uppercase;min-width:52px;">Shape</label>
+                    <select id="modShape" style="background:var(--bg);border:1px solid var(--gold-border);color:var(--gold);font-family:var(--mono);font-size:0.727rem;padding:4px 8px;flex:1;">
+                        <option value="sine">Sine — rises and falls</option>
+                        <option value="tri">Triangle — linear sweep</option>
+                        <option value="saw">Sawtooth — ramp up, reset</option>
+                        <option value="rsaw">Rev. Saw — ramp down, reset</option>
+                    </select>
+                </div>
+                <button id="modBtn" onclick="toggleMod()" style="font-family:var(--mono);font-size:0.727rem;letter-spacing:0.14em;padding:7px 16px;border:1px solid var(--gold-border);background:transparent;color:var(--text-dim);cursor:pointer;transition:all 0.25s;text-transform:uppercase;width:100%;">
+                    Engage Modulation
+                </button>
+                <div id="modStatus" style="font-size:0.699rem;color:var(--text-dim);text-align:center;min-height:14px;"></div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="rlabel">Synthesizer System Logic</div>
+            <div class="lrow"><div class="ldot"></div><div><strong style="color:var(--text)">R★</strong> Base Pulse · Root ÷ 4 · Steady master BPM</div></div>
+            <div class="lrow"><div class="ldot"></div><div><strong style="color:var(--text)">fₚ</strong> Orbital Plucks · Root ÷ 2 · Random sequence density</div></div>
+            <div class="lrow"><div class="ldot"></div><div><strong style="color:var(--text)">nₑ</strong> Habitable Pad · Root ÷ 2 · Detune warped density</div></div>
+            <div class="lrow"><div class="ldot"></div><div><strong style="color:var(--text)">fₗ</strong> Bio Sparks · Root × 1.5 · Random generative clicks</div></div>
+            <div class="lrow"><div class="ldot"></div><div><strong style="color:var(--text)">fᵢ</strong> Mind Melody · Root Hz · Unquantized floating scales</div></div>
+            <div class="lrow"><div class="ldot"></div><div><strong style="color:var(--text)">fᶜ</strong> Radio Beacons · Root Harmonics · Unquantized sporadic pings</div></div>
+            <div class="lrow"><div class="ldot"></div><div><strong style="color:var(--text)">L</strong> Deep Time Sub · Root ÷ 8 · Sustains every 4 bars</div></div>
+            <div class="lrow"><div class="ldot"></div><div><strong style="color:var(--text)">N</strong> <span class="ai-text" title="This text was written by an LLM (Claude).">Master Low-Pass · Cutoff follows log N · Small N sounds dark</span></div></div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <span><span id="bottomLabel">N ≈</span> <strong id="bottomN" style="color:var(--gold)">–</strong> &nbsp;·&nbsp; <span id="activeCount">0</span>/7 active</span>
+        <div class="kb">
+            <div class="kh"><span class="key">1–7</span> toggle</div>
+            <div class="kh"><span class="key">Space</span> play/stop</div>
+            <div class="kh"><span class="key">Esc</span> silence</div>
+        </div>
+    </div>
+</main>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// VARIABLE DEFINITIONS & EDITABLE PITCH CENTERS
+// ═══════════════════════════════════════════════════════════
+const VARS = [
+    {
+        key:'R', sym:'R★', name:'Star formation rate', unit:'stars/yr',
+        min:0.5, max:10, step:0.01, def:1.5,
+        sciRange: '1–3 stars/yr (Robitaille & Whitney 2010; Chomiuk & Povich 2011)',
+        baseFreq: 108, 
+        musicalRole:'Base Pulse · Sets BPM',
+        roleDesc:'Quarter-note bass pulse at Root÷4 Hz. Knob sets BPM (40–140). Controls the overall tempo.',
+        sciDesc:'Milky Way star formation rate. Current observational estimates: 1–3 solar masses/yr.',
+    },
+    {
+        key:'fp', sym:'fₚ', name:'Fraction of stars with planets', unit:'fraction',
+        min:0.1, max:1, step:0.001, def:0.92,
+        sciRange: '~0.7–1.0 (Cassan et al. 2012, Kepler mission)',
+        baseFreq: 216, 
+        musicalRole:'Orbital Plucks',
+        roleDesc:'Randomly placed pluck tones across a 64-step sequence. Higher value = more notes per cycle.',
+        sciDesc:'Kepler data indicates planets are ubiquitous. Cassan et al. (2012) estimated >1 planet per star on average. Modern estimates for fₚ are near 1.',
+    },
+    {
+        key:'ne', sym:'nₑ', name:'Habitable worlds per star', unit:'worlds/star',
+        min:0.1, max:5, step:0.01, def:0.4,
+        sciRange: '0.1–0.4 (conservative); up to 2–3 if subsurface/ocean worlds included',
+        baseFreq: 216, 
+        musicalRole:'Sustain Pad',
+        roleDesc:'Sustained chord tones placed randomly across 4 measures. Knob shifts pitch center; higher value = more pads.',
+        sciDesc:'Originally meant Earth-like planets in the habitable zone. Estimates range from 0.1–0.4 for rocky planets in the circumstellar habitable zone (Rogers 2015; Kopparapu et al. 2013). Including subsurface ocean worlds (Europa, Enceladus) broadens this significantly.',
+    },
+    {
+        key:'fl', sym:'fₗ', name:'Fraction where life arises', unit:'fraction',
+        min:0.0001, max:1, step:0.0001, def:0.13,
+        sciRange: '0.001–1.0 (highly uncertain; we have one data point)',
+        baseFreq: 648, 
+        musicalRole:'Biological Sparks',
+        roleDesc:'Short square-wave clicks placed randomly in the measure. Higher value = more events per cycle.',
+        sciDesc:'Life on Earth appeared within ~300M years of stable surface conditions (~3.8 Ga). Whether this reflects a high probability or sampling bias is unknown. Estimates range from near-zero (Rare Earth hypothesis) to near-1 (life as an inevitable chemical outcome). We have one data point.',
+    },
+    {
+        key:'fi', sym:'fᵢ', name:'Fraction developing intelligence', unit:'fraction',
+        min:0.0001, max:1, step:0.0001, def:0.01,
+        sciRange: '0.001–1.0 (unknown; convergent evolution evidence is mixed)',
+        baseFreq: 432, 
+        musicalRole:'Unquantized Melody',
+        roleDesc:'Melody notes placed off-grid (timing is not quantized to the beat). Knob expands scale complexity from 1 note to chromatic.',
+        sciDesc:'Intelligence evolved once in ~3.8 billion years of Earth life. Convergent evolution (Losos 2017, as on the course syllabus) supports the idea that complexity is favored; however, no other species developed cumulative symbolic culture. Estimates are speculative.',
+    },
+    {
+        key:'fc', sym:'fᶜ', name:'Fraction that communicate', unit:'fraction',
+        min:0.0001, max:1, step:0.0001, def:0.1,
+        sciRange: '0.01–0.2 (speculative; Earth has communicated for ~100 years)',
+        baseFreq: 864, 
+        musicalRole:'Unquantized Pings',
+        roleDesc:'High-frequency sine pings at harmonic multiples of Root Hz. Timing is unquantized. Knob sets density.',
+        sciDesc:'A civilization must choose to emit detectable signals. Humans have broadcast electromagnetic radiation for ~120 years, but our signals are increasingly low-power (Tarter et al., Lecture 10). Some argue advanced civilizations shift to non-radiating communication, reducing fᶜ over time.',
+    },
+    {
+        key:'L', sym:'L', name:'Civilization lifetime', unit:'years',
+        min:100, max:1000000, step:10, def:10000,
+        sciRange: '300–10,000 yr (pessimistic) to 10⁶+ yr (optimistic)',
+        baseFreq: 54, 
+        musicalRole:'Sub-Bass Tone',
+        roleDesc:'Sub-bass sine tone at Root÷8 Hz. Fires once every 64 steps. Knob controls sustain length (2–17s).',
+        sciDesc:'The most impactful and uncertain variable. Pessimistic estimates (~300 years) assume civilizations self-destruct via nuclear war, climate collapse, or biological risk — as discussed in Lecture 17 (Holz, Doomsday Clock). Optimistic estimates reach millions of years. L dominates N more than any other factor.',
+    }
+];
+
+function getVar(key) { return VARS.find(v => v.key === key); }
+
+// ═══════════════════════════════════════════════════════════
+// STATE & TUNING
+// ═══════════════════════════════════════════════════════════
+let ROOT_HZ = 432; // The live master tuning variable
+
+const state = {};
+VARS.forEach(v => { state[v.key] = { active: false, val: v.def }; });
+
+let audioCtx = null, masterGain = null, nFilter = null, analyser = null;
+let nShapesMix = true;   // master brightness follows log10 of the running product
+let rideOutTimer = null;
+let playing = false;
+let schedulerTimer = null;
+let nextStepTime = 0;
+let stepCount = 0;
+let animId = null;
+const LOOKAHEAD = 0.05;   
+const SCHEDULE_INTERVAL = 25; 
+
+const BEAT_CELLS = 16;
+let beatGrid = new Array(BEAT_CELLS).fill(0);
+let currentBeat = 0;
+
+// Listen for Master Tuning UI Changes
+document.getElementById('rootTuning').addEventListener('input', (e) => {
+    let val = parseFloat(e.target.value);
+    if (!isNaN(val) && val > 0) {
+        ROOT_HZ = val;
+        updateLiveDisplays(); 
+    }
+});
+
+// ═══════════════════════════════════════════════════════════
+// 64-STEP GENERATIVE RHYTHM SYSTEM (4 MEASURES)
+// ═══════════════════════════════════════════════════════════
+// Each voice gets a random ordering of the 64 steps, re-rolled every 4 measures.
+// A step fires when its rank is below the voice's current density. A steady knob
+// still gives exactly `density` hits per cycle, but a knob change is heard on the
+// very next step instead of waiting for the next re-roll.
+const DENSITY = {
+    fp: t => Math.floor(1 + t * 11) * 4,
+    ne: t => Math.floor(1 + t * 3) * 4,
+    fl: t => Math.floor(1 + t * 15) * 4,
+    fi: t => Math.floor(1 + t * 15) * 4,
+    fc: t => Math.floor(1 + t * 7) * 4
+};
+function getDensity(key) {
+    return Math.min(64, DENSITY[key](valToNorm(key, state[key].val)));
+}
+
+let stepRanks = { fp: [], ne: [], fl: [], fi: [], fc: [] };
+
+function shuffledRanks(length = 64) {
+    const ranks = Array.from({length}, (_, i) => i);
+    for (let i = ranks.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [ranks[i], ranks[j]] = [ranks[j], ranks[i]];
+    }
+    return ranks;
+}
+
+function rollMeasurePatterns() {
+    Object.keys(stepRanks).forEach(key => { stepRanks[key] = shuffledRanks(64); });
+}
+
+function stepFires(key, step64) {
+    return stepRanks[key][step64] < getDensity(key);
+}
+
+// ═══════════════════════════════════════════════════════════
+// AUDIO ENGINE INIT
+// ═══════════════════════════════════════════════════════════
+function initAudio() {
+    if (audioCtx) return;
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = 0; 
+
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 1024;
+
+    // N voice: one low-pass over the whole mix. Cutoff follows log10 of the product.
+    nFilter = audioCtx.createBiquadFilter();
+    nFilter.type = 'lowpass';
+    nFilter.Q.value = 0.7;
+    nFilter.frequency.value = nCutoffHz();
+
+    masterGain.connect(nFilter);
+    nFilter.connect(analyser);
+    analyser.connect(audioCtx.destination);
+}
+
+function activeProduct() {
+    const active = VARS.filter(v => state[v.key].active);
+    if (!active.length) return null;
+    return active.reduce((acc, v) => acc * state[v.key].val, 1);
+}
+
+// product 1e-6 or less -> 300 Hz (only the R★ pulse and L sub-bass get through);
+// product 100 or more -> 16 kHz (fully open). Exponential in between.
+const N_CUT_MIN = 300, N_CUT_MAX = 16000;
+function nCutoffHz() {
+    const p = activeProduct();
+    if (!nShapesMix || p === null) return N_CUT_MAX;
+    const frac = Math.max(0, Math.min(1, (Math.log10(p) + 6) / 8));
+    return N_CUT_MIN * Math.pow(N_CUT_MAX / N_CUT_MIN, frac);
+}
+
+function updateNTone() {
+    const hz = nCutoffHz();
+    if (nFilter && audioCtx) nFilter.frequency.setTargetAtTime(hz, audioCtx.currentTime, 0.15);
+    const el = document.getElementById('nTone');
+    if (el) el.textContent = !nShapesMix ? 'off'
+        : activeProduct() === null ? '—'
+        : (hz >= 1000 ? (hz / 1000).toFixed(1) + ' kHz' : hz.toFixed(0) + ' Hz') + ' cutoff';
+}
+
+function setNShapesMix(on) { nShapesMix = on; updateNTone(); }
+
+// ═══════════════════════════════════════════════════════════
+// SYNTHESIZER VOICES & SCALES
+// ═══════════════════════════════════════════════════════════
+function valToNorm(varKey, val) {
+    const v = getVar(varKey);
+    if (varKey==='L') return (Math.log(val)-Math.log(v.min))/(Math.log(v.max)-Math.log(v.min));
+    return (val-v.min)/(v.max-v.min);
+}
+
+function getBPM() {
+    const t = valToNorm('R', state.R.val);
+    return 40 + t * 100; // 40–140 BPM
+}
+
+function getStepDur() {
+    return (60 / getBPM()) / 4; 
+}
+
+function playTone(freq, time, dur, vol, type='sine') {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.value = freq;
+
+    if (type === 'square' || type === 'sawtooth') {
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 1800; 
+        osc.connect(filter);
+        filter.connect(gain);
+    } else {
+        osc.connect(gain);
+    }
+
+    gain.gain.setValueAtTime(0, time);
+    gain.gain.linearRampToValueAtTime(vol, time + 0.03); 
+    gain.gain.setTargetAtTime(0.001, time + 0.03, dur / 3); 
+
+    gain.connect(masterGain);
+    osc.start(time);
+    osc.stop(time + dur + 0.5);
+}
+
+const SCALES = [
+    { name: 'Root', notes: [0] },
+    { name: 'Fifth', notes: [0, 7] },
+    { name: 'Min Pentatonic', notes: [0, 3, 5, 7, 10] },
+    { name: 'Maj Pentatonic', notes: [0, 2, 4, 7, 9] },
+    { name: 'Dorian', notes: [0, 2, 3, 5, 7, 9, 10] },
+    { name: 'Lydian', notes: [0, 2, 4, 6, 7, 9, 11] },
+    { name: 'Whole Tone', notes: [0, 2, 4, 6, 8, 10] },
+    { name: 'Chromatic', notes: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] }
+];
+
+let melodyIndex = 0;
+// Pure lookup: safe to call from the readouts.
+function getScale(t) {
+    const idx = Math.min(SCALES.length - 1, Math.floor(t * SCALES.length));
+    return SCALES[idx];
+}
+// Advances the melody. Only the scheduler calls this.
+function nextMelodyPitch(t) {
+    const scale = getScale(t);
+    melodyIndex += 3;
+    return scale.notes[melodyIndex % scale.notes.length];
+}
+
+// ═══════════════════════════════════════════════════════════
+// 64-STEP SCHEDULER (WITH UNQUANTIZED FLOATS)
+// ═══════════════════════════════════════════════════════════
+function scheduleStep(time, step) {
+    if (!playing) return;
+    const stepDur = getStepDur();
+    const beatDur = stepDur * 4;
+    const step64 = step % 64;
+    
+    // Regenerate massive 64-step grid at the start of every 4 measures
+    if (step64 === 0) {
+        rollMeasurePatterns();
+    }
+
+    // Visualizer (Quarter Notes - loops 16 visual cells)
+    if (step % 4 === 0) {
+        const cell = (step / 4) % BEAT_CELLS;
+        setTimeout(() => {
+            beatGrid[cell] = 1.0;
+            currentBeat = cell;
+        }, (time - audioCtx.currentTime) * 1000);
+    }
+
+    // 1. R★: STEADY Base Pulse
+    if (state.R.active && step % 4 === 0) {
+        playTone(ROOT_HZ / 4, time, beatDur * 0.8, 0.7, 'triangle');
+    }
+
+    // 2. fp: Orbital Sequence
+    if (state.fp.active && stepFires('fp', step64)) {
+        const pitch = (ROOT_HZ / 2) * Math.pow(2, (step64 % 12) / 12); 
+        playTone(pitch, time, beatDur * 0.3, 0.4, 'sine');
+    }
+
+    // 3. ne: Habitable Pad
+    if (state.ne.active && stepFires('ne', step64)) {
+        const t = valToNorm('ne', state.ne.val);
+        const freq = (ROOT_HZ / 2) * (0.8 + t * 0.4); 
+        playTone(freq, time, beatDur * 2, 0.25, 'sine'); 
+    }
+
+    // 4. fl: Biological Sparks 
+    if (state.fl.active && stepFires('fl', step64)) {
+        const envLen = stepDur * 1.5;
+        playTone(ROOT_HZ * 1.5, time, envLen, 0.35, 'square'); 
+    }
+
+    // 5. fi: UNQUANTIZED Melody of Mind
+    if (state.fi.active && stepFires('fi', step64)) {
+        const t = valToNorm('fi', state.fi.val);
+        const freq = ROOT_HZ * Math.pow(2, nextMelodyPitch(t) / 12);
+        
+        // UNQUANTIZED: Floats randomly up to a full beat off the grid
+        const floatTime = time + (Math.random() * beatDur);
+        playTone(freq, floatTime, beatDur * 0.5, 0.35, 'triangle');
+    }
+
+    // 6. fc: UNQUANTIZED Radio Beacons 
+    if (state.fc.active && stepFires('fc', step64)) {
+        const harmonic = 1 + Math.floor(Math.random() * 5); 
+        const freq = ROOT_HZ * harmonic;
+        
+        // UNQUANTIZED: Triggers completely randomly within a 2-beat window
+        const floatTime = time + (Math.random() * beatDur * 2);
+        playTone(freq, floatTime, 0.05, 0.15, 'sine');
+        
+        // Sometimes fires a rapid secondary glitch ping
+        if(Math.random() > 0.6) {
+            playTone(freq, floatTime + 0.1, 0.05, 0.1, 'sine');
+        }
+    }
+
+    // 7. L: STEADY Deep Time Sub-Bass
+    if (state.L.active && step % 64 === 0) {
+        const t = valToNorm('L', state.L.val);
+        const decay = 2 + t * 15; 
+        playTone(ROOT_HZ / 8, time, decay, 0.8, 'sine');
+    }
+}
+
+function scheduler() {
+    if (!audioCtx) return;
+    const now = audioCtx.currentTime;
+    while (nextStepTime < now + LOOKAHEAD) {
+        scheduleStep(nextStepTime, stepCount);
+        nextStepTime += getStepDur();
+        stepCount++;
+    }
+}
+
+function startScheduler() {
+    const now = audioCtx.currentTime;
+    nextStepTime = now + 0.1;
+    stepCount = 0; melodyIndex = 0;
+    rollMeasurePatterns(); 
+    schedulerTimer = setInterval(scheduler, SCHEDULE_INTERVAL);
+}
+
+function stopScheduler() {
+    if (schedulerTimer) { clearInterval(schedulerTimer); schedulerTimer = null; }
+}
+
+// ═══════════════════════════════════════════════════════════
+// TOGGLE / MASTER
+// ═══════════════════════════════════════════════════════════
+function toggleVoice(varKey) {
+    initAudio();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    state[varKey].active = !state[varKey].active;
+    const strip = document.getElementById('strip-'+varKey);
+    strip.classList.toggle('active', state[varKey].active);
+    strip.querySelector('.s-id').setAttribute('aria-pressed', state[varKey].active);
+
+    updateN();
+    updateLiveDisplays();
+    document.getElementById('activeCount').textContent = VARS.filter(v=>state[v.key].active).length;
+}
+
+function toggleMaster() {
+    initAudio();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    
+    if (!playing) {
+        // START
+        playing = true;
+        const btn = document.getElementById('playBtn');
+        btn.textContent = 'Stop'; btn.classList.add('on');
+        masterGain.gain.setTargetAtTime(0.7, audioCtx.currentTime, 0.5);
+        startScheduler();
+        drawWave(); drawBeats();
+    } else {
+        // RIDE OUT: wait until the end of the current 4-measure (64-step) cycle before stopping
+        if (rideOutTimer) return;
+        const btn = document.getElementById('playBtn');
+        btn.textContent = 'Riding out…'; btn.classList.remove('on');
+        btn.disabled = true;
+        
+        const stepsRemainingInCycle = 64 - (stepCount % 64);
+        const rideOutDuration = stepsRemainingInCycle * getStepDur();
+        
+        rideOutTimer = setTimeout(() => {
+            rideOutTimer = null;
+            playing = false;
+            btn.textContent = 'Begin'; btn.classList.remove('on');
+            btn.disabled = false;
+            stopScheduler();
+            masterGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.1);
+            if (animId) { cancelAnimationFrame(animId); animId = null; }
+            clearCanvas('waveCanvas');
+            clearCanvas('beatCanvas');
+        }, rideOutDuration * 1000);
+    }
+}
+
+function silenceAll() {
+    if (rideOutTimer) { clearTimeout(rideOutTimer); rideOutTimer = null; }
+    document.getElementById('playBtn').disabled = false;
+    playing = false;
+    stopScheduler();
+    document.getElementById('playBtn').textContent = 'Begin';
+    document.getElementById('playBtn').classList.remove('on');
+    VARS.forEach(v => {
+        state[v.key].active = false;
+        const s = document.getElementById('strip-'+v.key);
+        if (s) { s.classList.remove('active'); s.querySelector('.s-id').setAttribute('aria-pressed', false); }
+    });
+    if (masterGain) masterGain.gain.setTargetAtTime(0, audioCtx ? audioCtx.currentTime : 0, 0.1);
+    if (animId) { cancelAnimationFrame(animId); animId = null; }
+    clearCanvas('waveCanvas'); clearCanvas('beatCanvas');
+    updateN();
+    document.getElementById('activeCount').textContent = 0;
+}
+
+// ═══════════════════════════════════════════════════════════
+// N CALCULATION & LIVE DISPLAYS
+// ═══════════════════════════════════════════════════════════
+function fmtN(N) {
+    return N>=1e9 ? (N/1e9).toFixed(2)+'B'
+         : N>=1e6 ? (N/1e6).toFixed(2)+'M'
+         : N>=1e3 ? (N/1e3).toFixed(2)+'k'
+         : N<0.001 ? N.toExponential(2)
+         : N.toPrecision(3);
+}
+
+// Sets a label and marks it as LLM-written when the wording is Claude's.
+function setLabel(el, text, llm) {
+    el.textContent = text;
+    el.classList.toggle('ai-text', llm);
+    if (llm) el.title = 'This text was written by an LLM (Claude).'; else el.removeAttribute('title');
+}
+
+function updateN() {
+    const count = VARS.filter(v=>state[v.key].active).length;
+    const p = activeProduct();
+    const full = count === VARS.length;
+    const nLabel = document.getElementById('nLabel');
+    const bottomLabel = document.getElementById('bottomLabel');
+    if (p === null) {
+        document.getElementById('nNum').textContent='—';
+        setLabel(nLabel, 'Communicating civilizations in the Milky Way', false);
+        setLabel(document.getElementById('nUnit'), 'activate a variable to begin', false);
+        bottomLabel.textContent='N ≈';
+        document.getElementById('bottomN').textContent='–';
+    } else {
+        const d = fmtN(p);
+        document.getElementById('nNum').textContent = d;
+        document.getElementById('bottomN').textContent = d;
+        setLabel(nLabel, full
+            ? 'Communicating civilizations in the Milky Way'
+            : `Product of ${count} of 7 terms · not yet N`, !full);
+        setLabel(document.getElementById('nUnit'), full
+            ? 'full estimate · all 7 variables active'
+            : 'activate all 7 variables to read this as N', !full);
+        bottomLabel.textContent = full ? 'N ≈' : 'Partial product ≈';
+    }
+    updateNTone();
+}
+
+function updateLiveDisplays() {
+    setLive('R', `${getBPM().toFixed(0)} BPM · ${(ROOT_HZ / 4).toFixed(1)} Hz`);
+    
+    const fpDensity = getDensity('fp');
+    setLive('fp', `Density: ${fpDensity}/64 hits · ${(ROOT_HZ / 2).toFixed(1)} Hz`);
+
+    const neT = valToNorm('ne', state.ne.val);
+    const neDensity = getDensity('ne');
+    setLive('ne', `Density: ${neDensity} pads/64 · ${(ROOT_HZ / 2).toFixed(1)} Hz detuned`);
+
+    const flDensity = getDensity('fl');
+    setLive('fl', `Density: ${flDensity}/64 sparks · ${(ROOT_HZ * 1.5).toFixed(1)} Hz`);
+
+    const fiT = valToNorm('fi', state.fi.val);
+    const fiDensity = getDensity('fi');
+    const scaleInfo = getScale(fiT);
+    setLive('fi', `Scale: ${scaleInfo.name} | Density: ${fiDensity}/64 (Unquantized)`);
+
+    const fcDensity = getDensity('fc');
+    setLive('fc', `Density: ${fcDensity}/64 hits (Unquantized)`);
+
+    const lT = valToNorm('L', state.L.val);
+    const lDecay = 2 + lT * 15;
+    setLive('L', `Sustain: ${lDecay.toFixed(1)}s · ${(ROOT_HZ / 8).toFixed(1)} Hz`);
+}
+
+function setLive(varKey, text) {
+    const el = document.getElementById('live-'+varKey);
+    if (el) el.textContent = text;
+}
+
+function fmtVal(varKey) {
+    const v=getVar(varKey);
+    const val=state[varKey].val;
+    if(v.unit==='fraction') return val<0.01?val.toFixed(4):val.toFixed(2);
+    if(val>=1000) return (val/1000).toFixed(1)+'k';
+    return val.toFixed(1);
+}
+
+// ═══════════════════════════════════════════════════════════
+// KNOB UI DRAG LOGIC
+// ═══════════════════════════════════════════════════════════
+const KCX=26, KCY=26, KR=18;
+const KS=Math.PI*0.75, KE=Math.PI*2.25, KRN=KE-KS;
+function kAngle(n){return KS+n*KRN;}
+function kXY(a){return{x:KCX+KR*Math.cos(a),y:KCY+KR*Math.sin(a)};}
+function kArcPath(n){
+    const s=kXY(KS),e=kXY(kAngle(n));
+    const lg=(n*KRN)>Math.PI?1:0;
+    return `M${s.x} ${s.y} A${KR} ${KR} 0 ${lg} 1 ${e.x} ${e.y}`;
+}
+function knobSVG(id,n){
+    const pos=kXY(kAngle(n));
+    return `<svg class="knob-svg" viewBox="0 0 52 52">
+      <circle cx="${KCX}" cy="${KCY}" r="${KR}" class="k-track"/>
+      <path id="arc-${id}" class="k-arc" d="${kArcPath(n)}"/>
+      <circle id="nub-${id}" class="k-nub" r="3" cx="${pos.x}" cy="${pos.y}"/>
+    </svg>`;
+}
+function refreshKnobSVG(id,n){
+    const nc=Math.max(0.001,Math.min(1,n));
+    const arc=document.getElementById('arc-'+id);
+    const nub=document.getElementById('nub-'+id);
+    if(arc) arc.setAttribute('d',kArcPath(nc));
+    if(nub){const p=kXY(kAngle(nc));nub.setAttribute('cx',p.x);nub.setAttribute('cy',p.y);}
+}
+
+function normToVal(varKey, n) {
+    const v = getVar(varKey);
+    let val;
+    if (varKey==='L') val=Math.exp(Math.log(v.min)+n*(Math.log(v.max)-Math.log(v.min)));
+    else val=v.min+n*(v.max-v.min);
+    val=Math.round(val/v.step)*v.step;
+    return Math.max(v.min,Math.min(v.max,val));
+}
+
+// One place that moves a knob: used by drag, keyboard and modulation.
+function setVarNorm(varKey, n) {
+    const nc = Math.max(0, Math.min(1, n));
+    state[varKey].val = normToVal(varKey, nc);
+    refreshKnobSVG(varKey, nc);
+    const text = fmtVal(varKey)+' '+getVar(varKey).unit;
+    document.getElementById('kval-'+varKey).textContent = text;
+    const knob = document.getElementById('knob-'+varKey);
+    if (knob) {
+        knob.setAttribute('aria-valuenow', state[varKey].val);
+        knob.setAttribute('aria-valuetext', text);
+    }
+    updateN(); updateLiveDisplays();
+}
+
+// Pointer events cover mouse, touch and pen.
+let drag=null;
+function knobDown(e,varKey){
+    e.preventDefault();
+    e.currentTarget.focus({preventScroll:true});
+    if (e.currentTarget.setPointerCapture && e.pointerId !== undefined) {
+        try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
+    }
+    drag={varKey,startY:e.clientY,startNorm:valToNorm(varKey,state[varKey].val)};
+}
+window.addEventListener('pointermove',e=>{
+    if(!drag) return;
+    setVarNorm(drag.varKey, drag.startNorm + (drag.startY-e.clientY)/140);
+});
+window.addEventListener('pointerup',()=>drag=null);
+window.addEventListener('pointercancel',()=>drag=null);
+
+// Arrow keys nudge 2%, Shift or PageUp/PageDown 10%, Home/End jump to the ends.
+function knobKey(e,varKey){
+    const cur = valToNorm(varKey,state[varKey].val);
+    const step = e.shiftKey ? 0.1 : 0.02;
+    let next = null;
+    if (e.key==='ArrowUp' || e.key==='ArrowRight') next = cur + step;
+    else if (e.key==='ArrowDown' || e.key==='ArrowLeft') next = cur - step;
+    else if (e.key==='PageUp') next = cur + 0.1;
+    else if (e.key==='PageDown') next = cur - 0.1;
+    else if (e.key==='Home') next = 0;
+    else if (e.key==='End') next = 1;
+    if (next === null) return;
+    e.preventDefault();
+    setVarNorm(varKey, next);
+}
+
+function padKey(e,varKey){
+    if (e.key==='Enter' || e.key===' ') { e.preventDefault(); toggleVoice(varKey); }
+}
+
+// ═══════════════════════════════════════════════════════════
+// UI & VISUALIZERS
+// ═══════════════════════════════════════════════════════════
+function showInfo(varKey){
+    document.getElementById('viDefault').style.display='none';
+    VARS.forEach(v=>{const el=document.getElementById('vi-'+v.key);if(el)el.classList.toggle('on',v.key===varKey);});
+}
+
+function clearCanvas(id){
+    const canvas=document.getElementById(id);
+    if(canvas) canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+}
+
+function drawBeats(){
+    const canvas=document.getElementById('beatCanvas');
+    const c=canvas.getContext('2d');
+    const dpr=window.devicePixelRatio||1;
+    canvas.width=canvas.offsetWidth*dpr; canvas.height=canvas.offsetHeight*dpr;
+    c.scale(dpr,dpr);
+    function frame(){
+        if(!playing) return;
+        requestAnimationFrame(frame);
+        const W=canvas.offsetWidth, H=canvas.offsetHeight;
+        c.clearRect(0,0,W,H);
+        const cellW=(W-1)/BEAT_CELLS;
+        for(let i=0;i<BEAT_CELLS;i++){
+            const x=i*cellW+0.5;
+            const bright=beatGrid[i];
+            c.fillStyle=`rgba(200,168,75,${0.06+bright*0.55})`;
+            c.fillRect(x,2,cellW-2,H-4);
+            beatGrid[i]=Math.max(0,beatGrid[i]-0.04);
+        }
+        const cx=currentBeat*cellW+cellW/2;
+        c.strokeStyle=`rgba(200,168,75,0.3)`; c.lineWidth=1;
+        c.beginPath(); c.moveTo(cx,0); c.lineTo(cx,H); c.stroke();
+    }
+    frame();
+}
+
+function drawWave(){
+    const canvas=document.getElementById('waveCanvas');
+    const c=canvas.getContext('2d');
+    const dpr=window.devicePixelRatio||1;
+    canvas.width=canvas.offsetWidth*dpr; canvas.height=canvas.offsetHeight*dpr;
+    c.scale(dpr,dpr);
+    function frame(){
+        if(!playing) return;
+        animId=requestAnimationFrame(frame);
+        const W=canvas.offsetWidth, H=canvas.offsetHeight;
+        c.clearRect(0,0,W,H);
+        if(!analyser) return;
+        const buf=new Uint8Array(analyser.fftSize);
+        analyser.getByteTimeDomainData(buf);
+        c.strokeStyle='rgba(200,168,75,0.07)'; c.lineWidth=1;
+        c.beginPath(); c.moveTo(0,H/2); c.lineTo(W,H/2); c.stroke();
+        c.strokeStyle='rgba(200,168,75,0.7)'; c.lineWidth=1.5;
+        c.beginPath();
+        for(let i=0;i<buf.length;i++){
+            const x=(i/buf.length)*W;
+            const y=((buf[i]/128)-1)*(H/2)+H/2;
+            i===0?c.moveTo(x,y):c.lineTo(x,y);
+        }
+        c.stroke();
+    }
+    frame();
+}
+
+function buildUI(){
+    const container=document.getElementById('strips');
+    const viPanel=document.querySelector('.vi-panel');
+    container.innerHTML='';
+    VARS.forEach((v,i)=>{
+        const n0=valToNorm(v.key,v.def);
+        const strip=document.createElement('div');
+        strip.className='strip'; strip.id='strip-'+v.key;
+        strip.innerHTML=`
+            <div class="s-id" role="button" tabindex="0" aria-pressed="false" aria-label="${v.name}: toggle voice"
+                onclick="toggleVoice('${v.key}')" onkeydown="padKey(event,'${v.key}')"
+                onmouseenter="showInfo('${v.key}')" onfocus="showInfo('${v.key}')" title="Press ${i+1}">
+                <div class="s-sym">${v.sym}</div>
+                <div class="s-led"></div>
+            </div>
+            <div class="s-knob" onmouseenter="showInfo('${v.key}')">
+                <div class="knob-role">${v.musicalRole}</div>
+                <div class="knob-wrap" id="knob-${v.key}" role="slider" tabindex="0"
+                    aria-label="${v.name}" aria-valuemin="${v.min}" aria-valuemax="${v.max}"
+                    aria-valuenow="${v.def}" aria-valuetext="${fmtVal(v.key)} ${v.unit}"
+                    onpointerdown="knobDown(event,'${v.key}')" onkeydown="knobKey(event,'${v.key}')"
+                    onfocus="showInfo('${v.key}')">
+                    ${knobSVG(v.key,n0)}
+                </div>
+                <div class="knob-val" id="kval-${v.key}">${fmtVal(v.key)} ${v.unit}</div>
+            </div>
+            <div class="s-info" onmouseenter="showInfo('${v.key}')">
+                <div class="s-name">${v.name}</div>
+                <div class="s-role-desc">${v.sciRange || ''}</div>
+                <div class="s-live" id="live-${v.key}">—</div>
+            </div>
+        `;
+        container.appendChild(strip);
+
+        const viEl=document.createElement('div');
+        viEl.className='vi'; viEl.id='vi-'+v.key;
+        viEl.innerHTML=`
+            <div class="vi-sym">${v.sym}</div>
+            <div class="vi-name">${v.name}</div>
+            <div class="vi-role">${v.musicalRole}</div>
+            <div class="vi-body">${v.sciDesc}<br><br><strong style="color:var(--gold);font-size:0.708rem;">SONIC MAPPING</strong><br>${v.roleDesc}</div>
+        `;
+        viPanel.appendChild(viEl);
+    });
+    updateLiveDisplays();
+}
+
+document.addEventListener('keydown',e=>{
+    const tag=e.target.tagName;
+    if(tag==='INPUT'||tag==='SELECT'||tag==='TEXTAREA') return;
+    const i=parseInt(e.key)-1;
+    if(!isNaN(i)&&i>=0&&i<VARS.length) toggleVoice(VARS[i].key);
+    if(e.key===' '){
+        // A focused button or pad handles Space itself; don't also toggle playback.
+        if(tag==='BUTTON'||e.target.getAttribute('role')==='button') return;
+        e.preventDefault();toggleMaster();
+    }
+    if(e.key==='Escape'){
+        const modal=document.getElementById('infoModal');
+        if(modal.classList.contains('open')) modal.classList.remove('open');
+        else silenceAll();
+    }
+});
+
+buildUI();
+clearCanvas('waveCanvas');
+clearCanvas('beatCanvas');
+
+// ═══════════════════════════════════════════════════════════
+// MODULATION ENGINE
+// ═══════════════════════════════════════════════════════════
+let modActive = false;
+let modRaf = null;
+let modStartTime = null;
+let modStartNorm = null;
+
+function toggleMod() {
+    const target = document.getElementById('modTarget').value;
+    if (!target) { document.getElementById('modStatus').textContent = 'Select a target variable first.'; return; }
+    modActive = !modActive;
+    const btn = document.getElementById('modBtn');
+    if (modActive) {
+        btn.textContent = 'Disengage Modulation';
+        btn.style.color = 'var(--gold)';
+        btn.style.borderColor = 'var(--gold)';
+        modStartTime = performance.now();
+        modStartNorm = valToNorm(target, state[target].val);
+        runMod();
+    } else {
+        btn.textContent = 'Engage Modulation';
+        btn.style.color = 'var(--text-dim)';
+        btn.style.borderColor = 'var(--gold-border)';
+        if (modRaf) cancelAnimationFrame(modRaf);
+        modRaf = null;
+        document.getElementById('modStatus').textContent = '';
+    }
+}
+
+function runMod() {
+    if (!modActive) return;
+    const target = document.getElementById('modTarget').value;
+    if (!target) return;
+    const period = parseFloat(document.getElementById('modPeriod').value) * 1000;
+    const shape = document.getElementById('modShape').value;
+    const elapsed = (performance.now() - modStartTime) / period;
+    const t = elapsed % 1; // 0..1 position in cycle
+
+    let lfo;
+    if (shape === 'sine') lfo = (Math.sin(t * Math.PI * 2 - Math.PI/2) + 1) / 2;
+    else if (shape === 'tri') lfo = t < 0.5 ? t * 2 : (1 - t) * 2;
+    else if (shape === 'saw') lfo = t;
+    else lfo = 1 - t; // rsaw
+
+    setVarNorm(target, lfo);
+    document.getElementById('modStatus').textContent = `${getVar(target).sym} → ${(lfo*100).toFixed(0)}% · cycle ${Math.floor(elapsed)+1}`;
+    modRaf = requestAnimationFrame(runMod);
+}
+
+// ═══════════════════════════════════════════════════════════
+// POPULATE MODAL & MOD SELECT
+// ═══════════════════════════════════════════════════════════
+const modalVarsEl = document.getElementById('modalVars');
+const modTargetEl = document.getElementById('modTarget');
+
+// Extended justifications for info panel
+const MODAL_INFO = {
+    R: {
+        why: `R★ is the rate at which new stars form in the Milky Way, measured in solar masses per year. Drake placed it first because all subsequent terms depend on the existence of new stellar systems. Without star formation, there are no planetary systems, and no substrate for life. Current observational estimates from infrared and radio surveys converge on 1–3 solar masses/yr (Robitaille & Whitney 2010; Chomiuk & Povich 2011). Note that R★ peaked ~10 billion years ago and has declined, making modulation of this variable physically meaningful over cosmological time.
+<br><br>Syllabus reference: Lecture 15 (Vieregg) — Cosmic Bang in Time-Space; Bodin Ch. 3–4 (Origin and Evolution of the Universe).`,
+        range: `Default: 1.5 stars/yr. Range: 0.5–10. Scientific consensus: 1–3 stars/yr.`,
+        music: `Sets BPM (40–140). Maps to a steady quarter-note triangle-wave pulse at Root÷4 Hz. The tempo is the only strictly periodic element in the system — all other voices use randomized placement.`
+    },
+    fp: {
+        why: `In 1961 it was unknown whether planets were common. Drake included fₚ to account for this uncertainty. Data from the Kepler Space Telescope (2009–2018) and microlensing surveys have since shown that planets are nearly ubiquitous: Cassan et al. (2012) estimated that statistically every Milky Way star hosts at least one planet. Modern estimates place fₚ at 0.7–1.0. The remaining uncertainty concerns what fraction of planets are rocky versus gaseous, and how many have stable long-term orbits.
+<br><br>Syllabus reference: Lecture 6 (Rogers) — A Diversity of Rocky Worlds; Seager (2009), Valencia et al. (2024).`,
+        range: `Default: 0.92. Range: 0.1–1.0. Scientific consensus: 0.7–1.0.`,
+        music: `Controls density of pluck tones across a 64-step random sequence. Higher fₚ = more notes per cycle. Notes are placed at random positions within the 4-measure grid, not on fixed beats.`
+    },
+    ne: {
+        why: `nₑ is the average number of planets per star system that could support life. Originally defined as the number of planets in a star's habitable zone (liquid water at the surface), this definition has expanded significantly. Europa, Enceladus, and Titan in our own solar system suggest subsurface ocean and atmospheric habitability extends beyond the classic habitable zone (Lecture 7, Graham; Kasting et al. 1988). Conservative estimates for rocky planets in the circumstellar habitable zone are 0.1–0.4 (Rogers 2015; Kopparapu et al. 2013). Including ocean worlds raises the upper bound substantially.
+<br><br>Syllabus reference: Lecture 7 (Graham) — Exoplanet Climate and Habitability; Kasting et al. (1988) on the course syllabus.`,
+        range: `Default: 0.4. Range: 0.1–5.0. Scientific consensus: 0.1–0.4 (rocky only); potentially higher if ocean worlds included.`,
+        music: `Sustained pad tones placed randomly across 4 measures. Knob shifts pitch center; higher value = more concurrent pads per cycle. Longer sustain than other voices to represent geological rather than event timescales.`
+    },
+    fl: {
+        why: `Given suitable conditions, how probable is the emergence of life? Earth's fossil record indicates life appeared by 3.5 Ga, within ~300 million years of stable surface conditions (~3.8 Ga). Whether this implies high probability or is an anthropic sampling artifact is debated. The Rare Earth hypothesis (Ward & Brownlee) argues fl is extremely low. Szostak's RNA world work (Lecture 16) supports the view that prebiotic chemistry can produce self-replicating molecules under plausible early-Earth conditions. We have one confirmed data point.
+<br><br>Syllabus reference: Lecture 16 (Szostak) — Life's Origin and Possibilities for Alien Life; Szostak (2017); Mojarro et al. (2021) on the syllabus. Lecture 8 (Ciesla) — Planetary Formation; Bergin (2020) on prebiotic chemistry.`,
+        range: `Default: 0.13. Range: 0.0001–1.0. Scientific consensus: unknown; estimates span the full range.`,
+        music: `Short square-wave click sounds placed at random steps in the 64-step grid. Density increases with value. The random, discontinuous nature reflects the uncertainty around when and whether abiogenesis occurs.`
+    },
+    fi: {
+        why: `Intelligence evolved once in ~3.8 billion years of Earth life history. The study of convergent evolution (Losos 2017, assigned Lecture 12) suggests some traits — eyes, limbs, sociality — evolve repeatedly; it is unclear whether recursive symbolic cognition is similarly convergent. Lecture 2 (Westneat) addresses the evolutionary origins of intelligence across taxa. Lecture 11 (Ragsdale) examines cephalopod neural complexity, showing that sophisticated cognition can arise from a different body plan and nervous system architecture. The population bottleneck ~900,000 years ago (Hu et al. 2023, Lecture 13) shows how contingent human survival was.
+<br><br>Syllabus reference: Lectures 2, 3, 11, 12, 13; Losos Ch. 2 and Conclusions; Albertin et al. (2015).`,
+        range: `Default: 0.01. Range: 0.0001–1.0. Scientific consensus: unknown; speculative.`,
+        music: `Melody tones placed off the rhythmic grid (unquantized timing). Knob expands scale complexity from a single root pitch to a full chromatic set. The off-grid timing is intentional: intelligence is the one variable that does not map cleanly to physical periodicity.`
+    },
+    fc: {
+        why: `Even a civilization with technology may not emit detectable electromagnetic signals. Humans have broadcast radio for ~120 years (since Marconi), but our signal power is decreasing as communication technology becomes more efficient. Tarter et al. (Lecture 10) examine the technosignature detection problem: what signals would be detectable, and over what distances? Bostrom (2008), on the syllabus, argues that detecting no signals may itself be significant. The transition to fiber optic and encrypted communication reduces unintentional electromagnetic leakage, potentially dropping fᶜ even for advanced civilizations.
+<br><br>Syllabus reference: Lecture 10 (Tarter) — Detecting Technosignatures; Margot et al. (2019) and Bostrom (2008) on the syllabus.`,
+        range: `Default: 0.1. Range: 0.0001–1.0. Scientific consensus: unknown; speculative.`,
+        music: `High-frequency sine pings at harmonic multiples of Root Hz. Timing is unquantized within a 2-beat window. Occasionally doubles (secondary ping 0.1s later). Higher value = more events per cycle.`
+    },
+    L: {
+        why: `L is the mean duration for which a communicating civilization remains detectable. It is the most consequential variable because N is directly proportional to L. If L = 300 years (a civilization self-destructs shortly after developing technology), N is near zero regardless of favorable values for other terms. Lecture 17 (Holz) addresses existential risk directly: the Doomsday Clock currently stands at 89 seconds to midnight (2025 statement), reflecting nuclear, climate, and biological risks. <span class="ai-text" title="This text was written by an LLM (Claude).">[The 2026 statement moved it to 85 seconds.]</span> Sagan originally identified L as the key variable and argued that the survival of civilizations is the central question the Drake Equation poses to us.
+<br><br>Syllabus reference: Lecture 17 (Holz) — Closer Than Ever to the End of the Earth We Know; 2025 Doomsday Clock Statement; Weininger (2020) Ch. 15. Also: Lecture 1 (Sereno); Frank et al. (2023) on Frank Drake.`,
+        range: `Default: 10,000 years. Range: 100–1,000,000 years. Scale is logarithmic. Pessimistic: 300–1,000 yr. Optimistic: 10⁶+ yr.`,
+        music: `Sub-bass sine tone at Root÷8 Hz. Fires once at the start of every 64-step cycle (every 4 measures). Sustain length is set by the knob (2–17 seconds), directly representing how long the civilization's signal persists.`
+    }
+};
+
+VARS.forEach(v => {
+    // Populate modal
+    const info = MODAL_INFO[v.key];
+    const el = document.createElement('div');
+    el.className = 'modal-var';
+    el.innerHTML = `
+        <div class="mv-head">
+            <div class="mv-sym">${v.sym}</div>
+            <div class="mv-name">${v.name}</div>
+        </div>
+        <div class="mv-range" style="margin-bottom:10px;">${info.range}</div>
+        <div class="mv-sci">${info.why}</div>
+        <div class="mv-music">
+            <div class="mv-music-label">Sonic mapping</div>
+            ${info.music}
+        </div>
+    `;
+    modalVarsEl.appendChild(el);
+
+    // Populate mod target select
+    const opt = document.createElement('option');
+    opt.value = v.key;
+    opt.textContent = `${v.sym} — ${v.name}`;
+    modTargetEl.appendChild(opt);
+});
+</script>
+</body>
+</html>

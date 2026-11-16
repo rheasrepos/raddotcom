@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The New Golden Record</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --gold: #C8A84B;
+            --gold-light: #E8C96A;
+            --gold-pale: rgba(200, 168, 75, 0.12);
+            --gold-border: rgba(200, 168, 75, 0.3);
+            --bg: #080706;
+            --bg-card: #0E0D0B;
+            --bg-hover: #141210;
+            --text: #D4C9B0;
+            --text-dim: #7A7060;
+            --text-bright: #F0E8D0;
+            --mono: 'Josefin Sans', 'Futura', 'Century Gothic', sans-serif;
+            --serif: 'Josefin Sans', 'Futura', 'Century Gothic', sans-serif;
+            --body-serif: 'Josefin Sans', 'Futura', 'Century Gothic', sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+        em, i, cite { font-style: normal; }
+        /* LLM-written text: same dashed underline the rest of the site uses */
+        .ai-text { text-decoration: underline dashed; text-decoration-thickness: 1px; text-underline-offset: 3px; cursor: help; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--body-serif);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 20px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(8,7,6,0.95) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(200,168,75,0.08);
+            background: rgba(8,7,6,0.95);
+        }
+
+        .nav-logo {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            color: var(--gold);
+            letter-spacing: 0.05em;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--gold); }
+
+        /* ── HERO ── */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 48px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-rings {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid var(--gold-border);
+            animation: ring-pulse 6s ease-in-out infinite;
+        }
+        .ring:nth-child(1) { width: 300px; height: 300px; animation-delay: 0s; }
+        .ring:nth-child(2) { width: 500px; height: 500px; animation-delay: 1s; opacity: 0.6; }
+        .ring:nth-child(3) { width: 700px; height: 700px; animation-delay: 2s; opacity: 0.3; }
+        .ring:nth-child(4) { width: 900px; height: 900px; animation-delay: 3s; opacity: 0.15; }
+        .ring:nth-child(5) { width: 1100px; height: 1100px; animation-delay: 4s; opacity: 0.08; }
+
+        @keyframes ring-pulse {
+            0%, 100% { transform: scale(1); opacity: var(--opacity, 0.3); }
+            50% { transform: scale(1.02); }
+        }
+
+        .hero-eyebrow {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .hero-title {
+            font-family: var(--serif);
+            font-size: clamp(3.5rem, 9vw, 8rem);
+            font-weight: 300;
+            line-height: 0.9;
+            color: var(--text-bright);
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .hero-title em {
+            font-style: normal;
+            color: var(--gold);
+        }
+
+        .hero-subtitle {
+            font-family: var(--serif);
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            font-weight: 300;
+            font-style: normal;
+            color: var(--text-dim);
+            max-width: 560px;
+            margin: 24px auto 48px;
+            position: relative;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+        }
+
+        .btn {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 14px 32px;
+            border: 1px solid var(--gold-border);
+            color: var(--text);
+            background: transparent;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: var(--gold-pale);
+            border-color: var(--gold);
+            color: var(--gold-light);
+        }
+        .btn-gold {
+            background: var(--gold);
+            color: #080706;
+            border-color: var(--gold);
+        }
+        .btn-gold:hover {
+            background: var(--gold-light);
+            color: #080706;
+            border-color: var(--gold-light);
+        }
+
+        /* ── SECTION STRUCTURE ── */
+        section {
+            padding: 100px 48px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-eyebrow {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .section-eyebrow::before {
+            content: '';
+            width: 32px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .section-title {
+            font-family: var(--serif);
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            font-weight: 300;
+            line-height: 1.1;
+            color: var(--text-bright);
+            margin-bottom: 24px;
+        }
+        .section-title em { font-style: normal; color: var(--gold); }
+
+        .section-intro {
+            font-size: 1.05rem;
+            color: var(--text-dim);
+            max-width: 640px;
+            margin-bottom: 64px;
+            line-height: 1.8;
+        }
+
+        /* ── DIVIDER ── */
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold-border), transparent);
+            margin: 0;
+        }
+
+        /* ── CONTENT CARDS GRID ── */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2px;
+            background: var(--gold-border);
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gold-pale);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .card:hover::before { opacity: 1; }
+        .card:hover { transform: translateY(-2px); }
+
+        .card-number {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            color: var(--gold);
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+
+        .card-title {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-bright);
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .card-body {
+            font-size: 0.88rem;
+            color: var(--text-dim);
+            line-height: 1.7;
+        }
+
+        .card-arrow {
+            position: absolute;
+            bottom: 28px;
+            right: 28px;
+            color: var(--gold);
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: translate(-4px, 4px);
+            transition: all 0.3s;
+        }
+        .card:hover .card-arrow { opacity: 1; transform: translate(0,0); }
+
+        /* ── DETAIL PANELS ── */
+        .detail-panel {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            background: var(--bg);
+            overflow-y: auto;
+            animation: slideIn 0.4s ease;
+        }
+        .detail-panel.open { display: block; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .panel-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 100px 48px 80px;
+        }
+
+        .panel-close {
+            position: fixed;
+            top: 28px;
+            right: 36px;
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            color: var(--text-dim);
+            cursor: pointer;
+            background: none;
+            border: 1px solid var(--gold-border);
+            padding: 10px 20px;
+            transition: all 0.3s;
+            z-index: 510;
+        }
+        .panel-close:hover { border-color: var(--gold); color: var(--gold); }
+
+        .panel-title {
+            font-family: var(--serif);
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            color: var(--text-bright);
+            line-height: 1.1;
+            margin-bottom: 48px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--gold-border);
+        }
+        .panel-title em { font-style: normal; color: var(--gold); }
+
+        .panel-section {
+            margin-bottom: 56px;
+        }
+
+        .panel-section h3 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--text-bright);
+            margin-bottom: 16px;
+        }
+
+        .panel-section p {
+            color: var(--text);
+            line-height: 1.9;
+            margin-bottom: 16px;
+        }
+
+        .panel-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .panel-section ul li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(200,168,75,0.08);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        .panel-section ul li strong {
+            color: var(--text-bright);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* ── MATH BOX ── */
+        .math-box {
+            background: rgba(200,168,75,0.04);
+            border-left: 3px solid var(--gold);
+            padding: 24px 28px;
+            margin: 24px 0;
+            overflow-x: auto;
+            font-size: 1.1rem;
+        }
+
+        /* ── CITATION ── */
+        .cite {
+            font-family: var(--mono);
+            font-size: 0.75em;
+            color: var(--gold);
+            opacity: 0.75;
+            border-bottom: 1px dashed rgba(200,168,75,0.4);
+        }
+
+        /* ── TIMELINE ── */
+        .timeline {
+            position: relative;
+            padding-left: 28px;
+            border-left: 1px solid var(--gold-border);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 32px;
+            padding: 20px 24px;
+            background: var(--bg-card);
+            border: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+        .timeline-item:hover { border-color: var(--gold-border); }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 22px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 1px solid var(--gold);
+        }
+
+        .timeline-time {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            margin-bottom: 6px;
+        }
+
+        .timeline-item h4 {
+            font-family: var(--serif);
+            font-size: 1.05rem;
+            color: var(--text-bright);
+            margin-bottom: 6px;
+        }
+        .timeline-item p {
+            font-size: 0.88rem;
+            color: var(--text-dim);
+            margin: 0;
+        }
+
+        /* ── IFRAME ── */
+        .embed-frame {
+            width: 100%;
+            height: 420px;
+            border: 1px solid var(--gold-border);
+            background: #000;
+            margin: 20px 0;
+        }
+
+        /* ── EXTERNAL LINK ── */
+        .ext-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            text-decoration: none;
+            border-bottom: 1px solid var(--gold-border);
+            padding-bottom: 2px;
+            transition: border-color 0.3s;
+        }
+        .ext-link:hover { border-color: var(--gold); }
+
+        /* ── DRAKE LOOPER PREVIEW in main page ── */
+        .looper-teaser {
+            background: var(--bg-card);
+            border: 1px solid var(--gold-border);
+            padding: 48px;
+            display: flex;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .looper-teaser-text { flex: 1; }
+        .looper-teaser-visual {
+            flex: 0 0 200px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .mini-pad {
+            width: 44px;
+            height: 44px;
+            background: rgba(200,168,75,0.08);
+            border: 1px solid var(--gold-border);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--mono);
+            font-size: 0.5rem;
+            color: var(--gold);
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        /* ── SECTION: ABOUT ── */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: start;
+        }
+
+        .about-text p { color: var(--text); line-height: 1.9; margin-bottom: 20px; }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--gold-border);
+        }
+
+        .stat-box {
+            background: var(--bg-card);
+            padding: 28px;
+        }
+
+        .stat-number {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--gold);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        /* ── TABLE OF CONTENTS / OVERVIEW ── */
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2px;
+            background: var(--gold-border);
+        }
+
+        .toc-item {
+            background: var(--bg-card);
+            padding: 24px 28px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .toc-item:hover { background: var(--bg-hover); }
+
+        .toc-num {
+            font-family: var(--mono);
+            font-size: 0.55rem;
+            color: var(--gold);
+            opacity: 0.6;
+            margin-bottom: 8px;
+        }
+        .toc-label {
+            font-family: var(--serif);
+            font-size: 1rem;
+            color: var(--text-bright);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            padding: 60px 48px;
+            border-top: 1px solid var(--gold-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer .footer-left {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--gold);
+        }
+
+        footer .footer-right {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            color: var(--text-dim);
+            text-align: right;
+            line-height: 1.8;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            nav { padding: 16px 24px; }
+            .nav-links { display: none; }
+            section { padding: 64px 24px; }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .looper-teaser { flex-direction: column; }
+            .panel-inner { padding: 80px 24px 60px; }
+            footer { flex-direction: column; gap: 24px; text-align: center; }
+            footer .footer-right { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="#" class="nav-logo">The New Golden Record</a>
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#contents">Contents</a></li>
+        <li><a href="#universe">Universe</a></li>
+        <li><a href="#earth">Earth</a></li>
+        <li><a href="#humanity">Humanity</a></li>
+        <li><a href="2026-the-new-golden-record-drake-looper.html" target="_blank">Drake Looper</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+    <div class="hero-rings">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+    </div>
+    <div class="hero-eyebrow">A message from Earth · 2025</div>
+    <h1 class="hero-title">The <em>New</em><br>Golden Record</h1>
+    <p class="hero-subtitle">Almost 50 years have passed since Voyager carried humanity's first message into the cosmos. Much has changed. Here is what we'd send now.</p>
+    <div class="hero-cta">
+        <a href="#contents" class="btn btn-gold">Explore the Record</a>
+        <a href="2026-the-new-golden-record-drake-looper.html" class="btn" target="_blank">Drake Equation Looper</a>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="section-eyebrow">Context</div>
+    <div class="about-grid">
+        <div class="about-text">
+            <h2 class="section-title">Why a <em>New</em> Record?</h2>
+            <p>In 1977, Carl Sagan and his team curated a golden phonograph record aboard the Voyager spacecrafts — a 12-inch, gold-plated copper disc containing sounds and images chosen to portray life and culture on Earth, meant for any intelligent extraterrestrial life that might one day encounter it.</p>
+            <p>Almost 50 years later, the original record reflects its era: optimistic, western-centric, scientifically limited by what we then knew about the cosmos, and silent on almost everything that has happened since.</p>
+            <p>This project is a reimagining. What would we include if we were sending the record today? What science has transformed our understanding? Whose voices were missing? What truths about humanity — beautiful and difficult — deserve a place in our cosmic autobiography?</p>
+            <p style="font-style: normal; color: var(--text-dim);">— Ha Do & Rhea Madhogarhia</p>
+        </div>
+        <div>
+            <div class="about-stats">
+                <div class="stat-box">
+                    <div class="stat-number">1977</div>
+                    <div class="stat-label">Original launch</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">47+</div>
+                    <div class="stat-label">Years of change</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">5,000+</div>
+                    <div class="stat-label">Exoplanets found</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Stories untold</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TABLE OF CONTENTS -->
+<section id="contents" style="max-width: 100%; padding: 80px 0;">
+    <div style="padding: 0 48px 48px;">
+        <div class="section-eyebrow">Record Contents</div>
+        <h2 class="section-title">Everything <em>Inside</em></h2>
+    </div>
+    <div class="toc-grid">
+        <div class="toc-item" onclick="openPanel('panel-how')">
+            <div class="toc-num">01</div>
+            <div class="toc-label">How to Read This Record</div>
+        </div>
+        <div class="toc-item" onclick="openPanel('panel-physics')">
+            <div class="toc-num">02</div>
+            <div class="toc-label">Math & Physics</div>
+        </div>
+        <div class="toc-item" onclick="openPanel('panel-cosmos')">
+            <div class="toc-num">03</div>
+            <div class="toc-label">The Universe</div>
+        </div>
+        <div class="toc-item" onclick="openPanel('panel-galaxies')">
+            <div class="toc-num">04</div>
+            <div class="toc-label">Galaxies & Stars</div>
+        </div>
+        <div class="toc-item" onclick="openPanel('panel-exoplanets')">
+            <div class="toc-num">05</div>
+            <div class="toc-label">Exoplanets</div>
+        </div>
+        <div class="toc-item" onclick="openPanel('panel-chemistry')">
+            <div class="toc-num">06</div>
+            <div class="toc-label">Chemistry & DNA</div>
+        </div>
+        <div class="toc-item" onclick="openPanel('panel-earth')">
+            <div class="toc-num">07</div>
+            <div class="toc-label">Planet Earth</div>
+        </div>
+        <div class="toc-item" onclick="openPanel('panel-life')">
+            <div class="toc-num">08</div>
+            <div class="toc-label">Tree of Life</div>
+        </div>
+        <div class="toc-item" onclick="openPanel('panel-humanity')">
+            <div class="toc-num">09</div>
+            <div class="toc-label">Humanity</div>
+        </div>
+        <div class="toc-item" onclick="openPanel('panel-tech')">
+            <div class="toc-num">10</div>
+            <div class="toc-label">Technology & AI</div>
+        </div>
+        <div class="toc-item" onclick="openPanel('panel-culture')">
+            <div class="toc-num">11</div>
+            <div class="toc-label">Culture & Music</div>
+        </div>
+        <div class="toc-item" onclick="openPanel('panel-questions')">
+            <div class="toc-num">12</div>
+            <div class="toc-label">Open Questions</div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DEEP DIVE: UNIVERSE -->
+<section id="universe">
+    <div class="section-eyebrow">Deep Dive</div>
+    <h2 class="section-title">The <em>Universe</em></h2>
+    <p class="section-intro">From the Planck Era to the dark-energy-dominated cosmos of today — the story we share with any civilization that might find this record.</p>
+    <div class="cards-grid">
+        <div class="card" onclick="openPanel('panel-cosmos')">
+            <div class="card-number">Cosmology</div>
+            <h3 class="card-title">ΛCDM & the Expanding Universe</h3>
+            <p class="card-body">Our best model of a cosmos whose expansion is governed by dark matter, dark energy, and ordinary matter. The universe is nearly flat, 13.77 billion years old, and accelerating.</p>
+            <span class="card-arrow">→</span>
+        </div>
+        <div class="card" onclick="openPanel('panel-galaxies')">
+            <div class="card-number">Structure</div>
+            <h3 class="card-title">Galaxies, Stars & Nucleosynthesis</h3>
+            <p class="card-body">From dwarf irregulars to giant ellipticals. How stars of different masses live, die, and forge every element heavier than helium — including the atoms in our bodies.</p>
+            <span class="card-arrow">→</span>
+        </div>
+        <div class="card" onclick="openPanel('panel-exoplanets')">
+            <div class="card-number">Planets</div>
+            <h3 class="card-title">Exoplanets & Habitability</h3>
+            <p class="card-body">Over 5,000 confirmed worlds orbit other stars. Mass determines everything: atmosphere retention, internal heat, geological activity, and whether life could take hold.</p>
+            <span class="card-arrow">→</span>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DEEP DIVE: EARTH -->
+<section id="earth">
+    <div class="section-eyebrow">Deep Dive</div>
+    <h2 class="section-title">Planet <em>Earth</em></h2>
+    <p class="section-intro">Our world — its improbable formation, its self-regulating climate, its explosion of life, and the one species that learned to wonder about its own origins.</p>
+    <div class="cards-grid">
+        <div class="card" onclick="openPanel('panel-earth')">
+            <div class="card-number">Geology & Formation</div>
+            <h3 class="card-title">How Earth Came to Be</h3>
+            <p class="card-body">From dust grains to a living planet. The classical and pebble accretion models, the carbonate-silicate thermostat, and why Earth stayed habitable while Venus and Mars did not.</p>
+            <span class="card-arrow">→</span>
+        </div>
+        <div class="card" onclick="openPanel('panel-life')">
+            <div class="card-number">Biology</div>
+            <h3 class="card-title">The Tree of Life</h3>
+            <p class="card-body">From the Miller-Urey experiment to the human bottleneck 900,000 years ago. Biosignatures, the evolutionary history of intelligence, and what makes Earth legible as a living world.</p>
+            <span class="card-arrow">→</span>
+        </div>
+        <div class="card" onclick="openPanel('panel-chemistry')">
+            <div class="card-number">Chemistry & DNA</div>
+            <h3 class="card-title">The Recipe for Life</h3>
+            <p class="card-body">118 elements, a nuclide chart, the double helix, and the Miller-Urey experiment. The volatile elements that make biology possible on Earth — and possibly elsewhere.</p>
+            <span class="card-arrow">→</span>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DEEP DIVE: HUMANITY -->
+<section id="humanity">
+    <div class="section-eyebrow">Deep Dive</div>
+    <h2 class="section-title">What It Means to be <em>Human</em></h2>
+    <p class="section-intro">Culture, struggle, creativity, and connection. The voices this record refuses to leave behind.</p>
+    <div class="cards-grid">
+        <div class="card" onclick="openPanel('panel-humanity')">
+            <div class="card-number">Social Life</div>
+            <h3 class="card-title">Greetings, Language & Movement</h3>
+            <p class="card-body">Sign language. Braille. Laughter, heartbeat, footsteps. Palestine. BLM. Trans rights. Women's rights. No languages left behind — and no struggles erased from the record.</p>
+            <span class="card-arrow">→</span>
+        </div>
+        <div class="card" onclick="openPanel('panel-culture')">
+            <div class="card-number">Arts & Music</div>
+            <h3 class="card-title">Voices, Sounds & Play</h3>
+            <p class="card-body">Classical, R&B, Mongolian throat singing, Tinariwen, Adrianne Lenker. James Cameron's Avatar on colonization and biology. Little Alchemy — a game about making the world.</p>
+            <span class="card-arrow">→</span>
+        </div>
+        <div class="card" onclick="openPanel('panel-tech')">
+            <div class="card-number">Technology</div>
+            <h3 class="card-title">Networks, AI & Information</h3>
+            <p class="card-body">How humanity organizes knowledge. AI's paradox: it expands individual impact while narrowing collective focus. Why biased AI may produce better collective decisions.</p>
+            <span class="card-arrow">→</span>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DRAKE LOOPER TEASER -->
+<section id="looper" style="max-width: 1000px;">
+    <div class="section-eyebrow">Interactive</div>
+    <h2 class="section-title">The Drake Equation <em>Looper</em></h2>
+    <p class="section-intro">Each variable in the Drake Equation becomes a sound. Layer them to hear the probabilistic music of cosmic contact.</p>
+    <div class="looper-teaser">
+        <div class="looper-teaser-text">
+            <p style="margin-bottom: 20px; line-height: 1.8;">The Drake Equation estimates the number of communicating civilizations in our galaxy. Rather than just displaying the equation, we've turned each variable into a looping audio layer — a sonic representation of cosmic probability.</p>
+            <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 28px; line-height: 1.8;">Toggle variables on and off. Adjust their values. Hear how the music of the equation shifts as the estimated number of civilizations changes.</p>
+            <a href="2026-the-new-golden-record-drake-looper.html" class="btn btn-gold" target="_blank">Open Drake Looper</a>
+        </div>
+        <div class="looper-teaser-visual">
+            <div class="mini-pad">R★</div>
+            <div class="mini-pad">fp</div>
+            <div class="mini-pad">ne</div>
+            <div class="mini-pad">fl</div>
+            <div class="mini-pad">fi</div>
+            <div class="mini-pad">fc</div>
+            <div class="mini-pad">L</div>
+            <div class="mini-pad" style="width: 94px; background: rgba(200,168,75,0.15); border-color: var(--gold);">N ≈ ?</div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<footer>
+    <div class="footer-left">New Golden Record</div>
+    <div class="footer-right">
+        Ha Do & Rhea Madhogarhia<br>
+        BPRO Final Project · 2025<br>
+        <span style="color: var(--gold); opacity:0.6;">A message from Earth</span><br>
+        <span class="ai-text" title="This text was written by an LLM (Claude).">The text on this page was drafted by an LLM (Claude) from our research outline and proposal.</span>
+    </div>
+</footer>
+
+<!-- ═══════════════════════════════════════ DETAIL PANELS ═══════════════════════════════ -->
+
+<!-- PANEL: HOW TO READ -->
+<div id="panel-how" class="detail-panel">
+    <button class="panel-close" onclick="closePanel('panel-how')">← Return</button>
+    <div class="panel-inner">
+        <h1 class="panel-title">How to Read <em>This Record</em></h1>
+        <div class="panel-section">
+            <h3>Navigation Keys</h3>
+            <ul>
+                <li><strong>Star Map</strong>Our location encoded relative to the Sagittarius A* black hole at the galactic center, with its now-imaged silhouette as a landmark.</li>
+                <li><strong>Units of Time</strong>Defined via pulsar timing intervals and the fundamental 21-cm hyperfine transition of the hydrogen atom — universal constants a technological civilization would recognize.</li>
+                <li><strong>Distance</strong>Cepheid variable stars as standard candles, with their period-luminosity relation as the universal distance ladder.</li>
+                <li><strong>Counting</strong>Conversions between base 2 (binary), base 10, and base 12 shown with prime numbers and geometric proofs to establish mathematical contact.</li>
+                <li><strong>Conserved Quantities</strong>Energy, momentum, and charge — the things that stay the same everywhere in the universe.</li>
+                <li><strong>Speed of Light</strong>c = 299,792,458 m/s in SI units, re-derivable from the fundamental atomic transitions encoded above.</li>
+            </ul>
+        </div>
+        <div class="panel-section">
+            <h3>Reply Instructions</h3>
+            <p>Narrow-band radio transmissions remain the most efficient known method for interstellar communication. The Margot et al. (2019) Astro2020 white paper defines the search space for technosignatures in the 2020s — the same band we invite a response on.</p>
+        </div>
+    </div>
+</div>
+
+<!-- PANEL: MATH & PHYSICS -->
+<div id="panel-physics" class="detail-panel">
+    <button class="panel-close" onclick="closePanel('panel-physics')">← Return</button>
+    <div class="panel-inner">
+        <h1 class="panel-title">Mathematics &<br><em>Physics</em></h1>
+        <div class="panel-section">
+            <h3>The Standard Model</h3>
+            <p>The quantum field theory describing all known fundamental particles and three of the four fundamental forces (electromagnetism, weak nuclear, strong nuclear) via the symmetry group:</p>
+            <div class="math-box">$$ SU(3)_C \times SU(2)_L \times U(1)_Y $$</div>
+            <p>Matter particles (fermions) come in three generations of quarks and leptons. Force carriers (gauge bosons) include 8 gluons, the W± and Z bosons, and the photon. The Higgs boson (discovered at CERN in 2012) completes the picture, giving mass to particles via spontaneous symmetry breaking.</p>
+        </div>
+        <div class="panel-section">
+            <h3>Key Constants & Equations</h3>
+            <ul>
+                <li><strong>Newton's Law of Gravitation</strong>\(F = Gm_1m_2/r^2\) — the universal inverse-square force between masses.</li>
+                <li><strong>General Relativity (Einstein Field Equations)</strong>\(G_{\mu\nu} + \Lambda g_{\mu\nu} = 8\pi G T_{\mu\nu}/c^4\)</li>
+                <li><strong>Special Relativity</strong>\(E = mc^2\) and the Lorentz factor \(\gamma = 1/\sqrt{1-v^2/c^2}\)</li>
+                <li><strong>Schrödinger Equation</strong>\(i\hbar \partial_t |\psi\rangle = \hat{H}|\psi\rangle\) — the fundamental equation of quantum mechanics.</li>
+                <li><strong>Gravitational Waves</strong>Ripples in spacetime first directly detected by LIGO in 2015 — new ears for the universe.</li>
+                <li><strong>Powers of Ten</strong>Scale from 10⁻¹⁵ m (nucleus) to 10²⁶ m (observable universe), demonstrating cosmic scale.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- PANEL: COSMOLOGY -->
+<div id="panel-cosmos" class="detail-panel">
+    <button class="panel-close" onclick="closePanel('panel-cosmos')">← Return</button>
+    <div class="panel-inner">
+        <h1 class="panel-title">The Universe:<br><em>ΛCDM</em></h1>
+        <div class="panel-section">
+            <h3>The Geometry of Spacetime</h3>
+            <p>Our most successful cosmological model describes a universe whose expansion rate is determined by cold gravitating matter and a constant vacuum energy density (Λ), with the latter currently dominating and causing accelerated expansion.</p>
+            <p>Observations reveal that space itself changes with time. Distances between unbound objects grow according to a scale factor a(t), described by a homogeneous, isotropic metric:</p>
+            <div class="math-box">$$ ds^2 = -c^2 dt^2 + a^2(t)\, d\Sigma_k^2 $$</div>
+        </div>
+        <div class="panel-section">
+            <h3>The Friedmann Equation</h3>
+            <p>Spacetime curvature responds to energy density and pressure. The expansion rate depends on total energy density (ρ), spatial curvature (k), and the cosmological constant (Λ):</p>
+            <div class="math-box">$$ H^2 = \left(\frac{\dot a}{a}\right)^2 = \frac{8\pi G}{3}\rho - \frac{k c^2}{a^2} + \frac{\Lambda c^2}{3} $$</div>
+            <p>Current observations: Ω_m ≈ 0.3, Ω_Λ ≈ 0.7, Ω_k ≈ 0. The universe is nearly flat and vacuum-energy dominated.</p>
+        </div>
+        <div class="panel-section">
+            <h3>Timeline of the Universe</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-time">T &lt; 10⁻⁴³ seconds</div>
+                    <h4>Planck Era</h4>
+                    <p>Gravity and quantum mechanics unified; all forces likely as one. Physics as we know it breaks down.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">T ~ 10⁻³⁶ to 10⁻³² seconds</div>
+                    <h4>Inflation</h4>
+                    <p>Exponential expansion flattens the universe and seeds the density fluctuations that will later become galaxies.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">T ~ 3–20 minutes</div>
+                    <h4>Big Bang Nucleosynthesis</h4>
+                    <p>Hydrogen, helium (~25%), and trace lithium form. No heavier elements yet.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">T = 375,000 years</div>
+                    <h4>Cosmic Microwave Background</h4>
+                    <p>Universe cools enough for neutral atoms to form. Photons decouple and travel freely — the "afterglow" we observe today at 2.7 K.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">T ~ 100–200 million years</div>
+                    <h4>First Stars (Population III)</h4>
+                    <p>End of the cosmic Dark Ages. The first stellar fusion engines ignite and produce the first heavy elements.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">T ~ 5–6 billion years ago</div>
+                    <h4>Dark Energy Begins to Dominate</h4>
+                    <p>Vacuum energy overtakes matter. Expansion begins accelerating.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">T = 13.77 billion years</div>
+                    <h4>Present Day</h4>
+                    <p>Nearly flat, accelerating universe structured into galaxies, clusters, and filaments. Complex life on at least one rocky world.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PANEL: GALAXIES & STARS -->
+<div id="panel-galaxies" class="detail-panel">
+    <button class="panel-close" onclick="closePanel('panel-galaxies')">← Return</button>
+    <div class="panel-inner">
+        <h1 class="panel-title">Galaxies, Stars &<br><em>Nucleosynthesis</em></h1>
+        <div class="panel-section">
+            <h3>Types of Galaxies</h3>
+            <ul>
+                <li><strong>Spiral Galaxies (e.g., The Milky Way)</strong>Central bulge, rotating disk, spiral arms, dark matter halo. Ongoing star formation; blue young stars in arms. Gas-rich environments.</li>
+                <li><strong>Elliptical Galaxies (e.g., Messier 87)</strong>Smooth, rounded shape. Mostly old red stars; little gas or dust; very little new star formation.</li>
+                <li><strong>Irregular Galaxies (e.g., Large Magellanic Cloud)</strong>No clear symmetry; often distorted by gravitational interactions with neighboring galaxies.</li>
+            </ul>
+        </div>
+        <div class="panel-section">
+            <h3>Stellar Evolution by Mass</h3>
+            <p>A star's mass at birth determines everything: how hot it burns, how long it lives, how it dies, and what elements it creates.</p>
+            <ul>
+                <li><strong>Low-mass stars (&lt;0.5 M☉)</strong>Burn hydrogen slowly for trillions of years. Never ignite helium. End as helium white dwarfs. No heavy element production.</li>
+                <li><strong>Sun-like stars (0.5–8 M☉)</strong>Main sequence → Red Giant → Helium burning (triple-alpha: 3 ⁴He → ¹²C) → Planetary nebula → Carbon-oxygen white dwarf. s-process creates elements like Strontium, Barium.</li>
+                <li><strong>Massive stars (&gt;8 M☉)</strong>Onion-shell fusion structure up to iron. When the iron core exceeds the Chandrasekhar limit (~1.4 M☉), it collapses. Core-collapse supernova. r-process creates gold, uranium, platinum, rare earths.</li>
+            </ul>
+            <div class="math-box">$$ \text{Stellar Lifetime} \propto M^{-2.5} $$</div>
+            <p>All elements heavier than helium originate from stellar nucleosynthesis. We are literally made of dead stars.</p>
+        </div>
+    </div>
+</div>
+
+<!-- PANEL: EXOPLANETS -->
+<div id="panel-exoplanets" class="detail-panel">
+    <button class="panel-close" onclick="closePanel('panel-exoplanets')">← Return</button>
+    <div class="panel-inner">
+        <h1 class="panel-title">Exoplanets &<br><em>Habitability</em></h1>
+        <div class="panel-section">
+            <h3>Mass as the Master Variable</h3>
+            <p>Just as stellar mass determines a star's entire life story, planetary mass determines composition, atmosphere retention, internal structure, geological activity, and long-term evolution.</p>
+            <div class="math-box">$$ v_{esc} = \sqrt{\frac{2GM}{R}} $$</div>
+            <p>Higher mass → higher escape velocity → better retention of light gases (H, He). Too low: atmosphere escapes over geological time (Mars). Too high: thick hydrogen envelope, no rocky surface (Neptune, Jupiter).</p>
+        </div>
+        <div class="panel-section">
+            <h3>Planet Classes</h3>
+            <ul>
+                <li><strong>Terrestrial (0.1–5 Earth masses)</strong>Iron core, silicate mantle, thin or secondary atmospheres, solid surfaces. Mercury, Venus, Earth, Mars.</li>
+                <li><strong>Super-Earths (2–10 Earth masses)</strong>Most common planet type found around other stars. May be rocky, water-world, or mini-Neptune. Composition is mass-dependent.</li>
+                <li><strong>Ice Giants (10–20 Earth masses)</strong>Rock + water/ammonia/methane "ices" with thick hydrogen/helium envelope. Uranus, Neptune.</li>
+                <li><strong>Gas Giants (&gt;50 Earth masses)</strong>Dense possible core, massive H/He envelope, no solid surface. Runaway gas accretion during formation. Jupiter, Saturn.</li>
+            </ul>
+        </div>
+        <div class="panel-section">
+            <h3>Thermal & Geological Evolution</h3>
+            <p>Planetary heat sources include accretional heating, radioactive decay, core formation, and tidal heating. This internal heat dictates whether plate tectonics can operate and whether magnetic fields form. Earth's protective dynamo requires a liquid metallic core and sufficient mass to maintain convection — a combination that may be rare.</p>
+        </div>
+    </div>
+</div>
+
+<!-- PANEL: CHEMISTRY -->
+<div id="panel-chemistry" class="detail-panel">
+    <button class="panel-close" onclick="closePanel('panel-chemistry')">← Return</button>
+    <div class="panel-inner">
+        <h1 class="panel-title">Chemistry, Elements<br>& <em>DNA</em></h1>
+        <div class="panel-section">
+            <h3>The Periodic Table</h3>
+            <p>118 confirmed elements, organized by atomic number (number of protons) and recurring patterns in electron configuration. Chemical behavior is determined by outer (valence) electrons — elements in the same group behave similarly.</p>
+            <p>Interactive periodic table: <a href="http://pubchem.ncbi.nlm.nih.gov/periodic-table/" target="_blank" class="ext-link">PubChem Periodic Table</a></p>
+        </div>
+        <div class="panel-section">
+            <h3>The Chemistry of Life</h3>
+            <p>Earth's biological signatures rely on the delivery and processing of volatile elements: carbon, hydrogen, nitrogen, and oxygen (CHNO). The foundation of life as we know it. <span class="cite">[Bergin, 2020]</span></p>
+            <ul>
+                <li><strong>DNA & the Genetic Code</strong>A double-helix polymer of nucleotides encoding the information required to build and operate all known life. The human genome contains ~3 billion base pairs.</li>
+                <li><strong>The Miller-Urey Experiment</strong>Stanley Miller and Harold Urey demonstrated in 1953 that organic molecules — including amino acids — could be synthesized abiotically from simple inorganic compounds and energy, suggesting life's building blocks could arise spontaneously.</li>
+                <li><strong>Cell Division</strong>Life perpetuates itself through mitosis and meiosis — the choreographed duplication and halving of genetic information across billions of generations.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- PANEL: EARTH -->
+<div id="panel-earth" class="detail-panel">
+    <button class="panel-close" onclick="closePanel('panel-earth')">← Return</button>
+    <div class="panel-inner">
+        <h1 class="panel-title">Planet Earth:<br><em>Geology & Formation</em></h1>
+        <div class="panel-section">
+            <h3>How Earth Formed</h3>
+            <ul>
+                <li><strong>Classical Planetesimal Accretion <span class="cite">[Chambers, 2004]</span></strong>Dust grains in the early solar nebula clumped into mountain-sized planetesimals, which merged into Moon-to-Mars-sized planetary embryos over hundreds of thousands of years. The embryos then underwent chaotic giant impacts to form the terrestrial planets.</li>
+                <li><strong>Pebble Accretion <span class="cite">[Boyle, 2022]</span></strong>Observations of distant protoplanetary disks forced a revision of the classical model. Planets likely formed much faster, as millimeter-to-meter-sized pebbles drifted inward and were efficiently swept up by the gravity of growing planetary cores.</li>
+            </ul>
+        </div>
+        <div class="panel-section">
+            <h3>Earth's Climate Thermostat</h3>
+            <p>Earth managed to maintain a habitable climate and liquid water over billions of years due to the carbonate-silicate geochemical cycle. <span class="cite">[Kasting, Toon & Pollack, 1988]</span></p>
+            <p>This cycle acts as a planetary thermostat: atmospheric CO₂ is drawn down through weathering and locked in carbonate rocks, then released through volcanism. The negative feedback prevents Earth from experiencing runaway greenhouse warming (like Venus) or permanent glaciation (like Mars).</p>
+        </div>
+        <div class="panel-section">
+            <h3>Biosignatures</h3>
+            <p>Identifying life on other worlds requires analyzing a planet's atmospheric and surface chemistry for states of extreme disequilibrium. <span class="cite">[Schwieterman & Leung, 2024]</span></p>
+            <p>On Earth, the simultaneous presence of highly reactive gases — abundant oxygen coexisting with methane — is a robust biosignature, because these gases would rapidly destroy each other without a continuous biological source replenishing them. Additionally, vegetation creates a "red edge" — a sharp increase in surface reflectance that could be detected by a distant telescope. <span class="cite">[Seager, 2009]</span></p>
+            <iframe class="embed-frame" src="https://www.youtube.com/embed/7GPB1sjEhIQ" title="Human Evolution" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+<!-- PANEL: TREE OF LIFE -->
+<div id="panel-life" class="detail-panel">
+    <button class="panel-close" onclick="closePanel('panel-life')">← Return</button>
+    <div class="panel-inner">
+        <h1 class="panel-title">Tree of Life &<br><em>Human Evolution</em></h1>
+        <div class="panel-section">
+            <h3>Interactive Phylogenetic Tree</h3>
+            <iframe class="embed-frame" src="https://www.onezoom.org/life/@biota=93302?vis=polytomy" title="OneZoom Tree of Life"></iframe>
+        </div>
+        <div class="panel-section">
+            <h3>Key Events in Evolutionary History</h3>
+            <ul>
+                <li><strong>Early Marine Explosion <span class="cite">[Kröger et al., 2011]</span></strong>The fossil record demonstrates dramatic evolutionary radiations long before modern ecosystems stabilized — including the emergence of complex cephalopods in the oceans of the Ordovician.</li>
+                <li><strong>Mammals Among Dinosaurs <span class="cite">[Luo, 2007]</span></strong>Early mammals underwent rapid transformation, occupying highly diverse ecological niches during the age of dinosaurs — not after it.</li>
+                <li><strong>The Human Bottleneck <span class="cite">[Hu et al., 2023]</span></strong>Genomic evidence reveals that human ancestors faced a near-extinction population bottleneck roughly 900,000 years ago during the Early to Middle Pleistocene transition, severely restricting and shaping modern genetic diversity.</li>
+                <li><strong>The Most Invasive Species <span class="cite">[Marean, 2015]</span></strong>Homo sapiens dominated the globe through a unique evolutionary combination of "hyper-prosociality" — extensive cooperation with non-kin — and advanced projectile weapons, allowing us to outcompete Neanderthals and all other hominids.</li>
+                <li><strong>The Great Filter Framework <span class="cite">[Bostrom, 2008]</span></strong>Earth's evolutionary history can be framed as having successfully passed through a series of "Great Filters" — highly improbable evolutionary leaps like the emergence of eukaryotic cells and advanced intelligence — which may explain why we appear to be alone.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- PANEL: HUMANITY -->
+<div id="panel-humanity" class="detail-panel">
+    <button class="panel-close" onclick="closePanel('panel-humanity')">← Return</button>
+    <div class="panel-inner">
+        <h1 class="panel-title">Humanity:<br><em>Struggle & Connection</em></h1>
+        <div class="panel-section">
+            <h3>Universal Greetings: No Languages Left Behind</h3>
+            <p>The original Golden Record included 55 languages. The new record commits to completeness — every spoken language, sign language, and Braille, along with the sounds that cross all linguistic boundaries: laughter, breathing, heartbeat, footsteps.</p>
+        </div>
+        <div class="panel-section">
+            <h3>Social Movements & Lived Ethics</h3>
+            <p>A record of humanity must include what humanity is fighting about — the unresolved contradictions that define our era. We do not sanitize these for cosmic audiences.</p>
+            <ul>
+                <li><strong>Racial & Ethnic Justice</strong>Palestine, Black Lives Matter, the ongoing resistance to ICE and border militarization.</li>
+                <li><strong>Gender & Sexuality</strong>Trans rights, women's rights, and the expanding recognition of human gender diversity.</li>
+                <li><strong>Oral Histories</strong>Personal narratives from the StoryCorps archive: <a href="https://storycorps.org/stories/" target="_blank" class="ext-link">storycorps.org</a></li>
+            </ul>
+        </div>
+        <div class="panel-section">
+            <h3>Ethics & The Human Condition</h3>
+            <p>Emotions — love, grief, awe, rage, tenderness — are the texture of human experience. We include not just achievements but the emotional reality of being human: vulnerable, relational, mortal, and reaching.</p>
+        </div>
+    </div>
+</div>
+
+<!-- PANEL: TECH & AI -->
+<div id="panel-tech" class="detail-panel">
+    <button class="panel-close" onclick="closePanel('panel-tech')">← Return</button>
+    <div class="panel-inner">
+        <h1 class="panel-title">Technology, Networks<br>& <em>Artificial Intelligence</em></h1>
+        <div class="panel-section">
+            <h3>How We Organize Knowledge</h3>
+            <p>Humanity has built vast collaborative databases of shared knowledge: Wikipedia (in hundreds of languages), interactive geographical maps, scientific databases, and digital archives of virtually all recorded human culture.</p>
+            <iframe class="embed-frame" src="https://wikimap.wiki/?base=map&lat=-3698329.1765&lon=3091724.9201&showAll=true&wiki=enwiki&zoom=3" title="WikiMap"></iframe>
+            <p><a href="https://www.nature.com/immersive/d41586-019-03165-4/index.html" target="_blank" class="ext-link">Nature: The History of Scientific Data Collection</a></p>
+        </div>
+        <div class="panel-section">
+            <h3>The AI Paradox</h3>
+            <ul>
+                <li><strong>AI Expands Individual Impact but Narrows Collective Focus <span class="cite">[Hao et al., forthcoming, Nature]</span></strong>AI tools dramatically increase the output and impact of individual scientists — but simultaneously restrict the collective focus of entire scientific fields. AI-augmented research gravitates toward established, data-rich areas, automating existing paradigms rather than exploring truly novel ones.</li>
+                <li><strong>Human-Aware AI Systems <span class="cite">[Sourati & Evans, 2023, Nature Human Behaviour]</span></strong>For AI to meaningfully accelerate discovery, it must be designed as "human-aware" — systems that understand human hypotheses, target our collective blind spots, and suggest the novel, unexplored connections we naturally miss.</li>
+                <li><strong>The Benefit of Bias <span class="cite">[Lai et al., 2025]</span></strong>Perfectly neutral AI systems can be detrimental by inducing "automation bias" — causing humans to uncritically accept AI output. Introducing culturally or politically biased AI actually improves collective human decision-making by provoking skepticism and critical engagement.</li>
+            </ul>
+        </div>
+        <div class="panel-section">
+            <h3>Communication Technology</h3>
+            <p>We now carry devices in our pockets that connect us to every other human on Earth in real time. This mass communication infrastructure — phones, the internet, radio — transformed everything about how knowledge moves, how culture forms, and how movements organize. We include both the fact of this technology and its social implications.</p>
+            <p>For interstellar communication specifically: narrow-band radio transmissions remain the most efficient known method. The search for radio "technosignatures" defines the practical limits of information transmission at cosmic scales. <span class="cite">[Margot et al., 2019]</span></p>
+        </div>
+    </div>
+</div>
+
+<!-- PANEL: CULTURE -->
+<div id="panel-culture" class="detail-panel">
+    <button class="panel-close" onclick="closePanel('panel-culture')">← Return</button>
+    <div class="panel-inner">
+        <h1 class="panel-title">Culture, Music<br>& <em>Play</em></h1>
+        <div class="panel-section">
+            <h3>Music: A Global Sample</h3>
+            <ul>
+                <li><strong>Classical</strong>Western orchestral tradition — Bach, Beethoven, the architecture of form and harmony.</li>
+                <li><strong>R&B / Soul</strong>American traditions rooted in the African diaspora; rhythm, call-and-response, the body in sound.</li>
+                <li><strong>World Percussion & Folk</strong>Rhythmic complexity from West African drumming, Indian tabla, Brazilian batuque.</li>
+                <li><strong>House / Electronic</strong>The music of machines and dancefloors — humanity making rhythm from technology.</li>
+                <li><strong>Jazz</strong>Improvisation as a philosophy: structure and freedom in constant negotiation.</li>
+                <li><strong>Mongolian Throat Singing</strong>The human voice producing multiple pitches simultaneously — singing as physics.</li>
+                <li><strong>Tinariwen</strong>Tuareg blues from the Sahara Desert — resistance and longing in guitar.</li>
+                <li><strong>Adrianne Lenker</strong>Folk intimacy; the confessional lyric as a form of witness.</li>
+            </ul>
+        </div>
+        <div class="panel-section">
+            <h3>Film: Avatar</h3>
+            <p>James Cameron's <em>Avatar</em> is included not as entertainment but as a document about biology and colonization — a story about what happens when technologically advanced civilizations encounter worlds of interconnected life they do not understand and do not respect.</p>
+        </div>
+        <div class="panel-section">
+            <h3>Play: Little Alchemy</h3>
+            <p>A game where you combine fundamental elements to build the world. Start with fire, water, earth, and air. Make life. Make cities. Make curiosity. It is, in miniature, the project of science itself.</p>
+            <iframe class="embed-frame" src="https://littlealchemy.com/" title="Little Alchemy"></iframe>
+        </div>
+    </div>
+</div>
+
+<!-- PANEL: OPEN QUESTIONS -->
+<div id="panel-questions" class="detail-panel">
+    <button class="panel-close" onclick="closePanel('panel-questions')">← Return</button>
+    <div class="panel-inner">
+        <h1 class="panel-title">What We Still<br><em>Don't Know</em></h1>
+        <p style="font-size: 1.05rem; color: var(--text-dim); margin-bottom: 48px; font-style: normal;">Honesty about the limits of our understanding may be the most important thing we can communicate.</p>
+        <div class="panel-section">
+            <ul>
+                <li><strong>Dark Matter</strong>About 27% of the universe's energy content is in a form we cannot see, touch, or detect directly. We know it exists because of its gravitational effects on galaxies and galaxy clusters. We have no confirmed particle candidate.</li>
+                <li><strong>Dark Energy</strong>About 68% of the universe's energy content drives accelerated expansion — a constant vacuum energy of empty space. We have no physical theory that predicts its observed value. It is perhaps the largest unsolved problem in physics.</li>
+                <li><strong>Consciousness</strong>The "hard problem": how do objective, physical neural networks produce subjective experience? Why is there something it is like to be a mind? We have no satisfying theory.</li>
+                <li><strong>Fusion Power</strong>Stars have been fusing hydrogen into helium for 13 billion years. We have been trying to do it sustainably on Earth for 70 years. Controlled fusion would provide essentially unlimited clean energy.</li>
+                <li><strong>The Origin of Life</strong>How did the first self-replicating molecule arise from chemistry? The Miller-Urey experiment showed the pieces can exist — but the assembly remains unknown.</li>
+                <li><strong>The Fermi Paradox</strong>If the Drake Equation suggests many civilizations should exist, where is everybody? The silence of the cosmos is either evidence that we are rare, that civilizations don't last, or that we are not listening correctly.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- ══ SCRIPTS ══ -->
+<script>
+    // PANEL SYSTEM
+    function openPanel(id) {
+        document.getElementById(id).classList.add('open');
+        document.body.style.overflow = 'hidden';
+        if (window.MathJax) MathJax.typesetPromise([document.getElementById(id)]);
+    }
+
+    function closePanel(id) {
+        document.getElementById(id).classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // ESC closes any open panel
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.detail-panel.open').forEach(p => {
+                p.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        }
+    });
+
+    // Scroll reveal for cards
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.style.opacity = '1';
+                e.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card, .toc-item, .stat-box').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+</script>
+</body>
+</html>

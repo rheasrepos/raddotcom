@@ -88,6 +88,9 @@ for rel in promoted:
         if _newer(htm,out): shutil.copy2(htm,out); imgs+=1
         for j in set(re.findall(r'fetch\(\s*["\']([\w.-]+\.json)["\']',open(htm,encoding="utf-8",errors="ignore").read())):
             if os.path.exists(os.path.join(folder,j)) and _newer(os.path.join(folder,j),os.path.join("static/viz",j)): shutil.copy2(os.path.join(folder,j),os.path.join("static/viz",j))
+        # ...and any other .html page it links to by name (href="other-page.html"), if that file sits beside the note
+        for h in set(re.findall(r'href=["\']([\w.-]+\.html)["\']',open(htm,encoding="utf-8",errors="ignore").read())):
+            if os.path.exists(os.path.join(folder,h)) and _newer(os.path.join(folder,h),os.path.join("static/viz",h)): shutil.copy2(os.path.join(folder,h),os.path.join("static/viz",h))
 if pdfs or imgs: print(f"Copied {pdfs} PDF(s) → static/docs/ and {imgs} image(s)/page(s) → static/artifacts/ + static/viz/ from beside their notes")
 
 # Generate blog cover thumbnails (first PDF page) for any new documents.
