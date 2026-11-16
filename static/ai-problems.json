@@ -3081,7 +3081,7 @@
  },
  {
   "problem_id": "ai-black-box",
-  "name": "AI as a black box",
+  "name": "Lack of interpretability of AI models",
   "description": "AI systems now shape decisions everywhere, but even their builders can't fully explain how they reach answers, when they'll deceive or misbehave, or what in their training made them that way.",
   "sdg_goal": "16",
   "sdg_targets": "16.10;9.5",
