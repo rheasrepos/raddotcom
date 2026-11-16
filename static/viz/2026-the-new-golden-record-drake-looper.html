@@ -660,7 +660,10 @@ function getScale(t) {
 // Advances the melody. Only the scheduler calls this.
 function nextMelodyPitch(t) {
     const scale = getScale(t);
-    melodyIndex += 3;
+    // Step 3 scale degrees at a time, or 5 when the scale has 6 or 12 notes:
+    // a step that shares a factor with the scale length would skip most of it
+    // (Chromatic would only ever play 4 pitches, Whole Tone 2).
+    melodyIndex += (scale.notes.length % 3 === 0) ? 5 : 3;
     return scale.notes[melodyIndex % scale.notes.length];
 }
 
