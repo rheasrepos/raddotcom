@@ -4,7 +4,7 @@
 	// `ai_written` (Claude drafted the wording, even where the idea is Rhea's).
 	// Rewrite a field yourself → remove its name from that list and the mark goes.
 	// Rows without the list fall back to: every free-text column counts as LLM-written.
-	const PROSE = ['description', 'role', 'solution_summary', 'summary', 'notes', 'how_to_use', 'what_you_can_do', 'gap', 'why_it_matters', 'how_to_close', 'ethics', 'morality', 'devils_advocate', 'who_could_be_harmed', 'dual_use', 'bias_and_representation', 'effect'];
+	const PROSE = ['description', 'role', 'solution_summary', 'summary', 'notes', 'how_to_use', 'what_you_can_do', 'gap', 'why_it_matters', 'how_to_close', 'ethics', 'morality', 'devils_advocate', 'who_could_be_harmed', 'dual_use', 'bias_and_representation', 'effect', 'barrier', 'deployment_evidence', 'maintenance', 'released', 'verification_note'];
 	const isAI = (/** @type {any} */ r, /** @type {string} */ k) => (Array.isArray(r.ai_written) ? r.ai_written.includes(k) : PROSE.includes(k));
 	// AI-Fixable Problems DB, shown as linked data tables (one tab per table).
 	// Data: /ai-problems.json, built by `scripts/export_json.py` in the
@@ -29,6 +29,11 @@
 		market: 'Market', community: 'Community', human_connection: 'Human connection', open_data: 'Open data' };
 	const EVIDENCE = { rct: 'RCT', quasi_experimental: 'Quasi-exp.', self_reported: 'Self-reported', none: 'None' };
 	const EV_RANK = { rct: 0, quasi_experimental: 1, self_reported: 2, none: 3 };
+	// tools table (data/tools.csv): how open a tool is, and whether anyone uses it. Two separate columns.
+	const OPEN = { open: 'Open', open_restricted: 'Open, restricted license', open_code_closed_data: 'Open code, closed data',
+		gated: 'Gated', closed: 'Closed', not_open_by_choice: 'Not open by choice', not_verified: 'Not verified' };
+	const USE = { deployed: 'In use', deployment_ended: 'Was in use, ended', creator_only: 'Used by its maker only',
+		research_only: 'Research only', no_evidence_found: 'No evidence of use found', not_verified: 'Not verified' };
 
 	// --- visitor poll: "what are the world's biggest problems?" ---
 	let vCategory = '';
@@ -90,6 +95,7 @@
 		datasets: problems.flatMap((p) => (p.datasets || []).map((/** @type {any} */ x) => withP(p, x))),
 		research: problems.flatMap((p) => (p.existing_work || []).map((/** @type {any} */ x) => withP(p, x))),
 		gaps: problems.flatMap((p) => (p.data_gaps || []).map((/** @type {any} */ x) => withP(p, x))),
+		tools: problems.flatMap((p) => (p.tools || []).map((/** @type {any} */ x) => withP(p, { ...x, _open: OPEN[x.openness] || x.openness, _use: USE[x.use_status] || x.use_status }))),
 		risks: problems.map((p) => withP(p, p.risks || {})),
 		votes: []
 	};
@@ -101,9 +107,10 @@
 		solutions: [['name', 'Name'], ['_problem', 'Problem'], ['_type', 'Type']],
 		problems: [['name', 'Problem'], ['sdg_name', 'UN goal'], ['n_datasets', 'Datasets'], ['description', 'Description']],
 		gaps: [['_problem', 'Problem'], ['gap', 'Missing data'], ['why_it_matters', 'Why it matters']],
+		tools: [['name', 'Tool'], ['_problem', 'Problem'], ['_open', 'Openness'], ['_use', 'Use status'], ['barrier', 'Why not used more']],
 		risks: [['_problem', 'Problem'], ['ethics', 'Ethics'], ['morality', 'Morality'], ['devils_advocate', "Devil's advocate"]]
 	};
-	const TABS = [['datasets', 'Open datasets'], ['problems', 'Problems'], ['gaps', 'Missing data'], ['solutions', "Who's working on it"], ['risks', 'Risks'], ['votes', 'What visitors say']];
+	const TABS = [['datasets', 'Open datasets'], ['problems', 'Problems'], ['gaps', 'Missing data'], ['solutions', "Who's working on it"], ['tools', 'Tools: used or not'], ['risks', 'Risks'], ['votes', 'What visitors say']];
 
 	const val = (/** @type {any} */ r, /** @type {string} */ k) => (k === '_problem' ? r._p.name : r[k] ?? '');
 	const text = (/** @type {any} */ r) => Object.values(r).filter((v) => typeof v === 'string').join(' ').toLowerCase() + ' ' + r._p.name.toLowerCase();
@@ -270,7 +277,7 @@
 										{#if k === '_problem'}
 											<button class="link" on:click={() => pick(r._p)}>{r._p.name}</button>
 										{:else if (k === 'name' || k === 'title') && r.url}
-											<a href={r.url} target="_blank" rel="noopener">{r[k]}</a>
+											<a href={r.url} target="_blank" rel="noopener">{#if isAI(r, k)}<AIText>{r[k]}</AIText>{:else}{r[k]}{/if}</a>
 										{:else if k === 'name' && tab === 'problems'}
 											<button class="link" on:click={() => { pick(r); setTab('solutions'); }}>{r.name}</button>
 										{:else if k === '_type'}
@@ -300,6 +307,9 @@
 			<p class="foot"><AIText>Click a column header to sort; click a problem to filter to it.</AIText>
 				{#if problem !== 'all'} <button class="link" on:click={() => (problem = 'all')}>Show all problems</button>{/if}
 			</p>
+			{#if tab === 'tools'}
+				<p class="foot"><AIText>"No evidence of use found" means no public sign of use turned up when the row was checked (November 2026). It is not proof that nobody uses the tool. Each tool name links to the source the row rests on.</AIText></p>
+			{/if}
 		{/if}
 		</div>
 	</section>

@@ -407,3 +407,5 @@ Visitors answer in the form at the top of `/ai-problems`; answers go to a `probl
 2. **Review:** Supabase → Table Editor → `problem_votes`. New answers arrive as `pending`. Set `status` to `approved` or `rejected`.
 3. **What's public:** the "What visitors say" tab shows vote counts per problem (all non-rejected answers, numbers only) and approved written answers. Unreviewed text is never shown.
 4. **Add approved answers to the database:** in `ai-fixable-problems-db`, run `python3 scripts/import_visitor_answers.py`. They land in `data/candidate_issues.csv` with source "Visitors".
+
+**The "Tools: used or not" tab:** one row per AI tool, saying how open it is and whether anyone uses it. Rows live in `ai-fixable-problems-db/data/tools.csv` (columns explained in that repo's `SCHEMA.md`; research behind them in `UNUSED_TOOLS_REPORT.md`). To add or fix a row: edit the CSV, double-click `sync-to-raddotcom.command`, then commit and push raddotcom. The sync keeps the `ai_written` lists already in `static/ai-problems.json`; a brand-new row has no list, so all its free-text cells show the LLM underline until you add one.
