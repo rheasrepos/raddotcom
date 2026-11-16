@@ -107,7 +107,6 @@ input[type=range].vol{width:64px;accent-color:var(--gold);cursor:pointer}
 .sys-mbar-offset{flex-shrink:0}
 .mnum{flex-shrink:0;font-size:10px;color:var(--mute);padding-left:3px;border-left:1px solid var(--line)}
 .mnum.first{border-left:none}
-.mnum.sig-change{color:var(--med)}
 .part-block{display:flex;align-items:flex-start}
 .pb-label{flex-shrink:0;display:flex;flex-direction:column;justify-content:flex-end;padding-right:10px;padding-bottom:6px}
 .pb-lname{font-size:12px;font-weight:bold;white-space:nowrap}
@@ -133,6 +132,9 @@ input[type=range].vol{width:64px;accent-color:var(--gold);cursor:pointer}
 .part-sep{height:1px;background:var(--line);margin:2px 0}
 
 /* ── phrases by measure ── */
+.shared-analysis{overflow-x:auto}
+.key{max-width:100%}
+.key td:first-child{white-space:nowrap}
 .sa-table{width:100%;border-collapse:collapse;font-size:11px}
 .sa-table th{text-align:left;padding:5px 8px;border-bottom:1px solid var(--line2);font-weight:bold;white-space:nowrap}
 .sa-table th.measures-col{width:80px;color:var(--mute)}
@@ -206,10 +208,11 @@ input[type=range].vol{width:64px;accent-color:var(--gold);cursor:pointer}
   <p class="fl" id="score-src"></p>
   <div class="meta-row" id="metarow"></div>
   <table class="key">
-    <tr><td><span class="sw" style="background:rgba(51,199,232,.28);border-left:3px solid #33c7e8"></span> A, B, C…</td><td><span class="ai" title="This text was written by an LLM (Claude).">a phrase two or more parts share: same measures, same rhythm. Same letter and colour on every part that has it.</span></td></tr>
+    <tr><td><span class="sw" style="background:rgba(150,224,46,.3);border-left:3px solid #96e02e"></span><span class="sw" style="background:repeating-linear-gradient(45deg,rgba(232,92,255,.6) 0 2px,rgba(232,92,255,.14) 2px 6px);border-left:3px solid #e85cff"></span><span class="sw" style="background:radial-gradient(rgba(232,232,232,.8) 1px,transparent 1.6px) 0 0/5px 5px,rgba(232,232,232,.12);border-left:3px solid #e8e8e8"></span> A, B, C…</td><td><span class="ai" title="This text was written by an LLM (Claude).">a phrase two or more parts share: same stretch of the song, same rhythm. Same letter, colour and fill on every part that has it. Phrase colours are ones no singer has.</span></td></tr>
     <tr><td>A ≈</td><td><span class="ai" title="This text was written by an LLM (Claude).">close to that phrase but not identical (the table below gives the % of note attacks that line up).</span></td></tr>
     <tr><td><span style="color:var(--mute)">unique</span></td><td><span class="ai" title="This text was written by an LLM (Claude).">no other part has that rhythm there.</span></td></tr>
-    <tr><td><span class="swl" style="background:#33c7e8"></span></td><td><span class="ai" title="This text was written by an LLM (Claude).">vertical line: where a shared phrase starts or ends, drawn through every part.</span></td></tr>
+    <tr><td>arc</td><td><span class="ai" title="This text was written by an LLM (Claude).">one phrase, from its first attack to its last release.</span></td></tr>
+    <tr><td><span class="swl" style="background:#96e02e"></span></td><td><span class="ai" title="This text was written by an LLM (Claude).">vertical line: where a shared phrase starts or ends, drawn through every part.</span></td></tr>
     <tr><td><span class="sw" style="border-left:3px solid var(--fg);background:#222"></span> block</td><td><span class="ai" title="This text was written by an LLM (Claude).">one note. Left edge is the attack, width is how long it is held.</span></td></tr>
     <tr><td><span class="swu" style="background:var(--shared)"></span><span class="swu" style="background:var(--easy)"></span><span class="swu" style="background:var(--med)"></span><span class="swu" style="background:var(--hard)"></span></td><td><span class="ai" title="This text was written by an LLM (Claude).">strip under each note: downbeat shared with another part, downbeat alone, on a beat, off the beat (syncopated).</span></td></tr>
     <tr><td>*</td><td><span class="ai" title="This text was written by an LLM (Claude).">the phrase enters off the downbeat, ends mid-rhythm, or is mostly syncopated: harder to move on.</span></td></tr>
@@ -318,6 +321,13 @@ function parseMusicXML(xmlStr){
       });
       cursor+=qb;
     });
+    // ties: add each tied continuation's length to the note that started it
+    let head=null;
+    for(const b of beats){
+      if(b.type!=='note')continue;
+      if(b.tied&&head&&Math.abs(head.beat+head.held-b.beat)<0.01){head.held+=b.duration;}
+      else{b.tied=false;b.held=b.duration;head=b;}
+    }
     if(partIdx===0)globalMeasureMap=measureMap;
     parts.push({id,name:meta[id]||id,beats,measureMap,totalBeats:cursor});
   });
@@ -500,61 +510,54 @@ function scoreBeats(beats,mm){
   return{score:sc,label,color,syn,off,down,rests,notes};
 }
 
+// Where a part's phrases begin and end, worked out from the notes themselves
+// (not from barlines), so pickups and mid-measure entries land where they are sung.
+// A new phrase starts after:
+//   · a silence of PHRASE_SILENCE beats or more, or
+//   · a rest of PHRASE_BREATH or more that follows a sustained note (a breath), or
+//   · a word held PHRASE_HELD beats or more that runs straight into a new word
+//     (or, with no lyrics, a long note into a downbeat once the phrase is a few beats long).
+// Beats are quarter-note beats.
+const PHRASE_SILENCE = 2, PHRASE_BREATH = 0.5, PHRASE_SUSTAIN = 1, PHRASE_HELD = 2;
 function detectPhrases(beats,measureMap){
   if(!beats.length||!measureMap.length)return[];
-  const nMeas=measureMap.length;
-  const S=measureMap.map(m=>{
-    const mb=beats.filter(b=>b.beat>=m.startBeat&&b.beat<m.startBeat+m.quarterBeats+0.01);
-    const notes=mb.filter(b=>b.type==='note');
-    const allRest=notes.length===0;
-    const startsOnDown=notes.length>0&&isDownbeat(notes[0].beat,measureMap);
-    const endsHeld=notes.length>0&&notes[notes.length-1].duration>=2;
-    const synCount=notes.filter(b=>{const od=isDownbeat(b.beat,measureMap),ob=isOnbeat(b.beat,measureMap);return!od&&(!ob||b.accented||b.duration<=0.25);}).length;
-    return{m,notes,allRest,startsOnDown,endsHeld,synRatio:notes.length?synCount/notes.length:0};
-  });
+  const lastM=measureMap[measureMap.length-1], total=lastM.startBeat+lastM.quarterBeats;
+  const mOf=beat=>getMeasureInfo(Math.min(Math.max(beat,0),total-0.001),measureMap).measureNum;
+  const rest=(s,e)=>({startBeat:s,endBeat:e,startMeasure:mOf(s),endMeasure:mOf(e-0.001),type:'rest',endsClean:true,startsClean:true,synRatio:0,warn:[]});
+  const spans=beats.filter(b=>b.type==='note'&&!b.tied)
+    .map(b=>({b,start:b.beat,end:b.beat+(b.held??b.duration)})).sort((x,y)=>x.start-y.start);
+  if(!spans.length)return[rest(0,total)];
+  const hasLyrics=spans.some(s=>s.b.lyric);
 
-  const phrases=[];let phraseStart=0,i=0;
-  while(i<nMeas){
-    const s=S[i];
-    if(s.allRest){
-      if(i>phraseStart){
-        const prev=S[i-1];
-        phrases.push({startMeasure:phraseStart+1,endMeasure:i,type:'active',
-          endsClean:prev.endsHeld||prev.synRatio<0.3,startsClean:S[phraseStart].startsOnDown,
-          synRatio:avgSyn(S,phraseStart,i-1)});
-      }
-      const rs=i;while(i<nMeas&&S[i].allRest)i++;
-      phrases.push({startMeasure:rs+1,endMeasure:i,type:'rest',endsClean:true,startsClean:true,synRatio:0});
-      phraseStart=i;continue;
-    }
-    if(s.endsHeld&&i>phraseStart){
-      phrases.push({startMeasure:phraseStart+1,endMeasure:i+1,type:'active',
-        endsClean:true,startsClean:S[phraseStart].startsOnDown,synRatio:avgSyn(S,phraseStart,i)});
-      phraseStart=i+1;
-    }
-    i++;
+  const runs=[];let cur=[spans[0]],curEnd=spans[0].end,wordStart=spans[0].start;
+  for(let i=1;i<spans.length;i++){
+    const prev=spans[i-1],nx=spans[i],gap=nx.start-curEnd,prevLen=prev.end-prev.start;
+    const newWord=nx.b.lyric&&nx.b.lyric.syllabic!=='middle'&&nx.b.lyric.syllabic!=='end';
+    const brk= gap>=PHRASE_SILENCE-0.01
+      || (gap>=PHRASE_BREATH-0.01&&prevLen>=PHRASE_SUSTAIN-0.01)
+      || (gap<0.2&&(hasLyrics?(newWord&&nx.start-wordStart>=PHRASE_HELD-0.01):(prevLen>=PHRASE_HELD-0.01&&isDownbeat(nx.start,measureMap)&&curEnd-cur[0].start>=4)));
+    if(newWord||brk)wordStart=nx.start;
+    if(brk){runs.push(cur);cur=[nx];curEnd=nx.end;}
+    else{cur.push(nx);curEnd=Math.max(curEnd,nx.end);}
   }
-  if(phraseStart<nMeas){
-    const last=S[nMeas-1];
-    phrases.push({startMeasure:phraseStart+1,endMeasure:nMeas,type:'active',
-      endsClean:last.endsHeld||last.allRest,startsClean:S[phraseStart]?.startsOnDown||false,
-      synRatio:avgSyn(S,phraseStart,nMeas-1)});
-  }
-  return phrases.map(ph=>{
-    const warn=[];
-    if(ph.type==='active'){
-      if(!ph.startsClean)warn.push('entry off the downbeat');
-      if(!ph.endsClean)warn.push('ends mid-rhythm');
-      if(ph.synRatio>0.5)warn.push(`${Math.round(ph.synRatio*100)}% syncopated`);
-    }
-    return{...ph,warn};
+  runs.push(cur);
+
+  const phrases=[];let cursor=0;
+  runs.forEach(run=>{
+    const startBeat=run[0].start,endBeat=Math.min(total,Math.max(...run.map(s=>s.end)));
+    if(startBeat-cursor>=PHRASE_SILENCE-0.01)phrases.push(rest(cursor,startBeat));
+    const notes=run.map(s=>s.b);
+    const synCount=notes.filter(b=>{const od=isDownbeat(b.beat,measureMap),ob=isOnbeat(b.beat,measureMap);return!od&&(!ob||b.accented||b.duration<=0.25);}).length;
+    const synRatio=synCount/notes.length,lastS=run[run.length-1];
+    const ph={startBeat,endBeat,startMeasure:mOf(startBeat),endMeasure:mOf(endBeat-0.001),type:'active',
+      startsClean:isDownbeat(startBeat,measureMap),endsClean:(lastS.end-lastS.start)>=1||synRatio<0.3,synRatio,warn:[]};
+    if(!ph.startsClean)ph.warn.push('entry off the downbeat');
+    if(!ph.endsClean)ph.warn.push('ends mid-rhythm');
+    if(synRatio>0.5)ph.warn.push(`${Math.round(synRatio*100)}% syncopated`);
+    phrases.push(ph);cursor=endBeat;
   });
-}
-function avgSyn(S,from,to){
-  const sl=S.slice(from,to+1);
-  const tot=sl.reduce((a,s)=>a+s.notes.length,0);
-  if(!tot)return 0;
-  return sl.reduce((a,s)=>a+Math.round(s.synRatio*s.notes.length),0)/tot;
+  if(total-cursor>=PHRASE_SILENCE-0.01)phrases.push(rest(cursor,total));
+  return phrases;
 }
 
 // ─── Audio engine ──────────────────────────────────────────────────────────────
@@ -596,9 +599,10 @@ function scheduleAll(fromBeat){
     const fallback=FALLBACK[pi%FALLBACK.length];
     const mm=p.measureMap||measureMap;
     for(const b of p.beats){
-      if(b.type==='rest')continue;
-      if(b.beat+b.duration<=fromBeat)continue;
-      const ns=Math.max(b.beat,fromBeat),nd=b.duration-(ns-b.beat);
+      if(b.type==='rest'||b.tied)continue;
+      const len=b.held??b.duration;
+      if(b.beat+len<=fromBeat)continue;
+      const ns=Math.max(b.beat,fromBeat),nd=len-(ns-b.beat);
       const startSec=t0+(ns-fromBeat)*spb(currentTempo),durSec=nd*spb(currentTempo);
       const freq=(hasPitch&&b.freq!=null)?b.freq:fallback;
       const onDown=isDownbeat(b.beat,mm),onBeat=isOnbeat(b.beat,mm);
@@ -761,7 +765,7 @@ function renderScore(parsed, measureMap, shared, total, allPhrases) {
     phrases.map((ph, phi) => {
       const k = `${pi}:${phi}`;
       const gIdx = phraseAssigned.get(k);
-      if (gIdx !== undefined) return { color: phraseGroups[gIdx].color, isShared: true, label: phraseGroups[gIdx].label + (phraseItems.get(k).match < 0.999 ? ' ≈' : '') };
+      if (gIdx !== undefined) return { color: phraseGroups[gIdx].color, pat: phraseGroups[gIdx].pat, isShared: true, label: phraseGroups[gIdx].label + (phraseItems.get(k).match < 0.999 ? ' ≈' : '') };
       return { color: '#999999', isShared: false, label: 'unique' };
     })
   );
@@ -794,12 +798,10 @@ function renderScore(parsed, measureMap, shared, total, allPhrases) {
 
     sysMeasures.forEach((m, mi) => {
       const mw = m.quarterBeats * BEAT_PX;
-      const prevSig = mi > 0 ? sysMeasures[mi-1].timeSig : (measureMap[m.index-1]?.timeSig || m.timeSig);
-      const sigChanged = m.index > 0 && m.timeSig !== prevSig;
       const e = document.createElement('div');
-      e.className = 'mnum' + (mi === 0 ? ' first' : '') + (sigChanged ? ' sig-change' : '');
+      e.className = 'mnum' + (mi === 0 ? ' first' : '');
       e.style.width = mw + 'px';
-      e.textContent = sigChanged ? `M${m.index+1} (${m.timeSig})` : `M${m.index+1}`;
+      e.textContent = `M${m.index+1}`;
       mbar.appendChild(e);
     });
     sysEl.appendChild(mbar);
@@ -822,10 +824,10 @@ function renderScore(parsed, measureMap, shared, total, allPhrases) {
       // Build a set of beat ranges covered by each phrase for note tinting
       // phraseColorMap[pi][phi] gives the color for that phrase
       const phraseBeatRanges = phrases.map((ph, phi) => ({
-        startBeat: measureMap[ph.startMeasure - 1]?.startBeat ?? 0,
-        endBeat:   (measureMap[ph.endMeasure - 1]?.startBeat ?? 0)
-                 + (measureMap[ph.endMeasure - 1]?.quarterBeats ?? 4),
+        startBeat: ph.startBeat,
+        endBeat:   ph.endBeat,
         color:     phraseColorMap[pi][phi].color,
+        pat:       phraseColorMap[pi][phi].pat,
         isShared:  phraseColorMap[pi][phi].isShared,
         type:      ph.type,
       }));
@@ -926,7 +928,7 @@ function renderScore(parsed, measureMap, shared, total, allPhrases) {
         nb.style.top    = noteTop + 'px';
         nb.style.height = STAFF_H + 'px';
         if (isShared && phraseColor) {
-          nb.style.background   = hexToRgba(phraseColor, 0.24);
+          nb.style.background   = groupFill(phraseColor, phraseInfo.pat, 0.24);
           nb.style.borderLeft   = `3px solid ${phraseColor}`;
         }
         if (b.tied) nb.style.borderLeft = 'none'; // held over from the previous note — not a new attack
@@ -1001,20 +1003,12 @@ function renderScore(parsed, measureMap, shared, total, allPhrases) {
       svg.style.top = '0px';
 
       phrases.forEach((ph, phIdx) => {
-        const phStartMIdx = ph.startMeasure - 1;
-        const phEndMIdx   = ph.endMeasure - 1;
-        if (phEndMIdx < firstMIdx || phStartMIdx > lastMIdx) return;
+        if (ph.endBeat <= sysStartBeat + 0.005 || ph.startBeat >= sysEndBeat - 0.005) return;
+        const isClippedLeft  = ph.startBeat < sysStartBeat - 0.005;
+        const isClippedRight = ph.endBeat   > sysEndBeat + 0.005;
+        const x1 = beatToPx(Math.max(ph.startBeat, sysStartBeat), sysStartBeat);
+        const x2 = Math.max(x1 + 14, beatToPx(Math.min(ph.endBeat, sysEndBeat), sysStartBeat));
 
-        const clippedStart = Math.max(phStartMIdx, firstMIdx);
-        const clippedEnd   = Math.min(phEndMIdx, lastMIdx);
-        const isClippedLeft  = clippedStart > phStartMIdx;
-        const isClippedRight = clippedEnd   < phEndMIdx;
-
-        const startM = measureMap[clippedStart];
-        const endM   = measureMap[clippedEnd];
-        const x1 = beatToPx(startM.startBeat, sysStartBeat) + (isClippedLeft ? 0 : 2);
-        const x2 = beatToPx(endM.startBeat + endM.quarterBeats, sysStartBeat) - (isClippedRight ? 0 : 2);
-        if (x2 <= x1) return;
 
         const { color, isShared: isSharedPhrase, label: phraseLabel } = phraseColorMap[pi][phIdx];
         const arcY = ARC_H - 3;
@@ -1078,29 +1072,21 @@ function renderScore(parsed, measureMap, shared, total, allPhrases) {
     (function drawSyncLines() {
       // Draw sync lines at the start of each shared phrase group's range
       // Use the earliest startMeasure across all members of the group
-      const bdMap = new Map(); // mIdx → color
+      const mode = (vals, preferMax) => {
+        const n = new Map(); vals.forEach(v => { v = Math.round(v * 4) / 4; n.set(v, (n.get(v) || 0) + 1); });
+        return [...n.entries()].sort((a, b) => b[1] - a[1] || (preferMax ? b[0] - a[0] : a[0] - b[0]))[0][0];
+      };
+      const bdMap = new Map(); // beat → color
       phraseGroups.forEach(g => {
-        const starts = g.members.map(m => m.ph.startMeasure - 1);
-        const earliest = Math.min(...starts);
-        if (!bdMap.has(earliest)) bdMap.set(earliest, g.color);
-        // Also mark end
-        const ends = g.members.map(m => m.ph.endMeasure);
-        const latest = Math.max(...ends);
-        if (!bdMap.has(latest)) bdMap.set(latest, g.color);
+        const s = mode(g.members.map(m => m.ph.startBeat), false);
+        const e = mode(g.members.map(m => m.ph.endBeat), true);
+        if (!bdMap.has(s)) bdMap.set(s, g.color);
+        if (!bdMap.has(e)) bdMap.set(e, g.color);
       });
       const sysBoundaries = [];
-      bdMap.forEach((color, mIdx) => {
-        if (mIdx < firstMIdx || mIdx > lastMIdx + 1) return;
-        let beatPos;
-        if (mIdx <= lastMIdx) {
-          beatPos = measureMap[mIdx]?.startBeat;
-        } else {
-          beatPos = (measureMap[lastMIdx]?.startBeat ?? 0) + (measureMap[lastMIdx]?.quarterBeats ?? 4);
-        }
-        if (beatPos == null) return;
-        const x = beatToPx(beatPos, sysStartBeat);
-        if (x < 0 || x > sysPxW + 1) return;
-        sysBoundaries.push({ x, color, mIdx });
+      bdMap.forEach((color, beat) => {
+        if (beat < sysStartBeat - 0.005 || beat > sysEndBeat + 0.005) return;
+        sysBoundaries.push({ x: beatToPx(beat, sysStartBeat), color });
       });
 
       if (sysBoundaries.length === 0) return;
@@ -1159,9 +1145,21 @@ function hexToRgba(hex, alpha) {
 // Groups phrases by shared boundaries, then renders a measure-range table
 // showing what each part is doing and which groups share the same phrase.
 
-// Overlay/arc colors for shared phrase groups. People's colors only ever appear
-// as text in the name column; these only ever appear as fills, arcs and lines.
-const SHARED_GROUP_COLORS = ['#33c7e8','#ff4fd0','#a6e22e','#c9a06b','#8f8cff','#ff7a66','#d16a8f','#9aa7b2'];
+// Shared-phrase colours. The group's people already use green, purple, teal, blue,
+// pink, orange, yellow and red, so phrases only use what is left: yellow-green,
+// magenta-violet and white. Each phrase also gets one of four fills (solid,
+// stripes, dots, lines), so twelve phrases in a row are all different and no
+// phrase can be mistaken for a person.
+const SHARED_GROUP_COLORS = ['#96e02e','#e85cff','#e8e8e8'];
+function groupFill(color, pat, a) {
+  const c = x => hexToRgba(color, Math.min(1, x));
+  switch (pat % 4) {
+    case 1:  return `repeating-linear-gradient(45deg, ${c(a*2.2)} 0 2px, ${c(a*.45)} 2px 6px)`;
+    case 2:  return `radial-gradient(${c(a*3)} 1px, transparent 1.6px) 0 0 / 5px 5px, ${c(a*.45)}`;
+    case 3:  return `repeating-linear-gradient(0deg, ${c(a*2.2)} 0 1px, ${c(a*.45)} 1px 4px)`;
+    default: return c(a);
+  }
+}
 
 function groupLetter(i) { // 0→A, 25→Z, 26→AA
   let s = '';
@@ -1171,13 +1169,12 @@ function groupLetter(i) { // 0→A, 25→Z, 26→AA
 
 // Two phrases count as the same line of music when at least this share of
 // their note attacks land on the same beats.
-const RHYTHM_MATCH_MIN = 0.6;
+const RHYTHM_MATCH_MIN = 0.7;
 
 // What a phrase actually contains: the beats where notes are attacked
 // (16th-note grid, ties don't count) and the words sung.
 function phraseContent(ph, part, measureMap) {
-  const s = measureMap[ph.startMeasure - 1], e = measureMap[ph.endMeasure - 1];
-  const b0 = s?.startBeat ?? 0, b1 = (e?.startBeat ?? 0) + (e?.quarterBeats ?? 4);
+  const b0 = ph.startBeat, b1 = ph.endBeat;
   const notes = part.beats.filter(b => b.type === 'note' && b.beat >= b0 - 0.005 && b.beat < b1 - 0.005);
   const onsets = new Set(notes.filter(b => !b.tied).map(b => Math.round(b.beat * 4) / 4));
   const words = []; let cur = '';
@@ -1224,9 +1221,11 @@ function buildPhraseGroups(allPhrases, parsed, measureMap) {
   ordered.forEach(it => {
     let best = null, bestSim = -1, bestDist = Infinity;
     clusters.forEach(c => {
-      const ds = Math.abs(c.anchor.ph.startMeasure - it.ph.startMeasure);
-      const de = Math.abs(c.anchor.ph.endMeasure - it.ph.endMeasure);
-      if (ds > 1 || de > 1 || c.parts.has(it.pi)) return;
+      // same window = starts and ends within one measure's length of the anchor
+      const tol = (measureMap[c.anchor.ph.startMeasure - 1]?.quarterBeats ?? 4) + 0.01;
+      const ds = Math.abs(c.anchor.ph.startBeat - it.ph.startBeat);
+      const de = Math.abs(c.anchor.ph.endBeat - it.ph.endBeat);
+      if (ds > tol || de > tol || c.parts.has(it.pi)) return;
       const sim = rhythmMatch(it.content, c.anchor.content);
       if (sim < RHYTHM_MATCH_MIN) return;
       if (sim > bestSim || (sim === bestSim && ds + de < bestDist)) { best = c; bestSim = sim; bestDist = ds + de; }
@@ -1238,10 +1237,11 @@ function buildPhraseGroups(allPhrases, parsed, measureMap) {
 
   // Keep clusters with ≥2 parts; letter and color them in time order.
   const groups = clusters.filter(c => c.parts.size >= 2)
-    .sort((a, b) => a.anchor.ph.startMeasure - b.anchor.ph.startMeasure || a.anchor.ph.endMeasure - b.anchor.ph.endMeasure)
+    .sort((a, b) => a.anchor.ph.startBeat - b.anchor.ph.startBeat || a.anchor.ph.endBeat - b.anchor.ph.endBeat)
     .map((c, gIdx) => ({
       label: groupLetter(gIdx),
       color: SHARED_GROUP_COLORS[gIdx % SHARED_GROUP_COLORS.length],
+      pat: gIdx % 4,
       members: c.members.sort((a, b) => a.pi - b.pi),
       // do the parts that have words all sing the same words?
       sameWords: new Set(c.members.filter(m => m.content.words.length).map(m => m.content.wordKey)).size <= 1,
@@ -1292,8 +1292,10 @@ function renderSharedAnalysis(parsed, measureMap, allPhrases) {
   rows.forEach(r => {
     r.startM = Math.min(...r.members.map(m => m.ph.startMeasure));
     r.endM   = Math.max(...r.members.map(m => m.ph.endMeasure));
+    r.startB = Math.min(...r.members.map(m => m.ph.startBeat));
+    r.endB   = Math.max(...r.members.map(m => m.ph.endBeat));
   });
-  rows.sort((a, b) => a.startM - b.startM || a.endM - b.endM);
+  rows.sort((a, b) => a.startB - b.startB || a.endB - b.endB);
   if (!rows.length) return;
 
 
@@ -1311,7 +1313,8 @@ function renderSharedAnalysis(parsed, measureMap, allPhrases) {
       sw.style.color = g.color;
       const dot = document.createElement('div');
       dot.className = 'sg-dot';
-      dot.style.background = g.color;
+      dot.style.background = groupFill(g.color, g.pat, 0.5);
+      dot.style.border = `1px solid ${g.color}`;
       // List part names in this group
       const partNames = [...new Set(g.members.map(m => parsed[m.pi].name))].join(', ');
       sw.appendChild(dot);
@@ -1343,7 +1346,7 @@ function renderSharedAnalysis(parsed, measureMap, allPhrases) {
   // Body — one row per time window
   const rangeText = (s, e) => s === e ? `M${s}` : `M${s}–${e}`;
   const tbody = document.createElement('tbody');
-  rows.forEach(({ startM, endM, members }) => {
+  rows.forEach(({ startM, endM, startB, endB, members }) => {
     const tr = document.createElement('tr');
     const mc = document.createElement('td');
     mc.className = 'measures-col';
@@ -1355,7 +1358,14 @@ function renderSharedAnalysis(parsed, measureMap, allPhrases) {
       const phrases = allPhrases[pi];
       const member  = members.find(m => m.pi === pi);
       // This part's phrase for the window, or whatever it is in the middle of
-      const ph = member ? member.ph : phrases.find(q => q.startMeasure <= endM && q.endMeasure >= startM);
+      let ph = member ? member.ph : null;
+      if (!ph) { // whichever of this part's phrases (or rests) covers most of the window
+        let most = 0.25;
+        phrases.forEach(q => {
+          const ov = Math.min(q.endBeat, endB) - Math.max(q.startBeat, startB);
+          if (ov > most) { most = ov; ph = q; }
+        });
+      }
       if (!ph) { tr.appendChild(td); return; }
 
       const span = document.createElement('span');
@@ -1373,14 +1383,18 @@ function renderSharedAnalysis(parsed, measureMap, allPhrases) {
           span.textContent = `still in ${g ? g.label + ' · ' : ''}${range}`;
         } else if (g) {
           span.className = 'pc-shared';
-          span.style.background = hexToRgba(g.color, 0.18);
+          span.style.background = hexToRgba(g.color, 0.14); // plain tint so the text stays readable; the fill is the swatch in front
           span.style.color = g.color;
           span.style.borderLeft = `3px solid ${g.color}`;
           let desc = `${g.label} · ${range}`;
           if (item.match < 0.999) desc += ` · ≈ ${Math.round(item.match * 100)}%`;
           desc += wordsPreview(item.content);
           if (!ph.startsClean) desc += ' · off-beat entry';
+          const swatch = document.createElement('i');
+          swatch.className = 'sg-dot';
+          swatch.style.cssText = `display:inline-block;vertical-align:-1px;margin-right:6px;border:1px solid ${g.color};background:${groupFill(g.color, g.pat, 0.5)}`;
           span.textContent = desc;
+          span.prepend(swatch);
           span.title = ph.warn?.length ? ph.warn.join('; ') : 'shared phrase';
         } else {
           span.className = 'pc-unique';
