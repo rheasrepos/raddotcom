@@ -6,6 +6,7 @@ ai_title: true
 tags: [music/a-cappella, visualization]
 affiliation: independent
 type: programming
+also_in: [creative]
 link: /viz/2026-03-vocal-choreography-analyzer.html
 published: true
 ---
@@ -17,6 +18,8 @@ A tool for choreographing a cappella (Voices in Your Head, 2025-26).
 
 **Rhea, later in the same chat:** "are we able to play the songs or rhythms as part of this so i can hear when these moments happen? i dont necessarily need choreo suggestions but i do want insights into more difficult rhtythms / where other parts are on similar difficult rhythms"
 
+**Rhea, later in the same chat:** "… i care more about measures of the song and what each part shares with other parts and what is unique about those phrases. i want this analysis to be centered around shared and differeing phrasings/ lines of music"
+
 <ai>
-Drop in a MusicXML file (.musicxml, .xml or .mxl; from Sibelius, MuseScore, Finale or Dorico use File → Export → MusicXML). The tool reads every vocal part and lines them up on one beat grid: moments where parts land together are easy to move on as a group, and syncopated or dense lines are flagged as harder to sing while dancing. It can play the parts back (with the real pitches from the score) so you can hear where those moments are. Built by Claude from the prompts above; it runs entirely in your browser and nothing is uploaded.
+Drop in a MusicXML file (.musicxml, .xml or .mxl; from Sibelius, MuseScore, Finale or Dorico use File → Export → MusicXML). The tool draws every vocal part on one beat grid and finds the phrases that two or more parts share: same measures, same rhythm. A shared phrase gets the same letter and colour on every part that has it, and a phrase only one part sings is marked unique. A table underneath lists, stretch by stretch, which phrase each part is on and the words it sings. It can play the parts back (with the real pitches from the score) so you can hear where those moments are. Built by Claude from the prompts above and reworked in November 2026; it runs entirely in your browser and nothing is uploaded.
 </ai>

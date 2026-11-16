@@ -5,185 +5,148 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vocal Choreography Analyzer</title>
 <style>
-:root {
-  --bg:#ffffff; --surf:#f8f8f8; --surf2:#f0f0f0; --bdr:#d0d0d0;
-  --txt:#111111; --dim:#888888; --acc:#4a7fd4;
-  --shared:#2266cc; --easy:#1a8a4a; --med:#b06000; --hard:#cc2222;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--txt);font-family:Arial,Helvetica,sans-serif;font-size:14px;min-height:100vh}
-.wrap{max-width:1200px;margin:0 auto;padding:1.5rem 2rem}
+/* Styled after the other /viz pages on rhea.com: dark ground, monospace body,
+   serif headings, gold accent, hairline and dashed rules, no rounded corners. */
+:root{--bg:#111;--panel:#0d0d0d;--fg:#f0f0f0;--mute:#8a8a8a;--line:#2e2e2e;--line2:#444;--gold:#f2c230;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--serif:Georgia,"Times New Roman",serif;
+  --shared:#6aabff;--easy:#4ec99a;--med:#d4aa3a;--hard:#e05c5c;color-scheme:dark}
+*{margin:0;padding:0;box-sizing:border-box;border-radius:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--mono);font-size:12px;line-height:1.45}
+.wrap{padding:18px 16px 0;max-width:1500px}
+button,input,textarea{font-family:var(--mono);font-size:11px}
+button{cursor:pointer}
 
-/* ── header ── */
-header{border-bottom:1px solid var(--bdr);padding-bottom:1rem;margin-bottom:1.25rem;display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
-header h1{font-size:1rem;font-weight:500}
-.legend{display:flex;gap:1rem;flex-wrap:wrap}
-.leg{display:flex;align-items:center;gap:.3rem;font-size:.67rem;font-family:Arial,sans-serif;color:#555}
-.ldot{width:8px;height:8px;border-radius:1px;flex-shrink:0}
+/* LLM-written prose: same dashed underline the rest of the site uses */
+.ai{text-decoration:underline dashed;text-decoration-thickness:1px;text-underline-offset:3px;cursor:help}
 
-/* ── tabs ── */
-.tabs{display:flex;border-bottom:1px solid var(--bdr);margin-bottom:1.25rem}
-.tab{padding:.5rem 1.1rem;border:none;background:none;color:var(--dim);font-family:Arial,sans-serif;font-size:.73rem;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s}
-.tab.active{color:var(--txt);border-bottom-color:var(--acc)}
-.panel{display:none}.panel.active{display:block}
+h1{font-family:var(--serif);font-weight:normal;font-size:22px}
+h2{font-family:var(--serif);font-weight:normal;font-size:17px;margin:0 0 2px}
+.fl{color:var(--mute);font-size:11px;margin:2px 0 10px}
+section{border-top:1px dashed var(--line);padding:14px 0 16px}
+header{padding-bottom:12px}
 
-/* ── input panel ── */
-.tip{border:1px solid var(--bdr);border-radius:4px;padding:.7rem .9rem;margin-bottom:1rem;font-size:.75rem;color:var(--dim);line-height:1.75}
-.tip strong{color:var(--txt);font-weight:500}
-.tip code{background:var(--surf2);border-radius:3px;padding:.02rem .3rem;font-family:Arial,sans-serif;font-size:.7rem;color:var(--acc)}
-.dz{border:1px dashed var(--bdr);border-radius:4px;padding:2rem 1.5rem;text-align:center;cursor:pointer;position:relative;background:var(--surf);margin-bottom:1rem;transition:border-color .15s}
-.dz:hover,.dz.over{border-color:var(--acc)}
+/* ── load ── */
+.dz{border:1px dashed var(--line2);padding:22px 16px;text-align:center;cursor:pointer;position:relative;background:var(--panel);margin-bottom:10px}
+.dz:hover,.dz.over{border-color:var(--gold)}
 .dz input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.dz-title{font-size:.88rem;font-weight:500;margin-bottom:.3rem}
-.dz-sub{color:var(--dim);font-size:.73rem;font-family:Arial,sans-serif}
-.dz-sub code{background:var(--surf2);border-radius:3px;padding:.02rem .28rem;font-family:Arial,sans-serif;font-size:.68rem;color:var(--acc)}
-.istat{display:none;border:1px solid var(--bdr);border-radius:4px;padding:.8rem .9rem;margin-bottom:1rem;font-size:.75rem}
-.istat.ok{border-color:#4ec99a55}.istat.err{border-color:#e05c5c55}
-.ititle{font-weight:500;margin-bottom:.2rem}
-.ichips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem}
-.ichip{background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:.15rem .5rem;font-family:Arial,sans-serif;font-size:.66rem;display:flex;align-items:center;gap:.3rem}
-.idot{width:5px;height:5px;border-radius:50%}
-.divider{display:flex;align-items:center;gap:.75rem;margin:1rem 0;color:var(--dim);font-family:Arial,sans-serif;font-size:.67rem;text-transform:uppercase;letter-spacing:.07em}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--bdr)}
-.row{display:flex;gap:.75rem;align-items:flex-end;margin-bottom:1rem;flex-wrap:wrap}
-.fg{display:flex;flex-direction:column;gap:.3rem}
-.lbl{font-size:.65rem;font-family:Arial,sans-serif;color:var(--dim);text-transform:uppercase;letter-spacing:.07em}
-.inp{background:var(--surf);border:1px solid var(--bdr);border-radius:3px;padding:.38rem .6rem;color:var(--txt);font-family:Arial,sans-serif;font-size:.82rem;outline:none;width:88px;transition:border-color .15s}
-.inp:focus{border-color:var(--acc)}
-.nref{background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:.75rem .9rem;margin-bottom:1rem}
-.nref-lbl{font-size:.65rem;font-family:Arial,sans-serif;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.4rem}
-.chips{display:flex;gap:.3rem;flex-wrap:wrap}
-.chip{background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:.18rem .45rem;font-family:Arial,sans-serif;font-size:.68rem;color:var(--txt)}
-.chip span{color:var(--dim);margin-left:.2rem}
-.slbl{font-size:.65rem;font-family:Arial,sans-serif;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.3rem}
-.presets{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.9rem}
-.prebtn{background:var(--surf);border:1px solid var(--bdr);border-radius:3px;padding:.25rem .6rem;color:var(--dim);font-family:Arial,sans-serif;font-size:.67rem;cursor:pointer;transition:color .12s,border-color .12s}
-.prebtn:hover{color:var(--txt);border-color:var(--acc)}
-.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.6rem}
+.dz-title{font-size:13px;margin-bottom:4px}
+.dz-sub{color:var(--mute);font-size:11px}
+.istat{display:none;border:1px solid var(--line);padding:8px 10px;margin-bottom:10px;font-size:11px}
+.istat.ok{border-color:var(--easy)}.istat.err{border-color:var(--hard)}
+.ititle{margin-bottom:2px}
+.isub{color:var(--mute)}
+.ichips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.ichip{border:1px solid var(--line);padding:1px 6px;font-size:10px;display:flex;align-items:center;gap:5px}
+.idot{width:6px;height:6px}
+details.manual{border:1px solid var(--line);padding:8px 10px}
+details.manual summary{cursor:pointer;color:var(--mute)}
+details.manual[open] summary{margin-bottom:10px;color:var(--fg)}
+.row{display:flex;gap:10px;align-items:flex-end;margin-bottom:10px;flex-wrap:wrap}
+.fg{display:flex;flex-direction:column;gap:3px}
+.lbl,.slbl{font-size:10px;color:var(--mute)}
+.inp{background:transparent;border:1px solid var(--line);padding:4px 7px;color:var(--fg);outline:none;width:80px}
+.inp:focus,.rta:focus{border-color:var(--gold)}
+.chips{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+.chip{border:1px solid var(--line);padding:1px 6px;font-size:10px}
+.chip span{color:var(--mute);margin-left:4px}
+.presets{display:flex;gap:4px;flex-wrap:wrap;margin:3px 0 10px}
+.btn,.prebtn,.bdel,.tnudge,.play-btn,.stop-btn,.mbtn,.sbtn,.unlock-banner button{background:transparent;color:var(--fg);border:1px solid var(--line2);padding:4px 9px}
+.btn:hover,.prebtn:hover,.tnudge:hover,.play-btn:hover,.stop-btn:hover{border-color:var(--gold);color:var(--gold)}
+.bp{border-color:var(--gold);color:var(--gold)}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
 @media(max-width:600px){.pgrid{grid-template-columns:1fr}}
-.pc{background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:.75rem}
-.phd{display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem}
-.pnm{background:none;border:none;font-size:.88rem;font-weight:500;color:var(--txt);width:140px;outline:none;border-bottom:1px solid transparent;transition:border-color .15s}
-.pnm:focus{border-bottom-color:var(--acc)}
-.bdel{background:none;border:1px solid var(--bdr);color:var(--dim);font-size:.65rem;padding:.18rem .4rem;border-radius:3px;cursor:pointer;font-family:Arial,sans-serif;transition:color .12s,border-color .12s}
+.pc{border:1px solid var(--line);padding:8px}
+.phd{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.pnm{background:none;border:none;border-bottom:1px solid transparent;font-size:12px;color:var(--fg);width:150px;outline:none}
+.pnm:focus{border-bottom-color:var(--gold)}
+.bdel{font-size:10px;padding:1px 6px;color:var(--mute)}
 .bdel:hover{color:var(--hard);border-color:var(--hard)}
-.rta{width:100%;background:var(--surf2);border:1px solid var(--bdr);border-radius:3px;padding:.4rem .55rem;color:var(--txt);font-family:Arial,sans-serif;font-size:.74rem;outline:none;resize:vertical;min-height:48px;transition:border-color .15s}
-.rta:focus{border-color:var(--acc)}
-.hint{margin-top:.25rem;font-size:.62rem;color:var(--dim);font-family:Arial,sans-serif}
-.addbtn{width:100%;border:1px dashed var(--bdr);background:none;border-radius:4px;padding:.65rem;color:var(--dim);font-family:Arial,sans-serif;font-size:.73rem;cursor:pointer;transition:color .12s,border-color .12s}
-.addbtn:hover{color:var(--acc);border-color:var(--acc)}
-.arow{display:flex;gap:.5rem;align-items:center;margin-top:.75rem}
-.btn{padding:.42rem 1rem;border-radius:3px;border:none;font-family:Arial,sans-serif;font-size:.73rem;cursor:pointer;transition:opacity .12s}
-.bp{background:var(--acc);color:#0f0f11;font-weight:500}.bp:hover{opacity:.85}
-.bg{background:var(--surf);border:1px solid var(--bdr);color:var(--dim)}.bg:hover{color:var(--txt);border-color:var(--dim)}
+.rta{width:100%;background:var(--panel);border:1px solid var(--line);padding:5px 7px;color:var(--fg);outline:none;resize:vertical;min-height:44px}
+.hint{margin-top:3px;font-size:10px;color:var(--mute)}
+.addbtn{width:100%;border:1px dashed var(--line2);background:none;padding:7px;color:var(--mute)}
+.addbtn:hover{color:var(--gold);border-color:var(--gold)}
+.arow{display:flex;gap:6px;align-items:center;margin-top:10px}
 
-/* ── analyze panel ── */
-.viz-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem}
-.viz-ttl{font-size:.88rem;font-weight:500}
-.meta-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
-.mtag{background:var(--surf);border:1px solid var(--bdr);border-radius:3px;padding:.18rem .5rem;font-family:Arial,sans-serif;font-size:.67rem;color:var(--dim)}
-.mtag.warn{border-color:var(--med);color:var(--med)}
+/* ── how to read (a table, like the data pages) ── */
+.key{border-collapse:collapse;margin:0 0 12px;font-size:11px}
+.key td{padding:3px 12px 3px 0;border-bottom:1px dashed var(--line);vertical-align:middle}
+.key td:first-child{white-space:nowrap;color:var(--fg)}
+.key td:last-child{color:var(--mute)}
+.sw{display:inline-block;width:22px;height:10px;vertical-align:middle;margin-right:4px}
+.swl{display:inline-block;width:2px;height:14px;vertical-align:middle;margin:0 10px}
+.swu{display:inline-block;width:22px;height:3px;vertical-align:middle;margin-right:3px}
 
-.unlock-banner{border:1px solid var(--bdr);border-radius:4px;padding:.6rem .9rem;margin-bottom:1rem;font-family:Arial,sans-serif;font-size:.73rem;color:var(--dim);display:flex;align-items:center;gap:.6rem}
-.unlock-banner button{background:var(--acc);border:none;border-radius:3px;padding:.25rem .7rem;color:#0f0f11;font-family:Arial,sans-serif;font-size:.7rem;font-weight:500;cursor:pointer}
+.meta-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.mtag{border:1px solid var(--line);padding:1px 6px;font-size:10px;color:var(--mute)}
+.unlock-banner{border:1px solid var(--med);padding:6px 10px;margin-bottom:8px;font-size:11px;color:var(--mute);display:flex;align-items:center;gap:8px}
 
-/* ── transport ── */
-.transport{background:var(--surf);border:1px solid var(--bdr);border-radius:4px;padding:.75rem 1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:.9rem;flex-wrap:wrap}
-.play-btn{width:34px;height:34px;border-radius:3px;border:1px solid var(--bdr);background:var(--surf2);color:var(--txt);font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .12s;flex-shrink:0}
-.play-btn:hover{border-color:var(--acc)}
-.stop-btn{width:28px;height:28px;border-radius:3px;border:1px solid var(--bdr);background:none;color:var(--dim);font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color .12s,border-color .12s;flex-shrink:0}
-.stop-btn:hover{color:var(--txt);border-color:var(--dim)}
-.t-info{flex:1;min-width:110px}
-.t-pos{font-family:Arial,sans-serif;font-size:.8rem;color:var(--txt)}
-.t-sub{font-family:Arial,sans-serif;font-size:.62rem;color:var(--dim);margin-top:.1rem}
+/* ── transport: sticks to the bottom like the control bar on the other viz pages ── */
+.transport{position:sticky;bottom:0;z-index:60;background:var(--bg);border-top:1px solid var(--line);padding:8px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.play-btn{min-width:58px}
+.t-info{min-width:120px}
+.t-pos{font-size:11px}
+.t-sub{font-size:10px;color:var(--mute)}
 .prog-wrap{flex:2;min-width:140px}
-.prog-track{height:4px;background:var(--surf2);border-radius:2px;position:relative;cursor:pointer;border:1px solid var(--bdr)}
-.prog-fill{height:100%;background:var(--acc);border-radius:2px;width:0%;pointer-events:none}
-.prog-head{width:10px;height:10px;border-radius:50%;background:var(--txt);position:absolute;top:50%;transform:translate(-50%,-50%);left:0%;pointer-events:none;transition:left .08s linear}
-.tempo-wrap{display:flex;align-items:center;gap:.4rem;flex-shrink:0}
-.tdisplay{font-family:Arial,sans-serif;font-size:.78rem;color:var(--txt);min-width:32px;text-align:center}
-.tnudge{background:none;border:1px solid var(--bdr);border-radius:3px;padding:.12rem .38rem;color:var(--dim);cursor:pointer;font-family:Arial,sans-serif;font-size:.75rem;transition:color .12s,border-color .12s}
-.tnudge:hover{color:var(--txt);border-color:var(--dim)}
-.vol-wrap{display:flex;align-items:center;gap:.4rem;flex-shrink:0}
-.vol-lbl{font-family:Arial,sans-serif;font-size:.62rem;color:var(--dim);text-transform:uppercase}
-input[type=range].vol{width:64px;accent-color:var(--acc);cursor:pointer}
-.mbtn,.sbtn{font-family:Arial,sans-serif;font-size:.52rem;padding:.1rem .27rem;border-radius:2px;border:1px solid var(--bdr);background:none;cursor:pointer;color:var(--dim);transition:all .1s;text-transform:uppercase}
+.prog-track{height:6px;background:var(--panel);position:relative;cursor:pointer;border:1px solid var(--line2)}
+.prog-fill{height:100%;background:var(--gold);width:0%;pointer-events:none}
+.prog-head{width:2px;height:12px;background:var(--fg);position:absolute;top:50%;transform:translate(-50%,-50%);left:0%;pointer-events:none;transition:left .08s linear}
+.tempo-wrap,.vol-wrap{display:flex;align-items:center;gap:5px;flex-shrink:0}
+.tdisplay{min-width:28px;text-align:center}
+.tnudge{padding:1px 6px}
+.vol-lbl{font-size:10px;color:var(--mute)}
+input[type=range].vol{width:64px;accent-color:var(--gold);cursor:pointer}
+.mbtn,.sbtn{font-size:9px;padding:0 4px;color:var(--mute);border-color:var(--line2)}
 .mbtn.on{border-color:var(--hard);color:var(--hard)}
-.sbtn.on{border-color:var(--med);color:var(--med)}
+.sbtn.on{border-color:var(--gold);color:var(--gold)}
 
-/* ── SCORE — absolute-position canvas layout ── */
-.score-wrap{background:#fff;border:1px solid var(--bdr);border-radius:4px;overflow-x:auto;margin-bottom:1.5rem;padding:1rem 1rem .75rem}
-.system{margin-bottom:2.5rem}
-.system:last-child{margin-bottom:.5rem}
-
-/* measure number row */
-.sys-mbar{display:flex;margin-bottom:.4rem}
+/* ── score ── */
+.score-wrap{background:var(--panel);border:1px solid var(--line);overflow-x:auto;margin-bottom:4px;padding:14px 14px 10px}
+.system{margin-bottom:34px}
+.system:last-child{margin-bottom:6px}
+.sys-mbar{display:flex;margin-bottom:5px}
 .sys-mbar-offset{flex-shrink:0}
-.mnum{flex-shrink:0;font-family:Arial,sans-serif;font-size:.58rem;color:var(--dim);box-sizing:border-box;padding-left:3px;border-left:1px solid #00000015}
+.mnum{flex-shrink:0;font-size:10px;color:var(--mute);padding-left:3px;border-left:1px solid var(--line)}
 .mnum.first{border-left:none}
 .mnum.sig-change{color:var(--med)}
-
-/* part row */
-.part-block{display:flex;align-items:flex-start;margin-bottom:0}
-.pb-label{flex-shrink:0;display:flex;flex-direction:column;justify-content:flex-end;padding-right:.7rem;padding-bottom:6px}
-.pb-lname{font-size:.78rem;font-weight:500;white-space:nowrap}
-.pb-btns{display:flex;gap:.2rem;margin-top:.25rem}
-
-/* The canvas — everything absolutely positioned inside */
+.part-block{display:flex;align-items:flex-start}
+.pb-label{flex-shrink:0;display:flex;flex-direction:column;justify-content:flex-end;padding-right:10px;padding-bottom:6px}
+.pb-lname{font-size:12px;font-weight:bold;white-space:nowrap}
+.pb-btns{display:flex;gap:3px;margin-top:3px}
 .pb-canvas{position:relative;flex-shrink:0}
-
-/* Staff line — single continuous horizontal rule at vertical midpoint */
-.staff-line{position:absolute;left:0;right:0;height:1px;background:#cccccc;pointer-events:none;z-index:1}
-
-/* Barlines */
-.barline{position:absolute;top:0;bottom:0;width:1px;background:#bbbbbb;pointer-events:none;z-index:2}
-.barline.thick{background:#555;width:2px}
-
-/* Note block — absolutely positioned by onset beat, width = duration */
-.nb{position:absolute;top:0;bottom:0;cursor:pointer;box-sizing:border-box;z-index:3}
-.nb.nb-ds  {background:rgba(34,102,204,.08);border-left:3px solid var(--shared)}
-.nb.nb-solo{background:rgba(26,138,74,.06);border-left:2px solid var(--easy)}
-.nb.nb-off {background:rgba(176,96,0,.05);border-left:2px solid rgba(176,96,0,.5)}
-.nb.nb-syn {background:rgba(204,34,34,.06);border-left:3px solid var(--hard)}
+.staff-line{position:absolute;left:0;right:0;height:1px;background:#333;pointer-events:none;z-index:1}
+.barline{position:absolute;top:0;bottom:0;width:1px;background:#4a4a4a;pointer-events:none;z-index:2}
+.barline.thick{background:#9a9a9a;width:2px}
+/* note block: left edge = the attack, width = how long it is held */
+.nb{position:absolute;top:0;bottom:0;cursor:pointer;z-index:3}
+.nb.nb-ds  {background:rgba(106,171,255,.10);border-left:3px solid var(--shared)}
+.nb.nb-solo{background:rgba(78,201,154,.08);border-left:2px solid var(--easy)}
+.nb.nb-off {background:rgba(212,170,58,.07);border-left:2px solid rgba(212,170,58,.6)}
+.nb.nb-syn {background:rgba(224,92,92,.09);border-left:3px solid var(--hard)}
 .nb.nb-shared{background:transparent;border-left:3px solid transparent}
-/* duration underline at bottom of note */
-.nb-fill{position:absolute;bottom:0;left:0;height:3px;border-radius:0 1px 1px 0;opacity:.5}
-/* pitch label */
-.nb-pitch{position:absolute;top:4px;left:5px;font-family:Arial,sans-serif;font-size:.55rem;pointer-events:none;white-space:nowrap;line-height:1}
-/* playhead highlight */
-.nb.playing{filter:brightness(.8);z-index:5;outline:2px solid #333}
+.nb-fill{position:absolute;bottom:0;left:0;height:3px;opacity:.75}
+.nb-pitch{position:absolute;top:3px;left:5px;font-size:9px;pointer-events:none;white-space:nowrap;line-height:1}
+.nb.playing{filter:brightness(1.7);z-index:5;outline:1px solid var(--fg)}
+.lw{position:absolute;font-size:10px;color:var(--fg);white-space:nowrap;line-height:1}
+.lw.mid{color:var(--mute)}
+.phrase-svg{position:absolute;top:0;left:0;pointer-events:none;z-index:25;overflow:visible}
+.phrase-svg text{paint-order:stroke;stroke:var(--panel);stroke-width:4px;stroke-linejoin:round}
+.part-sep{height:1px;background:var(--line);margin:2px 0}
 
-/* Lyric text — absolutely positioned at note onset x, below staff */
-.lyric-layer{position:absolute;left:0;right:0;pointer-events:none;z-index:3}
-.lw{position:absolute;font-size:.65rem;font-family:Arial,sans-serif;color:var(--txt);white-space:nowrap;line-height:1}
-.lw.mid{color:var(--dim)}
+/* ── phrases by measure ── */
+.sa-table{width:100%;border-collapse:collapse;font-size:11px}
+.sa-table th{text-align:left;padding:5px 8px;border-bottom:1px solid var(--line2);font-weight:bold;white-space:nowrap}
+.sa-table th.measures-col{width:80px;color:var(--mute)}
+.sa-table td{padding:4px 8px;border-bottom:1px dashed var(--line);vertical-align:top}
+.sa-table tr:hover td{background:#171717}
+.sa-table td.measures-col{font-weight:bold;white-space:nowrap}
+.pc-shared{display:inline-block;padding:0 6px;font-weight:bold;white-space:nowrap}
+.pc-unique{display:inline-block;color:var(--mute)}
+.pc-rest{display:inline-block;color:#5a5a5a}
+.sg-legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px;font-size:11px;align-items:center}
+.sg-swatch{display:flex;align-items:center;gap:5px;font-weight:bold}
+.sg-dot{width:10px;height:10px;flex-shrink:0}
 
-/* Phrase arc SVG layer — drawn above staff, position:absolute */
-.phrase-svg{position:absolute;top:0;left:0;pointer-events:none;z-index:6;overflow:visible}
-
-/* Part separator */
-.part-sep{height:1px;background:#ccc;margin:2px 0}
-
-/* Playhead line */
-.playhead-line{position:absolute;top:0;bottom:0;width:2px;background:rgba(0,0,0,.4);pointer-events:none;z-index:10;display:none}
-
-/* shared analysis table */
-.shared-analysis{margin-bottom:1.5rem}
-.sa-hd{font-size:.75rem;font-weight:bold;text-transform:uppercase;letter-spacing:.07em;color:#555;margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:2px solid #ddd}
-.sa-table{width:100%;border-collapse:collapse;font-size:.72rem}
-.sa-table th{text-align:left;padding:.35rem .5rem;border-bottom:2px solid #ccc;font-weight:bold;color:#333;background:#f5f5f5;white-space:nowrap}
-.sa-table th.measures-col{width:80px;color:#555}
-.sa-table td{padding:.3rem .5rem;border-bottom:1px solid #e8e8e8;vertical-align:top;line-height:1.4}
-.sa-table tr:hover td{background:#fafafa}
-.sa-table td.measures-col{font-weight:bold;color:#555;white-space:nowrap;font-size:.68rem}
-.pc-shared{display:inline-block;border-radius:3px;padding:1px 6px;font-size:.68rem;font-weight:bold;margin:1px 0;white-space:nowrap}
-.pc-unique{display:inline-block;color:#888;font-size:.68rem;font-style:italic;margin:1px 0}
-.pc-rest{display:inline-block;color:#aaa;font-size:.68rem;margin:1px 0}
-.sg-legend{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:.75rem;font-size:.7rem;align-items:center}
-.sg-swatch{display:flex;align-items:center;gap:.3rem;font-weight:bold}
-.sg-dot{width:12px;height:12px;border-radius:2px;flex-shrink:0}
-
-.tooltip{position:fixed;background:var(--surf2);border:1px solid var(--bdr);border-radius:4px;padding:.35rem .6rem;font-family:Arial,sans-serif;font-size:.66rem;color:var(--txt);pointer-events:none;z-index:200;display:none;max-width:220px;line-height:1.6;white-space:pre}
+.tooltip{position:fixed;background:#000;border:1px solid var(--line2);padding:5px 8px;font-size:10px;color:var(--fg);pointer-events:none;z-index:200;display:none;max-width:240px;white-space:pre}
 </style>
 </head>
 <body>
@@ -191,42 +154,27 @@ input[type=range].vol{width:64px;accent-color:var(--acc);cursor:pointer}
 <div class="wrap">
 
 <header>
-  <div>
-    <h1>Vocal Choreography Analyzer</h1>
-    <p style="font-size:.72rem;color:#666;font-family:Arial,sans-serif;margin-top:.2rem">annotated score + movement phrase guide</p>
-  </div>
-  <div class="legend">
-    <div class="leg"><div class="ldot" style="background:var(--shared)"></div>shared downbeat</div>
-    <div class="leg"><div class="ldot" style="background:var(--easy)"></div>downbeat</div>
-    <div class="leg"><div class="ldot" style="background:var(--med)"></div>off-beat</div>
-    <div class="leg"><div class="ldot" style="background:var(--hard)"></div>syncopated</div>
-  </div>
+  <h1>Vocal Choreography Analyzer</h1>
+  <p class="fl"><span class="ai" title="This text was written by an LLM (Claude).">Load a score with several vocal parts and see which parts sing the same phrase at the same time, and which part is on its own, so movement can be set where the group lines up.</span></p>
 </header>
 
-<div class="tabs">
-  <button class="tab active" onclick="switchTab('input')">Import / Enter</button>
-  <button class="tab" onclick="switchTab('analyze')">Score &amp; Analysis</button>
-</div>
-
-<!-- INPUT -->
-<div class="panel active" id="panel-input">
-  <div class="tip">
-    <strong>Sibelius:</strong> <code>File &rarr; Export &rarr; MusicXML</code> (v7+) or use the free <strong>Dolet</strong> plugin. Also accepts MuseScore, Finale, Dorico. Lyrics in the score will appear in the annotated view.
-  </div>
+<section id="panel-input">
+  <h2>1 · load a score</h2>
+  <p class="fl"><span class="ai" title="This text was written by an LLM (Claude).">Export MusicXML from Sibelius, MuseScore, Finale or Dorico (File, Export, MusicXML). Nothing is uploaded; the file is read in this browser.</span></p>
   <div class="dz" id="dz">
     <input type="file" accept=".xml,.musicxml,.mxl" onchange="onFileSelect(event)">
-    <div class="dz-title">Drop MusicXML / MXL here</div>
-    <div class="dz-sub" style="margin-top:.3rem">Accepts <code>.musicxml</code> &nbsp;<code>.xml</code> &nbsp;<code>.mxl</code></div>
+    <div class="dz-title">drop a MusicXML file here, or click to choose</div>
+    <div class="dz-sub">.musicxml &nbsp; .xml &nbsp; .mxl</div>
   </div>
   <div id="istat" class="istat"></div>
-  <div class="divider">or enter rhythms manually</div>
-  <div class="row">
-    <div class="fg"><div class="lbl">Time Sig</div><input type="text" class="inp" id="timesig" value="4/4"></div>
-    <div class="fg"><div class="lbl">Measures</div><input type="number" class="inp" id="measures" value="8" min="1" max="64"></div>
-    <div class="fg"><div class="lbl">BPM</div><input type="number" class="inp" id="bpm" value="120" min="40" max="300"></div>
-  </div>
-  <div class="nref">
-    <div class="nref-lbl">Notation</div>
+  <details class="manual" id="manual">
+    <summary>or type rhythms by hand</summary>
+    <div class="row">
+      <div class="fg"><div class="lbl">time sig</div><input type="text" class="inp" id="timesig" value="4/4"></div>
+      <div class="fg"><div class="lbl">measures</div><input type="number" class="inp" id="measures" value="8" min="1" max="64"></div>
+      <div class="fg"><div class="lbl">bpm</div><input type="number" class="inp" id="bpm" value="120" min="40" max="300"></div>
+    </div>
+    <div class="slbl">notation</div>
     <div class="chips">
       <div class="chip">W<span>whole</span></div><div class="chip">H<span>half</span></div>
       <div class="chip">Q<span>quarter</span></div><div class="chip">E<span>eighth</span></div>
@@ -234,43 +182,51 @@ input[type=range].vol{width:64px;accent-color:var(--acc);cursor:pointer}
       <div class="chip">R<span>rest</span></div><div class="chip">^<span>accent</span></div>
       <div class="chip">|<span>barline</span></div>
     </div>
-  </div>
-  <div class="slbl">Presets</div>
-  <div class="presets">
-    <button class="prebtn" onclick="loadPreset('gospel')">Gospel Choir</button>
-    <button class="prebtn" onclick="loadPreset('pop')">Pop Vocal</button>
-    <button class="prebtn" onclick="loadPreset('jazz')">Jazz Ensemble</button>
-    <button class="prebtn" onclick="loadPreset('acappella')">A Cappella</button>
-  </div>
-  <div class="pgrid" id="pgrid"></div>
-  <button class="addbtn" onclick="addPart()">+ Add Vocal Part</button>
-  <div class="arow">
-    <button class="btn bp" onclick="analyze()">Build Score &amp; Analyze</button>
-    <button class="btn bg" onclick="clearAll()">Clear All</button>
-  </div>
-</div>
+    <div class="slbl">examples</div>
+    <div class="presets">
+      <button class="prebtn" onclick="loadPreset('gospel');analyze()">gospel choir</button>
+      <button class="prebtn" onclick="loadPreset('pop');analyze()">pop vocal</button>
+      <button class="prebtn" onclick="loadPreset('jazz');analyze()">jazz ensemble</button>
+      <button class="prebtn" onclick="loadPreset('acappella');analyze()">a cappella</button>
+    </div>
+    <div class="pgrid" id="pgrid"></div>
+    <button class="addbtn" onclick="addPart()">+ add vocal part</button>
+    <div class="arow">
+      <button class="btn bp" onclick="analyze()">build score</button>
+      <button class="btn" onclick="clearAll()">clear all</button>
+    </div>
+  </details>
+</section>
 
-<!-- ANALYZE -->
-<div class="panel" id="panel-analyze">
+<div id="panel-analyze">
 <div id="viz" style="display:none">
 
-  <div class="viz-hd">
-    <div class="viz-ttl">Annotated Score</div>
-    <button class="btn bg" onclick="switchTab('input')">Edit Parts</button>
-  </div>
-
+<section>
+  <h2>2 · the score</h2>
+  <p class="fl" id="score-src"></p>
   <div class="meta-row" id="metarow"></div>
+  <table class="key">
+    <tr><td><span class="sw" style="background:rgba(51,199,232,.28);border-left:3px solid #33c7e8"></span> A, B, C…</td><td><span class="ai" title="This text was written by an LLM (Claude).">a phrase two or more parts share: same measures, same rhythm. Same letter and colour on every part that has it.</span></td></tr>
+    <tr><td>A ≈</td><td><span class="ai" title="This text was written by an LLM (Claude).">close to that phrase but not identical (the table below gives the % of note attacks that line up).</span></td></tr>
+    <tr><td><span style="color:var(--mute)">unique</span></td><td><span class="ai" title="This text was written by an LLM (Claude).">no other part has that rhythm there.</span></td></tr>
+    <tr><td><span class="swl" style="background:#33c7e8"></span></td><td><span class="ai" title="This text was written by an LLM (Claude).">vertical line: where a shared phrase starts or ends, drawn through every part.</span></td></tr>
+    <tr><td><span class="sw" style="border-left:3px solid var(--fg);background:#222"></span> block</td><td><span class="ai" title="This text was written by an LLM (Claude).">one note. Left edge is the attack, width is how long it is held.</span></td></tr>
+    <tr><td><span class="swu" style="background:var(--shared)"></span><span class="swu" style="background:var(--easy)"></span><span class="swu" style="background:var(--med)"></span><span class="swu" style="background:var(--hard)"></span></td><td><span class="ai" title="This text was written by an LLM (Claude).">strip under each note: downbeat shared with another part, downbeat alone, on a beat, off the beat (syncopated).</span></td></tr>
+    <tr><td>*</td><td><span class="ai" title="This text was written by an LLM (Claude).">the phrase enters off the downbeat, ends mid-rhythm, or is mostly syncopated: harder to move on.</span></td></tr>
+  </table>
 
   <div class="unlock-banner" id="unlock-banner" style="display:none">
-    Browser blocked audio autoplay. <button onclick="unlockAudio()">Enable sound</button>
+    <span class="ai" title="This text was written by an LLM (Claude).">The browser blocked sound until you click.</span> <button onclick="unlockAudio()">enable sound</button>
   </div>
 
+  <div class="score-wrap" id="score-wrap"></div>
+
   <div class="transport">
-    <button class="play-btn" id="playBtn" onclick="handlePlay()">&#9654;</button>
-    <button class="stop-btn" onclick="handleStop()">&#9632;</button>
+    <button class="play-btn" id="playBtn" onclick="handlePlay()">play</button>
+    <button class="stop-btn" onclick="handleStop()">stop</button>
     <div class="t-info">
       <div class="t-pos" id="tpos">M1 &middot; Beat 1.0</div>
-      <div class="t-sub" id="tsub">Ready</div>
+      <div class="t-sub" id="tsub">ready</div>
     </div>
     <div class="prog-wrap">
       <div class="prog-track" id="ptrack" onclick="seekClick(event)">
@@ -279,20 +235,23 @@ input[type=range].vol{width:64px;accent-color:var(--acc);cursor:pointer}
       </div>
     </div>
     <div class="tempo-wrap">
-      <div class="lbl" style="text-align:center">BPM</div>
+      <div class="lbl">bpm</div>
       <button class="tnudge" onclick="nudgeTempo(-5)">-</button>
       <div class="tdisplay" id="tdisplay">120</div>
       <button class="tnudge" onclick="nudgeTempo(5)">+</button>
     </div>
     <div class="vol-wrap">
-      <div class="vol-lbl">Vol</div>
+      <div class="vol-lbl">vol</div>
       <input type="range" class="vol" id="vol" min="0" max="1" step="0.05" value="0.75" oninput="setVol(this.value)">
     </div>
   </div>
+</section>
 
-  <div class="score-wrap" id="score-wrap"></div>
-
+<section>
+  <h2>3 · phrases by measure</h2>
+  <p class="fl"><span class="ai" title="This text was written by an LLM (Claude).">One row per stretch of measures, one column per part: which shared phrase each part is on, with the words where the score has lyrics.</span></p>
   <div class="shared-analysis" id="shared-analysis"></div>
+</section>
 
 </div>
 </div>
@@ -353,7 +312,8 @@ function parseMusicXML(xmlStr){
         let lyric=null;
         const le=el.querySelector('lyric');
         if(le){const syl=le.querySelector('syllabic')?.textContent?.trim()||'single';const txt=le.querySelector('text')?.textContent?.trim()||'';if(txt)lyric={text:txt,syllabic:syl};}
-        beats.push({beat:cursor+lc,duration:dur||1,type:isRest?'rest':'note',accented:acc,raw:el.querySelector('type')?.textContent||'quarter',freq,measureIndex:mIdx,lyric});
+        const tied=!isRest&&!!el.querySelector('tie[type="stop"]');
+        beats.push({beat:cursor+lc,duration:dur||1,type:isRest?'rest':'note',tied,accented:acc,raw:el.querySelector('type')?.textContent||'quarter',freq,measureIndex:mIdx,lyric});
         lc+=dur;
       });
       cursor+=qb;
@@ -383,7 +343,7 @@ async function onFileSelect(e){if(e.target.files[0])await loadFile(e.target.file
 async function loadFile(file){
   const st=document.getElementById('istat');
   st.style.display='block';st.className='istat';
-  st.innerHTML='<div class="ititle">Parsing...</div>';
+  st.innerHTML='<div class="ititle">reading…</div>';
   try{
     let xml=file.name.endsWith('.mxl')?await parseMXL(await file.arrayBuffer()):await file.text();
     const res=parseMusicXML(xml);
@@ -396,58 +356,73 @@ async function loadFile(file){
     const dm={4:'W',2:'H',1:'Q',0.5:'E',0.25:'S'};
     res.parts.forEach((p,i)=>{
       const r=p.beats.map(b=>{let s=b.type==='rest'?'R':(dm[Math.round(b.duration*4)/4]||'Q');if(b.accented)s='^'+s;return s;}).join(' ');
-      addPart(p.name,r,(colorForName(p.name)||COLORS_FALLBACK[i%COLORS_FALLBACK.length]),p.beats,p.measureMap);
+      addPart(p.name,r,(colorForName(p.name)||NEUTRAL_PART_COLOR),p.beats,p.measureMap);
     });
-    importedMeasureMap=res.measureMap;
+    importedMeasureMap=res.measureMap;loadedName=file.name;
     st.className='istat ok';
     const pitchCount=res.parts.reduce((n,p)=>n+p.beats.filter(b=>b.freq!=null).length,0);
     const lyricCount=res.parts.reduce((n,p)=>n+p.beats.filter(b=>b.lyric).length,0);
     const sigs=[...new Set((res.measureMap||[]).map(m=>m.timeSig))];
     st.innerHTML=`<div class="ititle">${file.name}</div>
-      <div style="color:var(--dim);font-size:.7rem;margin-top:.15rem;font-family:Arial,sans-serif">${res.parts.length} parts &middot; ${res.measureMap?.length||'?'} bars &middot; ${res.tempo} BPM &middot; ${sigs.join('/')}${lyricCount>0?` &middot; ${lyricCount} lyrics`:''}${pitchCount>0?` &middot; ${pitchCount} pitches`:''}</div>
-      <div class="ichips">${res.parts.map((p,i)=>`<div class="ichip"><div class="idot" style="background:${(colorForName(p.name)||COLORS_FALLBACK[i%COLORS_FALLBACK.length])}"></div>${p.name}</div>`).join('')}</div>`;
+      <div class="isub">${res.parts.length} parts &middot; ${res.measureMap?.length||'?'} bars &middot; ${res.tempo} BPM &middot; ${sigs.join('/')}${lyricCount>0?` &middot; ${lyricCount} lyrics`:''}${pitchCount>0?` &middot; ${pitchCount} pitches`:''}</div>
+      <div class="ichips">${res.parts.map((p,i)=>`<div class="ichip"><div class="idot" style="background:${(colorForName(p.name)||NEUTRAL_PART_COLOR)}"></div>${p.name}</div>`).join('')}</div>`;
     analyze();
-  }catch(e){st.className='istat err';st.innerHTML=`<div class="ititle" style="color:var(--hard)">${e.message}</div>`;}
+  }catch(e){st.className='istat err';st.innerHTML=`<div class="ititle ai" title="This text was written by an LLM (Claude)." style="color:var(--hard)">${e.message}</div>`;}
 }
 
 // ─── Parts state ───────────────────────────────────────────────────────────────
 // Group member colors — keyed by any name fragment (case-insensitive)
 const MEMBER_COLORS = {
   // Green: RM/Rhea, Adoni/AS
-  'rm':    '#2a8a3a', 'rhea':  '#2a8a3a',
-  'adoni': '#2a8a3a', 'as':    '#2a8a3a',
+  'rm':    '#5fd16a', 'rhea':  '#5fd16a',
+  'adoni': '#5fd16a', 'as':    '#5fd16a',
   // Purple: Cilcan/CP, Vanessa/VV
-  'cilcan':'#7b3fb5', 'cp':    '#7b3fb5',
-  'vanessa':'#7b3fb5','vv':    '#7b3fb5',
+  'cilcan':'#b388ff', 'cp':    '#b388ff',
+  'vanessa':'#b388ff','vv':    '#b388ff',
   // Teal: Prithi/PS
-  'prithi':'#0e8080', 'ps':    '#0e8080',
+  'prithi':'#3fd0c9', 'ps':    '#3fd0c9',
   // Blue: Michelle/MJ
-  'michelle':'#2255cc','mj':   '#2255cc',
+  'michelle':'#6aa8ff','mj':   '#6aa8ff',
   // Pink: Millie/MW
-  'millie':'#cc3a8a', 'mw':    '#cc3a8a',
+  'millie':'#ff7ac0', 'mw':    '#ff7ac0',
   // Orange: Billy/BJ, Maddy/MH
-  'billy': '#d06010', 'bj':    '#d06010',
-  'maddy': '#d06010', 'mh':    '#d06010',
+  'billy': '#ff9a3d', 'bj':    '#ff9a3d',
+  'maddy': '#ff9a3d', 'mh':    '#ff9a3d',
   // Yellow: Hannah/HC
-  'hannah':'#b08800', 'hc':    '#b08800',
+  'hannah':'#f2d13a', 'hc':    '#f2d13a',
   // Red: Ash/AK
-  'ash':   '#bb2222', 'ak':    '#bb2222',
+  'ash':   '#ff5a5a', 'ak':    '#ff5a5a',
 };
-const COLORS_FALLBACK=['#2255cc','#2a8a3a','#7b3fb5','#0e8080','#cc3a8a','#d06010','#b08800','#bb2222'];
+const NEUTRAL_PART_COLOR = '#f0f0f0'; // parts that aren't a named group member
 
+// Split a part name into word tokens and separators: "MJ, AS, RM" → ["MJ", ", ", "AS", ", ", "RM"]
+function nameTokens(name) { return (name || '').split(/([^A-Za-z]+)/).filter(s => s !== ''); }
+
+// A token matches a member only if it IS their name or initials (whole word),
+// so "Bass" no longer matches "AS" and "Ash" no longer matches "AS".
+function colorForToken(tok) { return MEMBER_COLORS[tok.toLowerCase()] || null; }
+
+// First matching member color in the name, or null
 function colorForName(name) {
-  if (!name) return null;
-  const lower = name.toLowerCase();
-  for (const [key, color] of Object.entries(MEMBER_COLORS)) {
-    if (lower.includes(key)) return color;
-  }
+  for (const tok of nameTokens(name)) { const c = colorForToken(tok); if (c) return c; }
   return null;
 }
 
-let parts=[],pid=0,importedMeasureMap=null;
+// Fill an element with the part name, each person in their own color
+function renderColoredName(el, name) {
+  el.textContent = '';
+  nameTokens(name).forEach(tok => {
+    const s = document.createElement('span');
+    s.textContent = tok;
+    s.style.color = colorForToken(tok) || NEUTRAL_PART_COLOR;
+    el.appendChild(s);
+  });
+}
+
+let parts=[],pid=0,importedMeasureMap=null,loadedName='';
 function addPart(name='',rhythm='',color=null,parsedBeats=null,measureMap=null){
   const id=pid++;
-  const resolvedColor = color || colorForName(name) || COLORS_FALLBACK[parts.length % COLORS_FALLBACK.length];
+  const resolvedColor = color || colorForName(name) || NEUTRAL_PART_COLOR;
   parts.push({id,name:name||`Part ${parts.length+1}`,rhythm,color:resolvedColor,parsedBeats,measureMap,muted:false,soloed:false});
   renderParts();
 }
@@ -459,7 +434,7 @@ function renderParts(){
   parts.forEach(p=>{
     const d=document.createElement('div');d.className='pc';
     d.innerHTML=`<div class="phd"><input class="pnm" value="${p.name}" onchange="updatePart(${p.id},'name',this.value)">
-      <div style="display:flex;align-items:center;gap:.3rem"><div style="width:9px;height:9px;border-radius:50%;background:${p.color}"></div>
+      <div style="display:flex;align-items:center;gap:.3rem"><div style="width:8px;height:8px;background:${p.color}"></div>
       <button class="bdel" onclick="removePart(${p.id})">remove</button></div></div>
       <textarea class="rta" placeholder="Q Q E E Q | H Q R" onchange="updatePart(${p.id},'rhythm',this.value)">${p.rhythm}</textarea>
       <div class="hint">W=whole H=half Q=quarter E=eighth S=16th R=rest ^=accent .=dotted |=barline</div>`;
@@ -636,15 +611,15 @@ function clearNodes(){activeNodes.forEach(n=>{try{n.stop(0);}catch(e){}});active
 function stopPlayback(reset=true){
   isPlaying=false;clearNodes();
   if(rafId){cancelAnimationFrame(rafId);rafId=null;}
-  document.getElementById('playBtn').innerHTML='&#9654;';
-  document.getElementById('tsub').textContent='Stopped';
+  document.getElementById('playBtn').textContent='play';
+  document.getElementById('tsub').textContent='stopped';
   if(reset){
     currentBeatOffset=0;setProgress(0);
     document.getElementById('tpos').textContent='M1 \xb7 Beat 1.0';
     clearPlayingCells();
   }
 }
-function clearPlayingCells(){document.querySelectorAll('.note-cell.playing').forEach(c=>c.classList.remove('playing'));}
+function clearPlayingCells(){document.querySelectorAll('.nb.playing').forEach(c=>c.classList.remove('playing'));}
 function handlePlay(){
   if(!pState)return;
   ensureAC().then(()=>{
@@ -654,12 +629,12 @@ function handlePlay(){
       currentBeatOffset=elapsed/spb(currentTempo);
       if(currentBeatOffset>=totalQBeats)currentBeatOffset=0;
       stopPlayback(false);
-      document.getElementById('tsub').textContent='Paused';
+      document.getElementById('tsub').textContent='paused';
     }else{
       if(currentBeatOffset>=totalQBeats)currentBeatOffset=0;
       scheduleAll(currentBeatOffset);isPlaying=true;
-      document.getElementById('playBtn').innerHTML='&#9646;&#9646;';
-      document.getElementById('tsub').textContent='Playing';
+      document.getElementById('playBtn').textContent='pause';
+      document.getElementById('tsub').textContent='playing';
       startRAF();
     }
   }).catch(()=>{document.getElementById('unlock-banner').style.display='flex';});
@@ -750,6 +725,7 @@ function analyze(){
   // Detect phrases per part
   const allPhrases=parsed.map(p=>detectPhrases(p.beats,p.measureMap||measureMap));
 
+  document.getElementById('score-src').textContent=importedMeasureMap?(loadedName||'imported score'):'example: '+parsed.map(p=>p.name).join(', ')+' (typed rhythms)';
   renderScore(parsed,measureMap,shared,total,allPhrases);
   renderSharedAnalysis(parsed,measureMap,allPhrases);
 }
@@ -763,12 +739,9 @@ const LYRIC_H = 16;    // px height of lyric row below staff
 const ROW_H   = ARC_H + STAFF_H; // canvas height (lyrics sit outside)
 const MEAS_PER_ROW = 8;
 
-// Bright sync-line colors — distinct from any member/part color
-const SYNC_COLORS = ['#e8000d','#ff7700','#009900','#cc00cc','#0088cc','#aa6600'];
 
 
 
-const PHRASE_COLORS = ['#555555','#777777','#999999','#aaaaaa','#666666','#888888']; // neutral fallback
 
 // Convert absolute beat → pixel x within a system
 function beatToPx(beat, sysStartBeat) {
@@ -781,15 +754,15 @@ function renderScore(parsed, measureMap, shared, total, allPhrases) {
   beatCellMap = {};
 
   // ── Shared phrase grouping ──────────────────────────────────────────────────
-  const { groups: phraseGroups, assigned: phraseAssigned } = buildPhraseGroups(allPhrases, parsed);
+  const { groups: phraseGroups, assigned: phraseAssigned, byKey: phraseItems } = buildPhraseGroups(allPhrases, parsed, measureMap);
 
   // Build per-phrase color lookup: [partIdx][phraseIdx] → {color, isShared}
   const phraseColorMap = allPhrases.map((phrases, pi) =>
     phrases.map((ph, phi) => {
       const k = `${pi}:${phi}`;
       const gIdx = phraseAssigned.get(k);
-      if (gIdx !== undefined) return { color: phraseGroups[gIdx].color, isShared: true };
-      return { color: '#aaaaaa', isShared: false };
+      if (gIdx !== undefined) return { color: phraseGroups[gIdx].color, isShared: true, label: phraseGroups[gIdx].label + (phraseItems.get(k).match < 0.999 ? ' ≈' : '') };
+      return { color: '#999999', isShared: false, label: 'unique' };
     })
   );
 
@@ -874,8 +847,7 @@ function renderScore(parsed, measureMap, shared, total, allPhrases) {
 
       const nameEl = document.createElement('div');
       nameEl.className = 'pb-lname';
-      nameEl.style.color = p.color;
-      nameEl.textContent = sysIdx === 0 ? p.name : '';
+      if (sysIdx === 0) renderColoredName(nameEl, p.name);
 
       const btnsEl = document.createElement('div');
       btnsEl.className = 'pb-btns';
@@ -937,7 +909,7 @@ function renderScore(parsed, measureMap, shared, total, allPhrases) {
         const cls = classifyBeat(b, mm, shared);
         // Rhythm classification colors — only used for the bottom fill bar and pitch label
         const rhythmColorMap = { ds: 'var(--shared)', solo: 'var(--easy)', off: 'var(--med)', syn: 'var(--hard)' };
-        const rhythmColor = rhythmColorMap[cls] || 'var(--dim)';
+        const rhythmColor = rhythmColorMap[cls] || 'var(--mute)';
 
         // Phrase membership — determines block background and border
         const phraseInfo = getPhraseForBeat(b.beat);
@@ -954,9 +926,10 @@ function renderScore(parsed, measureMap, shared, total, allPhrases) {
         nb.style.top    = noteTop + 'px';
         nb.style.height = STAFF_H + 'px';
         if (isShared && phraseColor) {
-          nb.style.background   = hexToRgba(phraseColor, 0.13);
+          nb.style.background   = hexToRgba(phraseColor, 0.24);
           nb.style.borderLeft   = `3px solid ${phraseColor}`;
         }
+        if (b.tied) nb.style.borderLeft = 'none'; // held over from the previous note — not a new attack
 
         // Duration underline — always shows rhythm classification color
         const fill = document.createElement('div');
@@ -1043,7 +1016,7 @@ function renderScore(parsed, measureMap, shared, total, allPhrases) {
         const x2 = beatToPx(endM.startBeat + endM.quarterBeats, sysStartBeat) - (isClippedRight ? 0 : 2);
         if (x2 <= x1) return;
 
-        const { color, isShared: isSharedPhrase } = phraseColorMap[pi][phIdx];
+        const { color, isShared: isSharedPhrase, label: phraseLabel } = phraseColorMap[pi][phIdx];
         const arcY = ARC_H - 3;
         const cpY  = ph.type === 'rest' ? arcY - 5 : arcY - 13;
 
@@ -1079,13 +1052,13 @@ function renderScore(parsed, measureMap, shared, total, allPhrases) {
         label.setAttribute('x', mx);
         label.setAttribute('y', cpY - 2);
         label.setAttribute('text-anchor', 'middle');
-        label.setAttribute('font-family', 'Arial, sans-serif');
-        label.setAttribute('font-size', '11');
+        label.setAttribute('font-family', 'ui-monospace, "SF Mono", Menlo, Consolas, monospace');
+        label.setAttribute('font-size', isSharedPhrase ? '12' : '10');
         label.setAttribute('fill', color);
         label.setAttribute('opacity', isSharedPhrase ? '1' : '0.6');
         label.setAttribute('font-weight', 'bold');
         label.textContent = ph.type === 'rest' ? 'rest'
-          : `P${phIdx + 1}${ph.warn?.length ? ' ⚠' : ''}`;
+          : `${phraseLabel}${ph.warn?.length ? ' *' : ''}`;
         svg.appendChild(label);
       });
 
@@ -1149,7 +1122,7 @@ function renderScore(parsed, measureMap, shared, total, allPhrases) {
         const totalH = botY - topY;
         if (totalH <= 0) return;
 
-        const overlayLeft = LABEL_W + 8; // match pb-canvas margin-left
+        const overlayLeft = firstRect.left - sysRect.left - 1; // canvas's real x inside the system, centered on the 2px line
 
         sysBoundaries.forEach(({ x, color }) => {
           const line = document.createElement('div');
@@ -1186,125 +1159,151 @@ function hexToRgba(hex, alpha) {
 // Groups phrases by shared boundaries, then renders a measure-range table
 // showing what each part is doing and which groups share the same phrase.
 
-// The 4 overlay/arc colors used for shared phrase groups (must differ from person colors)
-const SHARED_GROUP_COLORS = ['#e67e00','#0077bb','#cc1166','#008855'];
+// Overlay/arc colors for shared phrase groups. People's colors only ever appear
+// as text in the name column; these only ever appear as fills, arcs and lines.
+const SHARED_GROUP_COLORS = ['#33c7e8','#ff4fd0','#a6e22e','#c9a06b','#8f8cff','#ff7a66','#d16a8f','#9aa7b2'];
 
-function buildPhraseGroups(allPhrases, parsed) {
-  // Group phrases using union-find on shared barlines.
-  // Two phrases are related if they share ANY barline:
-  //   - same start measure (both enter at M11)
-  //   - same end barline  (both finish after M13)
-  //   - one ends where another starts (handoff at M11)
-  // This means "same start" AND "handoff" are treated identically —
-  // they're all just phrases that touch the same barline.
+function groupLetter(i) { // 0→A, 25→Z, 26→AA
+  let s = '';
+  for (i += 1; i > 0; i = Math.floor((i - 1) / 26)) s = String.fromCharCode(65 + (i - 1) % 26) + s;
+  return s;
+}
 
-  const items = []; // flat list of {pi, phIdx, ph, key}
+// Two phrases count as the same line of music when at least this share of
+// their note attacks land on the same beats.
+const RHYTHM_MATCH_MIN = 0.6;
+
+// What a phrase actually contains: the beats where notes are attacked
+// (16th-note grid, ties don't count) and the words sung.
+function phraseContent(ph, part, measureMap) {
+  const s = measureMap[ph.startMeasure - 1], e = measureMap[ph.endMeasure - 1];
+  const b0 = s?.startBeat ?? 0, b1 = (e?.startBeat ?? 0) + (e?.quarterBeats ?? 4);
+  const notes = part.beats.filter(b => b.type === 'note' && b.beat >= b0 - 0.005 && b.beat < b1 - 0.005);
+  const onsets = new Set(notes.filter(b => !b.tied).map(b => Math.round(b.beat * 4) / 4));
+  const words = []; let cur = '';
+  notes.forEach(b => {
+    if (!b.lyric) return;
+    cur += b.lyric.text;
+    if (b.lyric.syllabic !== 'begin' && b.lyric.syllabic !== 'middle') { words.push(cur); cur = ''; }
+  });
+  if (cur) words.push(cur);
+  return { onsets, words, wordKey: words.join(' ').toLowerCase() };
+}
+
+// Share of attacks two phrases have in common (0–1)
+function rhythmMatch(a, b) {
+  let inter = 0;
+  a.onsets.forEach(o => { if (b.onsets.has(o)) inter++; });
+  const union = a.onsets.size + b.onsets.size - inter;
+  return union ? inter / union : 0;
+}
+
+function buildPhraseGroups(allPhrases, parsed, measureMap) {
+  // A shared phrase group = phrases from DIFFERENT parts that
+  //   1. cover the same window (start and end within 1 measure of the group's anchor), and
+  //   2. have the same rhythm (≥ RHYTHM_MATCH_MIN of attacks in common with the anchor).
+  // Every member is compared to the anchor, never to each other, so groups
+  // cannot chain together.
+  const items = [];
   allPhrases.forEach((phrases, pi) => {
     phrases.forEach((ph, phIdx) => {
       if (ph.type === 'rest') return;
-      items.push({ pi, phIdx, ph, key: `${pi}:${phIdx}` });
+      items.push({ pi, phIdx, ph, key: `${pi}:${phIdx}`, content: phraseContent(ph, parsed[pi], measureMap), match: 1 });
     });
   });
 
-  // Union-Find
-  const parent = new Map();
-  items.forEach(it => parent.set(it.key, it.key));
-  function find(k) {
-    if (parent.get(k) !== k) parent.set(k, find(parent.get(k)));
-    return parent.get(k);
-  }
-  function union(a, b) {
-    const ra = find(a), rb = find(b);
-    if (ra !== rb) parent.set(ra, rb);
-  }
+  // The most common exact window is tried as anchor first.
+  const windowCount = new Map();
+  const wkey = ph => `${ph.startMeasure}:${ph.endMeasure}`;
+  items.forEach(it => windowCount.set(wkey(it.ph), (windowCount.get(wkey(it.ph)) || 0) + 1));
+  const ordered = [...items].sort((a, b) =>
+    windowCount.get(wkey(b.ph)) - windowCount.get(wkey(a.ph)) ||
+    a.ph.startMeasure - b.ph.startMeasure || a.ph.endMeasure - b.ph.endMeasure || a.pi - b.pi);
 
-  // Two phrases are in the same group only if they are doing the same musical
-  // thing at the same time: their starts are within 1 measure of each other
-  // AND their ends are within 1 measure of each other.
-  // This prevents a long phrase (M1-M8) from grouping with a short phrase (M5-M8)
-  // just because they happen to overlap.
-  function sameWindow(phA, phB) {
-    return Math.abs(phA.startMeasure - phB.startMeasure) <= 1
-        && Math.abs(phA.endMeasure   - phB.endMeasure)   <= 1;
-  }
-
-  // Pairwise union of same-window phrases from different parts
-  for (let i = 0; i < items.length; i++) {
-    for (let j = i + 1; j < items.length; j++) {
-      if (items[i].pi === items[j].pi) continue;
-      if (sameWindow(items[i].ph, items[j].ph)) {
-        union(items[i].key, items[j].key);
-      }
-    }
-  }
-
-  // Collect into groups
-  const rootToGroup = new Map();
-  const groups = [];
-  const assigned = new Map(); // key → groupIdx
-
-  items.forEach(it => {
-    const root = find(it.key);
-    // Only assign to a group if this root represents ≥2 parts
-    // (check if there's more than one part under this root)
-    if (!rootToGroup.has(root)) {
-      // Count distinct parts under this root
-      const partsUnder = new Set(items.filter(i => find(i.key) === root).map(i => i.pi));
-      if (partsUnder.size < 2) return; // unique phrase — skip
-      const gIdx = groups.length;
-      groups.push({ color: SHARED_GROUP_COLORS[gIdx % SHARED_GROUP_COLORS.length], members: [] });
-      rootToGroup.set(root, gIdx);
-    }
-    const gIdx = rootToGroup.get(root);
-    assigned.set(it.key, gIdx);
-    groups[gIdx].members.push(it);
+  const clusters = []; // {anchor, members:[], parts:Set}
+  ordered.forEach(it => {
+    let best = null, bestSim = -1, bestDist = Infinity;
+    clusters.forEach(c => {
+      const ds = Math.abs(c.anchor.ph.startMeasure - it.ph.startMeasure);
+      const de = Math.abs(c.anchor.ph.endMeasure - it.ph.endMeasure);
+      if (ds > 1 || de > 1 || c.parts.has(it.pi)) return;
+      const sim = rhythmMatch(it.content, c.anchor.content);
+      if (sim < RHYTHM_MATCH_MIN) return;
+      if (sim > bestSim || (sim === bestSim && ds + de < bestDist)) { best = c; bestSim = sim; bestDist = ds + de; }
+    });
+    if (!best) { best = { anchor: it, members: [], parts: new Set() }; clusters.push(best); }
+    else it.match = bestSim;
+    best.members.push(it); best.parts.add(it.pi);
   });
 
-  return { groups, assigned };
+  // Keep clusters with ≥2 parts; letter and color them in time order.
+  const groups = clusters.filter(c => c.parts.size >= 2)
+    .sort((a, b) => a.anchor.ph.startMeasure - b.anchor.ph.startMeasure || a.anchor.ph.endMeasure - b.anchor.ph.endMeasure)
+    .map((c, gIdx) => ({
+      label: groupLetter(gIdx),
+      color: SHARED_GROUP_COLORS[gIdx % SHARED_GROUP_COLORS.length],
+      members: c.members.sort((a, b) => a.pi - b.pi),
+      // do the parts that have words all sing the same words?
+      sameWords: new Set(c.members.filter(m => m.content.words.length).map(m => m.content.wordKey)).size <= 1,
+    }));
+
+  const assigned = new Map(); // `pi:phIdx` → groupIdx
+  const byKey = new Map();    // `pi:phIdx` → item (content + match for every sung phrase)
+  items.forEach(it => byKey.set(it.key, it));
+  groups.forEach((g, gIdx) => g.members.forEach(m => assigned.set(m.key, gIdx)));
+  return { groups, assigned, byKey };
+}
+
+// Short quote of a phrase's words for the table: "hoo hoo nun nun…"
+function wordsPreview(content) {
+  if (!content || !content.words.length) return '';
+  return ' · “' + content.words.slice(0, 4).join(' ') + (content.words.length > 4 ? '…' : '') + '”';
 }
 
 function renderSharedAnalysis(parsed, measureMap, allPhrases) {
   const container = document.getElementById('shared-analysis');
   container.innerHTML = '';
 
-  const { groups, assigned } = buildPhraseGroups(allPhrases, parsed);
+  const { groups, assigned, byKey } = buildPhraseGroups(allPhrases, parsed, measureMap);
 
-  // Build rows: one per phrase group (simultaneous window) + one per unique phrase
-  // Each row has a measure range = the union of all member phrase ranges in that group
-  const rows = []; // {startM, endM, groupIdx or null, members: [{pi, phIdx, ph}]}
-
-  // Group rows
-  groups.forEach((g, gi) => {
-    const startM = Math.min(...g.members.map(m => m.ph.startMeasure));
-    const endM   = Math.max(...g.members.map(m => m.ph.endMeasure));
-    rows.push({ startM, endM, groupIdx: gi, members: g.members });
-  });
-
-  // Unique phrase rows (not in any group)
-  allPhrases.forEach((phrases, pi) => {
-    phrases.forEach((ph, phIdx) => {
-      if (!assigned.has(`${pi}:${phIdx}`)) {
-        rows.push({ startM: ph.startMeasure, endM: ph.endMeasure, groupIdx: null, members: [{ pi, phIdx, ph }] });
-      }
+  // Rows: one per time window. Phrases whose start and end are within one
+  // measure of the window's anchor share a row, whatever their rhythm; the
+  // cell then says which line of music (letter) each part has there.
+  const sung = [];
+  allPhrases.forEach((phrases, pi) => phrases.forEach((ph, phIdx) => {
+    if (ph.type !== 'rest') sung.push({ pi, phIdx, ph });
+  }));
+  const wCount = new Map();
+  const wk = ph => `${ph.startMeasure}:${ph.endMeasure}`;
+  sung.forEach(s => wCount.set(wk(s.ph), (wCount.get(wk(s.ph)) || 0) + 1));
+  sung.sort((a, b) => wCount.get(wk(b.ph)) - wCount.get(wk(a.ph)) ||
+    a.ph.startMeasure - b.ph.startMeasure || a.ph.endMeasure - b.ph.endMeasure || a.pi - b.pi);
+  const rows = []; // {anchor, members:[{pi, phIdx, ph}], parts:Set}
+  sung.forEach(s => {
+    let best = null, bestDist = Infinity;
+    rows.forEach(r => {
+      const ds = Math.abs(r.anchor.startMeasure - s.ph.startMeasure), de = Math.abs(r.anchor.endMeasure - s.ph.endMeasure);
+      if (ds > 1 || de > 1 || r.parts.has(s.pi)) return;
+      if (ds + de < bestDist) { best = r; bestDist = ds + de; }
     });
+    if (!best) { best = { anchor: s.ph, members: [], parts: new Set() }; rows.push(best); }
+    best.members.push(s); best.parts.add(s.pi);
   });
-
+  rows.forEach(r => {
+    r.startM = Math.min(...r.members.map(m => m.ph.startMeasure));
+    r.endM   = Math.max(...r.members.map(m => m.ph.endMeasure));
+  });
   rows.sort((a, b) => a.startM - b.startM || a.endM - b.endM);
   if (!rows.length) return;
 
-  // Header
-  const hd = document.createElement('div');
-  hd.className = 'sa-hd';
-  hd.textContent = 'Phrase Analysis by Measure';
-  container.appendChild(hd);
 
   // Color legend for shared groups
   if (groups.length) {
     const legend = document.createElement('div');
     legend.className = 'sg-legend';
     const lbl = document.createElement('span');
-    lbl.style.cssText = 'color:#555;font-size:.68rem;margin-right:.25rem';
-    lbl.textContent = 'Shared phrase groups:';
+    lbl.style.cssText = 'color:var(--mute)';
+    lbl.textContent = 'shared phrases:';
     legend.appendChild(lbl);
     groups.forEach((g, gi) => {
       const sw = document.createElement('div');
@@ -1316,7 +1315,7 @@ function renderSharedAnalysis(parsed, measureMap, allPhrases) {
       // List part names in this group
       const partNames = [...new Set(g.members.map(m => parsed[m.pi].name))].join(', ');
       sw.appendChild(dot);
-      sw.appendChild(document.createTextNode(partNames));
+      sw.appendChild(document.createTextNode(`${g.label}: ${partNames}` + (g.sameWords ? '' : ' (different words)')));
       legend.appendChild(sw);
     });
     container.appendChild(legend);
@@ -1335,70 +1334,61 @@ function renderSharedAnalysis(parsed, measureMap, allPhrases) {
   hr.appendChild(mhd);
   parsed.forEach(p => {
     const th = document.createElement('th');
-    th.textContent = p.name;
-    th.style.color = p.color;
+    renderColoredName(th, p.name);
     hr.appendChild(th);
   });
   thead.appendChild(hr);
   table.appendChild(thead);
 
-  // Body — one row per group or unique phrase
+  // Body — one row per time window
+  const rangeText = (s, e) => s === e ? `M${s}` : `M${s}–${e}`;
   const tbody = document.createElement('tbody');
-  rows.forEach(({ startM, endM, groupIdx, members }) => {
+  rows.forEach(({ startM, endM, members }) => {
     const tr = document.createElement('tr');
-    const g = groupIdx !== null ? groups[groupIdx] : null;
-
-    // Measure label — highlight shared rows
     const mc = document.createElement('td');
     mc.className = 'measures-col';
-    mc.textContent = startM === endM ? `M${startM}` : `M${startM}–${endM}`;
-    if (g) mc.style.color = g.color;
+    mc.textContent = rangeText(startM, endM);
     tr.appendChild(mc);
 
-    // Per-part cell
     parsed.forEach((p, pi) => {
       const td = document.createElement('td');
-      // Find this part's phrase that overlaps the row window
       const phrases = allPhrases[pi];
-      // Prefer a member phrase first, then any overlapping phrase
-      const memberEntry = members.find(m => m.pi === pi);
-      const ph = memberEntry ? memberEntry.ph
-        : phrases.find(ph =>
-            ph.startMeasure <= endM && ph.endMeasure >= startM &&
-            ph.startMeasure < endM  && ph.endMeasure > startM
-          );
-
+      const member  = members.find(m => m.pi === pi);
+      // This part's phrase for the window, or whatever it is in the middle of
+      const ph = member ? member.ph : phrases.find(q => q.startMeasure <= endM && q.endMeasure >= startM);
       if (!ph) { tr.appendChild(td); return; }
 
+      const span = document.createElement('span');
       if (ph.type === 'rest') {
-        const span = document.createElement('span');
         span.className = 'pc-rest';
         span.textContent = 'rest';
-        td.appendChild(span);
-      } else if (g && memberEntry) {
-        // Shared phrase
-        const span = document.createElement('span');
-        span.className = 'pc-shared';
-        span.style.background = hexToRgba(g.color, 0.12);
-        span.style.color = g.color;
-        span.style.borderLeft = `3px solid ${g.color}`;
-        let desc = `M${ph.startMeasure}–${ph.endMeasure}`;
-        if (!ph.startsClean) desc += ', off-beat entry';
-        if (ph.synRatio > 0.5) desc += ', syncopated';
-        span.textContent = desc;
-        span.title = ph.warn?.length ? ph.warn.join('; ') : 'shared phrase';
-        td.appendChild(span);
       } else {
-        // Unique or overlapping from another group
-        const span = document.createElement('span');
-        span.className = 'pc-unique';
-        let desc = `M${ph.startMeasure}–${ph.endMeasure}`;
-        if (!ph.startsClean) desc += ', off-beat';
-        span.textContent = desc;
-        span.title = 'Unique to this part';
-        td.appendChild(span);
+        const key  = `${pi}:${phrases.indexOf(ph)}`;
+        const item = byKey.get(key);
+        const g    = assigned.has(key) ? groups[assigned.get(key)] : null;
+        const range = rangeText(ph.startMeasure, ph.endMeasure);
+        if (!member) {
+          // Mid-phrase: its own row is elsewhere in the table
+          span.className = 'pc-rest';
+          span.textContent = `still in ${g ? g.label + ' · ' : ''}${range}`;
+        } else if (g) {
+          span.className = 'pc-shared';
+          span.style.background = hexToRgba(g.color, 0.18);
+          span.style.color = g.color;
+          span.style.borderLeft = `3px solid ${g.color}`;
+          let desc = `${g.label} · ${range}`;
+          if (item.match < 0.999) desc += ` · ≈ ${Math.round(item.match * 100)}%`;
+          desc += wordsPreview(item.content);
+          if (!ph.startsClean) desc += ' · off-beat entry';
+          span.textContent = desc;
+          span.title = ph.warn?.length ? ph.warn.join('; ') : 'shared phrase';
+        } else {
+          span.className = 'pc-unique';
+          span.textContent = `unique · ${range}` + wordsPreview(item?.content) + (ph.startsClean ? '' : ' · off-beat entry');
+          span.title = 'No other part has this rhythm here';
+        }
       }
-
+      td.appendChild(span);
       tr.appendChild(td);
     });
 
@@ -1409,10 +1399,7 @@ function renderSharedAnalysis(parsed, measureMap, allPhrases) {
 }
 
 // ─── UI ────────────────────────────────────────────────────────────────────────
-function switchTab(n){
-  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['input','analyze'][i]===n));
-  document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('active',['panel-input','panel-analyze'][i]===`panel-${n}`));
-}
+function switchTab(n){ if(n==='input'){const m=document.getElementById('manual');m.open=true;m.scrollIntoView({behavior:'smooth'});} }
 
 const PRESETS={
   gospel:{ts:'4/4',m:8,b:96,parts:[
@@ -1440,9 +1427,10 @@ function loadPreset(k){
   document.getElementById('timesig').value=p.ts;
   document.getElementById('measures').value=p.m;
   document.getElementById('bpm').value=p.b;
-  p.parts.forEach((pt,i)=>addPart(pt.n,pt.r,(colorForName(p.name)||COLORS_FALLBACK[i%COLORS_FALLBACK.length])));
+  p.parts.forEach((pt,i)=>addPart(pt.n,pt.r));
 }
 loadPreset('gospel');
+analyze(); // open with the example already drawn
 </script>
 </body>
 </html>
