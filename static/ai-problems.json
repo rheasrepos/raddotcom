@@ -3244,41 +3244,9 @@
      "description",
      "role"
     ]
-   },
-   {
-    "dataset_id": "ai-progress-open-dataset",
-    "name": "AI Progress Open Dataset (Rhea's companion dataset)",
-    "url": "https://github.com/rheasrepos/ai-progress-open-dataset",
-    "access": "open",
-    "license": "CC BY 4.0 data (Epoch AI rows derived from Epoch, CC BY)",
-    "size": "3,616 models, 4,203 benchmark scores",
-    "modality": "tabular",
-    "description": "AI models with training compute, release dates, benchmark scores and Epoch Capabilities Index; open to contributions.",
-    "contributor": "rhea",
-    "date_added": "2026-11-14",
-    "role": "Track how fast AI capabilities and compute are growing, and how uncertain the compute estimates are.",
-    "ai_written": [
-     "description",
-     "role"
-    ]
    }
   ],
-  "existing_work": [
-   {
-    "work_id": "iea-energy-and-ai",
-    "problem_id": "ai-black-box",
-    "title": "Energy and AI (International Energy Agency)",
-    "url": "https://datacenterdynamics.com/en/news/iea-data-center-energy-consumption-set-to-double-by-2030-to-945twh",
-    "kind": "policy",
-    "year": "2025",
-    "maturity": "research",
-    "notes": "Data centers used about 415 TWh in 2024; projected about 945 TWh by 2030, with AI the main driver.",
-    "ai_written": [
-     "notes",
-     "work_id"
-    ]
-   }
-  ],
+  "existing_work": [],
   "interventions": [
    {
     "intervention_id": "gemma-scope-2",
@@ -3330,24 +3298,6 @@
     "effect_source": "",
     "featured": "true",
     "notes": "All models trained on the same data in the same order, so you can study how behaviors form during training. (Details from background knowledge; not re-checked.)",
-    "ai_written": [
-     "notes"
-    ]
-   },
-   {
-    "intervention_id": "ollama",
-    "problem_id": "ai-black-box",
-    "name": "Ollama",
-    "organization": "Ollama",
-    "kind": "other_tech",
-    "year_started": "",
-    "url": "https://ollama.com/",
-    "scale": "",
-    "effect": "",
-    "evidence": "none",
-    "effect_source": "",
-    "featured": "false",
-    "notes": "Runs open models locally for chat and testing; no access to internals. Local use reduces reliance on data centers for everyday queries but not training energy.",
     "ai_written": [
      "notes"
     ]
@@ -3414,50 +3364,6 @@
     "gap": "Frontier model internals",
     "why_it_matters": "Interpretability work mostly runs on small open models; frontier weights and training data are closed.",
     "how_to_close": "Researcher access programs; open-weight frontier releases",
-    "ai_written": [
-     "gap",
-     "how_to_close",
-     "why_it_matters"
-    ]
-   },
-   {
-    "problem_id": "ai-black-box",
-    "gap": "Energy per answer: local vs. data center",
-    "why_it_matters": "No good open comparison of how much energy a query costs on a laptop vs. in a data center, so the case for local AI is unproven.",
-    "how_to_close": "Measure it: open benchmarks of energy per token across hardware",
-    "ai_written": [
-     "gap",
-     "how_to_close",
-     "why_it_matters"
-    ]
-   },
-   {
-    "problem_id": "ai-black-box",
-    "gap": "Whether an open AI tool is actually used",
-    "why_it_matters": "No tracker checked records deployment as a field, and downloads and stars are weak stand-ins for real use.",
-    "how_to_close": "Record documented deployments with a source and a date, next to the raw download and commit signals",
-    "ai_written": [
-     "gap",
-     "how_to_close",
-     "why_it_matters"
-    ]
-   },
-   {
-    "problem_id": "ai-black-box",
-    "gap": "Survival of AI-for-good fellowship and civic-tech projects",
-    "why_it_matters": "No audit was found of how many of these projects are still running, so the often-quoted failure rates have no solid source.",
-    "how_to_close": "Check each program's public repositories for last commit, archived status and a named user",
-    "ai_written": [
-     "gap",
-     "how_to_close",
-     "why_it_matters"
-    ]
-   },
-   {
-    "problem_id": "ai-black-box",
-    "gap": "Share of Hugging Face models with zero downloads after 2023",
-    "why_it_matters": "The last measured figure (71%) is from October 2023, before the Hub grew past 2 million models.",
-    "how_to_close": "Recompute it from the daily Hub snapshot",
     "ai_written": [
      "gap",
      "how_to_close",
@@ -3640,5 +3546,98 @@
    "description",
    "solution_summary"
   ]
+ },
+ {
+  "problem_id": "ai-infrastructure",
+  "name": "AI infrastructure",
+  "description": "AI runs on data centers, chips, energy and a shared stock of open models and tools, but little of that is measured in the open: what a query costs in energy, how much compute a model took, or whether published tools are ever used or maintained.",
+  "sdg_goal": "9",
+  "sdg_targets": "9.4;9.5;7.3",
+  "solution_kind": "digital",
+  "solution_summary": "Measure it in the open: track compute, energy per query, and which open tools are actually used and maintained, so people can choose efficient and durable options.",
+  "maturity": "research",
+  "contributor": "rhea",
+  "date_added": "2026-11-16",
+  "sdg_name": "Industry, Innovation and Infrastructure",
+  "datasets": [
+   {
+    "dataset_id": "ai-progress-open-dataset",
+    "name": "AI Progress Open Dataset (Rhea's companion dataset)",
+    "url": "https://github.com/rheasrepos/ai-progress-open-dataset",
+    "access": "open",
+    "license": "CC BY 4.0 data (Epoch AI rows derived from Epoch, CC BY)",
+    "size": "3,616 models, 4,203 benchmark scores",
+    "modality": "tabular",
+    "description": "AI models with training compute, release dates, benchmark scores and Epoch Capabilities Index; open to contributions.",
+    "contributor": "rhea",
+    "date_added": "2026-11-14",
+    "role": "Track how fast AI capabilities and compute are growing, and how uncertain the compute estimates are."
+   }
+  ],
+  "existing_work": [
+   {
+    "work_id": "iea-energy-and-ai",
+    "problem_id": "ai-infrastructure",
+    "title": "Energy and AI (International Energy Agency)",
+    "url": "https://datacenterdynamics.com/en/news/iea-data-center-energy-consumption-set-to-double-by-2030-to-945twh",
+    "kind": "policy",
+    "year": "2025",
+    "maturity": "research",
+    "notes": "Data centers used about 415 TWh in 2024; projected about 945 TWh by 2030, with AI the main driver."
+   }
+  ],
+  "interventions": [
+   {
+    "intervention_id": "ollama",
+    "problem_id": "ai-infrastructure",
+    "name": "Ollama",
+    "organization": "Ollama",
+    "kind": "other_tech",
+    "year_started": "",
+    "url": "https://ollama.com/",
+    "scale": "",
+    "effect": "",
+    "evidence": "none",
+    "effect_source": "",
+    "featured": "false",
+    "notes": "Runs open models locally for chat and testing; no access to internals. Local use reduces reliance on data centers for everyday queries but not training energy."
+   }
+  ],
+  "tools": [],
+  "data_gaps": [
+   {
+    "problem_id": "ai-infrastructure",
+    "gap": "Energy per answer: local vs. data center",
+    "why_it_matters": "No good open comparison of how much energy a query costs on a laptop vs. in a data center, so the case for local AI is unproven.",
+    "how_to_close": "Measure it: open benchmarks of energy per token across hardware"
+   },
+   {
+    "problem_id": "ai-infrastructure",
+    "gap": "Whether an open AI tool is actually used",
+    "why_it_matters": "No tracker checked records deployment as a field, and downloads and stars are weak stand-ins for real use.",
+    "how_to_close": "Record documented deployments with a source and a date, next to the raw download and commit signals"
+   },
+   {
+    "problem_id": "ai-infrastructure",
+    "gap": "Survival of AI-for-good fellowship and civic-tech projects",
+    "why_it_matters": "No audit was found of how many of these projects are still running, so the often-quoted failure rates have no solid source.",
+    "how_to_close": "Check each program's public repositories for last commit, archived status and a named user"
+   },
+   {
+    "problem_id": "ai-infrastructure",
+    "gap": "Share of Hugging Face models with zero downloads after 2023",
+    "why_it_matters": "The last measured figure (71%) is from October 2023, before the Hub grew past 2 million models.",
+    "how_to_close": "Recompute it from the daily Hub snapshot"
+   }
+  ],
+  "risks": {
+   "problem_id": "ai-infrastructure",
+   "who_could_be_harmed": "Communities whose power grids carry data-center demand; small teams and lower-income countries that cannot afford the compute; maintainers of open tools that others depend on without supporting.",
+   "dual_use": "A public list of which tools are unmaintained can point attackers at abandoned software.",
+   "bias_and_representation": "The open records mostly cover large labs and public platforms like Hugging Face and GitHub, so private use and much of the world are invisible.",
+   "ethics": "Who has to disclose compute and energy use, and who pays to keep shared open tools running.",
+   "morality": "Is it right to keep building larger systems when their energy cost is not measured in the open, and whose needs decide what gets built?",
+   "devils_advocate": "Measuring changes nothing by itself: efficiency gains tend to be spent on more use, and download or commit counts say little about real use, so a tracker can give a false sense of knowing."
+  }
  }
 ]
