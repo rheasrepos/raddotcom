@@ -36,6 +36,7 @@ Each folder is self-contained: a README turning the note entry into a concrete e
 | `17-probe-mode` | push a grid and the unit circle through each stage: W, Wᵀ, WᵀW as ellipses, the MLP's folds, RMSNorm's collapse | ML visualization chat | HTML |
 | `18-loss-surface` | gradient descent on a 2-D slice of the loss landscape: learning rates, zoom on the end, the flipped (gain) surface | machine fiddling notes | HTML |
 | `19-logit-lens` | read the prediction out after every stage: the prompt rewritten at each layer | machine fiddling notes | HTML |
+| `20-model-size` | the toy transformer with adjustable width (d = 2–4), heads (1–2) and layers (1–2) | visualization handoff | HTML |
 
 ## Conventions
 

@@ -1,0 +1,93 @@
+<meta charset="utf-8">
+<title>Model Size</title>
+<style>
+:root{--bg:#111;--fg:#f0f0f0;--mute:#8a8a8a;--line:#2e2e2e;--gold:#f2c230;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--serif:Georgia,"Times New Roman",serif;color-scheme:dark}
+*{box-sizing:border-box}body{background:var(--bg);color:var(--fg);font-family:var(--mono);font-size:12px;margin:0}
+#strip{display:flex;overflow-x:auto;align-items:flex-start;padding:18px 16px 10px}
+.panel{flex:0 0 auto;width:210px;border-right:1px dashed var(--line);padding:0 12px}.panel:last-child{border-right:0}
+.panel.wide{width:260px}
+.panel h2{font-family:var(--serif);font-weight:normal;font-size:16px;margin:0;white-space:nowrap}
+.panel .fl{color:var(--mute);font-size:11px;margin:2px 0 8px;min-height:2.4em}
+.panel .how{font-size:11px;color:var(--mute);margin:8px 0 0;line-height:1.45}
+.vec{display:flex;gap:6px;align-items:stretch}
+.br{border:1px solid var(--fg);border-left-width:2px;border-right:0;width:5px}.br.r{border-left:0;border-right:2px solid var(--fg)}
+.cells{display:flex;flex-direction:column;gap:3px;padding:2px 0}
+.cell{display:flex;align-items:center;gap:6px;height:16px}.cell .n{width:44px;text-align:right}
+.bar{height:10px;position:relative;width:90px;border-left:1px solid #444}.bar i{position:absolute;top:0;height:10px}
+.op{flex:0 0 auto;align-self:center;font-family:var(--serif);font-size:24px;color:var(--mute);padding:0 2px;margin-top:-40px}
+.bar2{display:flex;align-items:center;gap:6px;height:16px}.bar2 b{font-weight:normal;width:40px;text-align:right;color:#aaa}
+.lyr{color:var(--gold);font-family:var(--serif);font-size:13px;margin:0 0 6px}
+.ctl{position:sticky;bottom:0;background:var(--bg);border-top:1px solid var(--line);padding:8px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.ctl label{color:var(--mute)}.ctl button,.ctl input[type=text],.ctl select{font-family:var(--mono);font-size:11px;background:transparent;color:var(--fg);border:1px solid var(--line);padding:4px 9px;cursor:pointer}
+.ctl input[type=text]{cursor:text;width:170px}.ctl button.on{border-color:var(--gold);color:var(--gold)}.tok{display:flex;gap:4px}.r{margin-left:auto;color:var(--mute)}
+</style>
+<div id="strip"></div>
+<div class="ctl">
+  <label>d</label><select id="d"><option>2</option><option>3</option><option>4</option></select>
+  <label>heads</label><select id="h"><option>1</option><option>2</option></select>
+  <label>layers</label><select id="L"><option>1</option><option>2</option></select>
+  <span id="pc" style="color:var(--mute)"></span>
+  <label for="txt">text</label><input id="txt" type="text" value="the cat sat on">
+  <span class="tok" id="toks"></span>
+  <button id="train">train 10 epochs</button>
+  <label for="ep">epoch</label><input id="ep" type="range" min="0" max="0" value="0" style="width:110px"><span id="epn">0</span>
+  <span class="r">[ numbers ] with bars · gold = the token being followed</span>
+</div>
+<script>
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const CORPUS="the cat sat on the mat. the cat ate the rat. the dog sat on the log.";
+function trainBPE(text,n){let words=text.split(" ").map(w=>[...w]);const merges=[];for(let m=0;m<n;m++){const cnt={};for(const w of words)for(let i=0;i<w.length-1;i++){const k=w[i]+"\u0001"+w[i+1];cnt[k]=(cnt[k]||0)+1}let best=null,bc=1;for(const k in cnt)if(cnt[k]>bc){bc=cnt[k];best=k}if(!best)break;const [a,b]=best.split("\u0001");merges.push([a,b]);words=words.map(w=>{const o=[];for(let i=0;i<w.length;i++){if(i<w.length-1&&w[i]===a&&w[i+1]===b){o.push(a+b);i++}else o.push(w[i])}return o})}return merges}
+function encode(text,merges){let words=text.split(" ").filter(Boolean).map(w=>[...w]);for(const [a,b] of merges)words=words.map(w=>{const o=[];for(let i=0;i<w.length;i++){if(i<w.length-1&&w[i]===a&&w[i+1]===b){o.push(a+b);i++}else o.push(w[i])}return o});return words.flat()}
+// ============================================================ a tiny transformer whose size you can change
+const MERGES=trainBPE(CORPUS,12),VOCAB=[...new Set([...new Set(CORPUS.replace(/ /g,""))].concat(MERGES.map(m=>m[0]+m[1])))],V=VOCAB.length,dff=4;
+const clone=o=>JSON.parse(JSON.stringify(o)),mm=(A,B)=>A.map(r=>B[0].map((_,j)=>r.reduce((s,a,k)=>s+a*B[k][j],0))),T_=A=>A[0].map((_,j)=>A.map(r=>r[j]));
+const smx=r=>{const m=Math.max(...r.filter(isFinite));const e=r.map(v=>isFinite(v)?Math.exp(v-m):0);const s=e.reduce((a,b)=>a+b,0);return e.map(v=>v/s)};
+const rms=r=>{const q=Math.sqrt(r.reduce((a,b)=>a+b*b,0)/r.length+1e-5);return r.map(v=>v/q)};
+const pos=(t,d)=>[Math.sin(t),Math.cos(t),Math.sin(t/2),Math.cos(t/2)].slice(0,d);
+let CFG,P,SNAP,LOSS,sel=0,M;
+function init(){const d=+$("d").value,H=+$("h").value,L=+$("L").value;CFG={d,H,L};
+  const R=rng(3),g=()=>Math.sqrt(-2*Math.log(1-R()))*Math.cos(2*Math.PI*R()),mat=(r,c,s)=>Array.from({length:r},()=>Array.from({length:c},()=>+(g()*s).toFixed(2)));
+  P={E:mat(V,d,.8),layers:Array.from({length:L},()=>({Wq:Array.from({length:H},()=>mat(d,d,.9)),Wk:Array.from({length:H},()=>mat(d,d,.9)),Wv:Array.from({length:H},()=>mat(d,d,.9)),Wo:mat(H*d,d,.9/Math.sqrt(H)),W1:mat(d,dff,.9),b1:[0.1,-0.1,0.05,0],W2:mat(dff,d,.6),b2:Array(d).fill(0)}))};
+  SNAP=[clone(P)];LOSS=[];$("ep").max=0;$("ep").value=0;
+  const n=flat(P).length;$("pc").textContent=`${n} parameters`;}
+function flat(p){const o=[];(function w(x){if(Array.isArray(x))x.forEach(w);else if(typeof x==="object")Object.values(x).forEach(w);else o.push(x)})(p);return o}
+function setFlat(p,v){let i=0;(function w(x){if(Array.isArray(x)){x.forEach((y,k)=>{if(typeof y==="number")x[k]=v[i++];else w(y)})}else Object.values(x).forEach(w)})(p)}
+function forward(text,p=P){const {d,H}=CFG,tokens=encode(text,MERGES),T=tokens.length,ids=tokens.map(t=>VOCAB.indexOf(t)).filter(i=>i>=0);
+  let X=ids.map((id,t)=>p.E[id].map((v,j)=>v+pos(t,d)[j]));const st={tokens,ids,T:ids.length,X0:X,layers:[]};
+  for(const ly of p.layers){const heads=[];for(let h=0;h<H;h++){const Q=mm(X,ly.Wq[h]),K=mm(X,ly.Wk[h]),Vv=mm(X,ly.Wv[h]);
+      const A=mm(Q,T_(K)).map((r,i)=>smx(r.map((v,j)=>j>i?-Infinity:v/Math.sqrt(d))));heads.push({A,Hh:mm(A,Vv)})}
+    const cat=X.map((_,i)=>heads.flatMap(h=>h.Hh[i])),O=mm(cat,ly.Wo),X1=X.map((r,i)=>r.map((v,j)=>v+O[i][j])),L1=X1.map(rms);
+    const F=mm(mm(L1,ly.W1).map(r=>r.map((v,j)=>Math.max(0,v+ly.b1[j]))),ly.W2).map(r=>r.map((v,j)=>v+ly.b2[j])),X2=L1.map((r,i)=>r.map((v,j)=>v+F[i][j])),L2=X2.map(rms);
+    st.layers.push({heads,O,X1,L1,F,X2,L2});X=L2}
+  const Pr=mm(X,T_(p.E)).map(smx);st.Pr=Pr;st.loss=ids.slice(1).map((t,i)=>-Math.log(Pr[i][t]));return st}
+const meanLoss=(t,p)=>{const r=forward(t,p);return r.loss.reduce((a,b)=>a+b,0)/Math.max(1,r.loss.length)};
+function trainEpoch(text,lr=0.15,h=1e-3){const v=flat(P),base=meanLoss(text),q=clone(P),g=v.map((x,i)=>{const w=v.slice();w[i]+=h;setFlat(q,w);return (meanLoss(text,q)-base)/h});
+  setFlat(P,v.map((x,i)=>x-lr*g[i]));LOSS.push(base);SNAP.push(clone(P))}
+// ---------------------------------------------------------------- drawing: a column vector = [ numbers ] with a signed bar per entry
+const $=id=>document.getElementById(id),el=(c,h)=>{const d=document.createElement("div");d.className=c;if(h!==undefined)d.innerHTML=h;return d};
+const f=v=>(Math.abs(v)<5e-3?0:v).toFixed(2);
+function vecHTML(v,sc){return `<div class="vec"><div class="br"></div><div class="cells">${v.map(x=>`<div class="cell"><span class="n">${f(x)}</span><span class="bar"><i style="left:${x<0?45-45*Math.min(1,-x/sc):45}px;width:${45*Math.min(1,Math.abs(x)/sc)}px;background:${x<0?"#8ab4ff":"#f2c230"}"></i></span></div>`).join("")}</div><div class="br r"></div></div>`}
+const panel=(title,formula,inner,how,w)=>{const p=el("panel"+(w?" wide":""));p.innerHTML=`<h2>${title}</h2><div class="fl">${formula}</div>${inner}<div class="how">${how||""}</div>`;return p};
+const opEl=s=>el("op",s);
+function render(){
+  const text=$("txt").value||"the",ep=+$("ep").value,p=SNAP[ep];M=forward(text,p);if(sel>=M.T)sel=0;const {d,H,L}=CFG;
+  $("epn").textContent=ep+(LOSS[ep]!==undefined?`  loss ${LOSS[ep].toFixed(3)}`:"");
+  $("toks").innerHTML=M.tokens.map((t,i)=>`<button class="${i===sel?"on":""}" data-i="${i}">${i}:${t.trim()}</button>`).join("");
+  document.querySelectorAll("#toks button").forEach(b=>b.onclick=()=>{sel=+b.dataset.i;render()});
+  const all=[M.X0[sel],...M.layers.flatMap(l=>[l.O[sel],l.X1[sel],l.L1[sel],l.F[sel],l.X2[sel],l.L2[sel]])].flat(),sc=Math.max(1,...all.map(Math.abs));
+  const s=$("strip");s.innerHTML="";const tk=M.tokens[sel].trim();
+  s.append(panel("x",`embedding + position (d = ${d})`,vecHTML(M.X0[sel],sc),`"${tk}" as ${d} numbers: its row of E plus a position signal. Change d in the bar and every vector on the page gets that many entries.`));
+  M.layers.forEach((ly,li)=>{
+    const att=ly.heads.map((h,hi)=>`<div class="lyr">head ${hi+1}</div>`+M.tokens.slice(0,sel+1).map((t,j)=>`<div class="bar2"><b>${t.trim()}</b><span class="bar" style="width:110px;border:0"><i style="left:0;width:${110*h.A[sel][j]}px;background:#5fd1c0"></i></span>${h.A[sel][j].toFixed(2)}</div>`).join("")).join("");
+    s.append(opEl("→"),panel(`attention${L>1?` · layer ${li+1}`:""}`,`${H} head${H>1?"s":""}: softmax(q·k / √${d})`,att,`How much "${tk}" looks back at each earlier token${H>1?", once per head; two heads can look at different things":""}.`),
+      opEl("+"),panel("x₁",`x + concat(heads)·Wo`,vecHTML(ly.X1[sel],sc),`What attention brought, added on (residual).`),
+      opEl("→"),panel("rmsnorm",`x₁ / √mean(x₁²)`,vecHTML(ly.L1[sel],sc),`Rescaled so its length is √${d}.`),
+      opEl("+"),panel("x₂",`+ relu(·W1 + b1)·W2 + b2`,vecHTML(ly.X2[sel],sc),`The MLP's contribution added on.`),
+      opEl("→"),panel(`rmsnorm${L>1?` · end of layer ${li+1}`:""}`,`x₂ / √mean(x₂²)`,vecHTML(ly.L2[sel],sc),li<L-1?`This is what layer ${li+2} starts from.`:`The final state; the prediction is its dot product with every row of E.`))});
+  const pr=M.Pr[sel],top=pr.map((v,i)=>[v,i]).sort((a,b)=>b[0]-a[0]).slice(0,6),nx=sel<M.T-1?M.ids[sel+1]:-1;
+  s.append(opEl("→"),panel("next token","softmax(x · Eᵀ)",top.map(([v,i])=>`<div class="bar2"><b style="color:${i===nx?"#9be37a":"#aaa"}">${VOCAB[i]}</b><span class="bar" style="width:110px;border:0"><i style="left:0;width:${110*v}px;background:#f2c230"></i></span>${v.toFixed(2)}</div>`).join(""),nx>=0?`Green = the real next token.`:""));
+}
+["d","h","L"].forEach(id=>$(id).onchange=()=>{init();render()});$("txt").oninput=()=>{sel=0;render()};$("ep").oninput=render;
+$("train").onclick=()=>{const t=$("txt").value||"the";P=clone(SNAP[SNAP.length-1]);for(let k=0;k<10;k++)trainEpoch(t);$("ep").max=SNAP.length-1;$("ep").value=SNAP.length-1;render()};
+init();render();
+</script>
