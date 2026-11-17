@@ -34,6 +34,7 @@ Each folder is self-contained: a README turning the note entry into a concrete e
 | `14-book-trajectories` | a whole book as a path through GPT-2's space | Oct 14 2026 | torch, HTML |
 | `16-silent-nodes` | temporality and the non-activated nodes: which relu units stay silent, over a sentence and over training | NOW note | HTML |
 | `17-probe-mode` | push a grid and the unit circle through each stage: W, Wᵀ, WᵀW as ellipses, the MLP's folds, RMSNorm's collapse | ML visualization chat | HTML |
+| `18-loss-surface` | gradient descent on a 2-D slice of the loss landscape: learning rates, zoom on the end, the flipped (gain) surface | machine fiddling notes | HTML |
 
 ## Conventions
 
