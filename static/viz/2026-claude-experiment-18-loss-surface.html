@@ -108,12 +108,12 @@ function levelsOf(S,k=12,sign=1){const all=S.Z.flat().sort((a,b)=>a-b),lo=all[0]
 function mapPanel2(title,formula,S,proj,how,opt={}){
   const pl=plane(S.half*1.02);pl.body=pl.body.replace(/<text[^>]*text-anchor="end" fill="#666">[^<]*<\/text>/,"");const lv=levelsOf(S),segs=contours(S,lv),lmin=lv[0],lmax=lv[lv.length-1];
   for(const [a,b,v] of segs){const t=(v-lmin)/(lmax-lmin||1);pl.path([a,b],opt.flip?"#f07a6a":"#8ab4ff",1,0.9-0.6*t)}
-  let mi=0,mj=0;S.Z.forEach((r,i)=>r.forEach((z,j)=>{if(z<S.Z[mi][mj]){mi=i;mj=j}}));const gm=[-S.half+2*S.half*mj/(S.n-1),-S.half+2*S.half*mi/(S.n-1)];
+  let mi=0,mj=0;S.Z.forEach((r,i)=>r.forEach((z,j)=>{if(opt.flip?z>S.Z[mi][mj]:z<S.Z[mi][mj]){mi=i;mj=j}}));const gm=[-S.half+2*S.half*mj/(S.n-1),-S.half+2*S.half*mi/(S.n-1)];
   const vis=proj.filter(p=>Math.abs(p[0])<=S.half*1.02&&Math.abs(p[1])<=S.half*1.02);
   if(vis.length>1)pl.path(vis,"#f2c230",1.5,1);vis.forEach(p=>pl.dot(p,"#f2c230",2));
   if(Math.abs(proj[0][0])<=S.half&&Math.abs(proj[0][1])<=S.half)pl.label(proj[0],"start","#f2c230");
   pl.dot([0,0],"#f2c230",4);pl.label([0,0],"end","#f2c230",6,14);
-  pl.dot(gm,"#fff",3);pl.label(gm,opt.flip?`max of slice ${(-S.Z[mi][mj]).toFixed(2)}`:`min of slice ${S.Z[mi][mj].toFixed(2)}`,"#fff",6,-6);
+  pl.dot(gm,"#fff",3);pl.label(gm,opt.flip?`max of slice ${S.Z[mi][mj].toFixed(2)}`:`min of slice ${S.Z[mi][mj].toFixed(2)}`,"#fff",6,-6);
   const p=el("panel");p.innerHTML=`<h2>${title}</h2><div class="fl">${formula}</div>${pl.svg()}<div class="how">${how}</div>`;return p;
 }
 function curvePanel(L){ // loss per step as bars, left to right
