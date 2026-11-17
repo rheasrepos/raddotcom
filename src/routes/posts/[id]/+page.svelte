@@ -72,7 +72,14 @@
 	
 	// nearest neighbours in the notes space (static/vault-space.json, built by
 	// scripts/embed-vault.py): wiki-style links to the closest posts by content
-	let spaceData = null;   // vault-space.json (both spaces)
+	let spaceData = null;
+	// "what links here": posts whose text has a [[wikilink]] to this one (by file name or title)
+	const lkey = (x) => String(x || '').toLowerCase().replace(/\.md$/, '').trim();
+	const wikilinks = (c) => [...String(c || '').matchAll(/\[\[([^\]|#]+)/g)].map((m) => lkey(m[1].split('/').pop()));
+	$: backlinks = post ? (() => {
+		const names = new Set([lkey(String(post.id).replace(/^vault-/, '')), lkey(post.title)]);
+		return allPosts.filter((p) => String(p.id) !== String(post.id) && wikilinks(p.content).some((t) => names.has(t)));
+	})() : [];   // vault-space.json (both spaces)
 	$: nearSpace = activeSpace(spaceData, $notesSpace);
 	$: nearMap = spaceData ? Object.fromEntries((spaceData.notes || []).map((n) => [n.id, (n.space && n.space[nearSpace] ? n.space[nearSpace].near : n.near) || []])) : {};
 	$: nearby = post ? (nearMap[post.id] || []).map(([id, s]) => ({ p: allPosts.find((x) => String(x.id) === String(id)), s })).filter((x) => x.p) : [];
@@ -223,6 +230,17 @@
 					<pre class="content-raw">{post.content}</pre>
 				{:else}
 					<div class="content-body prose {APPLY_TO_BODY ? redactionClass(post.date) : ''}" class:ai-generated={post.aiBody} title={post.aiBody ? 'This text was drafted with AI assistance' : undefined}>{@html renderedContent}</div>
+				{/if}
+
+				{#if backlinks.length}
+					<nav class="nearby" aria-label="Posts that link here">
+						<h2>Linked from</h2>
+						<ul>
+							{#each backlinks as p}
+								<li><a href="/posts/{p.id}">{p.title}</a> <span class="nearby-meta">{p.date ? formatDate(p.date) : ''}</span></li>
+							{/each}
+						</ul>
+					</nav>
 				{/if}
 
 				{#if nearby.length}

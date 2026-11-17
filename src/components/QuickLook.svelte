@@ -143,7 +143,7 @@
 		align-items: center;
 		gap: 10px;
 		padding: 8px 12px;
-		background: linear-gradient(#ededf0, #dedee3);
+		background: #e4e4e8;
 		border-bottom: 1px solid #000;
 	}
 	.ql-traffic { display: flex; gap: 6px; }

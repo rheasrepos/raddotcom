@@ -179,6 +179,6 @@
 
 	.color-btn.active {
 		border-color: white;
-		box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+		box-shadow: 0 0 0 1px #fff;
 	}
 </style>

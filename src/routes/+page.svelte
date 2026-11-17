@@ -531,8 +531,7 @@
 		z-index: 2; /* above the stand, which tucks under this bottom edge */
 		box-shadow:
 			0 0 0 1px #222222,
-			0 10px 25px rgba(0, 0, 0, 0.5),
-			inset 0 0 10px rgba(0, 0, 0, 0.2);
+			6px 6px 0 rgba(0, 0, 0, 0.35);
 		/* No width/height transition here — expand/contract is animated with a
 		   transform (FLIP) in animateScreenFlip() so layout only happens once. */
 		will-change: transform;

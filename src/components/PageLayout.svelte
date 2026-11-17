@@ -259,8 +259,7 @@
 		border-radius: 0;
 		box-shadow:
 			0 0 0 1px #222222,
-			0 10px 25px rgba(0, 0, 0, 0.5),
-			inset 0 0 10px rgba(0, 0, 0, 0.2) !important;
+			6px 6px 0 rgba(0, 0, 0, 0.35) !important;
 		transition: width 0.34s cubic-bezier(0.22, 1, 0.36, 1),
 			height 0.34s cubic-bezier(0.22, 1, 0.36, 1),
 			max-width 0.34s cubic-bezier(0.22, 1, 0.36, 1) !important;
@@ -292,8 +291,7 @@
 		border: 3px solid #333333;
 		box-shadow:
 			0 0 0 1px #222222,
-			0 10px 25px rgba(0, 0, 0, 0.5),
-			inset 0 0 10px rgba(0, 0, 0, 0.2);
+			6px 6px 0 rgba(0, 0, 0, 0.35);
 	}
 	/* monitor stand — neck (::before) + base (::after), same sizes as the desktop's */
 	.laptop-frame.framed::before {
@@ -505,7 +503,7 @@
 
 	.color-btn.active {
 		border-color: white;
-		box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+		box-shadow: 0 0 0 1px #fff;
 	}
 
 	/* Social Media Icons */
