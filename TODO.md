@@ -15,6 +15,9 @@ _Kept current by Claude at the end of each session. Tick things off or delete li
 - [ ] **WhatsApp digital-garden message** — Claude can only draft it; send it yourself.
 - [ ] **Retitle AI-drafted titles** (24 notes with `ai_title: true`). When you rewrite one, delete the `ai_title: true` line. List at the bottom of this file.
 
+## Lab work (not to publish yet)
+- [ ] **Data Cognition Lab salting-the-road study platform** (Jan 2025): meeting notes + a simplified first version are in the vault at `research/data-cognition-lab/` (`published: false`). The code is the private `datacogmapsapp` repo (a Svelte starter with a d3 hypothetical-outcome-plot demo). Publish only with the lab's OK.
+
 ## Maybe later
 - [ ] **Substack**: not connected to the site. If you start one, Claude can show its posts on the site from its RSS feed; which essays to post first is ranked in the vault's `_meta/2026-07 Substack backlog triage.md`.
 
