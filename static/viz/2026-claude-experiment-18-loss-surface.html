@@ -106,7 +106,7 @@ function contours(S,levels){ // marching squares: line segments where the surfac
 }
 function levelsOf(S,k=12,sign=1){const all=S.Z.flat().sort((a,b)=>a-b),lo=all[0],hi=all[Math.floor(all.length*0.9)];return Array.from({length:k},(_,i)=>lo+(hi-lo)*((i+0.5)/k)**1.6)}
 function mapPanel2(title,formula,S,proj,how,opt={}){
-  const pl=plane(S.half*1.02),lv=levelsOf(S),segs=contours(S,lv),lmin=lv[0],lmax=lv[lv.length-1];
+  const pl=plane(S.half*1.02);pl.body=pl.body.replace(/<text[^>]*text-anchor="end" fill="#666">[^<]*<\/text>/,"");const lv=levelsOf(S),segs=contours(S,lv),lmin=lv[0],lmax=lv[lv.length-1];
   for(const [a,b,v] of segs){const t=(v-lmin)/(lmax-lmin||1);pl.path([a,b],opt.flip?"#f07a6a":"#8ab4ff",1,0.9-0.6*t)}
   let mi=0,mj=0;S.Z.forEach((r,i)=>r.forEach((z,j)=>{if(z<S.Z[mi][mj]){mi=i;mj=j}}));const gm=[-S.half+2*S.half*mj/(S.n-1),-S.half+2*S.half*mi/(S.n-1)];
   const vis=proj.filter(p=>Math.abs(p[0])<=S.half*1.02&&Math.abs(p[1])<=S.half*1.02);
@@ -133,7 +133,7 @@ function render(){
     const S=surface(text,end,d1,d2,reach),Sz=surface(text,end,d1,d2,reach/5,29),Sf={...S,Z:S.Z.map(r=>r.map(z=>-z))};
     const s=document.getElementById("strip");s.innerHTML="";
     s.append(curvePanel(L),opEl("→"),
-      mapPanel2("The surface","loss on a 2-D slice through the path",S,proj,`The 82 weights can't be drawn, so this is a flat slice of the landscape through the end point, along the two directions the path moved most (they keep <b>${Math.round(kept*100)}%</b> of its movement; the rest is off the page). Each line is one loss level, darker = lower. The gold dots are the steps.`),
+      mapPanel2("The surface","loss on a 2-D slice through the path",S,proj,`The 82 weights can't be drawn, so this is a flat slice of the landscape through the end point, along the two directions the path moved most (they keep <b>${Math.round(kept*100)}%</b> of its movement; the rest is off the page). Each line is one loss level, brighter = lower. The gold dots are the steps.`),
       opEl("→"),
       mapPanel2("Look close","the same slice, 5× zoom on the end",Sz,proj,`"Visualize the curves first, approximate a min, then look close there." The white dot is the lowest point of this zoomed slice. If it sits away from the end, there was still downhill left in these two directions when training stopped.`),
       opEl("↕"),
