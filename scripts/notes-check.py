@@ -47,10 +47,16 @@ if "--all" in sys.argv:
         meta = osa_js('''function run(argv){ const N=Application("Notes").folders.byId(argv[0]).notes;
           return JSON.stringify({id:N.id(), name:N.name(), cr:N.creationDate().map(d=>d.toISOString()), md:N.modificationDate().map(d=>d.toISOString())}); }''', fid)
         n = len(meta["id"])
-        texts = []
-        for a in range(0, n, 150):   # text in chunks of 150 notes
-            texts += osa_js('''function run(argv){ const N=Application("Notes").folders.byId(argv[0]).notes; const a=+argv[1], b=+argv[2];
-              const out=[]; for (let k=a;k<b;k++){ try{ out.push(N[k].plaintext()); }catch(e){ out.push(""); } } return JSON.stringify(out); }''', fid, str(a), str(min(n, a + 150)))
+        # one bulk request per folder (fast: a per-note loop took hours); if a huge folder
+        # still times out, fall back to small per-note batches for that folder only
+        try:
+            texts = osa_js('''function run(argv){ return JSON.stringify(Application("Notes").folders.byId(argv[0]).notes.plaintext()); }''', fid)
+        except SystemExit:
+            print(f"  {fname}: bulk read timed out, reading in batches (slow)", flush=True)
+            texts = []
+            for a in range(0, n, 50):
+                texts += osa_js('''function run(argv){ const N=Application("Notes").folders.byId(argv[0]).notes; const a=+argv[1], b=+argv[2];
+                  const out=[]; for (let k=a;k<b;k++){ try{ out.push(N[k].plaintext()); }catch(e){ out.push(""); } } return JSON.stringify(out); }''', fid, str(a), str(min(n, a + 50)))
         for k in range(n):
             if meta["id"][k] in seen: continue
             seen.add(meta["id"][k])
