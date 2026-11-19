@@ -28,7 +28,7 @@ WEAK = r"generali[sz]ation|singular value|\bsvd\b|spectr|rotation|symmetr|neuron
 # notes that belong in both files even though only one side's words appear.
 EXCLUDE = ("reading response for BPRO avian", "Honors ml nov 10 granola", "One area of safety",
            "ryota:", "Anthropic ben levinstein")
-FORCE_BOTH = ("HONROS ML MIDTERM RECOERY PCA", "thesis thoughts", "Write an email to Neel", "How to count digital minds")
+FORCE_BOTH = ("HONROS ML MIDTERM RECOERY PCA", "Honors ml notes nov 17", "thesis thoughts", "Write an email to Neel", "How to count digital minds")
 
 def norm(s): return s.replace(" ", " ")
 
