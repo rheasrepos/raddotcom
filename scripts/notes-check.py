@@ -34,16 +34,30 @@ for d, _, fs in os.walk(VAULT):
 import sys
 if "--all" in sys.argv:
     # dump EVERY note (name, dates, folder, text, attachments) for a duplicate check
-    allnotes = None
-    js = '''function run(){ const N=Application("Notes").notes;
-      const ids=N.id(), names=N.name(), cr=N.creationDate(), md=N.modificationDate(), tx=N.plaintext();
-      const out=[]; for (let i=0;i<ids.length;i++){ let folder=""; try{ folder=Application("Notes").notes.byId(ids[i]).container().name(); }catch(e){}
-        out.push({id:ids[i], name:names[i], created:cr[i].toISOString(), modified:md[i].toISOString(), folder:folder, text:tx[i]}); }
-      return JSON.stringify(out); }'''
-    r = subprocess.run(["osascript", "-l", "JavaScript", "-e", js], capture_output=True, text=True)
-    if r.returncode: raise SystemExit("osascript failed: " + r.stderr)
-    path = os.path.join(ROOT, "notes-all.json"); open(path, "w").write(r.stdout)
-    print(f"wrote every note to {path} — tell Claude it's there"); raise SystemExit
+    # Done folder by folder, a few bulk calls each, because one giant call (or a per-note
+    # container() lookup) runs past the 2-minute Apple Event limit once there are thousands of notes.
+    def osa_js(js, *args):
+        r = subprocess.run(["osascript", "-l", "JavaScript", "-e", js, *args], capture_output=True, text=True)
+        if r.returncode: raise SystemExit("osascript failed: " + r.stderr)
+        return json.loads(r.stdout)
+    folders = osa_js('''function run(){ const F=Application("Notes").folders;
+      return JSON.stringify({id:F.id(), name:F.name()}); }''')
+    out, seen = [], set()
+    for i, (fid, fname) in enumerate(zip(folders["id"], folders["name"])):
+        meta = osa_js('''function run(argv){ const N=Application("Notes").folders.byId(argv[0]).notes;
+          return JSON.stringify({id:N.id(), name:N.name(), cr:N.creationDate().map(d=>d.toISOString()), md:N.modificationDate().map(d=>d.toISOString())}); }''', fid)
+        n = len(meta["id"])
+        texts = []
+        for a in range(0, n, 150):   # text in chunks of 150 notes
+            texts += osa_js('''function run(argv){ const N=Application("Notes").folders.byId(argv[0]).notes; const a=+argv[1], b=+argv[2];
+              const out=[]; for (let k=a;k<b;k++){ try{ out.push(N[k].plaintext()); }catch(e){ out.push(""); } } return JSON.stringify(out); }''', fid, str(a), str(min(n, a + 150)))
+        for k in range(n):
+            if meta["id"][k] in seen: continue
+            seen.add(meta["id"][k])
+            out.append({"id": meta["id"][k], "name": meta["name"][k], "created": meta["cr"][k], "modified": meta["md"][k], "folder": fname, "text": texts[k] if k < len(texts) else ""})
+        print(f"  {i + 1}/{len(folders['id'])} {fname}: {n} notes", flush=True)
+    path = os.path.join(ROOT, "notes-all.json"); json.dump(out, open(path, "w"))
+    print(f"wrote {len(out)} notes to {path} — tell Claude it's there"); raise SystemExit
 print(f"{len(want)} vault copies to check")
 
 def osa(js, *args):
